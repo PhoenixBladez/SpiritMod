@@ -14,16 +14,13 @@ namespace SpiritMod.NPCs.Automata
 		protected bool attacking = false;
 		protected Vector2 moveDirection;
 		protected Vector2 newVelocity = Vector2.Zero;
-
 		protected int initialDirection = 0;
-
 		protected int aiCounter = 0;
-
 		protected const int TIMERAMOUNT = 300;
 
-		Vector2 oldVelocity = Vector2.Zero;
+		private Vector2 oldVelocity = Vector2.Zero;
+		private bool shot;
 
-		bool shot;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Automata Creeper");
@@ -46,15 +43,18 @@ namespace SpiritMod.NPCs.Automata
 			moveDirection = new Vector2(initialDirection, 0);
 			npc.noTileCollide = true;
 		}
+
 		public override void AI()
 		{
 			aiCounter++;
+
 			if (aiCounter % TIMERAMOUNT == 200)
 			{
 				attacking = true;
 				npc.frameCounter = 0;
 				oldVelocity = npc.velocity;
 			}
+
 			if (aiCounter % TIMERAMOUNT == 0)
 			{
 				attacking = false;
@@ -62,19 +62,17 @@ namespace SpiritMod.NPCs.Automata
 			}
 
 			if (!attacking)
-			{
 				Crawl();
-			}
 			else
-			{
 				Attack();
-			}
 		}
+
 		protected void Attack()
 		{
 			npc.velocity = Vector2.Zero;
 			if (npc.frameCounter < 1)
 				shot = false;
+
 			if (npc.frameCounter > 2 && !shot)
 			{
 				Projectile proj = Projectile.NewProjectileDirect(npc.Center, npc.velocity, ModContent.ProjectileType<AutomataCreeperProj>(), Main.expertMode ? 40 : 60, 4, npc.target, npc.ai[0], npc.ai[1]);
@@ -93,7 +91,6 @@ namespace SpiritMod.NPCs.Automata
 
 		protected virtual void RotateCrawl()
 		{
-
 			float rotDifference = ((((npc.velocity.ToRotation() - npc.rotation) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
 			if (Math.Abs(rotDifference) < 0.15f)
 			{
@@ -102,6 +99,7 @@ namespace SpiritMod.NPCs.Automata
 			}
 			npc.rotation += Math.Sign(rotDifference) * 0.1f;
 		}
+
 		protected void Crawl()
 		{
 			newVelocity = Collide();
@@ -119,7 +117,7 @@ namespace SpiritMod.NPCs.Automata
 			if (npc.ai[0] == 0f)
 			{
 				npc.TargetClosest(true);
-				moveDirection.Y = -1;
+				moveDirection.Y = 1;
 				npc.ai[0] = 1f;
 			}
 			float speed = 3;
@@ -199,12 +197,12 @@ namespace SpiritMod.NPCs.Automata
 	{
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Cog");
 
+		public Vector2 moveDirection;
+		public Vector2 newVelocity = Vector2.Zero;
+		public float speed = 1f;
+
 		bool collideX = false;
 		bool collideY = false;
-
-		public Vector2 moveDirection;
-		Vector2 newVelocity = Vector2.Zero;
-		float speed = 1f;
 		public override void SetDefaults()
 		{
 			projectile.penetrate = -1;
@@ -218,7 +216,7 @@ namespace SpiritMod.NPCs.Automata
 		public override void AI()
 		{
 			if (speed < 15)
-			speed *= 1.03f;
+				speed *= 1.03f;
 
 			newVelocity = Collide();
 			if (Math.Abs(newVelocity.X) < 0.5f)
