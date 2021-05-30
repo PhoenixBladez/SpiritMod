@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using System.Collections.Generic;
 
 namespace SpiritMod.NPCs.Automata
 {
@@ -21,6 +22,8 @@ namespace SpiritMod.NPCs.Automata
 		protected const int TIMERAMOUNT = 300;
 
 		Vector2 oldVelocity = Vector2.Zero;
+
+		bool shot;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Automata Creeper");
@@ -44,7 +47,7 @@ namespace SpiritMod.NPCs.Automata
 			npc.noTileCollide = true;
 		}
 		public override void AI()
-        {
+		{
 			aiCounter++;
 			if (aiCounter % TIMERAMOUNT == 200)
 			{
@@ -59,17 +62,28 @@ namespace SpiritMod.NPCs.Automata
 			}
 
 			if (!attacking)
-            {
+			{
 				Crawl();
-            }
+			}
 			else
 			{
 				Attack();
 			}
-        }
+		}
 		protected void Attack()
 		{
 			npc.velocity = Vector2.Zero;
+			if (npc.frameCounter < 1)
+				shot = false;
+			if (npc.frameCounter > 2 && !shot)
+			{
+				Projectile proj = Projectile.NewProjectileDirect(npc.Center, npc.velocity, ModContent.ProjectileType<AutomataCreeperProj>(), Main.expertMode ? 40 : 60, 4, npc.target, npc.ai[0], npc.ai[1]);
+				if (proj.modProjectile is AutomataCreeperProj modproj)
+				{
+					modproj.moveDirection = moveDirection;
+				}
+				shot = true;
+			}
 		}
 
 		protected virtual Vector2 Collide()
@@ -89,7 +103,7 @@ namespace SpiritMod.NPCs.Automata
 			npc.rotation += Math.Sign(rotDifference) * 0.1f;
 		}
 		protected void Crawl()
-        {
+		{
 			newVelocity = Collide();
 			if (Math.Abs(newVelocity.X) < 0.5f)
 				npc.collideX = true;
@@ -151,13 +165,16 @@ namespace SpiritMod.NPCs.Automata
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation % 6.28f, npc.frame.Size() / 2, npc.scale, initialDirection == 1 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation % 6.28f, npc.frame.Size() / 2, npc.scale, initialDirection != 1 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
 			return false;
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.player.GetSpiritPlayer().ZoneMarble && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.135f : 0f;
+			int x = spawnInfo.spawnTileX;
+			int y = spawnInfo.spawnTileY;
+			int tile = (int)Main.tile[x, y].type;
+			return (tile == 367) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.5f : 0f;
 		}
 
 		public override void FindFrame(int frameHeight)
@@ -177,5 +194,88 @@ namespace SpiritMod.NPCs.Automata
 				npc.frame.X = npc.frame.Width;
 			}
 		}
+	}
+	public class AutomataCreeperProj : ModProjectile
+	{
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Cog");
+
+		bool collideX = false;
+		bool collideY = false;
+
+		public Vector2 moveDirection;
+		Vector2 newVelocity = Vector2.Zero;
+		float speed = 1f;
+		public override void SetDefaults()
+		{
+			projectile.penetrate = -1;
+			projectile.tileCollide = false;
+			projectile.hostile = true;
+			projectile.friendly = false;
+			projectile.width = projectile.height = 38;
+			projectile.timeLeft = 150;
+			projectile.ignoreWater = true;
+		}
+		public override void AI()
+		{
+			if (speed < 15)
+			speed *= 1.03f;
+
+			newVelocity = Collide();
+			if (Math.Abs(newVelocity.X) < 0.5f)
+				collideX = true;
+			else
+				collideX = false;
+			if (Math.Abs(newVelocity.Y) < 0.5f)
+				collideY = true;
+			else
+				collideY = false;
+
+			if (projectile.ai[1] == 0f)
+			{
+				projectile.rotation += (float)(moveDirection.X * moveDirection.Y) * 0.03f;
+				if (collideY)
+				{
+					projectile.ai[0] = 2f;
+				}
+				if (!collideY && projectile.ai[0] == 2f)
+				{
+					moveDirection.X = -moveDirection.X;
+					projectile.ai[1] = 1f;
+					projectile.ai[0] = 1f;
+				}
+				if (collideX)
+				{
+					moveDirection.Y = -moveDirection.Y;
+					projectile.ai[1] = 1f;
+				}
+			}
+			else
+			{
+				projectile.rotation -= (float)(moveDirection.X * moveDirection.Y) * 0.03f;
+				if (collideX)
+				{
+					projectile.ai[0] = 2f;
+				}
+				if (!collideX && projectile.ai[0] == 2f)
+				{
+					moveDirection.Y = -moveDirection.Y;
+					projectile.ai[1] = 0f;
+					projectile.ai[0] = 1f;
+				}
+				if (collideY)
+				{
+					moveDirection.X = -moveDirection.X;
+					projectile.ai[1] = 0f;
+				}
+			}
+			projectile.velocity = speed * moveDirection;
+			projectile.velocity = Collide();
+		}
+
+		protected virtual Vector2 Collide()
+		{
+			return Collision.noSlopeCollision(projectile.position, projectile.velocity, projectile.width, projectile.height, true, true);
+		}
+
 	}
 }
