@@ -38,6 +38,10 @@ namespace SpiritMod.NPCs.Wheezer
 			if (spawnInfo.playerSafe || !NPC.downedBoss1) {
 				return 0f;
 			}
+			if (Main.hardMode)
+			{
+				return SpawnCondition.Cavern.Chance * 0.03f;				
+			}
 			return SpawnCondition.Cavern.Chance * 0.17f;
 		}
 		public override void HitEffect(int hitDirection, double damage)

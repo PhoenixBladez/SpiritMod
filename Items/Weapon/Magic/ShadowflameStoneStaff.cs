@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shadowbreak Wand");
-			Tooltip.SetDefault("Holding the item summons erratic shadowflame wisps around the player\nAttacking with the weapon allows these wisps to be controlled by the cursor\nUp to five wisps can exist at once\nInflicts Shadowflame");
+			Tooltip.SetDefault("Shoots out erratic shadowflame wisps");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Magic/ShadowflameStoneStaff_Glow");
 		}
 

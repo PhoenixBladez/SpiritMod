@@ -23,8 +23,8 @@ namespace SpiritMod.Items.Consumable.Potion
 
 		public override void SetDefaults()
 		{
-			item.width = 34;
-			item.height = 26;
+			item.width = 26;
+			item.height = 34;
 			item.rare = 4;
 			item.maxStack = 1;
 

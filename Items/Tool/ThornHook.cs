@@ -72,7 +72,7 @@ namespace SpiritMod.Items.Tool
 					hooksOut++;
 				}
 			}
-			if (hooksOut > 0) // This hook can have 1 hooks out.
+			if (hooksOut > 1) // This hook can have 1 hooks out.
 			{
 				return false;
 			}

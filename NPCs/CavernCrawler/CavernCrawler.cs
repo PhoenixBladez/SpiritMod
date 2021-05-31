@@ -39,6 +39,10 @@ namespace SpiritMod.NPCs.CavernCrawler
 			if (spawnInfo.playerSafe) {
 				return 0f;
 			}
+			if (Main.hardMode)
+			{
+				return SpawnCondition.Cavern.Chance * 0.02f;				
+			}
 			return SpawnCondition.Cavern.Chance * 0.15f;
 		}
 		public override void NPCLoot()
