@@ -16,10 +16,12 @@ namespace SpiritMod.NPCs.Automata
 		protected Vector2 newVelocity = Vector2.Zero;
 		protected int initialDirection = 0;
 		protected int aiCounter = 0;
-		protected const int TIMERAMOUNT = 300;
+		protected Vector2 oldVelocity = Vector2.Zero;
+		protected bool shot;
+		protected virtual int TIMERAMOUNT => 300;
+		protected virtual int ATKAMOUNT => 200;
 
-		private Vector2 oldVelocity = Vector2.Zero;
-		private bool shot;
+		protected virtual int SPEED => 3;
 
 		public override void SetStaticDefaults()
 		{
@@ -48,7 +50,7 @@ namespace SpiritMod.NPCs.Automata
 		{
 			aiCounter++;
 
-			if (aiCounter % TIMERAMOUNT == 200)
+			if (aiCounter % TIMERAMOUNT == ATKAMOUNT)
 			{
 				attacking = true;
 				npc.frameCounter = 0;
@@ -67,7 +69,7 @@ namespace SpiritMod.NPCs.Automata
 				Attack();
 		}
 
-		protected void Attack()
+		protected virtual void Attack()
 		{
 			npc.velocity = Vector2.Zero;
 			if (npc.frameCounter < 1)
@@ -120,7 +122,6 @@ namespace SpiritMod.NPCs.Automata
 				moveDirection.Y = 1;
 				npc.ai[0] = 1f;
 			}
-			float speed = 3;
 			if (npc.ai[1] == 0f)
 			{
 				if (npc.collideY)
@@ -157,7 +158,7 @@ namespace SpiritMod.NPCs.Automata
 					npc.ai[1] = 0f;
 				}
 			}
-			npc.velocity = speed * moveDirection;
+			npc.velocity = SPEED * moveDirection;
 			npc.velocity = Collide();
 		}
 
@@ -172,7 +173,7 @@ namespace SpiritMod.NPCs.Automata
 			int x = spawnInfo.spawnTileX;
 			int y = spawnInfo.spawnTileY;
 			int tile = (int)Main.tile[x, y].type;
-			return (tile == 367) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.5f : 0f;
+			return (tile == 367) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.4f : 0f;
 		}
 
 		public override void FindFrame(int frameHeight)
