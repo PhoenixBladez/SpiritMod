@@ -69,7 +69,7 @@ namespace SpiritMod.Items.Weapon.Gun
             {
                 type = ModContent.ProjectileType<ConfluxPellet>();
             }
-            Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-250, 250) / 150), speedY + ((float)Main.rand.Next(-250, 0) / 100), type, damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-250, 250) / 150), speedY + ((float)Main.rand.Next(-100, 100) / 100), type, damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
 		}
 		public override Vector2? HoldoutOffset()
