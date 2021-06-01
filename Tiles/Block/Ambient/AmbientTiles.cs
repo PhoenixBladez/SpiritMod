@@ -265,6 +265,64 @@ namespace SpiritMod.Tiles.Block.Ambient
 			dustType = 54;
         }
     }
+    public class AzureGemBlockItem : AzureGemItem
+    {
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Azure Block");
+		}
+		public override void SetDefaults()
+		{
+			item.width = 16;
+			item.height = 14;
+
+			item.maxStack = 999;
+
+			item.useStyle = ItemUseStyleID.SwingThrow;
+			item.useTime = 10;
+			item.useAnimation = 15;
+
+			item.useTurn = true;
+			item.autoReuse = true;
+			item.consumable = true;
+            item.createTile = ModContent.TileType<AzureBlock_Tile>();
+        }
+    }
+    public class AzureBlock_Tile : ModTile
+    {
+        public override void SetDefaults()
+        {
+			Main.tileSolid[Type] = true;
+			Main.tileMergeDirt[Type] = true;
+			Main.tileBlendAll[this.Type] = true;
+			soundType = SoundID.Tink;
+			Main.tileBlockLight[Type] = true;
+			Main.tileLighted[Type] = true;
+            AddMapEntry(new Color(79, 55, 59));
+			drop = ModContent.ItemType<AzureGemBlockItem>();
+			ModTranslation name = CreateMapEntryName();
+			name.SetDefault("Azure Block");
+			dustType = 187;
+        }
+		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
+		{
+			r = 0.052f * 1.5f;
+			g = .128f * 1.5f;
+			b = .235f * 1.5f;
+		}
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+		{
+			Tile tile = Main.tile[i, j];
+			Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+			if (Main.drawToScreen) {
+				zero = Vector2.Zero;
+			}
+			int height = tile.frameY == 36 ? 18 : 16;
+			if (tile.slope() == 0 && !tile.halfBrick()) {
+				Main.spriteBatch.Draw(mod.GetTexture("Tiles/Block/Ambient/AzureBlock_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			}
+		}
+    }
     public class ObsidianBlockItem : AmbientStoneItem
     {
 		public override void SetStaticDefaults()

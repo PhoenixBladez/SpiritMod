@@ -44,7 +44,7 @@ namespace SpiritMod.Projectiles.Clubs
 			}
 			Main.PlaySound(2, projectile.Center, 20);
 		}
-		public ClubSandwichProj() : base(58, 17, 34, -1, 58, 5, 9, 1.7f, 12f){}
+		public ClubSandwichProj() : base(52, 17, 34, -1, 58, 5, 9, 1.7f, 12f){}
 	}
 
 }

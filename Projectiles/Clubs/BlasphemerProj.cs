@@ -53,6 +53,6 @@ namespace SpiritMod.Projectiles.Clubs
             if (Main.rand.NextBool(3))
                 target.AddBuff(BuffID.OnFire, 180);
         }
-        public BlasphemerProj() : base(72, 25, 88, -1, 84, 6, 12, 1.7f, 12f){}
+        public BlasphemerProj() : base(66, 25, 88, -1, 84, 6, 12, 1.7f, 12f){}
 	}
 }

@@ -32,8 +32,8 @@ namespace SpiritMod.Items.DonatorItems
 			item.pick = 225;
 			item.tileBoost = 5;
 
-			item.useTime = 18;
-			item.useAnimation = 18;
+			item.useTime = 9;
+			item.useAnimation = 10;
 		}
 
 		public override bool AltFunctionUse(Player player)

@@ -113,4 +113,22 @@ namespace SpiritMod.Tiles.Block.Ambient
 			recipe1.AddRecipe();
 		}
 	}
+	public abstract class AzureGemItem : ModItem
+	{
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.StoneBlock, 50);
+			recipe.AddIngredient(ModContent.ItemType<Items.Material.MoonStone>(), 1);
+			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
+			recipe.SetResult(this, 50);
+			recipe.AddRecipe();
+
+			ModRecipe recipe1 = new ModRecipe(mod);
+			recipe1.AddIngredient(this, 50);
+			recipe1.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
+			recipe1.SetResult(ModContent.ItemType<Items.Material.MoonStone>(),1);
+			recipe1.AddRecipe();
+		}
+	}
 }
