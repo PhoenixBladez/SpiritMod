@@ -931,7 +931,7 @@ namespace SpiritMod
 
 		private void DrawStarGoopTarget(GameTime obj)
 		{
-			if (Metaballs != null && Main.graphics.GraphicsDevice != null && Main.spriteBatch != null) {
+			if (!Main.gameMenu && Metaballs != null && Main.graphics.GraphicsDevice != null && Main.spriteBatch != null) {
 				Metaballs.DrawToTarget(Main.spriteBatch, Main.graphics.GraphicsDevice);
 			}
 		}
