@@ -16,7 +16,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		public Vector2 EndPoint;
 
 		public int Counter;
-		public int Duration = 800;
+		public int Duration = 800; //How long the thread lasts
 		public int Length;
 
 		public StarThread(Vector2 startPoint, Vector2 endPoint)
@@ -37,11 +37,11 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		private List<StarThread> threads = new List<StarThread>();
 		private StarThread currentThread; //The current thread the starachnid is on
 		private float progress; //Progress along current thread
-		private bool initialized = false;
+		private bool initialized = false; //Has the thread been started?
 		private float toRotation = 0; //The rotation for the spider to rotate to
+		private float threadRotation = 0; //Current rotation of the thread
 
 		private const float SPEED = 2;
-		private const int THREADDURATION = 800;
 		private const float THREADGROWLERP = 15;
 
 		private Vector2 bottom
@@ -84,10 +84,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				initialized = true;
 				NewThread(true, true);
 			}
-			TraverseThread();
-			RotateIntoPlace();
-			UpdateThreads();
-			if (progress >= 1)
+			TraverseThread(); //Walk along thread
+			RotateIntoPlace(); //Smoothly rotate into place
+			UpdateThreads(); //Update the spider's threads
+			if (progress >= 1) //If it's at the end of it's thread, create a new slope
 				NewThread(false, true);
 		}
 
@@ -138,11 +138,20 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				maxDistance = (int)(maxDistance * 0.5f);
 			int i = 0;
 
+			//The follow region runs 2 while loops to try and avoid tiles
+			//Both while loops cast out from the bottom of the spider, in a random angle, and try to reach their set distance without hitting a tile. If they can't, they try again
+			//Both have "tries" to make sure it doesn't try over 100 times
+			//The first while loop, the new angle is in the same GENERAL direction as the current thread
+			//The second one can go in any direction
+			#region finding angle
 			Vector2 direction = Vector2.Zero;
 			int tries = 0;
-			while (i < 32)
+			while (i < maxDistance) //first while loop
 			{
-				direction = Main.rand.NextFloat(6.28f).ToRotationVector2();
+				if (mainThread)
+					direction = (threadRotation + Main.rand.NextFloat(-1.3f, 1.3f)).ToRotationVector2(); //Woohoo magic numbers
+				else
+					direction = Main.rand.NextFloat(6.28f).ToRotationVector2();
 				for (i = 16; i < maxDistance; i++)
 				{
 					Vector2 toLookAt = startPos + (direction * i);
@@ -150,19 +159,40 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 						break;
 				}
 				tries++;
-				if (tries > 30)
+				if (tries > 100)
 					break;
 			}
+
+			tries = 0;
+			if (i < maxDistance)
+			{
+				while (i < maxDistance)
+				{
+						direction = Main.rand.NextFloat(6.28f).ToRotationVector2(); 
+					for (i = 16; i < maxDistance; i++)
+					{
+						Vector2 toLookAt = startPos + (direction * i);
+						if (Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).active() && Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).type])
+							break;
+					}
+					tries++;
+					if (tries > 100)
+						break;
+				}
+			}
+			#endregion
+
 			StarThread thread = new StarThread(startPos, startPos + (direction * i));
 			if (mainThread)
 			{
 				currentThread = thread;
 				progress = 0;
+				threadRotation = direction.ToRotation();
 			}
 			else
 			{
 				threads.Add(thread);
-				thread.Duration -= (currentThread.Counter + (int)THREADGROWLERP);
+				thread.Duration -= (currentThread.Counter + (int)THREADGROWLERP); //Make sure it fades away before the thread it's attached to!
 			}
 		}
 
