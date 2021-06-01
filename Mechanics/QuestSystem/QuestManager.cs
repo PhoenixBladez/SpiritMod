@@ -64,7 +64,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			IEnumerable<Type> questTypes = typeof(QuestManager).Assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(Quest)) && t != typeof(InstancedQuest));
             foreach (Type type in questTypes)
             {
-				Quest q = (Quest)Activator.CreateInstance(type);
+				Quest q = (Quest)Activator.CreateInstance(type, true);
 
 				// load related quest image
 				string tex = "UI/QuestUI/Textures/Quests/" + type.Name;
@@ -77,9 +77,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 				// if it contains a unique category name, just add it to the list of categories.
 				if (!Categories.ContainsKey(q.QuestCategory))
-				{
 					RegisterCategory(q.QuestCategory, Color.White, null, null);
-				}
 
 				Quests.Add(q);
 				_questDict[type] = q;

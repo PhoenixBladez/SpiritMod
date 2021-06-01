@@ -27,7 +27,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.GoldCoin, 7)
 		};
 
-		public ReturnToYourRoots()
+		private ReturnToYourRoots()
         {
             _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.Boss.ReachBoss.ReachBoss1>(), 1, "Vinewrath Bane"));        
         }

@@ -24,17 +24,14 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.SilverCoin, 60)
 		};
 
-		public ExplorerQuestCrimson()
+		private ExplorerQuestCrimson()
         {
             _tasks.AddTask(new ExploreTask((Player player) => player.ZoneCrimson, 4000f, "the Crimson"));
         }
 
-		public override bool IsQuestPossible()
-		{
-            return WorldGen.crimson;
-        }
+		public override bool IsQuestPossible() => WorldGen.crimson;
 
-        public override void OnQuestComplete()
+		public override void OnQuestComplete()
 		{
             bool showUnlocks = true;
 			QuestManager.UnlockQuest<RootOfTheProblem>(showUnlocks);

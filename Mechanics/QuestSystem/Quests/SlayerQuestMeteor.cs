@@ -25,7 +25,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.GoldCoin, 2)
 		};
 
-        public SlayerQuestMeteor()
+		private SlayerQuestMeteor()
         {
             _tasks.AddTask(new SlayTask(new int[] { ModContent.NPCType<NPCs.AstralAdventurer.AstralAdventurer>(), ModContent.NPCType<NPCs.FallingAsteroid.Falling_Asteroid>(), ModContent.NPCType<NPCs.Orbitite.Mineroid>(), ModContent.NPCType<NPCs.MoltenCore.Molten_Core>()}, 10, "meteorite enemies"));
         }

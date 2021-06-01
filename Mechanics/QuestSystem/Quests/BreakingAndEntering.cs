@@ -27,7 +27,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.GoldCoin, 1)
 		};
 
-		public BreakingAndEntering()
+		private BreakingAndEntering()
         {
             _tasks.AddTask(new TalkNPCTask(ModContent.NPCType<Gambler>(), "Find the Arcane Goblin Tower and rescue the prisoner."))
 				.AddTask(new RetrievalTask(ModContent.ItemType<Items.Weapon.Magic.ShadowflameStoneStaff>(), 1));

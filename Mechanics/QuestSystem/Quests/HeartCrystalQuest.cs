@@ -22,6 +22,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		{
 			((int)Terraria.ID.ItemID.GoldCoin, 1)
 		};
+
 		public override void OnQuestComplete()
 		{
             bool showUnlocks = true;
@@ -34,7 +35,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 			base.OnQuestComplete();
 		}
-		public HeartCrystalQuest()
+
+		private HeartCrystalQuest()
         {
             _tasks.AddTask(new RetrievalTask(Terraria.ID.ItemID.LifeCrystal, 1));
         }

@@ -32,7 +32,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.GoldCoin, 1)
 		};
 
-		public FirstAdventure()
+		private FirstAdventure()
         {
 			_tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Consumable.Quest.DurasilkSheaf>(), 1));
 		}

@@ -24,7 +24,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.GoldCoin, 3)
 		};
 
-		public ManicMage()
+		private ManicMage()
         {
 			_tasks.AddParallelTasks(
 					new SlayTask(ModContent.NPCType<NPCs.DarkfeatherMage.DarkfeatherMage>(), 1), 

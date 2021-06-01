@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.GoldCoin, 3)
 		};
 
-		public ExplorerQuestAsteroid()
+		private ExplorerQuestAsteroid()
         {
             _tasks.AddTask(new ExploreTask((Player player) => player.GetModPlayer<MyPlayer>().ZoneAsteroid, 5000f, "the Asteroid Field"));
         }

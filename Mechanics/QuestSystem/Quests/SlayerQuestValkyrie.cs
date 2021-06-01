@@ -26,7 +26,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.SilverCoin, 90)
 		};
 
-        public SlayerQuestValkyrie()
+		private SlayerQuestValkyrie()
         {
             _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.Valkyrie.Valkyrie>(), 1));
         }

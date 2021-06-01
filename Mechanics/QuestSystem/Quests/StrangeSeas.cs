@@ -27,7 +27,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.GoldCoin, 6)
 		};
 
-        public StrangeSeas()
+		private StrangeSeas()
         {
             _tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Consumable.BlackPearl>(), 1))
 				.AddTask(new SlayTask(ModContent.NPCType<NPCs.Tides.Rylheian>(), 1, "the monster controlling the Tide"));

@@ -27,7 +27,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<AnimeSword>(), 1)
 		};
 
-		public SkyHigh()
+		private SkyHigh()
         {
             _tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Weapon.Summon.JadeStaff>(), 1));
         }

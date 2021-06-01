@@ -17,9 +17,9 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 4;
 		public override string QuestCategory => "Explorer";
 
-		public ExplorerQuestBlueMoon()
+		private ExplorerQuestBlueMoon()
         {
- _tasks.AddTask(new ExploreTask((Player player) => player.ZoneOverworldHeight && MyWorld.BlueMoon, 5000f, "a Mystic Moon"));
+			_tasks.AddTask(new ExploreTask((Player player) => player.ZoneOverworldHeight && MyWorld.BlueMoon, 5000f, "a Mystic Moon"));
         }
     }
 }

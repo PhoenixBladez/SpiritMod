@@ -27,7 +27,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.SilverCoin, 75)
 		};
 
-		public ExplorerQuestLuminous()
+		private ExplorerQuestLuminous()
         {
              _tasks.AddTask(new ExploreTask((Player player) => player.ZoneBeach && MyWorld.luminousOcean, 1500f, "a Luminous Ocean at the beach"));
         }

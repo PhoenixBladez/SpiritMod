@@ -27,7 +27,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.GoldCoin, 4)
 		};
 
-		public RaidingTheStars()
+		private RaidingTheStars()
         {
 			_tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.Starfarer.CogTrapperHead>(), 2))
 				.AddTask(new RetrievalTask(ModContent.ItemType<Items.Material.StarEnergy>(), 1, "Craft"));

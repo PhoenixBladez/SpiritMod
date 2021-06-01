@@ -26,7 +26,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.GoldCoin, 4)
 		};
 
-		public JellyfishHunter()
+		private JellyfishHunter()
         {
             _tasks.AddTask(new SlayTask(ModContent.NPCType<MoonWizard>(), 1));
         }

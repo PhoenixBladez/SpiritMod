@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.SilverCoin, 25)
 		};
 
-        public SlayerQuestScreechOwls()
+		private SlayerQuestScreechOwls()
         {
             _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.ScreechOwl.ScreechOwl>(), 2, "Screech Owls"));
         }

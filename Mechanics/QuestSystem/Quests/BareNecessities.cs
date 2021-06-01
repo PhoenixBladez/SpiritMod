@@ -25,6 +25,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Tiles.Block.Ambient.CragstoneItem>(), 50),
 			(Terraria.ID.ItemID.SilverCoin, 25)
 		};
+
  		public override void OnQuestComplete()
 		{
             bool showUnlocks = true;
@@ -33,7 +34,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
             base.OnQuestComplete();
         }
-		public BareNecessities()
+
+		private BareNecessities()
         {
            _tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Placeable.Furniture.ForagerTableItem>(), 1, "Craft"));
         }

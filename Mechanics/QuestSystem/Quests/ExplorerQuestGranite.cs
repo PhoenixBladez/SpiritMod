@@ -29,7 +29,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.GoldCoin, 2)
 		};
 
-		public ExplorerQuestGranite()
+		private ExplorerQuestGranite()
         {
             _tasks.AddTask(new ExploreTask((Player player) => player.GetModPlayer<MyPlayer>().ZoneGranite, 5000f, "granite caverns"));
         }

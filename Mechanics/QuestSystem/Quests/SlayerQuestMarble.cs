@@ -26,7 +26,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Weapon.Thrown.TargetBottle>(), 35),
 			(Terraria.ID.ItemID.GoldCoin, 2)
 		};
-        public SlayerQuestMarble()
+		private SlayerQuestMarble()
         {
             _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.Beholder.Beholder>(), 1));
 

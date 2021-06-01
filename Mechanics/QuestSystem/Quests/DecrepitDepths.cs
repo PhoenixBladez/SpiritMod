@@ -26,7 +26,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.GoldCoin, 1)
 		};
 
-		public DecrepitDepths()
+		private DecrepitDepths()
         {
             _tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Placeable.Furniture.SepulchreChest>(), 1));
         }

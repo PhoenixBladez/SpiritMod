@@ -27,7 +27,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.SilverCoin, 55)
 		};
 
-		public ExplorerQuestAurora()
+		private ExplorerQuestAurora()
         {
             _tasks.AddTask(new ExploreTask((Player player) => (player.ZoneSnow || player.ZoneSkyHeight) && MyWorld.aurora, 1500f, "boreal auroras in the snowy tundra or at high altitudes"));
         }

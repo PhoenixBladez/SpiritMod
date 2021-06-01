@@ -26,7 +26,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.SilverCoin, 40)
 		};
 
-		public AncestralWorship()
+		private AncestralWorship()
         {
             _tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Placeable.Furniture.Reach.TreemanStatue>(), 1, "Craft"));
         }

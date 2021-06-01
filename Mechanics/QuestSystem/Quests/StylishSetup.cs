@@ -26,7 +26,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.SilverCoin, 30)
 		};
 
-        public StylishSetup()
+		private StylishSetup()
         {
             _tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Material.SynthMaterial>(), 1, "Craft"));
         }

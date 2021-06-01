@@ -26,7 +26,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.GoldCoin, 1)
 		};
 
-		public FriendSafari()
+		private FriendSafari()
         {
             _tasks.AddTask(new TalkNPCTask(ModContent.NPCType<NPCs.Town.Rogue>(), "Find the bandit hideout and rescue the prisoner."));
         }

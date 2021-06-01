@@ -26,7 +26,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Weapon.Thrown.TargetBottle>(), 25),
 			(Terraria.ID.ItemID.GoldCoin, 1)
 		};
-        public SlayerQuestDrBones()
+		private SlayerQuestDrBones()
         {
             _tasks.AddTask(new SlayTask(Terraria.ID.NPCID.DoctorBones, 1));    
         }

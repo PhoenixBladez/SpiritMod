@@ -12,6 +12,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 {
 	public class QuestWorld : ModWorld
 	{
+		public Dictionary<int, Queue<Quest>> NPCQuestQueue { get; private set; } = new Dictionary<int, Queue<Quest>>();
+
 		public override void PostUpdate()
 		{
 			Player player = Main.LocalPlayer;
@@ -170,6 +172,19 @@ namespace SpiritMod.Mechanics.QuestSystem
 			data.TimeLeftActive = tag.Get<short>("tla");
 			data.Buffer = tag.Get<byte[]>("b");
 			return data;
+		}
+
+		/// <summary>
+		/// Adds a quest to a specific NPC's queue. Use QuestManager.GetQuest<Quest>() for the parameter.
+		/// </summary>
+		/// <param name="npcID">The ID of the NPC that will recieve a new quest.</param>
+		/// <param name="quest">The quest to add to the queue. Use QuestManager.GetQuest<Quest>() for this.</param>
+		public void AddQuestQueue(int npcID, Quest quest)
+		{
+			if (!NPCQuestQueue.ContainsKey(npcID))
+				NPCQuestQueue.Add(npcID, new Queue<Quest>());
+
+			NPCQuestQueue[npcID].Enqueue(quest);
 		}
 	}
 }

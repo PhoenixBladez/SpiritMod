@@ -17,7 +17,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 3;
 		public override string QuestCategory => "Other";
 
-		public BlackMarket()
+		private BlackMarket()
         {
             _tasks.AddParallelTasks(new SlayTask(10, 10), new SlayTask(15, 10), new SlayTask(20, 10));
         }

@@ -29,7 +29,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.GoldCoin, 1)
 		};
 
-		public ExplorerQuestHive()
+		private ExplorerQuestHive()
         {
             _tasks.AddTask(new ExploreTask((Player player) => player.GetModPlayer<MyPlayer>().ZoneHive, 2000f, "giant beehives in the Jungle"));
         }

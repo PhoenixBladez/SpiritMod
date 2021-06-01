@@ -27,7 +27,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.GoldCoin, 2)
 		};
 
-        public SlayerQuestOccultist()
+		private SlayerQuestOccultist()
         {
             _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.Occultist.Occultist>(), 1));
         }

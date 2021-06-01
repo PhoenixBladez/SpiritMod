@@ -15,6 +15,8 @@ using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
+using SpiritMod.Mechanics.QuestSystem;
+using System.Collections.Generic;
 
 namespace SpiritMod.Utilities
 {
@@ -113,35 +115,48 @@ namespace SpiritMod.Utilities
 			if (talkNPC.type == NPCID.Angler)
 				focusText = ""; // empty string, we'll add our own angler quest button
 
+			var queue = ModContent.GetInstance<QuestWorld>().NPCQuestQueue;
+
 			// TODO: localization
-			string questText = "Quest";
-			DynamicSpriteFont font = Main.fontMouseText;
-			Vector2 scale = new Vector2(0.9f);
-			Vector2 stringSize = ChatManager.GetStringSize(font, questText, scale);
-			Vector2 position = new Vector2((180 + Main.screenWidth / 2) + stringSize.X - 50f, 130 + numLines * 30);
-			Color baseColor = new Color(superColor, (int)(superColor / 1.1), superColor / 2, superColor);
-			Vector2 mousePos = new Vector2(Main.mouseX, Main.mouseY);
+			if (queue.ContainsKey(talkNPC.type) && queue[talkNPC.type].Count > 0) //If this NPC has a quest
+			{
+				string questText = "Quest";
 
-			if (mousePos.Between(position, position + stringSize * scale) && !PlayerInput.IgnoreMouseInterface) {
-				Main.LocalPlayer.mouseInterface = true;
-				Main.LocalPlayer.releaseUseItem = true;
-				scale *= 1.1f;
+				DynamicSpriteFont font = Main.fontMouseText;
+				Vector2 scale = new Vector2(0.9f);
+				Vector2 stringSize = ChatManager.GetStringSize(font, questText, scale);
+				Vector2 position = new Vector2((180 + Main.screenWidth / 2) + stringSize.X - 50f, 130 + numLines * 30);
+				Color baseColor = new Color(superColor, (int)(superColor / 1.1), superColor / 2, superColor);
+				Vector2 mousePos = new Vector2(Main.mouseX, Main.mouseY);
 
-				if (!HoveringQuestButton)
-					Main.PlaySound(SoundID.MenuTick);
+				if (mousePos.Between(position, position + stringSize * scale) && !PlayerInput.IgnoreMouseInterface) //Mouse hovers over button
+				{
+					Main.LocalPlayer.mouseInterface = true;
+					Main.LocalPlayer.releaseUseItem = true;
+					scale *= 1.1f;
 
-				HoveringQuestButton = true;
+					if (!HoveringQuestButton)
+						Main.PlaySound(SoundID.MenuTick);
+
+					HoveringQuestButton = true;
+
+					if (Main.mouseLeft && Main.mouseLeftRelease) //If clicked on, unlock a quest.
+					{
+						Quest q = queue[talkNPC.type].Dequeue();
+						QuestManager.UnlockQuest(q, true);
+					}
+				}
+				else
+				{
+					if (HoveringQuestButton)
+						Main.PlaySound(SoundID.MenuTick);
+
+					HoveringQuestButton = false;
+				}
+
+				ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, font, questText, position + new Vector2(16f, 14f), baseColor, 0f,
+					stringSize * 0.5f, scale * new Vector2(1f));
 			}
-			else {
-				if (HoveringQuestButton)
-					Main.PlaySound(SoundID.MenuTick);
-
-				HoveringQuestButton = false;
-			}
-
-			ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, font, questText, position + new Vector2(16f, 14f), baseColor, 0f,
-				stringSize * 0.5f, scale * new Vector2(1f));
-
 			orig(superColor, chatColor, numLines, focusText, focusText3);
 		}
 

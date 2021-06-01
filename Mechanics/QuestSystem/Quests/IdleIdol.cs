@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Terraria;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
-    public class IdleIdol : Quest
+	public class IdleIdol : Quest
     {
         public override string QuestName => "Idle Idol";
 		public override string QuestClient => "The Adventurer";

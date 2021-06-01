@@ -26,7 +26,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.GoldCoin, 1)
 		};
 
-        public RootOfTheProblem()
+		private RootOfTheProblem()
         {
 			_tasks.AddParallelTasks(new SlayTask(new int[] { ModContent.NPCType<NPCs.Reach.ForestWraith>()}, 1, "Glade Wraith"), new RetrievalTask(ModContent.ItemType<Items.Consumable.Quest.SacredVine>(), 1));
         }

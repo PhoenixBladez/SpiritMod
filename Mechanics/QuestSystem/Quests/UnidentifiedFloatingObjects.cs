@@ -24,7 +24,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.GoldCoin, 1)
 		};
 
-        public UnidentifiedFloatingObjects()
+		private UnidentifiedFloatingObjects()
         {
             _tasks.AddTask(new ExploreTask((Player player) => player.ZoneSkyHeight && MyWorld.jellySky, 500f, "the strange Jelly Deluge"))
 				.AddTask(new RetrievalTask(ModContent.ItemType<Items.Consumable.DreamlightJellyItem>(), 1, "Catch"));

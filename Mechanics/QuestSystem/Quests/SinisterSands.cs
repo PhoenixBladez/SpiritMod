@@ -26,7 +26,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.GoldCoin, 5)
 		};
 
-		public SinisterSands()
+		private SinisterSands()
         {
             _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.Boss.Scarabeus.Scarabeus>(), 1));        
         }

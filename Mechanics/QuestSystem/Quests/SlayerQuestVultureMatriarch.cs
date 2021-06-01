@@ -17,7 +17,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 3;
 		public override string QuestCategory => "Slayer";
 
-		public SlayerQuestVultureMatriarch()
+		private SlayerQuestVultureMatriarch()
         {
             _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.Vulture_Matriarch.Vulture_Matriarch>(), 1));
         }

@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.GoldCoin, 2)
 		};
 
-		public ExplorerQuestMushroom()
+		private ExplorerQuestMushroom()
         {
                 _tasks.AddTask(new ExploreTask((Player player) => player.ZoneGlowshroom, 5000f, "glowing mushroom fields"));
         }

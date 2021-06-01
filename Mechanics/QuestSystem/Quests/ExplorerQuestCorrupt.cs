@@ -27,7 +27,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.SilverCoin, 60)
 		};
 
-		public ExplorerQuestCorrupt()
+		private ExplorerQuestCorrupt()
         {
             _tasks.AddTask(new ExploreTask((Player player) => player.ZoneCorrupt, 4000f, "the Corruption"));
         }

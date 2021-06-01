@@ -24,7 +24,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Weapon.Thrown.TargetBottle>(), 35),
 			(Terraria.ID.ItemID.GoldCoin, 2)
 		};
-        public SlayerQuestNymph()
+		private SlayerQuestNymph()
         {
             _tasks.AddTask(new SlayTask(Terraria.ID.NPCID.Nymph, 1));
         }
