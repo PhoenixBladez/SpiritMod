@@ -65,6 +65,9 @@ namespace SpiritMod.Utilities
 
 		private static Texture2D GetHeadIcon()
 		{
+			if (NPCType == NPCID.MoonLordCore)
+				return Main.npcHeadBossTexture[8];
+
 			NPC dummynpc = new NPC();
 			dummynpc.SetDefaults(NPCType);
 			if(dummynpc.modNPC == null)
