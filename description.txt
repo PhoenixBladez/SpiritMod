@@ -15,17 +15,3 @@ Hello, all! I'm Yuyutsu, and I'd like to introduce you to the Spirit Mod, one of
 Discord: https://discord.gg/FUNqtZQ
 
 Check out the mod's discord and forum page for more information! We hope you enjoy the mod, and please report any issues you encounter :)
-
-Spirit's 1.4.2 update, Sinister Sands, is here! It adds:
-
-- 120 new items
-- 19 new enemies
-- Brand new **Scarabeus**, **Vinewrath Bane**, and **Snow Monger** complete overhauls
-- New **Fathomless Vases**, an Underground Microstructure to explore and test your luck with...
-- Completely overhauled **Dark Sepulchres**, now complete with new loot, a special encounter, *and* a miniboss encounter
-- The new artificial **Hyperspace Biome**
-- Gambler **Lootbox overhaul**
-- 5 new music tracks
-- New ambient effects, overlays, and sounds
-- Countless resprites, bug fixes, weapon and NPC improvements, and **so much more!**
-
