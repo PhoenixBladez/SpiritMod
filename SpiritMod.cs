@@ -931,7 +931,7 @@ namespace SpiritMod
 
 		private void DrawStarGoopTarget(GameTime obj)
 		{
-			if (Metaballs != null && Main.graphics.GraphicsDevice != null && Main.spriteBatch != null) {
+			if (!Main.gameMenu && Metaballs != null && Main.graphics.GraphicsDevice != null && Main.spriteBatch != null) {
 				Metaballs.DrawToTarget(Main.spriteBatch, Main.graphics.GraphicsDevice);
 			}
 		}
@@ -1254,6 +1254,17 @@ namespace SpiritMod
 							Vector2 origin = new Vector2(itemTexture.Width / 2, 0);
 							Main.spriteBatch.Draw(itemTexture, itemPos, null, Color.White, (float)Math.Sin(Main.GlobalTime * 1.5f) * 0.2f, origin, 1f, SpriteEffects.None, 0f);
 						}
+						return true;
+					},
+					InterfaceScaleType.UI)
+				);
+
+				layers.Insert(mouseIndex, new LegacyGameInterfaceLayer(
+					"Spirit: Boss Title",
+					delegate {
+						if (BossTitles.TimeToDisplay > 0 && ModContent.GetInstance<SpiritClientConfig>().BossTitles)
+							BossTitles.DrawTitle(Main.spriteBatch);
+
 						return true;
 					},
 					InterfaceScaleType.UI)

@@ -56,6 +56,7 @@ using static SpiritMod.Utilities.ChestPoolUtils;
 using SpiritMod.Items.Tool;
 using SpiritMod.Tiles;
 using Terraria.DataStructures;
+using SpiritMod.Utilities;
 
 namespace SpiritMod
 {
@@ -437,11 +438,13 @@ namespace SpiritMod
 			numStardancersKilled = reader.ReadInt32();
 			numBriarMobsKilled = reader.ReadInt32();
 		}
+
 		public override void PreUpdate()
 		{
 			rottime += (float)Math.PI / 60;
 			if (rottime >= Math.PI * 2) rottime = 0;
 		}
+
 		public override void Initialize()
 		{
 			BlueMoon = false;
@@ -449,6 +452,7 @@ namespace SpiritMod
 			ashRain = false;
 			dayTimeLast = Main.dayTime;
 			dayTimeSwitched = false;
+			BossTitles.Reset();
 			if(SpiritMod.TrailManager != null)
 				SpiritMod.TrailManager.ClearAllTrails(); //trails break on world unload and reload(their projectile is still counted as being active???), so this just clears them all on reload
 
@@ -1513,7 +1517,7 @@ namespace SpiritMod
 
 			List<ChestInfo> briarPool = new List<ChestInfo> {
 				new ChestInfo(new int[] { ItemType<ReachChestMagic>(), ItemType<TwigStaff>(), ItemType<ThornHook>(), ItemType<ReachStaffChest>(), ItemType<ReachBoomerang>(), ItemType<ReachBrooch>() }),
-				new ChestInfo(new int[]{ ItemType<Book_Briar>(), ItemType<Book_BriarArt>(), ItemType<GladeWreath>() }, 1, 0.25f),
+				new ChestInfo(new int[]{ ItemType<Book_Briar>(), ItemType<Book_BriarArt>(), ItemType<GladeWreath>(), ItemType<Items.Placeable.LivingElderbarkWand>() }, 1, 0.25f),
 				new ChestInfo(commonItems1, WorldGen.genRand.Next(3, 10)),
 				new ChestInfo(ammo1, WorldGen.genRand.Next(20, 50)),
 				new ChestInfo(potions, WorldGen.genRand.Next(2, 4)),
@@ -1530,6 +1534,9 @@ namespace SpiritMod
 		{
 			Player player = Main.LocalPlayer;
 			MyPlayer modPlayer = player.GetSpiritPlayer();
+
+			BossTitles.TimeToDisplay = Math.Max(BossTitles.TimeToDisplay - 1, 0);
+
 			if (modPlayer.ZoneSpirit) {
 				if (!aurora) {
 					aurora = true;

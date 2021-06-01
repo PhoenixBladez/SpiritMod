@@ -26,18 +26,21 @@ namespace SpiritMod.Mechanics.EventSystem
 
 		public static void Unload()
 		{
-			_activeEvents = null;
 			On.Terraria.Main.DoUpdate -= Main_DoUpdate;
-			On.Terraria.Graphics.Effects.OverlayManager.Draw -= OverlayManager_Draw;
+    		On.Terraria.Graphics.Effects.OverlayManager.Draw -= OverlayManager_Draw;
+    		_activeEvents = null;
 		}
 
 		private static void OverlayManager_Draw(On.Terraria.Graphics.Effects.OverlayManager.orig_Draw orig, Terraria.Graphics.Effects.OverlayManager self, Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, Terraria.Graphics.Effects.RenderLayers layer, bool beginSpriteBatch)
 		{
 			orig(self, spriteBatch, layer, beginSpriteBatch);
 
-			foreach (Event e in _activeEvents)
+			if (_activeEvents != null)
 			{
-				e.DrawAtLayer(spriteBatch, layer, beginSpriteBatch);
+				foreach (Event e in _activeEvents)
+				{
+					e.DrawAtLayer(spriteBatch, layer, beginSpriteBatch);
+				}
 			}
 		}
 
@@ -45,8 +48,11 @@ namespace SpiritMod.Mechanics.EventSystem
 		{
 			orig(self, gameTime);
 
-			// update cutscene
-			Update(gameTime);
+			if (_activeEvents != null)
+			{
+				// update cutscene
+				Update(gameTime);
+			}
 		}
 
 		public static bool IsPlaying<T>()
@@ -60,8 +66,6 @@ namespace SpiritMod.Mechanics.EventSystem
 
 		public static void Update(GameTime gameTime)
 		{
-			if (_activeEvents == null)
-				return;
 			if (Main.gameMenu)
 			{
 				_activeEvents.Clear();

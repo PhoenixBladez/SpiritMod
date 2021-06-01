@@ -40,13 +40,13 @@ namespace SpiritMod.Utilities
 		public QuestUtils.QuestInvLocation QuestBookLocation { get; set; }
 
 		[Label("Town NPC Portraits")]
-		[Tooltip("Enables the showing of NPC portraits when talking to a Town NPC.")]
+		[Tooltip("Enables the showing of NPC portraits when talking to a Town NPC")]
 		[DefaultValue(true)]
 		public bool ShowNPCPortraits { get; set; }
 
-		[Label("Town NPC Quest Notice")]
-		[Tooltip("Enables the showing of exclamation marks above an NPC when they have a quest ready.")]
+		[Label("Boss Titles")]
+		[Tooltip("Enables the showing of titles when spawning a boss")]
 		[DefaultValue(true)]
-		public bool ShowQuestExclamationMarks { get; set; }
+		public bool BossTitles { get; set; }
 	}
 }

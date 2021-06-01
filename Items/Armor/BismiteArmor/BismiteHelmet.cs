@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
 using SpiritMod.Items.Material;
 using SpiritMod.Projectiles;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -68,14 +69,10 @@ namespace SpiritMod.Items.Armor.BismiteArmor
 			if (player.HasBuff(ModContent.BuffType<VirulenceCooldown>()) || virulence >= 0) {
 				virulence--;
 			}
-
 			if (virulence == 0f) {
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
-				Rectangle textPos = new Rectangle((int)player.position.X, (int)player.position.Y - 20, player.width, player.height);
-				CombatText.NewText(textPos, new Color(95, 156, 111, 100), "Virulence Charged!");
 			}
 		}
-
 		public override void PlayerHurt(Player player, bool pvp, bool quiet, double damage, int hitDirection, bool crit)
 		{
 			virulence = 600f;
@@ -93,7 +90,7 @@ namespace SpiritMod.Items.Armor.BismiteArmor
 		public override void PlayerOnHitNPCWithProj(Player player, Projectile proj, NPC target, int damage, float knockback, bool crit)
 		{
 			if (virulence <= 0f) {
-				Projectile.NewProjectile(target.position, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), 25, 8, Main.myPlayer);
+				Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), 25, 8, Main.myPlayer);
 				virulence = 600f;
 				player.AddBuff(ModContent.BuffType<VirulenceCooldown>(), 140);
 			}
@@ -103,11 +100,12 @@ namespace SpiritMod.Items.Armor.BismiteArmor
 		{
 			var player = drawInfo.drawPlayer;
 			if (virulence <= 0 && Main.rand.NextBool(2)) {
-				for (int index1 = 0; index1 < 4; ++index1) {
-					int dust = Dust.NewDust(player.position, player.width, player.height, 167, 0, 0, 167, default, Main.rand.NextFloat(.4f, 1.2f));
+				for (int index1 = 0; index1 < 3; ++index1) {
+					int dust = Dust.NewDust(player.position, player.width, player.height, 167, 0, 0, 167, default, Main.rand.NextFloat(.5f, 1.32f));
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity *= 1.8f;
 					Main.dust[dust].velocity.Y -= 0.5f;
+	          		Main.dust[dust].customData = player;
 					Main.playerDrawDust.Add(dust);
 				}
 			}
