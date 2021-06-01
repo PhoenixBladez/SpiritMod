@@ -26,14 +26,16 @@ namespace SpiritMod.Mechanics.EventSystem
 
 		public static void Unload()
 		{
-			_activeEvents = null;
 			On.Terraria.Main.DoUpdate -= Main_DoUpdate;
-			On.Terraria.Graphics.Effects.OverlayManager.Draw -= OverlayManager_Draw;
+    		On.Terraria.Graphics.Effects.OverlayManager.Draw -= OverlayManager_Draw;
+    		_activeEvents = null;
 		}
 
 		private static void OverlayManager_Draw(On.Terraria.Graphics.Effects.OverlayManager.orig_Draw orig, Terraria.Graphics.Effects.OverlayManager self, Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, Terraria.Graphics.Effects.RenderLayers layer, bool beginSpriteBatch)
 		{
 			orig(self, spriteBatch, layer, beginSpriteBatch);
+
+			if (_activeEvents == null) _activeEvents = new List<Event>();
 
 			foreach (Event e in _activeEvents)
 			{
