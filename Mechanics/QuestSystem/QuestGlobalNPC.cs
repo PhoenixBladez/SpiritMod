@@ -53,7 +53,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor) //Draws the exclamation mark on the NPC when they have a quest
 		{
-			bool valid = ModContent.GetInstance<SpiritClientConfig>().ShowQuestExclamationMarks && npc.CanTalk; //Check if the NPC talks and if the config allows
+			bool valid = ModContent.GetInstance<SpiritClientConfig>().ShowNPCQuestNotice && npc.CanTalk; //Check if the NPC talks and if the config allows
 			if (valid && ModContent.GetInstance<QuestWorld>().NPCQuestQueue.ContainsKey(npc.type) && ModContent.GetInstance<QuestWorld>().NPCQuestQueue[npc.type].Count > 0)
 			{
 				Texture2D tex = mod.GetTexture("UI/QuestUI/Textures/ExclamationMark");
