@@ -35,11 +35,12 @@ namespace SpiritMod.Mechanics.EventSystem
 		{
 			orig(self, spriteBatch, layer, beginSpriteBatch);
 
-			if (_activeEvents == null) _activeEvents = new List<Event>();
-
-			foreach (Event e in _activeEvents)
+			if (_activeEvents != null)
 			{
-				e.DrawAtLayer(spriteBatch, layer, beginSpriteBatch);
+				foreach (Event e in _activeEvents)
+				{
+					e.DrawAtLayer(spriteBatch, layer, beginSpriteBatch);
+				}
 			}
 		}
 
@@ -47,10 +48,11 @@ namespace SpiritMod.Mechanics.EventSystem
 		{
 			orig(self, gameTime);
 
-			if (_activeEvents == null) _activeEvents = new List<Event>();
-
-			// update cutscene
-			Update(gameTime);
+			if (_activeEvents != null)
+			{
+				// update cutscene
+				Update(gameTime);
+			}
 		}
 
 		public static bool IsPlaying<T>()
