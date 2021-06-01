@@ -1258,6 +1258,17 @@ namespace SpiritMod
 					},
 					InterfaceScaleType.UI)
 				);
+
+				layers.Insert(mouseIndex, new LegacyGameInterfaceLayer(
+					"Spirit: Boss Title",
+					delegate {
+						if (BossTitles.TimeToDisplay > 0 && ModContent.GetInstance<SpiritClientConfig>().BossTitles)
+							BossTitles.DrawTitle(Main.spriteBatch);
+
+						return true;
+					},
+					InterfaceScaleType.UI)
+				);
 			}
 		}
 

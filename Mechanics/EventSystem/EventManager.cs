@@ -47,6 +47,8 @@ namespace SpiritMod.Mechanics.EventSystem
 		{
 			orig(self, gameTime);
 
+			if (_activeEvents == null) _activeEvents = new List<Event>();
+
 			// update cutscene
 			Update(gameTime);
 		}
@@ -62,8 +64,6 @@ namespace SpiritMod.Mechanics.EventSystem
 
 		public static void Update(GameTime gameTime)
 		{
-			if (_activeEvents == null)
-				return;
 			if (Main.gameMenu)
 			{
 				_activeEvents.Clear();

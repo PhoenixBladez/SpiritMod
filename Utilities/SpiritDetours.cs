@@ -37,6 +37,10 @@ namespace SpiritMod.Utilities
 			On.Terraria.Main.DrawNPCChatButtons += Main_DrawNPCChatButtons;
 			On.Terraria.WorldGen.SpreadGrass += WorldGen_SpreadGrass;
 
+			On.Terraria.NPC.SpawnOnPlayer += SpawnOnPlayer;
+			On.Terraria.NPC.SpawnSkeletron += SpawnSkeletron;
+			On.Terraria.NPC.SpawnWOF += SpawnWOF;
+
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
 			IL.Terraria.WorldGen.hardUpdateWorld += WorldGen_hardUpdateWorld;
 			Main.OnPreDraw += Main_OnPreDraw;
@@ -53,9 +57,36 @@ namespace SpiritMod.Utilities
 			On.Terraria.Player.ToggleInv -= Player_ToggleInv;
 			On.Terraria.Main.DrawInterface -= DrawParticles;
 			On.Terraria.Localization.LanguageManager.GetTextValue_string -= LanguageManager_GetTextValue_string1;
+			On.Terraria.Main.DrawPlayerChat -= Main_DrawPlayerChat;
+
 			On.Terraria.Main.DrawNPCChatButtons -= Main_DrawNPCChatButtons;
 			On.Terraria.WorldGen.SpreadGrass -= WorldGen_SpreadGrass;
+
+			On.Terraria.NPC.SpawnOnPlayer -= SpawnOnPlayer;
+			On.Terraria.NPC.SpawnSkeletron -= SpawnSkeletron;
+			On.Terraria.NPC.SpawnWOF -= SpawnWOF;
+
+			IL.Terraria.Player.ItemCheck -= Player_ItemCheck;
+			IL.Terraria.WorldGen.hardUpdateWorld -= WorldGen_hardUpdateWorld;
 			Main.OnPreDraw -= Main_OnPreDraw;
+		}
+
+		private static void SpawnOnPlayer(On.Terraria.NPC.orig_SpawnOnPlayer orig, int plr, int type)
+		{
+			orig(plr, type);
+			BossTitles.SetNPCType(type);
+		}
+
+		private static void SpawnSkeletron(On.Terraria.NPC.orig_SpawnSkeletron orig)
+		{
+			orig();
+			BossTitles.SetNPCType(NPCID.SkeletronHead);
+		}
+
+		private static void SpawnWOF(On.Terraria.NPC.orig_SpawnWOF orig, Vector2 pos)
+		{
+			orig(pos);
+			BossTitles.SetNPCType(NPCID.WallofFlesh);
 		}
 
 		private static void Main_DrawPlayerChat(On.Terraria.Main.orig_DrawPlayerChat orig, Main self)

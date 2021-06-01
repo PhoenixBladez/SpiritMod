@@ -43,5 +43,10 @@ namespace SpiritMod.Utilities
 		[Tooltip("Enables the showing of NPC portraits when talking to a Town NPC")]
 		[DefaultValue(true)]
 		public bool ShowNPCPortraits { get; set; }
+
+		[Label("Boss Titles")]
+		[Tooltip("Enables the showing of titles when spawning a boss")]
+		[DefaultValue(true)]
+		public bool BossTitles { get; set; }
 	}
 }

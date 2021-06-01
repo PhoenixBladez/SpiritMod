@@ -7,6 +7,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Utilities;
+
 namespace SpiritMod.Tiles
 {
 	public class BloodBlossom : ModTile
@@ -70,6 +72,7 @@ namespace SpiritMod.Tiles
 			Player p = Main.LocalPlayer;
 			if (Main.netMode != NetmodeID.MultiplayerClient) {
                 Main.NewText("The Vinewrath Bane has awoken!", 175, 75, 255, true);
+				BossTitles.SetNPCType(ModContent.NPCType<ReachBoss>());
                 int npcID = NPC.NewNPC((int)p.Center.X + 600, (int)p.Center.Y + 600, ModContent.NPCType<ReachBoss>());
 				Main.npc[npcID].netUpdate2 = true;
 			}
