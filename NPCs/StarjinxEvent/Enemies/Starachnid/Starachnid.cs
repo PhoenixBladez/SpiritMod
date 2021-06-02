@@ -181,7 +181,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 					for (i = 16; i < maxDistance; i++)
 					{
 						Vector2 toLookAt = startPos + (direction * i);
-						if (Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).active() && Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).type])
+						if (IsTileActive(toLookAt))
 							break;
 					}
 					tries++;
@@ -200,7 +200,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 					for (i = 16; i < maxDistance; i++)
 					{
 						Vector2 toLookAt = startPos + (direction * i);
-						if (Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).active() && Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).type])
+						if (IsTileActive(toLookAt))
 							break;
 					}
 					tries++;
@@ -217,7 +217,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 						for (i = 16; i < maxDistance; i++)
 						{
 							Vector2 toLookAt = startPos + (direction * i);
-							if (Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).active() && Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).type])
+							if (IsTileActive(toLookAt))
 								break;
 						}
 						tries++;
@@ -227,6 +227,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				}
 			}
 			return direction;
+		}
+		private bool IsTileActive(Vector2 toLookAt) //Is the tile at the vector position solid?
+		{
+			return Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).active() && Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).type];
 		}
 
 		private void TraverseThread()
