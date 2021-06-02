@@ -143,7 +143,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				maxDistance = (int)(maxDistance * 0.5f);
 
 			int i = 0;
-			Vector2 direction = NewThreadAngle(maxDistance, mainThread, ref i, startPos);
+			Vector2 direction = NewThreadAngle(maxDistance, mainThread, ref i, startPos); //Get both the direction (direction) and the length (i) of the next thread
 
 			StarThread thread = new StarThread(startPos, startPos + (direction * i));
 			if (mainThread)
