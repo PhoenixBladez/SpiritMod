@@ -175,6 +175,8 @@ namespace SpiritMod.Utilities
 					{
 						Quest q = queue[talkNPC.type].Dequeue();
 						QuestManager.UnlockQuest(q, true);
+
+						Main.npcChatText = q.QuestDescription;
 					}
 				}
 				else
