@@ -17,7 +17,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 
 		public int Counter;
 		public int Duration = 800; //How long the thread lasts
-		public int Length;
+		public int Length; //Length of the thread
 
 		public StarThread(Vector2 startPoint, Vector2 endPoint)
 		{
@@ -32,6 +32,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			Counter++;
 		}
 	}
+
 	public class Starachnid : ModNPC, IGalaxySprite
 	{
 		private List<StarThread> threads = new List<StarThread>();
@@ -44,7 +45,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		private const float SPEED = 2;
 		private const float THREADGROWLERP = 15;
 
-		private Vector2 bottom
+		private Vector2 Bottom
 		{
 			get
 			{
@@ -55,6 +56,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				npc.Center = value - ((npc.height / 2) * (toRotation + 1.57f).ToRotationVector2());
 			}
 		}
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starachnid");
@@ -133,7 +135,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				threads.Add(currentThread);
 			}
 
-			Vector2 startPos = bottom; 
+			Vector2 startPos = Bottom; 
 			int maxDistance = Main.rand.Next(200, 500);
 			if (!mainThread)
 				maxDistance = (int)(maxDistance * 0.5f);
@@ -169,7 +171,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			{
 				while (i < maxDistance)
 				{
-						direction = Main.rand.NextFloat(6.28f).ToRotationVector2(); 
+					direction = Main.rand.NextFloat(6.28f).ToRotationVector2(); 
 					for (i = 16; i < maxDistance; i++)
 					{
 						Vector2 toLookAt = startPos + (direction * i);
@@ -200,7 +202,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		private void TraverseThread()
 		{
 			progress += (1f / currentThread.Length) * SPEED;
-			bottom = Vector2.Lerp(currentThread.StartPoint, currentThread.EndPoint, progress);
+			Bottom = Vector2.Lerp(currentThread.StartPoint, currentThread.EndPoint, progress);
 			if (Main.rand.Next(200) == 0)
 			{
 				NewThread(false, false);
