@@ -228,10 +228,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			{
 				length = Math.Min(thread.Counter / THREADGROWLERP, (thread.Duration - thread.Counter) / THREADGROWLERP);
 				length = Math.Min(length, 1);
-				Main.spriteBatch.Draw(Main.magicPixel, thread.StartPoint - Main.screenPosition, new Rectangle(0, 0, 1, 1), Color.Purple, (thread.EndPoint - thread.StartPoint).ToRotation(), new Vector2(0f, 1f), new Vector2(thread.Length * length, 5 * length), SpriteEffects.None, 0f);
+				spriteBatch.Draw(Main.magicPixel, thread.StartPoint - Main.screenPosition, new Rectangle(0, 0, 1, 1), Color.Purple, (thread.EndPoint - thread.StartPoint).ToRotation(), new Vector2(0f, 1f), new Vector2(thread.Length, 5) * length, SpriteEffects.None, 0f);
 			}
 			StarThread thread2 = currentThread;
-			Main.spriteBatch.Draw(Main.magicPixel, thread2.StartPoint - Main.screenPosition, new Rectangle(0, 0, 1, 1), Color.Cyan, (thread2.EndPoint - thread2.StartPoint).ToRotation(), new Vector2(0f, 1f), new Vector2(thread2.Length * progress, 5), SpriteEffects.None, 0f);
+			spriteBatch.Draw(Main.magicPixel, thread2.StartPoint - Main.screenPosition, new Rectangle(0, 0, 1, 1), Color.Cyan, (thread2.EndPoint - thread2.StartPoint).ToRotation(), new Vector2(0f, 1f), new Vector2(thread2.Length * progress, 5), SpriteEffects.None, 0f);
 		}
 
 		private void UpdateThreads()
