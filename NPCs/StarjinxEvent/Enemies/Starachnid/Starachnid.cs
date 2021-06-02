@@ -41,8 +41,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		private bool initialized = false; //Has the thread been started?
 		private float toRotation = 0; //The rotation for the spider to rotate to
 		private float threadRotation = 0; //Current rotation of the thread
+		private float speed = 2; //The walking speed of the spider
 
-		private const float SPEED = 2; //The walking speed of the spider
 		private const float THREADGROWLERP = 15; //How many frames does it take for threads to fade in/out?
 		private const int DISTANCEFROMPLAYER = 300; //How far does the spider have to be from the player to turn around?
 
@@ -92,7 +92,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			TraverseThread(); //Walk along thread
 			RotateIntoPlace(); //Smoothly rotate into place
 			UpdateThreads(); //Update the spider's threads
-			if (progress >= 1) //If it's at the end of it's thread, create a new slope
+			if (progress >= 1) //If it's at the end of it's thread, create a new thread
 				NewThread(false, true);
 		}
 
@@ -194,7 +194,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				while (i < maxDistance) //first while loop
 				{
 					if (mainThread)
-						direction = (threadRotation + Main.rand.NextFloat(-1.3f, 1.3f)).ToRotationVector2(); //Woohoo magic numbers
+						direction = (threadRotation + Main.rand.NextFloat(-1f, 1f)).ToRotationVector2(); //Woohoo magic numbers
 					else
 						direction = Main.rand.NextFloat(6.28f).ToRotationVector2();
 					for (i = 16; i < maxDistance; i++)
@@ -235,7 +235,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 
 		private void TraverseThread()
 		{
-			progress += (1f / currentThread.Length) * SPEED;
+			progress += (1f / currentThread.Length) * speed;
 			Bottom = Vector2.Lerp(currentThread.StartPoint, currentThread.EndPoint, progress);
 			if (Main.rand.Next(200) == 0)
 			{
@@ -250,9 +250,11 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			if (Math.Abs(rotDifference) < 0.15f)
 			{
 				npc.rotation = toRotation;
+				speed = 2;
 				return;
 			}
-			npc.rotation += Math.Sign(rotDifference) * 0.1f;
+			speed = 1;
+			npc.rotation += Math.Sign(rotDifference) * 0.06f;
 		}
 
 		private void DrawThreads(SpriteBatch spriteBatch)
