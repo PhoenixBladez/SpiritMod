@@ -74,7 +74,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			npc.knockBackResist = 0;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
-			SpiritMod.Metaballs.EnemyLayer.Sprites.Add(this);
+			if(Main.netMode != NetmodeID.Server)
+				SpiritMod.Metaballs.EnemyLayer.Sprites.Add(this);
 		}
 
 		public override void AI()

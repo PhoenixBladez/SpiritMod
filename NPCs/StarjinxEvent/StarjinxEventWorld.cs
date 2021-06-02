@@ -44,9 +44,10 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		{
 			base.PostDrawTiles();
 		}
-		public override void Initialize()
+
+		/*public override void Initialize()
 		{
             SpiritMod.InitStargoop();
-		}
+		}*/
 	}
 }

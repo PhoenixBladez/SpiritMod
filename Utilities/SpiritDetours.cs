@@ -17,6 +17,7 @@ using Terraria.ModLoader;
 using Terraria.UI.Chat;
 using SpiritMod.Mechanics.QuestSystem;
 using System.Collections.Generic;
+using Terraria.Localization;
 
 namespace SpiritMod.Utilities
 {
@@ -76,19 +77,19 @@ namespace SpiritMod.Utilities
 		private static void SpawnOnPlayer(On.Terraria.NPC.orig_SpawnOnPlayer orig, int plr, int type)
 		{
 			orig(plr, type);
-			BossTitles.SetNPCType(type);
+			BossTitles.SyncNPCType(type);
 		}
 
 		private static void SpawnSkeletron(On.Terraria.NPC.orig_SpawnSkeletron orig)
 		{
 			orig();
-			BossTitles.SetNPCType(NPCID.SkeletronHead);
+			BossTitles.SyncNPCType(NPCID.SkeletronHead);
 		}
 
 		private static void SpawnWOF(On.Terraria.NPC.orig_SpawnWOF orig, Vector2 pos)
 		{
 			orig(pos);
-			BossTitles.SetNPCType(NPCID.WallofFlesh);
+			BossTitles.SyncNPCType(NPCID.WallofFlesh);
 		}
 
 		private static void Main_DrawPlayerChat(On.Terraria.Main.orig_DrawPlayerChat orig, Main self)

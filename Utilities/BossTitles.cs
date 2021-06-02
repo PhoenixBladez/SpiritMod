@@ -22,14 +22,56 @@ namespace SpiritMod.Utilities
 			TimeToDisplay = 0;
 		}
 
+		public enum DrawCondition
+		{
+			SpiritBosses,
+			SpiritVanilla,
+			AllBosses,
+			Off
+		}
+
+
+		public static void SyncNPCType(int Type)
+		{
+			if (Main.netMode != NetmodeID.SinglePlayer)
+				SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(), (byte)MessageType.BossTitle, Type).Send();
+
+			else
+				SetNPCType(Type);
+		}
+
 		public static void SetNPCType(int Type)
 		{
+			switch (ModContent.GetInstance<SpiritClientConfig>().DrawCondition)
+			{
+				case DrawCondition.SpiritBosses:
+					if (ModContent.GetModNPC(Type) == null) //return if from vanilla
+						return;
+					if (ModContent.GetModNPC(Type).mod != SpiritMod.instance) //then return if not from spirit mod
+						return;
+					break;
+
+				case DrawCondition.SpiritVanilla:
+					if (ModContent.GetModNPC(Type) != null) //check if not vanilla
+					{
+						if (ModContent.GetModNPC(Type).mod != SpiritMod.instance) //then return if not from spirit mod
+							return;
+					}
+
+					break;
+
+				case DrawCondition.Off: //always return
+					return;
+			}
 			NPCType = Type;
 			TimeToDisplay = DisplayTimeMax;
 		}
 
 		public static void DrawTitle(SpriteBatch spriteBatch)
 		{
+			if(!Main.gamePaused)
+				TimeToDisplay = Math.Max(TimeToDisplay - 1, 0);
+
 			float fadespeed = 3;
 			float Opacity = MathHelper.Clamp((float)-Math.Sin((DisplayTimeMax - (TimeToDisplay / (float)DisplayTimeMax)) * MathHelper.Pi) * fadespeed, 0, 1);
 			string DisplayName = Lang.GetNPCName(NPCType).ToString();

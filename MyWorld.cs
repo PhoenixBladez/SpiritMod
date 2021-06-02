@@ -1535,8 +1535,6 @@ namespace SpiritMod
 			Player player = Main.LocalPlayer;
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 
-			BossTitles.TimeToDisplay = Math.Max(BossTitles.TimeToDisplay - 1, 0);
-
 			if (modPlayer.ZoneSpirit) {
 				if (!aurora) {
 					aurora = true;

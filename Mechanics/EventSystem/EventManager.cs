@@ -20,8 +20,9 @@ namespace SpiritMod.Mechanics.EventSystem
 
 		public static void Load()
 		{
+			_activeEvents = new List<Event>();
 			On.Terraria.Main.DoUpdate += Main_DoUpdate;
-			On.Terraria.Graphics.Effects.OverlayManager.Draw += OverlayManager_Draw;
+			On.Terraria.Graphics.Effects.OverlayManager.Draw += OverlayManager_Draw; 
 		}
 
 		public static void Unload()

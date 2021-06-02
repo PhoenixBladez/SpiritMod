@@ -50,8 +50,9 @@ namespace SpiritMod.Utilities
 		public bool ShowNPCQuestNotice { get; set; }
 
 		[Label("Boss Titles")]
-		[Tooltip("Enables the showing of titles when spawning a boss")]
-		[DefaultValue(true)]
-		public bool BossTitles { get; set; }
+		[Tooltip("Enables the showing of titles when spawning a boss, or what bosses titles display for")]
+		[DefaultValue(BossTitles.DrawCondition.SpiritBosses)]
+
+		public BossTitles.DrawCondition DrawCondition { get; set; }
 	}
 }

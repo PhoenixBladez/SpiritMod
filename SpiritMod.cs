@@ -199,6 +199,7 @@ namespace SpiritMod
 							return;
 						}
 
+						WriteToPacket(GetPacket(), (byte)MessageType.BossTitle, bossType).Send();
 						int npcID = NPC.NewNPC(npcCenterX, npcCenterY, bossType);
 						Main.npc[npcID].Center = new Vector2(npcCenterX, npcCenterY);
 						Main.npc[npcID].netUpdate2 = true;
@@ -234,6 +235,13 @@ namespace SpiritMod
 					break;
 				case MessageType.DestroySuperSunFlower:
 					MyWorld.superSunFlowerPositions.Remove(new Point16(reader.ReadUInt16(), reader.ReadUInt16()));
+					break;
+				case MessageType.BossTitle:
+					if (Main.netMode == NetmodeID.Server) { //if received by the server, send to all clients instead
+						WriteToPacket(GetPacket(), (byte)MessageType.BossTitle, reader.ReadInt32()).Send();
+						break;
+					}
+					BossTitles.SetNPCType(reader.ReadInt32());
 					break;
 				default:
 					Logger.Error("Unknown message (" + id + ")");
@@ -603,7 +611,6 @@ namespace SpiritMod
 			QuestBookHotkey = RegisterHotKey("SpiritMod:QuestBookToggle", "C");
 			QuestHUDHotkey = RegisterHotKey("SpiritMod:QuestHUDToggle", "V");
 
-			QuestManager.Load();
 			if (!Main.dedServ) 
 			{
 				ParticleHandler.RegisterParticles();
@@ -612,7 +619,9 @@ namespace SpiritMod
 				QuestBookUIState = new QuestBookUI();
 				QuestHUD = new QuestHUD();
 				Mechanics.EventSystem.EventManager.Load();
+				QuestManager.Load();
 			}
+
 			SpiritDetours.Initialize();
 
 			GlobalNoise = new PerlinNoise(Main.rand.Next());
@@ -633,6 +642,10 @@ namespace SpiritMod
 				Filters.Scene["PulsarShockwave"].Load();
 
 				SlotUserInterface = new UserInterface();
+
+				Ref<Effect> screenRef2 = new Ref<Effect>(GetEffect("Effects/ShockwaveTwo")); // The path to the compiled shader file.
+				Filters.Scene["ShockwaveTwo"] = new Filter(new ScreenShaderData(screenRef2, "ShockwaveTwo"), EffectPriority.VeryHigh);
+				Filters.Scene["ShockwaveTwo"].Load();
 			}
 
 			Filters.Scene["SpiritMod:ReachSky"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.05f, 0.05f, .05f).UseOpacity(0.4f), EffectPriority.High);
@@ -646,10 +659,6 @@ namespace SpiritMod
 
 			Filters.Scene["SpiritMod:WindEffect"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.149f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
 			Filters.Scene["SpiritMod:WindEffect2"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.549f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
-
-			Ref<Effect> screenRef2 = new Ref<Effect>(GetEffect("Effects/ShockwaveTwo")); // The path to the compiled shader file.
-			Filters.Scene["ShockwaveTwo"] = new Filter(new ScreenShaderData(screenRef2, "ShockwaveTwo"), EffectPriority.VeryHigh);
-			Filters.Scene["ShockwaveTwo"].Load();
 
 			GlyphCurrencyID = CustomCurrencyManager.RegisterCurrency(new Currency(ModContent.ItemType<Items.Glyphs.Glyph>(), 999L));
 
@@ -793,13 +802,14 @@ namespace SpiritMod
 				Portraits.Add(NPCID.Dryad, GetTexture("NPCs/Portraits/Dryad"));
 				Portraits.Add(NPCID.Nurse, GetTexture("NPCs/Portraits/Nurse"));
 				Main.OnPreDraw += DrawStarGoopTarget;
+
+				primitives = new PrimTrailManager();
+				primitives.LoadContent(Main.graphics.GraphicsDevice);
+
+				InitStargoop();
+
+				AdditiveCallManager.Load();
 			}
-			primitives = new PrimTrailManager();
-			primitives.LoadContent(Main.graphics.GraphicsDevice);
-
-			InitStargoop();
-
-			AdditiveCallManager.Load();
 			// LoadDetours();
 
 			// using a mildly specific name to avoid mod clashes
@@ -1262,7 +1272,7 @@ namespace SpiritMod
 				layers.Insert(mouseIndex, new LegacyGameInterfaceLayer(
 					"Spirit: Boss Title",
 					delegate {
-						if (BossTitles.TimeToDisplay > 0 && ModContent.GetInstance<SpiritClientConfig>().BossTitles)
+						if (BossTitles.TimeToDisplay > 0 && ModContent.GetInstance<SpiritClientConfig>().DrawCondition != BossTitles.DrawCondition.Off)
 							BossTitles.DrawTitle(Main.spriteBatch);
 
 						return true;

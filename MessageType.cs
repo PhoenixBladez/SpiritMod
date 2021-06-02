@@ -13,6 +13,7 @@
 		TameAuroraStag,
 		SpawnTrail,
 		PlaceSuperSunFlower,
-		DestroySuperSunFlower
+		DestroySuperSunFlower,
+		BossTitle
 	}
 }
