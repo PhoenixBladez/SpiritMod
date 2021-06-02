@@ -42,8 +42,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		private float toRotation = 0; //The rotation for the spider to rotate to
 		private float threadRotation = 0; //Current rotation of the thread
 
-		private const float SPEED = 2;
-		private const float THREADGROWLERP = 15;
+		private const float SPEED = 2; //The walking speed of the spider
+		private const float THREADGROWLERP = 15; //How many frames does it take for threads to fade in/out?
+		private const int DISTANCEFROMPLAYER = 300; //How far does the spider have to be from the player to turn around?
 
 		private Vector2 Bottom
 		{
@@ -87,6 +88,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				initialized = true;
 				NewThread(true, true);
 			}
+			npc.TargetClosest(false);
 			TraverseThread(); //Walk along thread
 			RotateIntoPlace(); //Smoothly rotate into place
 			UpdateThreads(); //Update the spider's threads
@@ -139,51 +141,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			int maxDistance = Main.rand.Next(200, 500);
 			if (!mainThread)
 				maxDistance = (int)(maxDistance * 0.5f);
+
 			int i = 0;
-
-			//The follow region runs 2 while loops to try and avoid tiles
-			//Both while loops cast out from the bottom of the spider, in a random angle, and try to reach their set distance without hitting a tile. If they can't, they try again
-			//Both have "tries" to make sure it doesn't try over 100 times
-			//The first while loop, the new angle is in the same GENERAL direction as the current thread
-			//The second one can go in any direction
-			#region finding angle
-			Vector2 direction = Vector2.Zero;
-			int tries = 0;
-			while (i < maxDistance) //first while loop
-			{
-				if (mainThread)
-					direction = (threadRotation + Main.rand.NextFloat(-1.3f, 1.3f)).ToRotationVector2(); //Woohoo magic numbers
-				else
-					direction = Main.rand.NextFloat(6.28f).ToRotationVector2();
-				for (i = 16; i < maxDistance; i++)
-				{
-					Vector2 toLookAt = startPos + (direction * i);
-					if (Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).active() && Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).type])
-						break;
-				}
-				tries++;
-				if (tries > 100)
-					break;
-			}
-
-			tries = 0;
-			if (i < maxDistance)
-			{
-				while (i < maxDistance)
-				{
-					direction = Main.rand.NextFloat(6.28f).ToRotationVector2(); 
-					for (i = 16; i < maxDistance; i++)
-					{
-						Vector2 toLookAt = startPos + (direction * i);
-						if (Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).active() && Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).type])
-							break;
-					}
-					tries++;
-					if (tries > 100)
-						break;
-				}
-			}
-			#endregion
+			Vector2 direction = NewThreadAngle(maxDistance, mainThread, ref i, startPos);
 
 			StarThread thread = new StarThread(startPos, startPos + (direction * i));
 			if (mainThread)
@@ -197,6 +157,76 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				threads.Add(thread);
 				thread.Duration -= (currentThread.Counter + (int)THREADGROWLERP); //Make sure it fades away before the thread it's attached to!
 			}
+		}
+
+		//The follow method runs 2 while loops to try and avoid tiles
+		//Both while loops cast out from the bottom of the spider, in a random angle, and try to reach their set distance without hitting a tile. If they can't, they try again
+		//Both have "tries" to make sure it doesn't try over 100 times
+		//The first while loop, the new angle is in the same GENERAL direction as the current thread
+		//The second one can go in any direction
+		//However, if the player is too far away, it curves towards them
+		private Vector2 NewThreadAngle(int maxDistance, bool mainThread, ref int i, Vector2 startPos)
+		{
+			Player player = Main.player[npc.target];
+			Vector2 distanceFromPlayer = player.Center - startPos;
+			Vector2 direction = Vector2.Zero;
+			int tries = 0;
+
+			if (distanceFromPlayer.Length() > DISTANCEFROMPLAYER && mainThread)
+			{
+				while (i < maxDistance) //Loop through the shortest angle to the player, but multiplied by a random float (above 0.5f)
+				{
+					float rotDifference = ((((distanceFromPlayer.ToRotation() - threadRotation) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
+					direction = (threadRotation + (rotDifference * Main.rand.NextFloat(0.5f,1f))).ToRotationVector2();
+					for (i = 16; i < maxDistance; i++)
+					{
+						Vector2 toLookAt = startPos + (direction * i);
+						if (Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).active() && Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).type])
+							break;
+					}
+					tries++;
+					if (tries > 100)
+						break;
+				}
+			}
+			else
+			{
+				while (i < maxDistance) //first while loop
+				{
+					if (mainThread)
+						direction = (threadRotation + Main.rand.NextFloat(-1.3f, 1.3f)).ToRotationVector2(); //Woohoo magic numbers
+					else
+						direction = Main.rand.NextFloat(6.28f).ToRotationVector2();
+					for (i = 16; i < maxDistance; i++)
+					{
+						Vector2 toLookAt = startPos + (direction * i);
+						if (Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).active() && Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).type])
+							break;
+					}
+					tries++;
+					if (tries > 100)
+						break;
+				}
+
+				tries = 0;
+				if (i < maxDistance)
+				{
+					while (i < maxDistance)
+					{
+						direction = Main.rand.NextFloat(6.28f).ToRotationVector2();
+						for (i = 16; i < maxDistance; i++)
+						{
+							Vector2 toLookAt = startPos + (direction * i);
+							if (Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).active() && Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).type])
+								break;
+						}
+						tries++;
+						if (tries > 100)
+							break;
+					}
+				}
+			}
+			return direction;
 		}
 
 		private void TraverseThread()
