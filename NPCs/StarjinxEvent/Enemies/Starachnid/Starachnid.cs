@@ -10,6 +10,22 @@ using SpiritMod.Stargoop;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 {
+
+	public class SubStar //Substars are stars that draw along threads and quickly fade
+	{
+		public int Counter; //Counter to keep track of time
+		public float MaxScale; //Maximum size they can reach
+		public Vector2 Position; //Position of the substar
+
+		public SubStar(float maxScale, Vector2 position)
+		{
+			Counter = 0;
+			MaxScale = maxScale;
+			Position = position;
+		}
+
+		public void Update() => Counter++;
+	}
 	public class StarThread
 	{
 		public Vector2 StartPoint;
@@ -24,6 +40,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 
 		public bool DrawStart = true;
 
+		public List<SubStar> SubStars = new List<SubStar>(); //list of stars that twinkle along the string
+
 		public StarThread(Vector2 startPoint, Vector2 endPoint)
 		{
 			StartPoint = startPoint;
@@ -35,6 +53,14 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		public void Update()
 		{
 			Counter++;
+			foreach (SubStar star in SubStars.ToArray()) //update substars
+			{
+				star.Update();
+				if (star.Counter > 31)
+					SubStars.Remove(star);
+			}
+			if (Main.rand.Next((int)((1f / Length) * 20000)) < 3)
+				SubStars.Add(new SubStar(Main.rand.NextFloat(0.3f, 0.5f), Vector2.Lerp(StartPoint, EndPoint, Main.rand.NextFloat()) + (Main.rand.NextFloat(6.28f).ToRotationVector2() * Main.rand.Next(15,40)))); //super magic number-y line, not super proud of this
 		}
 	}
 
@@ -47,10 +73,11 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		private float toRotation = 0; //The rotation for the spider to rotate to
 		private float threadRotation = 0; //Current rotation of the thread
 		private float speed = 2; //The walking speed of the spider
+		private int threadCounter = 0; //How long has it been since last star?
+		private Color color = new Color(255, 148, 235, 0); //The color of the constellation
 
 		private const float THREADGROWLERP = 15; //How many frames does it take for threads to fade in/out?
 		private const int DISTANCEFROMPLAYER = 300; //How far does the spider have to be from the player to turn around?
-
 		private Vector2 Bottom
 		{
 			get
@@ -152,6 +179,16 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			Vector2 direction = NewThreadAngle(maxDistance, mainThread, ref i, startPos); //Get both the direction (direction) and the length (i) of the next thread
 
 			StarThread thread = new StarThread(startPos, startPos + (direction * i));
+
+			Vector2 newPos = Vector2.Zero; //make star overlap if theres a nearby star
+			if (!firstThread)
+			{
+				if (NearbyStars(startPos + (direction * i), ref newPos))
+				{
+					thread = new StarThread(startPos, newPos);
+				}
+			}
+
 			thread.StartScale = Main.rand.NextFloat(0.5f, 0.8f);
 			thread.EndScale = Main.rand.NextFloat(0.5f, 0.8f);
 			if (mainThread)
@@ -165,6 +202,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			{
 				threads.Add(thread);
 				thread.Duration -= (currentThread.Counter + (int)THREADGROWLERP); //Make sure it fades away before the thread it's attached to!
+				threadCounter = 45; //45 ticks until stars are able to spawn again
 			}
 		}
 
@@ -186,7 +224,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				while (i < maxDistance) //Loop through the shortest angle to the player, but multiplied by a random float (above 0.5f)
 				{
 					float rotDifference = ((((distanceFromPlayer.ToRotation() - threadRotation) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
-					direction = (threadRotation + (rotDifference * Main.rand.NextFloat(0.5f,1f))).ToRotationVector2();
+					direction = (threadRotation + (Math.Sign(rotDifference) * Main.rand.NextFloat(1f,1.5f))).ToRotationVector2();
 					for (i = 16; i < maxDistance; i++)
 					{
 						Vector2 toLookAt = startPos + (direction * i);
@@ -196,6 +234,24 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 					tries++;
 					if (tries > 100)
 						break;
+				}
+
+				tries = 0;
+				if (i < maxDistance)
+				{
+					while (i < maxDistance)
+					{
+						direction = Main.rand.NextFloat(6.28f).ToRotationVector2();
+						for (i = 16; i < maxDistance; i++)
+						{
+							Vector2 toLookAt = startPos + (direction * i);
+							if (IsTileActive(toLookAt))
+								break;
+						}
+						tries++;
+						if (tries > 100)
+							break;
+					}
 				}
 			}
 			else
@@ -237,6 +293,41 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			}
 			return direction;
 		}
+
+		private bool NearbyStars(Vector2 position, ref Vector2 output)
+		{
+			int maxDistance = 40;
+			float distance = 0;
+			foreach (StarThread thread in threads.ToArray())
+			{
+				distance = (thread.StartPoint - position).Length();
+				if (distance < maxDistance)
+				{
+					output = thread.StartPoint;
+					return true;
+				}
+				distance = (thread.EndPoint - position).Length();
+				if (distance < maxDistance)
+				{
+					output = thread.EndPoint;
+					return true;
+				}
+			}
+			distance = (currentThread.StartPoint - position).Length();
+			if (distance < maxDistance)
+			{
+				output = currentThread.StartPoint;
+				return true;
+			}
+			distance = (currentThread.EndPoint - position).Length();
+			if (distance < maxDistance)
+			{
+				output = currentThread.EndPoint;
+				return true;
+			}
+			return false;
+		}
+
 		private bool IsTileActive(Vector2 toLookAt) //Is the tile at the vector position solid?
 		{
 			return Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).active() && Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).type];
@@ -246,11 +337,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		{
 			progress += (1f / currentThread.Length) * speed;
 			Bottom = Vector2.Lerp(currentThread.StartPoint, currentThread.EndPoint, progress);
-			if (Main.rand.Next(200) == 0)
+			threadCounter--;
+			if (Main.rand.Next(200) == 0 && threadCounter < 0 && progress > 0.15f && progress < 0.85f)
 			{
 				NewThread(false, false);
 			}
-			Dust.NewDustPerfect(Bottom, 133).noGravity = true;
+			Dust.NewDustPerfect(Bottom, 21);
 		}
 
 		private void RotateIntoPlace()
@@ -269,17 +361,16 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 
 		private void DrawThreads(SpriteBatch spriteBatch)
 		{
-			Color color = new Color(242, 240, 134, 0);
 			float length;
 			Texture2D tex = SpiritMod.instance.GetTexture("NPCs/StarjinxEvent/Enemies/Starachnid/ConstellationStrip");
 			foreach (StarThread thread in threads)
 			{
 				length = Math.Min(thread.Counter / THREADGROWLERP, (thread.Duration - thread.Counter) / THREADGROWLERP);
 				length = Math.Min(length, 1);
-				spriteBatch.Draw(tex, thread.StartPoint - Main.screenPosition, null, color, (thread.EndPoint - thread.StartPoint).ToRotation(), new Vector2(0f, tex.Height / 2), new Vector2(thread.Length, 1) * length, SpriteEffects.None, 0f);
+				spriteBatch.Draw(tex, thread.StartPoint - Main.screenPosition, null, color * 0.75f, (thread.EndPoint - thread.StartPoint).ToRotation(), new Vector2(0f, tex.Height / 2), new Vector2(thread.Length, 1) * length, SpriteEffects.None, 0f);
 			}
 			StarThread thread2 = currentThread;
-			spriteBatch.Draw(tex, thread2.StartPoint - Main.screenPosition, null, color, (thread2.EndPoint - thread2.StartPoint).ToRotation(), new Vector2(0f, tex.Height / 2), new Vector2(thread2.Length * progress, 1), SpriteEffects.None, 0f);
+			spriteBatch.Draw(tex, thread2.StartPoint - Main.screenPosition, null, color * 0.75f, (thread2.EndPoint - thread2.StartPoint).ToRotation(), new Vector2(0f, tex.Height / 2), new Vector2(thread2.Length * progress, 1), SpriteEffects.None, 0f);
 
 			tex = SpiritMod.instance.GetTexture("NPCs/StarjinxEvent/Enemies/Starachnid/SpiderStar");
 			float size = Math.Min(thread2.Counter / THREADGROWLERP, (thread2.Duration - thread2.Counter) / THREADGROWLERP);
@@ -296,6 +387,21 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				spriteBatch.Draw(tex, thread.EndPoint - Main.screenPosition, null, color * size, 0, new Vector2(tex.Width, tex.Height) / 2, size * thread.EndScale, SpriteEffects.None, 0f);
 				if (!thread.DrawStart)
 				threadsDrawn++;
+			}
+
+			//draw substars
+			foreach (StarThread thread in threads)
+			{
+				foreach (SubStar star in thread.SubStars)
+				{
+					float scale = star.MaxScale * (float)Math.Sin(star.Counter / 10f);
+					spriteBatch.Draw(tex, star.Position - Main.screenPosition, null, color, 0, new Vector2(tex.Width, tex.Height) / 2, scale, SpriteEffects.None, 0f);
+				}
+			}
+			foreach (SubStar star in currentThread.SubStars)
+			{
+				float scale = star.MaxScale * (float)Math.Sin(star.Counter / 10f);
+				spriteBatch.Draw(tex, star.Position - Main.screenPosition, null, color, 0, new Vector2(tex.Width, tex.Height) / 2, scale, SpriteEffects.None, 0f);
 			}
 		}
 
@@ -322,7 +428,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 					Vector2 direction = thread.EndPoint - thread.StartPoint;
 					direction.Normalize();
 					Vector2 position = thread.StartPoint + (direction * i);
-					Dust.NewDustPerfect(position, 133).noGravity = true;
+					Dust.NewDustPerfect(position, 21);
 				}
 			}
 			for (int i = 0; i < currentThread.Length * progress; i += 20)
@@ -330,7 +436,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				Vector2 direction = currentThread.EndPoint - currentThread.StartPoint;
 				direction.Normalize();
 				Vector2 position = currentThread.StartPoint + (direction * i);
-				Dust.NewDustPerfect(position, 133).noGravity = true;
+				Dust.NewDustPerfect(position, 21);
 			}
 		}
 	}
