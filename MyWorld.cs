@@ -85,6 +85,7 @@ namespace SpiritMod
 
 		public static bool BlueMoon = false;
 		public static bool jellySky = false;
+		public static bool rareStarfallEvent = false;
 
 		public static int SpiritTiles = 0;
 		public static int AsteroidTiles = 0;
@@ -1598,14 +1599,19 @@ namespace SpiritMod
 				else {
 					BlueMoon = false;
 				}
+				if (!Main.dayTime && Main.rand.Next(6) == 0) {
+					auroraTypeFixed = Main.rand.Next(new int[] { 1, 2, 3, 5 });
+					aurora = true;
+				}
+				else {
+					aurora = false;
+				}
+				if (!Main.dayTime && Main.rand.Next(32) == 0) {
+					rareStarfallEvent = true;
+				}
+				else
 				{
-					if (!Main.dayTime && Main.rand.Next(6) == 0) {
-						auroraTypeFixed = Main.rand.Next(new int[] { 1, 2, 3, 5 });
-						aurora = true;
-					}
-					else {
-						aurora = false;
-					}
+					rareStarfallEvent = false;
 				}
 				if (!Main.dayTime && Main.rand.Next(6) == 0) {
 					luminousType = Main.rand.Next(new int[] { 1, 2, 3 });
@@ -1614,7 +1620,7 @@ namespace SpiritMod
 				else {
 					luminousOcean = false;
 				}
-                if (!Main.dayTime && (Main.moonPhase == 2 || Main.moonPhase == 5) && Main.rand.Next(2) == 0)
+                if (!Main.dayTime && (Main.moonPhase == 2 || Main.moonPhase == 5) && !Main.bloodMoon && Main.rand.Next(2) == 0)
                 {
                     calmNight = true;
                 }

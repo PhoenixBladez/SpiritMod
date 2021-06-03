@@ -289,6 +289,10 @@ namespace SpiritMod
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/JellySky");
 				priority = MusicPriority.Environment;
 			}
+			if (MyWorld.rareStarfallEvent && !MyWorld.jellySky && !spirit.ZoneAsteroid && !Main.dayTime && player.ZoneSkyHeight) {
+				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Starfall");
+				priority = MusicPriority.Environment;
+			}
 
 			if (priority > MusicPriority.BiomeHigh)
 				return;
@@ -973,7 +977,9 @@ namespace SpiritMod
 			if (MyWorld.luminousOcean)
 				return "Luminous Seas";
 			if (MyWorld.calmNight)
-				return "Calm Conditions";
+				return "Calm Might";
+			if (MyWorld.rareStarfallEvent)
+				return "Starfall";
             return LanguageManager.Instance.GetText(key).Value;
         }
 		
@@ -1129,6 +1135,14 @@ namespace SpiritMod
 			Items.Glyphs.GlyphBase.InitializeGlyphLookup();
 			BossChecklistDataHandler.RegisterSpiritData(this);
 			Mod fargos = ModLoader.GetMod("Fargowiltas");
+			Mod census = ModLoader.GetMod("Census");
+			if (census != null) {
+				census.Call("TownNPCCondition", ModContent.NPCType<Adventurer>(), "Rescue the Adventurer from the Briar");
+				census.Call("TownNPCCondition", ModContent.NPCType<Gambler>(), "Rescue the Gambler from a Goblin Tower\nIf your world does not have a Goblin Tower, have at least 1 Gold in your inventory");
+				census.Call("TownNPCCondition", ModContent.NPCType<Rogue>(), "Rescue the Bandit from the Bandit Hideout\nIf your world does not have a Goblin Tower, have at least 1 Gold in your inventory");
+				census.Call("TownNPCCondition", ModContent.NPCType<RuneWizard>(), "Have a Blank Glyph in your inventory");
+				census.Call("TownNPCCondition", ModContent.NPCType<Martian>(), "Defeat the Martian Madness event\nHave at least 1 gold in your inventory");
+			}
 			if (fargos != null) {
 				// AddSummon, order or value in terms of vanilla bosses, your mod internal name, summon   
 				//item internal name, inline method for retrieving downed value, price to sell for in copper

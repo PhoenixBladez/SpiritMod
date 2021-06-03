@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Weapon.Thrown.SlingHammers
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Possessed Hammer");
-			Tooltip.SetDefault("Hold down and release to throw the Hammer like a boomerang");
+			Tooltip.SetDefault("Hold down and release to throw the hammer like a boomerang");
 		}
 
 
@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Thrown.SlingHammers
 			item.shootSpeed = 8f;
 			item.knockBack = 5f;
 			item.damage = 53;
-			item.value = Item.sellPrice(0, 1, 0, 0);
+			item.value = Item.sellPrice(0, 1, 50, 0);
 			item.rare = ItemRarityID.LightRed;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ModContent.ProjectileType<ShadowAxeProj>();

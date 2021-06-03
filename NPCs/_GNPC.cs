@@ -746,6 +746,17 @@ namespace SpiritMod.NPCs
 
 		public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
 		{
+            Player player = spawnInfo.player;
+			if (MyWorld.calmNight)
+			{
+				if (spawnInfo.invasion || spawnInfo.sky || MyWorld.BlueMoon) return; //if invasion or in sky
+            	if (Main.eclipse || Main.bloodMoon) return; //if eclipse or blood moon
+            	if (!player.ZoneOverworldHeight) return; //if not in overworld
+            	if (player.ZoneMeteor || player.ZoneRockLayerHeight || player.ZoneDungeon || player.ZoneBeach || player.ZoneCorrupt || player.ZoneCrimson || player.ZoneJungle || player.ZoneHoly || spawnInfo.player.GetSpiritPlayer().ZoneReach || spawnInfo.player.GetSpiritPlayer().ZoneSpirit) return; //if in wrong biome
+
+            	pool.Clear();
+
+			}
 			if (spawnInfo.spawnTileY <= Main.worldSurface) {
 				if (MyWorld.BlueMoon && !Main.dayTime)
 					pool.Remove(0);
@@ -781,8 +792,8 @@ namespace SpiritMod.NPCs
 					pool.Add(NPCType<MoonjellyEvent.DreamlightJelly>(), .85f);
 			}
 			for (int k = 0; k < 255; k++) {
-				Player player = Main.player[k];
-				if (player.ZoneBeach && MyWorld.luminousOcean && !Main.dayTime) {
+				Player player1 = Main.player[k];
+				if (player1.ZoneBeach && MyWorld.luminousOcean && !Main.dayTime) {
 					pool.Clear();
 					if (spawnInfo.water) {
 						if (MyWorld.luminousType == 1)

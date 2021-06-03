@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ace of Diamonds");
-			Tooltip.SetDefault("Enemies killed by critical hits drop Diamond Aces \nDiamond aces give you 15% increased damage for 3 seconds upon collecting");
+			Tooltip.SetDefault("Enemies killed by critical hits drop Diamond Aces\nDiamond aces give you 15% increased damage for 3 seconds upon collecting");
 		}
 
 

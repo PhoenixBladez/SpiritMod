@@ -49,6 +49,12 @@ namespace SpiritMod.Utilities
 		[DefaultValue(true)]
 		public bool ShowNPCQuestNotice { get; set; }
 
+		[Label("Fishing Encounters")]
+		[Tooltip("Enables enemy encounters while fishing")]
+		[DefaultValue(true)]
+		public bool EnemyFishing { get; set; }
+
+
 		[Label("Boss Titles")]
 		[Tooltip("Enables the showing of titles when spawning a boss, or what bosses titles display for")]
 		[DefaultValue(BossTitles.DrawCondition.SpiritBosses)]

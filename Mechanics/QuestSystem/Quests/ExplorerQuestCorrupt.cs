@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
