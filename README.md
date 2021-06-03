@@ -1,2 +1,2 @@
-# Skyware-stock-trading-AI
-Skyware industries's newest stock trading AI, based on statistics, patterns, and stock history
+# Spirit Mod
+Git repository for the Terraria Spirit Mod. Previously disguised as a stock trading API before GitHub repositories could be privated.
