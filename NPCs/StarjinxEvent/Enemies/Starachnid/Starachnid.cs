@@ -64,7 +64,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		}
 	}
 
-	public class Starachnid : ModNPC, IGalaxySprite
+	public class Starachnid : ModNPC
 	{
 		public List<StarThread> threads = new List<StarThread>(); //All active threads the spider has weaved
 		public StarThread currentThread; //The current thread the starachnid is on
@@ -99,8 +99,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 
 		public override void SetDefaults()
 		{
-			npc.width = 60;
-			npc.height = 60;
+			npc.width = 64;
+			npc.height = 64;
 			npc.damage = 70;
 			npc.defense = 30;
 			npc.lifeMax = 600;
@@ -110,19 +110,18 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			npc.knockBackResist = 0;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
-			if (Main.netMode != NetmodeID.Server)
-				SpiritMod.Metaballs.EnemyLayer.Sprites.Add(this);
 		}
 
 		public override void AI()
 		{
+			npc.TargetClosest(false);
 			if (!initialized)
 			{
 				initialized = true;
 				NewThread(true, true);
-				Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<StarachnidProj>(), Main.expertMode ? 40 : 60, 5, npc.target, npc.whoAmI);
+				Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<StarachnidProj>(), Main.expertMode ? 40 : 60, 0, npc.target, npc.whoAmI);
 			}
-			npc.TargetClosest(false);
+			Lighting.AddLight(npc.Center, color.R / 300f, color.G / 300f, color.B / 300f);
 			TraverseThread(); //Walk along thread
 			RotateIntoPlace(); //Smoothly rotate into place
 			UpdateThreads(); //Update the spider's threads
@@ -134,7 +133,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		{
 			if (npc.life <= 0)
 			{
-				SpiritMod.Metaballs.EnemyLayer.Sprites.Remove(this);
 				ThreadDeathDust();
 			}
 		}
@@ -142,28 +140,17 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			npc.frame.X = 0;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation % 6.28f, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation % 6.28f, npc.frame.Size() / 2, npc.scale, SpriteEffects.FlipHorizontally, 0);
 
 			DrawThreads(spriteBatch);
 			return false;
 		}
-
-		public void DrawGalaxyMappedSprite(SpriteBatch sB)
-		{
-			if (npc.type == ModContent.NPCType<Starachnid>() && npc.active)
-			{
-				npc.frame.X = npc.frame.Width;
-				sB.Draw(Main.npcTexture[npc.type], (npc.Center - Main.screenPosition) / 2, npc.frame, Color.White, npc.rotation % 6.28f, npc.frame.Size() / 2, npc.scale * 0.5f, SpriteEffects.None, 0);
-			}
-		}
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frame.Width = Main.npcTexture[npc.type].Width / 2;
 			npc.frameCounter %= Main.npcFrameCount[npc.type];
 			int frame = (int)npc.frameCounter;
 			npc.frame.Y = frame * frameHeight;
-			npc.frameCounter += 0.20f;
-			npc.frameCounter += 0.20f;
+			npc.frameCounter += 0.30f;
 		}
 
 		private void NewThread(bool firstThread, bool mainThread)
@@ -476,7 +463,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				{
 					foreach (StarThread thread in parent2.threads)
 					{
-						if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), thread.StartPoint, thread.EndPoint))
+						if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), thread.StartPoint, thread.EndPoint) && thread.Counter > 35)
 						{
 							return true;
 						}
