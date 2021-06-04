@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Armor.WayfarerSet
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wayfarer's Rucksack");
-            Tooltip.SetDefault("6% increased movement speed");
+            Tooltip.SetDefault("8% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Armor.WayfarerSet
             item.height = 20;
             item.value = Terraria.Item.sellPrice(0, 0, 40, 0);
             item.rare = 1;
-            item.defense = 2;
+            item.defense = 4;
         }
         public override void DrawHands(ref bool drawHands, ref bool drawArms)
         {
@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Armor.WayfarerSet
         }
         public override void UpdateEquip(Player player)
         {
-            player.moveSpeed += 0.06f;
+            player.moveSpeed += 0.08f;
             player.runAcceleration += .015f;
         }
     }

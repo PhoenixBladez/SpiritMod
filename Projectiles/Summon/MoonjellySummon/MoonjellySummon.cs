@@ -61,7 +61,7 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
 
             }
             int summonTime;
-            summonTime = (int)(45 / (.33f * projectile.minionSlots));
+            summonTime = (int)(34 / (.33f * projectile.minionSlots));
 			if (summonTime >= 110)
             {
                 summonTime = 110;

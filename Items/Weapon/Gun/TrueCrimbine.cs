@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Gun
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("True Crimbine");
+			DisplayName.SetDefault("True Harvester");
 			Tooltip.SetDefault("Rapidly shoots out wither blasts that inflict 'Wither' on hit foes\nOccasionally shoots out a giant clump of blood that steals a large amount of life");
 
 		}

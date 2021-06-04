@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			Item.staff[item.type] = true;
 			item.noMelee = true;
-			item.knockBack = 4;
+			item.knockBack = 2;
 			item.value = 20000;
 			item.rare = ItemRarityID.Orange;
 			item.UseSound = SoundID.Item20;

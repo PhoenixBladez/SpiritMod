@@ -1636,9 +1636,9 @@ namespace SpiritMod
 				{
 					ashRain = false;
 				}
-                if (!Main.dayTime && (NPC.downedBoss1 || NPC.downedBoss2 || NPC.downedBoss3 || downedScarabeus || downedReachBoss || downedRaider || downedAncientFlier) && (!downedMoonWizard && Main.rand.Next(5) == 0 || downedMoonWizard && Main.rand.Next(36) == 0))
+                if (!Main.dayTime && (NPC.downedBoss1 || NPC.downedBoss2 || NPC.downedBoss3 || downedScarabeus || downedReachBoss || downedRaider || downedAncientFlier) && (!downedMoonWizard && Main.rand.Next(4) == 0 || downedMoonWizard && Main.rand.Next(36) == 0))
                 {
-                    Main.NewText("Strange jellyfish are pouring out of the sky!", 61, 255, 142);
+                    Main.NewText("Strange jellyfish are coursing through the skies!", 61, 255, 142);
                     jellySky = true;
                 }
 				else
