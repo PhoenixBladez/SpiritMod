@@ -4,17 +4,15 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
-using System.Linq;
 using System.Collections.Generic;
-using SpiritMod.Stargoop;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 {
-
 	public class SubStar //Substars are stars that draw along threads and quickly fade
 	{
 		public int Counter; //Counter to keep track of time
 		public float MaxScale; //Maximum size they can reach
+
 		public Vector2 Position; //Position of the substar
 
 		public SubStar(float maxScale, Vector2 position)
@@ -79,6 +77,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 
 		private const float THREADGROWLERP = 15; //How many frames does it take for threads to fade in/out?
 		private const int DISTANCEFROMPLAYER = 300; //How far does the spider have to be from the player to turn around?
+
 		private Vector2 Bottom
 		{
 			get
@@ -115,16 +114,20 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		public override void AI()
 		{
 			npc.TargetClosest(false);
+
 			if (!initialized)
 			{
 				initialized = true;
 				NewThread(true, true);
 				Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<StarachnidProj>(), Main.expertMode ? 40 : 60, 0, npc.target, npc.whoAmI);
 			}
+
 			Lighting.AddLight(npc.Center, color.R / 300f, color.G / 300f, color.B / 300f);
+
 			TraverseThread(); //Walk along thread
 			RotateIntoPlace(); //Smoothly rotate into place
 			UpdateThreads(); //Update the spider's threads
+
 			if (progress >= 1) //If it's at the end of it's thread, create a new thread
 				NewThread(false, true);
 		}
@@ -132,14 +135,11 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)
-			{
 				ThreadDeathDust();
-			}
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			npc.frame.X = 0;
 			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation % 6.28f, npc.frame.Size() / 2, npc.scale, SpriteEffects.FlipHorizontally, 0);
 
 			DrawThreads(spriteBatch);
@@ -156,9 +156,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		private void NewThread(bool firstThread, bool mainThread)
 		{
 			if (!firstThread && mainThread)
-			{
 				threads.Add(currentThread);
-			}
 
 			Vector2 startPos = Bottom;
 			int maxDistance = Main.rand.Next(200, 500);
@@ -171,16 +169,14 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			StarThread thread = new StarThread(startPos, startPos + (direction * i));
 
 			Vector2 newPos = Vector2.Zero; //make star overlap if theres a nearby star
+
 			if (!firstThread)
-			{
 				if (NearbyStars(startPos + (direction * i), ref newPos))
-				{
 					thread = new StarThread(startPos, newPos);
-				}
-			}
 
 			thread.StartScale = Main.rand.NextFloat(0.5f, 0.8f);
 			thread.EndScale = Main.rand.NextFloat(0.5f, 0.8f);
+
 			if (mainThread)
 			{
 				thread.DrawStart = false;
