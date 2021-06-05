@@ -68,6 +68,7 @@ namespace SpiritMod
 		public static Effect StarfirePrims;
 		public static Effect ScreamingSkullTrail;
 		public static Effect RipperSlugShader;
+		public static Effect EyeballShader;
 		public static Effect ArcLashShader;
 		public static Effect JemShaders;
 		public static Effect SunOrbShader;
@@ -699,6 +700,7 @@ namespace SpiritMod
 				StarfirePrims = instance.GetEffect("Effects/StarfirePrims");
 				ScreamingSkullTrail = instance.GetEffect("Effects/ScreamingSkullTrail");
 				RipperSlugShader = instance.GetEffect("Effects/RipperSlugShader");
+				EyeballShader = instance.GetEffect("Effects/EyeballShader");
 				ArcLashShader = instance.GetEffect("Effects/ArcLashShader");
 				JemShaders = instance.GetEffect("Effects/JemShaders");
 				SunOrbShader = instance.GetEffect("Effects/SunOrbShader");
@@ -902,6 +904,7 @@ namespace SpiritMod
 			StarfirePrims = null;
 			ScreamingSkullTrail = null;
 			RipperSlugShader = null;
+			EyeballShader = null;
 			ArcLashShader = null;
 			JemShaders = null;
 			SunOrbShader = null;
