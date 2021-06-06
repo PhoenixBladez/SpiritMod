@@ -14,6 +14,7 @@
 		SpawnTrail,
 		PlaceSuperSunFlower,
 		DestroySuperSunFlower,
-		BossTitle
+		BossTitle,
+		SpawnExplosiveBarrel
 	}
 }

@@ -41,6 +41,7 @@ using SpiritMod.Mechanics.QuestSystem;
 using System.Collections.Concurrent;
 using Terraria.DataStructures;
 using SpiritMod.Stargoop;
+using SpiritMod.NPCs.ExplosiveBarrel;
 
 namespace SpiritMod
 {
@@ -243,6 +244,9 @@ namespace SpiritMod
 						break;
 					}
 					BossTitles.SetNPCType(reader.ReadInt32());
+					break;
+				case MessageType.SpawnExplosiveBarrel: // this packet is only meant to be received by the server
+					NPC.NewNPC(reader.ReadInt32(), reader.ReadInt32(), ModContent.NPCType<ExplosiveBarrel>(), 0, 2, 1, 0, 0); // gets forwarded to all clients
 					break;
 				default:
 					Logger.Error("Unknown message (" + id + ")");
