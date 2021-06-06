@@ -125,8 +125,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 
 		public override void SendExtraAI(BinaryWriter writer) => writer.Write(seed);
 
-		// When receiving AI data, we have to restart the starachnid's state because it probably already updated for several frames using an unsynced seed
-		// A sync only happens once when the starachnid spawn
+		// If in multiplayer we receive the seed from the server and create the starachnid's random instance with it
+		// The starachnid does not update in multiplayer until the seed is received
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			int seed = reader.ReadInt32();
