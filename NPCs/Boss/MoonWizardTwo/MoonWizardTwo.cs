@@ -25,12 +25,13 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 		private int attackCounter = 0;
 		private int preAttackCounter = 0;
 
-		const int NUMBEROFATTACKS = 2;
+		const int NUMBEROFATTACKS = 3;
 		private enum CurrentAttack
 		{
 			InwardPull = 0,
 			SineBalls = 1,
 			SkyStrikes = 2,
+			DashToPlayer = 3,
 		}
 		private CurrentAttack currentAttack
 		{
@@ -166,6 +167,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 						attackStart = DoSineBalls();
 						break;
 					case CurrentAttack.SkyStrikes:
+						attackStart = DoSkyStrikes();
 						break;
 				}
 				if (attackStart)
@@ -203,13 +205,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			if (attackCounter == 70)
 			{
 				Vector2 direction = player.Center - projectileStart;
-				int proj = Projectile.NewProjectile(projectileStart, Vector2.Zero, ModContent.ProjectileType<MysticWall>(), npc.damage / 2, 3, npc.target, 1);
-				Projectile projectileOne = Projectile.NewProjectileDirect(projectileStart, Vector2.Zero, ModContent.ProjectileType<MysticWall>(), npc.damage / 2, 3, npc.target, -1, proj + 1);
+				int proj = Projectile.NewProjectile(projectileStart, Vector2.Zero, ModContent.ProjectileType<MysticWall>(), 35, 3, npc.target, 1);
+				Projectile projectileOne = Projectile.NewProjectileDirect(projectileStart, Vector2.Zero, ModContent.ProjectileType<MysticWall>(), 35, 3, npc.target, -1, proj + 1);
 				Projectile projectileTwo = Main.projectile[proj];
-				projectileOne.hostile = true;
-				projectileOne.friendly = false;
-				projectileTwo.hostile = true;
-				projectileTwo.friendly = false;
 
 				if (projectileOne.modProjectile is MysticWall modproj)
 				{
@@ -233,14 +231,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			{
 				Vector2 direction = player.Center - projectileStart;
 				direction.Normalize();
-				int proj = Projectile.NewProjectile(projectileStart, direction, ModContent.ProjectileType<MysticSineBall>(), npc.damage / 2, 3, npc.target, 180);
-				Projectile projectileOne = Projectile.NewProjectileDirect(projectileStart, direction, ModContent.ProjectileType<MysticSineBall>(), npc.damage / 2, 3, npc.target, 0, proj + 1);
+				int proj = Projectile.NewProjectile(projectileStart, direction, ModContent.ProjectileType<MysticSineBall>(), 35, 3, npc.target, 180);
+				Projectile projectileOne = Projectile.NewProjectileDirect(projectileStart, direction, ModContent.ProjectileType<MysticSineBall>(), 35, 3, npc.target, 0, proj + 1);
 				Projectile projectileTwo = Main.projectile[proj];
 
-				projectileOne.hostile = true;
-				projectileOne.friendly = false;
-				projectileTwo.hostile = true;
-				projectileTwo.friendly = false;
 				SpiritMod.primitives.CreateTrail(new MSineOrbPrimTrail(projectileOne, projectileTwo));
 			}
 			if (attackCounter > 220)
@@ -251,6 +245,39 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			if (preAttackCounter > 30)
 				return true;
 			return false;
+		}
+		private int SkyPos = 0;
+		private int SkyPosY = 0;
+		private int sweepDirection = 1;
+		private bool DoSkyStrikes()
+		{
+			Player player = Main.player[npc.target];
+			UpdateFrame(0.15f, 0, 3);
+			if (attackCounter == 0)
+			{
+				SkyPosY = (int)(player.position.Y - 500);
+				sweepDirection = Main.rand.Next(2);
+				if (sweepDirection == 1)
+					SkyPos = (int)(player.position.X - 1000);
+				else
+					SkyPos = (int)(player.position.X + 1000);
+			}
+			if (attackCounter % 4 == 0 && Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				Vector2 strikePos = new Vector2(SkyPos, SkyPosY);
+				Projectile.NewProjectile(strikePos, new Vector2(0, 0), mod.ProjectileType("SkyMoonZapper"), 30, 0, npc.target);
+				if (sweepDirection == 1) //left -> right
+					SkyPos += 170;
+				else //right -> left
+					SkyPos -= 170;
+			}
+			if (attackCounter == 60)
+			{
+				npc.ai[1]++;
+				cooldownCounter = 15;
+			}
+
+			return true;
 		}
 		#endregion
 	}
