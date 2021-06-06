@@ -17,6 +17,7 @@ using Terraria.ModLoader;
 using Terraria.UI.Chat;
 using SpiritMod.Mechanics.QuestSystem;
 using System.Collections.Generic;
+using Terraria.Localization;
 
 namespace SpiritMod.Utilities
 {
@@ -42,6 +43,7 @@ namespace SpiritMod.Utilities
 			On.Terraria.NPC.SpawnOnPlayer += SpawnOnPlayer;
 			On.Terraria.NPC.SpawnSkeletron += SpawnSkeletron;
 			On.Terraria.NPC.SpawnWOF += SpawnWOF;
+			On.Terraria.NPC.AI_084_LunaticCultist += LunaticCultist;
 
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
 			IL.Terraria.WorldGen.hardUpdateWorld += WorldGen_hardUpdateWorld;
@@ -67,6 +69,7 @@ namespace SpiritMod.Utilities
 			On.Terraria.NPC.SpawnOnPlayer -= SpawnOnPlayer;
 			On.Terraria.NPC.SpawnSkeletron -= SpawnSkeletron;
 			On.Terraria.NPC.SpawnWOF -= SpawnWOF;
+			On.Terraria.NPC.AI_084_LunaticCultist -= LunaticCultist;
 
 			IL.Terraria.Player.ItemCheck -= Player_ItemCheck;
 			IL.Terraria.WorldGen.hardUpdateWorld -= WorldGen_hardUpdateWorld;
@@ -76,19 +79,26 @@ namespace SpiritMod.Utilities
 		private static void SpawnOnPlayer(On.Terraria.NPC.orig_SpawnOnPlayer orig, int plr, int type)
 		{
 			orig(plr, type);
-			BossTitles.SetNPCType(type);
+			BossTitles.SyncNPCType(type);
 		}
 
 		private static void SpawnSkeletron(On.Terraria.NPC.orig_SpawnSkeletron orig)
 		{
 			orig();
-			BossTitles.SetNPCType(NPCID.SkeletronHead);
+			BossTitles.SyncNPCType(NPCID.SkeletronHead);
 		}
 
 		private static void SpawnWOF(On.Terraria.NPC.orig_SpawnWOF orig, Vector2 pos)
 		{
 			orig(pos);
-			BossTitles.SetNPCType(NPCID.WallofFlesh);
+			BossTitles.SyncNPCType(NPCID.WallofFlesh);
+		}
+
+		private static void LunaticCultist(On.Terraria.NPC.orig_AI_084_LunaticCultist orig, NPC self)
+		{
+			if (self.type == NPCID.CultistBoss && self.ai[0] == -1 && self.ai[1] >= 360 && self.localAI[2] != 13) //conditions for its laugh when starting the fight
+				BossTitles.SyncNPCType(NPCID.CultistBoss);
+			orig(self);
 		}
 
 		private static void Main_DrawPlayerChat(On.Terraria.Main.orig_DrawPlayerChat orig, Main self)

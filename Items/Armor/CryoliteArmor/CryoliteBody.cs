@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cryolite Chestplate");
-			Tooltip.SetDefault("10% increased melee damage\nGrants immunity to knockback.");
+			Tooltip.SetDefault("12% increased melee damage\nGrants immunity to knockback");
 		}
 
 		public override void SetDefaults()
@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.meleeDamage += 0.1f;
+			player.meleeDamage += 0.12f;
             player.noKnockback = true;
         }
 		public override void AddRecipes()

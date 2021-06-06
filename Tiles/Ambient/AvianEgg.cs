@@ -54,7 +54,7 @@ namespace SpiritMod.Tiles.Ambient
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			Main.NewText("The Ancient Avian has awoken!", 175, 75, 255, true);
-			BossTitles.SetNPCType(ModContent.NPCType<AncientFlyer>());
+			BossTitles.SyncNPCType(ModContent.NPCType<AncientFlyer>());
 			int n = NPC.NewNPC((int)i * 16 + Main.rand.Next(-60, 60), (int)j * 16 - 120, ModContent.NPCType<AncientFlyer>(), 0, 2, 1, 0, 0, Main.myPlayer);
             Main.npc[n].netUpdate = true;
 

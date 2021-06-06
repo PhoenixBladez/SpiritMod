@@ -42,6 +42,12 @@ namespace SpiritMod.NPCs.SporeWheezer
 		}
 		public override void AI()
 		{
+			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
+			foreach (var proj in list) {
+				if (projectile != proj && proj.friendly) {
+					projectile.Kill();
+				}
+			}
 			int range = 650;   //How many tiles away the projectile targets NPCs
 							   //int targetingMax = 20; //how many frames allowed to target nearest instead of shooting
 							   //float shootVelocity = 16f; //magnitude of the shoot vector (speed of arrows shot)

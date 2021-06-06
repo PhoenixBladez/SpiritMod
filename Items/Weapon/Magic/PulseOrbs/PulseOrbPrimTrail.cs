@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Magic.PulseOrbs
             Width= 1;
             AlphaValue= 0.7f;
             Cap = 100;
-            Pixellated = true;
+            Pixellated = false;
         }
         public override void PrimStructure(SpriteBatch spriteBatch)
         {

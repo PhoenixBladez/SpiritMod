@@ -24,9 +24,9 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.height = 20;  //projectile height
 			projectile.friendly = true;      //make that the projectile will not damage you
 			projectile.magic = true;         // 
-			projectile.tileCollide = true;   //make that the projectile will be destroed if it hits the terrain
-			projectile.penetrate = 3;      //how many npc will penetrate
-			projectile.timeLeft = 600;   //how many time projectile projectile has before disepire // projectile light
+			projectile.tileCollide = false;   //make that the projectile will be destroed if it hits the terrain
+			projectile.penetrate = 2;      //how many npc will penetrate
+			projectile.timeLeft = 390;   //how many time projectile projectile has before disepire // projectile light
 			projectile.extraUpdates = 1;
 			projectile.ignoreWater = true;
 			projectile.aiStyle = -1;

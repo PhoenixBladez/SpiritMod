@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Armor.WayfarerSet
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wayfarer's Pants");
-            Tooltip.SetDefault("5% increased movement speed");
+            Tooltip.SetDefault("7% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -22,12 +22,12 @@ namespace SpiritMod.Items.Armor.WayfarerSet
             item.height = 20;
             item.value = Terraria.Item.sellPrice(0, 0, 40, 0);
             item.rare = 1;
-            item.defense = 1;
+            item.defense = 2;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.moveSpeed += 0.05f;
+            player.moveSpeed += 0.07f;
             player.runAcceleration += .015f;
         }
     }

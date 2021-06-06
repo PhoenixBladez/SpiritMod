@@ -7,14 +7,14 @@ using System.Text;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
+using SpiritMod.Utilities;
 namespace SpiritMod.Items.Weapon.Magic.PulseOrbs
 {
 	public class PulseOrbs : ModItem
 	{
 		public override void SetDefaults()
 		{
-			item.damage = 51;
+			item.damage = 41;
 			item.knockBack = 3.3f;
 			item.magic = true;
 			item.useStyle = 5;
@@ -24,6 +24,7 @@ namespace SpiritMod.Items.Weapon.Magic.PulseOrbs
 			item.width = 26;
 			item.height = 26;
 			item.noUseGraphic = true;
+			item.rare = 1;
 			item.noMelee = true;
 			item.autoReuse = true;
 			item.value = Item.sellPrice(gold: 2);
@@ -33,7 +34,7 @@ namespace SpiritMod.Items.Weapon.Magic.PulseOrbs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pulse Orbs");
-			Tooltip.SetDefault("Hold left click to create an electric field");
+			Tooltip.SetDefault("Hold left click to create an electric field toward the cursor\nConsumes 20 mana per second");
 		}	
 		public override void HoldItem(Player player)
 		{
@@ -56,13 +57,13 @@ namespace SpiritMod.Items.Weapon.Magic.PulseOrbs
 			}
 		}
 	}
-	public class PulseOrbProj : ModProjectile
+	public class PulseOrbProj : ModProjectile, ITrailProjectile
 	{
 		bool holdingItem => Main.player[projectile.owner].HeldItem.type == ModContent.ItemType<PulseOrbs>();
 		public bool channeling = false;
 		float radians {get{return projectile.ai[0];}set{projectile.ai[0] = value;}}
 		Vector2 mousePos = Vector2.Zero;
-		Vector2 posToBe => mousePos - (radians.ToRotationVector2() * (50 + (25 * (float)Math.Cos(Main.GlobalTime * 3f))));
+		Vector2 posToBe => mousePos - (radians.ToRotationVector2() * (50 + (25 * (float)Math.Cos(Main.GlobalTime * 6f))));
 		int launchCounter;
 		bool drawInFront = false;
 
@@ -85,7 +86,7 @@ namespace SpiritMod.Items.Weapon.Magic.PulseOrbs
 			projectile.ignoreWater = true;
 			projectile.penetrate = -1;
 		}
-
+		int manaTimer;
 		public override void AI()
 		{
 			Player player = Main.player[projectile.owner];
@@ -95,6 +96,24 @@ namespace SpiritMod.Items.Weapon.Magic.PulseOrbs
 				radians += 0.1f;
 				if (player.channel)
 				{
+					if (projectile.soundDelay <= 0) {
+						projectile.soundDelay = 10;
+						projectile.soundDelay *= 4;
+						if (projectile.ai[0] != 1f)
+							Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 15);
+					}
+					if (Main.myPlayer == projectile.owner) {
+						if (Main.player[projectile.owner].channel && Main.player[projectile.owner].statMana > 0) {
+							manaTimer++;
+							if (manaTimer >= 3) {
+								manaTimer = 0;
+								Main.player[projectile.owner].statMana--;
+							}
+						}
+						if (Main.player[projectile.owner].statMana <= 0) {
+							projectile.Kill();
+						}
+					}
 					if (!channeling)
 					{
 						if (projectile.ai[1] == 0)
@@ -128,7 +147,7 @@ namespace SpiritMod.Items.Weapon.Magic.PulseOrbs
 						Vector2 dir = posToBe - projectile.position;
 						float speed = (float)Math.Sqrt(dir.Length());
 						dir.Normalize();
-						projectile.velocity = dir * speed * 1.5f;
+						projectile.velocity = dir * speed * 2.75f;
 						projectile.scale = 1;
 					}
 					else
@@ -151,7 +170,7 @@ namespace SpiritMod.Items.Weapon.Magic.PulseOrbs
 					projectile.active = false;
 				}
 				vel.Normalize();
-				vel *= 20;
+				vel *= 25;
 				projectile.velocity = vel;
 			}
 		}
@@ -185,7 +204,10 @@ namespace SpiritMod.Items.Weapon.Magic.PulseOrbs
 				projectile.velocity = vel;
 			}
 		}
-
+		public void DoTrailCreation(TrailManager tManager)
+		{
+			tManager.CreateTrail(projectile, new GradientTrail(new Color(196, 48, 255), new Color(163, 11, 140)), new RoundCap(), new DefaultTrailPosition(), 8f, 150f, new ImageShader(mod.GetTexture("Textures/Trails/CrystalTrail"), 0.01f, 1f, 1f));
+		}
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
 			Vector2 center = new Vector2((float)(Main.projectileTexture[projectile.type].Width / 2), (float)(Main.projectileTexture[projectile.type].Height / 2));

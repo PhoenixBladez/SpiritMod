@@ -192,10 +192,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
         {
             Lighting.AddLight(new Vector2(npc.Center.X, npc.Center.Y), 0.075f * 2, 0.231f * 2, 0.255f * 2);
             npc.TargetClosest();
-			if (npc.ai[0] == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
+			if (npc.ai[0] == 0) {
 				attackCounter++;
-				npc.velocity = Vector2.Zero;
-                npc.netUpdate = true;
+				npc.velocity = Vector2.Zero; 
 				npc.rotation = 0;
                 if (npc.life > 250)
                 {
@@ -220,6 +219,8 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 						npc.ai[0] = Main.rand.Next(7) + 1;
                     }
 
+					npc.netUpdate = true;
+
 					if (npc.ai[0] == 7 && Main.player[npc.target].velocity.Y > 0) {
 						npc.ai[0] = 8;
 					}
@@ -242,8 +243,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 								npc.ai[0] = 2;
 								break;
 						}
+
+						npc.netUpdate = true;
 					}
-                    npc.netUpdate = true;
+                    
 				}
 			}
 			else 
@@ -369,22 +372,19 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
             {
                 Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/BossSFX/MoonWizard_Laugh2"));
             }
-            if (attackCounter % 20 == 0 && attackCounter < 180)
+            if (attackCounter % 20 == 0 && attackCounter < 180 && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
                 bool expertMode = Main.expertMode;
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    int p = Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-60, 60), npc.Center.Y + Main.rand.Next(-60, 60), vector2_2.X, vector2_2.Y, ModContent.ProjectileType<JellyfishOrbiter>(), NPCUtils.ToActualDamage(40, 1.5f), 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
-                    Main.projectile[p].scale = Main.rand.NextFloat(.6f, 1f);
-                }
+                int p = Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-60, 60), npc.Center.Y + Main.rand.Next(-60, 60), vector2_2.X, vector2_2.Y, ModContent.ProjectileType<JellyfishOrbiter>(), NPCUtils.ToActualDamage(40, 1.5f), 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
+                Main.projectile[p].scale = Main.rand.NextFloat(.6f, 1f);
             }
             UpdateFrame(0.15f, 54, 61);
             if (attackCounter > 220)
             {
                 jellyRapidFire = false;
                 npc.ai[0] = 1;
-                npc.netUpdate = true;
+                
                 timeBetweenAttacks = 60;
                 attackCounter = 0;
             }
@@ -394,7 +394,6 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		int SkyPosY = 0;
 		void SkyStrikeLeft()
         {
-
             if (npc.life > 250)
             {
                 UpdateFrame(0.15f, 1, 3);
@@ -417,7 +416,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			}
 			if (attackCounter == 60) {
 				npc.ai[0] = 1;
-                npc.netUpdate = true;
+                
                 timeBetweenAttacks = 0;
 				attackCounter = 0;
 			}
@@ -445,7 +444,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			}
 			if (attackCounter == 60) {
 				npc.ai[0] = 1;
-                npc.netUpdate = true;
+                
                 timeBetweenAttacks = 0;
 				attackCounter = 0;
 			}
@@ -465,7 +464,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			}
 			if (attackCounter >= 30) 
 			{
-				if (attackCounter % 80 == 40 && Main.netMode != NetmodeID.MultiplayerClient) 
+				if (attackCounter % 80 == 40) 
 				{
 					Vector2 direction = player.Center - (npc.Center - new Vector2(0, 60));
 					direction.Normalize();
@@ -480,7 +479,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				if (attackCounter > 260) 
 				{
 					npc.ai[0] = 1;
-                    npc.netUpdate = true; 
+                     
                     timeBetweenAttacks = 30;
 					attackCounter = 0;
 				}
@@ -511,18 +510,18 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 						npc.velocity.Y = 20;
 						attackCounter++;
 					}
-                    npc.netUpdate = true;
+                    
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 81);
 				}
 			}
-			if (Main.netMode != NetmodeID.MultiplayerClient && (Main.tile[(int)(npc.Center.X / 16), (int)(npc.Center.Y / 16)].collisionType == 1 || attackCounter > 75))
+			if ((Main.tile[(int)(npc.Center.X / 16), (int)(npc.Center.Y / 16)].collisionType == 1 || attackCounter > 75) && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				for (int i = 0; i < Main.rand.Next(9, 15); i++) {
 					Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-10, 10), Main.rand.NextFloat(3.2f)), mod.ProjectileType("MoonBubble"), NPCUtils.ToActualDamage(40, 1.5f), 3);
 				}
 				Teleport();
 				npc.ai[0] = 0;
-                npc.netUpdate = true;
+                
 				timeBetweenAttacks = 20;
 				attackCounter = 0;
 			}
@@ -561,7 +560,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			attackCounter++;
 			if (attackCounter > 120) {
 				npc.ai[0] = 0;
-                npc.netUpdate = true;
+                
                 timeBetweenAttacks = 35;
 				attackCounter = 0;
 			}
@@ -575,14 +574,15 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			if (phaseTwo) {
 				speed = 21;
 			}
-			if (attackCounter == 20 && Main.netMode != NetmodeID.MultiplayerClient) {
+			if (attackCounter == 20) {
 				dashDirection = player.Center - npc.Center;
 				dashDistance = dashDirection.Length();
 				dashDirection.Normalize();
 				dashDirection *= speed;
 				npc.velocity = dashDirection;
-                npc.netUpdate = true;
-				node = Projectile.NewProjectile(npc.position, Vector2.Zero, mod.ProjectileType("LightningNode"), npc.damage / 5, 0, Main.myPlayer, npc.whoAmI + 1);
+                
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+					node = Projectile.NewProjectile(npc.position, Vector2.Zero, mod.ProjectileType("LightningNode"), npc.damage / 5, 0, Main.myPlayer, npc.whoAmI + 1);
 				npc.rotation = npc.velocity.ToRotation() + 1.57f;
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 81);
 			}
@@ -593,10 +593,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			}
 			attackCounter++;
 			if (attackCounter > Math.Abs(dashDistance / speed) + 40) {
-				Main.projectile[node].active = false;
+				Main.projectile[node].Kill();
 				Teleport();
 				npc.ai[0] = 0;
-                npc.netUpdate = true;
+                
                 timeBetweenAttacks = 35;
 				if (phaseTwo) {
 					timeBetweenAttacks = 34;
@@ -617,13 +617,14 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 					double angley = Math.Abs(Math.Cos(npc.ai[3] * (Math.PI / 180)));
 					Vector2 angle = new Vector2((float)anglex, (float)angley);
 					Projectile.NewProjectile(player.position - (angle * Main.rand.Next(100, 400)), Vector2.Zero, mod.ProjectileType("MoonBlocker"), npc.damage / 2, 0, player.whoAmI);
+					npc.netUpdate = true;
 				}
 			}
 			attackCounter++;
 			if (attackCounter > 55) 
 			{
 				npc.ai[0] = 0;
-                npc.netUpdate = true;
+                
                 timeBetweenAttacks = 8;
 				attackCounter = 0;
 			}
@@ -645,27 +646,27 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				dashDirection.Normalize();
 				dashDirection *= speed;
 				npc.velocity = dashDirection;
-                npc.netUpdate = true;
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    node = Projectile.NewProjectile(npc.position, Vector2.Zero, mod.ProjectileType("LightningNode"), npc.damage / 5, 0, Main.myPlayer, npc.whoAmI + 1);
-                }
+                
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+					node = Projectile.NewProjectile(npc.position, Vector2.Zero, mod.ProjectileType("LightningNode"), npc.damage / 5, 0, Main.myPlayer, npc.whoAmI + 1);
+
+				npc.netUpdate = true;
             }
 			attackCounter++;
 			npc.rotation = npc.velocity.ToRotation() + 1.57f;
 			if (attackCounter > Math.Abs(dashDistance / speed)) {
-				Main.projectile[node].active = false;
+				Main.projectile[node].Kill();
                 if (phaseTwo) {
                     npc.velocity = Vector2.Zero;
                     attackCounter = 0;
                     npc.ai[0] = 3;
-                    npc.netUpdate = true;
+                    
                     timeBetweenAttacks = 25;
                 }
 				else
                 {
                     npc.ai[0] = 0;
-                    npc.netUpdate = true;
+                    
                     timeBetweenAttacks = 30;
                     attackCounter = 0;
                 }
@@ -694,7 +695,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			}
 			if (attackCounter > 90) {
 				npc.ai[0] = 1;
-                npc.netUpdate = true;
+                
                 timeBetweenAttacks = 0;
 				attackCounter = 0;
 			}
@@ -707,12 +708,11 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
                     d.noGravity = true;
                 }
                 Main.PlaySound(4, npc.position, 28);
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    int Ball = Projectile.NewProjectile(npc.Center.X + 75 * npc.spriteDirection, npc.Center.Y - 30, npc.spriteDirection * 3.5f, -2f, mod.ProjectileType("WizardBall"), NPCUtils.ToActualDamage(50, 1.5f), 3f, 0);
-                    Main.projectile[Ball].ai[0] = npc.whoAmI;
-                    Main.projectile[Ball].ai[1] = Main.rand.Next(7, 9);
-                }
+
+                int Ball = Projectile.NewProjectile(npc.Center.X + 75 * npc.spriteDirection, npc.Center.Y - 30, npc.spriteDirection * 3.5f, -2f, mod.ProjectileType("WizardBall"), NPCUtils.ToActualDamage(50, 1.5f), 3f, 0);
+                Main.projectile[Ball].ai[0] = npc.whoAmI;
+                Main.projectile[Ball].ai[1] = Main.rand.Next(7, 9);
+				Main.projectile[Ball].netUpdate = true;
 			}
 		}
 		Vector2 TeleportPos = Vector2.Zero;
@@ -727,7 +727,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				int distance = Main.rand.Next(100, 200);
 				double anglex = Math.Sin(npc.ai[3] * (Math.PI / 180));
 				double angley = Math.Cos(npc.ai[3] * (Math.PI / 180));
-				TeleportPos = player.Center + new Vector2((float)anglex * distance, (float)angley * distance);
+				TeleportPos = player.Center + new Vector2((float)anglex * distance, (float)angley * distance); // REVISE
 			}
             attackCounter++;
             if (attackCounter > 30) {
@@ -758,15 +758,12 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				Main.PlaySound(SoundID.Item, npc.position, 94);
 				numMoves--;
 				for (int i = 0; i < 20; i++) {
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        int p = Projectile.NewProjectile(npc.Center, Vector2.One.RotatedBy(0.314 * i) * 3.95f, mod.ProjectileType("MoonBubble"), NPCUtils.ToActualDamage(40, 1.5f), 0, npc.target, 1);
-                        Main.projectile[p].timeLeft = 180;
-                    }
+                    int p = Projectile.NewProjectile(npc.Center, Vector2.One.RotatedBy(0.314 * i) * 3.95f, mod.ProjectileType("MoonBubble"), NPCUtils.ToActualDamage(40, 1.5f), 0, npc.target, 1);
+                    Main.projectile[p].timeLeft = 180;
                 }
 				if (numMoves == 0) {
 					npc.ai[0] = 0;
-                    npc.netUpdate = true;
+                    
                     timeBetweenAttacks = 90;
 					attackCounter = 0;
 					numMoves = -1;
@@ -793,6 +790,8 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 					teleported = true;
 					npc.alpha = 0;
 				}
+
+				npc.netUpdate = true;
 			}
 			for (int i = 0; i < 50; i++) {
 				Dust.NewDustPerfect(npc.Center, 226, new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-6, 0)));

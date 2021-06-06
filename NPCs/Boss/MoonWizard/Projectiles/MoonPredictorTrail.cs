@@ -23,14 +23,13 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 			projectile.tileCollide = false;
 			projectile.hostile = true;
 			projectile.friendly = false;
-			projectile.timeLeft = 10;
+			projectile.timeLeft = 50;
 			projectile.damage = 13;
 			//projectile.extraUpdates = 1;
 			projectile.alpha = 255;
 			projectile.width = projectile.height = 32;
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-
 		}
 		bool initialized = false;
 		Vector2 initialSpeed = Vector2.Zero;

@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Weapon.Thrown.SlingHammers
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Possessed Hammer");
-			Tooltip.SetDefault("Hold down and release to throw the Hammer like a boomerang");
+			Tooltip.SetDefault("Hold down and release to throw the hammer like a boomerang");
 		}
 
 
@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Thrown.SlingHammers
 			item.shootSpeed = 8f;
 			item.knockBack = 5f;
 			item.damage = 53;
-			item.value = Item.sellPrice(0, 1, 0, 0);
+			item.value = Item.sellPrice(0, 1, 50, 0);
 			item.rare = ItemRarityID.LightRed;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ModContent.ProjectileType<ShadowAxeProj>();
@@ -53,7 +53,7 @@ namespace SpiritMod.Items.Weapon.Thrown.SlingHammers
 		protected override int height => 66;
 		protected override int width => 58;
 		protected override int chargeTime => 50;
-		protected override float chargeRate => 1f;
+		protected override float chargeRate => 0.7f;
 		protected override int thrownProj => ModContent.ProjectileType<ShadowAxeProjReturning>();
 		protected override float damageMult => 1.25f;
 		protected override int throwSpeed => 18;
@@ -84,6 +84,7 @@ namespace SpiritMod.Items.Weapon.Thrown.SlingHammers
 			Player player = Main.player[projectile.owner];
 			if (projectile.tileCollide)
 			{
+				Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowAxeExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);
 				player.GetModPlayer<MyPlayer>().Shake += 8;
 				Main.PlaySound(SoundID.Item88, projectile.Center);
 			}
@@ -95,6 +96,7 @@ namespace SpiritMod.Items.Weapon.Thrown.SlingHammers
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
+			Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowAxeExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);
 			Player player = Main.player[projectile.owner];
 			player.GetModPlayer<MyPlayer>().Shake += 8;
 			Main.PlaySound(SoundID.Item88, projectile.Center);
@@ -115,6 +117,47 @@ namespace SpiritMod.Items.Weapon.Thrown.SlingHammers
 					Main.projectileTexture[projectile.type].Size() / 2, projectile.scale, SpriteEffects.None, 0);
 			}
 			return true;
+		}
+	}
+	public class ShadowAxeExplosion : ModProjectile
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Explosion");
+			Main.projFrames[base.projectile.type] = 9;
+		}
+
+		public override void SetDefaults()
+		{
+			projectile.hostile = false;
+			projectile.width = 144;
+			projectile.height = 144;
+			projectile.tileCollide = false;
+			projectile.friendly = true;
+			projectile.penetrate = -1;
+		}
+
+		public override void AI()
+		{
+			Lighting.AddLight(projectile.Center, Color.Purple.ToVector3());
+			projectile.frameCounter++;
+			if (projectile.frameCounter >= 3)
+			{
+				projectile.frame++;
+				projectile.frameCounter = 0;
+				if (projectile.frame >= 9)
+					projectile.active = false;
+			}
+		}
+		public override bool? CanHitNPC(NPC target)
+		{
+			if (projectile.frame < 3 || projectile.frame > 5)
+				return false;
+			return base.CanHitNPC(target);
+		}
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return Color.White;
 		}
 	}
 }

@@ -41,6 +41,7 @@ using SpiritMod.Mechanics.QuestSystem;
 using System.Collections.Concurrent;
 using Terraria.DataStructures;
 using SpiritMod.Stargoop;
+using SpiritMod.NPCs.ExplosiveBarrel;
 
 namespace SpiritMod
 {
@@ -68,6 +69,7 @@ namespace SpiritMod
 		public static Effect StarfirePrims;
 		public static Effect ScreamingSkullTrail;
 		public static Effect RipperSlugShader;
+		public static Effect EyeballShader;
 		public static Effect ArcLashShader;
 		public static Effect JemShaders;
 		public static Effect SunOrbShader;
@@ -199,11 +201,16 @@ namespace SpiritMod
 							return;
 						}
 
+						WriteToPacket(GetPacket(), (byte)MessageType.BossTitle, bossType).Send();
 						int npcID = NPC.NewNPC(npcCenterX, npcCenterY, bossType);
 						Main.npc[npcID].Center = new Vector2(npcCenterX, npcCenterY);
 						Main.npc[npcID].netUpdate2 = true;
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", Main.npc[npcID].GetTypeNetName()), new Color(175, 75, 255));
 					}
+					break;
+				case MessageType.StartTide:
+					TideWorld.TheTide = true;
+					TideWorld.TideWaveIncrease();
 					break;
 				case MessageType.TideData:
 					TideWorld.HandlePacket(reader);
@@ -234,6 +241,16 @@ namespace SpiritMod
 					break;
 				case MessageType.DestroySuperSunFlower:
 					MyWorld.superSunFlowerPositions.Remove(new Point16(reader.ReadUInt16(), reader.ReadUInt16()));
+					break;
+				case MessageType.BossTitle:
+					if (Main.netMode == NetmodeID.Server) { //if received by the server, send to all clients instead
+						WriteToPacket(GetPacket(), (byte)MessageType.BossTitle, reader.ReadInt32()).Send();
+						break;
+					}
+					BossTitles.SetNPCType(reader.ReadInt32());
+					break;
+				case MessageType.SpawnExplosiveBarrel: // this packet is only meant to be received by the server
+					NPC.NewNPC(reader.ReadInt32(), reader.ReadInt32(), ModContent.NPCType<ExplosiveBarrel>(), 0, 2, 1, 0, 0); // gets forwarded to all clients
 					break;
 				default:
 					Logger.Error("Unknown message (" + id + ")");
@@ -279,6 +296,10 @@ namespace SpiritMod
 			}
 			if (MyWorld.jellySky && !Main.dayTime && player.ZoneSkyHeight) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/JellySky");
+				priority = MusicPriority.Environment;
+			}
+			if (MyWorld.rareStarfallEvent && !MyWorld.jellySky && !spirit.ZoneAsteroid && !Main.dayTime && player.ZoneSkyHeight) {
+				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Starfall");
 				priority = MusicPriority.Environment;
 			}
 
@@ -603,7 +624,6 @@ namespace SpiritMod
 			QuestBookHotkey = RegisterHotKey("SpiritMod:QuestBookToggle", "C");
 			QuestHUDHotkey = RegisterHotKey("SpiritMod:QuestHUDToggle", "V");
 
-			QuestManager.Load();
 			if (!Main.dedServ) 
 			{
 				ParticleHandler.RegisterParticles();
@@ -612,7 +632,9 @@ namespace SpiritMod
 				QuestBookUIState = new QuestBookUI();
 				QuestHUD = new QuestHUD();
 				Mechanics.EventSystem.EventManager.Load();
+				QuestManager.Load();
 			}
+
 			SpiritDetours.Initialize();
 
 			GlobalNoise = new PerlinNoise(Main.rand.Next());
@@ -633,6 +655,10 @@ namespace SpiritMod
 				Filters.Scene["PulsarShockwave"].Load();
 
 				SlotUserInterface = new UserInterface();
+
+				Ref<Effect> screenRef2 = new Ref<Effect>(GetEffect("Effects/ShockwaveTwo")); // The path to the compiled shader file.
+				Filters.Scene["ShockwaveTwo"] = new Filter(new ScreenShaderData(screenRef2, "ShockwaveTwo"), EffectPriority.VeryHigh);
+				Filters.Scene["ShockwaveTwo"].Load();
 			}
 
 			Filters.Scene["SpiritMod:ReachSky"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.05f, 0.05f, .05f).UseOpacity(0.4f), EffectPriority.High);
@@ -646,10 +672,6 @@ namespace SpiritMod
 
 			Filters.Scene["SpiritMod:WindEffect"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.149f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
 			Filters.Scene["SpiritMod:WindEffect2"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.549f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
-
-			Ref<Effect> screenRef2 = new Ref<Effect>(GetEffect("Effects/ShockwaveTwo")); // The path to the compiled shader file.
-			Filters.Scene["ShockwaveTwo"] = new Filter(new ScreenShaderData(screenRef2, "ShockwaveTwo"), EffectPriority.VeryHigh);
-			Filters.Scene["ShockwaveTwo"].Load();
 
 			GlyphCurrencyID = CustomCurrencyManager.RegisterCurrency(new Currency(ModContent.ItemType<Items.Glyphs.Glyph>(), 999L));
 
@@ -686,6 +708,7 @@ namespace SpiritMod
 				StarfirePrims = instance.GetEffect("Effects/StarfirePrims");
 				ScreamingSkullTrail = instance.GetEffect("Effects/ScreamingSkullTrail");
 				RipperSlugShader = instance.GetEffect("Effects/RipperSlugShader");
+				EyeballShader = instance.GetEffect("Effects/EyeballShader");
 				ArcLashShader = instance.GetEffect("Effects/ArcLashShader");
 				JemShaders = instance.GetEffect("Effects/JemShaders");
 				SunOrbShader = instance.GetEffect("Effects/SunOrbShader");
@@ -799,13 +822,14 @@ namespace SpiritMod
 				Portraits.Add(NPCID.Nurse, GetTexture("NPCs/Portraits/Nurse"));
 
 				Main.OnPreDraw += DrawStarGoopTarget;
+
+				primitives = new PrimTrailManager();
+				primitives.LoadContent(Main.graphics.GraphicsDevice);
+
+				InitStargoop();
+
+				AdditiveCallManager.Load();
 			}
-			primitives = new PrimTrailManager();
-			primitives.LoadContent(Main.graphics.GraphicsDevice);
-
-			InitStargoop();
-
-			AdditiveCallManager.Load();
 			// LoadDetours();
 
 			// using a mildly specific name to avoid mod clashes
@@ -894,6 +918,7 @@ namespace SpiritMod
 			StarfirePrims = null;
 			ScreamingSkullTrail = null;
 			RipperSlugShader = null;
+			EyeballShader = null;
 			ArcLashShader = null;
 			JemShaders = null;
 			SunOrbShader = null;
@@ -969,7 +994,9 @@ namespace SpiritMod
 			if (MyWorld.luminousOcean)
 				return "Luminous Seas";
 			if (MyWorld.calmNight)
-				return "Calm Conditions";
+				return "Calm Might";
+			if (MyWorld.rareStarfallEvent)
+				return "Starfall";
             return LanguageManager.Instance.GetText(key).Value;
         }
 		
@@ -1125,6 +1152,14 @@ namespace SpiritMod
 			Items.Glyphs.GlyphBase.InitializeGlyphLookup();
 			BossChecklistDataHandler.RegisterSpiritData(this);
 			Mod fargos = ModLoader.GetMod("Fargowiltas");
+			Mod census = ModLoader.GetMod("Census");
+			if (census != null) {
+				census.Call("TownNPCCondition", ModContent.NPCType<Adventurer>(), "Rescue the Adventurer from the Briar");
+				census.Call("TownNPCCondition", ModContent.NPCType<Gambler>(), "Rescue the Gambler from a Goblin Tower\nIf your world does not have a Goblin Tower, have at least 1 Gold in your inventory");
+				census.Call("TownNPCCondition", ModContent.NPCType<Rogue>(), "Rescue the Bandit from the Bandit Hideout\nIf your world does not have a Goblin Tower, have at least 1 Gold in your inventory");
+				census.Call("TownNPCCondition", ModContent.NPCType<RuneWizard>(), "Have a Blank Glyph in your inventory");
+				census.Call("TownNPCCondition", ModContent.NPCType<Martian>(), "Defeat the Martian Madness event\nHave at least 1 gold in your inventory");
+			}
 			if (fargos != null) {
 				// AddSummon, order or value in terms of vanilla bosses, your mod internal name, summon   
 				//item internal name, inline method for retrieving downed value, price to sell for in copper
@@ -1268,7 +1303,7 @@ namespace SpiritMod
 				layers.Insert(mouseIndex, new LegacyGameInterfaceLayer(
 					"Spirit: Boss Title",
 					delegate {
-						if (BossTitles.TimeToDisplay > 0 && ModContent.GetInstance<SpiritClientConfig>().BossTitles)
+						if (BossTitles.TimeToDisplay > 0 && ModContent.GetInstance<SpiritClientConfig>().DrawCondition != BossTitles.DrawCondition.Off)
 							BossTitles.DrawTitle(Main.spriteBatch);
 
 						return true;

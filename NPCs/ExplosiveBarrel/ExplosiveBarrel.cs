@@ -1,15 +1,14 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Items.Consumable;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Projectiles.Hostile;
 
 namespace SpiritMod.NPCs.ExplosiveBarrel
 {
 	public class ExplosiveBarrel : ModNPC
 	{
+		private int ActivationDistance => 100;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Explosive Barrel");
@@ -36,15 +35,30 @@ namespace SpiritMod.NPCs.ExplosiveBarrel
 		public override void AI()
 		{
 			npc.spriteDirection = -1;
-            Player target = Main.player[npc.target];
-            int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
 
-			if (distance < 100 || npc.ai[1] == 1800)
-            {
-                npc.ai[0] = 1;
-                npc.netUpdate = true;
-            }
-            npc.ai[1]++;
+			float distanceToClosestSquared = -1f;
+			if (Main.netMode == NetmodeID.SinglePlayer)
+				distanceToClosestSquared = Main.LocalPlayer.DistanceSQ(npc.Center);
+			else
+			{
+				foreach (Player player in Main.player)
+				{
+					if (player == null || !player.active || player.dead)
+						continue;
+
+					float distanceToPlayerSquared = player.DistanceSQ(npc.Center);
+					if (distanceToPlayerSquared < distanceToClosestSquared || distanceToClosestSquared == -1f)
+						distanceToClosestSquared = distanceToPlayerSquared;
+				}		
+			}
+
+			if (distanceToClosestSquared < ActivationDistance * ActivationDistance || npc.ai[1] == 1800)
+			{
+				npc.ai[0] = 1;
+				npc.netUpdate = true;
+			}
+
+			npc.ai[1]++;
             if (npc.ai[0] == 1)
             {
                 npc.life--;

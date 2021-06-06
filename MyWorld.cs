@@ -85,6 +85,7 @@ namespace SpiritMod
 
 		public static bool BlueMoon = false;
 		public static bool jellySky = false;
+		public static bool rareStarfallEvent = false;
 
 		public static int SpiritTiles = 0;
 		public static int AsteroidTiles = 0;
@@ -1535,8 +1536,6 @@ namespace SpiritMod
 			Player player = Main.LocalPlayer;
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 
-			BossTitles.TimeToDisplay = Math.Max(BossTitles.TimeToDisplay - 1, 0);
-
 			if (modPlayer.ZoneSpirit) {
 				if (!aurora) {
 					aurora = true;
@@ -1600,14 +1599,19 @@ namespace SpiritMod
 				else {
 					BlueMoon = false;
 				}
+				if (!Main.dayTime && Main.rand.Next(6) == 0) {
+					auroraTypeFixed = Main.rand.Next(new int[] { 1, 2, 3, 5 });
+					aurora = true;
+				}
+				else {
+					aurora = false;
+				}
+				if (!Main.dayTime && Main.rand.Next(32) == 0) {
+					rareStarfallEvent = true;
+				}
+				else
 				{
-					if (!Main.dayTime && Main.rand.Next(6) == 0) {
-						auroraTypeFixed = Main.rand.Next(new int[] { 1, 2, 3, 5 });
-						aurora = true;
-					}
-					else {
-						aurora = false;
-					}
+					rareStarfallEvent = false;
 				}
 				if (!Main.dayTime && Main.rand.Next(6) == 0) {
 					luminousType = Main.rand.Next(new int[] { 1, 2, 3 });
@@ -1616,7 +1620,7 @@ namespace SpiritMod
 				else {
 					luminousOcean = false;
 				}
-                if (!Main.dayTime && (Main.moonPhase == 2 || Main.moonPhase == 5) && Main.rand.Next(2) == 0)
+                if (!Main.dayTime && (Main.moonPhase == 2 || Main.moonPhase == 5) && !Main.bloodMoon && Main.rand.Next(2) == 0)
                 {
                     calmNight = true;
                 }
@@ -1632,9 +1636,9 @@ namespace SpiritMod
 				{
 					ashRain = false;
 				}
-                if (!Main.dayTime && (NPC.downedBoss1 || NPC.downedBoss2 || NPC.downedBoss3 || downedScarabeus || downedReachBoss || downedRaider || downedAncientFlier) && (!downedMoonWizard && Main.rand.Next(5) == 0 || downedMoonWizard && Main.rand.Next(36) == 0))
+                if (!Main.dayTime && (NPC.downedBoss1 || NPC.downedBoss2 || NPC.downedBoss3 || downedScarabeus || downedReachBoss || downedRaider || downedAncientFlier) && (!downedMoonWizard && Main.rand.Next(4) == 0 || downedMoonWizard && Main.rand.Next(36) == 0))
                 {
-                    Main.NewText("Strange jellyfish are pouring out of the sky!", 61, 255, 142);
+                    Main.NewText("Strange jellyfish are coursing through the skies!", 61, 255, 142);
                     jellySky = true;
                 }
 				else

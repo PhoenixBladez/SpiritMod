@@ -39,7 +39,6 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
             int proj = 0;
 			if (projectile.timeLeft > 20 && projectile.timeLeft % 10 == 0) {
 				proj = Projectile.NewProjectile(projectile.Center, new Vector2(0, 25), mod.ProjectileType("MoonPredictorTrail"), 0, 0);
-				Main.projectile[proj].timeLeft = 50;
 			}
 			if (projectile.timeLeft == 10)
 			{

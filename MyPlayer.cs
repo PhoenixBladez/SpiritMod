@@ -1018,6 +1018,7 @@ namespace SpiritMod
 
         public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
         {
+			var config = ModContent.GetInstance<SpiritClientConfig>();
             if (junk)
                 return;
 
@@ -1034,40 +1035,43 @@ namespace SpiritMod
             }
             MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
             int bobberIndex = -1;
-            if (Main.bloodMoon && Main.rand.Next(20) == 0) {
-                for (int i = 0; i < 1000; i++) {
-                    if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
-                        bobberIndex = i;
-                    }
-                }
-                if (bobberIndex != -1) {
-                    Vector2 bobberPos = Main.projectile[bobberIndex].Center;
-                    caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<NPCs.BottomFeeder.BottomFeeder>(), 0, 2, 1, 0, 0, Main.myPlayer);
-                    if (Main.netMode == 1)
-                    {
-                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<NPCs.BottomFeeder.BottomFeeder>());
-                    }
-                }
-            }
-            if (MyWorld.spawnHornetFish && Main.rand.Next(15) == 0 && player.ZoneJungle) {
-                for (int i = 0; i < 1000; i++) {
-                    if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber)
-                        bobberIndex = i;
-                }
-                if (bobberIndex != -1) {
-                    Vector2 bobberPos = Main.projectile[bobberIndex].Center;
-                    caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<NPCs.Hornetfish.Hornetfish>(), 0, 2, 1, 0, 0, Main.myPlayer);
-                    if (Main.netMode == NetmodeID.MultiplayerClient)
-                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<NPCs.Hornetfish.Hornetfish>());
-                }
-            }
+			if (config.EnemyFishing)
+			{
+				if (Main.bloodMoon && Main.rand.Next(20) == 0) {
+					for (int i = 0; i < 1000; i++) {
+						if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
+							bobberIndex = i;
+						}
+					}
+					if (bobberIndex != -1) {
+						Vector2 bobberPos = Main.projectile[bobberIndex].Center;
+						caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<NPCs.BottomFeeder.BottomFeeder>(), 0, 2, 1, 0, 0, Main.myPlayer);
+						if (Main.netMode == 1)
+						{
+							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<NPCs.BottomFeeder.BottomFeeder>());
+						}
+					}
+				}
+			}
+			if (MyWorld.spawnHornetFish && Main.rand.Next(15) == 0 && player.ZoneJungle) {
+				for (int i = 0; i < 1000; i++) {
+					if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber)
+						bobberIndex = i;
+				}
+				if (bobberIndex != -1) {
+					Vector2 bobberPos = Main.projectile[bobberIndex].Center;
+					caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<NPCs.Hornetfish.Hornetfish>(), 0, 2, 1, 0, 0, Main.myPlayer);
+					if (Main.netMode == NetmodeID.MultiplayerClient)
+						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<NPCs.Hornetfish.Hornetfish>());
+				}
+			}
             if (player.ZoneDungeon && power >= 30 && Main.rand.NextBool(25))
                 caughtType = ModContent.ItemType<MysticalCage>();
 
             if (modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextBool(player.cratePotion ? 35 : 65))
                 caughtType = ModContent.ItemType<SpiritCrate>();
 
-            if (!mimicRepellent)
+            if (!mimicRepellent || config.EnemyFishing)
             {
                 if (Main.rand.NextBool(player.cratePotion ? 70 : 95)) {
                     for (int i = 0; i < 1000; i++) {
@@ -2125,7 +2129,7 @@ namespace SpiritMod
 					}
 				}
 			}
-			if(ZoneAsteroid && MyWorld.spaceJunkWeather && Main.rand.Next(59) == 0) {
+			if(player.ZoneSkyHeight) {
 				Vector2 vector2_1 = new Vector2((float)(player.position.X + player.width * 0.5 + (Main.rand.Next(201) * -player.direction) + ((double)Main.mouseX + (double)Main.screenPosition.X - (double)player.position.X)), (float)((double)player.position.Y + (double)player.height * 0.5 - 600.0));   //this defines the projectile width, direction and position
 
 				string[] smallDebris = { "SpaceDebris1", "SpaceDebris2" };
@@ -2134,7 +2138,7 @@ namespace SpiritMod
 				int big = Main.rand.Next(bigDebris.Length);
 				vector2_1.X = (float)(((double)vector2_1.X + player.Center.X) / 2.0) + Main.rand.Next(-200, 201);
 				vector2_1.Y -= 100;
-				float num12 = Main.rand.Next(-30, 30);
+				float num12 = Main.rand.Next(12, 18);
 				float num13 = 100;
 				if(num13 < 0.0) num13 *= -1f;
 				if(num13 < 20.0) num13 = 20f;
@@ -2144,10 +2148,24 @@ namespace SpiritMod
 				float num17 = num13 * num15;
 				float SpeedX = num16 + Main.rand.Next(-40, 41) * Main.windSpeed + (.01f * Main.windSpeed);  //this defines the projectile X position speed and randomnes
 				float SpeedY = num17 + Main.rand.Next(-40, 41) * 0.02f;  //this defines the projectile Y position speed and randomnes
-				if(Main.rand.Next(7) == 0) {
-					int proj = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, mod.ProjectileType(bigDebris[big]), 16, 3, Main.myPlayer, 0.0f, 1);
-				} else {
-					int proj1 = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, mod.ProjectileType(smallDebris[small]), 7, 3, Main.myPlayer, 0.0f, 1);
+				if (ZoneAsteroid && MyWorld.spaceJunkWeather && Main.rand.Next(59) == 0)
+				{
+					if(Main.rand.Next(7) == 0) {
+						int proj = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, mod.ProjectileType(bigDebris[big]), 16, 3, Main.myPlayer, 0.0f, 1);
+					} else {
+						int proj1 = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, mod.ProjectileType(smallDebris[small]), 7, 3, Main.myPlayer, 0.0f, 1);
+					}
+				}
+				if (MyWorld.rareStarfallEvent && Main.rand.Next(65) == 0)
+				{
+					if (ZoneAsteroid)
+					{
+						int proj1 = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-800, 800), player.Center.Y + Main.rand.Next(-1000, -900), Main.rand.Next(26, 33) * Main.windSpeed, 4, mod.ProjectileType("Comet"), 0, 3, Main.myPlayer, 0.0f, 1);
+					}
+					else
+					{
+						int proj1 = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-800, 800), player.Center.Y + Main.rand.Next(-1000, -900), Main.rand.Next(26, 33) * Main.windSpeed, 4, mod.ProjectileType("Comet"), 0, 3, Main.myPlayer, 0.0f, 1);
+					}
 				}
 			}
 			if(ZoneReach && !Main.raining && !MyWorld.downedReachBoss) {

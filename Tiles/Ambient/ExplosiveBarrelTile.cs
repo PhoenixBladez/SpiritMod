@@ -58,11 +58,14 @@ namespace SpiritMod.Tiles.Ambient
                 int distance1 = (int)Vector2.Distance(new Vector2(i * 16, j * 16), player.Center);
                 if (distance1 < 500)
                 {
-                    int n = NPC.NewNPC((int)i * 16 + 8, (int)j * 16 + 46, ModContent.NPCType<NPCs.ExplosiveBarrel.ExplosiveBarrel>(), 0, 2, 1, 0, 0, Main.myPlayer);
-                    Main.npc[n].netUpdate = true;
+					int x = i * 16 + 8;
+					int y = j * 16 + 46;
+					NPC.NewNPC(x, y, ModContent.NPCType<NPCs.ExplosiveBarrel.ExplosiveBarrel>(), 0, 2, 1, 0, 0);
                     WorldGen.KillTile(i, j);
-                }
 
+					if (Main.netMode == NetmodeID.MultiplayerClient)
+						SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(8), (byte)MessageType.SpawnExplosiveBarrel, x, y).Send();
+                }
             }
         }
 	}

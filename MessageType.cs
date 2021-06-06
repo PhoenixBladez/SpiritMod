@@ -9,10 +9,13 @@
 		PlayerGlyph,
 		AuroraData,
 		BossSpawnFromClient,
+		StartTide,
 		TideData,
 		TameAuroraStag,
 		SpawnTrail,
 		PlaceSuperSunFlower,
-		DestroySuperSunFlower
+		DestroySuperSunFlower,
+		BossTitle,
+		SpawnExplosiveBarrel
 	}
 }

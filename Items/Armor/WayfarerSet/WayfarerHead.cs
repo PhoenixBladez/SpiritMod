@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Armor.WayfarerSet
 			item.height = 20;
 			item.value = Terraria.Item.sellPrice(0, 0, 60, 0);
 			item.rare = 1;
-			item.defense = 1;
+			item.defense = 2;
 		}
 
 		public override void UpdateEquip(Player player)

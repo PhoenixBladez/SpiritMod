@@ -16,7 +16,6 @@ namespace SpiritMod.Tide
 	public class TideWorld : ModWorld
 	{
 		public static int TidePoints = 0;
-		public static int EnemyKills = 0;
 		public static int TideWave = 0;
 		public static bool TheTide;
 
@@ -26,66 +25,52 @@ namespace SpiritMod.Tide
 			TideWave = 0;
 		}
 
-		public override void PostUpdate()
+		public static ModPacket CreateProgressPacket()
 		{
-			//TidePoints = EnemyKills / 2;
-			if (TidePoints >= 100) {
-				TidePoints = 0;
-				EnemyKills = 0;
-				TideWaveIncrease();
-				SendPacket(mod);
-			}
+			ModPacket packet = ModContent.GetInstance<SpiritMod>().GetPacket();
+			packet.Write((byte)MessageType.TideData);
+			packet.Write(TidePoints);
+			packet.Write(TideWave);
+			packet.Write(TheTide);
 
-			if (TheTide && TideWave == 5) {
-				if (!NPC.AnyNPCs(ModContent.NPCType<Rylheian>())) {
-					Player player = Main.rand.Next(Main.player.Where(x => x.active && !x.dead && x.ZoneBeach).ToArray());
-
-					NPC npc = Main.npc[NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 400, ModContent.NPCType<Rylheian>(), 0, 2, 1, 0, 0, player.whoAmI)];
-					DustHelper.DrawDiamond(new Vector2(npc.Center.X, npc.Center.Y), 173, 8);
-					DustHelper.DrawTriangle(new Vector2(npc.Center.X, npc.Center.Y), 173, 8);
-					Main.PlaySound(SoundID.Zombie, npc.Center, 89);
-
-					if (Main.netMode != NetmodeID.SinglePlayer)
-						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI);
-				}
-			}
+			return packet;
 		}
 
-		public static void SendPacket(Mod mod)
+		public static void SendInfoPacket()
 		{
 			if (Main.netMode == NetmodeID.SinglePlayer)
 				return;
-			ModPacket packet = mod.GetPacket();
-			packet.Write((byte)MessageType.TideData);
-			packet.Write(TidePoints);
-			packet.Write(EnemyKills);
-			packet.Write(TideWave);
-			packet.Write(TheTide);
-			packet.Send();
+
+			CreateProgressPacket().Send();
 		}
 
 		public static void HandlePacket(BinaryReader reader)
 		{
 			TidePoints = reader.ReadInt32();
-			EnemyKills = reader.ReadInt32();
 			TideWave = reader.ReadInt32();
 			TheTide = reader.ReadBoolean();
+
+			if (Main.netMode == NetmodeID.Server)
+				SendInfoPacket(); // Forward packet to rest of clients
 		}
 
 		public static void TideWaveIncrease()
 		{
 			TideWave++;
-			if (TideWave > 5) {
+
+			if (TideWave > 5)
+			{
 				if (Main.netMode == NetmodeID.Server)
 					NetMessage.BroadcastChatMessage(NetworkText.FromLiteral("The Tide has waned!"), new Color(61, 255, 142));
-				else if(Main.netMode == NetmodeID.SinglePlayer)
+				else if (Main.netMode == NetmodeID.SinglePlayer)
 					Main.NewText("The Tide has waned!", 61, 255, 142);
 
 				TheTide = false;
 				TideWave = 0;
-				SendPacket(SpiritMod.instance);
+				TidePoints = 0;
 
-				if(Main.netMode != NetmodeID.Server) {
+				if (Main.netMode != NetmodeID.Server)
+				{
 					Main.musicFade[SpiritMod.instance.GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion")] = 0;
 					float temp = Main.soundVolume; //temporarily store main.soundvolume, since sounds dont play at all if sound volume is at 0, regardless of actual volume of the sound
 					Main.soundVolume = (temp == 0) ? 1 : Main.soundVolume;
@@ -93,24 +78,38 @@ namespace SpiritMod.Tide
 					Main.soundVolume = temp;
 				}
 
-				if (!MyWorld.downedTide) {
+				if (!MyWorld.downedTide)
+				{
 					MyWorld.downedTide = true;
 					if (Main.netMode == NetmodeID.Server)
 						NetMessage.SendData(MessageID.WorldData);
 				}
-				return;
+			}
+			else
+			{
+				string waveText = GetWaveChatText(TideWave);
+				Color color = new Color(61, 255, 142);
+
+				if (Main.netMode == NetmodeID.SinglePlayer)
+					Main.NewText(waveText, color);
+				else if (Main.netMode == NetmodeID.Server)
+					NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(waveText), color);
 			}
 
-			string wavetext = "Wave " + TideWave + " : ";
-			IDictionary<int, float> spawnpool = TideNPC.Spawnpool.ElementAt(TideWave - 1); //find the spawn pool dictionary corresponding to the current tide wave
+			SendInfoPacket();
+		}
+
+		private static string GetWaveChatText(int wave)
+		{
+			string wavetext = "Wave " + wave + " : ";
+			IDictionary<int, float> spawnpool = TideNPC.Spawnpool.ElementAt(wave - 1); //find the spawn pool dictionary corresponding to the current tide wave
 			wavetext += Lang.GetNPCName(spawnpool.First().Key); //write the first npc name in the spawn pool dictionary
-			foreach (KeyValuePair<int, float> key in spawnpool.Skip(1)) { //then for ever npc name after it, add a comma and space before their name
+			foreach (KeyValuePair<int, float> key in spawnpool.Skip(1))
+			{ //then for ever npc name after it, add a comma and space before their name
 				wavetext += ", " + Lang.GetNPCName(key.Key);
 			}
-			if (Main.netMode == NetmodeID.Server)
-				NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(wavetext), new Color(61, 255, 142));
-			else
-				Main.NewText(wavetext, 61, 255, 142);
+
+			return wavetext;
 		}
 	}
 }

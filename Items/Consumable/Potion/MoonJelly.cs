@@ -75,7 +75,7 @@ namespace SpiritMod.Items.Consumable.Potion
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
 			foreach(TooltipLine line in tooltips.Where(x => x.mod == "Terraria" && x.Name == "HealLife")) {
-				line.text = "Restores 120 life over 10 seconds";
+				line.text = "Restores 120 life over 10 seconds\nCauses Potion Sickness";
 			}
 		}
 	}
