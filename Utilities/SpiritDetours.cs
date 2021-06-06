@@ -18,6 +18,7 @@ using Terraria.UI.Chat;
 using SpiritMod.Mechanics.QuestSystem;
 using System.Collections.Generic;
 using Terraria.Localization;
+using SpiritMod.Mechanics.PortraitSystem;
 
 namespace SpiritMod.Utilities
 {
@@ -140,17 +141,17 @@ namespace SpiritMod.Utilities
 		private static void Main_DrawNPCChatButtons(On.Terraria.Main.orig_DrawNPCChatButtons orig, int superColor, Color chatColor, int numLines, string focusText, string focusText3) //Portrait drawing - Gabe
 		{
 			NPC talkNPC = Main.npc[Main.LocalPlayer.talkNPC];
-			if (ModContent.GetInstance<SpiritClientConfig>().ShowNPCPortraits)
+			if (ModContent.GetInstance<SpiritClientConfig>().ShowNPCPortraits && PortraitManager.HasPortrait(talkNPC.type))
 			{
+				BasePortrait portrait = PortraitManager.GetPortrait(talkNPC.type); //Gets portrait
+
+				var pos = new Vector2(Main.screenWidth / 2 - (252 + portrait.BaseSize.X), 100); //Portrait position
+				Main.spriteBatch.Draw(portrait.Texture, pos, portrait.GetFrame(Main.npcChatText), Color.White, 0f, default, 1f, SpriteEffects.None, 0f); //Portrait
+
 				string name = talkNPC.GivenName;
-
-				//Portrait
-				if (SpiritMod.Portraits.ContainsKey(talkNPC.type)) {
-					Main.spriteBatch.Draw(SpiritMod.Portraits[talkNPC.type], new Vector2(Main.screenWidth / 2 - 360, 100), null, Color.White, 0f, default, 1f, SpriteEffects.None, 0f); //Portrait
-
-					Vector2 textPos = new Vector2(Main.screenWidth / 2 - 306, 222) - (ChatManager.GetStringSize(Main.fontItemStack, name, new Vector2(ProfileNameScale)) / 2); //Name
-					ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontItemStack, name, textPos, new Color(240, 240, 240), 0f, new Vector2(), new Vector2(ProfileNameScale), -1, 2f);
-				}
+				Vector2 centring = ChatManager.GetStringSize(Main.fontItemStack, name, new Vector2(ProfileNameScale)) / 2; //Position centring
+				Vector2 textPos = new Vector2(Main.screenWidth / 2 - (198 + portrait.BaseSize.X), 114 + portrait.BaseSize.Y) - centring; //Real position
+				ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontItemStack, name, textPos, new Color(240, 240, 240), 0f, new Vector2(), new Vector2(ProfileNameScale), -1, 2f); //Name
 			}
 
 			if (talkNPC.type == NPCID.Angler)
@@ -158,9 +159,9 @@ namespace SpiritMod.Utilities
 
 			var queue = ModContent.GetInstance<QuestWorld>().NPCQuestQueue;
 
-			// TODO: localization
 			if (queue.ContainsKey(talkNPC.type) && queue[talkNPC.type].Count > 0) //If this NPC has a quest
 			{
+				// TODO: localization
 				string questText = "Quest";
 
 				DynamicSpriteFont font = Main.fontMouseText;

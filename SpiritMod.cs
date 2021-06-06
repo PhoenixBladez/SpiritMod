@@ -42,6 +42,7 @@ using System.Collections.Concurrent;
 using Terraria.DataStructures;
 using SpiritMod.Stargoop;
 using SpiritMod.NPCs.ExplosiveBarrel;
+using SpiritMod.Mechanics.PortraitSystem;
 
 namespace SpiritMod
 {
@@ -96,7 +97,7 @@ namespace SpiritMod
 		public static SoundLooper spookyAmbience;
 
 		public static event Action<SpriteViewMatrix> OnModifyTransformMatrix;
-		public static Dictionary<int, Texture2D> Portraits = new Dictionary<int, Texture2D>(); //Portraits dict - Gabe
+		//public static Dictionary<int, Texture2D> Portraits = new Dictionary<int, Texture2D>(); //Portraits dict - Gabe
 
 		//public static Texture2D MoonTexture;
 		public const string EMPTY_TEXTURE = "SpiritMod/Empty";
@@ -801,25 +802,27 @@ namespace SpiritMod
 				SellLock_INTERFACE.SetState(SellLock_SHORTCUT);
 				SellWeapons_INTERFACE.SetState(SellWeapons_SHORTCUT);
 
-				//Portrait textures - Gabe
-				Portraits.Add(NPCID.TravellingMerchant, GetTexture("NPCs/Portraits/TravellingMerchant"));
-				Portraits.Add(NPCID.SkeletonMerchant, GetTexture("NPCs/Portraits/SkeletonMerchant"));
-				Portraits.Add(ModContent.NPCType<Gambler>(), GetTexture("NPCs/Portraits/Gambler"));
-				Portraits.Add(NPCID.Demolitionist, GetTexture("NPCs/Portraits/Demolitionist"));
-				Portraits.Add(NPCID.TaxCollector, GetTexture("NPCs/Portraits/TaxCollector"));
-				Portraits.Add(NPCID.DD2Bartender, GetTexture("NPCs/Portraits/Tavernkeep"));
-				Portraits.Add(NPCID.Steampunker, GetTexture("NPCs/Portraits/Steampunker"));
-				Portraits.Add(NPCID.WitchDoctor, GetTexture("NPCs/Portraits/WitchDoctor"));
-				Portraits.Add(NPCID.ArmsDealer, GetTexture("NPCs/Portraits/ArmsDealer"));
-				Portraits.Add(NPCID.DyeTrader, GetTexture("NPCs/Portraits/DyeTrader"));
-				Portraits.Add(NPCID.Merchant, GetTexture("NPCs/Portraits/Merchant"));
-				Portraits.Add(NPCID.Truffle, GetTexture("NPCs/Portraits/Truffle"));
-				Portraits.Add(NPCID.OldMan, GetTexture("NPCs/Portraits/OldMan"));
-				Portraits.Add(NPCID.Wizard, GetTexture("NPCs/Portraits/Wizard"));
-				Portraits.Add(NPCID.Pirate, GetTexture("NPCs/Portraits/Pirate"));
-				Portraits.Add(NPCID.Guide, GetTexture("NPCs/Portraits/Guide"));
-				Portraits.Add(NPCID.Dryad, GetTexture("NPCs/Portraits/Dryad"));
-				Portraits.Add(NPCID.Nurse, GetTexture("NPCs/Portraits/Nurse"));
+				//Portrait system - Gabe
+				PortraitManager.Load(); //Load portraits so the detour can access them
+
+				//Portraits.Add(NPCID.TravellingMerchant, GetTexture("NPCs/Portraits/TravellingMerchant"));
+				//Portraits.Add(NPCID.SkeletonMerchant, GetTexture("NPCs/Portraits/SkeletonMerchant"));
+				//Portraits.Add(ModContent.NPCType<Gambler>(), GetTexture("NPCs/Portraits/Gambler"));
+				//Portraits.Add(NPCID.Demolitionist, GetTexture("NPCs/Portraits/Demolitionist"));
+				//Portraits.Add(NPCID.TaxCollector, GetTexture("NPCs/Portraits/TaxCollector"));
+				//Portraits.Add(NPCID.DD2Bartender, GetTexture("NPCs/Portraits/Tavernkeep"));
+				//Portraits.Add(NPCID.Steampunker, GetTexture("NPCs/Portraits/Steampunker"));
+				//Portraits.Add(NPCID.WitchDoctor, GetTexture("NPCs/Portraits/WitchDoctor"));
+				//Portraits.Add(NPCID.ArmsDealer, GetTexture("NPCs/Portraits/ArmsDealer"));
+				//Portraits.Add(NPCID.DyeTrader, GetTexture("NPCs/Portraits/DyeTrader"));
+				//Portraits.Add(NPCID.Merchant, GetTexture("NPCs/Portraits/Merchant"));
+				//Portraits.Add(NPCID.Truffle, GetTexture("NPCs/Portraits/Truffle"));
+				//Portraits.Add(NPCID.OldMan, GetTexture("NPCs/Portraits/OldMan"));
+				//Portraits.Add(NPCID.Wizard, GetTexture("NPCs/Portraits/Wizard"));
+				//Portraits.Add(NPCID.Pirate, GetTexture("NPCs/Portraits/Pirate"));
+				//Portraits.Add(NPCID.Guide, GetTexture("NPCs/Portraits/Guide"));
+				//Portraits.Add(NPCID.Dryad, GetTexture("NPCs/Portraits/Dryad"));
+				//Portraits.Add(NPCID.Nurse, GetTexture("NPCs/Portraits/Nurse"));
 
 				Main.OnPreDraw += DrawStarGoopTarget;
 
@@ -952,7 +955,7 @@ namespace SpiritMod
 			Metaballs = null;
 			SpiritDetours.Unload();
 
-			Portraits.Clear(); //Idk if this is necessary but it seems like a good move - Gabe
+			PortraitManager.Unload(); //Idk if this is necessary but it seems like a good move - Gabe
 			//UnloadDetours();
 
 			// remove any custom chat tag handlers
