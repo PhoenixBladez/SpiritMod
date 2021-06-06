@@ -10,12 +10,17 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 {
     public class ManajinxStar : ModProjectile
     {
-        public override void SetStaticDefaults()
+		private static BasicEffect effect;
+
+		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starlight Energy");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-        }
+
+			if (Main.netMode != NetmodeID.Server)
+				effect = new BasicEffect(Main.instance.GraphicsDevice);
+		}
         public override void SetDefaults()
         {
             projectile.width = 16;
@@ -84,7 +89,6 @@ namespace SpiritMod.Items.Armor.StarjinxSet
             damage += Math.Max(target.defense / 2, 20); //ignore up to 40 defense
         }
 
-        private static readonly BasicEffect effect = new BasicEffect(Main.instance.GraphicsDevice);
         private float Timer => Main.GlobalTime * 4 + projectile.ai[1];
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
