@@ -9,6 +9,7 @@
 		PlayerGlyph,
 		AuroraData,
 		BossSpawnFromClient,
+		StartTide,
 		TideData,
 		TameAuroraStag,
 		SpawnTrail,

@@ -44,11 +44,12 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool UseItem(Player player)
 		{
-			if (player.whoAmI == Main.myPlayer)
+			if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
+				SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(), (byte)MessageType.StartTide).Send();
+			else
 			{
 				TideWorld.TheTide = true;
 				TideWorld.TideWaveIncrease();
-				TideWorld.SendPacket(mod);
 			}
 
 			return true;

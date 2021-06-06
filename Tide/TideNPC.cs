@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using SpiritMod.NPCs.Tides;
 using static Terraria.ModLoader.ModContent;
 using System.Linq;
+using Microsoft.Xna.Framework;
 
 namespace SpiritMod.Tide
 {
@@ -90,13 +91,30 @@ namespace SpiritMod.Tide
 					if(key.Key == npc.type) { //if it is, add progress to the wave, and complete the wave instantly if it's a rylheian
 						if(npc.type == NPCType<Rylheian>()) {
 							TideWorld.TidePoints = 100;
+							TideWorld.TideWaveIncrease(); // This will automatically end the event once TideWave > 5
+							return;
 						}
 						else
 							TideWorld.TidePoints += 7;
-
-						TideWorld.SendPacket(mod);
 					}
 				}
+
+				if (TideWorld.TidePoints >= 100)
+				{
+					TideWorld.TidePoints = 0;
+					TideWorld.TideWaveIncrease();
+
+					if (TideWorld.TideWave == 5 && !NPC.AnyNPCs(NPCType<Rylheian>()))
+					{
+						Player player = Main.rand.Next(Main.player.Where(x => x.active && !x.dead && x.ZoneBeach).ToArray());
+						NPC rylheian = Main.npc[NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 400, NPCType<Rylheian>(), 0, 2, 1, 0, 0, player.whoAmI)];
+						DustHelper.DrawDiamond(new Vector2(rylheian.Center.X, rylheian.Center.Y), 173, 8);
+						DustHelper.DrawTriangle(new Vector2(rylheian.Center.X, rylheian.Center.Y), 173, 8);
+						Main.PlaySound(SoundID.Zombie, rylheian.Center, 89);
+					}
+				}
+
+				TideWorld.SendInfoPacket();
 			}
 		}
 	}

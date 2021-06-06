@@ -208,6 +208,10 @@ namespace SpiritMod
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", Main.npc[npcID].GetTypeNetName()), new Color(175, 75, 255));
 					}
 					break;
+				case MessageType.StartTide:
+					TideWorld.TheTide = true;
+					TideWorld.TideWaveIncrease();
+					break;
 				case MessageType.TideData:
 					TideWorld.HandlePacket(reader);
 					break;
