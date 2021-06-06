@@ -150,27 +150,31 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		private TagCompound Convert(StoredQuestData data)
 		{
-			var tag = new TagCompound();
-			tag.Add("a", data.IsActive);
-			tag.Add("u", data.IsUnlocked);
-			tag.Add("c", data.IsCompleted);
-			tag.Add("r", data.RewardsGiven);
-			tag.Add("tlu", data.TimeLeftUnlocked);
-			tag.Add("tla", data.TimeLeftActive);
-			tag.Add("b", data.Buffer);
+			var tag = new TagCompound
+			{
+				{ "a", data.IsActive },
+				{ "u", data.IsUnlocked },
+				{ "c", data.IsCompleted },
+				{ "r", data.RewardsGiven },
+				{ "tlu", data.TimeLeftUnlocked },
+				{ "tla", data.TimeLeftActive },
+				{ "b", data.Buffer }
+			};
 			return tag;
 		}
 
 		private StoredQuestData ConvertBack(TagCompound tag)
 		{
-			var data = new StoredQuestData();
-			data.IsActive = tag.Get<bool>("a");
-			data.IsUnlocked = tag.Get<bool>("u");
-			data.IsCompleted = tag.Get<bool>("c");
-			data.RewardsGiven = tag.Get<bool>("r");
-			data.TimeLeftUnlocked = tag.Get<short>("tlu");
-			data.TimeLeftActive = tag.Get<short>("tla");
-			data.Buffer = tag.Get<byte[]>("b");
+			var data = new StoredQuestData
+			{
+				IsActive = tag.Get<bool>("a"),
+				IsUnlocked = tag.Get<bool>("u"),
+				IsCompleted = tag.Get<bool>("c"),
+				RewardsGiven = tag.Get<bool>("r"),
+				TimeLeftUnlocked = tag.Get<short>("tlu"),
+				TimeLeftActive = tag.Get<short>("tla"),
+				Buffer = tag.Get<byte[]>("b")
+			};
 			return data;
 		}
 
