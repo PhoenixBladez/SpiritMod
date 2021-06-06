@@ -5,6 +5,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using Terraria.Utilities;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 {
@@ -78,6 +80,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		private const float THREADGROWLERP = 15; //How many frames does it take for threads to fade in/out?
 		private const int DISTANCEFROMPLAYER = 300; //How far does the spider have to be from the player to turn around?
 
+		private int seed; // The seed shared between the server and clients for the starachshit
+		private bool seedInitialized;
+		private UnifiedRandom random; // The random instance created with the above seed, if in multiplayer
+
 		private Vector2 Bottom
 		{
 			get
@@ -109,10 +115,43 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			npc.knockBackResist = 0;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+
+			int seed = Main.rand.Next();
+			random = new UnifiedRandom(seed);
+
+			if (Main.netMode == NetmodeID.Server)
+				npc.netUpdate = true;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer) => writer.Write(seed);
+
+		// When receiving AI data, we have to restart the starachnid's state because it probably already updated for several frames using an unsynced seed
+		// A sync only happens once when the starachnid spawn
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			int seed = reader.ReadInt32();
+
+			if (!seedInitialized)
+			{
+				this.seed = seed;
+				random = new UnifiedRandom(seed);
+				seedInitialized = true;
+
+				initialized = false;
+				toRotation = 0f;
+				threadRotation = 0f;
+				threadCounter = 0;
+				threads.Clear();
+				currentThread = null;
+				progress = 0f;
+			}
 		}
 
 		public override void AI()
 		{
+			if (!seedInitialized && Main.netMode != NetmodeID.SinglePlayer)
+				return;
+
 			npc.TargetClosest(false);
 
 			if (!initialized)
@@ -159,7 +198,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				threads.Add(currentThread);
 
 			Vector2 startPos = Bottom;
-			int maxDistance = Main.rand.Next(200, 500);
+			int maxDistance = random.Next(200, 500);
 			if (!mainThread)
 				maxDistance = (int)(maxDistance * 0.5f);
 
@@ -174,8 +213,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				if (NearbyStars(startPos + (direction * i), ref newPos))
 					thread = new StarThread(startPos, newPos);
 
-			thread.StartScale = Main.rand.NextFloat(0.5f, 0.8f);
-			thread.EndScale = Main.rand.NextFloat(0.5f, 0.8f);
+			thread.StartScale = random.NextFloat(0.5f, 0.8f);
+			thread.EndScale = random.NextFloat(0.5f, 0.8f);
 
 			if (mainThread)
 			{
@@ -210,7 +249,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				while (i < maxDistance) //Loop through the shortest angle to the player, but multiplied by a random float (above 0.5f)
 				{
 					float rotDifference = ((((distanceFromPlayer.ToRotation() - threadRotation) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
-					direction = (threadRotation + (Math.Sign(rotDifference) * Main.rand.NextFloat(1f, 1.5f))).ToRotationVector2();
+					direction = (threadRotation + (Math.Sign(rotDifference) * random.NextFloat(1f, 1.5f))).ToRotationVector2();
 					for (i = 16; i < maxDistance; i++)
 					{
 						Vector2 toLookAt = startPos + (direction * i);
@@ -227,7 +266,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				{
 					while (i < maxDistance)
 					{
-						direction = Main.rand.NextFloat(6.28f).ToRotationVector2();
+						direction = random.NextFloat(6.28f).ToRotationVector2();
 						for (i = 16; i < maxDistance; i++)
 						{
 							Vector2 toLookAt = startPos + (direction * i);
@@ -245,9 +284,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				while (i < maxDistance) //first while loop
 				{
 					if (mainThread)
-						direction = (threadRotation + Main.rand.NextFloat(-1f, 1f)).ToRotationVector2(); //Woohoo magic numbers
+						direction = (threadRotation + random.NextFloat(-1f, 1f)).ToRotationVector2(); //Woohoo magic numbers
 					else
-						direction = Main.rand.NextFloat(6.28f).ToRotationVector2();
+						direction = random.NextFloat(6.28f).ToRotationVector2();
 					for (i = 16; i < maxDistance; i++)
 					{
 						Vector2 toLookAt = startPos + (direction * i);
@@ -264,7 +303,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				{
 					while (i < maxDistance)
 					{
-						direction = Main.rand.NextFloat(6.28f).ToRotationVector2();
+						direction = random.NextFloat(6.28f).ToRotationVector2();
 						for (i = 16; i < maxDistance; i++)
 						{
 							Vector2 toLookAt = startPos + (direction * i);
@@ -324,7 +363,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			progress += (1f / currentThread.Length) * speed;
 			Bottom = Vector2.Lerp(currentThread.StartPoint, currentThread.EndPoint, progress);
 			threadCounter--;
-			if (Main.rand.Next(200) == 0 && threadCounter < 0 && progress > 0.15f && progress < 0.85f)
+			if (random.Next(200) == 0 && threadCounter < 0 && progress > 0.15f && progress < 0.85f)
 			{
 				NewThread(false, false);
 			}
