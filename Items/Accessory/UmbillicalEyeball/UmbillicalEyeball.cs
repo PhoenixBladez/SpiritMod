@@ -1,13 +1,12 @@
-﻿using SpiritMod;
+﻿using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using SpiritMod.Prim;
+using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 {
@@ -19,7 +18,6 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 			Tooltip.SetDefault("Summons 3 eyeballs attached to you\nThese eyeballs do not take up minion slots");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.damage = 50;
@@ -28,33 +26,27 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 			item.width = 24;
 			item.height = 24;
 			item.value = Item.buyPrice(0, 2, 0, 0);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.accessory = true;
 		}
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			player.GetModPlayer<EyeballPlayer>().EyeballMinion = true;
-		}
+
+		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<EyeballPlayer>().EyeballMinion = true;
 	}
+
 	public class EyeballPlayer : ModPlayer
 	{
 		public bool EyeballMinion = false;
 
-		public override void ResetEffects()
-		{
-			EyeballMinion = false;
-		}
+		public override void ResetEffects() => EyeballMinion = false;
+
 		public override void PostUpdateEquips()
 		{
 			if (EyeballMinion)
-			{
 				if (player.ownedProjectileCounts[ModContent.ProjectileType<UmbillicalEyeballProj>()] < 3)
-				{
 					Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<UmbillicalEyeballProj>(), (int)(50 * player.minionDamage), 1.5f, player.whoAmI, player.ownedProjectileCounts[ModContent.ProjectileType<UmbillicalEyeballProj>()], 0);
-				}
-			}
 		}
 	}
+
 	public class UmbillicalEyeballProj : ModProjectile
 	{
 		public override void SetStaticDefaults()
@@ -64,6 +56,7 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
 			ProjectileID.Sets.Homing[projectile.type] = true;
 		}
+
 		public override void SetDefaults()
 		{
 			projectile.netImportant = true;
@@ -90,6 +83,7 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 		int circleX = 0;
 		int circleY = 0;
 		float circleSpeed = 0.05f;
+
 		public override void AI()
 		{
 			if (!primsCreated)
@@ -103,6 +97,7 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 				circleX = Main.rand.Next(40, 80);
 				circleY = Main.rand.Next(20, 40);
 			}
+
 			Player player = Main.player[projectile.owner];
 			EyeballPlayer modOwner = player.GetModPlayer<EyeballPlayer>();
 			attackCounter = (Main.GameUpdateCount / 120f * 6.28f) + projectile.ai[0];
@@ -110,13 +105,13 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 
 			if (player.dead)
 				modOwner.EyeballMinion = false;
-
 			if (modOwner.EyeballMinion)
 				projectile.timeLeft = 2;
 
 			float maxRange = 10f;
 			int range = 10;
-			if (projectile.ai[1] == -1)//boilerplate, sorry
+
+			if (projectile.ai[1] == -1) //boilerplate, sorry
 			{
 				float lowestDist = float.MaxValue;
 				for (int i = 0; i < 200; ++i)
@@ -138,19 +133,21 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 					}
 				}
 			}
+
 			NPC target = projectile.OwnerMinionAttackTargetNPC;
 			if (target != null && projectile.Distance(target.Center) < maxRange * 16)
-			{
 				projectile.ai[1] = target.whoAmI;
-			}
+
 			if (projectile.ai[1] != -1)
 			{
 				target = (Main.npc[(int)projectile.ai[1]] ?? new NPC());
 				rotationVector = projectile.Center - target.Center;
 			}
+
 			projectile.rotation = rotationVector.ToRotation();
-			Vector2 circle = new Vector2(circleX * (float)Math.Sin((double)rotationCounter), circleY * (float)Math.Cos((double)rotationCounter));
+			var circle = new Vector2(circleX * (float)Math.Sin(rotationCounter), circleY * (float)Math.Cos(rotationCounter));
 			float speed = 0.5f;
+
 			if (!attacking)
 			{
 				projectile.friendly = false;
@@ -158,6 +155,7 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 				projectile.ai[1] = -1;
 				int offset = 80;
 				double angle;
+
 				if (player.direction == 1)
 				{
 					angle = 1.3;
@@ -166,20 +164,19 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 				}
 				else
 				{
-					angle = 6.28 - 1.3;
+					angle = MathHelper.TwoPi - 1.3;
 					control1 = (Vector2.UnitY * -120).RotatedBy(1.4) + player.Center + (circle.RotatedBy(angle) / 2);
 					control2 = (Vector2.UnitY * -80).RotatedBy(6.28 - 0.4) + player.Center + (circle.RotatedBy(angle) / 5);
 				}
+
 				posToBe *= offset;
 				posToBe += circle;
 				posToBe = posToBe.RotatedBy(angle);
 				posToBe.Y -= 30;
 				posToBe += player.Center;
-				if (attackCounter % 7 > 6.8)
-				{
-					attacking = true;
 
-				}
+				if (attackCounter % 7 > 6.8)
+					attacking = true;
 			}
 			else
 			{
@@ -192,21 +189,15 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 						speed = 2;
 					}
 					else
-					{
 						attacking = false;
-					}
 				}
 				else
-				{
 					attacking = false;
-				}
 			}
 
 			Vector2 direction = posToBe - projectile.position;
 			if (direction.Length() > 1000)
-			{
 				projectile.position = posToBe;
-			}
 			else
 			{
 				speed *= (float)Math.Sqrt(direction.Length());
@@ -216,19 +207,21 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 				projectile.velocity = direction;
 			}
 		}
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			attacking = false;
-		}
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => attacking = false;
 	}
+
 	class UmbillicalPrimTrail : PrimTrail
 	{
+		double _length = 1;
+
 		public UmbillicalPrimTrail(Projectile projectile)
 		{
 			Entity = projectile;
 			EntityType = projectile.type;
 			DrawType = PrimTrailManager.DrawProjectile;
 		}
+
 		public override void SetDefaults()
 		{
 			AlphaValue = 1f;
@@ -237,6 +230,7 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 			Pixellated = false;
 			Color = Color.Pink;
 		}
+
 		public override void PrimStructure(SpriteBatch spriteBatch)
 		{
 			/*if (PointCount <= 1) return; //for easier, but less customizable, drawing
@@ -244,44 +238,31 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
             Color c1 = Color.Lerp(Color.White, Color.Cyan, colorSin);
             float widthVar = (float)Math.Sqrt(Points.Count) * Width;
             DrawBasicTrail(c1, widthVar);*/
-
 			if (PointCount <= 6) return;
+
 			double UVX = 0;
 			double UVXNext = 0;
 			for (int i = 0; i < Points.Count; i++)
 			{
-				if (i == 0)
+				if (i != 0 && i != Points.Count - 1)
 				{
+					Vector2 dir = Points[i] - Points[i + 1];
+					UVXNext += dir.Length() / (_length * 32);
+					Vector2 normal = CurveNormal(Points, i);
 					Vector2 normalAhead = CurveNormal(Points, i + 1);
+					Vector2 firstUp = Points[i] - normal * Width;
+					Vector2 firstDown = Points[i] + normal * Width;
 					Vector2 secondUp = Points[i + 1] - normalAhead * Width;
 					Vector2 secondDown = Points[i + 1] + normalAhead * Width;
-				}
-				else
-				{
-					if (i != Points.Count - 1)
-					{
-						Vector2 dir = Points[i] - Points[i + 1];
-						UVXNext += dir.Length() / (_length * 32);
-						Vector2 normal = CurveNormal(Points, i);
-						Vector2 normalAhead = CurveNormal(Points, i + 1);
-						Vector2 firstUp = Points[i] - normal * Width;
-						Vector2 firstDown = Points[i] + normal * Width;
-						Vector2 secondUp = Points[i + 1] - normalAhead * Width;
-						Vector2 secondDown = Points[i + 1] + normalAhead * Width;
 
-						AddVertex(firstDown, Color * AlphaValue, new Vector2((float)UVX, 1));
-						AddVertex(firstUp, Color * AlphaValue, new Vector2((float)UVX, 0));
-						AddVertex(secondDown, Color * AlphaValue, new Vector2((float)UVXNext, 1));
+					AddVertex(firstDown, Color * AlphaValue, new Vector2((float)UVX, 1));
+					AddVertex(firstUp, Color * AlphaValue, new Vector2((float)UVX, 0));
+					AddVertex(secondDown, Color * AlphaValue, new Vector2((float)UVXNext, 1));
 
-						AddVertex(secondUp, Color * AlphaValue, new Vector2((float)UVXNext, 0));
-						AddVertex(secondDown, Color * AlphaValue, new Vector2((float)UVXNext, 1));
-						AddVertex(firstUp, Color * AlphaValue, new Vector2((float)UVX, 0));
-						UVX = UVXNext;
-					}
-					else
-					{
-
-					}
+					AddVertex(secondUp, Color * AlphaValue, new Vector2((float)UVXNext, 0));
+					AddVertex(secondDown, Color * AlphaValue, new Vector2((float)UVXNext, 1));
+					AddVertex(firstUp, Color * AlphaValue, new Vector2((float)UVX, 0));
+					UVX = UVXNext;
 				}
 			}
 		}
@@ -293,14 +274,11 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 			PrepareShader(effect, "MainPS", (float)_length, Color);
 		}
 
-		double _length = 1;
 		public override void OnUpdate()
 		{
 			PointCount = Points.Count() * 6;
 			if (Destroyed || !Entity.active)
-			{
 				OnDestroy();
-			}
 			else
 			{
 				List<Vector2> points = new List<Vector2>();
@@ -323,9 +301,7 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 			}
 			_length /= 32.0;
 		}
-		public override void OnDestroy()
-		{
-			Dispose();
-		}
+
+		public override void OnDestroy() => Dispose();
 	}
 }
