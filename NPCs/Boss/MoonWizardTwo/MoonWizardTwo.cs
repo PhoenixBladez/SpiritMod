@@ -321,26 +321,26 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 		{
 			Player player = Main.player[npc.target];
 			UpdateFrame(0.15f, 0, 3);
-			if (attackCounter % 50 == 0)
+			if (attackCounter % 60 == 0)
 			{
 				SkyPosY = (int)(player.position.Y - 500);
 				sweepDirection = 0 - sweepDirection;
 				if (sweepDirection == 1)
 					SkyPos = (int)(player.position.X - 1000);
 				else
-					SkyPos = (int)(player.position.X + 930);
+					SkyPos = (int)(player.position.X + 950);
 			}
-			if (attackCounter % 2 == 0 && Main.netMode != NetmodeID.MultiplayerClient && attackCounter % 50 < 30)
+			if (attackCounter % 2 == 0 && Main.netMode != NetmodeID.MultiplayerClient && attackCounter % 60 < 40)
 			{
 				Vector2 strikePos = new Vector2(SkyPos, SkyPosY);
 				Projectile proj = Projectile.NewProjectileDirect(strikePos, new Vector2(0, 0), ModContent.ProjectileType<MysticSkyMoonZapper>(), 30, 0, npc.target);
 				SpiritMod.primitives.CreateTrail(new MoonLightningPrimTrail(proj));
 				if (sweepDirection == 1) //left -> right
-					SkyPos += 170;
+					SkyPos += 100;
 				else //right -> left
-					SkyPos -= 170;
+					SkyPos -= 100;
 			}
-			if (attackCounter == 149)
+			if (attackCounter == 179)
 			{
 				npc.ai[1]++;
 				cooldownCounter = 30;

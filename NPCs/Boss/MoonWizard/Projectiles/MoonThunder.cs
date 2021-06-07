@@ -25,7 +25,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
             projectile.timeLeft = 4000;
             projectile.penetrate = 5;
             projectile.tileCollide = false;
-            projectile.width = projectile.height = 40;
+            projectile.width = projectile.height = 30;
         }
         float fadeOutNum = 1f;
         public override bool PreAI()
@@ -141,7 +141,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
                 midPoint = line.start + ((line.end - line.start) * 0.5f).RotatedBy(Main.rand.NextFloat(-MIN_MAX_ANGLE, MIN_MAX_ANGLE));
                 tile = midPoint.ToTileCoordinates();
                 fails++;
-            } while (fails < 20 && WorldGen.InWorld(tile.X, tile.Y) && Main.tile[tile.X, tile.Y] != null && Main.tile[tile.X, tile.Y].active() && Main.tileSolid[Framing.GetTileSafely(tile.X,tile.Y).type]);
+            } while (fails < 20 && WorldGen.InWorld(tile.X, tile.Y) && Main.tile[tile.X, tile.Y] != null && Main.tile[tile.X, tile.Y].active());
 
             Line newLine1 = new Line(line.start, midPoint);
             Line newLine2 = new Line(midPoint, line.end);

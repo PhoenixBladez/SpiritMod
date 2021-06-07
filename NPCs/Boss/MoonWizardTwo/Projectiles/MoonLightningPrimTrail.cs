@@ -22,7 +22,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
         public override void SetDefaults()
         {
             Width= 2;
-            AlphaValue= 1f;
+            AlphaValue= 0.7f;
             Cap = 2;
             Pixellated = false;
 			Color = Color.White;
