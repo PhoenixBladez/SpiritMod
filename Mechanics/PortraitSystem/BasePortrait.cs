@@ -21,6 +21,8 @@ namespace SpiritMod.Mechanics.PortraitSystem
 			BaseSize = size ?? new Point(108, 108);
 		}
 
-		public virtual Rectangle GetFrame(string speech) => new Rectangle(0, 0, 108, 108);
+		/// <summary>Allows you to change the shown frame.</summary>
+		/// <param name="speech">The text that the NPC is saying.</param>
+		public virtual Rectangle GetFrame(string speech) => new Rectangle(0, 0, BaseSize.X, BaseSize.Y);
 	}
 }

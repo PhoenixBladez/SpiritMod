@@ -1,4 +1,6 @@
-﻿using Terraria.ID;
+﻿using Terraria;
+using Terraria.ID;
+using Microsoft.Xna.Framework;
 
 namespace SpiritMod.Mechanics.PortraitSystem.Portraits
 {
@@ -7,5 +9,12 @@ namespace SpiritMod.Mechanics.PortraitSystem.Portraits
 		public override int ID => NPCID.OldMan;
 
 		public OldMan() : base(null) { }
+
+		public override Rectangle GetFrame(string speech)
+		{
+			if (!Main.dayTime)
+				return new Rectangle(110, 0, 108, 108);
+			return base.GetFrame(speech);
+		}
 	}
 }
