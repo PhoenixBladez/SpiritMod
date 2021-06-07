@@ -30,13 +30,13 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
         float fadeOutNum = 1f;
         public override bool PreAI()
         {
-            if (projectile.ai[0] % 6 == 0)
+            if (projectile.ai[0] == 0)
             {
                 MakeLightning();
             }
             projectile.ai[0]++;
-            fadeOutNum -= .08f;
-            if (projectile.ai[0] > 12)
+            fadeOutNum -= .04f;
+            if (projectile.ai[0] > 18)
             {
                 projectile.Kill();
             }
@@ -141,7 +141,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
                 midPoint = line.start + ((line.end - line.start) * 0.5f).RotatedBy(Main.rand.NextFloat(-MIN_MAX_ANGLE, MIN_MAX_ANGLE));
                 tile = midPoint.ToTileCoordinates();
                 fails++;
-            } while (fails < 20 && WorldGen.InWorld(tile.X, tile.Y) && Main.tile[tile.X, tile.Y] != null && Main.tile[tile.X, tile.Y].active());
+            } while (fails < 20 && WorldGen.InWorld(tile.X, tile.Y) && Main.tile[tile.X, tile.Y] != null && Main.tile[tile.X, tile.Y].active() && Main.tileSolid[Framing.GetTileSafely(tile.X,tile.Y).type]);
 
             Line newLine1 = new Line(line.start, midPoint);
             Line newLine2 = new Line(midPoint, line.end);
