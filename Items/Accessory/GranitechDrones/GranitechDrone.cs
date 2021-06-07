@@ -1,12 +1,11 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.Graphics.Shaders;
-using System.Collections.Generic;
 using System.Linq;
+using Terraria.ModLoader;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Items.Accessory.GranitechDrones
 {
@@ -29,25 +28,24 @@ namespace SpiritMod.Items.Accessory.GranitechDrones
         const float attackRange = 800;
         private readonly Color AttackColor = new Color(255, 34, 65);
         private readonly Color MiningColor = Color.Cyan;
-        private readonly float DroneIndexOffset = -28;
+		readonly List<LaserData> laserData = new List<LaserData>();
 
-        float timer = 0;
+		float timer = 0;
         int tileTimer = 0;
         int shootTimer = 0;
         bool start = true;
 
         int currentMiningPower = 0;
 
-        List<LaserData> laserData = new List<LaserData>();
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Granitech Drone");
-            Main.projFrames[base.projectile.type] = 1;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 1;
+            Main.projPet[projectile.type] = true;
+            Main.projFrames[projectile.type] = 1;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 1;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            ProjectileID.Sets.MinionSacrificable[base.projectile.type] = true;
-            ProjectileID.Sets.Homing[base.projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
+            ProjectileID.Sets.Homing[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
 
@@ -57,7 +55,6 @@ namespace SpiritMod.Items.Accessory.GranitechDrones
             projectile.width = 42;
             projectile.height = 42;
             projectile.friendly = true;
-            Main.projPet[projectile.type] = true;
             projectile.minion = true;
             projectile.minionSlots = 0;
             projectile.penetrate = -1;
@@ -76,14 +73,10 @@ namespace SpiritMod.Items.Accessory.GranitechDrones
             timer += 0.1f;
 
             if (tileTimer > 0)
-			{
                 tileTimer--;
-			}
 
             if (shootTimer > 0)
-			{
                 shootTimer--;
-			}
 
             Player owner = Main.player[projectile.owner];
             MyPlayer modOwner = owner.GetModPlayer<MyPlayer>();
@@ -94,18 +87,14 @@ namespace SpiritMod.Items.Accessory.GranitechDrones
                 currentMiningPower = owner.inventory[owner.selectedItem].pick;
             }
             else
-			{
                 projectile.ai[0] = 0f;
-			}
 
             if (projectile.ai[0] == 0f) // ATTACKING
 			{
                 NPC target = Main.npc.Where(n => n.CanBeChasedBy(projectile, false) && Vector2.Distance(n.Center, projectile.Center) < attackRange).OrderBy(n => n.life / n.lifeMax).FirstOrDefault();
 
                 if (target == default)
-                {
                     IdleMovement(owner);
-                }
                 else
 				{
                     var noise = GetNoise();
@@ -127,9 +116,7 @@ namespace SpiritMod.Items.Accessory.GranitechDrones
                     projectile.rotation = (projectile.rotation + (target.Center - projectile.Center).ToRotation()) * 0.5f;
 
                     if (shootTimer <= 0)
-					{
-                        Shoot(owner, target);
-					}
+                        Shoot(target);
                 }
             }
             else if (projectile.ai[0] == 1f) // MINING
@@ -161,9 +148,7 @@ namespace SpiritMod.Items.Accessory.GranitechDrones
                         Mine(owner);
                 }
                 else
-				{
                     IdleMovement(owner);
-                }
             }
 
             if (owner.dead)
@@ -177,22 +162,17 @@ namespace SpiritMod.Items.Accessory.GranitechDrones
                 t.timeLeft--;
 
                 if (t.timeLeft <= 0)
-				{
                     laserData.Remove(t);
-				}
             }
         }
 
-        private Vector2 GetNoise()
-		{
-            return new Vector2((float)Math.Cos(timer * 0.78f), (float)Math.Sin(timer * 1.06f)) * 0.1f;
-        }
-        private void IdleMovement(Player owner)
+		private Vector2 GetNoise() => new Vector2((float)Math.Cos(timer * 0.78f), (float)Math.Sin(timer * 1.06f)) * 0.1f;
+
+		private void IdleMovement(Player owner)
 		{
             var noise = GetNoise();
 
             Vector2 targetPos = GetAnchorPoint(owner, new Vector2(-40, -28));
-
             Vector2 dir = targetPos - projectile.Center;
 
             float length = dir.Length();
@@ -200,30 +180,23 @@ namespace SpiritMod.Items.Accessory.GranitechDrones
             dir.Normalize();
 
             projectile.velocity *= 0.97f;
-
             projectile.velocity += dir * length * 0.01f;
-
             projectile.velocity += noise * Math.Max(0, (80 - length)) / 80;
-
             projectile.rotation = projectile.velocity.ToRotation();
         }
 
         private Vector2 GetAnchorPoint(Player player, Vector2 offset)
 		{
             Vector2 v = player.Center + new Vector2(0, offset.Y);
-
             v += new Vector2(offset.X, 0) * player.direction;
-
             return v;
 		}
 
         private void Mine(Player owner)
 		{
-            var dir = Main.MouseWorld - owner.Center;
-            dir.Normalize();
+            var dir = Vector2.Normalize(Main.MouseWorld - owner.Center);
 
             var center = owner.Center;
-
             bool stop = false;
 
             for (int n = 0; n < 5; n++)
@@ -239,7 +212,6 @@ namespace SpiritMod.Items.Accessory.GranitechDrones
                             owner.PickTile(tile.X, tile.Y, currentMiningPower);
 
                             laserData.Add(new LaserData(tile.ToVector2() * 16, 6, MiningColor));
-
                             tileTimer = 25 + Main.rand.Next(-5, 6);
 
                             stop = true;
@@ -254,7 +226,7 @@ namespace SpiritMod.Items.Accessory.GranitechDrones
 			}
         }
 
-        private void Shoot(Player owner, NPC target)
+        private void Shoot(NPC target)
 		{
             Vector2 delta = target.Center - projectile.Center;
             float length = delta.Length();
@@ -274,23 +246,18 @@ namespace SpiritMod.Items.Accessory.GranitechDrones
             //owner.ApplyDamageToNPC(target, projectile.damage, 0.1f, projectile.spriteDirection, false);
         }
 
-        public override bool MinionContactDamage()
-        {
-            return true;
-        }
+		public override bool MinionContactDamage() => true;
+
+		public override bool? CanCutTiles() => false;
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
             Color color = Color.White;
 
             if (projectile.ai[0] == 0f) // ATTACK
-			{
                 color = AttackColor;
-			}
             else if (projectile.ai[0] == 1f) // MINING
-            {
                 color = MiningColor;
-            }
 
             spriteBatch.Draw(ModContent.GetTexture(Texture), projectile.Center - Main.screenPosition, null, lightColor, projectile.rotation, new Vector2(16, 25), projectile.scale, projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             spriteBatch.Draw(ModContent.GetTexture("SpiritMod/Items/Accessory/GranitechDrones/GranitechDroneModeGlowmask"), projectile.Center - Main.screenPosition, null, color, projectile.rotation, new Vector2(16, 25), projectile.scale, projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
