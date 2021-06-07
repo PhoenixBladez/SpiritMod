@@ -1,11 +1,8 @@
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Buffs.Potion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,7 +16,6 @@ namespace SpiritMod.Items.Consumable.Potion
 			DisplayName.SetDefault("Bottomless Healing Potion");
 			Tooltip.SetDefault("Non-consumable");
 		}
-
 
 		public override void SetDefaults()
 		{

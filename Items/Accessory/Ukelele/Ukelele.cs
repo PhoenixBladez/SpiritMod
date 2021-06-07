@@ -19,7 +19,6 @@ namespace SpiritMod.Items.Accessory.Ukelele
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(4, 12));
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = 24;
@@ -28,31 +27,33 @@ namespace SpiritMod.Items.Accessory.Ukelele
 			item.rare = 3;
 			item.accessory = true;
 		}
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			player.GetModPlayer<UkelelePlayer>().active = true;
-		}
+
+		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<UkelelePlayer>().active = true;
 	}
 	public class UkelelePlayer : ModPlayer
     {
 		public bool active = false;
 		int overcharge = 0;
+
 		public override void ResetEffects()
         {
             active = false;
 			if (overcharge > 0)
 			overcharge--;
         }
+
 		public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
 			if (active && proj.type != ModContent.ProjectileType<UkeleleProj>() && Main.rand.Next(4) == 0 && overcharge < 30)
 				DoLightningChain(target, damage);
 		}
+
 		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
 			if (active && Main.rand.Next(4) == 0 && overcharge < 30)
 				DoLightningChain(target, damage);
 		}
+
 		private void DoLightningChain(NPC target, int damage)
 		{
 			overcharge += 15;
@@ -70,6 +71,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
         public NPC[] hit = new NPC[8];
 		public NPC currentEnemy;
 		int animCounter = 5;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ukelele");
@@ -88,6 +90,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
 			projectile.width = 74;
 			projectile.alpha = 255;
 		}
+
 		private int Mode {
 			get => (int)projectile.ai[0];
 			set => projectile.ai[0] = value;
@@ -95,10 +98,11 @@ namespace SpiritMod.Items.Accessory.Ukelele
 
 		private NPC Target {
 			get => Main.npc[(int)projectile.ai[1]];
-			set { projectile.ai[1] = value.whoAmI; }
+			set => projectile.ai[1] = value.whoAmI;
 		}
 
-		private Vector2 Origin {
+		private Vector2 Origin
+		{
 			get => new Vector2(projectile.localAI[0], projectile.localAI[1]);
 			set {
 				projectile.localAI[0] = value.X;
@@ -120,9 +124,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
 				if (projectile.timeLeft < 300) {
 					animCounter--;
 					if (animCounter > 0)
-					{
 						projectile.Center = currentEnemy.Center; 
-					}
 					if (animCounter == 1)
 					{
 						NPC target = TargetNext(currentEnemy);
@@ -183,7 +185,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
 			for (int i = 0; i < 200; ++i) {
 				NPC npc = Main.npc[i];
 				//if npc is a valid target (active, not friendly, and not a critter)
-				if (npc != current && npc.active && CanTarget(npc)) {
+				if (npc != current && npc.CanBeChasedBy() && CanTarget(npc)) {
 					float dist = Vector2.DistanceSquared(center, npc.Center);
 					if (dist < range) {
 						range = dist;
@@ -193,10 +195,9 @@ namespace SpiritMod.Items.Accessory.Ukelele
 			}
 			return target;
 		}
-		public override bool? CanHitNPC(NPC target)
-		{
-			return CanTarget(target) && target == Target;
-		}
+
+		public override bool? CanHitNPC(NPC target) => CanTarget(target) && target == Target;
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			projectile.velocity = Vector2.Zero;
@@ -228,7 +229,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
 		}
 		public override void AI()
 		{
-			projectile.frame = (int)((16 - projectile.timeLeft) / 4) - 1;
+			projectile.frame = ((16 - projectile.timeLeft) / 4) - 1;
 			Color color = Color.Cyan;
 			Lighting.AddLight((int)((projectile.position.X + (float)(projectile.width / 2)) / 16f), (int)((projectile.position.Y + (float)(projectile.height / 2)) / 16f), color.R / 450f, color.G / 450f, color.B / 450f);
 		}
