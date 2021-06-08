@@ -40,11 +40,10 @@ namespace SpiritMod.Items.Weapon.Greatswords
             item.shootSpeed = 6f;
             item.noUseGraphic = true;
         }
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
-    }
+
+		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
+	}
+
     public class GSaberProj : ModProjectile
     {
         protected int flickerTime = 20; //dont change these
@@ -58,7 +57,16 @@ namespace SpiritMod.Items.Weapon.Greatswords
         protected float swings = 0;
         protected int timesSwung = 0;
         protected float swingAcc = 0;
-        public float radians
+
+		float chargeRate = 0.5f;
+		float chargePerSwing = 15;
+		float dechargeRate = 1.5f;
+		float swingRadians = 2.333f;
+		float swingMax = 9;
+		int range = 100;
+		int extraRange = 25;
+
+		public float Radians
         {
             get
             {
@@ -70,9 +78,7 @@ namespace SpiritMod.Items.Weapon.Greatswords
                 Player player = Main.player[projectile.owner];
                 player.itemRotation = value;
                 if (player.direction != 1)
-                {
                     player.itemRotation -= 3.14f;
-                }
                 player.itemRotation = MathHelper.WrapAngle(player.itemRotation);
             }
         }
@@ -93,24 +99,20 @@ namespace SpiritMod.Items.Weapon.Greatswords
 			projectile.tileCollide = false;
             projectile.alpha = 255;
 		}
-        float chargeRate = 0.5f;
-        float chargePerSwing = 15;
-        float dechargeRate = 1.5f;
-        float swingRadians = 2.333f;
-        float swingMax = 9;
-        int range = 100;
-        int extraRange = 25;
+
         public override void AI()
         {
             projectile.scale = growCounter < 10 ? (growCounter / 10f) : 1;
             growCounter++;
+
             Player player = Main.player[projectile.owner];
             player.heldProj = projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
             player.ChangeDir(Main.MouseWorld.X > player.position.X ? 1 : -1);
-            direction = Main.MouseWorld - (player.Center - new Vector2(4, 4));
-			direction.Normalize();
+
+            direction = Vector2.Normalize(Main.MouseWorld - (player.Center - new Vector2(4, 4)));
+
             if (player.channel && !released)
             {
                 offset = 0 - swingRadians / 2;
@@ -126,7 +128,6 @@ namespace SpiritMod.Items.Weapon.Greatswords
                         flickerTime = 0;
                     }
                 }
-
             }
             else
             {
@@ -179,17 +180,16 @@ namespace SpiritMod.Items.Weapon.Greatswords
                 if (timesSwung >= swings)
                     projectile.active = false;
             }
-            radians = direction.ToRotation() + (offset * player.direction);
+            Radians = direction.ToRotation() + (offset * player.direction);
             if (player.direction == -1)
-                radians += 3.14f;
-            
+                Radians += 3.14f;
         }
         
-
         public SpriteEffects Effects => ((Main.player[projectile.owner].direction * (int)Main.player[projectile.owner].gravDir) < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-        public float Truerotation => ((float)radians + 0.76f) - ((Effects == SpriteEffects.FlipHorizontally) ? MathHelper.PiOver2 : 0);
+        public float Truerotation => (Radians + 0.76f) - ((Effects == SpriteEffects.FlipHorizontally) ? MathHelper.PiOver2 : 0);
         public Vector2 Origin => (Effects == SpriteEffects.FlipHorizontally) ? new Vector2(Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / 3) : new Vector2(0, Main.projectileTexture[projectile.type].Height / 3);
-        public sealed override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+
+		public sealed override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];
 			Color color = lightColor;
@@ -207,6 +207,7 @@ namespace SpiritMod.Items.Weapon.Greatswords
 			}
             return false;
         }
+
         public override bool CanDamage() => released; //only damage enemies before it hits four enemies(piercing but without killing projectile), and after it starts being swung
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -217,6 +218,7 @@ namespace SpiritMod.Items.Weapon.Greatswords
 
             return projHitbox.Intersects(targetHitbox);
         }
+
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
         {
             Player player = Main.player[projectile.owner];
@@ -234,20 +236,20 @@ namespace SpiritMod.Items.Weapon.Greatswords
             if (timesSwung % 2 == 0)
             {
 				SpiritMod.primitives.CreateTrail(new GSaberPrimTrail(projectile, 
-                start, 
-                mid,
-                mid2, 
-                end,
-                reverse));
+					start, 
+					mid,
+					mid2, 
+					end,
+					reverse));
             }
             else
             {
                 SpiritMod.primitives.CreateTrail(new GSaberPrimTrail(projectile, 
-                end, 
-                mid2,
-                mid, 
-                start,
-                reverse));
+					end, 
+					mid2,
+					mid, 
+					start,
+					reverse));
             }
         }
     }

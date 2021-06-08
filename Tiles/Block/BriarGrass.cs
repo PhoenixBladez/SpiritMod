@@ -12,17 +12,19 @@ namespace SpiritMod.Tiles.Block
 		public override void SetDefaults()
 		{
 			Main.tileSolid[Type] = true;
-			SetModTree(new ReachTree());
 			Main.tileMerge[Type][mod.TileType("BriarGrass")] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
+
 			TileID.Sets.Grass[Type] = true;
 			TileID.Sets.NeedsGrassFraming[Type] = true;
 			TileID.Sets.NeedsGrassFramingDirt[Type] = TileID.Dirt;
 			TileID.Sets.Conversion.Grass[Type] = true;
-			//Main.tileLighted[Type] = true;
+
 			AddMapEntry(new Color(104, 156, 70));
+			SetModTree(new ReachTree());
+
 			drop = ItemID.DirtBlock;
 		}
 
@@ -35,7 +37,6 @@ namespace SpiritMod.Tiles.Block
 			toBePlaced.random = random;
 			if (TileObject.Place(toBePlaced) && !mute) {
 				WorldGen.SquareTileFrame(x, y, true);
-				//   Main.PlaySound(SoundID.Dig, x * 16, y * 16, 1, 1f, 0f);
 			}
 			return false;
 		}
@@ -82,9 +83,17 @@ namespace SpiritMod.Tiles.Block
 		public override int SaplingGrowthType(ref int style)
 		{
 			style = 0;
-			return mod.TileType("ReachSapling");
+			return ModContent.TileType<ReachSapling>();
 		}
 
+		public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
+		{
+			if (!fail) //Change self into dirt
+			{
+				fail = true;
+				Framing.GetTileSafely(i, j).type = TileID.Dirt;
+			}
+		}
 	}
 }
 

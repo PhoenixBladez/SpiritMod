@@ -1,8 +1,6 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Accessory;
-using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Flail;
-using SpiritMod.Projectiles.Hostile;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -29,26 +27,26 @@ namespace SpiritMod.NPCs.Wheezer
 			npc.DeathSound = SoundID.NPCDeath53;
 			npc.value = 120f;
 			npc.knockBackResist = .35f;
+			npc.aiStyle = 3;
+
+			aiType = NPCID.Skeleton;
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.WheezerBanner>();
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe || !NPC.downedBoss1) {
+			if (spawnInfo.playerSafe || !NPC.downedBoss1)
 				return 0f;
-			}
 			if (Main.hardMode)
-			{
 				return SpawnCondition.Cavern.Chance * 0.03f;				
-			}
 			return SpawnCondition.Cavern.Chance * 0.17f;
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for (int k = 0; k < 11; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), .61f);
-			}
+			for (int k = 0; k < 11; k++)
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, .61f);
 			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/WheezerGore1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/WheezerGore2"), 1f);
@@ -60,28 +58,16 @@ namespace SpiritMod.NPCs.Wheezer
 
 		public override void NPCLoot()
 		{
-            /*int Techs = Main.rand.Next(1, 4);
-			for (int J = 0; J <= Techs; J++) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Carapace>());
-			}*/
             if (Main.rand.Next(15) == 0)
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WheezerScale>());
             if (Main.rand.Next(80) == 0)
-            {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DepthMeter);
-            }
             if (Main.rand.NextBool(60))
-            {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ClatterMace>());
-            }
             if (Main.rand.Next(80) == 0)
-            {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Compass);
-            }
             if (Main.rand.Next(200) == 0)
-            {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Rally);
-            }
             if (Main.rand.NextBool(100))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Bezoar);
 
@@ -89,15 +75,14 @@ namespace SpiritMod.NPCs.Wheezer
             if (Main.rand.Next(55) == 0)
             {
                 int loot = Main.rand.Next(lootTable.Length);
-                {
-                    npc.DropItem(mod.ItemType(lootTable[loot]));
-                }
+                npc.DropItem(mod.ItemType(lootTable[loot]));
             }
         }
 
 		int frame = 0;
 		int timer = 0;
 		int shootTimer = 0;
+
 		public override void AI()
 		{
 			npc.spriteDirection = npc.direction;
@@ -113,22 +98,18 @@ namespace SpiritMod.NPCs.Wheezer
 				if (shootTimer >= 80) {
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 95);
-					Vector2 direction = Main.player[npc.target].Center - npc.Center;
-					direction.Normalize();
-					direction.X *= 5f;
-					direction.Y *= 5f;
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 95);
+						Vector2 direction = Main.player[npc.target].Center - npc.Center;
+						direction.Normalize();
+						direction.X *= 5f;
+						direction.Y *= 5f;
 
-					int amountOfProjectiles = 1;
-					for (int i = 0; i < amountOfProjectiles; ++i) {
-						float A = (float)Main.rand.Next(-50, 50) * 0.02f;
-						float B = (float)Main.rand.Next(-50, 50) * 0.02f;
+						float A = Main.rand.Next(-50, 50) * 0.02f;
+						float B = Main.rand.Next(-50, 50) * 0.02f;
 						int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 20), npc.Center.Y - 10, direction.X + A, direction.Y + B, ModContent.ProjectileType<WheezerCloud>(), npc.damage / 3, 1, Main.myPlayer, 0, 0);
-						for (int k = 0; k < 11; k++) {
+						for (int k = 0; k < 11; k++)
 							Dust.NewDust(npc.position, npc.width, npc.height, 5, direction.X + A, direction.Y + B, 0, default(Color), .61f);
-						}
 						Main.projectile[p].hostile = true;
-					}
 					}
 					shootTimer = 0;
 				}
@@ -137,22 +118,18 @@ namespace SpiritMod.NPCs.Wheezer
 					frame++;
 					timer = 0;
 				}
-				if (frame >= 15) {
+				if (frame >= 15)
 					frame = 11;
-				}
 			}
 			else {
 				shootTimer = 0;
-				npc.aiStyle = 3;
-				aiType = NPCID.Skeleton;
 				timer++;
 				if (timer == 4) {
 					frame++;
 					timer = 0;
 				}
-				if (frame >= 9) {
+				if (frame >= 9)
 					frame = 1;
-				}
 			}
 			if (shootTimer > 120) {
 				shootTimer = 120;
@@ -161,9 +138,7 @@ namespace SpiritMod.NPCs.Wheezer
 				shootTimer = 0;
 			}
 		}
-		public override void FindFrame(int frameHeight)
-		{
-			npc.frame.Y = frameHeight * frame;
-		}
+
+		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
 	}
 }

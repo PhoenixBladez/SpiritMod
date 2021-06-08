@@ -87,7 +87,6 @@ namespace SpiritMod.Tiles.Block
 			style = 0;
 			return ModContent.TileType<ReachSapling>();
 		}
-
 	}
 }
 

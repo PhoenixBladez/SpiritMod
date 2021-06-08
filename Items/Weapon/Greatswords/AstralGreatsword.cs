@@ -12,7 +12,6 @@ namespace SpiritMod.Items.Weapon.Greatswords
 {
     public class AstralGreatsword : ModItem
     {
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Spellblade");
@@ -34,19 +33,19 @@ namespace SpiritMod.Items.Weapon.Greatswords
             item.noMelee = true;
             item.knockBack = 8;
             item.useTurn = false;
-            item.value = Terraria.Item.sellPrice(0, 0, 1, 0);
+            item.value = Item.sellPrice(0, 0, 1, 0);
             item.rare = ItemRarityID.Pink;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("AstralGreatswordProj");
             item.shootSpeed = 6f;
             item.noUseGraphic = true;
         }
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
-        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => 
-            GlowmaskUtils.DrawItemGlowMaskWorld(Main.spriteBatch, item, mod.GetTexture(Texture.Remove(0, "Starjinx/".Length) + "_glow"), rotation, scale);
+
+		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
+
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => 
+            GlowmaskUtils.DrawItemGlowMaskWorld(Main.spriteBatch, item, ModContent.GetTexture(Texture + "_glow"), rotation, scale);
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -59,11 +58,9 @@ namespace SpiritMod.Items.Weapon.Greatswords
     }
     public class AstralGreatswordProj : GreatswordProj
     {
-        public override void SafeSetStaticDefaults()
-		{
-			DisplayName.SetDefault("Astral Spellblade Proj");
-        }
-        public override void SafeSetDefaults()
+		public override void SafeSetStaticDefaults() => DisplayName.SetDefault("Astral Spellblade");
+
+		public override void SafeSetDefaults()
         {
             chargeMax = 200; 
             minDamage = 60;
@@ -75,6 +72,7 @@ namespace SpiritMod.Items.Weapon.Greatswords
             pullBack = 0.025f;
             maxOffset = 1.5f;
         }
+
         public override void SafeAI()
         {
             Player player = Main.player[projectile.owner];
@@ -87,13 +85,15 @@ namespace SpiritMod.Items.Weapon.Greatswords
                 Gore.NewGore(projectile.Center + Main.rand.NextVector2Square(-20, 20), fakevelocity.RotatedByRandom(Math.PI / 6), mod.GetGoreSlot("Gores/StarjinxGore"), 0.5f + (0.5f*charge)/chargeMax);
             }
         }
+
         public override void CreatePrims(Vector2 start, Vector2 mid, Vector2 end)
         {
             SpiritMod.primitives.CreateTrail(new AstralSwordPrimTrail(projectile, 
-            start, 
-            mid, 
-            end));
+				start, 
+				mid, 
+				end));
         }
+
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockBack, ref bool crit, ref int hitDirection)
         {
              if (target.boss)
