@@ -2,23 +2,33 @@
 
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 using SpiritMod.Mechanics.QuestSystem.Quests;
+
 using Terraria.ModLoader.IO;
+
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace SpiritMod.Mechanics.QuestSystem
 {
 	public class QuestWorld : ModWorld
 	{
+		//Adventurer variables
+		public static bool zombieQuestStart = false;
+
 		public Dictionary<int, Queue<Quest>> NPCQuestQueue { get; private set; } = new Dictionary<int, Queue<Quest>>();
 
 		public override void PostUpdate()
 		{
 			Player player = Main.LocalPlayer;
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-
+			if (zombieQuestStart)
+			{
+                QuestManager.UnlockQuest<ZombieOriginQuest>(true);
+			}
             if (Main.hardMode)
             {
                 QuestManager.UnlockQuest<ExplorerQuestBlueMoon>(true);
@@ -87,6 +97,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 				{
 					QuestManager.UnloadedQuests.Add(allQuests[i], ConvertBack(tag.Get<TagCompound>(allQuests[i])));
 				}
+				zombieQuestStart = tag.GetBool("zombieQuestStart");
 			}
 			catch(Exception e)
 			{
@@ -97,6 +108,9 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public override TagCompound Save()
 		{
 			var tag = new TagCompound();
+
+			//Adventurer Bools
+			tag.Add("zombieQuestStart", zombieQuestStart);
 
 			List<string> allQuestNames = new List<string>();
 
@@ -147,7 +161,16 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 			return tag;
 		}
-
+		public override void NetSend(BinaryWriter writer)
+		{
+			BitsByte adventurerQuests = new BitsByte(zombieQuestStart);
+			writer.Write(adventurerQuests);
+		}
+		public override void NetReceive(BinaryReader reader)
+		{
+			BitsByte adventurerQuests = reader.ReadByte();
+			zombieQuestStart = adventurerQuests[0];
+		}
 		private TagCompound Convert(StoredQuestData data)
 		{
 			var tag = new TagCompound

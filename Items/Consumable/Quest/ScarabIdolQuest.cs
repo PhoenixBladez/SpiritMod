@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria.ModLoader;
+using SpiritMod.Mechanics.QuestSystem;
+using SpiritMod.Mechanics.QuestSystem.Quests;
 
 namespace SpiritMod.Items.Consumable.Quest
 {
@@ -15,17 +17,17 @@ namespace SpiritMod.Items.Consumable.Quest
 		public override void SetDefaults()
 		{
 			item.width = item.height = 16;
-			item.rare = -11;
+			item.rare = 2;
 			item.maxStack = 99;
 		}
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
-			TooltipLine line = new TooltipLine(mod, "ItemName", "Quest Item");
-			line.overrideColor = new Color(100, 222, 122);
-			tooltips.Add(line);
-			TooltipLine line1 = new TooltipLine(mod, "FavoriteDesc", "'It's an ancient artifact that resembles a scarab beetle'");
-			line1.overrideColor = new Color(255, 255, 255);
-			tooltips.Add(line1);
+			if (!QuestManager.GetQuest<IdleIdol>().IsCompleted)
+			{
+				TooltipLine line = new TooltipLine(mod, "ItemName", "Quest Item");
+				line.overrideColor = new Color(100, 222, 122);
+				tooltips.Add(line);
+			}
 		}
 	}
 }

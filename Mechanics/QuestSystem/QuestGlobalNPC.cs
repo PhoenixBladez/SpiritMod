@@ -106,6 +106,22 @@ namespace SpiritMod.Mechanics.QuestSystem
 			}
 			OnSetupShop?.Invoke(type, shop, nextSlot);
 		}
+
+		public override void GetChat(NPC npc, ref string chat)
+		{
+			if (QuestManager.GetQuest<ZombieOriginQuest>().IsActive)
+			{
+				if (npc.type == NPCID.Guide)
+				{
+					chat = "Wow, so this is what quest dialogue feels like.";
+				}
+				if (npc.type == NPCID.Dryad)
+				{
+					chat = "Wow, so this is what quest dialogue feels like.";
+				}
+			}
+		}
+
 		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor) //Draws the exclamation mark on the NPC when they have a quest
 		{
 			bool valid = ModContent.GetInstance<SpiritClientConfig>().ShowNPCQuestNotice && npc.CanTalk; //Check if the NPC talks and if the config allows

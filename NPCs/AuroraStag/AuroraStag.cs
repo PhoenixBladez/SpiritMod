@@ -105,7 +105,7 @@ namespace SpiritMod.NPCs.AuroraStag
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.player.ZoneSnow && MyWorld.aurora)
+			if (spawnInfo.player.ZoneSnow && MyWorld.aurora && Main.hardMode)
 				return 0.0015f;
 
 			return 0f;

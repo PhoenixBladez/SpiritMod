@@ -7,7 +7,11 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 using SpiritMod.Mechanics.QuestSystem.Tasks;
+using SpiritMod.UI.Elements;
+
+using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
@@ -35,11 +39,11 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
         {
 
             TaskBuilder branch1 = new TaskBuilder();
-            branch1.AddTask(new RetrievalTask(20, 1))
+            branch1.AddTask(new TalkNPCTask(NPCID.Guide, "Talk to the Guide about the mysterious scroll."))
             .AddTask(new RetrievalTask(516, 3));
 
             TaskBuilder branch2 = new TaskBuilder();
-            branch2.AddTask(new SlayTask(176, 5))
+            branch2.AddTask(new TalkNPCTask(NPCID.Dryad, "Or talk to the Dryad about the mysterious scroll."))
                 .AddTask(new RetrievalTask(201, 5));
 
             _tasks.AddBranches(branch1, branch2);

@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria.ModLoader;
+using SpiritMod.Mechanics.QuestSystem.Quests;
+using SpiritMod.Mechanics.QuestSystem;
 
 namespace SpiritMod.Items.Consumable.Quest
 {
@@ -20,9 +22,12 @@ namespace SpiritMod.Items.Consumable.Quest
 		}
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
-			TooltipLine line = new TooltipLine(mod, "ItemName", "Quest Item");
-			line.overrideColor = new Color(100, 222, 122);
-			tooltips.Add(line);
+			if (!QuestManager.GetQuest<ItsNoSalmon>().IsCompleted)
+			{
+				TooltipLine line = new TooltipLine(mod, "ItemName", "Quest Item");
+				line.overrideColor = new Color(100, 222, 122);
+				tooltips.Add(line);
+			}
 			TooltipLine line1 = new TooltipLine(mod, "FavoriteDesc", "'It buzzes and blubs at the same time'");
 			line1.overrideColor = new Color(255, 255, 255);
 			tooltips.Add(line1);

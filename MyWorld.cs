@@ -125,9 +125,6 @@ namespace SpiritMod
 		public static bool downedTide = false;
 		public static bool downedBlueMoon = false;
 
-		//Adventurer variables
-		public static bool zombieQuestStart = false;
-
 		//pagoda enemy spawn variables
 		public static int pagodaX = 0;
 		public static int pagodaY = 0;
@@ -207,10 +204,7 @@ namespace SpiritMod
 			data.Add("jellySky", jellySky);
 
 			data.Add("gennedBandits", gennedBandits);
-			data.Add("gennedTower", gennedTower);
-
-			//Adventurer Bools
-			data.Add("zombieQuestStart", zombieQuestStart);
+			data.Add("gennedTower", gennedTower);;
 
 			data.Add("pagodaX", pagodaX);
 			data.Add("pagodaY", pagodaY);
@@ -256,8 +250,6 @@ namespace SpiritMod
 			gennedBandits = tag.GetBool("gennedBandits");
 			gennedTower = tag.GetBool("gennedTower");
 
-			zombieQuestStart = tag.GetBool("zombieQuestStart");
-
 			pagodaX = tag.Get<int>("pagodaX");
 			pagodaY = tag.Get<int>("pagodaY");
 			spawnedPagodaEnemies = tag.Get<bool>("spawnedPagodaEnemies");
@@ -300,7 +292,6 @@ namespace SpiritMod
 				gennedBandits = flags2[0];
 				gennedTower = flags2[1];
 
-				zombieQuestStart = flags3[0];
 			}
 			else {
 				mod.Logger.Error("Unknown loadVersion: " + loadVersion);
@@ -315,10 +306,8 @@ namespace SpiritMod
 			writer.Write(bosses2);
 			BitsByte environment = new BitsByte(BlueMoon, jellySky, downedBlueMoon, downedJellyDeluge);
 			BitsByte worldgen = new BitsByte(gennedBandits, gennedTower);
-			BitsByte adventurerQuests = new BitsByte(zombieQuestStart);
 			writer.Write(environment);
 			writer.Write(worldgen);
-			writer.Write(adventurerQuests);
 		}
 
 		public override void NetReceive(BinaryReader reader)
@@ -352,10 +341,6 @@ namespace SpiritMod
 			BitsByte worldgen = reader.ReadByte();
 			gennedBandits = worldgen[0];
 			gennedTower = worldgen[1];
-
-
-			BitsByte adventurerQuests = reader.ReadByte();
-			zombieQuestStart = adventurerQuests[0];
 		}
 
 		public override void PreUpdate()
