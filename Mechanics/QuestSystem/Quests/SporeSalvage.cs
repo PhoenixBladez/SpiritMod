@@ -25,10 +25,27 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.GlowingMushroom, 16),
 			(Terraria.ID.ItemID.GoldCoin, 3)
 		};
+        public override void OnActivate()
+		{
+			QuestGlobalNPC.OnEditSpawnPool += QuestGlobalNPC_OnEditSpawnPool;
+			base.OnActivate();
+		}
 
+		public override void OnDeactivate()
+		{
+			QuestGlobalNPC.OnEditSpawnPool -= QuestGlobalNPC_OnEditSpawnPool;
+			base.OnDeactivate();
+		}
+		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
+		{
+			if (pool[ModContent.NPCType<NPCs.Critters.Vibeshroom>()] > 0f && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Critters.Vibeshroom>()))
+			{
+				pool[ModContent.NPCType<NPCs.Critters.Vibeshroom>()] = 1.15f;
+			}
+		}
 		private SporeSalvage()
         {
-            _tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Consumable.VibeshroomItem>(), 1));
+            _tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Consumable.VibeshroomItem>(), 1, "Capture"));
         }
     }
 }

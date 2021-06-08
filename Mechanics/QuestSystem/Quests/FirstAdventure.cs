@@ -44,6 +44,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			QuestManager.UnlockQuest<RootOfTheProblem>(showUnlocks);
 			QuestManager.UnlockQuest<IdleIdol>(showUnlocks);
 
+			QuestManager.UnlockQuest<ZombieOriginQuest>(showUnlocks);
+
 			QuestManager.UnlockQuest<BareNecessities>(showUnlocks);
 
 			QuestManager.UnlockQuest<ExplorerQuestCrimson>(showUnlocks);

@@ -7,7 +7,17 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
+using SpiritMod.Items.Accessory;
+using SpiritMod.Items.Ammo.Arrow;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Pins;
+using SpiritMod.Items.Placeable.Furniture;
+using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Mechanics.QuestSystem.Quests;
+using SpiritMod.NPCs.Town;
+
+using static Terraria.ModLoader.ModContent;
+
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,6 +29,7 @@ namespace SpiritMod.Mechanics.QuestSystem
     {
 		public static event Action<IDictionary<int, float>, NPCSpawnInfo> OnEditSpawnPool;
         public static event Action<NPC> OnNPCLoot;
+        public static event Action<int, Chest, int> OnSetupShop;
 
 		public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo) => OnEditSpawnPool?.Invoke(pool, spawnInfo);
 
@@ -51,6 +62,50 @@ namespace SpiritMod.Mechanics.QuestSystem
             OnNPCLoot?.Invoke(npc);
         }
 
+		public override void SetupShop(int type, Chest shop, ref int nextSlot)
+		{
+			if (type == ModContent.NPCType<RuneWizard>())
+			{
+				if (QuestManager.GetQuest<FirstAdventure>().IsCompleted)
+				{
+					if (!Main.dayTime)
+					{
+						shop.item[nextSlot].SetDefaults(ItemType<Items.Placeable.Furniture.OccultistMap>(), false);
+						nextSlot++;
+					}
+				}
+			}
+			if (type == ModContent.NPCType<Adventurer>())
+			{
+				if (QuestManager.GetQuest<DecrepitDepths>().IsCompleted) {
+					shop.item[nextSlot].SetDefaults(ItemType<SepulchreArrow>(), false);
+					nextSlot++;
+					shop.item[nextSlot].SetDefaults(ItemType<SepulchreBannerItem>(), false);
+					nextSlot++;
+					shop.item[nextSlot].SetDefaults(ItemType<SepulchreChest>(), false);
+					nextSlot++;
+				}
+				if (QuestManager.GetQuest<SkyHigh>().IsCompleted) {
+					shop.item[nextSlot].SetDefaults(ItemType<PottedSakura>(), false);
+					nextSlot++;
+					shop.item[nextSlot].SetDefaults(ItemType<PottedWillow>(), false);
+					nextSlot++;
+				}
+				if (QuestManager.GetQuest<SporeSalvage>().IsCompleted) {
+					shop.item[nextSlot].SetDefaults(ItemType<Tiles.Furniture.Critters.VibeshroomJarItem>(), false);
+					nextSlot++;
+				}
+				if (QuestManager.GetQuest<SlayerQuestDrBones>().IsCompleted) {
+					shop.item[nextSlot].SetDefaults(ItemType<Items.Consumable.SeedBag>(), false);
+					nextSlot++;
+				}
+				if (QuestManager.GetQuest<SlayerQuestWinterborn>().IsCompleted) {
+					shop.item[nextSlot].SetDefaults(ItemType<Items.Weapon.Thrown.CryoKnife>(), false);
+					nextSlot++;
+				}
+			}
+			OnSetupShop?.Invoke(type, shop, nextSlot);
+		}
 		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor) //Draws the exclamation mark on the NPC when they have a quest
 		{
 			bool valid = ModContent.GetInstance<SpiritClientConfig>().ShowNPCQuestNotice && npc.CanTalk; //Check if the NPC talks and if the config allows

@@ -124,7 +124,7 @@ namespace SpiritMod.NPCs.Town
             AddItem(ref shop, ref nextSlot, ItemType<PinGreen>());
 			AddItem(ref shop, ref nextSlot, ItemType<PinYellow>());
           
-            if (MyWorld.sepulchreComplete) {
+            /*if (MyWorld.sepulchreComplete) {
 				AddItem(ref shop, ref nextSlot, ItemType<SepulchreArrow>());
 				AddItem(ref shop, ref nextSlot, ItemType<SepulchreBannerItem>());
 				AddItem(ref shop, ref nextSlot, ItemType<SepulchreChest>());
@@ -141,7 +141,7 @@ namespace SpiritMod.NPCs.Town
 			}
 			if (MyWorld.winterbornComplete) {
 				AddItem(ref shop, ref nextSlot, ItemType<Items.Weapon.Thrown.CryoKnife>());
-			}
+			}*/
             AddItem(ref shop, ref nextSlot, ItemType<Items.Accessory.VitalityStone>(), check: Main.bloodMoon);
             int glowStick = Main.moonPhase == 4 && !Main.dayTime ? ItemID.SpelunkerGlowstick : ItemID.StickyGlowstick;
             AddItem(ref shop, ref nextSlot, glowStick);
@@ -156,10 +156,10 @@ namespace SpiritMod.NPCs.Town
                     AddItem(ref shop, ref nextSlot, ItemID.UltrabrightTorch);
                     break;
             }
-            if (MyWorld.owlComplete)
+            /*if (MyWorld.owlComplete)
             {
                 AddItem(ref shop, ref nextSlot, ItemID.MusicBox);
-            }
+            }*/
         }
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)

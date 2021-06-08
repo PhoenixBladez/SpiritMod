@@ -126,27 +126,7 @@ namespace SpiritMod
 		public static bool downedBlueMoon = false;
 
 		//Adventurer variables
-		public static bool sepulchreComplete = false;
-		public static bool jadeStaffComplete = false;
-		public static bool shadowflameComplete = false;
-		public static bool vibeShroomComplete = false;
-		public static bool winterbornComplete = false;
-		public static bool drBonesComplete = false;
-		public static bool spawnHornetFish = false;
-		public static bool spawnVibeshrooms = false;
-		public static bool spawnDarkfeather = false;
-		public static bool spawnHookbats = false;
-		public static bool owlComplete = false;
-
-		public static int numWinterbornKilled;
-		public static int numBeholdersKilled;
-		public static int numValkyriesKilled;
-		public static int numAntlionsKilled;
-		public static int numDrBonesKilled;
-		public static int numWheezersKilled;
-		public static int numStardancersKilled;
-		public static int numBriarMobsKilled;
-		public static int numOwlsKilled;
+		public static bool zombieQuestStart = false;
 
 		//pagoda enemy spawn variables
 		public static int pagodaX = 0;
@@ -230,22 +210,7 @@ namespace SpiritMod
 			data.Add("gennedTower", gennedTower);
 
 			//Adventurer Bools
-			data.Add("sepulchreComplete", sepulchreComplete);
-			data.Add("jadeStaffComplete", jadeStaffComplete);
-			data.Add("shadowflameComplete", shadowflameComplete);
-			data.Add("vibeShroomComplete", vibeShroomComplete);
-			data.Add("winterbornComplete", winterbornComplete);
-			data.Add("drBonesComplete", drBonesComplete);
-			data.Add("spawnHornetFish", spawnHornetFish);
-			data.Add("spawnDarkfeather", spawnDarkfeather);
-			data.Add("spawnVibeshrooms", spawnVibeshrooms);
-			data.Add("spawnHookbats", spawnHookbats);
-			data.Add("owlComplete", owlComplete);
-
-			data.Add("numWinterbornKilled", numWinterbornKilled);
-			data.Add("numAntlionsKilled", numAntlionsKilled);
-			data.Add("numWheezersKilled", numWheezersKilled);
-			data.Add("numBriarMobsKilled", numBriarMobsKilled);
+			data.Add("zombieQuestStart", zombieQuestStart);
 
 			data.Add("pagodaX", pagodaX);
 			data.Add("pagodaY", pagodaY);
@@ -291,23 +256,7 @@ namespace SpiritMod
 			gennedBandits = tag.GetBool("gennedBandits");
 			gennedTower = tag.GetBool("gennedTower");
 
-			sepulchreComplete = tag.GetBool("sepulchreComplete");
-			jadeStaffComplete = tag.GetBool("jadeStaffComplete");
-			shadowflameComplete = tag.GetBool("shadowflameComplete");
-			vibeShroomComplete = tag.GetBool("vibeShroomComplete");
-			winterbornComplete = tag.GetBool("winterbornComplete");
-			drBonesComplete = tag.GetBool("drBonesComplete");
-			spawnHornetFish = tag.GetBool("spawnHornetFish");
-			spawnVibeshrooms = tag.GetBool("spawnVibeshrooms");
-			spawnDarkfeather = tag.GetBool("spawnDarkfeather");
-			spawnHookbats = tag.GetBool("spawnHookbats");
-			owlComplete = tag.GetBool("owlComplete");
-
-			numWinterbornKilled = tag.Get<int>("numWinterbornKilled");
-			numAntlionsKilled = tag.Get<int>("numAntlionsKilled");
-			numWheezersKilled = tag.Get<int>("numWheezersKilled");
-			numStardancersKilled = tag.Get<int>("numStardancersKilled");
-			numBriarMobsKilled = tag.Get<int>("numBriarMobsKilled");
+			zombieQuestStart = tag.GetBool("zombieQuestStart");
 
 			pagodaX = tag.Get<int>("pagodaX");
 			pagodaY = tag.Get<int>("pagodaY");
@@ -350,18 +299,8 @@ namespace SpiritMod
 
 				gennedBandits = flags2[0];
 				gennedTower = flags2[1];
-				spawnDarkfeather = flags2[2];
-				spawnHookbats = flags2[3];
-				owlComplete = flags2[4];
 
-				sepulchreComplete = flags3[0];
-				spawnHornetFish = flags3[1];
-				spawnVibeshrooms = flags3[2];
-				jadeStaffComplete = flags3[3];
-				shadowflameComplete = flags3[4];
-				vibeShroomComplete = flags3[5];
-				winterbornComplete = flags3[6];
-				drBonesComplete = flags3[7];
+				zombieQuestStart = flags3[0];
 			}
 			else {
 				mod.Logger.Error("Unknown loadVersion: " + loadVersion);
@@ -375,16 +314,11 @@ namespace SpiritMod
 			writer.Write(bosses1);
 			writer.Write(bosses2);
 			BitsByte environment = new BitsByte(BlueMoon, jellySky, downedBlueMoon, downedJellyDeluge);
-			BitsByte worldgen = new BitsByte(gennedBandits, gennedTower, spawnDarkfeather, spawnHookbats, owlComplete);
-			BitsByte adventurerQuests = new BitsByte(sepulchreComplete, spawnHornetFish, spawnVibeshrooms, jadeStaffComplete, shadowflameComplete, vibeShroomComplete, winterbornComplete, drBonesComplete);
+			BitsByte worldgen = new BitsByte(gennedBandits, gennedTower);
+			BitsByte adventurerQuests = new BitsByte(zombieQuestStart);
 			writer.Write(environment);
 			writer.Write(worldgen);
 			writer.Write(adventurerQuests);
-			writer.Write(numWinterbornKilled);
-			writer.Write(numAntlionsKilled);
-			writer.Write(numWheezersKilled);
-			writer.Write(numStardancersKilled);
-			writer.Write(numBriarMobsKilled);
 		}
 
 		public override void NetReceive(BinaryReader reader)
@@ -418,26 +352,10 @@ namespace SpiritMod
 			BitsByte worldgen = reader.ReadByte();
 			gennedBandits = worldgen[0];
 			gennedTower = worldgen[1];
-			spawnDarkfeather = worldgen[2];
-			spawnHookbats = worldgen[3];
-			owlComplete = worldgen[4];
+
 
 			BitsByte adventurerQuests = reader.ReadByte();
-
-			sepulchreComplete = adventurerQuests[0];
-			spawnHornetFish = adventurerQuests[1];
-			spawnVibeshrooms = adventurerQuests[2];
-			jadeStaffComplete = adventurerQuests[3];
-			shadowflameComplete = adventurerQuests[4];
-			vibeShroomComplete = adventurerQuests[5];
-			winterbornComplete = adventurerQuests[6];
-			drBonesComplete = adventurerQuests[7];
-
-			numWinterbornKilled = reader.ReadInt32();
-			numAntlionsKilled = reader.ReadInt32();
-			numWheezersKilled = reader.ReadInt32();
-			numStardancersKilled = reader.ReadInt32();
-			numBriarMobsKilled = reader.ReadInt32();
+			zombieQuestStart = adventurerQuests[0];
 		}
 
 		public override void PreUpdate()

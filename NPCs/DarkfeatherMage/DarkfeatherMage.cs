@@ -46,7 +46,6 @@ namespace SpiritMod.NPCs.DarkfeatherMage
         public override bool PreNPCLoot()
         {
             Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
-            MyWorld.spawnDarkfeather = false;
             return true;
         }
         public override void AI()
@@ -343,7 +342,7 @@ namespace SpiritMod.NPCs.DarkfeatherMage
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.player.ZoneOverworldHeight && !NPC.AnyNPCs(ModContent.NPCType<DarkfeatherMage>()) && Math.Abs(spawnInfo.spawnTileX - Main.spawnTileX) > Main.maxTilesX / 3 && MyWorld.spawnDarkfeather ? 0.865f : 0f;
+            return spawnInfo.player.ZoneOverworldHeight && !NPC.AnyNPCs(ModContent.NPCType<DarkfeatherMage>()) && Math.Abs(spawnInfo.spawnTileX - Main.spawnTileX) > Main.maxTilesX / 3 && NPC.downedBoss2 ? 0.0000165f : 0f;
         }
         public override void HitEffect(int hitDirection, double damage)
         {

@@ -175,10 +175,6 @@ namespace SpiritMod.NPCs.ScreechOwl
         {
             if (npc.life <= 0)
             {
-                if (Main.LocalPlayer.GetSpiritPlayer().emptyOwlScroll)
-                {
-                    MyWorld.numOwlsKilled++;
-                }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScreechOwl/ScreechOwl1"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScreechOwl/ScreechOwl2"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScreechOwl/ScreechOwl3"), 1f);

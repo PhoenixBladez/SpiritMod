@@ -46,7 +46,7 @@ namespace SpiritMod.NPCs.Critters
 			int x = spawnInfo.spawnTileX;
 			int y = spawnInfo.spawnTileY;
 			int tile = (int)Main.tile[x, y].type;
-			return (tile == TileID.MushroomGrass) && NPC.CountNPCS(ModContent.NPCType<Vibeshroom>()) < 5 && MyWorld.spawnVibeshrooms ? 1.59f : 0f;
+			return (tile == TileID.MushroomGrass) && NPC.CountNPCS(ModContent.NPCType<Vibeshroom>()) < 5 ? .003f : 0f;
 
 		}
 

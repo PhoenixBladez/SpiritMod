@@ -30,7 +30,17 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
         {
             _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.Valkyrie.Valkyrie>(), 1));
         }
+        public override void OnActivate()
+		{
+			QuestGlobalNPC.OnEditSpawnPool += QuestGlobalNPC_OnEditSpawnPool;
+			base.OnActivate();
+		}
 
+		public override void OnDeactivate()
+		{
+			QuestGlobalNPC.OnEditSpawnPool -= QuestGlobalNPC_OnEditSpawnPool;
+			base.OnDeactivate();
+		}
 		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
 		{
 			if (pool[ModContent.NPCType<NPCs.Valkyrie.Valkyrie>()] > 0f && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Valkyrie.Valkyrie>()))

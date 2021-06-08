@@ -127,9 +127,6 @@ namespace SpiritMod.NPCs.Valkyrie
 		{
 			for (int i = 0; i < 10; i++) ;
 			if (npc.life <= 0) {
-				if (Main.LocalPlayer.GetSpiritPlayer().emptyValkyrieScroll) {
-					MyWorld.numValkyriesKilled++;
-				}
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Valkyrie1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Valkyrie1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Valkyrie2"), 1f);
