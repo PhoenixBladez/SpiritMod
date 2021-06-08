@@ -144,7 +144,6 @@ namespace SpiritMod.NPCs.Town
 				item = shop.item[nextSlot++];
 				CustomWare(item, ItemType<PhaseGlyph>(), 4);
 			}
-			AddItem(ref shop, ref nextSlot, ItemType<Items.Placeable.Furniture.OccultistMap>(), 10000, !Main.dayTime);
             AddItem(ref shop, ref nextSlot, ItemType<Items.Armor.WitchSet.WitchHead>(), 12000, !Main.dayTime);
             AddItem(ref shop, ref nextSlot, ItemType<Items.Armor.WitchSet.WitchBody>(), 15000, !Main.dayTime);
             AddItem(ref shop, ref nextSlot, ItemType<Items.Armor.WitchSet.WitchLegs>(), 10000, !Main.dayTime);

@@ -264,17 +264,6 @@ namespace SpiritMod
         public bool strikeshield = false;
 
         //Adventurer related
-        public int explorerTimer;
-        public bool emptyExplorerScroll = false;
-        public bool emptyWinterbornScroll = false;
-        public bool emptyBeholderScroll = false;
-        public bool emptyOwlScroll = false;
-        public bool emptyValkyrieScroll = false;
-        public bool emptyAntlionScroll = false;
-        public bool emptyDrBonesScroll = false;
-        public bool emptyWheezerScroll = false;
-        public bool emptyStardancerScroll = false;
-        public bool emptyBriarMobsScroll = false;
 
         public float SpeedMPH { get; private set; }
         public DashType ActiveDash { get; private set; }
@@ -751,14 +740,6 @@ namespace SpiritMod
             soulPotion = false;
             carnivorousPlantMinion = false;
 
-            emptyExplorerScroll = false;
-            emptyWinterbornScroll = false;
-            emptyBeholderScroll = false;
-            emptyValkyrieScroll = false;
-            emptyDrBonesScroll = false;
-            emptyWheezerScroll = false;
-            emptyStardancerScroll = false;
-
             // Reset armor set booleans.
             duskSet = false;
             runicSet = false;
@@ -1053,7 +1034,7 @@ namespace SpiritMod
 					}
 				}
 			}
-			if (MyWorld.spawnHornetFish && Main.rand.Next(15) == 0 && player.ZoneJungle) {
+			/*if (MyWorld.spawnHornetFish && Main.rand.Next(15) == 0 && player.ZoneJungle) {
 				for (int i = 0; i < 1000; i++) {
 					if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber)
 						bobberIndex = i;
@@ -1064,7 +1045,7 @@ namespace SpiritMod
 					if (Main.netMode == NetmodeID.MultiplayerClient)
 						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<NPCs.Hornetfish.Hornetfish>());
 				}
-			}
+			}*/
             if (player.ZoneDungeon && power >= 30 && Main.rand.NextBool(25))
                 caughtType = ModContent.ItemType<MysticalCage>();
 

@@ -25,18 +25,18 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
             projectile.timeLeft = 4000;
             projectile.penetrate = 5;
             projectile.tileCollide = false;
-            projectile.width = projectile.height = 40;
+            projectile.width = projectile.height = 30;
         }
         float fadeOutNum = 1f;
         public override bool PreAI()
         {
-            if (projectile.ai[0] % 6 == 0)
+            if (projectile.ai[0] == 0)
             {
                 MakeLightning();
             }
             projectile.ai[0]++;
-            fadeOutNum -= .08f;
-            if (projectile.ai[0] > 12)
+            fadeOutNum -= .04f;
+            if (projectile.ai[0] > 18)
             {
                 projectile.Kill();
             }
