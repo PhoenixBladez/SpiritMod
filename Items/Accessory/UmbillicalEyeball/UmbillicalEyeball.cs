@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 
 		public override void SetDefaults()
 		{
-			item.damage = 50;
+			item.damage = 80;
 			item.summon = true;
 			item.knockBack = 1.5f;
 			item.width = 24;
@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 		{
 			if (EyeballMinion)
 				if (player.ownedProjectileCounts[ModContent.ProjectileType<UmbillicalEyeballProj>()] < 3)
-					Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<UmbillicalEyeballProj>(), (int)(50 * player.minionDamage), 1.5f, player.whoAmI, player.ownedProjectileCounts[ModContent.ProjectileType<UmbillicalEyeballProj>()], 0);
+					Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<UmbillicalEyeballProj>(), (int)(80 * player.minionDamage), 1.5f, player.whoAmI, player.ownedProjectileCounts[ModContent.ProjectileType<UmbillicalEyeballProj>()], 0);
 		}
 	}
 
@@ -52,9 +52,9 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Umbillical Eyeball");
-			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-			ProjectileID.Sets.Homing[projectile.type] = true;
+            ProjectileID.Sets.Homing[projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -100,7 +100,7 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 
 			Player player = Main.player[projectile.owner];
 			EyeballPlayer modOwner = player.GetModPlayer<EyeballPlayer>();
-			attackCounter = (Main.GameUpdateCount / 120f * 6.28f) + projectile.ai[0];
+			attackCounter = (Main.GameUpdateCount / 60f * 6.28f) + projectile.ai[0];
 			rotationCounter += circleSpeed;
 
 			if (player.dead)
@@ -108,7 +108,7 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 			if (modOwner.EyeballMinion)
 				projectile.timeLeft = 2;
 
-			float maxRange = 10f;
+			float maxRange = 160f;
 			int range = 10;
 
 			if (projectile.ai[1] == -1) //boilerplate, sorry
@@ -133,17 +133,6 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 					}
 				}
 			}
-
-			NPC target = projectile.OwnerMinionAttackTargetNPC;
-			if (target != null && projectile.Distance(target.Center) < maxRange * 16)
-				projectile.ai[1] = target.whoAmI;
-
-			if (projectile.ai[1] != -1)
-			{
-				target = (Main.npc[(int)projectile.ai[1]] ?? new NPC());
-				rotationVector = projectile.Center - target.Center;
-			}
-
 			projectile.rotation = rotationVector.ToRotation();
 			var circle = new Vector2(circleX * (float)Math.Sin(rotationCounter), circleY * (float)Math.Cos(rotationCounter));
 			float speed = 0.5f;
@@ -181,15 +170,11 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 			else
 			{
 				projectile.friendly = true;
-				if (projectile.ai[1] != -1)
+				NPC target = Main.npc.Where(n => n.CanBeChasedBy(projectile, false) && Vector2.Distance(n.Center, projectile.Center) < maxRange).OrderBy(n => Vector2.Distance(n.Center, projectile.Center)).FirstOrDefault();
+				if (target != default)
 				{
-					if (target.active && target.CanBeChasedBy(projectile))
-					{
-						posToBe = target.Center;
-						speed = 2;
-					}
-					else
-						attacking = false;
+					posToBe = target.Center;
+					speed = 2;
 				}
 				else
 					attacking = false;
@@ -285,6 +270,7 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 				if (Entity is Projectile proj && proj.modProjectile is UmbillicalEyeballProj modproj)
 				{
 					Player player = Main.player[proj.owner];
+					points.Add(player.Center);
 					Color = Color.White.MultiplyRGBA(Lighting.GetColor((int)proj.Center.X / 16, (int)proj.Center.Y / 16));
 					for (float i = 0; i <= 1; i += 0.05f)
 						points.Add(Helpers.TraverseBezier(proj.Center, player.Center, modproj.control1, modproj.control2, i));
