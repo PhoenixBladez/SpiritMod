@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 using SpiritMod.Mechanics.QuestSystem.Tasks;
-using SpiritMod.UI.Elements;
 
 using static Terraria.ModLoader.ModContent;
 
@@ -24,20 +17,19 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestCategory => "Slayer";
 
 		public override (int, int)[] QuestRewards => _rewards;
+
 		private (int, int)[] _rewards = new[]
 		{
-			(Terraria.ID.ItemID.SkyMill, 1),
-			(ModContent.ItemType<Items.Consumable.ChaosPearl>(), 25),
-			(ModContent.ItemType<Items.Weapon.Thrown.TargetBottle>(), 35),
-			(Terraria.ID.ItemID.SilverCoin, 90)
+			(ItemID.SkyMill, 1),
+			(ItemType<Items.Consumable.ChaosPearl>(), 25),
+			(ItemType<Items.Weapon.Thrown.TargetBottle>(), 35),
+			(ItemID.SilverCoin, 90)
 		};
-		public override bool IsQuestPossible()
-		{
-            return Main.player[Main.myPlayer].HasItem(ModContent.ItemType<Items.Placeable.Furniture.OccultistMap>());
-        }
+
+		public override bool IsQuestPossible() => Main.player[Main.myPlayer].HasItem(ModContent.ItemType<Items.Placeable.Furniture.OccultistMap>());
+
 		private ZombieOriginQuest()
         {
-
             TaskBuilder branch1 = new TaskBuilder();
             branch1.AddTask(new TalkNPCTask(NPCID.Guide, "Talk to the Guide about the mysterious scroll."))
             .AddTask(new RetrievalTask(516, 3));

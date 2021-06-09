@@ -18,7 +18,7 @@ namespace SpiritMod.Mechanics.QuestSystem
     {
 		/* Boffin's TODO list
 		
-		 * NPC text override and quest buttons. (a helper class with a bunch of queued up quests to give for town npcs!)
+		 * NPC text override and quest buttons. (a helper class with a bunch of queued up quests to give for town npcs!) (I think this is done, but I'll keep this here just in case I'm wrong - Gabe)
 		 * New clients joining servers need to sync their quest managers up.
 		 * 
 		 * 
@@ -107,10 +107,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			_tasksDict = null;
 		}
 
-		public static bool ActivateQuest(int index)
-		{
-			return ActivateQuest(Quests[index]);
-		}
+		public static bool ActivateQuest(int index) => ActivateQuest(Quests[index]);
 
 		public static bool ActivateQuest(Quest quest)
 		{
@@ -131,10 +128,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			return true;
 		}
 
-		public static void DeactivateQuest(int index)
-		{
-			DeactivateQuest(Quests[index]);
-		}
+		public static void DeactivateQuest(int index) => DeactivateQuest(Quests[index]);
 
 		public static void DeactivateQuest(Quest quest)
 		{
@@ -163,7 +157,6 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public static void GiveRewards(Quest quest)
 		{
 			if (quest.RewardsGiven) return;
-
 			quest.RewardsGiven = true;
 		}
 
@@ -256,10 +249,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			}
 		}
 
-		public static void SetBookState(bool open)
-		{
-			SpiritMod.Instance.BookUserInterface.SetState(open ? SpiritMod.QuestBookUIState : null);
-		}
+		public static void SetBookState(bool open) => SpiritMod.Instance.BookUserInterface.SetState(open ? SpiritMod.QuestBookUIState : null);
 
 		public static int ModCallAddQuest(object[] args)
 		{
@@ -321,9 +311,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public static void ModCallUnlockQuest(object[] args)
 		{
 			if (!QuestUtils.TryUnbox(args[1], out int questIndex, "Quest ID"))
-			{
 				return;
-			}
 
 			if (questIndex < 0 || questIndex >= Quests.Count) return;
 
@@ -333,9 +321,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public static bool ModCallGetQuestValueFromContext(object[] args, int context)
 		{
 			if (!QuestUtils.TryUnbox(args[1], out int questIndex, "Quest ID"))
-			{
 				return false;
-			}
 
 			if (questIndex < 0 || questIndex >= Quests.Count) return false;
 
@@ -356,9 +342,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public static QuestTask ParseTaskFromArguments(object[] args)
 		{
 			if (!QuestUtils.TryUnbox(args[0], out string name, "Quest Objective Type"))
-			{
 				return null;
-			}
 
 			if (!_tasksDict.TryGetValue(name, out QuestTask task))
 			{

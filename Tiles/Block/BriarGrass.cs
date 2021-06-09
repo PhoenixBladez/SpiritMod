@@ -50,7 +50,7 @@ namespace SpiritMod.Tiles.Block
 			//Try place vine
 			if (WorldGen.genRand.NextBool(15) && !tileBelow.active() && !tileBelow.lava()) {
 				if (!tile.bottomSlope()) {
-					tileBelow.type = (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarVines>();
+					tileBelow.type = (ushort)ModContent.TileType<BriarVines>();
 					tileBelow.active(true);
 					WorldGen.SquareTileFrame(i, j + 1, true);
 					if (Main.netMode == NetmodeID.Server) {

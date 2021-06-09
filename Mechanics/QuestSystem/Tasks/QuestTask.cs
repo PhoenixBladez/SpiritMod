@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpiritMod.Mechanics.QuestSystem
 {
@@ -46,9 +43,9 @@ namespace SpiritMod.Mechanics.QuestSystem
 		}
 
 		public virtual string ModCallName => "";
-		public virtual QuestTask Parse(object[] args) { throw new NotImplementedException(); }
+		public virtual QuestTask Parse(object[] args) => throw new NotImplementedException();
 
-		public virtual bool CheckCompletion() { return true; }
+		public virtual bool CheckCompletion() => true;
 		public virtual void Activate() { }
 		public virtual void Deactivate() { }
 		public virtual void OnMPSyncTick() { }

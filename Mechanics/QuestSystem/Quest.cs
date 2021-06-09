@@ -179,7 +179,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			}
 		}
 
-		public virtual void UpdateBookOverlay(UIShaderImage image) { image.Texture = null; }
+		public virtual void UpdateBookOverlay(UIShaderImage image) => image.Texture = null;
 
 		public virtual void Update()
 		{
