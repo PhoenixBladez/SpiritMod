@@ -475,6 +475,7 @@ namespace SpiritMod
 				Logger.Error("Call Error: No arguments given:\n" + stack.ToString());
 				return null;
 			}
+
 			CallContext context;
 			int? contextNum = args[0] as int?;
 			if (contextNum.HasValue)
@@ -482,16 +483,17 @@ namespace SpiritMod
 			else
 				context = ParseCallName(args[0] as string);
 
-			if (context == CallContext.Invalid && !contextNum.HasValue) {
+			if (context == CallContext.Invalid && !contextNum.HasValue) { //Check if it has a valid value
 				var stack = new System.Diagnostics.StackTrace(true);
 				Logger.Error("Call Error: Context invalid or null:\n" + stack.ToString());
 				return null;
 			}
-			if (context <= CallContext.Invalid || context >= CallContext.Limit) {
+			if (context <= CallContext.Invalid || context >= CallContext.Limit) { //Check if value is in-bounds
 				var stack = new System.Diagnostics.StackTrace(true);
 				Logger.Error("Call Error: Context invalid:\n" + stack.ToString());
 				return null;
 			}
+
 			try {
 				if (context == CallContext.Downed)
 					return BossDowned(args);
@@ -502,29 +504,24 @@ namespace SpiritMod
 					return null;
 				}
 				if (context == CallContext.AddQuest)
-				{
 					return QuestManager.ModCallAddQuest(args);
-				}
 				if (context == CallContext.UnlockQuest)
 				{
 					QuestManager.ModCallUnlockQuest(args);
 					return null;
 				}
 				if (context == CallContext.GetQuestIsUnlocked)
-				{
 					return QuestManager.ModCallGetQuestValueFromContext(args, 0);
-				}
 				if (context == CallContext.GetQuestIsCompleted)
-				{
 					return QuestManager.ModCallGetQuestValueFromContext(args, 2);
-				}
 				if (context == CallContext.GetQuestIsActive)
-				{
 					return QuestManager.ModCallGetQuestValueFromContext(args, 1);
-				}
 				if (context == CallContext.GetQuestRewardsGiven)
-				{
 					return QuestManager.ModCallGetQuestValueFromContext(args, 3);
+				if (context == CallContext.Portrait)
+				{
+					PortraitManager.ModCallAddPortrait(args);
+					return null;
 				}
 			}
 			catch (Exception e) {
@@ -556,6 +553,8 @@ namespace SpiritMod
 					return CallContext.GetQuestIsCompleted;
 				case "QuestRewardsGiven":
 					return CallContext.GetQuestRewardsGiven;
+				case "Portrait":
+					return CallContext.Portrait;
 			}
 			return CallContext.Invalid;
 		}
@@ -802,27 +801,6 @@ namespace SpiritMod
 				SellLock_INTERFACE.SetState(SellLock_SHORTCUT);
 				SellWeapons_INTERFACE.SetState(SellWeapons_SHORTCUT);
 
-				//Portrait system - Gabe
-				PortraitManager.Load(); //Load portraits so the detour can access them
-
-				//Portraits.Add(NPCID.TravellingMerchant, GetTexture("NPCs/Portraits/TravellingMerchant"));
-				//Portraits.Add(NPCID.SkeletonMerchant, GetTexture("NPCs/Portraits/SkeletonMerchant"));
-				//Portraits.Add(ModContent.NPCType<Gambler>(), GetTexture("NPCs/Portraits/Gambler"));
-				//Portraits.Add(NPCID.Demolitionist, GetTexture("NPCs/Portraits/Demolitionist"));
-				//Portraits.Add(NPCID.TaxCollector, GetTexture("NPCs/Portraits/TaxCollector"));
-				//Portraits.Add(NPCID.DD2Bartender, GetTexture("NPCs/Portraits/Tavernkeep"));
-				//Portraits.Add(NPCID.Steampunker, GetTexture("NPCs/Portraits/Steampunker"));
-				//Portraits.Add(NPCID.WitchDoctor, GetTexture("NPCs/Portraits/WitchDoctor"));
-				//Portraits.Add(NPCID.ArmsDealer, GetTexture("NPCs/Portraits/ArmsDealer"));
-				//Portraits.Add(NPCID.DyeTrader, GetTexture("NPCs/Portraits/DyeTrader"));
-				//Portraits.Add(NPCID.Merchant, GetTexture("NPCs/Portraits/Merchant"));
-				//Portraits.Add(NPCID.Truffle, GetTexture("NPCs/Portraits/Truffle"));
-				//Portraits.Add(NPCID.OldMan, GetTexture("NPCs/Portraits/OldMan"));
-				//Portraits.Add(NPCID.Wizard, GetTexture("NPCs/Portraits/Wizard"));
-				//Portraits.Add(NPCID.Pirate, GetTexture("NPCs/Portraits/Pirate"));
-				//Portraits.Add(NPCID.Guide, GetTexture("NPCs/Portraits/Guide"));
-				//Portraits.Add(NPCID.Dryad, GetTexture("NPCs/Portraits/Dryad"));
-				//Portraits.Add(NPCID.Nurse, GetTexture("NPCs/Portraits/Nurse"));
 
 				Main.OnPreDraw += DrawStarGoopTarget;
 
@@ -1589,41 +1567,40 @@ namespace SpiritMod
 
 		public void DrawEventUi(SpriteBatch spriteBatch)
 		{
+			//TidePlayer modPlayer1 = Main.player[Main.myPlayer].GetModPlayer<TidePlayer>();
+			if (TideWorld.TheTide && Main.LocalPlayer.ZoneBeach)
 			{
-				//TidePlayer modPlayer1 = Main.player[Main.myPlayer].GetModPlayer<TidePlayer>();
-				if (TideWorld.TheTide && Main.LocalPlayer.ZoneBeach) {
 
-					float alpha = 0.5f;
-					Texture2D backGround1 = Main.colorBarTexture;
-					Texture2D progressColor = Main.colorBarTexture;
-					Texture2D EventIcon = SpiritMod.instance.GetTexture("Effects/InvasionIcons/Depths_Icon");
-					float scmp = 0.5f + 0.75f * 0.5f;
-					Color descColor = new Color(77, 39, 135);
-					Color waveColor = new Color(255, 241, 51);
-					Color barrierColor = new Color(255, 241, 51);
-					const int offsetX = 20;
-					const int offsetY = 20;
-					int width = (int)(200f * scmp);
-					int height = (int)(46f * scmp);
-					Rectangle waveBackground = Utils.CenteredRectangle(new Vector2(Main.screenWidth - offsetX - 100f, Main.screenHeight - offsetY - 23f), new Vector2(width, height));
-					Utils.DrawInvBG(spriteBatch, waveBackground, new Color(63, 65, 151, 255) * 0.785f);
-					string waveText = "Wave " + TideWorld.TideWave + " : " + TideWorld.TidePoints+ "%";
-					Utils.DrawBorderString(spriteBatch, waveText, new Vector2(waveBackground.X + waveBackground.Width / 2, waveBackground.Y + 5), Color.White, scmp, 0.5f, -0.1f);
-					Rectangle waveProgressBar = Utils.CenteredRectangle(new Vector2(waveBackground.X + waveBackground.Width * 0.5f, waveBackground.Y + waveBackground.Height * 0.75f), new Vector2(progressColor.Width, progressColor.Height));
-					Rectangle waveProgressAmount = new Rectangle(0, 0, (int)(progressColor.Width * 0.01f * MathHelper.Clamp(TideWorld.TidePoints, 0f, 100f)), progressColor.Height);
-					Vector2 offset = new Vector2((waveProgressBar.Width - (int)(waveProgressBar.Width * scmp)) * 0.5f, (waveProgressBar.Height - (int)(waveProgressBar.Height * scmp)) * 0.5f);
-					spriteBatch.Draw(backGround1, waveProgressBar.Location.ToVector2() + offset, null, Color.White * alpha, 0f, new Vector2(0f), scmp, SpriteEffects.None, 0f);
-					spriteBatch.Draw(backGround1, waveProgressBar.Location.ToVector2() + offset, waveProgressAmount, waveColor, 0f, new Vector2(0f), scmp, SpriteEffects.None, 0f);
-					const int internalOffset = 6;
-					Vector2 descSize = new Vector2(154, 40) * scmp;
-					Rectangle barrierBackground = Utils.CenteredRectangle(new Vector2(Main.screenWidth - offsetX - 100f, Main.screenHeight - offsetY - 19f), new Vector2(width, height));
-					Rectangle descBackground = Utils.CenteredRectangle(new Vector2(barrierBackground.X + barrierBackground.Width * 0.5f, barrierBackground.Y - internalOffset - descSize.Y * 0.5f), descSize * 0.9f);
-					Utils.DrawInvBG(spriteBatch, descBackground, descColor * alpha);
-					int descOffset = (descBackground.Height - (int)(32f * scmp)) / 2;
-					Rectangle icon = new Rectangle(descBackground.X + descOffset + 7, descBackground.Y + descOffset, (int)(32 * scmp), (int)(32 * scmp));
-					spriteBatch.Draw(EventIcon, icon, Color.White);
-					Utils.DrawBorderString(spriteBatch, "The Tide", new Vector2(barrierBackground.X + barrierBackground.Width * 0.5f, barrierBackground.Y - internalOffset - descSize.Y * 0.5f), Color.White, 0.8f, 0.3f, 0.4f);
-				}
+				float alpha = 0.5f;
+				Texture2D backGround1 = Main.colorBarTexture;
+				Texture2D progressColor = Main.colorBarTexture;
+				Texture2D EventIcon = SpiritMod.instance.GetTexture("Effects/InvasionIcons/Depths_Icon");
+				float scmp = 0.5f + 0.75f * 0.5f;
+				Color descColor = new Color(77, 39, 135);
+				Color waveColor = new Color(255, 241, 51);
+				Color barrierColor = new Color(255, 241, 51);
+				const int offsetX = 20;
+				const int offsetY = 20;
+				int width = (int)(200f * scmp);
+				int height = (int)(46f * scmp);
+				Rectangle waveBackground = Utils.CenteredRectangle(new Vector2(Main.screenWidth - offsetX - 100f, Main.screenHeight - offsetY - 23f), new Vector2(width, height));
+				Utils.DrawInvBG(spriteBatch, waveBackground, new Color(63, 65, 151, 255) * 0.785f);
+				string waveText = "Wave " + TideWorld.TideWave + " : " + TideWorld.TidePoints + "%";
+				Utils.DrawBorderString(spriteBatch, waveText, new Vector2(waveBackground.X + waveBackground.Width / 2, waveBackground.Y + 5), Color.White, scmp, 0.5f, -0.1f);
+				Rectangle waveProgressBar = Utils.CenteredRectangle(new Vector2(waveBackground.X + waveBackground.Width * 0.5f, waveBackground.Y + waveBackground.Height * 0.75f), new Vector2(progressColor.Width, progressColor.Height));
+				Rectangle waveProgressAmount = new Rectangle(0, 0, (int)(progressColor.Width * 0.01f * MathHelper.Clamp(TideWorld.TidePoints, 0f, 100f)), progressColor.Height);
+				Vector2 offset = new Vector2((waveProgressBar.Width - (int)(waveProgressBar.Width * scmp)) * 0.5f, (waveProgressBar.Height - (int)(waveProgressBar.Height * scmp)) * 0.5f);
+				spriteBatch.Draw(backGround1, waveProgressBar.Location.ToVector2() + offset, null, Color.White * alpha, 0f, new Vector2(0f), scmp, SpriteEffects.None, 0f);
+				spriteBatch.Draw(backGround1, waveProgressBar.Location.ToVector2() + offset, waveProgressAmount, waveColor, 0f, new Vector2(0f), scmp, SpriteEffects.None, 0f);
+				const int internalOffset = 6;
+				Vector2 descSize = new Vector2(154, 40) * scmp;
+				Rectangle barrierBackground = Utils.CenteredRectangle(new Vector2(Main.screenWidth - offsetX - 100f, Main.screenHeight - offsetY - 19f), new Vector2(width, height));
+				Rectangle descBackground = Utils.CenteredRectangle(new Vector2(barrierBackground.X + barrierBackground.Width * 0.5f, barrierBackground.Y - internalOffset - descSize.Y * 0.5f), descSize * 0.9f);
+				Utils.DrawInvBG(spriteBatch, descBackground, descColor * alpha);
+				int descOffset = (descBackground.Height - (int)(32f * scmp)) / 2;
+				Rectangle icon = new Rectangle(descBackground.X + descOffset + 7, descBackground.Y + descOffset, (int)(32 * scmp), (int)(32 * scmp));
+				spriteBatch.Draw(EventIcon, icon, Color.White);
+				Utils.DrawBorderString(spriteBatch, "The Tide", new Vector2(barrierBackground.X + barrierBackground.Width * 0.5f, barrierBackground.Y - internalOffset - descSize.Y * 0.5f), Color.White, 0.8f, 0.3f, 0.4f);
 			}
 		}
 		
@@ -1733,6 +1710,7 @@ namespace SpiritMod
 		GetQuestIsActive,
 		GetQuestIsCompleted,
 		GetQuestRewardsGiven,
+		Portrait,
 		Limit
 	}
 }

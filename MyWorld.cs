@@ -57,6 +57,7 @@ using SpiritMod.Items.Tool;
 using SpiritMod.Tiles;
 using Terraria.DataStructures;
 using SpiritMod.Utilities;
+using SpiritMod.Mechanics.PortraitSystem;
 
 namespace SpiritMod
 {
@@ -213,6 +214,9 @@ namespace SpiritMod
 			//SaveSpecialNPCs(data);
 
 			data.Add("superSunFlowerPositions", superSunFlowerPositions.ToList());
+
+			//Portrait system - Gabe
+			PortraitManager.Unload(); //Load portraits so the detour can access them
 
 			return data;
 		}
@@ -405,6 +409,9 @@ namespace SpiritMod
 			downedBeholder = false;
 			downedSnaptrapper = false;
 			downedTome = false;
+
+			//Portrait system - Gabe
+			PortraitManager.Load(); //Load portraits so the detour can access them
 		}
 
 		/// <summary>

@@ -1,10 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.PortraitSystem
 {
+	/// <summary>In-house parent class we use to make a basic portrait.</summary>
 	public abstract class BasePortrait
 	{
 		/// <summary>The Texture associated with this BasePortrait.</summary>
@@ -23,6 +25,6 @@ namespace SpiritMod.Mechanics.PortraitSystem
 
 		/// <summary>Allows you to change the shown frame.</summary>
 		/// <param name="speech">The text that the NPC is saying.</param>
-		public virtual Rectangle GetFrame(string speech) => new Rectangle(0, 0, BaseSize.X, BaseSize.Y);
+		public virtual Rectangle GetFrame(string speech, NPC npc) => new Rectangle(0, 0, BaseSize.X, BaseSize.Y);
 	}
 }

@@ -10,11 +10,11 @@ namespace SpiritMod.Mechanics.PortraitSystem.Portraits
 
 		public OldMan() : base(null) { }
 
-		public override Rectangle GetFrame(string speech)
+		public override Rectangle GetFrame(string speech, NPC npc)
 		{
 			if (!Main.dayTime)
 				return new Rectangle(110, 0, 108, 108);
-			return base.GetFrame(speech);
+			return base.GetFrame(speech, npc);
 		}
 	}
 }

@@ -27,14 +27,9 @@ namespace SpiritMod.Items
 			ItemID.Sets.ItemNoGravity[item.type] = true;
 		}
 
-		public override bool ItemSpace(Player player)
-		{
-			return true;
-		}
-		public override void GrabRange(Player player, ref int grabRange)
-		{
-			grabRange = 0;
-		}
+		public override bool ItemSpace(Player player) => true;
+		public override void GrabRange(Player player, ref int grabRange) => grabRange = 0;
+
 		public override bool OnPickup(Player player)
 		{
 			player.AddBuff(mod.BuffType("CrimsonSkullBuff"), 240);

@@ -141,17 +141,29 @@ namespace SpiritMod.Utilities
 		private static void Main_DrawNPCChatButtons(On.Terraria.Main.orig_DrawNPCChatButtons orig, int superColor, Color chatColor, int numLines, string focusText, string focusText3) //Portrait drawing - Gabe
 		{
 			NPC talkNPC = Main.npc[Main.LocalPlayer.talkNPC];
-			if (ModContent.GetInstance<SpiritClientConfig>().ShowNPCPortraits && PortraitManager.HasPortrait(talkNPC.type))
+			bool hasPortrait = PortraitManager.HasPortrait(talkNPC.type) || PortraitManager.HasCallPortrait(talkNPC.type);
+
+			if (ModContent.GetInstance<SpiritClientConfig>().ShowNPCPortraits && hasPortrait)
 			{
-				BasePortrait portrait = PortraitManager.GetPortrait(talkNPC.type); //Gets portrait
+				Point size = new Point(108, 108);
+				if (PortraitManager.HasPortrait(talkNPC.type)) //In-house portrait
+				{
+					BasePortrait portrait = PortraitManager.GetPortrait(talkNPC.type); //Gets portrait
+					size = portrait.BaseSize;
 
-				var pos = new Vector2(Main.screenWidth / 2 - (252 + portrait.BaseSize.X), 100); //Portrait position
-				Main.spriteBatch.Draw(portrait.Texture, pos, portrait.GetFrame(Main.npcChatText), Color.White, 0f, default, 1f, SpriteEffects.None, 0f); //Portrait
+					var pos = new Vector2(Main.screenWidth / 2 - (252 + portrait.BaseSize.X), 100); //Portrait position
+					Main.spriteBatch.Draw(portrait.Texture, pos, portrait.GetFrame(Main.npcChatText, talkNPC), Color.White, 0f, default, 1f, SpriteEffects.None, 0f); //Portrait
+				}
+				else if (PortraitManager.HasCallPortrait(talkNPC.type)) //Mod.Call portrait
+				{
+					ModCallPortrait portrait = PortraitManager.GetCallPortrait(talkNPC.type); //Gets portrait
+					size = portrait.BaseSize;
 
-				string name = talkNPC.GivenName;
-				Vector2 centring = ChatManager.GetStringSize(Main.fontItemStack, name, new Vector2(ProfileNameScale)) / 2; //Position centring
-				Vector2 textPos = new Vector2(Main.screenWidth / 2 - (198 + portrait.BaseSize.X), 114 + portrait.BaseSize.Y) - centring; //Real position
-				ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontItemStack, name, textPos, new Color(240, 240, 240), 0f, new Vector2(), new Vector2(ProfileNameScale), -1, 2f); //Name
+					var pos = new Vector2(Main.screenWidth / 2 - (252 + portrait.BaseSize.X), 100); //Portrait position
+					Main.spriteBatch.Draw(portrait.Texture, pos, portrait.GetFrame(Main.npcChatText, talkNPC), Color.White, 0f, default, 1f, SpriteEffects.None, 0f); //Portrait
+				}
+
+				DrawPortraitName(talkNPC, size); //Draws the name
 			}
 
 			if (talkNPC.type == NPCID.Angler)
@@ -202,6 +214,14 @@ namespace SpiritMod.Utilities
 					stringSize * 0.5f, scale * new Vector2(1f));
 			}
 			orig(superColor, chatColor, numLines, focusText, focusText3);
+		}
+
+		private static void DrawPortraitName(NPC talkNPC, Point size)
+		{
+			string name = talkNPC.GivenName;
+			Vector2 centring = ChatManager.GetStringSize(Main.fontItemStack, name, new Vector2(ProfileNameScale)) / 2; //Position centring
+			Vector2 textPos = new Vector2(Main.screenWidth / 2 - (198 + size.X), 114 + size.Y) - centring; //Real position
+			ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontItemStack, name, textPos, new Color(240, 240, 240), 0f, new Vector2(), new Vector2(ProfileNameScale), -1, 2f); //Name
 		}
 
 		private static void Main_OnPreDraw(GameTime obj)
