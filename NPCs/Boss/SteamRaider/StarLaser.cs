@@ -39,13 +39,15 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				startingpoint = projectile.Center;
 				projectile.ai[0]++;
 			}
-				
+			return true;
+		}
+
+		public override void AI()
+		{
 			Dust dust = Dust.NewDustPerfect(projectile.Center, 226);
 			dust.velocity = Vector2.Zero;
 			dust.noLight = true;
 			dust.noGravity = true;
-			return true;
 		}
-
 	}
 }

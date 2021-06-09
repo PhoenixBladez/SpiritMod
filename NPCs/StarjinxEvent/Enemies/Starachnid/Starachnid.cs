@@ -386,6 +386,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 
 		private void DrawThreads(SpriteBatch spriteBatch)
 		{
+			if (currentThread == null)
+				return;
+
 			float length;
 			Texture2D tex = SpiritMod.instance.GetTexture("NPCs/StarjinxEvent/Enemies/Starachnid/ConstellationStrip");
 			foreach (StarThread thread in threads)

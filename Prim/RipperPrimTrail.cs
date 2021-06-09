@@ -16,10 +16,10 @@ namespace SpiritMod.Prim
 		public override void SetDefaults()
 		{
 			AlphaValue = 0.9f;
-			Cap = 8;
+			Cap = 12;
 			Color = Color.White;
 			Width = 5;
-			Pixellated = true;
+			//Pixellated = true;
 		}
 
 		public override void PrimStructure(SpriteBatch spriteBatch)

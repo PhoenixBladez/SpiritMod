@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 
 namespace SpiritMod.Mechanics.PortraitSystem.Portraits
@@ -9,11 +10,11 @@ namespace SpiritMod.Mechanics.PortraitSystem.Portraits
 
 		public Tavernkeep() : base(null) { }
 
-		public override Rectangle GetFrame(string speech)
+		public override Rectangle GetFrame(string speech, NPC npc)
 		{
 			if (speech == "Huh? How did I get here? The last thing I remember was a portal opening up in front of me...")
 				return new Rectangle(110, 0, 108, 108);
-			return base.GetFrame(speech);
+			return base.GetFrame(speech, npc);
 		}
 	}
 }
