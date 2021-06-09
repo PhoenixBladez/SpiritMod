@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using SpiritMod.Items.BossBags;
 using SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles;
 using SpiritMod.Prim;
+using SpiritMod.Utilities;
 
 namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 {
@@ -28,18 +29,21 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 		private int preAttackCounter = 0;
 
 		private Vector2 dashDirection = Vector2.Zero;
+		private Vector2 teleportLocation = Vector2.Zero;
 		private float dashDistance = 0f;
 		private Projectile currentProjectile;
 
-		const int NUMBEROFATTACKS = 6;
+		const int NUMBEROFATTACKS = 8;
 		private enum CurrentAttack
 		{
 			InwardPull = 0,
 			SineBalls = 1,
 			SkyStrikes = 2,
 			DashToPlayer = 3,
-			ChainLightning = 4,
-			BubbleKick = 5,
+			CloneAttack = 4,
+			DashToPlayerAgain = 5,
+			SmallBubbles = 6,
+			BubbleKick = 7,
 		}
 		private CurrentAttack currentAttack
 		{
@@ -100,6 +104,8 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
+			if (npc.hide)
+				return false;
 			float num395 = Main.mouseTextColor / 200f - 0.35f;
 			num395 *= 0.2f;
 			float num366 = num395 + 2.45f;
@@ -113,6 +119,8 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
+			if (npc.hide)
+				return;
 			var effects = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(Main.npcTexture[npc.type], new Vector2(npc.Center.X, npc.Center.Y - 18) - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 			DrawSpecialGlow(spriteBatch, lightColor);
@@ -181,8 +189,14 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 					case CurrentAttack.DashToPlayer:
 						attackStart = DoDashToPlayer();
 						break;
-					case CurrentAttack.ChainLightning:
-						attackStart = DoChainLightning();
+					case CurrentAttack.CloneAttack:
+						attackStart = DoCloneAttack();
+						break;
+					case CurrentAttack.DashToPlayerAgain:
+						attackStart = DoDashToPlayer();
+						break;
+					case CurrentAttack.SmallBubbles:
+						attackStart = DoSmallBubbles();
 						break;
 					case CurrentAttack.BubbleKick:
 						attackStart = DoBubbleKick();
@@ -214,11 +228,12 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			}
 		}
 
-		void Teleport()
+		void Teleport(bool dust = true, int distance = -1)
 		{
 			Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 66);
 			Player player = Main.player[npc.target];
-			int distance = Main.rand.Next(300, 500);
+			if (distance == -1)
+				distance = Main.rand.Next(300, 500);
 			bool teleported = false;
 			while (!teleported)
 			{
@@ -239,9 +254,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 
 				npc.netUpdate = true;
 			}
-			for (int i = 0; i < 50; i++)
+			if (dust)
 			{
-				Dust.NewDustPerfect(npc.Center, 226, new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-6, 0)));
+				for (int i = 0; i < 50; i++)
+					Dust.NewDustPerfect(npc.Center, 226, new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-6, 0)));
 			}
 		}
 
@@ -385,12 +401,47 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			return true;
 		}
 
-		private bool DoChainLightning()
+		private bool DoCloneAttack()
 		{
-			int numberOfAttacks = 4;
-			int attackLength = 80;
+			int teleportValue = 40;
+			int numClones = 6;
+			int cloneCooldown = 40;
+			if (preAttackCounter < teleportValue)
+			{
+				UpdateFrame(0.155f, 29, 37);
+				return false;
+			}
+			if (preAttackCounter == teleportValue)
+			{
+				Gore.NewGore(new Vector2(npc.Center.X, npc.Center.Y - 50), new Vector2(0, 3), mod.GetGoreSlot("Gores/WizardHat_Gore"));
+				npc.hide = true;
+				npc.immortal = true;
+				return false;
+			}
+			if (preAttackCounter > teleportValue)
+			{
+				if (attackCounter % cloneCooldown == 0)
+				{
+					Teleport(false, 1000);
+					//NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<MysticMJWClone>());
+				}
+				if (attackCounter > numClones * cloneCooldown)
+				{
+					Teleport(false, 1000);
+					npc.hide = false;
+					npc.immortal = false;
+					npc.ai[1]++;
+					cooldownCounter = 2;
+				}
+			}
+			return true;
+		}
+		private bool DoSmallBubbles()
+		{
+			int numberOfAttacks = 6;
+			int attackLength = 55;
 			Player player = Main.player[npc.target];
-			UpdateFrame(0.2f, 14, 28);
+			UpdateFrame(0.3f, 14, 28);
 			int localCounter = attackCounter % attackLength;
 			npc.spriteDirection = npc.direction;
 			if (localCounter == 2)
@@ -400,13 +451,15 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 				float posY = player.Center.Y - Main.rand.Next(200);
 				Teleport(new Vector2(posX, posY));
 			}
-			if (localCounter == 45)
+			if (localCounter == 30)
 			{
 				for (int k = 0; k < 18; k++)
 					Dust.NewDustPerfect(new Vector2(npc.Center.X + 75 * npc.spriteDirection, npc.Center.Y - 30), 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(5), 0, default, 0.75f).noGravity = true;
 				Main.PlaySound(4, npc.position, 28);
 
-				int Ball = Projectile.NewProjectile(npc.Center.X + 75 * npc.spriteDirection, npc.Center.Y - 30, npc.spriteDirection * 3.5f, -2f, ModContent.ProjectileType<MysticWizardBallSmall>(), NPCUtils.ToActualDamage(100, 1.5f), 3f, 0);
+				Vector2 startPos = new Vector2(npc.Center.X + 75 * npc.spriteDirection, npc.Center.Y - 30);
+				Vector2 arcVel = ArcVelocityHelper.GetArcVel(startPos, player.Center, 0.3f, 300, 500, 50, 100).RotatedBy(Main.rand.NextFloat(-0.2f,0.2f));
+				int Ball = Projectile.NewProjectile(startPos, arcVel, ModContent.ProjectileType<MysticWizardBallSmall>(), NPCUtils.ToActualDamage(100, 1.5f), 3f, 0);
 				Main.projectile[Ball].ai[0] = npc.whoAmI;
 				Main.projectile[Ball].ai[1] = Main.rand.Next(3, 5);
 				Main.projectile[Ball].netUpdate = true;
@@ -465,12 +518,12 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			}
 			if (attackCounter >= 20) //actual kicking begins
 			{
-				if (attackCounter < 90)
+				if (attackCounter < 80)
 					UpdateFrame(0.2f, 14, 28);
 				else
 				{
 					npc.ai[1]++;
-					cooldownCounter = 35;
+					cooldownCounter = 15;
 				}
 				if (attackCounter == 73)
 				{

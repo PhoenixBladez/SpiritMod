@@ -10,7 +10,8 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
     public class MysticWizardBallSmall : ModProjectile, IDrawAdditive
     {
 		public bool Small = false;
-        public override void SetStaticDefaults()
+		readonly float gravity = 0.3f;
+		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wizard's Moonjelly Ball");
         }
@@ -23,7 +24,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
             projectile.hostile = true; 
             projectile.aiStyle = -1; 
 			projectile.scale = 0.6f;
-			projectile.timeLeft = 90;
+			projectile.timeLeft = 900;
         }
 		public override void OnHitPlayer(Player target, int damage, bool crit) 
 		{
@@ -32,16 +33,18 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
 		public override void AI()
 		{
 			Lighting.AddLight(new Vector2(projectile.Center.X, projectile.Center.Y), 0.075f*2, 0.231f*2, 0.255f*2);
-            if (projectile.timeLeft < 85 && projectile.timeLeft > 15)
-            {
-                projectile.velocity.Y += .09f;
-            }
+			projectile.velocity.Y += gravity;
 			if (projectile.timeLeft < 15)
-            {
-                projectile.velocity = Vector2.Zero;
-                projectile.scale += .06f;
-            }
-        }
+			{
+				projectile.scale += .06f;
+			}
+			for (int i = 0; i < Main.player.Length; i++)
+			{
+				Player player = Main.player[i];
+				if ((player.Center - projectile.Center).Length() < 300 && projectile.timeLeft > 15)
+					projectile.timeLeft = 15;
+			}
+		}
         public void AdditiveCall(SpriteBatch spriteBatch)
         {
             {
