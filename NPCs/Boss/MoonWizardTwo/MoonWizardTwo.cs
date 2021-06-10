@@ -324,7 +324,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			if (attackCounter > 220)
 			{
 				npc.ai[1]++;
-				cooldownCounter = 30;
+				cooldownCounter = 50;
 			}
 			if (preAttackCounter > 30)
 				return true;
@@ -369,14 +369,14 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 		{
 			Player player = Main.player[npc.target];
 			UpdateFrame(0.15f, 4, 9);
-			float speed = 28f;
+			float speed = 24f;
 			if (phaseTwo)
 			{
 				speed = 35;
 			}
 			if (attackCounter == 30)
 			{
-				npc.damage = 70;
+				npc.damage = 110;
 				dashDirection = player.Center - npc.Center;
 				dashDistance = dashDirection.Length();
 				dashDirection.Normalize();
@@ -403,7 +403,8 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 
 		private bool DoCloneAttack()
 		{
-			int teleportValue = 40;
+			Player player = Main.player[npc.target];
+			int teleportValue = 46;
 			int numClones = 6;
 			int cloneCooldown = 40;
 			if (preAttackCounter < teleportValue)
@@ -423,11 +424,13 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 				if (attackCounter % cloneCooldown == 0)
 				{
 					Teleport(false, 1000);
-					//NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<MysticMJWClone>());
+					int clone = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<MysticMJWClone>());
+					SpiritMod.primitives.CreateTrail(new MJWClonePrimTrail(Main.npc[clone], player, Color.Purple));
 				}
-				if (attackCounter > numClones * cloneCooldown)
+				if (attackCounter > numClones * cloneCooldown && attackCounter % cloneCooldown == cloneCooldown - 1)
 				{
 					Teleport(false, 1000);
+					SpiritMod.primitives.CreateTrail(new MJWClonePrimTrail(npc, player, Color.Cyan));
 					npc.hide = false;
 					npc.immortal = false;
 					npc.ai[1]++;
@@ -523,7 +526,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 				else
 				{
 					npc.ai[1]++;
-					cooldownCounter = 15;
+					cooldownCounter = 35;
 				}
 				if (attackCounter == 73)
 				{
