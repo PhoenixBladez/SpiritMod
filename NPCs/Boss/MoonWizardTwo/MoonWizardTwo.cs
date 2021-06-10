@@ -187,13 +187,13 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 						attackStart = DoSkyStrikes();
 						break;
 					case CurrentAttack.DashToPlayer:
-						attackStart = DoDashToPlayer();
+						attackStart = DoDashToPlayer(false);
 						break;
 					case CurrentAttack.CloneAttack:
 						attackStart = DoCloneAttack();
 						break;
 					case CurrentAttack.DashToPlayerAgain:
-						attackStart = DoDashToPlayer();
+						attackStart = DoDashToPlayer(true);
 						break;
 					case CurrentAttack.SmallBubbles:
 						attackStart = DoSmallBubbles();
@@ -365,7 +365,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			return true;
 		}
 
-		private bool DoDashToPlayer()
+		private bool DoDashToPlayer(bool prediction)
 		{
 			Player player = Main.player[npc.target];
 			UpdateFrame(0.15f, 4, 9);
@@ -377,7 +377,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			if (attackCounter == 30)
 			{
 				npc.damage = 110;
-				dashDirection = player.Center - npc.Center;
+				if (prediction)
+					dashDirection = (player.Center + (player.velocity * 20)) - npc.Center;
+				else
+					dashDirection = player.Center - npc.Center;
 				dashDistance = dashDirection.Length();
 				dashDirection.Normalize();
 				dashDirection *= speed;
@@ -388,7 +391,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			}
 			if (attackCounter < 30)
 			{
-				dashDirection = player.Center - npc.Center;
+				if (prediction)
+					dashDirection = (player.Center + (player.velocity * 20)) - npc.Center;
+				else
+					dashDirection = player.Center - npc.Center;
 				npc.rotation = dashDirection.ToRotation() + 1.57f;
 			}
 			if (attackCounter > Math.Abs(dashDistance / speed) + 50)

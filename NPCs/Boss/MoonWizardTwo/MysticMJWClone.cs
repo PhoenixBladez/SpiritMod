@@ -119,7 +119,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			if (npc.ai[0] == DASHAMOUNT)
 			{
 				npc.damage = 70;
-				dashDirection = player.Center - npc.Center;
+				dashDirection = (player.Center + (player.velocity * 20)) - npc.Center;
 				dashDistance = dashDirection.Length();
 				dashDirection.Normalize();
 				dashDirection *= speed;
@@ -130,7 +130,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			}
 			if (npc.ai[0] < DASHAMOUNT)
 			{
-				dashDirection = player.Center - npc.Center;
+				dashDirection = (player.Center + (player.velocity * 20)) - npc.Center;
 				npc.rotation = dashDirection.ToRotation() + 1.57f;
 				npc.velocity = Vector2.Zero;
 			}

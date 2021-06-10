@@ -85,16 +85,16 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
         public override void OnUpdate()
         {
             PointCount = Points.Count() * 6;
-            if (!Entity.active || Destroyed || (Entity is NPC npc && npc.modNPC is MoonWizardTwo modnpc && npc.ai[1] == 6))
+            if (!Entity.active || Destroyed || Entity.velocity != Vector2.Zero || (Entity is NPC npc && npc.modNPC is MoonWizardTwo modnpc && npc.ai[1] == 6))
             {
                 OnDestroy();
             }
-			else if (Entity.velocity == Vector2.Zero)
+			else
 			{
 				Points.Clear();
-				Vector2 direction = _player.Center - Entity.Center;
-				Points.Add(_player.Center - direction);
-				Points.Add(_player.Center + direction);
+				Vector2 direction = (_player.Center + (_player.velocity * 20)) - Entity.Center;
+				Points.Add((_player.Center + (_player.velocity * 20)) - direction);
+				Points.Add((_player.Center + (_player.velocity * 20)) + direction);
 			}
         }
         public override void OnDestroy()
