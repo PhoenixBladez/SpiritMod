@@ -70,7 +70,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 				spriteEffects = SpriteEffects.FlipHorizontally;
 			Texture2D texture = Main.npcTexture[npc.type];
 			float num99 = (float)(Math.Cos((double)Main.GlobalTime % 2.40000009536743 / 2.40000009536743 * 6.28318548202515) / 4.0 + 0.5);
-			Microsoft.Xna.Framework.Color AfterimageColor = new Microsoft.Xna.Framework.Color((int)sbyte.MaxValue, (int)sbyte.MaxValue, (int)sbyte.MaxValue, 0).MultiplyRGBA(new Color(75, 231, 255, 150)) * 5f;
+			Microsoft.Xna.Framework.Color AfterimageColor = new Microsoft.Xna.Framework.Color((int)sbyte.MaxValue, (int)sbyte.MaxValue, (int)sbyte.MaxValue, 0).MultiplyRGBA(new Color(255, 0, 236, 150)) * 5f;
 			Vector2 GlowPosition = new Vector2(npc.Center.X, npc.Center.Y - 18) - Main.screenPosition - new Vector2((float)texture.Width / 3, (float)(texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f + npc.frame.Size() / 2 * npc.scale + new Vector2(0.0f, npc.gfxOffY);
 			for (int index2 = 0; index2 < 4; ++index2)
 			{
@@ -88,7 +88,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 
 			SpriteEffects spriteEffects3 = (npc.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 			Vector2 vector33 = new Vector2(npc.Center.X, npc.Center.Y - 18) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity;
-			Color color29 = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.LightBlue);
+			Color color29 = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.Pink);
 			for (int num103 = 0; num103 < 4; num103++)
 			{
 				Color color28 = color29;

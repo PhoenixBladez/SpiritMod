@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -38,6 +39,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
 			{
 				projectile.scale += .06f;
 			}
+			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
+			foreach (var proj in list)
+				if (proj.active && proj.friendly && !proj.hostile && projectile.timeLeft > 2)
+					projectile.timeLeft = 2;
 			for (int i = 0; i < Main.player.Length; i++)
 			{
 				Player player = Main.player[i];

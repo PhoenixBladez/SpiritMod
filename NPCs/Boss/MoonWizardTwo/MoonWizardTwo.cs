@@ -33,17 +33,18 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 		private float dashDistance = 0f;
 		private Projectile currentProjectile;
 
-		const int NUMBEROFATTACKS = 8;
+		const int NUMBEROFATTACKS = 9;
 		private enum CurrentAttack
 		{
 			InwardPull = 0,
 			SineBalls = 1,
 			SkyStrikes = 2,
 			DashToPlayer = 3,
-			CloneAttack = 4,
-			DashToPlayerAgain = 5,
-			SmallBubbles = 6,
-			BubbleKick = 7,
+			CreateGems = 4,
+			CloneAttack = 5,
+			DashToPlayerAgain = 6,
+			SmallBubbles = 7,
+			BubbleKick = 8,
 		}
 		private CurrentAttack currentAttack
 		{
@@ -167,10 +168,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 				cooldownCounter--;
 				npc.velocity = Vector2.Zero;
 				npc.rotation = 0;
-				if (phaseTwo)
-					UpdateFrame(0.15f, 54, 61);
-				else
-					UpdateFrame(0.15f, 0, 3);
+				UpdateFrame(0.15f, 0, 3);
 			}
 			else
 			{
@@ -188,6 +186,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 						break;
 					case CurrentAttack.DashToPlayer:
 						attackStart = DoDashToPlayer(false);
+						break;
+					case CurrentAttack.CreateGems:
+						attackStart = DoCreateGems();
 						break;
 					case CurrentAttack.CloneAttack:
 						attackStart = DoCloneAttack();
@@ -256,8 +257,11 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			}
 			if (dust)
 			{
-				for (int i = 0; i < 50; i++)
+				for (int i = 0; i < 25; i++)
+				{
+					Dust.NewDustPerfect(npc.Center, 205, new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-6, 0)));
 					Dust.NewDustPerfect(npc.Center, 226, new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-6, 0)));
+				}
 			}
 		}
 
@@ -267,8 +271,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			Player player = Main.player[npc.target];
 			npc.Center = position;
 			npc.netUpdate = true;
-			for (int i = 0; i < 50; i++)
+			for (int i = 0; i < 25; i++)
 			{
+				Dust.NewDustPerfect(npc.Center, 205, new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-6, 0)));
 				Dust.NewDustPerfect(npc.Center, 226, new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-6, 0)));
 			}
 		}
@@ -303,7 +308,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			{
 				Vector2 direction = player.Center - projectileStart;
 				direction.Normalize();
-				Dust.NewDustPerfect(npc.Center + (direction.RotatedBy(Main.rand.NextFloat(-0.6f, 0.6f)) * 60), 226, direction.RotatedBy(-3.14f) * 4).noGravity = true;
+				Dust.NewDustPerfect(npc.Center + (direction.RotatedBy(Main.rand.NextFloat(-0.6f, 0.6f)) * 60), 205, direction.RotatedBy(-3.14f) * 4).noGravity = true;
 			}
 			return true;
 		}
@@ -407,6 +412,26 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			return true;
 		}
 
+		private bool DoCreateGems()
+		{
+			if (attackCounter == 45)
+			{
+				for (int i = 0; i < 3; i++)
+					NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 30, ModContent.NPCType<AzureGemProj>(), 0, npc.whoAmI, i * 2.094f);
+			}
+			if (attackCounter > 155)
+			{
+				UpdateFrame(0.15f, 0, 3);
+				if (attackCounter > 400)
+				{
+					npc.ai[1]++;
+					cooldownCounter = 30;
+				}
+			}
+			else
+				UpdateFrame(0.15f, 54, 61);
+			return true;
+		}
 		private bool DoCloneAttack()
 		{
 			Player player = Main.player[npc.target];
