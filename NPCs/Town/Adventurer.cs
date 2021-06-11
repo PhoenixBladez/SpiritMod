@@ -23,6 +23,12 @@ namespace SpiritMod.NPCs.Town
 
 		public override string[] AltTextures => new string[] { "SpiritMod/NPCs/Town/Adventurer_Alt_1" };
 
+		public override bool Autoload(ref string name)
+		{
+			name = "Adventurer";
+			return mod.Properties.Autoload;
+		}
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Adventurer");
@@ -190,22 +196,6 @@ namespace SpiritMod.NPCs.Town
 		{
 			button = Language.GetTextValue("LegacyInterface.28");
 
-			// TODO: only show this if the player hasn't gotten their quest book yet?
-			button2 = "Quest Book";
-		}
-
-		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
-		{
-			if (firstButton) 
-			{
-				shop = true;
-			}
-			else
-			{
-				Mechanics.QuestSystem.QuestManager.QuestBookUnlocked = true;
-				Mechanics.QuestSystem.QuestManager.UnlockQuest<Mechanics.QuestSystem.Quests.FirstAdventure>(false);
-				Mechanics.QuestSystem.QuestManager.SetBookState(true);
-			}
 		}
 	}
 }

@@ -41,6 +41,14 @@ namespace SpiritMod.NPCs.Town
 
         public override void AI()
         {
+			if (!Mechanics.QuestSystem.QuestManager.GetQuest<Mechanics.QuestSystem.Quests.RootOfTheProblem>().IsUnlocked)
+			{
+				npc.hide = true;
+			}
+			else
+			{
+				npc.hide = false;
+			}
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 npc.homeless = false;

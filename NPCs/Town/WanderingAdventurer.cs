@@ -22,9 +22,9 @@ namespace SpiritMod.NPCs.Town
 	[AutoloadHead]
 	public class WanderingAdventurer : ModNPC
 	{
-		public override string Texture => "SpiritMod/NPCs/Town/Adventurer";
+		public override string Texture => "SpiritMod/NPCs/Town/WanderingAdventurer";
 
-		public override string[] AltTextures => new string[] { "SpiritMod/NPCs/Town/Adventurer_Alt_1" };
+		public override string[] AltTextures => new string[] { "SpiritMod/NPCs/Town/WanderingAdventurer_Alt_1" };
 
 		public override void SetStaticDefaults()
 		{
@@ -88,7 +88,7 @@ namespace SpiritMod.NPCs.Town
 			if (NPC.AnyNPCs(ModContent.NPCType<WanderingAdventurer>()) || NPC.AnyNPCs(ModContent.NPCType<Adventurer>()) || Mechanics.QuestSystem.QuestManager.GetQuest<Mechanics.QuestSystem.Quests.FirstAdventure>().IsUnlocked)
                 return 0f;
             
-			return SpawnCondition.OverworldDay.Chance * 0.15f;
+			return SpawnCondition.OverworldDay.Chance * 0.2f;
 		}
 		public override string TownNPCName()
 		{
@@ -214,6 +214,8 @@ namespace SpiritMod.NPCs.Town
 			{
 				Mechanics.QuestSystem.QuestManager.QuestBookUnlocked = true;
 				Mechanics.QuestSystem.QuestManager.UnlockQuest<Mechanics.QuestSystem.Quests.FirstAdventure>(true);
+				Mechanics.QuestSystem.QuestManager.SayInChat("Press 'C' to open the Quest Journal!", Color.White);
+				Mechanics.QuestSystem.QuestManager.SayInChat("Press 'V' to keep track of your progress wih the HUD!", Color.White);
 				Mechanics.QuestSystem.QuestManager.SetBookState(true);
 			}
 		}

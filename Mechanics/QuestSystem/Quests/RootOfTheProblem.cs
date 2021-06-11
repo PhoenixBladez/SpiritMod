@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,8 +13,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
     public class RootOfTheProblem : Quest
     {
         public override string QuestName => "Root of the Problem";
-		public override string QuestClient => "The Adventurer";
-		public override string QuestDescription => "Ever since I was captured by those savages from the Briar, I've been doin' some research on the place. That altar you found me at is supposed to harbor a really venegeful nature spirit. Mind investigating? ";
+		public override string QuestClient => "The Guide";
+		public override string QuestDescription => "The Adventurer's gone missing! Apparently, a few of my friends heard news that he was captured in the Briar while protecting some scientists. You just killed those Hookbats, right? I'm sure you've got this- be safe!";
 		public override int Difficulty => 3;
 		public override string QuestCategory => "Main";
 
@@ -28,18 +29,25 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		private RootOfTheProblem()
         {
-			_tasks.AddParallelTasks(new SlayTask(new int[] { ModContent.NPCType<NPCs.Reach.ForestWraith>()}, 1, "Glade Wraith"), new RetrievalTask(ModContent.ItemType<Items.Consumable.Quest.SacredVine>(), 1));
-        }
+			_tasks.AddTask(new TalkNPCTask(ModContent.NPCType<NPCs.Town.Adventurer>(), "I thought I was a real goner there! If you didn't butt in, I probably would've been fed to whatever those monsters were trying to conjure up over there. I wouldn't touch it if I were you... Look, you have my thanks; but just between you and me, it's been a long few months, and all I want is a vacation from adventuring for a while. Life is short, and I'd rather not make it shorter. I'll see you around sometime. Could you get rid of that altar for me, too?", "Go to the Underground Briar and rescue the Adventurer"))
+				  .AddTask(new SlayTask(ModContent.NPCType<NPCs.Reach.ForestWraith>(), 1, "Glade Wraith")); 
+		}
 
 		public override void OnQuestComplete()
 		{
-			QuestManager.UnlockQuest<ReturnToYourRoots>(true);
-			QuestManager.UnlockQuest<RootOfTheProblem>(true);
-            QuestManager.UnlockQuest<SlayerQuestValkyrie>(true);
-			QuestManager.UnlockQuest<SlayerQuestDrBones>(true);
-			QuestManager.UnlockQuest<SlayerQuestNymph>(true);
-			QuestManager.UnlockQuest<SlayerQuestUGDesert>(true);
-			QuestManager.UnlockQuest<SlayerQuestCavern>(true);
+			bool showUnlocks = true;
+			QuestManager.UnlockQuest<ReturnToYourRoots>(showUnlocks);
+			QuestManager.UnlockQuest<IdleIdol>(showUnlocks);
+
+			QuestManager.UnlockQuest<BareNecessities>(showUnlocks);
+			
+			QuestManager.UnlockQuest<SlayerQuestBriar>(showUnlocks);
+		
+			QuestManager.UnlockQuest<FriendSafari>(showUnlocks);
+			QuestManager.UnlockQuest<BreakingAndEntering>(showUnlocks);
+
+			QuestManager.SayInChat("Click on quests in the chat to open them in the book!", Color.White);
+
 			base.OnQuestComplete();
 		}
 

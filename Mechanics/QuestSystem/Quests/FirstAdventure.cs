@@ -41,27 +41,16 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		{
 			// a lot of quests, so not showing their unlocks. Feel free to change that:
 			bool showUnlocks = true;
-			QuestManager.UnlockQuest<RootOfTheProblem>(showUnlocks);
-			QuestManager.UnlockQuest<IdleIdol>(showUnlocks);
-
-			QuestManager.UnlockQuest<ZombieOriginQuest>(showUnlocks);
-
-			QuestManager.UnlockQuest<BareNecessities>(showUnlocks);
+			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Guide, QuestManager.GetQuest<RootOfTheProblem>());
 
 			QuestManager.UnlockQuest<ExplorerQuestCrimson>(showUnlocks);
 			QuestManager.UnlockQuest<ExplorerQuestCorrupt>(showUnlocks);
-
 			QuestManager.UnlockQuest<HeartCrystalQuest>(showUnlocks);
-
 			QuestManager.UnlockQuest<SlayerQuestScreechOwls>(showUnlocks);
-			QuestManager.UnlockQuest<SlayerQuestBriar>(showUnlocks);
-		
-			QuestManager.UnlockQuest<FriendSafari>(showUnlocks);
-			QuestManager.UnlockQuest<BreakingAndEntering>(showUnlocks);
 
 			base.OnQuestComplete();
 
-			QuestManager.SayInChat("Click on quests in the chat to open them in the book!", Color.White);
+			QuestManager.SayInChat("It looks like the Guide wants to talk about something!", Color.White);
 		}
 
 		public override void OnActivate()
