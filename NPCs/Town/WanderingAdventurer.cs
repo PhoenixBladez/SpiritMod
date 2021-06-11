@@ -52,6 +52,28 @@ namespace SpiritMod.NPCs.Town
 			npc.knockBackResist = 0.4f;
 			animationType = NPCID.Guide;
 		}
+		public override void AI()
+		{
+			if (Mechanics.QuestSystem.QuestManager.GetQuest<Mechanics.QuestSystem.Quests.FirstAdventure>().IsActive)
+			{
+				Main.PlaySound(16, npc.Center, 0);
+				Rectangle textPos = new Rectangle((int)npc.position.X, (int)npc.position.Y - 60, npc.width, npc.height);
+				CombatText.NewText(textPos, new Color(255, 240, 0, 100), "Gotta go adventurin', see you later!");
+				for (int i = 0; i < 2; i++)
+				{
+					Gore.NewGore(npc.position, npc.velocity, 11);
+					Gore.NewGore(npc.position, npc.velocity, 13);
+					Gore.NewGore(npc.position, npc.velocity, 12);
+				}
+				npc.active = false;
+				npc.netUpdate = true;
+			}
+		}
+		public override bool CanTownNPCSpawn(int numTownNPCs, int money)
+		{
+			return false;
+		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0) {
@@ -70,7 +92,7 @@ namespace SpiritMod.NPCs.Town
 		}
 		public override string TownNPCName()
 		{
-			string names = "Wandering Adventurer";
+			string[] names = { "Wandering Adventurer" };
 			return Main.rand.Next(names);
 		}
 		public override void NPCLoot()
