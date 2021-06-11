@@ -125,6 +125,7 @@ namespace SpiritMod
 		public static bool downedJellyDeluge = false;
 		public static bool downedTide = false;
 		public static bool downedBlueMoon = false;
+		public static bool downedGazer = false;
 
 		//pagoda enemy spawn variables
 		public static int pagodaX = 0;
@@ -193,6 +194,9 @@ namespace SpiritMod
 				downed.Add("beholder");
 			if (downedSnaptrapper)
 				downed.Add("snaptrapper");
+			if (downedGazer)
+				downed.Add("bloodGazer");
+
 			data.Add("downed", downed);
 
 			TagCompound droppedGlyphTag = new TagCompound();
@@ -216,7 +220,7 @@ namespace SpiritMod
 			data.Add("superSunFlowerPositions", superSunFlowerPositions.ToList());
 
 			//Portrait system - Gabe
-			PortraitManager.Unload(); //Load portraits so the detour can access them
+			//PortraitManager.Unload(); //Load portraits so the detour can access them
 
 			return data;
 		}
@@ -239,6 +243,7 @@ namespace SpiritMod
 			downedTome = downed.Contains("hauntedTome");
 			downedBeholder = downed.Contains("beholder");
 			downedSnaptrapper = downed.Contains("snaptrapper");
+			downedGazer = downed.Contains("bloodGazer");
 			downedBlueMoon = downed.Contains("bluemoon");
 			downedJellyDeluge = downed.Contains("jellyDeluge");
 			//LoadSpecialNPCs(tag);
@@ -305,7 +310,7 @@ namespace SpiritMod
 		public override void NetSend(BinaryWriter writer)
 		{
 			BitsByte bosses1 = new BitsByte(downedScarabeus, downedAncientFlier, downedRaider, downedInfernon, downedDusking, downedAtlas, downedReachBoss, downedMoonWizard);
-			BitsByte bosses2 = new BitsByte(downedTide, downedMechromancer, downedOccultist, downedGladeWraith, downedBeholder, downedSnaptrapper, downedTome);
+			BitsByte bosses2 = new BitsByte(downedTide, downedMechromancer, downedOccultist, downedGladeWraith, downedBeholder, downedSnaptrapper, downedTome, downedGazer);
 			writer.Write(bosses1);
 			writer.Write(bosses2);
 			BitsByte environment = new BitsByte(BlueMoon, jellySky, downedBlueMoon, downedJellyDeluge);
@@ -335,6 +340,7 @@ namespace SpiritMod
 			downedBeholder = bosses2[4];
 			downedSnaptrapper = bosses2[5];
 			downedTome = bosses2[6];
+			downedGazer = bosses2[7];
 
 			BitsByte environment = reader.ReadByte();
 			BlueMoon = environment[0];
@@ -411,7 +417,7 @@ namespace SpiritMod
 			downedTome = false;
 
 			//Portrait system - Gabe
-			PortraitManager.Load(); //Load portraits so the detour can access them
+			//PortraitManager.Load(); //Load portraits so the detour can access them
 		}
 
 		/// <summary>

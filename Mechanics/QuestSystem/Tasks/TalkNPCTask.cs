@@ -13,12 +13,14 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		private int _npcType;
 		private string _objective;
+		public readonly string NPCText = "Have a great day!";
 
 		public TalkNPCTask() { }
 
-		public TalkNPCTask(int npcType, string objective = null)
+		public TalkNPCTask(int npcType, string text, string objective = null)
 		{
 			_npcType = npcType;
+			NPCText = text;
 			_objective = objective;
 		}
 
@@ -57,6 +59,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			{
 				if (Main.LocalPlayer.talkNPC != -1)
 				{
+					Main.npcChatText = NPCText;
 					return Main.npc[Main.LocalPlayer.talkNPC].type == _npcType;
 				}
 			}
@@ -66,6 +69,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 				{
 					if (Main.player[i].active && Main.player[i].talkNPC >= 0 && Main.npc[Main.player[i].talkNPC].netID == _npcType)
 					{
+						Main.npcChatText = NPCText;
 						return true;
 					}
 				}

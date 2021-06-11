@@ -231,11 +231,11 @@ namespace SpiritMod.NPCs.Undead_Warlock
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (!Main.hardMode)
+			if (NPC.AnyNPCs(ModContent.NPCType<Undead_Warlock>()) || spawnInfo.playerSafe)
 			{
 				return 0f;
 			}
-			return SpawnCondition.OverworldNightMonster.Chance * 0.01f;
+			return SpawnCondition.OverworldNightMonster.Chance * 0.001f;
 		}
 	}
 }

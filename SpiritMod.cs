@@ -684,6 +684,8 @@ namespace SpiritMod
 
 				SpiritModAutoSellTextures.Load();
 
+				PortraitManager.Load();
+
 				AutoSellUI_INTERFACE = new UserInterface();
 				SellNoValue_INTERFACE = new UserInterface();
 				SellLock_INTERFACE = new UserInterface();
