@@ -113,11 +113,11 @@ namespace SpiritMod.NPCs.Dead_Scientist
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (!Main.hardMode)
+			if (NPC.AnyNPCs(ModContent.NPCType<Dead_Scientist>()))
 			{
 				return 0f;
 			}
-			return SpawnCondition.OverworldNightMonster.Chance * 0.02f;
+			return SpawnCondition.OverworldNightMonster.Chance * 0.002f;
 		}
 		public override void FindFrame(int frameHeight)
 		{
