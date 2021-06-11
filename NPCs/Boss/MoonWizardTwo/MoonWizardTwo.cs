@@ -17,7 +17,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 	{
 		public int cooldownCounter = 50;
 
-		private bool phaseTwo => npc.life < 3000;
+		private bool phaseTwo = false;
 		private bool attacking => cooldownCounter <= 0;
 
 		private float distanceToPlayer => (npc.Center - Main.player[npc.target].Center).Length();
@@ -33,24 +33,43 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 		private float dashDistance = 0f;
 		private Projectile currentProjectile;
 
-		const int NUMBEROFATTACKS = 9;
+		const int NUMBEROFATTACKS = 10;
 		private enum CurrentAttack
 		{
-			InwardPull = 0,
-			SineBalls = 1,
-			SkyStrikes = 2,
-			DashToPlayer = 3,
-			CreateGems = 4,
-			CloneAttack = 5,
-			DashToPlayerAgain = 6,
-			SmallBubbles = 7,
-			BubbleKick = 8,
+			DashToPlayer = 0,
+			CreateGems = 1,
+			CloneAttack = 2,
+			DashToPlayerAgain = 3,
+			JellyfishRapidFire = 4,
+			SmallBubbles = 5,
+			BubbleKick = 6,
+			InwardPull = 7,
+			SineBalls = 8,
+			SkyStrikes = 9,
+		}
+
+		const int NUMBEROFATTACKSP2 = 1;
+		private enum CurrentAttackP2
+		{
+			
 		}
 		private CurrentAttack currentAttack
 		{
 			get
 			{
 				return (CurrentAttack)(int)npc.ai[1];
+			}
+			set
+			{
+				npc.ai[1] = (int)value;
+			}
+		}
+
+		private CurrentAttackP2 currentAttackP2
+		{
+			get
+			{
+				return (CurrentAttackP2)(int)npc.ai[1];
 			}
 			set
 			{
@@ -90,7 +109,6 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			npc.DeathSound = SoundID.NPCDeath2;
             music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/MoonJelly");
             npc.boss = true;
-			npc.ai[1] = 3;
 		}
 
 		public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color color, float opacity, float startScale, float endScale) => DrawAfterImage(spriteBatch, offset, trailLengthModifier, color, color, opacity, startScale, endScale);
@@ -162,7 +180,16 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			npc.TargetClosest();
 			if (!attacking)
 			{
-				npc.ai[1] %= NUMBEROFATTACKS; //make sure the current attack is within the index
+				if (!phaseTwo && npc.life < npc.lifeMax / 2.5f)
+				{
+					cooldownCounter = 90;
+					phaseTwo = true;
+					npc.ai[1] = 0;
+				}
+				if (phaseTwo)
+					npc.ai[1] %= NUMBEROFATTACKSP2; //make sure the current attack is within the index
+				else
+					npc.ai[1] %= NUMBEROFATTACKS; //make sure the current attack is within the index
 				attackCounter = 0;
 				preAttackCounter = 0;
 				cooldownCounter--;
@@ -173,35 +200,48 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			else
 			{
 				bool attackStart = false;
-				switch(currentAttack)
+				if (!phaseTwo)
 				{
-					case CurrentAttack.InwardPull:
-						attackStart = DoInwardPull();
-						break;
-					case CurrentAttack.SineBalls:
-						attackStart = DoSineBalls();
-						break;
-					case CurrentAttack.SkyStrikes:
-						attackStart = DoSkyStrikes();
-						break;
-					case CurrentAttack.DashToPlayer:
-						attackStart = DoDashToPlayer(false);
-						break;
-					case CurrentAttack.CreateGems:
-						attackStart = DoCreateGems();
-						break;
-					case CurrentAttack.CloneAttack:
-						attackStart = DoCloneAttack();
-						break;
-					case CurrentAttack.DashToPlayerAgain:
-						attackStart = DoDashToPlayer(true);
-						break;
-					case CurrentAttack.SmallBubbles:
-						attackStart = DoSmallBubbles();
-						break;
-					case CurrentAttack.BubbleKick:
-						attackStart = DoBubbleKick();
-						break;
+					switch (currentAttack)
+					{
+						case CurrentAttack.InwardPull:
+							attackStart = DoInwardPull();
+							break;
+						case CurrentAttack.SineBalls:
+							attackStart = DoSineBalls();
+							break;
+						case CurrentAttack.SkyStrikes:
+							attackStart = DoSkyStrikes();
+							break;
+						case CurrentAttack.DashToPlayer:
+							attackStart = DoDashToPlayer(false);
+							break;
+						case CurrentAttack.CreateGems:
+							attackStart = DoCreateGems();
+							break;
+						case CurrentAttack.CloneAttack:
+							attackStart = DoCloneAttack();
+							break;
+						case CurrentAttack.DashToPlayerAgain:
+							attackStart = DoDashToPlayer(true);
+							break;
+						case CurrentAttack.JellyfishRapidFire:
+							attackStart = DoJellyfishRapidFire();
+							break;
+						case CurrentAttack.SmallBubbles:
+							attackStart = DoSmallBubbles();
+							break;
+						case CurrentAttack.BubbleKick:
+							attackStart = DoBubbleKick();
+							break;
+					}
+				}
+				else
+				{
+					switch(currentAttackP2)
+					{ 
+					
+					}
 				}
 				if (attackStart)
 					attackCounter++;
@@ -279,7 +319,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 		}
 
 
-		#region attacks
+		#region phase 1 attacks
 
 		private bool DoInwardPull()
 		{
@@ -470,6 +510,28 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			}
 			return true;
 		}
+
+		private bool DoJellyfishRapidFire()
+		{
+			UpdateFrame(0.15f, 54, 61);
+			if (attackCounter > 220)
+			{
+				npc.ai[1]++;
+				cooldownCounter = 60;
+			}
+			if (attackCounter == 1)
+			{
+				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/BossSFX/MoonWizard_Laugh2"));
+			}
+			if (attackCounter % 15 == 0 && attackCounter < 180 && Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
+				bool expertMode = Main.expertMode;
+				int p = Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-60, 60), npc.Center.Y + Main.rand.Next(-60, 60), vector2_2.X, vector2_2.Y, ModContent.ProjectileType<MysticJellyfishOrbiter>(), NPCUtils.ToActualDamage(70, 1.5f), 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
+				Main.projectile[p].scale = Main.rand.NextFloat(.6f, 1f);
+			}
+			return true;
+		}
 		private bool DoSmallBubbles()
 		{
 			int numberOfAttacks = 6;
@@ -576,6 +638,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 				return true;
 			return false;
 		}
+		#endregion
+
+		#region phase 2 attacks
+
 		#endregion
 	}
 }

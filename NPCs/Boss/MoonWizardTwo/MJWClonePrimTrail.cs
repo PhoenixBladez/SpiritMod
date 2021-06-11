@@ -85,7 +85,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
         public override void OnUpdate()
         {
             PointCount = Points.Count() * 6;
-            if (!Entity.active || Destroyed || Entity.velocity != Vector2.Zero || (Entity is NPC npc && npc.modNPC is MoonWizardTwo modnpc && npc.ai[1] == 7))
+            if (!Entity.active || Destroyed || Entity.velocity != Vector2.Zero)
             {
                 OnDestroy();
             }
