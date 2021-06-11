@@ -152,7 +152,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			for (int i = 0; i < _monsterIDs.Length; i++)
 			{
-		    	if (pool.ContainsKey(Main.npc[_monsterIDs[i]].type))
+		    	if (pool.ContainsKey(_monsterIDs[i]))
 			    {
 				    pool[_monsterIDs[i]] = .75f;
                     break;

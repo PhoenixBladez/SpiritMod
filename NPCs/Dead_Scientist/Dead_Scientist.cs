@@ -19,14 +19,14 @@ namespace SpiritMod.NPCs.Dead_Scientist
 		public override void SetDefaults()
 		{
 			npc.aiStyle = 3;
-			npc.lifeMax = 280;
-			npc.defense = 22;
+			npc.lifeMax = 50;
+			npc.defense = 6;
 			npc.value = 100f;
-			aiType = NPCID.PossessedArmor;
+			aiType = 3;
 			npc.knockBackResist = 0.5f;
 			npc.width = 24;
 			npc.height = 36;
-			npc.damage = 50;
+			npc.damage = 28;
 			npc.lavaImmune = false;
 			npc.HitSound = new Terraria.Audio.LegacySoundStyle(3, 1);
 		}
@@ -71,7 +71,7 @@ namespace SpiritMod.NPCs.Dead_Scientist
 					float num15 = num5 / num14;
 					float num16 = num6 * num15;
 					float SpeedY = num8 * num15;
-					int p = Projectile.NewProjectile(vector2.X, vector2.Y, num16, SpeedY, mod.ProjectileType("Zombie_Puke"), 28, 0.0f, Main.myPlayer, 0.0f, 0.0f);
+					int p = Projectile.NewProjectile(vector2.X, vector2.Y, num16, SpeedY, mod.ProjectileType("Zombie_Puke"), 10, 0.0f, Main.myPlayer, 0.0f, 0.0f);
 				}
 			}
 			if ((double)Vector2.Distance(player.Center, npc.Center) < (double)300f)
@@ -85,14 +85,15 @@ namespace SpiritMod.NPCs.Dead_Scientist
 		}
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(25) == 0)
+			if (Main.rand.Next(3) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 216, 1);
 			}
-			if (Main.rand.Next(500) == 0)
+			if (Main.rand.Next(10) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1304, 1);
 			}
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Thrown.FlaskOfGore>(), Main.rand.Next(108, 163));
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{

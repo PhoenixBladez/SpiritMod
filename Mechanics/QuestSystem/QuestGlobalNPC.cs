@@ -34,7 +34,15 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo) => OnEditSpawnPool?.Invoke(pool, spawnInfo);
 
 		public override void NPCLoot(NPC npc)
-        {            
+        {     
+			if (npc.type == NPCID.Zombie || npc.type == NPCID.BaldZombie || npc.type == NPCID.SlimedZombie || npc.type == NPCID.SwampZombie || npc.type == NPCID.TwiggyZombie || npc.type == NPCID.ZombieRaincoat || npc.type == NPCID.PincushionZombie || npc.type == NPCID.ZombieEskimo) {
+				if (!QuestWorld.zombieQuestStart && QuestManager.GetQuest<FirstAdventure>().IsCompleted) {
+					if (Main.rand.Next(40) == 0)
+					{
+						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<OccultistMap>());
+					}
+				}
+			}       
             if (npc.type == NPCID.EyeofCthulhu || 
 				npc.type == NPCID.EaterofWorldsHead || 
 				npc.type == NPCID.SkeletronHead || 

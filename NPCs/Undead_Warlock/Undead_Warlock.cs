@@ -27,14 +27,14 @@ namespace SpiritMod.NPCs.Undead_Warlock
 		public override void SetDefaults()
 		{
 			npc.aiStyle = 3;
-			npc.lifeMax = 400;
-			npc.defense = 20;
-			npc.value = 3000f;
+			npc.lifeMax = 150;
+			npc.defense = 7;
+			npc.value = 100f;
 			aiType = 3;
 			npc.knockBackResist = 0.2f;
 			npc.width = 24;
 			npc.height = 36;
-			npc.damage = 35;
+			npc.damage = 28;
 			npc.lavaImmune = false;
 			npc.HitSound = new Terraria.Audio.LegacySoundStyle(3, 1);
 		}
@@ -200,18 +200,15 @@ namespace SpiritMod.NPCs.Undead_Warlock
 		}
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(15)==0)
+			if (Main.rand.Next(3) == 0)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Jewel_of_Night"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 216, 1);
 			}
-			if (Main.rand.Next(15)==0)
+			if (Main.rand.Next(10) == 0)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Undead_Warlock_Staff"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1304, 1);
 			}
-			if (Main.rand.Next(15)==0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Undead_Warlock_Medallion"));
-			}
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Undead_Warlock_Staff"));
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
