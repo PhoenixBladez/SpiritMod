@@ -98,8 +98,8 @@ namespace SpiritMod.Mechanics.PortraitSystem
 			// args[1] should be the mod it's coming from
 			// args[2] should the portrait NPC's internal name
 			// args[3] should be the portrait's texture
-			// args[4] should be the portrait's Get Frame alias
-			// args[5] should be the portrait's BaseSize
+			// args[4] should be the portrait's Get Frame hook, if any (defaults to a single frame portrait)
+			// args[5] should be the portrait's BaseSize, if any defaults to (108, 108)
 
 			// So calling this would be
 			// spiritMod.Call("Portrait", myMod, "MyTownNPC", ModContent.GetTexture("SomeTexture")); for a default, single frame portrait.

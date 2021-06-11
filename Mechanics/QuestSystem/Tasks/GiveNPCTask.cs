@@ -45,6 +45,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 			_takenItems = false;
 		}
 
+		public GiveNPCTask(int npcType, int giveItem, int stack, string text, string objective, bool requireAll = true, bool takeItems = true) : this(npcType, new int[] { giveItem }, new int[] { stack }, text, objective, requireAll, takeItems)
+		{ }
 		public override QuestTask Parse(object[] args)
 		{
 			//NPC type
