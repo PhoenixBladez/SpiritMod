@@ -43,6 +43,7 @@ using Terraria.DataStructures;
 using SpiritMod.Stargoop;
 using SpiritMod.NPCs.ExplosiveBarrel;
 using SpiritMod.Mechanics.PortraitSystem;
+using SpiritMod.Mechanics.Boids;
 
 namespace SpiritMod
 {
@@ -64,6 +65,7 @@ namespace SpiritMod
 		public static TrailManager TrailManager;
 		public static PrimTrailManager primitives;
 		public static StargoopManager Metaballs;
+		public static BoidHost Boids;
 		public static Effect glitchEffect;
 		public static Effect StarjinxNoise;
 		public static Effect CircleNoise;
@@ -631,6 +633,7 @@ namespace SpiritMod
 
 				QuestBookUIState = new QuestBookUI();
 				QuestHUD = new QuestHUD();
+				Boids = new BoidHost();
 				Mechanics.EventSystem.EventManager.Load();
 				QuestManager.Load();
 			}
@@ -810,7 +813,7 @@ namespace SpiritMod
 				primitives.LoadContent(Main.graphics.GraphicsDevice);
 
 				InitStargoop();
-
+				Boids.LoadContent();
 				AdditiveCallManager.Load();
 			}
 			// LoadDetours();
@@ -926,6 +929,7 @@ namespace SpiritMod
 			SpiritGlowmask.Unload();
 			StructureLoader.Unload();
 			ParticleHandler.Unload();
+			Boids.UnloadContent();
 			glitchEffect = null;
 			glitchScreenShader = null;
 			TrailManager = null;
