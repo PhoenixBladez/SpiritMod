@@ -24,7 +24,7 @@ namespace SpiritMod.Projectiles.Bullet
 			projectile.friendly = true;
 			projectile.hostile = false;
 			projectile.ranged = true;
-			projectile.penetrate = 2;
+			projectile.penetrate = 1;
 			projectile.timeLeft = 300;
 			projectile.height = 6;
 			projectile.width = 6;
@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles.Bullet
 			projectile.extraUpdates = 1;
 		}
 
-		bool bounce = false;
+		public bool bounce = false;
         int numBounce = 3;
         public override void AI()
         {
