@@ -28,7 +28,9 @@ namespace SpiritMod.VerletChains
 		private const int STIFFNESS = 6;
 		public List<ChainSegment> Segments { get; set; }
 		public List<ChainVertex> Vertices { get; set; }
+
 		public Texture2D Texture { get; set; }
+		public Texture2D HeadTexture { get; set; }
 
 		public ChainVertex FirstVertex { get; set; }
 		public ChainVertex LastVertex { get; set; }
@@ -38,7 +40,16 @@ namespace SpiritMod.VerletChains
 		public Chain(Texture2D texture, float segmentLength, int segmentCount, Vector2 startPosition, ChainPhysics? physicsCoefficients = null, bool staticFirst = true, bool staticLast = true)
 		{
 			Texture = texture;
+			HeadTexture = texture;
 			Coefficients = physicsCoefficients ?? new ChainPhysics();
+			PopulateLists(segmentLength, segmentCount, startPosition, staticFirst, staticLast);
+		}
+
+		public Chain(Texture2D texture, Texture2D textureHead, float segmentLength, int segmentCount, Vector2 startPosition, bool staticFirst = true, bool staticLast = true)
+		{
+			Texture = texture;
+			HeadTexture = textureHead;
+			Coefficients = new ChainPhysics();
 			PopulateLists(segmentLength, segmentCount, startPosition, staticFirst, staticLast);
 		}
 
@@ -89,7 +100,10 @@ namespace SpiritMod.VerletChains
 		{
 			foreach (var segment in Segments)
 			{
-				segment.Draw(sB, Texture);
+				if (segment == Segments.Last())
+					segment.Draw(sB, HeadTexture);
+				else
+					segment.Draw(sB, Texture);
 			}
 		}
 
