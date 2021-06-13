@@ -44,9 +44,12 @@ namespace SpiritMod.Mechanics.Boids
 				{
 					Vector2 position = Main.LocalPlayer.Center + rand;
 					Point tP = position.ToTileCoordinates();
-					Tile tile = Framing.GetTileSafely(tP.X, tP.Y);
-					if(tile.liquid > 100)
-					Flocks[flock].Populate(position, Main.rand.Next(20, 30), 50f);
+					if (WorldGen.InWorld(tP.X, tP.Y, 10))
+					{
+						Tile tile = Framing.GetTileSafely(tP.X, tP.Y);
+						if (tile.liquid > 100)
+							Flocks[flock].Populate(position, Main.rand.Next(20, 30), 50f);
+					}
 				}
 			}
 		}
