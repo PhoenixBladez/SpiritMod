@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace SpiritMod
 {
@@ -16,36 +18,58 @@ namespace SpiritMod
 			return new Rectangle(0, projectile.frame * texture.Height / Main.projFrames[projectile.type], texture.Width, texture.Height / Main.projFrames[projectile.type]);
 		}
 
-		public static Vector2 GetArcVel(Vector2 startingPos, Vector2 targetPos, float gravity, float? minArcHeight = null, float? maxArcHeight = null, float? maxXvel = null, float? heightabovetarget = null)
+		public static void QuickDraw(this Projectile projectile, SpriteBatch spriteBatch, float? rotation = null, SpriteEffects? spriteEffects = null)
 		{
-			Vector2 DistanceToTravel = targetPos - startingPos;
-			float MaxHeight = DistanceToTravel.Y - (heightabovetarget ?? 0);
-			if(minArcHeight != null)
-				MaxHeight = Math.Min(MaxHeight, -(float)minArcHeight);
+			Texture2D tex = Main.projectileTexture[projectile.type];
+			Color color = Lighting.GetColor((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16);
+			if(spriteEffects == null)
+				spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-			if (maxArcHeight != null)
-				MaxHeight = Math.Max(MaxHeight, -(float)maxArcHeight);
-
-			float TravelTime;
-			float neededYvel;
-			if (MaxHeight <= 0)
-            {
-				neededYvel = -(float)Math.Sqrt(-2 * gravity * MaxHeight);
-				TravelTime = (float)Math.Sqrt(-2 * MaxHeight / gravity) + (float)Math.Sqrt(2 * Math.Max(DistanceToTravel.Y - MaxHeight, 0) / gravity); //time up, then time down
-			}
-
-			else
-            {
-				neededYvel = 0;
-                TravelTime = (-neededYvel + (float)Math.Sqrt(Math.Pow(neededYvel, 2) - (4 * -DistanceToTravel.Y * gravity/2)))/ (gravity); //time down
-            }
-
-			if (maxXvel != null)
-				return new Vector2(MathHelper.Clamp(DistanceToTravel.X / TravelTime, -(float)maxXvel, (float)maxXvel), neededYvel);
-
-			return new Vector2(DistanceToTravel.X / TravelTime, neededYvel);
+			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, projectile.DrawFrame(), projectile.GetAlpha(color), rotation ?? projectile.rotation, projectile.DrawFrame().Size() / 2, projectile.scale, spriteEffects ?? (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
 		}
 
-        public static Vector2 GetArcVel(this Entity ent, Vector2 targetPos, float gravity, float? minArcHeight = null, float? maxArcHeight = null, float? maxXvel = null, float? heightabovetarget = null) => GetArcVel(ent.Center, targetPos, gravity, minArcHeight, maxArcHeight, maxXvel, heightabovetarget);
-    }
+		public static void QuickDrawGlow(this Projectile projectile, SpriteBatch spriteBatch, Color? color = null, float? rotation = null, SpriteEffects? spriteEffects = null)
+		{
+			if (!ModContent.TextureExists(projectile.modProjectile.Texture + "_glow"))
+				return;
+
+			Texture2D tex = ModContent.GetTexture(projectile.modProjectile.Texture + "_glow");
+			if (spriteEffects == null)
+				spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, projectile.DrawFrame(),color ?? Color.White, rotation ?? projectile.rotation, projectile.DrawFrame().Size() / 2, projectile.scale, spriteEffects ?? (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
+		}
+
+		public static void QuickDrawTrail(this Projectile projectile, SpriteBatch spriteBatch, float Opacity = 0.5f, float? rotation = null, SpriteEffects? spriteEffects = null)
+		{
+			Texture2D tex = Main.projectileTexture[projectile.type];
+			Color color = Lighting.GetColor((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16);
+			if (spriteEffects == null)
+				spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+			for (int i = 0; i < ProjectileID.Sets.TrailCacheLength[projectile.type]; i++)
+			{
+				float opacity = (ProjectileID.Sets.TrailCacheLength[projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[projectile.type];
+				opacity *= Opacity;
+				spriteBatch.Draw(tex, projectile.oldPos[i] + projectile.Size/2 - Main.screenPosition, projectile.DrawFrame(), projectile.GetAlpha(color) * opacity, rotation ?? projectile.oldRot[i], projectile.DrawFrame().Size() / 2, projectile.scale, spriteEffects ?? (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
+			}
+		}
+
+		public static void QuickDrawGlowTrail(this Projectile projectile, SpriteBatch spriteBatch, float Opacity = 0.5f, Color? color = null, float? rotation = null, SpriteEffects? spriteEffects = null)
+		{
+			if (!ModContent.TextureExists(projectile.modProjectile.Texture + "_glow"))
+				return;
+
+			Texture2D tex = ModContent.GetTexture(projectile.modProjectile.Texture + "_glow");
+			if (spriteEffects == null)
+				spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+			for (int i = 0; i < ProjectileID.Sets.TrailCacheLength[projectile.type]; i++)
+			{
+				float opacity = (ProjectileID.Sets.TrailCacheLength[projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[projectile.type];
+				opacity *= Opacity;
+				spriteBatch.Draw(tex, projectile.oldPos[i] + projectile.Size / 2 - Main.screenPosition, projectile.DrawFrame(), (color ?? Color.White) * opacity, rotation ?? projectile.oldRot[i], projectile.DrawFrame().Size() / 2, projectile.scale, spriteEffects ?? (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
+			}
+		}
+	}
 }

@@ -179,7 +179,6 @@ namespace SpiritMod
         public bool unboundSoulMinion = false;
         public bool cragboundMinion = false;
         public bool crawlerockMinion = false;
-        public bool pigronMinion = false;
         public bool mangoMinion = false;
         public bool terror1Summon = false;
         public bool terror2Summon = false;
@@ -403,7 +402,6 @@ namespace SpiritMod
         public bool soulPotion;
         public bool gremlinBuff;
 
-		public bool Jinxprobe = false;
 		public float WingTimeMaxMultiplier = 1f;
 		public bool StarjinxSet = false;
 		public int starjinxtimer = 0;
@@ -700,7 +698,6 @@ namespace SpiritMod
             ProbeMinion = false;
             crawlerockMinion = false;
             mangoMinion = false;
-            pigronMinion = false;
             skeletalonMinion = false;
             cragboundMinion = false;
             shamanBand = false;
@@ -798,7 +795,6 @@ namespace SpiritMod
 			longFuse = false;
 			granitechDrones = false;
 
-			Jinxprobe = false;
 			WingTimeMaxMultiplier = 1f;
 			StarjinxSet = false;
 			oldHelios = usingHelios;

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,13 +13,13 @@ namespace SpiritMod.Items.Material
 		{
 			DisplayName.SetDefault("Dreamstride Essence");
 			Tooltip.SetDefault("'The stuff of nightmares'");
-			ItemID.Sets.ItemIconPulse[item.type] = true;
+			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
+			ItemID.Sets.ItemNoGravity[item.type] = true;
 		}
 
 
 		public override void SetDefaults()
 		{
-			ItemID.Sets.ItemNoGravity[item.type] = true;
 			item.width = 24;
 			item.height = 28;
 			item.value = 100;

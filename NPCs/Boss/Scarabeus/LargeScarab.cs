@@ -13,6 +13,8 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		public override void SetStaticDefaults() { 
 			DisplayName.SetDefault("Sand Ball");
 			Main.projFrames[projectile.type] = 4;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
 		public override void SetDefaults()
@@ -92,10 +94,10 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D texture2D = Main.projectileTexture[projectile.type];
-			SpriteEffects spriteeffects = (projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-			Rectangle frame = new Rectangle(0, projectile.frame * texture2D.Height / Main.projFrames[projectile.type], texture2D.Width, texture2D.Height / Main.projFrames[projectile.type]);
-			spriteBatch.Draw(texture2D, projectile.Center - Main.screenPosition, frame, projectile.GetAlpha(lightColor), projectile.rotation, frame.Size() / 2f, projectile.scale, spriteeffects, 0f);
+			if(projectile.ai[1] > 170)
+				projectile.QuickDrawTrail(spriteBatch);
+
+			projectile.QuickDraw(spriteBatch);
 			return false;
 		}
 	}

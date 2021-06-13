@@ -76,6 +76,8 @@ namespace SpiritMod.Projectiles.Clubs
 			}
             return false;
         }
+
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Main.player[projectile.owner].Center, projectile.Center) ? true : base.Colliding(projHitbox, targetHitbox);
 		public virtual void Smash(Vector2 position)
         {
            

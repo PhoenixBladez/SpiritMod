@@ -44,6 +44,7 @@ using SpiritMod.Stargoop;
 using SpiritMod.NPCs.ExplosiveBarrel;
 using SpiritMod.Mechanics.PortraitSystem;
 using SpiritMod.Mechanics.Boids;
+using SpiritMod.Buffs.Summon;
 
 namespace SpiritMod
 {
@@ -678,6 +679,8 @@ namespace SpiritMod
 
 			GlyphCurrencyID = CustomCurrencyManager.RegisterCurrency(new Currency(ModContent.ItemType<Items.Glyphs.Glyph>(), 999L));
 
+			AutoloadMinionDictionary.AddBuffs(Code);
+
 			if (Main.netMode != NetmodeID.Server) {
 				TrailManager = new TrailManager(this);
 				AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Armor/TalonGarb_Legs");
@@ -929,6 +932,7 @@ namespace SpiritMod
 			SpiritGlowmask.Unload();
 			StructureLoader.Unload();
 			ParticleHandler.Unload();
+			AutoloadMinionDictionary.Unload();
 			Boids.UnloadContent();
 			glitchEffect = null;
 			glitchScreenShader = null;

@@ -986,7 +986,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			npc.noTileCollide = true;
 			npc.noGravity = true;
 			UpdateFrame(5, 18, 21);
-			npc.knockBackResist = 0.5f;
+			//npc.knockBackResist = 0.5f;
 			npc.spriteDirection = npc.direction;
 			npc.velocity.X += (npc.Center.X < player.Center.X) ? 0.2f : -0.2f;
 			npc.velocity.Y += (npc.Center.Y < player.Center.Y) ? 0.2f : -0.2f;

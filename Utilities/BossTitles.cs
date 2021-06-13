@@ -189,10 +189,14 @@ namespace SpiritMod.Utilities
 			dummynpc.SetDefaults(NPCType);
 			if(dummynpc.modNPC == null)
 			{
-				if (dummynpc.GetBossHeadTextureIndex() >= 0)
+				try
+				{
 					return Main.npcHeadBossTexture[dummynpc.GetBossHeadTextureIndex()];
-				else
-					return Main.npcHeadBossTexture[0];
+				}
+				catch
+				{
+					return null;
+				}
 			}
 			return ModContent.TextureExists(dummynpc.modNPC.BossHeadTexture) ? ModContent.GetTexture(dummynpc.modNPC.BossHeadTexture) : null;
 		}

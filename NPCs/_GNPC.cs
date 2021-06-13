@@ -46,6 +46,7 @@ using System.Linq;
 using SpiritMod.Items.Ammo.Rocket.Warhead;
 using SpiritMod.Projectiles.Summon.SacrificialDagger;
 using Terraria.Audio;
+using SpiritMod.Items.Weapon.Summon.PigronStaff;
 
 namespace SpiritMod.NPCs
 {

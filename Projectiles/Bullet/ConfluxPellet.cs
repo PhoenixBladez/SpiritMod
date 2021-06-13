@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using System.Linq;
+using SpiritMod.Utilities;
 
 namespace SpiritMod.Projectiles.Bullet
 {

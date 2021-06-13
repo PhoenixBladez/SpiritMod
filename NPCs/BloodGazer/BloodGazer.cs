@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Accessory.UmbillicalEyeball;
 using SpiritMod.Items.Material;
+using SpiritMod.Utilities;
 using System;
 using System.IO;
 using Terraria;
@@ -65,7 +66,8 @@ namespace SpiritMod.NPCs.BloodGazer
 		private ref float AiTimer => ref npc.ai[1];
 		private ref float AttackCounter => ref npc.ai[2];
 		private ref float Phase => ref npc.ai[3];
-
+		private ref float GlowOpacity => ref npc.localAI[1];
+		private ref float PulseDrawTimer => ref npc.localAI[2];
 		public bool trailing = false;
 
 		public bool glowtrail = false;
@@ -209,7 +211,25 @@ namespace SpiritMod.NPCs.BloodGazer
 					break;
 
 				case BloodGazerAiStates.Phase2Transition:
-					Phase2Transition(player); //in its own method, dumb inconsistency but this one is way longer and i didnt want to make the ai method look even more unreadable
+					npc.knockBackResist = 0f;
+					npc.localAI[1] = MathHelper.Lerp(npc.localAI[1], 0.75f, 0.05f);
+					npc.spriteDirection = Math.Sign(npc.velocity.X) < 0 ? -1 : 1;
+
+					if (AiTimer <= 31)
+						npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionFrom(player.Center), 0.1f);
+
+					if (npc.localAI[1] > 0.6f)
+					{
+						npc.localAI[1] = 0.75f;
+						if (Main.netMode != NetmodeID.Server)
+							Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 2, 0.75f, -5f);
+
+						npc.netUpdate = true;
+					}
+
+					if (AiTimer > 90)
+						UpdateAiState(BloodGazerAiStates.RuneEyes);
+
 					break;
 
 				case BloodGazerAiStates.EyeMortar:
@@ -295,100 +315,6 @@ namespace SpiritMod.NPCs.BloodGazer
 			return false;
 		}
 
-		private void Phase2Transition(Player player)
-		{
-			npc.knockBackResist = 0f;
-			npc.localAI[1] = MathHelper.Lerp(npc.localAI[1], 0.5f, 0.25f);
-			npc.spriteDirection = Math.Sign(npc.velocity.X) < 0 ? -1 : 1;
-
-			if(AiTimer <= 31)
-			{
-				npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionFrom(player.Center), 0.1f);
-				npc.alpha += 8;
-				if (npc.alpha > 255)
-				{
-					npc.alpha = 255;
-					npc.velocity = Vector2.Zero;
-				}
-			}
-
-			if(AiTimer > 31 && AiTimer < 190 && AiTimer % 60 == 0)
-			{
-				for (int i = 0; i < 3; i ++)
-				{
-					Vector2 spawnPos = player.Center + (Vector2.UnitY.RotatedBy(i/3f * MathHelper.TwoPi).RotatedByRandom(MathHelper.TwoPi / 3) * Main.rand.NextFloat(500, 600));
-					if (Main.netMode != NetmodeID.Server)
-						Main.PlaySound(new LegacySoundStyle(SoundID.Item, 104).WithPitchVariance(0.3f).WithVolume(0.5f), spawnPos);
-
-					if (Main.netMode != NetmodeID.MultiplayerClient)
-						Projectile.NewProjectileDirect(spawnPos, Vector2.Zero, ModContent.ProjectileType<RunicEye>(), npc.damage / 4, 1f, Main.myPlayer, 0, npc.whoAmI).netUpdate = true;
-				}
-			}
-
-			if (AiTimer == 245)
-			{
-				Vector2 spawnPos = player.Center - new Vector2(0, 500);
-				if (Main.netMode != NetmodeID.Server)
-					Main.PlaySound(new LegacySoundStyle(SoundID.Item, 104).WithPitchVariance(0.3f).WithVolume(0.65f), spawnPos);
-
-				if (Main.netMode != NetmodeID.MultiplayerClient)
-					Projectile.NewProjectileDirect(spawnPos, Vector2.Zero, ModContent.ProjectileType<RunicEyeBig>(), 0, 1f, Main.myPlayer, 0, npc.whoAmI).netUpdate = true;
-			}
-
-			if (AiTimer >= 360)
-			{
-				if ((AiTimer - 360) > 180)
-				{
-					UpdateAiState(Main.rand.NextBool() ? BloodGazerAiStates.EyeMortar : BloodGazerAiStates.EyeMortar);
-					return;
-				}
-
-				npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(player.Center) * 6, 0.05f);
-				npc.rotation = npc.velocity.ToRotation() + (npc.spriteDirection < 0 ? MathHelper.PiOver2 : MathHelper.PiOver2);
-				npc.alpha = Math.Max(npc.alpha - 10, 0);
-				trailing = true;
-				glowtrail = true;
-				if (AiTimer == 360)
-				{
-
-					npc.Center = player.Center;
-					npc.position.Y -= 500;
-					npc.velocity = Vector2.UnitY * 40;
-					for (int i = 0; i < NPCID.Sets.TrailCacheLength[npc.type]; i++)
-						npc.oldPos[i] = npc.Center; //reset old positions so glowy trail isnt discontinuous
-
-					if (Main.netMode != NetmodeID.Server)
-					{
-						Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 2, 0.75f, -5f);
-						Main.PlaySound(SoundID.DD2_WyvernDiveDown.WithVolume(1.5f), npc.Center);
-					}
-
-					npc.netUpdate = true;
-				}
-
-				if (AiTimer > 360 && (AiTimer - 360) % 60 == 0)
-				{
-					if (Main.netMode != NetmodeID.Server)
-						Main.PlaySound(SoundID.DD2_WyvernDiveDown.WithVolume(1.5f), npc.Center);
-					npc.velocity = npc.DirectionTo(player.Center) * 40;
-					npc.netUpdate = true;
-				}
-			}
-		}
-
-		private bool? Fadedout()
-		{
-			if (npc.alpha < 255)
-				return null;
-
-			return false;
-		}
-
-		public override bool? CanBeHitByProjectile(Projectile projectile) => Fadedout();
-
-		public override bool? CanBeHitByItem(Player player, Item item) => Fadedout();
-
-		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => Fadedout();
 
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{

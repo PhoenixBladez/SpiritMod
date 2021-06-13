@@ -1,10 +1,9 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Buffs.Summon;
-using SpiritMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace SpiritMod.Items.Weapon.Summon
+
+namespace SpiritMod.Items.Weapon.Summon.PigronStaff
 {
 	public class PigronStaff : ModItem
 	{
@@ -13,7 +12,6 @@ namespace SpiritMod.Items.Weapon.Summon
 			DisplayName.SetDefault("Pigron Staff");
 			Tooltip.SetDefault("'Bacon now fights for you'");
 		}
-
 
 		public override void SetDefaults()
 		{
@@ -32,22 +30,12 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.shoot = ModContent.ProjectileType<PigronMinion>();
 			item.UseSound = SoundID.Item44;
 		}
-		public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
 
-		public override bool UseItem(Player player)
-		{
-			if (player.altFunctionUse == 2) {
-				player.MinionNPCTargetAim();
-			}
-			return base.UseItem(player);
-		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			player.AddBuff(ModContent.BuffType<PigronMinionBuff>(), 3600);
-			return player.altFunctionUse != 2;
+			position = Main.MouseWorld;
+			Projectile.NewProjectile(position, Main.rand.NextVector2Circular(3, 3), type, damage, knockBack, player.whoAmI);
+			return false;
 		}
 	}
 }
