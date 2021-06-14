@@ -25,7 +25,7 @@ namespace SpiritMod.NPCs.Automata
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Automata Creeper");
+			DisplayName.SetDefault("Arachmaton");
 			Main.npcFrameCount[npc.type] = 5;
 		}
 

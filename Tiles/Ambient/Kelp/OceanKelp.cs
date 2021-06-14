@@ -74,7 +74,7 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 			if (realFrameX > ClumpFrameOffset) realFrameX -= ClumpFrameOffset;
 			if (realFrameX > ClumpFrameOffset) realFrameX -= ClumpFrameOffset; //repeat twice to adjust properly
 
-			if (!Framing.GetTileSafely(i, j - 1).active() && Main.rand.Next(4) == 0 && t.liquid > 155 && t.frameX < 36 && t.frameY < 108) //Grows the kelp
+			if (!Framing.GetTileSafely(i, j - 1).active() && t.liquid > 155 && t.frameX < 36 && t.frameY < 108) //Grows the kelp
                 WorldGen.PlaceTile(i, j - 1, Type, true, false);
 
             if (realFrameX == 18 && t.frameY < 54 && t.liquid < 155) //Sprouts top

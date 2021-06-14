@@ -42,7 +42,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			// a lot of quests, so not showing their unlocks. Feel free to change that:
 			bool showUnlocks = true;
 			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Guide, QuestManager.GetQuest<RootOfTheProblem>());
-
+			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Demolitionist, QuestManager.GetQuest<RescueQuestStylist>());
+			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.ArmsDealer, QuestManager.GetQuest<MurderMysteryQuest>());
 			QuestManager.UnlockQuest<ExplorerQuestCrimson>(showUnlocks);
 			QuestManager.UnlockQuest<ExplorerQuestCorrupt>(showUnlocks);
 			QuestManager.UnlockQuest<HeartCrystalQuest>(showUnlocks);

@@ -52,8 +52,8 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
 			if (Framing.GetTileSafely(i, j).frameY == 0) {
-				r = 0.34f;
-				g = 0.34f;
+				r = 0.34f * 1.5f;
+				g = 0.34f * 1.5f;
 				b = 0;
 			}
 		}

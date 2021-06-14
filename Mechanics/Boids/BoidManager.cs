@@ -14,7 +14,7 @@ namespace SpiritMod.Mechanics.Boids
 	public class BoidHost
 	{
 		internal List<Flock> Flocks = new List<Flock>();
-		private const int SPAWNRATE = 100;
+		private const int SPAWNRATE = 60;
 		public void Draw(SpriteBatch spriteBatch)
 		{
 			foreach (Flock fishflock in Flocks)

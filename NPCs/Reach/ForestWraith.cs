@@ -201,10 +201,6 @@ namespace SpiritMod.NPCs.Reach
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, lootTable[loot]);
 
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EnchantedLeaf>(), Main.rand.Next(5, 8));
-
-			if (!Main.LocalPlayer.HasItem(ModContent.ItemType<SacredVine>())) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SacredVine>());
-			}
 		}
 
 		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,
@@ -224,8 +220,7 @@ namespace SpiritMod.NPCs.Reach
 				null,
 				new List<int> {
 					ModContent.ItemType<HuskstalkStaff>(),
-					ModContent.ItemType<AncientBark>(),
-					ModContent.ItemType<SacredVine>()
+					ModContent.ItemType<AncientBark>()
 				});
 			spawnInfo =
 				"Destroy a Bone Altar in the Underground Briar. The Glade Wraith also spawns naturally at nighttime after defeating the Eye of Cthulhu. Alternatively, find a Glade Wreath in Briar Chests and use it in the Briar at any time.";
