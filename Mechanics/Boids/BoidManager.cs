@@ -31,7 +31,7 @@ namespace SpiritMod.Mechanics.Boids
 			}
 
 			//Test
-			if (Main.GameUpdateCount % SPAWNRATE == 0)
+			if (Main.GameUpdateCount % SPAWNRATE == 0 && Main.LocalPlayer.ZoneBeach)
 			{
 				int flock = Main.rand.Next(0, Flocks.Count);
 				int fluff = 1000;

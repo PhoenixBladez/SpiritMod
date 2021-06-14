@@ -17,7 +17,7 @@ namespace SpiritMod.Mechanics.Boids
 
 		public const float Vision = 100;
 
-		private const float MaxForce = 0.01f;
+		private const float MaxForce = 0.02f;
 
 		private const float MaxVelocity = 2f;
 
