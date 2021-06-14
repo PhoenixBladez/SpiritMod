@@ -80,7 +80,7 @@ namespace SpiritMod.Prim
 		}
 
 		public override void SetShaders() =>
-			PrepareShader(SpiritMod.ArcLashShader, "MainPS", _arcProgress / 50, Color.Red);
+			PrepareShader(SpiritMod.ShaderDict["ArcLashShader"], "MainPS", _arcProgress / 50, Color.Red);
 
 		public override void OnUpdate()
 		{

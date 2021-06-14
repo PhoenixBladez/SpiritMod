@@ -988,7 +988,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			UpdateFrame(5, 18, 21);
 			//npc.knockBackResist = 0.5f;
 			npc.spriteDirection = npc.direction;
-			npc.velocity.X += (npc.Center.X < player.Center.X) ? 0.2f : -0.2f;
+			npc.velocity.X += (npc.Center.X < player.Center.X) ? 0.3f : -0.3f;
 			npc.velocity.Y += (npc.Center.Y < player.Center.Y) ? 0.2f : -0.2f;
 			npc.velocity = new Vector2(MathHelper.Clamp(npc.velocity.X, -10, 10), MathHelper.Clamp(npc.velocity.Y, -4, 4));
 			if((++AiTimer == 30 || AiTimer == 90)) { //spawn 2 waves of large scarabs
