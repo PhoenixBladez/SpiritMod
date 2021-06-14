@@ -89,9 +89,12 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 			bool validGrowthBelow = Framing.GetTileSafely(i, j + 1).type != Type || (Framing.GetTileSafely(i, j + 1).type == Type && Framing.GetTileSafely(i, j + 1).frameX >= ClumpFrameOffset);
 			if (realFrameX == 0 && t.frameX < ClumpFrameOffset * 2 && validGrowthBelow) //grows "clumps"
 			{
-				if (Framing.GetTileSafely(i, j + 1).frameX == ClumpFrameOffset && t.frameX < ClumpFrameOffset) //Grows clump 1
+				bool validBelow = Framing.GetTileSafely(i, j + 1).frameX >= ClumpFrameOffset && Framing.GetTileSafely(i, j + 1).frameX < ClumpFrameOffset * 2 && t.frameX < ClumpFrameOffset;
+				if (Framing.GetTileSafely(i, j + 1).type != Type && t.frameX < ClumpFrameOffset * 2) //Grows clump if above sand
 					t.frameX += ClumpFrameOffset;
-				else if (Framing.GetTileSafely(i, j + 1).frameX >= ClumpFrameOffset * 2 && t.frameX >= ClumpFrameOffset * 2) //Grows clump 2
+				else if (validBelow) //grows clump 1
+					t.frameX += ClumpFrameOffset;
+				else if ((Framing.GetTileSafely(i, j + 1).frameX >= ClumpFrameOffset * 2 && t.frameX < ClumpFrameOffset * 2)) //grows clump 2
 					t.frameX += ClumpFrameOffset;
 			}
         }
