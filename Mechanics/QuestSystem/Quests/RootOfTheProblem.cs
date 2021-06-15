@@ -51,7 +51,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			base.OnQuestComplete();
 		}
 
-		public override void OnActivate()
+		/*public override void OnActivate()
 		{
 			QuestGlobalNPC.OnNPCLoot += QuestGlobalNPC_OnNPCLoot;
 			base.OnActivate();
@@ -61,14 +61,6 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		{
 			QuestGlobalNPC.OnNPCLoot -= QuestGlobalNPC_OnNPCLoot;
 			base.OnDeactivate();
-		}
-
-		private void QuestGlobalNPC_OnNPCLoot(NPC npc)
-		{
-			if (npc.type == ModContent.NPCType<NPCs.Reach.ForestWraith>())
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Consumable.Quest.SacredVine>());
-			}
-		}
+		}*/
     }
 }

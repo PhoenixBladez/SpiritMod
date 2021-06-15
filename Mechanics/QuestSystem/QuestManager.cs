@@ -51,14 +51,17 @@ namespace SpiritMod.Mechanics.QuestSystem
             ActiveQuests = new List<Quest>();
 			UnloadedQuests = new Dictionary<string, StoredQuestData>();
 
-			// register our categories
-			Texture2D iconTexture = SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/Icons");
-			RegisterCategory("Main", new Color(234, 194, 107), iconTexture, new Rectangle(0, 0, 18, 18));
-			RegisterCategory("Explorer", new Color(186, 141, 117), iconTexture, new Rectangle(54, 0, 18, 18));
-			RegisterCategory("Forager", new Color(153, 196, 102), iconTexture, new Rectangle(36, 0, 18, 18));
-			RegisterCategory("Slayer", new Color(196, 66, 77), iconTexture, new Rectangle(18, 0, 18, 18));
-			RegisterCategory("Designer", new Color(125, 183, 224), iconTexture, new Rectangle(72, 0, 18, 18));
-			RegisterCategory("Other", new Color(173, 117, 198), iconTexture, new Rectangle(90, 0, 18, 18));
+			// register our categories]
+			if (!Main.dedServ)
+			{
+				Texture2D iconTexture = SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/Icons");
+				RegisterCategory("Main", new Color(234, 194, 107), iconTexture, new Rectangle(0, 0, 18, 18));
+				RegisterCategory("Explorer", new Color(186, 141, 117), iconTexture, new Rectangle(54, 0, 18, 18));
+				RegisterCategory("Forager", new Color(153, 196, 102), iconTexture, new Rectangle(36, 0, 18, 18));
+				RegisterCategory("Slayer", new Color(196, 66, 77), iconTexture, new Rectangle(18, 0, 18, 18));
+				RegisterCategory("Designer", new Color(125, 183, 224), iconTexture, new Rectangle(72, 0, 18, 18));
+				RegisterCategory("Other", new Color(173, 117, 198), iconTexture, new Rectangle(90, 0, 18, 18));
+			}
 
 			// add all quests from the assembly
 			IEnumerable<Type> questTypes = typeof(QuestManager).Assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(Quest)) && t != typeof(InstancedQuest));
@@ -68,7 +71,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 				// load related quest image
 				string tex = "UI/QuestUI/Textures/Quests/" + type.Name;
-				if (SpiritMod.Instance.TextureExists(tex))
+				if (SpiritMod.Instance.TextureExists(tex) && !Main.dedServ)
 				{
 					q.QuestImage = SpiritMod.Instance.GetTexture(tex);
 				}

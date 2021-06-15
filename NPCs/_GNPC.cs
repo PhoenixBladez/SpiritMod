@@ -1286,8 +1286,6 @@ namespace SpiritMod.NPCs
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<PigronStaff>());
 				}
 			}
-			if (npc.type == NPCID.WallofFlesh && Main.rand.Next(2) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<FamineScepter>());
 
 			if (npc.type == NPCID.FireImp && Main.rand.Next(18) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<TheFireball>());

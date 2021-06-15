@@ -53,7 +53,7 @@ namespace SpiritMod.Items.Weapon.Summon.JinxprobeWand
         {
 			float distanceStrength = 0.001f;
 			float mindistance = 50;
-			float maxdistance = 300;
+			float maxdistance = 200;
 
 			if (projectile.Distance(newCenter) > mindistance)
 				projectile.velocity += projectile.DirectionTo(newCenter) * MathHelper.Clamp((projectile.Distance(newCenter) - mindistance) * distanceStrength, 0, 0.5f);

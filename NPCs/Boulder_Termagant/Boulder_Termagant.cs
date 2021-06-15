@@ -185,7 +185,7 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 		{
 			return false;
 		}
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => !spawnInfo.playerSafe && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.07f : 0f;
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => !spawnInfo.playerSafe && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode && !spawnInfo.player.ZoneUnderworldHeight ? 0.045f : 0f;
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{

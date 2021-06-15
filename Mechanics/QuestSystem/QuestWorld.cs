@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 
@@ -18,6 +19,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 	{
 		//Adventurer variables
 		public static bool zombieQuestStart = false;
+		public static bool downedWeaponsMaster = false;
 
 		public Dictionary<int, Queue<Quest>> NPCQuestQueue { get; private set; } = new Dictionary<int, Queue<Quest>>();
 
@@ -33,6 +35,10 @@ namespace SpiritMod.Mechanics.QuestSystem
             {
                 QuestManager.UnlockQuest<ExplorerQuestBlueMoon>(true);
                 QuestManager.UnlockQuest<SlayerQuestVultureMatriarch>(true);
+				if (Main.bloodMoon && QuestManager.GetQuest<SlayerQuestClown>().IsUnlocked)
+				{
+					AddQuestQueue(NPCID.PartyGirl, QuestManager.GetQuest<SlayerQuestClown>());
+				}
             }
         }
 
@@ -98,6 +104,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 					QuestManager.UnloadedQuests.Add(allQuests[i], ConvertBack(tag.Get<TagCompound>(allQuests[i])));
 				}
 				zombieQuestStart = tag.GetBool("zombieQuestStart");
+				downedWeaponsMaster = tag.GetBool("downedWeaponsMaster");
 			}
 			catch(Exception e)
 			{
@@ -111,6 +118,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 			//Adventurer Bools
 			tag.Add("zombieQuestStart", zombieQuestStart);
+			tag.Add("downedWeaponsMaster", downedWeaponsMaster);
 
 			List<string> allQuestNames = new List<string>();
 

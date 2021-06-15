@@ -44,6 +44,10 @@ namespace SpiritMod.UI.Elements
 
 			CalculatedStyle dimensions = base.GetDimensions();
 			Rectangle? nullable = null;
+			dimensions.X *= Main.UIScale;
+			dimensions.Y *= Main.UIScale;
+			dimensions.Height *= Main.UIScale;
+			dimensions.Width *= Main.UIScale;
 			spriteBatch.End();
 			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, PointSample ? SamplerState.PointClamp : SamplerState.AnisotropicClamp, DepthStencilState.None, _overflowRaster, null, Main.UIScaleMatrix);
 

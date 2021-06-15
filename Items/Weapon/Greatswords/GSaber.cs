@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Weapon.Greatswords
         public override void SetDefaults()
         {
             item.channel = true;
-            item.damage = 52;
+            item.damage = 54;
             item.width = 60;
             item.height = 60;
             item.useTime = 60;
@@ -58,7 +58,7 @@ namespace SpiritMod.Items.Weapon.Greatswords
         protected int timesSwung = 0;
         protected float swingAcc = 0;
 
-		float chargeRate = 0.5f;
+		float chargeRate = 0.75f;
 		float chargePerSwing = 15;
 		float dechargeRate = 1.5f;
 		float swingRadians = 2.333f;

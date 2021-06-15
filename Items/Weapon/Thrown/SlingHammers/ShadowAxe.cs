@@ -52,7 +52,7 @@ namespace SpiritMod.Items.Weapon.Thrown.SlingHammers
 		}
 		protected override int height => 66;
 		protected override int width => 58;
-		protected override int chargeTime => 50;
+		protected override int chargeTime => 43;
 		protected override float chargeRate => 0.7f;
 		protected override int thrownProj => ModContent.ProjectileType<ShadowAxeProjReturning>();
 		protected override float damageMult => 1.25f;
@@ -84,7 +84,7 @@ namespace SpiritMod.Items.Weapon.Thrown.SlingHammers
 			Player player = Main.player[projectile.owner];
 			if (projectile.tileCollide)
 			{
-				Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowAxeExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);
+				Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowAxeExplosion>(), (int)(projectile.damage * 1.5f), projectile.knockBack * 1.5f, projectile.owner);
 				player.GetModPlayer<MyPlayer>().Shake += 8;
 				Main.PlaySound(SoundID.Item88, projectile.Center);
 			}
@@ -96,7 +96,7 @@ namespace SpiritMod.Items.Weapon.Thrown.SlingHammers
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowAxeExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);
+			Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowAxeExplosion>(), (int)(projectile.damage * 1.5f), projectile.knockBack * 1.5f, projectile.owner);
 			Player player = Main.player[projectile.owner];
 			player.GetModPlayer<MyPlayer>().Shake += 8;
 			Main.PlaySound(SoundID.Item88, projectile.Center);

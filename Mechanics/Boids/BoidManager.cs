@@ -66,11 +66,13 @@ namespace SpiritMod.Mechanics.Boids
 		{
 			Update();
 			Draw(Main.spriteBatch);
+			orig(self);
 		}
 
 		public void UnloadContent()
 		{
-			Flocks.Clear();
+			Flocks.Clear(); 
+			On.Terraria.Main.DrawWoF -= Main_DrawWoF;
 		}
 	}
 }

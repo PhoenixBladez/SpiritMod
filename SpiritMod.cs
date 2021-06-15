@@ -26,6 +26,7 @@ using Terraria.ID;
 using Terraria.UI;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Core;
 using Terraria.Utilities;
 using Terraria.UI.Chat;
 using SpiritMod.Prim;
@@ -45,6 +46,8 @@ using SpiritMod.NPCs.ExplosiveBarrel;
 using SpiritMod.Mechanics.PortraitSystem;
 using SpiritMod.Mechanics.Boids;
 using SpiritMod.Buffs.Summon;
+using System.Linq;
+using static Terraria.ModLoader.Core.TmodFile;
 
 namespace SpiritMod
 {
@@ -77,6 +80,9 @@ namespace SpiritMod
 		public static Effect ArcLashShader;
 		public static Effect JemShaders;
 		public static Effect SunOrbShader;
+
+		public static IDictionary<string, Effect> ShaderDict = new Dictionary<string, Effect>();
+
 		public static PerlinNoise GlobalNoise;
 		public static GlitchScreenShader glitchScreenShader;
 		public static Texture2D noise;
@@ -636,8 +642,8 @@ namespace SpiritMod
 				QuestHUD = new QuestHUD();
 				Boids = new BoidHost();
 				Mechanics.EventSystem.EventManager.Load();
-				QuestManager.Load();
 			}
+			QuestManager.Load();
 
 			SpiritDetours.Initialize();
 
@@ -710,6 +716,12 @@ namespace SpiritMod
 				glitchEffect = GetEffect("Effects/glitch");
 				glitchScreenShader = new GlitchScreenShader(glitchEffect);
 				Filters.Scene["SpiritMod:Glitch"] = new Filter(glitchScreenShader, (EffectPriority)50);
+
+				ShaderDict = new Dictionary<string, Effect>();
+				var tmodfile = (TmodFile)typeof(SpiritMod).GetProperty("File", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(instance);
+				IDictionary<string, FileEntry> files = (IDictionary<string, FileEntry>)typeof(TmodFile).GetField("files", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(tmodfile);
+				foreach (KeyValuePair<string, FileEntry> kvp in files.Where(x => x.Key.Contains("Effects/") && x.Key.Contains(".xnb")))
+					ShaderDict.Add(kvp.Key.Remove(kvp.Key.Length - ".xnb".Length, ".xnb".Length).Remove(0, "Effects/".Length), GetEffect(kvp.Key.Remove(kvp.Key.Length - ".xnb".Length, ".xnb".Length)));
 
 				StarjinxNoise = instance.GetEffect("Effects/StarjinxNoise");
 				CircleNoise = instance.GetEffect("Effects/CircleNoise");
@@ -941,6 +953,7 @@ namespace SpiritMod
 			Items.Glyphs.GlyphBase.UninitGlyphLookup();
 			primitives = null;
 			Metaballs = null;
+			ShaderDict = new Dictionary<string, Effect>();
 			SpiritDetours.Unload();
 
 			PortraitManager.Unload(); //Idk if this is necessary but it seems like a good move - Gabe

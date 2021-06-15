@@ -24,7 +24,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.timeLeft = Main.rand.Next(280, 321);
 			projectile.friendly = true;
 			projectile.hostile = false;
-			projectile.penetrate = 4;
+			projectile.penetrate = 2;
             projectile.tileCollide = true;
 			projectile.sentry = true;
 			projectile.ignoreWater = true;

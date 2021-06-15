@@ -11,10 +11,10 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 	{
 
 		public override void SetStaticDefaults() { 
-			DisplayName.SetDefault("Sand Ball");
+			DisplayName.SetDefault("Scarab");
 			Main.projFrames[projectile.type] = 4;
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
 		}
 
 		public override void SetDefaults()

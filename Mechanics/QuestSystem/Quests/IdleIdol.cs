@@ -23,7 +23,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public IdleIdol()
         {
-            _tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Consumable.Quest.ScarabIdolQuest>(), 1));
+            _tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Consumable.Quest.ScarabIdolQuest>(), 1))
+				  .AddTask(new GiveNPCTask(ModContent.NPCType<NPCs.Town.Adventurer>(), new int[] {ModContent.ItemType<Items.Consumable.Quest.ScarabIdolQuest>()}, new int[] { 1 }, "I knew it. I was polishin' up this old thing when it started to look real familiar. That's a Scarab Idol right there. I'm warning ya, don't mess with it until you get real strong. Me and some bounty hunters tried to take that thing on years ago. We barely escaped with our lives. Be safe, lad.", "Return to the Adventurer with what you've found", true));
         }
 
         public override void OnQuestComplete()

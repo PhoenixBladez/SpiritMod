@@ -296,6 +296,21 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		readonly float gravity = 0.3f;
 		public override void AI()
 		{
+            for (int i = 0; i < 4; i++)
+            {
+                float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
+                float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
+
+                int num = Dust.NewDust(projectile.position, 6, 6, 223, 0f, 0f, 0, default(Color), .35f);
+                Main.dust[num].position = projectile.Center - projectile.velocity / num * (float)i;
+
+                Main.dust[num].velocity = projectile.velocity;
+                Main.dust[num].scale = MathHelper.Clamp(projectile.ai[0], .015f, 1.25f);
+                Main.dust[num].noGravity = true;
+                Main.dust[num].fadeIn = (float)(100 + projectile.owner);
+
+                }
+
 			projectile.alpha = Math.Max(projectile.alpha - 15, 0);
 			if (projectile.localAI[1] == 0)
 				projectile.localAI[1] = Main.rand.NextBool() ? -0.2f : 0.2f;

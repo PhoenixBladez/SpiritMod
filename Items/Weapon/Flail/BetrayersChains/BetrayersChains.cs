@@ -119,7 +119,7 @@ namespace SpiritMod.Items.Weapon.Flail.BetrayersChains
             projectile.ownerHitCheck = true;
         }
 
-		public void InitializeChain(Vector2 position) => chain = new Chain(mod.GetTexture("Items/Weapon/Flail/BetrayersChains/BetrayersChainsProj_Chain"), mod.GetTexture("Items/Weapon/Flail/BetrayersChains/BetrayersChainsProj"), 8, 16, position);
+		public void InitializeChain(Vector2 position) => chain = new Chain(mod.GetTexture("Items/Weapon/Flail/BetrayersChains/BetrayersChainsProj_Chain"), mod.GetTexture("Items/Weapon/Flail/BetrayersChains/BetrayersChainsProj"), 8, 16, position, new ChainPhysics(0.95f, 0.5f, 0.4f));
 
 		// This projectile uses advanced calculation for its motion.
 		bool primsCreated = false;

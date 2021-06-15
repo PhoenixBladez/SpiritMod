@@ -86,7 +86,6 @@ namespace SpiritMod.NPCs.BlizzardBandit
             {
                 Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.3f, 1.1f));
             }
-            Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 15, 1f, 0f);
             if (npc.life <= 0)
             {
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/BlizzardBanditGore1"), 1f);

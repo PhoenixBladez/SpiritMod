@@ -101,6 +101,10 @@ namespace SpiritMod.NPCs.AuroraStag
 			npc.DeathSound = SoundID.NPCDeath7;
 			npc.value = 800;
 			npc.knockBackResist = .85f;
+			npc.aiStyle = -1;
+
+			for (int i = 0; i < BuffLoader.BuffCount; i++)
+				npc.buffImmune[i] = true;
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -113,6 +117,7 @@ namespace SpiritMod.NPCs.AuroraStag
 
 		public override void AI()
 		{
+			npc.TargetClosest(false);
 			if (TameAnimationTimer > 0) {
 				npc.velocity = Vector2.Zero;
 				npc.noGravity = true;
@@ -163,19 +168,18 @@ namespace SpiritMod.NPCs.AuroraStag
 				return;
 			}
 
-			float alertRadius = 230;
-			float scareRadius = 180;
-			float returnToCalmRadius = 2000;
+			float alertRadius = 400;
+			float scareRadius = 200;
 
 			if (Main.netMode == NetmodeID.SinglePlayer) {
 				float distanceToPlayerSquared = Vector2.DistanceSquared(Main.LocalPlayer.Center, npc.Center);
 
-				if (distanceToPlayerSquared > returnToCalmRadius * returnToCalmRadius)
-					Scared = false;
-				else if (distanceToPlayerSquared < scareRadius * scareRadius && !Scared && Main.LocalPlayer.velocity.LengthSquared() > 1)
+				if (distanceToPlayerSquared < scareRadius * scareRadius && !Scared && Main.LocalPlayer.velocity.LengthSquared() > 25)
 					Scared = true;
-				else if (distanceToPlayerSquared < alertRadius * alertRadius && !Scared)
+				else if (distanceToPlayerSquared <= alertRadius * alertRadius && !Scared)
 					Alerted = true;
+				else if (distanceToPlayerSquared > alertRadius * alertRadius && !Scared)
+					Alerted = false;
 			}
 			else
 				foreach (Player player in Main.player) {
@@ -184,71 +188,90 @@ namespace SpiritMod.NPCs.AuroraStag
 
 					float distanceToPlayerSquared = Vector2.DistanceSquared(player.Center, npc.Center);
 
-					if (distanceToPlayerSquared > returnToCalmRadius * returnToCalmRadius)
-						Scared = false;
-					else if (distanceToPlayerSquared < scareRadius * scareRadius && !Scared && player.velocity.LengthSquared() > 1) {
+					if (distanceToPlayerSquared < scareRadius * scareRadius && !Scared && player.velocity.LengthSquared() > 25)
+					{
 						Scared = true;
 						npc.target = player.whoAmI;
 					}
-					else if (distanceToPlayerSquared < alertRadius * alertRadius && !Scared) {
+					else if (distanceToPlayerSquared < alertRadius * alertRadius && !Scared)
+					{
 						Alerted = true;
 						npc.target = player.whoAmI;
 					}
+					else if (distanceToPlayerSquared > alertRadius * alertRadius && !Scared)
+						Alerted = false;
+
 				}
 
-			bool justStartedWalking = false;
-
-			if (Scared) {
+			if (Scared)
+			{
+				npc.direction = npc.spriteDirection = Main.player[npc.target].Center.X < npc.Center.X ? 1 : -1;
 				npc.velocity.X = RunSpeed * (Main.player[npc.target].Center.X < npc.Center.X ? 1 : -1);
-				Walking = false;
-			}
-			else if (Alerted) {
-				npc.direction = npc.spriteDirection = Main.player[npc.target].Center.X > npc.Center.X ? 1 : -1;
-				npc.velocity.X = 0;
-				Walking = false;
-			}
-			else {
-				if (--TimeBeforeNextAction <= 0) {
-					if (npc.velocity.X == 0) {
-						npc.velocity.X = WalkSpeed * (Main.rand.NextBool() ? 1 : -1);
-						Walking = true;
-						justStartedWalking = true;
-					}
-					else {
-						npc.velocity.X = 0;
-						Walking = false;
-					}
+				npc.velocity.Y = 0;
+				npc.noGravity = true;
+				npc.noTileCollide = true;
+				npc.immortal = true;
+				npc.dontTakeDamage = true;
 
-					TimeBeforeNextAction = Main.rand.Next(2 * 60, 6 * 60);
+				npc.alpha += 5;
+				if(npc.alpha >= 255)
+					npc.active = false;
+
+				if(Main.rand.NextBool() && !Main.dedServ)
+				{
+					Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 66, npc.velocity.X/2, 0, 0, Color.Lerp(Main.DiscoColor, Color.White, 0.75f), Main.rand.NextFloat(0.9f, 1.3f));
+					dust.fadeIn = 0.4f;
+					dust.noGravity = true;
+				}
+			}
+			else
+			{
+				if (npc.collideX)
+				{
+					npc.direction *= -1;
+					npc.spriteDirection = npc.direction;
 					npc.netUpdate = true;
 				}
+
+				if (Alerted)
+				{
+					npc.TargetClosest(true);
+					npc.direction = npc.spriteDirection = Main.player[npc.target].Center.X > npc.Center.X ? 1 : -1;
+					npc.velocity.X = 0;
+					Walking = false;
+				}
+				else
+				{
+					if (--TimeBeforeNextAction <= 0)
+					{
+						if (npc.velocity.X == 0)
+						{
+							npc.direction = Main.rand.NextBool() ? -1 : 1;
+							Walking = true;
+						}
+						else
+						{
+							npc.velocity.X = 0;
+							Walking = false;
+						}
+
+						TimeBeforeNextAction = Main.rand.Next(2 * 60, 6 * 60);
+						npc.netUpdate = true;
+					}
+				}
+
+				if (Walking && !Scared && !Alerted)
+					npc.velocity.X = WalkSpeed * npc.direction;
+
+				Collision.StepUp(ref npc.position, ref npc.velocity, npc.width, npc.height, ref npc.stepSpeed, ref npc.gfxOffY);
 			}
 
-			if (Walking && !Scared && !Alerted)
-				npc.velocity.X = WalkSpeed * npc.direction;
-
-			if (npc.velocity.X != 0)
-				npc.direction = npc.spriteDirection = npc.velocity.X > 0 ? 1 : -1;
-
-			if (npc.velocity.X != 0 && npc.oldPosition == npc.position && !justStartedWalking) {
-				npc.velocity.Y = -10;
-				npc.netUpdate = true;
-			}
-
-			Lighting.AddLight(npc.Center, 0.3f, 0.75f, 1f);
+			Lighting.AddLight(npc.Center, new Vector3(0.3f, 0.75f, 1f) * npc.Opacity);
 		}
 
-		public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
-		{
-			npc.TargetClosest();
-			Scared = true;
-		}
+		public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit) => Scared = true;
 
-		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
-		{
-			npc.TargetClosest();
-			Scared = true;
-		}
+		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit) => Scared = true;
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
@@ -272,7 +295,7 @@ namespace SpiritMod.NPCs.AuroraStag
 			int frameWidth = stagTexture.Width / 3;
 			int frameX = 0;
 			int frameY = 0;
-			int drawYOffset = -18;
+			float drawYOffset = -18;
 
 			if (Scared) {
 				frameX = frameWidth * 2 - 20;
@@ -290,16 +313,23 @@ namespace SpiritMod.NPCs.AuroraStag
 				frameY = (frameHeight + 1) * (int)((Main.GameUpdateCount / 8) % 10);
 				drawYOffset = -20;
 			}
+			drawYOffset += npc.gfxOffY;
 
 			Rectangle sourceRectangle = new Rectangle(frameX, frameY, frameWidth - 10, frameHeight);
 			Vector2 drawPosition = npc.position - Main.screenPosition + Vector2.UnitY * drawYOffset;
 			SpriteEffects effects = npc.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 			Point npcPoint = npc.Center.ToTileCoordinates();
 
-			spriteBatch.Draw(stagTexture, drawPosition, sourceRectangle, Lighting.GetColor(npcPoint.X, npcPoint.Y), 0f, Vector2.Zero, 1f, effects, 0f);
+			spriteBatch.Draw(stagTexture, drawPosition, sourceRectangle, Lighting.GetColor(npcPoint.X, npcPoint.Y) * npc.Opacity, 0f, Vector2.Zero, 1f, effects, 0f);
 
-			Color glowColor = Color.White * (float)Math.Abs(Math.Sin(Main.GlobalTime));
-			spriteBatch.Draw(mod.GetTexture("NPCs/AuroraStag/AuroraStagGlowmask"), drawPosition, sourceRectangle, glowColor, 0f, Vector2.Zero, 1f, effects, 0f);
+			spriteBatch.Draw(mod.GetTexture("NPCs/AuroraStag/AuroraStagGlowmask"), drawPosition, sourceRectangle, Color.White * npc.Opacity, 0f, Vector2.Zero, 1f, effects, 0f);
+			for(int i = 0; i < 6; i++)
+			{
+				float glowtimer = (float)(Math.Sin(Main.GlobalTime * 3) / 2 + 0.5f);
+				Color glowcolor = Color.White * glowtimer;
+				Vector2 pulsedrawpos = drawPosition + new Vector2(5, 0).RotatedBy(i * MathHelper.TwoPi / 6) * (1.25f - glowtimer);
+				spriteBatch.Draw(mod.GetTexture("NPCs/AuroraStag/AuroraStagGlowmask"), pulsedrawpos, sourceRectangle, glowcolor * 0.5f * npc.Opacity, 0f, Vector2.Zero, 1f, effects, 0f);
+			}
 
 			if (TameAnimationTimer > 0)
 				spriteBatch.Draw(mod.GetTexture("NPCs/AuroraStag/AuroraStagOverlay"), drawPosition, sourceRectangle, Color.White * Brightness, 0f, Vector2.Zero, 1f, effects, 0f);
@@ -322,9 +352,13 @@ namespace SpiritMod.NPCs.AuroraStag
 			else
 				exclamationPos.X -= xOffset;
 
+			Player player = Main.player[npc.target];
+			float opacity = MathHelper.Min(2 - (npc.Distance(player.Center) / 200), 1);
+			float scale = MathHelper.Lerp(0.5f, 1.25f, player.velocity.Length() / 5);
+
 			exclamationPos.Y -= (exclamationTexture.Height - 5) + sin;
 			SpriteEffects effects = npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-			spriteBatch.Draw(exclamationTexture, exclamationPos - Main.screenPosition, null, Color.White, 0f, Vector2.Zero, 1f, effects, 0f);
+			spriteBatch.Draw(exclamationTexture, exclamationPos - Main.screenPosition, null, Color.White * opacity, 0f, exclamationTexture.Size()/2, scale, effects, 0f);
 		}
 	}
 }

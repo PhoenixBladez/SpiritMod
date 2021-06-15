@@ -84,15 +84,19 @@ namespace SpiritMod.Items.Weapon.Thrown.MarkOfZeus
 			projectile.tileCollide = false;
 		}
 
-		float counter = 3;
+		float counter = 3.15f;
+		int manaCounter = 0;
 		int trailcounter = 0;
 		Vector2 holdOffset = new Vector2(0, -3);
 		bool charged = false;
+		bool firing = false;
 		float growCounter;
 		public override bool PreAI()
 		{
 			growCounter++;
 			Player player = Main.player[projectile.owner];
+			if (player.statMana <= 0)
+				projectile.Kill();
 			if (projectile.owner == Main.myPlayer)
 				{
 					Vector2 direction2 = Main.MouseWorld - (projectile.position);
@@ -103,12 +107,25 @@ namespace SpiritMod.Items.Weapon.Thrown.MarkOfZeus
 					projectile.netUpdate = true;
 				}
 			Vector2 direction = new Vector2(projectile.ai[0], projectile.ai[1]);
-			if (player.channel) {
+			if (player.channel && !firing) {
 				projectile.position = player.position + holdOffset;
 				if (Main.rand.Next(3) == 0)
 					Dust.NewDust(projectile.Center, 2, 2, 133);
 				if (counter < 15) {
 					counter += 0.15f;
+					manaCounter++;
+					if (manaCounter % 7 == 0)
+					{
+						if (player.statMana > 0)
+						{
+							player.statMana -= 5;
+							player.manaRegenDelay = 60;
+						}
+						else
+						{
+							firing = true;
+						}
+					}
 				}
 				else if (!charged)
 				{
@@ -188,12 +205,17 @@ namespace SpiritMod.Items.Weapon.Thrown.MarkOfZeus
 			projectile.aiStyle = 1;
 			projectile.friendly = true;
 			projectile.magic = true;
-			projectile.penetrate = 1;
+			projectile.penetrate = 2;
 			projectile.timeLeft = 600;
 			projectile.extraUpdates = 1;
 			projectile.light = 0;
 			aiType = ProjectileID.ThrowingKnife;
 			projectile.alpha = 255;
+		}
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			projectile.timeLeft = 0;
 		}
 		//public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		//{

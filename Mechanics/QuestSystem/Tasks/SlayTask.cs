@@ -1,5 +1,6 @@
 ﻿using SpiritMod.Utilities;
 using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Text;
 using System.IO;
@@ -16,22 +17,25 @@ namespace SpiritMod.Mechanics.QuestSystem
 		private int[] _monsterIDs;
 		private int _killsRequired;
 		private int _killCount;
+		private Nullable<float> _spawnIncrease;
 		private string _monsterNameOverride;
 
 		public SlayTask() { }
 
-		public SlayTask(int monsterID, int amount, string monsterNameOverride = null)
+		public SlayTask(int monsterID, int amount, string monsterNameOverride = null, Nullable<float> spawnIncrease = null)
 		{
 			_monsterIDs = new int[] { monsterID };
 			_killsRequired = amount;
 			_monsterNameOverride = monsterNameOverride;
+			_spawnIncrease = spawnIncrease;
 		}
 
-		public SlayTask(int[] monsterIDs, int amount, string monsterNameOverride = null)
+		public SlayTask(int[] monsterIDs, int amount, string monsterNameOverride = null, Nullable<float> spawnIncrease = null)
 		{
 			_monsterIDs = monsterIDs;
 			_killsRequired = amount;
 			_monsterNameOverride = monsterNameOverride;
+			_spawnIncrease = spawnIncrease;
 		}
 
 		public override QuestTask Parse(object[] args)
@@ -143,17 +147,16 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public override void Activate()
 		{
 			QuestGlobalNPC.OnNPCLoot += QuestGlobalNPC_OnNPCLoot;
+			QuestGlobalNPC.OnEditSpawnPool += QuestGlobalNPC_OnEditSpawnPool;
 		}
 
 		public override void Deactivate()
 		{
 			QuestGlobalNPC.OnNPCLoot -= QuestGlobalNPC_OnNPCLoot;
+			QuestGlobalNPC.OnEditSpawnPool -= QuestGlobalNPC_OnEditSpawnPool;
 		}
 
-		public override bool CheckCompletion()
-		{
-			return _killCount >= _killsRequired;
-		}
+		public override bool CheckCompletion() => _killCount >= _killsRequired;
 
 		private void QuestGlobalNPC_OnNPCLoot(NPC npc)
 		{
@@ -165,6 +168,20 @@ namespace SpiritMod.Mechanics.QuestSystem
 					_killCount = _killsRequired;
 			}
 		}
+
+		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
+		{
+			for (int i = 0; i < _monsterIDs.Length; i++)
+			{
+		    	if (pool.ContainsKey(_monsterIDs[i]) && _spawnIncrease != null)
+			    {
+				    pool[_monsterIDs[i]] = (float)_spawnIncrease;
+                    break;
+			    }
+
+            }
+		}
+
 
 		public override void ReadData(BinaryReader reader)
 		{

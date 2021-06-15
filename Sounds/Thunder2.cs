@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace VariousWeathers.Sounds
+namespace SpiritMod.Sounds
 {
 	public class Thunder2 : ModSound
 	{
