@@ -26,8 +26,8 @@ namespace SpiritMod.Items.Placeable
 			item.createTile = ModContent.TileType<SuperSunFlower>();
 			item.width = 36;
 			item.height = 36;
-			item.rare = ItemRarityID.Lime;
-			item.value = Item.buyPrice(gold: 5);
+			item.rare = 3;
+			item.value = Item.sellPrice(silver: 80);
 		}
 	}
 }

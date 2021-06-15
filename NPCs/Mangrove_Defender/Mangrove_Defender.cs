@@ -473,31 +473,31 @@ namespace SpiritMod.NPCs.Mangrove_Defender
 			{
 				if (groundSlamming)
 				{
-					if (npc.frameCounter < 6)
+					if (npc.frameCounter < 8)
 					{
 						npc.frame.Y = 6 * frameHeight;
 					}
-					else if (npc.frameCounter < 12)
+					else if (npc.frameCounter < 16)
 					{
 						npc.frame.Y = 7 * frameHeight;
 					}
-					else if (npc.frameCounter < 18)
+					else if (npc.frameCounter < 24)
 					{
 						npc.frame.Y = 8 * frameHeight;
 					}
-					else if (npc.frameCounter < 24)
+					else if (npc.frameCounter < 32)
 					{
 						npc.frame.Y = 9 * frameHeight;
 					}
-					else if (npc.frameCounter < 30)
+					else if (npc.frameCounter < 40)
 					{
 						npc.frame.Y = 10 * frameHeight;
 					}
-					else if (npc.frameCounter < 36)
+					else if (npc.frameCounter < 48)
 					{
 						npc.frame.Y = 11 * frameHeight;
 					}
-					else if (npc.frameCounter < 42)
+					else if (npc.frameCounter < 56)
 					{
 						npc.frame.Y = 12 * frameHeight;
 					}
