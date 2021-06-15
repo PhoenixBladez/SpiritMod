@@ -79,7 +79,7 @@ namespace SpiritMod.Items.Weapon.Gun.KineticRailgun
 		}
 		public Vector2 direction = Vector2.Zero;
 		int counter;
-		 public List<NPC> targets = new List<NPC>();
+		public List<NPC> targets = new List<NPC>();
 		public override void AI()
 		{
 			Player player = Main.player[projectile.owner];
@@ -123,10 +123,13 @@ namespace SpiritMod.Items.Weapon.Gun.KineticRailgun
 						{
 							SpiritMod.primitives.CreateTrail(new RailgunPrimTrail(projectile, npc));
 							targets.Add(npc);
+							npc.GetGlobalNPC<TeslaCannonGNPC>().charging = true;
 						}
 					}
 					else
 					{
+						if (npc.active)
+							npc.GetGlobalNPC<TeslaCannonGNPC>().charging = false;
 						targets.Remove(npc);
 					}
 				}
@@ -141,9 +144,10 @@ namespace SpiritMod.Items.Weapon.Gun.KineticRailgun
 				projectile.active = false;
 			}
 		}
-		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+		{
 			Player player = Main.player[projectile.owner];
-            Vector2 toNPC = targetHitbox.Center.ToVector2() - player.Center;
+			Vector2 toNPC = targetHitbox.Center.ToVector2() - player.Center;
 			return toNPC.Length() < RANGE && AnglesWithinCone(toNPC.ToRotation(), direction.ToRotation());
 		}
 		public override bool? CanHitNPC(NPC target)
@@ -152,7 +156,7 @@ namespace SpiritMod.Items.Weapon.Gun.KineticRailgun
 			{
 				if (npc2.active)
 				{
-					if (npc2 == target)
+					if (npc2 == target && npc2.GetGlobalNPC<TeslaCannonGNPC>().charge > 5)
 						return base.CanHitNPC(target);
 				}
 			}
@@ -192,9 +196,9 @@ namespace SpiritMod.Items.Weapon.Gun.KineticRailgun
 				Texture2D texture = Main.projectileTexture[projectile.type];
 				int height = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
 				int y2 = height * projectile.frame;
-				Vector2 position = (projectile.position - (0.5f * direction) + new Vector2((float) projectile.width, (float) projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition).Floor();
-				Main.spriteBatch.Draw(mod.GetTexture("Items/Weapon/Gun/KineticRailgun/KineticRailgunProj"), position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), lightColor, direction.ToRotation(), new Vector2((float) texture.Width / 2f, (float) height / 2f), projectile.scale, effects1, 0.0f);
-				Main.spriteBatch.Draw(mod.GetTexture("Items/Weapon/Gun/KineticRailgun/KineticRailgunProj_Glow"), position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), Color.White, direction.ToRotation(), new Vector2((float) texture.Width / 2f, (float) height / 2f), projectile.scale, effects1, 0.0f);
+				Vector2 position = (projectile.position - (0.5f * direction) + new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition).Floor();
+				Main.spriteBatch.Draw(mod.GetTexture("Items/Weapon/Gun/KineticRailgun/KineticRailgunProj"), position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), lightColor, direction.ToRotation(), new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, effects1, 0.0f);
+				Main.spriteBatch.Draw(mod.GetTexture("Items/Weapon/Gun/KineticRailgun/KineticRailgunProj_Glow"), position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), Color.White, direction.ToRotation(), new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, effects1, 0.0f);
 			}
 			else if (player.direction != 1)
 			{
@@ -202,11 +206,25 @@ namespace SpiritMod.Items.Weapon.Gun.KineticRailgun
 				Texture2D texture = Main.projectileTexture[projectile.type];
 				int height = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
 				int y2 = height * projectile.frame;
-				Vector2 position = (projectile.position - (0.5f * direction) + new Vector2((float) projectile.width, (float) projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition).Floor();
-				Main.spriteBatch.Draw(mod.GetTexture("Items/Weapon/Gun/KineticRailgun/KineticRailgunProj"), position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), lightColor, direction.ToRotation() - 3.14f, new Vector2((float) texture.Width / 2f, (float) height / 2f), projectile.scale, effects1, 0.0f); 
-				Main.spriteBatch.Draw(mod.GetTexture("Items/Weapon/Gun/KineticRailgun/KineticRailgunProj_Glow"), position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), Color.White, direction.ToRotation() - 3.14f, new Vector2((float) texture.Width / 2f, (float) height / 2f), projectile.scale, effects1, 0.0f); 
+				Vector2 position = (projectile.position - (0.5f * direction) + new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition).Floor();
+				Main.spriteBatch.Draw(mod.GetTexture("Items/Weapon/Gun/KineticRailgun/KineticRailgunProj"), position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), lightColor, direction.ToRotation() - 3.14f, new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, effects1, 0.0f);
+				Main.spriteBatch.Draw(mod.GetTexture("Items/Weapon/Gun/KineticRailgun/KineticRailgunProj_Glow"), position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), Color.White, direction.ToRotation() - 3.14f, new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, effects1, 0.0f);
 			}
 			return false;
+		}
+	}
+	public class TeslaCannonGNPC : GlobalNPC
+	{
+		public override bool InstancePerEntity => true;
+		public int charge;
+		public bool charging;
+
+		public override void ResetEffects(NPC npc)
+		{
+			if (!charging)
+				charge = 0;
+			else
+				charge++;
 		}
 	}
 }
