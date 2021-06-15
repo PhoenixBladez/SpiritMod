@@ -642,8 +642,8 @@ namespace SpiritMod
 				QuestHUD = new QuestHUD();
 				Boids = new BoidHost();
 				Mechanics.EventSystem.EventManager.Load();
-				QuestManager.Load();
 			}
+			QuestManager.Load();
 
 			SpiritDetours.Initialize();
 

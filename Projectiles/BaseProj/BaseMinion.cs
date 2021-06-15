@@ -1,5 +1,8 @@
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -52,19 +55,29 @@ namespace SpiritMod.Projectiles.BaseProj
 		internal Player Player => Main.player[projectile.owner];
 		internal int IndexOfType => Main.projectile.Where(x => x.active && x.owner == projectile.owner && x.type == projectile.type && x.whoAmI < projectile.whoAmI).Count();
 
+		private bool _hadTarget = false;
+		private bool HadTarget
+		{
+			get => _hadTarget;
+			set
+			{
+				_hadTarget = value;
+				projectile.netUpdate = true;
+			}
+		}
 
 		public override void AI()
 		{
 			NPC target = null;
 			float maxdist = TargettingRange;
 			NPC miniontarget = projectile.OwnerMinionAttackTargetNPC;
-			if (miniontarget != null && miniontarget.CanBeChasedBy(this) && CanHit(projectile.Center, miniontarget.Center) && CanHit(Player.Center, miniontarget.Center)
+			if (miniontarget != null && miniontarget.CanBeChasedBy(this) && (CanHit(projectile.Center, miniontarget.Center) || HadTarget) && CanHit(Player.Center, miniontarget.Center)
 				&& (miniontarget.Distance(Player.Center) <= maxdist || miniontarget.Distance(projectile.Center) <= maxdist) && miniontarget.Distance(Player.Center) <= DeaggroRange)
 				target = miniontarget;
 
 			else
 			{
-				var validtargets = Main.npc.Where(x => x != null && x.CanBeChasedBy(this) && CanHit(projectile.Center, x.Center) && CanHit(Player.Center, x.Center)
+				var validtargets = Main.npc.Where(x => x != null && x.CanBeChasedBy(this) && (CanHit(projectile.Center, x.Center) || HadTarget) && CanHit(Player.Center, x.Center)
 														 && (x.Distance(Player.Center) <= maxdist || x.Distance(projectile.Center) <= maxdist) && x.Distance(Player.Center) <= DeaggroRange);
 
 				foreach (NPC npc in validtargets)
@@ -76,12 +89,16 @@ namespace SpiritMod.Projectiles.BaseProj
 					}
 				}
 			}
-
 			if (target == null)
+			{
 				IdleMovement(Player);
-
+				HadTarget = false;
+			}
 			else
+			{
 				TargettingBehavior(Player, target);
+				HadTarget = true;
+			}
 
 			int framespersecond = 1;
 			if (DoAutoFrameUpdate(ref framespersecond))
@@ -93,6 +110,9 @@ namespace SpiritMod.Projectiles.BaseProj
 		public virtual void IdleMovement(Player player) { }
 
 		public override bool? CanCutTiles() => false;
+
+		public override void SendExtraAI(BinaryWriter writer) => writer.Write(HadTarget);
+		public override void ReceiveExtraAI(BinaryReader reader) => HadTarget = reader.ReadBoolean();
 
 		public override bool MinionContactDamage() => ContactDamage;
 

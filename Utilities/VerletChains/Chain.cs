@@ -45,7 +45,7 @@ namespace SpiritMod.VerletChains
 			PopulateLists(segmentLength, segmentCount, startPosition, staticFirst, staticLast);
 		}
 
-		public Chain(Texture2D texture, Texture2D textureHead, float segmentLength, int segmentCount, Vector2 startPosition, bool staticFirst = true, bool staticLast = true)
+		public Chain(Texture2D texture, Texture2D textureHead, float segmentLength, int segmentCount, Vector2 startPosition, ChainPhysics? physicsCoefficients = null, bool staticFirst = true, bool staticLast = true)
 		{
 			Texture = texture;
 			HeadTexture = textureHead;
