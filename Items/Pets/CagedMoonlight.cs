@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Pets
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Caged Moonlight");
-			Tooltip.SetDefault("Summons a faerie to protect you\n'Yout enemies shall be harassed by luminous lances'");
+			Tooltip.SetDefault("Summons a faerie to protect you\n'Your enemies shall be harassed by luminous lances'");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Pets/CagedMoonlight_Glow");
         }
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

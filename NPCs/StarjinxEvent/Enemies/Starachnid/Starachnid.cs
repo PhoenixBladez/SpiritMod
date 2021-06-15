@@ -107,11 +107,11 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			npc.width = 64;
 			npc.height = 64;
 			npc.damage = 70;
-			npc.defense = 30;
-			npc.lifeMax = 600;
-			npc.HitSound = SoundID.NPCHit6;
-			npc.DeathSound = SoundID.NPCDeath8;
-			npc.value = 10000f;
+			npc.defense = 28;
+			npc.lifeMax = 450;
+			npc.HitSound = SoundID.NPCHit3;
+			npc.DeathSound = SoundID.DD2_LightningBugDeath;
+			npc.value = 600f;
 			npc.knockBackResist = 0;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -156,9 +156,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 
 			if (!initialized)
 			{
+				Main.PlaySound(SoundID.DD2_EtherianPortalSpawnEnemy, npc.Center);
 				initialized = true;
 				NewThread(true, true);
-				Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<StarachnidProj>(), Main.expertMode ? 40 : 60, 0, npc.target, npc.whoAmI);
+				Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<StarachnidProj>(), Main.expertMode ? 20 : 45, 0, npc.target, npc.whoAmI);
 			}
 
 			Lighting.AddLight(npc.Center, color.R / 300f, color.G / 300f, color.B / 300f);
@@ -173,8 +174,18 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
+			for (int i = 0; i < 18; i++)
+			{
+				Dust.NewDust(npc.position, npc.width, npc.height, 21, 2.5f * hitDirection, -2.5f, 0, default, Main.rand.NextFloat(.45f, .75f));
+			}
 			if (npc.life <= 0)
+			{
+                for (int k = 0; k < 4; k++)
+                {
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starachnid/Starachnid1"), Main.rand.NextFloat(.6f, 1f));
+                }
 				ThreadDeathDust();
+			}
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

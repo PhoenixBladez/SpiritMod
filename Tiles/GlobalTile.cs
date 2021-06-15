@@ -158,6 +158,11 @@ namespace SpiritMod.Tiles
 			int[] sands = new int[] { TileID.Sand, TileID.Crimsand, TileID.Ebonsand }; //All valid sands
 
 			bool inOcean = (i < Main.maxTilesX / 16 || i > (Main.maxTilesX / 16) * 15) && j < (int)Main.worldSurface; //Might need adjustment; don't know if this will be exclusively in the ocean
+
+			bool inLavaLayer = j > (int)Main.rockLayer && j < (int)Main.maxTilesY - 250; 
+			Tile tile = Framing.GetTileSafely(i, j);
+			Tile tileBelow = Framing.GetTileSafely(i, j + 1);	
+
 			if (sands.Contains(type) && inOcean && !Framing.GetTileSafely(i, j - 1).active() && Framing.GetTileSafely(i, j - 1).liquid > 155 && !Framing.GetTileSafely(i, j).topSlope()) //woo
 			{
 				if (Main.rand.NextBool(25))
@@ -176,6 +181,20 @@ namespace SpiritMod.Tiles
 					WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Kelp2x3>());
 			}
 
+
+			if (type == TileID.Pearlstone && inLavaLayer)
+			{
+				if (WorldGen.genRand.NextBool(20) && !tileBelow.active() && !tileBelow.lava()) {
+					if (!tile.bottomSlope()) {
+						tileBelow.type = (ushort)ModContent.TileType<Tiles.Ambient.HangingChimes.HangingChimes>();
+						tileBelow.active(true);
+						WorldGen.SquareTileFrame(i, j + 1, true);
+						if (Main.netMode == NetmodeID.Server) {
+							NetMessage.SendTileSquare(-1, i, j + 1, 3, TileChangeType.None);
+						}
+					}
+				}
+			}
 			if (type == TileID.CorruptGrass || type == TileID.Ebonstone) {
 				if (MyWorld.CorruptHazards < 20) {
 					if ((TileArray212.Contains(Framing.GetTileSafely(i, j - 1).type) && TileArray212.Contains(Framing.GetTileSafely(i, j - 2).type) && TileArray212.Contains(Framing.GetTileSafely(i, j - 3).type)) && (j > (int)Main.worldSurface - 100 && j < (int)Main.rockLayer - 20)) {
