@@ -95,9 +95,9 @@ namespace SpiritMod.Tiles.Ambient.HangingChimes
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
 			Tile tile = Framing.GetTileSafely(i, j);
-			r = 0.212f;
-			g = 0.102f;
-			b = 0.242f;
+			r = 0.212f * 1.5f;
+			g = 0.102f * 1.5f;
+			b = 0.242f * 1.5f;
 		}
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{

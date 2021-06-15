@@ -16,12 +16,13 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Anime Sword");
+            Tooltip.SetDefault("Hold and release to slice through nearby enemies");
         }
 
         public override void SetDefaults()
         {
             item.channel = true;
-            item.damage = 40;
+            item.damage = 32;
             item.width = 60;
             item.height = 60;
             item.useTime = 60;
@@ -33,8 +34,8 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
             item.noMelee = true;
             item.knockBack = 1;
             item.useTurn = false;
-            item.value = Terraria.Item.sellPrice(0, 0, 1, 0);
-            item.rare = ItemRarityID.Pink;
+            item.value = Terraria.Item.sellPrice(0, 0, 90, 0);
+            item.rare = 3;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("AnimeSwordProj");
             item.shootSpeed = 6f;

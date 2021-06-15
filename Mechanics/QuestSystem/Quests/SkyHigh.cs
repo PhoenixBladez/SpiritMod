@@ -24,7 +24,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			((int)Terraria.ID.ItemID.GypsyRobe, 1),
 			(Terraria.ID.ItemID.DynastyWood, 50),
 			(Terraria.ID.ItemID.GoldCoin, 1),
-			(ModContent.ItemType<AnimeSword>(), 1)
+			(ModContent.ItemType<Tiles.Furniture.JadeDragonStatue.DragonStatueItem>(), 1)
 		};
 
 		private SkyHigh()
