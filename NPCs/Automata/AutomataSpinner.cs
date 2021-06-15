@@ -1,5 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.IO;
 using SpiritMod.Buffs;
 using SpiritMod.Items.Material;
 using Terraria;
@@ -33,7 +35,21 @@ namespace SpiritMod.NPCs.Automata
 			npc.aiStyle = 3;
 			aiType = NPCID.WalkingAntlion;
         }
-
+		int timer;
+		int frame = 0;
+		int frameTimer;
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(timer);
+			writer.Write(frame);
+			writer.Write(frameTimer);
+		}
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			timer = reader.ReadInt32();
+			frame = reader.ReadInt32();
+			frameTimer = reader.ReadInt32();
+		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 20; k++) {
@@ -46,11 +62,13 @@ namespace SpiritMod.NPCs.Automata
                 {
 					Gore.NewGore(npc.position, new Vector2(npc.velocity.X * .5f, npc.velocity.Y * .5f), 99);
                 }
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Trochmaton/AutomataSpinner1"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Trochmaton/AutomataSpinner2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Trochmaton/AutomataSpinner3"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Trochmaton/AutomataSpinner4"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Trochmaton/AutomataSpinner5"), 1f);
 			}
 		}
-		int timer;
-		int frame = 0;
-		int frameTimer;
 		public override void AI()
 		{	
 			npc.spriteDirection = npc.direction;
@@ -60,10 +78,14 @@ namespace SpiritMod.NPCs.Automata
 			direction.Normalize();
 
 			if (timer == 300 && Main.netMode != NetmodeID.MultiplayerClient) {
-				Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 40);
-				Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 5);
+				Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 4);
+                Main.PlaySound(SoundID.DD2_GoblinBomberThrow, (int)npc.position.X, (int)npc.position.Y);
 				npc.netUpdate = true;
 			}
+            if (timer >= 270 && timer < 300)
+            {
+                npc.velocity *= .97f;
+            }
 			if (timer >= 300 && timer <= 320 && Main.netMode != NetmodeID.MultiplayerClient) {
 				direction.X = direction.X * Main.rand.NextFloat(6.5f, 8.4f);
 				direction.Y = 0 - Main.rand.NextFloat(.5f, 1.5f);
@@ -81,13 +103,14 @@ namespace SpiritMod.NPCs.Automata
 				npc.knockBackResist = .2f;
 			}
 		}
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) {
-
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		{
 			int x = spawnInfo.spawnTileX;
 			int y = spawnInfo.spawnTileY;
 			int tile = (int)Main.tile[x, y].type;
-			return (tile == 367) && spawnInfo.player.GetSpiritPlayer().ZoneMarble && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.095f : 0f;
-        } 
+			return (tile == 367) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.3f : 0f;
+		}
+
         public void FrameControl()
         {
             frameTimer++;
@@ -105,6 +128,10 @@ namespace SpiritMod.NPCs.Automata
             }
 			if (timer > 300 && timer < 364)
 			{
+				if (timer % 15 == 0)
+				{
+					Main.PlaySound(SoundID.DD2_GoblinBomberThrow, (int)npc.position.X, (int)npc.position.Y);
+				}
                 npc.rotation = npc.velocity.X * .05f;
 			    npc.knockBackResist = 0f;
                 if (frame > 8 || frame < 6)

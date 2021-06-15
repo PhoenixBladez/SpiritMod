@@ -199,7 +199,7 @@ namespace SpiritMod.NPCs.StymphalianBat
 			int x = spawnInfo.spawnTileX;
 			int y = spawnInfo.spawnTileY;
 			int tile = (int)Main.tile[x, y].type;
-			return (tile == 367) && spawnInfo.player.GetSpiritPlayer().ZoneMarble && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.135f : 0f;
+			return (tile == 367) && spawnInfo.player.GetSpiritPlayer().ZoneMarble && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.435f : 0f;
         } 
 
 		public override void HitEffect(int hitDirection, double damage)

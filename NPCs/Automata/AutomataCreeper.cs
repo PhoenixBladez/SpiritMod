@@ -173,7 +173,7 @@ namespace SpiritMod.NPCs.Automata
 			int x = spawnInfo.spawnTileX;
 			int y = spawnInfo.spawnTileY;
 			int tile = (int)Main.tile[x, y].type;
-			return (tile == 367) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.4f : 0f;
+			return (tile == 367) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.3f : 0f;
 		}
 
 		public override void FindFrame(int frameHeight)
