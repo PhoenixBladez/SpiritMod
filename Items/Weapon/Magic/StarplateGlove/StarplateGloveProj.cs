@@ -71,6 +71,10 @@ namespace SpiritMod.Items.Weapon.Magic.StarplateGlove
 				}
 				if (Main.mouseLeft && counter % 7 == 0)
 				{
+					if (player.statMana <= 0)
+						return;
+					player.statMana -= 6;
+					player.manaRegenDelay = 60;
 					Vector2 position = projectile.Center;
 					float speedX = direction.X * 10;
 					float speedY = direction.Y * 10;

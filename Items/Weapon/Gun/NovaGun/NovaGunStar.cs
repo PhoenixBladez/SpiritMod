@@ -131,7 +131,7 @@ namespace SpiritMod.Items.Weapon.Gun.NovaGun
 
         public override void Kill(int timeLeft)
         {
-            SpiritMod.tremorTime = 10;
+            SpiritMod.tremorTime = 20;
             int maxgore = 25 + Main.rand.Next(-5, 6);
             for(int i = 0; i < maxgore; i++)
             {
