@@ -37,20 +37,20 @@ namespace SpiritMod.Tiles.Ambient.Kelp
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak) //Sets and randomizes tile frame
         {
             Tile t = Framing.GetTileSafely(i, j); //this tile :)
-			int realFrameX = t.frameX;
-			int totalOffset = t.frameX / ClumpFrameOffset;
-			if (realFrameX > ClumpFrameOffset) realFrameX -= ClumpFrameOffset;
-			if (realFrameX > ClumpFrameOffset) realFrameX -= ClumpFrameOffset; //repeat twice to adjust properly
 
-            if (realFrameX < 36 && t.frameY < 108) //Used for adjusting stem/top; does not include grown top or leafy stems
+			int totalOffset = t.frameX / ClumpFrameOffset;
+			int realFrameX = t.frameX - (ClumpFrameOffset * totalOffset); //Adjusted so its easy to read
+
+			if (realFrameX < 36 && t.frameY < 108) //Used for adjusting stem/top; does not include grown top or leafy stems
 			{
                 if (!Framing.GetTileSafely(i, j - 1).active()) //If top
                     t.frameX = (short)(18 + (ClumpFrameOffset * totalOffset));
                 else //If stem
                     t.frameX = (short)(0 + (ClumpFrameOffset * totalOffset));
+				realFrameX = 0;
             }
 
-            if (realFrameX == 0) //If stem
+			if (realFrameX == 0) //If stem
                 t.frameY = (short)(Main.rand.Next(6) * 18); //Stem
             else if (realFrameX == 18)
             {
@@ -62,7 +62,9 @@ namespace SpiritMod.Tiles.Ambient.Kelp
             else //Leafy stem
                 t.frameY = (short)(18 * Main.rand.Next(8));
 
-            return false;
+			if (t.frameY == 152 && t.frameY >= 108)
+				t.frameY = (short)(Main.rand.Next(6) * 18);
+			return false;
         }
 
         public override void RandomUpdate(int i, int j) //Used for growing and "growing"
@@ -70,9 +72,7 @@ namespace SpiritMod.Tiles.Ambient.Kelp
             Tile t = Framing.GetTileSafely(i, j);
 
 			int totalOffset = t.frameX / ClumpFrameOffset;
-			int realFrameX = t.frameX;
-			if (realFrameX > ClumpFrameOffset) realFrameX -= ClumpFrameOffset;
-			if (realFrameX > ClumpFrameOffset) realFrameX -= ClumpFrameOffset; //repeat twice to adjust properly
+			int realFrameX = t.frameX - (ClumpFrameOffset * totalOffset); //Adjusted so its easy to read
 
 			if (!Framing.GetTileSafely(i, j - 1).active() && Main.rand.Next(4) == 0 && t.liquid > 155 && t.frameX < 36 && t.frameY < 108) //Grows the kelp
                 WorldGen.PlaceTile(i, j - 1, Type, true, false);
@@ -116,6 +116,9 @@ namespace SpiritMod.Tiles.Ambient.Kelp
         {
             if (Framing.GetTileSafely(i, j - 1).active() && Framing.GetTileSafely(i, j -1).type == Type && Framing.GetTileSafely(i, j).frameY < 108) //If ungrounded, kill me
                 WorldGen.KillTile(i, j - 1, false, false, false);
+
+			Tile t = Framing.GetTileSafely(i, j);
+			t.frameX = t.frameY = 0;
         }
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch) //Drawing woo
@@ -123,9 +126,8 @@ namespace SpiritMod.Tiles.Ambient.Kelp
             Tile t = Framing.GetTileSafely(i, j); //ME!
             Texture2D tile = ModContent.GetTexture(TexName); //Associated texture - loaded automatically
 
-			int realFrameX = t.frameX;
-			if (realFrameX > ClumpFrameOffset) realFrameX -= ClumpFrameOffset;
-			if (realFrameX > ClumpFrameOffset) realFrameX -= ClumpFrameOffset; //repeat twice to adjust properly
+			int totalOffset = t.frameX / ClumpFrameOffset; //Gets offset
+			int realFrameX = t.frameX - (ClumpFrameOffset * totalOffset); //Adjusted so its easy to read
 
 			float xOff = GetOffset(i, j, t.frameX); //Sin offset.
 
@@ -135,8 +137,6 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 
             Vector2 TileOffset = Lighting.lightMode > 1 ? Vector2.Zero : Vector2.One * 12; //Draw offset
             Vector2 drawPos = ((new Vector2(i, j) + TileOffset) * 16) - Main.screenPosition; //Draw position
-
-			int totalOffset = t.frameX / ClumpFrameOffset; //draws clumps
 
 			bool[] hasClumps = new bool[] { GetKelpTile(i, j - 1) >= ClumpFrameOffset, GetKelpTile(i, j - 1) >= ClumpFrameOffset * 2 }; //Checks for if there's a grown clump above this clump
 
