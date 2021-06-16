@@ -2032,8 +2032,6 @@ namespace SpiritMod
 				float SpeedX = num16 + Main.rand.Next(-40, 41) * 0.02f;  //this defines the projectile X position speed and randomnes
 				float SpeedY = num17 + Main.rand.Next(-40, 41) * 0.02f;  //this defines the projectile Y position speed and randomnes
 				int proj = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, ModContent.ProjectileType<Projectiles.Hostile.Meteor>(), 30, 3, Main.myPlayer, 0.0f, 1);
-				Main.projectile[proj].friendly = true;
-				Main.projectile[proj].hostile = true;
 			}
 
 			if(!throwerGlove || (throwerStacks >= 7 && firedSharpshooter)) {

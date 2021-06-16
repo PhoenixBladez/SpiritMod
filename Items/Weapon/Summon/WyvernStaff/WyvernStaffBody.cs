@@ -36,6 +36,7 @@ namespace SpiritMod.Items.Weapon.Summon.WyvernStaff
 			if(Main.netMode != NetmodeID.MultiplayerClient) {
 				if(!Main.projectile[(int)projectile.ai[0]].active) {
 					projectile.timeLeft = 0;
+					Gore.NewGore(projectile.Center, projectile.velocity, Main.rand.Next(11, 13), 1f);
 					projectile.active = false;
 					// NetMessage.SendData(28, -1, -1, "", projectile.whoAmI, -1f, 0.0f, 0.0f, 0, 0, 0);
 				}
@@ -64,13 +65,13 @@ namespace SpiritMod.Items.Weapon.Summon.WyvernStaff
 				projectile.spriteDirection = Main.projectile[(int)projectile.ai[0]].spriteDirection;
 				if (Main.projectile[(int)projectile.ai[0]].type != ModContent.ProjectileType<WyvernStaffBody>() && Main.projectile[(int)projectile.ai[0]].type != ModContent.ProjectileType<WyvernStaffHead>())
 				{
-					Main.NewText("Uh oh. Something went fucksy wucksy with the Wyvern Staff. Report to Spirit Mod devs immediately: Issue #1");
+					Main.NewText("Uh oh. Something went wrong with the Wyvern Staff. Report to Spirit Mod devs immediately: Issue #1");
 					projectile.active = false;
 				}
 			}
 			else
 			{
-				Main.NewText("Uh oh. Something went fucksy wucksy with the Wyvern Staff. Report to Spirit Mod devs immediately: Issue #2");
+				Main.NewText("Uh oh. Something went wrong with the Wyvern Staff. Report to Spirit Mod devs immediately: Issue #2");
 				projectile.active = false;
 			}
 		}

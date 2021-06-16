@@ -19,6 +19,8 @@ namespace SpiritMod.Projectiles.Hostile
 			projectile.penetrate = 1;
 			projectile.timeLeft = 6000;
 			projectile.height = 40;
+			projectile.hostile = true;
+			projectile.friendly = false;
 		}
 		int dust1 = 0;
 		public override void AI()
