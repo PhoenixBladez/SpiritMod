@@ -758,13 +758,15 @@ namespace SpiritMod.NPCs
 					pool.Remove(0);
 			}
 			if (spawnInfo.player.GetSpiritPlayer().ZoneAsteroid) {
-				pool.Clear();
-				pool.Add(NPCType<Shockhopper.DeepspaceHopper>(), .35f);
-				pool.Add(NPCType<AstralAmalgam.AstralAmalgram>(), 0.16f);
+				if (!spawnInfo.playerSafe)
+				{
+					pool.Clear();
+					pool.Add(NPCType<Shockhopper.DeepspaceHopper>(), .35f);
+					pool.Add(NPCType<AstralAmalgam.AstralAmalgram>(), 0.16f);
 
-				if(NPC.downedBoss2)
-					pool.Add(NPCType<Orbitite.Mineroid>(), 0.3f);
-
+					if(NPC.downedBoss2)
+						pool.Add(NPCType<Orbitite.Mineroid>(), 0.3f);
+				}
 				pool.Add(NPCType<Gloop.GloopGloop>(), 0.24f);
 				if (NPC.downedBoss3) {
 					pool.Add(NPCType<Starfarer.CogTrapperHead>(), 0.45f);
