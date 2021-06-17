@@ -349,22 +349,22 @@ namespace SpiritMod.Utilities
 			orig(i, j, dirt, grass, repeat, color);
 		}
 
-		// This IL edit is used to allow the unfeller of evergreens to autoplant saplings when trees are destroyed
-		// Sadly tML doesn't provide tile destruction info by default in a way feasible in MP, so we have to resort to this
-		//
-		// THESE ARE THE IL INSTRUCTIONS WE'LL HARASS AND WHAT IT'LL LOOK LIKE WHEN WE'RE DONE
-		//   IL_af0c: ldloc 352    <----- WE WILL FIRST FIND AND JUMP TO THIS INSTRUCTION
-		//   IL_af10: nop
-		//   IL_af11: nop
-		//   IL_af12: callvirt instance void Terraria.HitTile::Clear(int32)  <----- NEXT WE JUMP HERE
-		//   IL_XXXX: [WE INSERT AN INSTRUCTION HERE TO PUSH THE TYPE OF THE TILE THE PLAYER JUST MINED]
-		//   IL_af17: ldsfld int32 Terraria.Player::tileTargetX
-		//   IL_af1c: ldsfld int32 Terraria.Player::tileTargetY
-		//   IL_af21: ldc.i4.0
-		//   IL_af22: ldc.i4.0
-		//   IL_af23: ldc.i4.0
-		//   IL_af24: call void Terraria.WorldGen::KillTile(int32, int32, bool, bool, bool)
-		//   IL_XXXX: [WE RUN OUR OWN CODE HERE TO PLANT THE SAPLING]
+		/// This IL edit is used to allow the unfeller of evergreens to autoplant saplings when trees are destroyed
+		/// Sadly tML doesn't provide tile destruction info by default in a way feasible in MP, so we have to resort to this
+		///
+		/// THESE ARE THE IL INSTRUCTIONS WE'LL HARASS AND WHAT IT'LL LOOK LIKE WHEN WE'RE DONE
+		///   IL_af0c: ldloc 352    <----- WE WILL FIRST FIND AND JUMP TO THIS INSTRUCTION
+		///   IL_af10: nop
+		///   IL_af11: nop
+		///   IL_af12: callvirt instance void Terraria.HitTile::Clear(int32)  <----- NEXT WE JUMP HERE
+		///   IL_XXXX: [WE INSERT AN INSTRUCTION HERE TO PUSH THE TYPE OF THE TILE THE PLAYER JUST MINED]
+		///   IL_af17: ldsfld int32 Terraria.Player::tileTargetX
+		///   IL_af1c: ldsfld int32 Terraria.Player::tileTargetY
+		///   IL_af21: ldc.i4.0
+		///   IL_af22: ldc.i4.0
+		///   IL_af23: ldc.i4.0
+		///   IL_af24: call void Terraria.WorldGen::KillTile(int32, int32, bool, bool, bool)
+		///   IL_XXXX: [WE RUN OUR OWN CODE HERE TO PLANT THE SAPLING]
 		private static void Player_ItemCheck(ILContext il) {
 			// Get an ILCursor and a logger to report errors if we find any
 			ILCursor cursor = new ILCursor(il);
@@ -428,18 +428,18 @@ namespace SpiritMod.Utilities
 			});
 		}
 
-		// This IL edit is used to stop evil stones (ebonstone/crimstone) from spreading into areas protected by super sunflowers
-		// Evil grass is also handled in a separate detour (WorldGen_SpreadGrass)
-		//
-		// This edit is simple. We just need to search for one instruction that loads NPC.downedPlantBoss (as all instructions afterwards have to do with evil spreading).
-		// Then we need to push the "i" parameter onto the stack (the x coordinate of the updated tile)
-		// 
-		// THESE ARE THE IL INSTRUCTIONS WE'LL HARASS AND WHAT IT'LL LOOK LIKE WHEN WE'RE DONE
-		//   IL_XXXX: [WE INSERT AN INSTRUCTION HERE TO PUSH THE FIRST PARAMETER, i (THE X COORDINATE OF THE TILE)]
-		//   IL_XXXX: [WE RUN OUR CODE HERE TO CHECK IF THE X COORDINATE IS IN A PROTECTED ZONE. WE PUSH TRUE ONTO THE STACK IF IT IS, OTHERWISE FALSE]
-		//   IL_XXXX: [WE INSERT AN INSTRUCTION HERE TO CHECK THE BOOL WE PUSHED, AND SKIP THE NEXT INSTRUCTION IF IT IS FALSE]
-		//   IL_XXXX: [WE INSERT AN INSTRUCTION HERE TO RETURN FROM THE METHOD. THIS IS ONLY REACHED IF THE ABOVE INSTRUCTION DOESN'T BRANCH]
-		//   IL_050f: ldsfld bool [Terraria]Terraria.NPC::downedPlantBoss   <------ WE WILL JUMP TO THIS INSTRUCTION TO APPLY THE ABOVE EDITS
+		/// This IL edit is used to stop evil stones (ebonstone/crimstone) from spreading into areas protected by super sunflowers
+		/// Evil grass is also handled in a separate detour (WorldGen_SpreadGrass)
+		///
+		/// This edit is simple. We just need to search for one instruction that loads NPC.downedPlantBoss (as all instructions afterwards have to do with evil spreading).
+		/// Then we need to push the "i" parameter onto the stack (the x coordinate of the updated tile)
+		/// 
+		/// THESE ARE THE IL INSTRUCTIONS WE'LL HARASS AND WHAT IT'LL LOOK LIKE WHEN WE'RE DONE
+		///   IL_XXXX: [WE INSERT AN INSTRUCTION HERE TO PUSH THE FIRST PARAMETER, i (THE X COORDINATE OF THE TILE)]
+		///   IL_XXXX: [WE RUN OUR CODE HERE TO CHECK IF THE X COORDINATE IS IN A PROTECTED ZONE. WE PUSH TRUE ONTO THE STACK IF IT IS, OTHERWISE FALSE]
+		///   IL_XXXX: [WE INSERT AN INSTRUCTION HERE TO CHECK THE BOOL WE PUSHED, AND SKIP THE NEXT INSTRUCTION IF IT IS FALSE]
+		///   IL_XXXX: [WE INSERT AN INSTRUCTION HERE TO RETURN FROM THE METHOD. THIS IS ONLY REACHED IF THE ABOVE INSTRUCTION DOESN'T BRANCH]
+		///   IL_050f: ldsfld bool [Terraria]Terraria.NPC::downedPlantBoss   <------ WE WILL JUMP TO THIS INSTRUCTION TO APPLY THE ABOVE EDITS
 		private static void WorldGen_hardUpdateWorld(ILContext il)
 		{
 			// Get an ILCursor and a logger to report errors if we find any

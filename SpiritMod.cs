@@ -821,7 +821,6 @@ namespace SpiritMod
 				SellLock_INTERFACE.SetState(SellLock_SHORTCUT);
 				SellWeapons_INTERFACE.SetState(SellWeapons_SHORTCUT);
 
-
 				Main.OnPreDraw += DrawStarGoopTarget;
 
 				primitives = new PrimTrailManager();
