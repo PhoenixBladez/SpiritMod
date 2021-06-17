@@ -14,7 +14,7 @@ namespace SpiritMod.Mechanics.Boids
 	public class BoidHost
 	{
 		internal List<Flock> Flocks = new List<Flock>();
-		private const int SPAWNRATE = 100;
+		private const int SPAWNRATE = 40;
 		public void Draw(SpriteBatch spriteBatch)
 		{
 			foreach (Flock fishflock in Flocks)
@@ -56,7 +56,7 @@ namespace SpiritMod.Mechanics.Boids
 
 		public void LoadContent()
 		{
-			for(int i = 0; i<6; i++) Flocks.Add(new Flock(ModContent.GetTexture($"SpiritMod/Textures/AmbientFish/fish_{i}"), 1f));
+			for(int i = 0; i<7; i++) Flocks.Add(new Flock(ModContent.GetTexture($"SpiritMod/Textures/AmbientFish/fish_{i}"), 1f));
 
 			On.Terraria.Main.DrawWoF += Main_DrawWoF;
 		}

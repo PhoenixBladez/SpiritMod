@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Forsworn Pendant");	
-			Tooltip.SetDefaults("Generates a subtle glow around the player\nAllows for increased night vision in the Briar");	
+			Tooltip.SetDefault("Generates a subtle glow around the player\nAllows for increased night vision in the Briar");	
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Accessory/ReachBrooch");
 		}
 		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
