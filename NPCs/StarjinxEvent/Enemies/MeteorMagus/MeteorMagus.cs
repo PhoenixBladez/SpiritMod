@@ -59,7 +59,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 		private static readonly IDictionary<int, Attack> AttackDict = new Dictionary<int, Attack> {
 			{ (int)Attacks.CirclingStars, delegate(Player player, NPC npc) { CirclingStars(player, npc); } },
-			{ (int)Attacks.ShootingStars, delegate(Player player, NPC npc) { Skulls(player, npc); } },
 			{ (int)Attacks.FallingStars, delegate(Player player, NPC npc) { FallingStars(player, npc); } },
 		};
 
@@ -67,7 +66,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		{
 			(int)Attacks.FallingStars,
 			(int)Attacks.CirclingStars,
-			(int)Attacks.ShootingStars
 		};
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -138,15 +136,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => knockback = (AiTimer < IdleTime) ? knockback : 0;
 
 		public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit) => knockback = (AiTimer < IdleTime) ? knockback : 0;
-
-		private static void Skulls(Player player, NPC npc)
-		{
-			MeteorMagus modnpc = npc.modNPC as MeteorMagus;
-			npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
-
-			if (modnpc.AiTimer > 360)
-				modnpc.ResetPattern();
-		}
 
 		private void PlayCastSound(Vector2 position)
         {
@@ -261,8 +250,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 				num395 *= 0.2f;
 				float num366 = num395 + 1.15f;
 				DrawAfterImage(Main.spriteBatch, new Vector2(0f, 0f), 0.5f, Color.White * .7f, Color.White * .1f, 0.45f, num366, .65f);
-				spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
 			}
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
 			return false;
         }
 
