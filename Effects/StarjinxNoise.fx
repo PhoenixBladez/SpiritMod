@@ -70,7 +70,8 @@ float4 Comet(float2 coords : TEXCOORD0, float4 origcolor : COLOR0) :COLOR0
     float4 transparency = (0, 0, 0, 0);
     transparency = lerp(color, transparency, xdistfromcenter * noiseR);
     
-    return float4(origcolor.r, origcolor.g, origcolor.b, max(origcolor.a - transparency.a, 0)) * (1 - xdistfromcenter) * noiseR;
+    float4 newColor = float4(origcolor.r, origcolor.g, origcolor.b, max(origcolor.a - transparency.a, 0)) * (1 - xdistfromcenter) * noiseR;
+    return floor(newColor * 4) / 4;
 }
 
 technique BasicColorDrawing
