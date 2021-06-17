@@ -13,7 +13,7 @@ namespace SpiritMod.Tiles.Walls.Natural
 			Main.wallHouse[Type] = true;
 			WallID.Sets.Conversion.Grass[Type] = true;
 			drop = ModContent.ItemType<SpiritWallItem>();
-			AddMapEntry(new Color(110, 110, 110));
+			AddMapEntry(new Color(70, 70, 70));
 		}
 	}
 }

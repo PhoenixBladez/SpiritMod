@@ -37,7 +37,11 @@ namespace SpiritMod.Items.Weapon.Summon.WyvernStaff
 			Player player = Main.player[projectile.owner];
 			deathCounter--;
 			if (deathCounter == 1)
+			{
+				Main.PlaySound(4, projectile.Center, 8);
+				Gore.NewGore(projectile.Center, projectile.velocity, Main.rand.Next(11, 13), 1f);
 				projectile.active = false;
+			}
 			if (attack)
 			{
 				projectile.aiStyle = 121;

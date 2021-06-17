@@ -56,7 +56,7 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
     {
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Stardust Bomb");
+			DisplayName.SetDefault("Supernova");
 			Main.npcFrameCount[npc.type] = 7;
         }
         public override void SetDefaults()

@@ -28,13 +28,13 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		{
 			npc.Size = new Vector2(168, 118);
 			npc.lifeMax = 1500;
-			npc.damage = 20;
-			npc.defense = 8;
+			npc.damage = 56;
+			npc.defense = 28;
 			npc.noTileCollide = true;
 			npc.noGravity = true;
 			npc.aiStyle = -1;
-			npc.value = 600;
-			npc.knockBackResist = 1f;
+			npc.value = 1100;
+			npc.knockBackResist = .55f;
 			npc.HitSound = new LegacySoundStyle(SoundID.NPCHit, 55).WithPitchVariance(0.2f);
 			npc.DeathSound = SoundID.NPCDeath51;
 			npc.visualOffset = new Vector2(84, 0);
@@ -59,7 +59,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 		private static readonly IDictionary<int, Attack> AttackDict = new Dictionary<int, Attack> {
 			{ (int)Attacks.CirclingStars, delegate(Player player, NPC npc) { CirclingStars(player, npc); } },
-			{ (int)Attacks.ShootingStars, delegate(Player player, NPC npc) { Skulls(player, npc); } },
 			{ (int)Attacks.FallingStars, delegate(Player player, NPC npc) { FallingStars(player, npc); } },
 		};
 
@@ -67,7 +66,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		{
 			(int)Attacks.FallingStars,
 			(int)Attacks.CirclingStars,
-			(int)Attacks.ShootingStars
 		};
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -89,6 +87,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			if (++AiTimer < IdleTime)
 			{
 				Vector2 homeCenter = player.Center;
+
+				npc.rotation = npc.velocity.X * .035f;
+
 				switch (Pattern[(int)AttackType])
                 {
 					case (int)Attacks.FallingStars:
@@ -108,6 +109,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			if (AiTimer > IdleTime) {
 				AttackDict[Pattern[(int)AttackType]].Invoke(Main.player[npc.target], npc);
 
+				npc.rotation = 0f;
+				
 				UpdateFrame(8, 0, 3);
 				frame.X = 1;
 			}
@@ -133,15 +136,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => knockback = (AiTimer < IdleTime) ? knockback : 0;
 
 		public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit) => knockback = (AiTimer < IdleTime) ? knockback : 0;
-
-		private static void Skulls(Player player, NPC npc)
-		{
-			MeteorMagus modnpc = npc.modNPC as MeteorMagus;
-			npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
-
-			if (modnpc.AiTimer > 360)
-				modnpc.ResetPattern();
-		}
 
 		private void PlayCastSound(Vector2 position)
         {
@@ -218,16 +212,15 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 				frame.Y = minframe;
 		}
 
-        /*public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HauntedTomeGore3"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HauntedTomeGore2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HauntedTomeGore1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HauntedTomeGore1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HauntedTomeGore1"), 1f);
+				for (int i = 0; i < 6; i++)
+				{
+					Gore.NewGore(npc.Center, npc.velocity * .5f, 99, Main.rand.NextFloat(.75f, 1f));
+				}
 			}
-		}*/
+		}
 
         /*public override void NPCLoot()
 		{
@@ -252,6 +245,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
+			if (AiTimer > IdleTime) {
+				float num395 = Main.mouseTextColor / 200f - 0.35f;
+				num395 *= 0.2f;
+				float num366 = num395 + 1.15f;
+				DrawAfterImage(Main.spriteBatch, new Vector2(0f, 0f), 0.5f, Color.White * .7f, Color.White * .1f, 0.45f, num366, .65f);
+			}
 			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
 			return false;
         }
@@ -270,6 +269,16 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 				DrawGlowmask(drawpos, 0.3f);
 			}
 		}
+		public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color color, float opacity, float startScale, float endScale) => DrawAfterImage(spriteBatch, offset, trailLengthModifier, color, color, opacity, startScale, endScale);
+        public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color startColor, Color endColor, float opacity, float startScale, float endScale)
+        {
+            SpriteEffects spriteEffects = (npc.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            for (int i = 1; i < 10; i++)
+            {
+                Color color = Color.Lerp(startColor, endColor, i / 10f) * opacity;
+                spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/Enemies/MeteorMagus/MeteorMagus_Afterimage"), new Vector2(npc.Center.X, npc.Center.Y) + offset - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * (float)i * trailLengthModifier, npc.frame, color, npc.rotation, npc.frame.Size() * 0.5f, MathHelper.Lerp(startScale, endScale, i / 10f), spriteEffects, 0f);
+            }
+        }
     }
 
 	internal class MortarStar : ModProjectile, ITrailProjectile, IBasicPrimDraw
@@ -294,9 +303,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		internal ref float Timer => ref projectile.localAI[0];
 
 		readonly float gravity = 0.3f;
-		public override void AI()
+
+		public override bool PreAI()
 		{
-            for (int i = 0; i < 4; i++)
+			for (int i = 0; i < 2; i++)
             {
                 float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
                 float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
@@ -309,7 +319,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
                 Main.dust[num].noGravity = true;
                 Main.dust[num].fadeIn = (float)(100 + projectile.owner);
 
-                }
+            }
+			return true;
+		}
+
+		public override void AI()
+		{
 
 			projectile.alpha = Math.Max(projectile.alpha - 15, 0);
 			if (projectile.localAI[1] == 0)
@@ -337,6 +352,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 		public void DoTrailCreation(TrailManager tM)
 		{
+			tM.CreateTrail(projectile, new GradientTrail(new Color(228, 31, 156), new Color(180, 88, 237)), new RoundCap(), new ArrowGlowPosition(), 100f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
 			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(241, 153, 255) * .25f, new Color(241, 153, 255) * .125f), new RoundCap(), new ArrowGlowPosition(), 42f, 200f, new DefaultShader());
 			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(228, 31, 156, 150), new Color(228, 31, 156, 150) * 0.5f), new RoundCap(), new DefaultTrailPosition(), 20f, 80f, new DefaultShader());
 			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(228, 31, 156, 150), new Color(228, 31, 156, 150) * 0.5f), new RoundCap(), new DefaultTrailPosition(), 20f, 80f, new DefaultShader());
@@ -347,6 +363,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
         public override void Kill(int timeLeft)
         {
+            DustHelper.DrawStar(projectile.Center, 223, pointAmount: 5, mainSize: .9425f, dustDensity: 2, dustSize: .5f, pointDepthMult: 0.3f, noGravity: true);
 			if (Main.netMode != NetmodeID.Server)
 				Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/starHit").WithVolume(0.65f).WithPitchVariance(0.3f), projectile.Center);
 		}
@@ -372,6 +389,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 		public override void AI()
 		{
+
+
 			projectile.alpha = Math.Max(projectile.alpha - 15, 0);
 			if (!Parent.active || !Target.active || Target.dead)
             {

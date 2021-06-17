@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Swung.AccursedBlade
             item.useTime = 25;
             item.useAnimation = 25;
             item.value = Item.buyPrice(0, 1, 20, 0);
-            item.damage = 16;
+            item.damage = 19;
             item.width = 30;
             item.height = 30;
             item.UseSound = SoundID.Item1;
@@ -115,7 +115,7 @@ namespace SpiritMod.Items.Weapon.Swung.AccursedBlade
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
-            item.alpha ++;
+            item.alpha++;
             if (item.alpha > 255)
                 item.active = false;
         }
@@ -173,7 +173,7 @@ namespace SpiritMod.Items.Weapon.Swung.AccursedBlade
         //bool primsCreated = false;
         public override void AI()
         {
-            //Player player = Main.player[projectile.owner];
+           //Player player = Main.player[projectile.owner];
             /*if (!primsCreated)
             {
                 primsCreated = true;
@@ -182,7 +182,14 @@ namespace SpiritMod.Items.Weapon.Swung.AccursedBlade
             }*/
             projectile.ai[0] += 0.01f;
             projectile.rotation = projectile.velocity.ToRotation();
-
+            if (projectile.timeLeft > 250)
+            {
+                projectile.tileCollide = false;
+            }
+            else
+            {
+                projectile.tileCollide = true;
+            }
             if (projectile.timeLeft < 25 || projectile.penetrate <= 1)
                 Fadeout();
 

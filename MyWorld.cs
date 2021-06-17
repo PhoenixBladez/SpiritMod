@@ -1361,7 +1361,7 @@ namespace SpiritMod
 
 			List<ChestInfo> PagodaPool = new List<ChestInfo> {
 				new ChestInfo(ItemType<JadeStaff>()),
-				new ChestInfo(ItemType<DynastyFan>()),
+				new ChestInfo(new int[]{ ItemType<DynastyFan>(), ItemType<Items.Weapon.Swung.AnimeSword.AnimeSword>() }),
 				new ChestInfo(ItemType<FestivalLanternItem>()),
 				new ChestInfo(commonItems1, WorldGen.genRand.Next(3, 10)),
 				new ChestInfo(ammo1, WorldGen.genRand.Next(20, 50)),

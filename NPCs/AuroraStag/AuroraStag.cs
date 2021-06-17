@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Dusts;
 using SpiritMod.Items;
+using SpiritMod.Particles;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,35 +12,19 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.AuroraStag
 {
-	public class AuroraStag : ModNPC
+	public class AuroraStag : ModNPC, IDrawAdditive
 	{
-		private struct GlowOrb
-		{
-			public Vector2 Position;
-			public Vector2 Velocity;
-			public float Opaqueness;
-			public float Scale;
-			public float TimeAlive;
-
-			public GlowOrb(Vector2 position, Vector2 velocity, float opaqueness, float scale)
-			{
-				Position = position;
-				Velocity = velocity;
-				Opaqueness = opaqueness;
-				Scale = scale;
-				TimeAlive = 0;
-			}
-		}
-
-		private List<GlowOrb> glowies = new List<GlowOrb>();
-
 		private float WalkSpeed => 2f;
 
 		private float RunSpeed => 8f;
 
 		public static float TameAnimationLength => 300;
 
-		private float Brightness => (TameAnimationLength - TameAnimationTimer) / TameAnimationLength;
+		public static float ParticleAnticipationTime => TameAnimationLength * 0.175f;
+
+		public static float ParticleReturnTime => TameAnimationLength * 0.1f;
+
+		private float Brightness => (float)Math.Pow((TameAnimationLength - TameAnimationTimer) / TameAnimationLength, 3);
 
 		// the time left before the stag starts moving again if it is standing still, or the time left until it stops if it is moving
 		// ignored if the stag is alerted or scared
@@ -115,6 +100,8 @@ namespace SpiritMod.NPCs.AuroraStag
 			return 0f;
 		}
 
+		private Color AuroraColor => Color.Lerp(new Color(85, 255, 229), new Color(28, 155, 255), Main.rand.NextFloat());
+
 		public override void AI()
 		{
 			npc.TargetClosest(false);
@@ -128,28 +115,20 @@ namespace SpiritMod.NPCs.AuroraStag
 				TameAnimationTimer--;
 
 				if (!Main.dedServ) {
-					if (Main.rand.NextBool(15))
-						glowies.Add(new GlowOrb(npc.Center + new Vector2(1), Main.rand.NextVector2Unit() * 8, 1f, Main.rand.NextFloat(0.7f, 2f)));
+					if ((TameAnimationTimer % 12 == 0) && TameAnimationTimer > ParticleReturnTime)
+					{
+						AuroraOrbParticle particle = new AuroraOrbParticle(
+							npc,
+							npc.Center + Main.rand.NextVector2Circular(30, 30),
+							Main.rand.NextVector2Unit() * Main.rand.NextFloat(4f, 5f),
+							AuroraColor,
+							Main.rand.NextFloat(0.05f, 0.1f));
 
-					for (int i = 0; i < glowies.Count; i++) {
-						Vector2 velocity = npc.DirectionFrom(glowies[i].Position);
-
-						if (TameAnimationTimer > 10) {
-							velocity += glowies[i].Velocity;
-							velocity.Normalize();
-							velocity *= 8;
-						}
-						else
-							velocity *= 30;
-
-						GlowOrb updatedOrb = new GlowOrb(glowies[i].Position + glowies[i].Velocity, velocity, glowies[i].Opaqueness - 0.005f, glowies[i].Scale);
-						updatedOrb.TimeAlive++;
-
-						glowies[i] = updatedOrb;
-
-						float brightness = updatedOrb.Opaqueness * 0.2f;
-						Lighting.AddLight(updatedOrb.Position, brightness, brightness, brightness);
+						ParticleHandler.SpawnParticle(particle);
 					}
+
+					if(Main.rand.NextBool(30))
+						MakeStar(Main.rand.NextFloat(0.1f, 0.2f));
 				}
 
 				Lighting.AddLight(npc.Center, Brightness, Brightness, Brightness);
@@ -159,7 +138,7 @@ namespace SpiritMod.NPCs.AuroraStag
 
 					if (!Main.dedServ)
 						for (int i = 0; i < 25; i++)
-							Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<AuroraStagDust>(), Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f));
+							MakeStar(Main.rand.NextFloat(0.2f, 0.6f));
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 						Item.NewItem(npc.Center, ModContent.ItemType<AuroraSaddle>());
@@ -219,7 +198,8 @@ namespace SpiritMod.NPCs.AuroraStag
 
 				if(Main.rand.NextBool() && !Main.dedServ)
 				{
-					Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 66, npc.velocity.X/2, 0, 0, Color.Lerp(Main.DiscoColor, Color.White, 0.75f), Main.rand.NextFloat(0.9f, 1.3f));
+					MakeStar(Main.rand.NextFloat(0.1f, 0.2f));
+					Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 66, npc.velocity.X/2, 0, 100, AuroraColor, Main.rand.NextFloat(0.9f, 1.3f));
 					dust.fadeIn = 0.4f;
 					dust.noGravity = true;
 				}
@@ -269,27 +249,37 @@ namespace SpiritMod.NPCs.AuroraStag
 			Lighting.AddLight(npc.Center, new Vector3(0.3f, 0.75f, 1f) * npc.Opacity);
 		}
 
+		private void MakeStar(float scale)
+		{
+			Color color = AuroraColor;
+			color.A = (byte)Main.rand.Next(100, 150);
+			AuroraStarParticle particle = new AuroraStarParticle(
+				npc.Center + Main.rand.NextVector2Circular(30, 30),
+				Main.rand.NextVector2Unit() * Main.rand.NextFloat(1.5f, 3f),
+				color,
+				Main.rand.NextFloat(MathHelper.TwoPi),
+				scale,
+				Main.rand.Next(60, 120));
+
+			ParticleHandler.SpawnParticle(particle);
+		}
+
 		public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit) => Scared = true;
 
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit) => Scared = true;
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
-			spriteBatch.End();
-			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
-
 			Texture2D orbTexture = mod.GetTexture("NPCs/AuroraStag/GlowOrb");
 			Vector2 orbOrigin = new Vector2(orbTexture.Width / 2, orbTexture.Height / 2);
-
-			foreach (GlowOrb glowOrb in glowies)
-				spriteBatch.Draw(orbTexture, glowOrb.Position - Main.screenPosition, null, Color.White * glowOrb.Opaqueness, 0f, orbOrigin, (float)Math.Sin(glowOrb.TimeAlive / 4) * glowOrb.Scale, SpriteEffects.None, 0f);
-
+			float opacity = 0.5f * (TameAnimationLength - TameAnimationTimer) / TameAnimationLength;
+			float scale = ((float)(Math.Sin(TameAnimationTimer / 30) / 4) + 1f) * ((TameAnimationTimer - TameAnimationLength) / TameAnimationLength);
 			if (TameAnimationTimer > 0)
-				spriteBatch.Draw(orbTexture, npc.Center - Main.screenPosition, null, Color.White, 0f, orbOrigin, (float)Math.Sin(TameAnimationTimer / 30) * ((TameAnimationTimer - TameAnimationLength) / TameAnimationLength) * 2, SpriteEffects.None, 0f);
+				spriteBatch.Draw(orbTexture, npc.Center - Main.screenPosition, null, new Color(184, 244, 255) * opacity, 0f, orbOrigin, scale, SpriteEffects.None, 0f);
+		}
 
-			spriteBatch.End();
-			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
-
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
 			Texture2D stagTexture = Main.npcTexture[npc.type];
 			int frameHeight = stagTexture.Height / Main.npcFrameCount[npc.type];
 			int frameWidth = stagTexture.Width / 3;
@@ -332,7 +322,7 @@ namespace SpiritMod.NPCs.AuroraStag
 			}
 
 			if (TameAnimationTimer > 0)
-				spriteBatch.Draw(mod.GetTexture("NPCs/AuroraStag/AuroraStagOverlay"), drawPosition, sourceRectangle, Color.White * Brightness, 0f, Vector2.Zero, 1f, effects, 0f);
+				spriteBatch.Draw(mod.GetTexture("NPCs/AuroraStag/AuroraStagOverlay"), drawPosition, sourceRectangle, new Color(184, 244, 255) * Brightness, 0f, Vector2.Zero, 1f, effects, 0f);
 
 			return false;
 		}
