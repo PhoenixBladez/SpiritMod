@@ -23,7 +23,7 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
-			Main.tileCut[Type] = true;
+			Main.tileCut[Type] = false;
 			Main.tileLighted[Type] = true;
 
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);

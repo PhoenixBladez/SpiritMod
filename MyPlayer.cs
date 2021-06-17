@@ -1967,6 +1967,11 @@ namespace SpiritMod
                     SpiritMod.spookyAmbience.SetTo(Main.ambientVolume);
                 else
                     SpiritMod.spookyAmbience.Stop();
+
+				if (Framing.GetTileSafely(x1, y1 - 1).liquid == 255 && Framing.GetTileSafely(x1, y1).liquid == 255 && player.wet)
+					SpiritMod.underwaterAmbience.SetTo(Main.ambientVolume);
+				else
+					SpiritMod.underwaterAmbience.Stop();				
             }
             if (!player.ZoneOverworldHeight)
             {

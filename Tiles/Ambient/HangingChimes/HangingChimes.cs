@@ -113,9 +113,10 @@ namespace SpiritMod.Tiles.Ambient.HangingChimes
 		}
 		public override void NearbyEffects(int i, int j, bool closer)
 		{
-            if (closer)
+            Player player = Main.LocalPlayer;
+            if (closer && (int)Vector2.Distance(player.Center, new Vector2(i * 16, j * 16)) < 48)
             {
-                if (Main.rand.NextBool(2000) && Main.netMode != NetmodeID.MultiplayerClient)
+                if (Main.rand.NextBool(75) && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Main.PlaySound(SoundLoader.customSoundType, new Vector2(i*16,j*16), mod.GetSoundSlot(SoundType.Custom, "Sounds/WindChime"));
                 }
