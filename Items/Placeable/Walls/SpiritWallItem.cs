@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Placeable.Walls
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Dusk Wall");
+			DisplayName.SetDefault("Duskwood Wall");
 		}
 
 
@@ -38,6 +38,12 @@ namespace SpiritMod.Items.Placeable.Walls
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this, 4);
 			recipe.AddRecipe();
+
+			ModRecipe recipe1 = new ModRecipe(mod);
+			recipe1.AddIngredient(this, 4);
+			recipe1.AddTile(TileID.WorkBenches);
+			recipe1.SetResult(ModContent.ItemType<SpiritWoodItem>());
+			recipe1.AddRecipe();
 		}
 	}
 }

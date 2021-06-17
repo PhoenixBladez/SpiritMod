@@ -1157,12 +1157,22 @@ namespace SpiritMod.NPCs
 			}
 
 			if (npc.type == NPCID.PirateShip || npc.type == NPCID.PirateCaptain) {
-				if (Main.rand.Next(50) <= 5) {
+				if (Main.rand.Next(50) <= 2) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<CaptainsRegards>());
 				}
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Consumable.PirateCrate>());
 				if (Main.rand.Next(100) <= 6) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Weapon.Magic.SoulSiphon>());
+				}
+				if (npc.type == NPCID.PirateShip)
+				{
+					if (Main.rand.NextBool(3))
+					{			
+						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Consumable.PirateCrate>());
+					}
+				}
+				if (npc.type == NPCID.PirateCaptain)
+				{
+						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Weapon.Thrown.ExplosiveRum.ExplosiveRum>(), Main.rand.Next(38, 77));
 				}
 			}
 			if (npc.type == NPCID.MartianOfficer && Main.rand.Next(23) == 1) {

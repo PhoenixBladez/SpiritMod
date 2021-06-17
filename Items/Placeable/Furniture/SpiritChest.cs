@@ -1,4 +1,6 @@
 using Terraria.ID;
+using SpiritMod.Items.Placeable.Tiles;
+using Terraria;
 using Terraria.ModLoader;
 using SpiritChestTile = SpiritMod.Tiles.Furniture.SpiritChest;
 namespace SpiritMod.Items.Placeable.Furniture
@@ -7,7 +9,7 @@ namespace SpiritMod.Items.Placeable.Furniture
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Spirit Chest");
+			DisplayName.SetDefault("Duskwood Chest");
 		}
 
 
@@ -28,6 +30,16 @@ namespace SpiritMod.Items.Placeable.Furniture
 			item.consumable = true;
 
 			item.createTile = ModContent.TileType<SpiritChestTile>();
+		}
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<SpiritWoodItem>(), 8);
+			recipe.AddIngredient(ItemID.IronBar, 2);
+			recipe.anyIronBar = true;
+			recipe.AddTile(TileID.HeavyWorkBench);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
 		}
 	}
 }

@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Explosive Rum");
-			Tooltip.SetDefault("'Oh, there it is'");
+			Tooltip.SetDefault("'Oh, there it is!'");
 		}
 
 		public override void SetDefaults()
@@ -28,14 +28,13 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 			item.consumable = true;
 			item.maxStack = 999;
 			item.shoot = ModContent.ProjectileType<ExplosiveRumProj>();
-			item.useAnimation = 25;
-			item.useTime = 25;
+			item.useAnimation = 27;
+			item.useTime = 27;
 			item.shootSpeed = 10.5f;
-			item.damage = 50;
+			item.damage = 43;
 			item.knockBack = 1.5f;
-			item.value = Item.sellPrice(0, 0, 0, 20);
-			item.crit = 8;
-			item.rare = ItemRarityID.Blue;
+			item.value = Item.sellPrice(0, 0, 0, 50);
+			item.rare = 4;
 			item.autoReuse = true;
 			item.maxStack = 999;
 			item.consumable = true;
@@ -62,25 +61,21 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 		{
 			Dust dust = Dust.NewDustPerfect(projectile.Center + (15 * ((projectile.rotation - 1.57f).ToRotationVector2())), 6);
 			dust.noGravity = true;
-			dust.scale = Main.rand.NextFloat(0.8f,1.15f);
-			dust.fadeIn = 1.5f;
+			dust.scale = Main.rand.NextFloat(0.6f,.9f);
+			dust.fadeIn = .75f;
 		}
-
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/rumboom"), projectile.Center);
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
-
-			for (int i = 0; i < 15; i++) 
-				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 13, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default, 0.75f);
 
             for (int i = 1; i < 5; ++i)
 			    Gore.NewGore(projectile.Center, Vector2.Zero, mod.GetGoreSlot("Gores/Rum/RumGore" + i), 1f);
 
 			Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<RumExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);
 
-            Projectile.NewProjectileDirect(projectile.Center - new Vector2(0, 15), new Vector2(0.25f, 15), ModContent.ProjectileType<RumFire>(), projectile.damage, projectile.knockBack, projectile.owner, 1, 12).timeLeft = 60;
-            Projectile.NewProjectileDirect(projectile.Center - new Vector2(0, 15), new Vector2(-0.25f, 15), ModContent.ProjectileType<RumFire>(), projectile.damage, projectile.knockBack, projectile.owner, -1, 12).timeLeft = 60;
+            Projectile.NewProjectileDirect(projectile.Center - new Vector2(0, 15), new Vector2(0.25f, 15), ModContent.ProjectileType<RumFire>(), projectile.damage/3, projectile.knockBack, projectile.owner, 1, 12).timeLeft = 60;
+            Projectile.NewProjectileDirect(projectile.Center - new Vector2(0, 15), new Vector2(-0.25f, 15), ModContent.ProjectileType<RumFire>(), projectile.damage/3, projectile.knockBack, projectile.owner, -1, 12).timeLeft = 60;
 		}
 	}
 
@@ -104,19 +99,32 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
             projectile.timeLeft = 26;
             projectile.tileCollide = true;
             projectile.ignoreWater = true;
-            trueScale = new Vector2(Main.rand.NextFloat(1f, 1.25f), Main.rand.NextFloat(1f, 1.5f));
+			projectile.scale = .85f;
 			flipSprite = Main.rand.NextBool();
         }
 
 		bool onGround = false;
 		bool lightUp = false;
-		Vector2 trueScale;
 		bool flipSprite = false;
-
 		public override void AI()
 		{
+			if (projectile.scale <= 1f)
+			{
+				projectile.scale += .02f;
+			}
 			if (Main.rand.Next(5) == 0 && onGround)
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 6);
+			{
+				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6);
+				Main.dust[d].noGravity = true;
+				Main.dust[d].velocity.Y = -1f;
+			}
+			if (Main.rand.Next(12)==0)
+			{
+				int index3 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0.0f, 0f, 150, new Color(), 0.5f);
+				Main.dust[index3].fadeIn = 1.25f;
+				Main.dust[index3].velocity = new Vector2(0f, (float)Main.rand.Next(-2,-1));
+				Main.dust[index3].noLight = true;
+			}
 			//projectile.scale = (float)Math.Sin((12 - projectile.timeLeft) / 4f);
 			
 			if (++projectile.frameCounter > 4) {
@@ -127,14 +135,15 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 				}
 			}
 
-			if (lightUp || projectile.timeLeft > 26)
-				Lighting.AddLight(projectile.Center, Color.Orange.R * 0.007f, Color.Orange.G * 0.007f, Color.Orange.B * 0.007f);
-
 			if (projectile.timeLeft == 23 && onGround && projectile.ai[1] > 0)
 			{
 				lightUp = true;
                 Vector2 pos = projectile.Center + new Vector2(projectile.ai[0] * 20, 0);
                 Projectile.NewProjectile(pos, new Vector2(projectile.ai[0] * 0.25f, 15), ModContent.ProjectileType<RumFire>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0], projectile.ai[1] - 1);
+			}
+			if (lightUp)
+			{
+				Lighting.AddLight(projectile.Center, 245 * 0.00361f, 99 * 0.00361f, 66 * 0.00361f);
 			}
 		}
 
@@ -173,8 +182,8 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 			if (onGround || projectile.timeLeft > 26)
 			{
 				SpriteEffects effect = flipSprite ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-                Vector2 pos = (projectile.Center - Main.screenPosition + new Vector2(0, projectile.gfxOffY)) + new Vector2(0, (frameHeight / 2) + 6);
-                spriteBatch.Draw(tex, pos, frame, lightColor, projectile.rotation, new Vector2(tex.Width - (projectile.width / 2), frameHeight), trueScale, effect, 0);
+                Vector2 pos = (projectile.Center - Main.screenPosition + new Vector2(0, projectile.gfxOffY)) + new Vector2(0, (frameHeight / 2) + 12);
+                spriteBatch.Draw(tex, pos, frame, Color.White, projectile.rotation, new Vector2(tex.Width - (projectile.width / 2), frameHeight), projectile.scale, effect, 0);
 			}
 			return false;
 		}
@@ -214,7 +223,7 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 
 		public override void AI()
 		{
-			Lighting.AddLight(projectile.Center, Color.Orange.R * 0.011f, Color.Orange.G * 0.011f, Color.Orange.B * 0.011f);
+			Lighting.AddLight(projectile.Center, 245 * 0.0061f, 99 * 0.0061f, 66 * 0.0061f);
 			projectile.frameCounter++;
 			if (projectile.frameCounter > 3) {
 				projectile.frameCounter = 0;
