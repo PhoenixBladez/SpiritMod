@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -117,7 +118,11 @@ namespace SpiritMod.NPCs.AuroraStag
 				if (!Main.dedServ) {
 					if ((TameAnimationTimer % 12 == 0) && TameAnimationTimer > ParticleReturnTime)
 					{
-						AuroraOrbParticle particle = new AuroraOrbParticle(
+						if (TameAnimationTimer % 36 == 0)
+						{
+							Main.PlaySound(new LegacySoundStyle(SoundID.Item, 8).WithPitchVariance(0.2f), npc.Center);
+													}
+							AuroraOrbParticle particle = new AuroraOrbParticle(
 							npc,
 							npc.Center + Main.rand.NextVector2Circular(30, 30),
 							Main.rand.NextVector2Unit() * Main.rand.NextFloat(4f, 5f),
@@ -137,9 +142,15 @@ namespace SpiritMod.NPCs.AuroraStag
 					npc.active = false;
 
 					if (!Main.dedServ)
-						for (int i = 0; i < 25; i++)
+					{
+						Main.PlaySound(4, npc.Center, 8);
+						Main.PlaySound(new LegacySoundStyle(SoundID.Item, 9).WithPitchVariance(0.2f), npc.Center);
+						Main.PlaySound(SoundID.DD2_WitherBeastAuraPulse, npc.Center);
+						Main.PlaySound(SoundID.DD2_BookStaffCast, npc.Center);
+						for (int i = 0; i < 25; i++) {
 							MakeStar(Main.rand.NextFloat(0.2f, 0.6f));
-
+						}
+					}
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 						Item.NewItem(npc.Center, ModContent.ItemType<AuroraSaddle>());
 				}

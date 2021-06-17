@@ -12,12 +12,12 @@ namespace SpiritMod.Items.Weapon.Gun.LadyLuck
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lady Luck");
-			Tooltip.SetDefault("Right click to shoot coins \nShoot these coins to richochet the bullet\n'Luck favors the rich'");
+			Tooltip.SetDefault("Right click to throw out a lucky coin\nShoot this coin to richochet the bullet towards nearby enemies\n'Luck favors the rich'");
 
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 36;
+			item.damage = 34;
 			item.ranged = true;
 			item.width = 24;
 			item.height = 24;
@@ -26,11 +26,12 @@ namespace SpiritMod.Items.Weapon.Gun.LadyLuck
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.noMelee = true;
 			item.knockBack = 0;
-			item.rare = ItemRarityID.Orange;
+			item.rare = 4;
 			item.UseSound = SoundID.Item41;
 			item.shoot = ModContent.ProjectileType<LadyLuckProj>();
 			item.shootSpeed = 12f;
 			item.useAmmo = AmmoID.Bullet;
+			item.value = Item.sellPrice(0, 2, 20, 0);
 			item.autoReuse = false;
 		}
 		public override bool AltFunctionUse(Player player)
@@ -71,8 +72,8 @@ namespace SpiritMod.Items.Weapon.Gun.LadyLuck
 			else
 			{
 				item.shootSpeed = 16f;
-				item.useTime = 20;
-				item.useAnimation = 20;
+				item.useTime = 9;
+				item.useAnimation = 9;
 				item.useStyle = ItemUseStyleID.HoldingOut;
 				item.noUseGraphic = false;
 				item.useAmmo = AmmoID.Bullet;

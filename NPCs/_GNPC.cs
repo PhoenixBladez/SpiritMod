@@ -1172,7 +1172,21 @@ namespace SpiritMod.NPCs
 				}
 				if (npc.type == NPCID.PirateCaptain)
 				{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Weapon.Thrown.ExplosiveRum.ExplosiveRum>(), Main.rand.Next(38, 77));
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Weapon.Thrown.ExplosiveRum.ExplosiveRum>(), Main.rand.Next(38, 77));
+				}
+			}
+			if (npc.type == NPCID.PirateDeadeye)
+			{
+				if (Main.rand.Next(Main.expertMode ? 175 : 225) < 3)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Gun.LadyLuck.LadyLuck>());
+				}
+			}
+			if (npc.type == NPCID.PirateDeckhand)
+			{
+				if (Main.rand.Next(Main.expertMode ? 185 : 240) < 2)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Thrown.PiecesOfEight.PiecesOfEight>());
 				}
 			}
 			if (npc.type == NPCID.MartianOfficer && Main.rand.Next(23) == 1) {
