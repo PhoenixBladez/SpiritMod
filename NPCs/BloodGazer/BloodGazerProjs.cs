@@ -66,7 +66,11 @@ namespace SpiritMod.NPCs.BloodGazer
 
 	public class RunicEye : ModProjectile, IDrawAdditive
 	{
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Runic Eye");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Runic Eye");
+			Main.projFrames[projectile.type] = 5;
+		}
 
 		public override void SetDefaults()
 		{
@@ -74,30 +78,25 @@ namespace SpiritMod.NPCs.BloodGazer
 			projectile.tileCollide = false;
 			projectile.friendly = projectile.hostile = false;
 			projectile.alpha = 255;
-			projectile.scale = 2f;
+			projectile.scale = 1.5f;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => false;
-
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
-			spriteBatch.Draw(bloom, projectile.Center - Main.screenPosition, null, Color.Red * projectile.Opacity * 0.5f, 0, bloom.Size() / 2, new Vector2(1, 0.75f) * projectile.scale/2, SpriteEffects.None, 0);
-
 			Texture2D tex = Main.projectileTexture[projectile.type];
-			Rectangle eyeframe = new Rectangle(0, 0, tex.Width, tex.Height / 2);
-			Rectangle pupilframe = new Rectangle(0, tex.Height / 2 + 1, tex.Width, tex.Height / 2);
+			Texture2D pupiltex = ModContent.GetTexture(Texture + "_pupil");
 			void DrawEye(Vector2 position, float Opacity)
 			{
-				spriteBatch.Draw(tex, position - Main.screenPosition, eyeframe, Color.White * Opacity, 0, eyeframe.Size() / 2, projectile.scale, SpriteEffects.None, 0);
-				spriteBatch.Draw(tex, position + (Vector2.UnitX.RotatedBy(projectile.rotation) * projectile.localAI[0]) - Main.screenPosition, pupilframe, Color.White * Opacity, 
-					0, eyeframe.Size() / 2, projectile.scale, SpriteEffects.None, 0);
+				spriteBatch.Draw(tex, position - Main.screenPosition, projectile.DrawFrame(), Color.White * Opacity, 0, projectile.DrawFrame().Size() / 2, projectile.scale, SpriteEffects.None, 0);
+				spriteBatch.Draw(pupiltex, position + (Vector2.UnitY * 8) + (Vector2.UnitX.RotatedBy(projectile.rotation) * projectile.localAI[0]) - Main.screenPosition, null, Color.White * Opacity,
+					0, pupiltex.Size() / 2, projectile.scale * 0.75f, SpriteEffects.None, 0);
 			}
+
 			switch (projectile.ai[0])
 			{
 				case 0://fade in
 				case 3:
-					for(int i = 0; i < 4; i++)
+					for (int i = 0; i < 4; i++)
 					{
 						Vector2 pos = new Vector2(0, projectile.alpha / 3f);
 						pos = pos.RotatedBy((i / 4f * MathHelper.TwoPi) + MathHelper.ToRadians(projectile.alpha * 0.2f));
@@ -107,13 +106,13 @@ namespace SpiritMod.NPCs.BloodGazer
 				case 1:
 				case 2:
 					DrawEye(projectile.Center, projectile.Opacity);
-					for(int i = 0; i < 3; i++)
+					for (int i = 0; i < 3; i++)
 					{
-						Vector2 pos = new Vector2(0, 5) * (float)(Math.Sin(Main.GlobalTime * 6)/4 + 0.75);
+						Vector2 pos = new Vector2(0, 5) * (float)(Math.Sin(Main.GlobalTime * 6) / 4 + 0.75);
 						pos = pos.RotatedBy(i / 3f * MathHelper.TwoPi);
 						DrawEye(pos + projectile.Center, projectile.Opacity / 2);
 					}
-					if(projectile.localAI[1] < 30f)
+					if (projectile.localAI[1] < 30f)
 					{
 						Texture2D raytelegraph = mod.GetTexture("Textures/Medusa_Ray");
 						float Opacity = Math.Min((projectile.localAI[1] + projectile.localAI[0]) / 25f, 0.5f);
@@ -122,6 +121,13 @@ namespace SpiritMod.NPCs.BloodGazer
 					}
 					break;
 			}
+			return false;
+		}
+
+		public void AdditiveCall(SpriteBatch spriteBatch)
+		{
+			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
+			spriteBatch.Draw(bloom, projectile.Center - Main.screenPosition, null, Color.Red * projectile.Opacity * 0.5f, 0, bloom.Size() / 2, new Vector2(1, 0.75f) * projectile.scale / 2, SpriteEffects.None, 0);
 		}
 
 		public override bool CanDamage() => false;
@@ -138,6 +144,16 @@ namespace SpiritMod.NPCs.BloodGazer
 				projectile.Kill();
 				return;
 			}
+
+			projectile.frameCounter++;
+			if(projectile.frameCounter > 10)
+			{
+				projectile.frame++;
+				projectile.frameCounter = 0;
+				if (projectile.frame >= Main.projFrames[projectile.type])
+					projectile.frame = 0;
+			}
+
 			switch (projectile.ai[0])
 			{
 				case 0://fade in
@@ -150,9 +166,9 @@ namespace SpiritMod.NPCs.BloodGazer
 					break;
 				case 1: //aim at player
 					projectile.rotation = Utils.AngleLerp(projectile.rotation, projectile.AngleTo(Target.Center), 0.12f);
-					projectile.localAI[0] = MathHelper.Lerp(projectile.localAI[0], 15, 0.07f);
-					if(projectile.localAI[0] > 13.5f){ //move from center to edge
-						projectile.localAI[0] = 15;
+					projectile.localAI[0] = MathHelper.Lerp(projectile.localAI[0], 10f, 0.07f);
+					if(projectile.localAI[0] > 7.5){ //move from center to edge
+						projectile.localAI[0] = 10f;
 						projectile.ai[0]++;
 					}
 					break;
@@ -178,26 +194,6 @@ namespace SpiritMod.NPCs.BloodGazer
 
 					break;
 			}
-		}
-	}
-
-	public class RunicEyeBig : RunicEye
-	{
-		public override string Texture => "SpiritMod/NPCs/BloodGazer/RunicEye";
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Runic Eye");
-
-		public override void SetDefaults()
-		{
-			base.SetDefaults();
-			projectile.scale *= 1.5f;
-		}
-
-		public override bool ShootProj => false;
-
-		public override bool PreAI()
-		{
-			projectile.Center = Target.Center - new Vector2(0, 500);
-			return true;
 		}
 	}
 

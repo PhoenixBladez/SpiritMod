@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Dusts;
 using SpiritMod.Items;
+using SpiritMod.Items.Equipment.AuroraSaddle;
 using SpiritMod.Particles;
 using System;
 using System.Collections.Generic;

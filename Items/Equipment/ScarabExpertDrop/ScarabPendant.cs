@@ -1,39 +1,40 @@
-﻿using Terraria.ModLoader;
-using Terraria.ID;
-using Terraria;
-using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using Terraria.DataStructures;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Equipment.ScarabExpertDrop
 {
-    public class ScarabPendant : ModItem
+	public class ScarabPendant : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Scarab Pendant");
 			Tooltip.SetDefault("Summons a rideable giant pillbug that rolls through enemies at high speed\nRolling through an enemy protects against contact damage");
 		}
+
 		public override void SetDefaults()
-        {
-            item.width = 20;
+		{
+			item.width = 20;
 			item.height = 30;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.value = Item.buyPrice(gold: 1);
-            item.rare = ItemRarityID.Blue;
+			item.useTime = 20;
+			item.useAnimation = 20;
+			item.useStyle = ItemUseStyleID.HoldingUp;
+			item.value = Item.buyPrice(gold: 1);
+			item.rare = ItemRarityID.Blue;
 			item.UseSound = SoundID.Item80;
-            item.noMelee = true;
-            item.mountType = mod.MountType("ScarabMount");
+			item.noMelee = true;
+			item.mountType = mod.MountType("ScarabMount");
 			item.expert = true;
-        }
+		}
 	}
 
-	class PendantBuff : ModBuff
+	internal class PendantBuff : ModBuff
 	{
 		public override void SetDefaults()
 		{
@@ -50,7 +51,7 @@ namespace SpiritMod.Items.Equipment.ScarabExpertDrop
 		}
 	}
 
-	class ScarabMount : ModMountData
+	internal class ScarabMount : ModMountData
 	{
 		public override void SetDefaults()
 		{
@@ -72,11 +73,13 @@ namespace SpiritMod.Items.Equipment.ScarabExpertDrop
 			mountData.heightBoost = 26;
 			mountData.standingFrameCount = 1;
 			mountData.spawnDust = mod.DustType("SandDust");
-			if (Main.netMode != NetmodeID.Server) {
+			if (Main.netMode != NetmodeID.Server)
+			{
 				mountData.textureWidth = mountData.backTexture.Width;
 				mountData.textureHeight = mountData.backTexture.Height;
 			}
 		}
+
 		public override void UpdateEffects(Player player)
 		{
 			ScarabMountPlayer modplayer = player.GetModPlayer<ScarabMountPlayer>();
@@ -84,26 +87,31 @@ namespace SpiritMod.Items.Equipment.ScarabExpertDrop
 			modplayer.scarabtimer++;
 			player.buffImmune[BuffID.WindPushed] = true;
 
-			for(int i = (modplayer.scaraboldposition.Length - 1); i > 0; i--) {
+			for (int i = (modplayer.scaraboldposition.Length - 1); i > 0; i--)
+			{
 				modplayer.scaraboldposition[i] = modplayer.scaraboldposition[i - 1];
 			}
 			modplayer.scaraboldposition[0] = player.Center;
 
-			if(Math.Abs(player.velocity.X) > 3 && player.velocity.Y == 0) {
+			if (Math.Abs(player.velocity.X) > 3 && player.velocity.Y == 0)
+			{
 				if (modplayer.scarabtimer % 20 <= 1)
 					Main.PlaySound(SoundID.Roar, player.Center, 1);
 
-				for (int j = 0; j < Math.Abs(player.velocity.X) / 3; j++) {
+				for (int j = 0; j < Math.Abs(player.velocity.X) / 3; j++)
+				{
 					Dust.NewDustPerfect(player.Center + new Vector2(0, player.height / 2) + Main.rand.NextVector2Circular(6, 6), mountData.spawnDust,
 						-player.velocity.RotatedBy(MathHelper.PiOver4 * Math.Sign(player.velocity.X)).RotatedByRandom(MathHelper.Pi / 6) * Main.rand.NextFloat(0.5f, 1),
 						Scale: Main.rand.NextFloat(0.9f, 1.5f));
 				}
 			}
 
-			if(Math.Abs(player.velocity.X) > 6) {
+			if (Math.Abs(player.velocity.X) > 6)
+			{
 				modplayer.scarabtimer++;
 				var enemies = Main.npc.Where(x => x.Hitbox.Intersects(player.Hitbox) && x.CanBeChasedBy(this) && x.immune[player.whoAmI] == 0);
-				foreach(NPC npc in enemies) {
+				foreach (NPC npc in enemies)
+				{
 					npc.StrikeNPC((int)(25 * player.meleeDamage * Main.rand.NextFloat(0.9f, 1.2f)), 1, player.direction, Main.rand.NextBool(10));
 					npc.immune[player.whoAmI] = 10;
 				}
@@ -115,7 +123,8 @@ namespace SpiritMod.Items.Equipment.ScarabExpertDrop
 			ScarabMountPlayer modplayer = player.GetModPlayer<ScarabMountPlayer>();
 			modplayer.scarabrotation = 0;
 			modplayer.scarabtimer = 0;
-			for (int i = 0; i < modplayer.scaraboldposition.Length; i++) {
+			for (int i = 0; i < modplayer.scaraboldposition.Length; i++)
+			{
 				modplayer.scaraboldposition[i] = player.Center;
 			}
 		}
@@ -127,8 +136,10 @@ namespace SpiritMod.Items.Equipment.ScarabExpertDrop
 			glowTexture = mod.GetTexture("Items/Equipment/ScarabExpertDrop/ScarabMount_Glow");
 			Vector2 heightoffset = new Vector2(0, mountData.heightBoost - 16);
 			drawPosition += heightoffset;
-			if (Math.Abs(drawPlayer.velocity.X) > 6) {
-				for (int i = 0; i < modplayer.scaraboldposition.Length; i++) {
+			if (Math.Abs(drawPlayer.velocity.X) > 6)
+			{
+				for (int i = 0; i < modplayer.scaraboldposition.Length; i++)
+				{
 					float opacity = (modplayer.scaraboldposition.Length - i) / (float)modplayer.scaraboldposition.Length;
 					DrawData drawdata = new DrawData(texture, modplayer.scaraboldposition[i] - Main.screenPosition + heightoffset, null, drawColor * 0.2f * opacity, rotation, texture.Size() / 2, 1, SpriteEffects.None, 0);
 					playerDrawData.Add(drawdata);
@@ -141,7 +152,7 @@ namespace SpiritMod.Items.Equipment.ScarabExpertDrop
 		}
 	}
 
-	class ScarabMountPlayer : ModPlayer
+	internal class ScarabMountPlayer : ModPlayer
 	{
 		public float scarabrotation;
 		public int scarabtimer;
