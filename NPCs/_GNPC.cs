@@ -14,6 +14,7 @@ using SpiritMod.Items.Pets;
 using SpiritMod.Items.Placeable.Furniture;
 using SpiritMod.Items.Placeable.IceSculpture;
 using SpiritMod.Items.Tool;
+using SpiritMod.Items.Sets.Frigid;
 using SpiritMod.Items.Weapon;
 using SpiritMod.Items.Weapon.Bow;
 using SpiritMod.Items.Weapon.Gun;

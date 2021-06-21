@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<BreathOfTheZephyr>(), 1);
-			recipe.AddIngredient(ModContent.ItemType<HowlingScepter>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<Items.Sets.Frigid.HowlingScepter>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<GraniteWand>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 7);
 			recipe.AddTile(TileID.Anvils);

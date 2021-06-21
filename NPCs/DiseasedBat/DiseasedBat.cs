@@ -1,5 +1,5 @@
 using SpiritMod.Buffs;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.Bismite;
 using SpiritMod.Items.Consumable.Food;
 using Terraria;
 using Terraria.ID;

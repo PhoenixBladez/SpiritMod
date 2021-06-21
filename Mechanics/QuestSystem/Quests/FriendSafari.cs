@@ -20,7 +20,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
-			(ModContent.ItemType<Items.Consumable.GamblerChests.SilverChest>(), 1),
+			(ModContent.ItemType<Items.Sets.GamblerChestLoot.SilverChest>(), 1),
 			(ModContent.ItemType<Items.Placeable.Furniture.TreasureChest>(), 2),
 			(ModContent.ItemType<Items.Placeable.Furniture.PottedWillow>(), 3),
 			(Terraria.ID.ItemID.GoldCoin, 1)
