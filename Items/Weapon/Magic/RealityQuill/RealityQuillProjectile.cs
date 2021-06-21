@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Dusts;
-using SpiritMod.Stargoop;
+using SpiritMod.Effects.Stargoop;
 using System;
 using Terraria;
 using Terraria.ID;

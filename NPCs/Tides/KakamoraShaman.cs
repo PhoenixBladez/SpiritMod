@@ -8,7 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Tide;
+using SpiritMod.NPCs.Tides.Tide;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Magic;

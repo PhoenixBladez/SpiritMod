@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
-using SpiritMod;
+using SpiritMod.Utilities;
 using SpiritMod.Buffs.Pet;
 using SpiritMod.Items.DonatorItems;
 using Microsoft.Xna.Framework;

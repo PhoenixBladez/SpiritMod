@@ -1,4 +1,4 @@
-using SpiritMod.Sepulchre;
+using SpiritMod.World.Sepulchre;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Tiles.Block;

@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Summon;
-using SpiritMod.Tide;
+using SpiritMod.NPCs.Tides.Tide;
 
 namespace SpiritMod.NPCs.Tides
 {

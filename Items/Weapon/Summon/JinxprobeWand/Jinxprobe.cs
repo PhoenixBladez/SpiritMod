@@ -96,7 +96,7 @@ namespace SpiritMod.Items.Weapon.Summon.JinxprobeWand
 			Rectangle rect = glow.Bounds;
 
 			//draw beam to player
-			Texture2D tex = mod.GetTexture("Extras/Medusa_Ray");
+			Texture2D tex = mod.GetTexture("Textures/Medusa_Ray");
 			Color beamcolor = SpiritMod.StarjinxColor(Main.GlobalTime * 4) * 0.5f * ((float)Math.Sin(Main.GlobalTime * 3) / 4 + 0.75f);
 			Vector2 scale = new Vector2(projectile.Distance(Player.Center) / tex.Width, 1) * 0.75f;
 			spriteBatch.Draw(tex,

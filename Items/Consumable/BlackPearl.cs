@@ -1,5 +1,5 @@
 using SpiritMod.Items.Material;
-using SpiritMod.Tide;
+using SpiritMod.NPCs.Tides.Tide;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

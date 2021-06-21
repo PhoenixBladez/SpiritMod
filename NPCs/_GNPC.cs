@@ -35,7 +35,7 @@ using SpiritMod.Items.Weapon.Thrown.SlingHammers;
 using SpiritMod.NPCs.Town;
 using SpiritMod.NPCs.Tides;
 using SpiritMod.Projectiles.Arrow;
-using SpiritMod.Tide;
+using SpiritMod.NPCs.Tides.Tide;
 using System;
 using System.Collections.Generic;
 using Terraria;

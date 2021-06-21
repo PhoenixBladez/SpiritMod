@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Tide;
+using SpiritMod.NPCs.Tides.Tide;
 using SpiritMod.Projectiles.Hostile;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Magic;

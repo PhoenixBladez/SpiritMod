@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Weapon.Gun.NovaGun
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            spriteBatch.Draw(mod.GetTexture("Extras/StardustPillarStar"), 
+            spriteBatch.Draw(mod.GetTexture("Textures/StardustPillarStar"), 
                 projectile.Center - Main.screenPosition, 
                 null,
                 Color.Lerp(SpiritMod.StarjinxColor(Main.GlobalTime * 4), Color.Transparent, 0.5f), 0, new Vector2(36, 36),

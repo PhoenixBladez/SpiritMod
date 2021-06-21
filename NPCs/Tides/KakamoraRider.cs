@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ID;
 using SpiritMod;
 using Terraria.ModLoader;
-using SpiritMod.Tide;
+using SpiritMod.NPCs.Tides.Tide;
 
 namespace SpiritMod.NPCs.Tides
 {

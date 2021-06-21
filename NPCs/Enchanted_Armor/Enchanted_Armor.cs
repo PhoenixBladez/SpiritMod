@@ -9,7 +9,7 @@ using System.Security.Cryptography;
 using System.IO;
 using MonoMod.Utils;
 using SpiritMod.Projectiles.Clubs;
-using SpiritMod.Sepulchre;
+using SpiritMod.World.Sepulchre;
 using System.Linq;
 
 namespace SpiritMod.NPCs.Enchanted_Armor

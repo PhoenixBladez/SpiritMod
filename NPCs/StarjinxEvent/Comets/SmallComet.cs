@@ -132,8 +132,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
             float num107 = (float)Math.Cos((double)(Timer % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
             float num106 = 0f;
 
-            Texture2D beam = mod.GetTexture("Extras/Medusa_Ray");
-            float rotation = npc.DirectionTo(Main.npc[(int)npc.ai[0]].Center).ToRotation();
+			Texture2D beam = mod.GetTexture("Textures/Medusa_Ray");
+			float rotation = npc.DirectionTo(Main.npc[(int)npc.ai[0]].Center).ToRotation();
             Color color = SpiritMod.StarjinxColor(Timer * 0.8f);
             float fluctuate = (float)Math.Sin(Timer * 1.2f) / 6 + 0.125f;
             color = Color.Lerp(color, Color.Transparent, fluctuate * 2);

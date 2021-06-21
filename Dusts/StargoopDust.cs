@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Stargoop;
+using SpiritMod.Effects.Stargoop;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
