@@ -7,5 +7,6 @@
 		Firewall,
 		Shinigami,
 		Chitin,
+		AuroraStag
 	}
 }

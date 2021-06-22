@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Summon.Undead_Warlock_Staff
 			for (int i = 0; i < Main.projectile.Length; i++)
 			{
 				Projectile projectile = Main.projectile[i];
-				if (projectile.minion && projectile.active && projectile.owner == player.whoAmI && player.ownedProjectileCounts[projectile.type] > 0)
+				if (projectile.minion && projectile.active && projectile.owner == player.whoAmI && player.ownedProjectileCounts[projectile.type] > 0 && projectile.minionSlots > 0)
 				{
 					modPlayer.flag = true;
 				}

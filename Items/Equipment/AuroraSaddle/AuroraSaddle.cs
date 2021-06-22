@@ -51,7 +51,7 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 		}
 	}
 
-	internal class AuroraStagMount : ModMountData 
+	public class AuroraStagMount : ModMountData 
 	{
 		public override void SetDefaults()
 		{
@@ -85,10 +85,18 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 				MakeStar(Main.rand.NextFloat(0.2f, 0.6f), player.Center);
 
 			skipDust = true;
+
+			AuroraPlayer modplayer = player.GetModPlayer<AuroraPlayer>();
+
+			for (int i = (modplayer.auroraoldposition.Length - 1); i >= 0; i--)
+			{
+				modplayer.auroraoldposition[i] = player.Center;
+				modplayer.auroraoldrotation[i] = player.fullRotation;
+			}
 		}
 
-		private Color AuroraColor => Color.Lerp(new Color(85, 255, 229), new Color(28, 155, 255), Main.rand.NextFloat());
-		private void MakeStar(float scale, Vector2 center)
+		public static Color AuroraColor => Color.Lerp(new Color(85, 255, 229), new Color(28, 155, 255), Main.rand.NextFloat());
+		public static void MakeStar(float scale, Vector2 center)
 		{
 			Color color = AuroraColor;
 			color.A = (byte)Main.rand.Next(100, 150);
@@ -107,6 +115,16 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 
 		public override void UpdateEffects(Player player)
 		{
+			AuroraPlayer modplayer = player.GetModPlayer<AuroraPlayer>();
+
+			for (int i = (modplayer.auroraoldposition.Length - 1); i > 0; i--)
+			{
+				modplayer.auroraoldposition[i] = modplayer.auroraoldposition[i - 1];
+				modplayer.auroraoldrotation[i] = modplayer.auroraoldrotation[i - 1];
+			}
+			modplayer.auroraoldposition[0] = player.Center;
+			modplayer.auroraoldrotation[0] = player.fullRotation;
+
 			float velocity = Math.Abs(player.velocity.X);
 
 			mountData.jumpHeight = (int)MathHelper.Clamp(velocity * 2, 3, 14);
@@ -114,40 +132,22 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 			if (Main.rand.NextBool(20) && !Main.dedServ)
 				MakeStar(Main.rand.NextFloat(0.1f, 0.2f), player.Center);
 
-			void Running()
-			{
-				if (Main.rand.NextBool(3) && !Main.dedServ)
-				{
-					MakeStar(Main.rand.NextFloat(0.1f, 0.2f), player.Center);
-					Dust dust = Dust.NewDustDirect(player.position - new Vector2(40, 0), player.width + 80, player.height, 66, player.velocity.X / 2, 0, 200, AuroraColor * 0.8f, Main.rand.NextFloat(0.9f, 1.3f));
-					dust.fadeIn = 0.4f;
-					dust.noGravity = true;
-				}
-			}
-
 			if ((player.velocity.Y != 0 || player.oldVelocity.Y != 0))
 			{
 				int direction = (velocity == 0) ? 0 :
 					(player.direction == Math.Sign(player.velocity.X)) ? 1 : -1;
-				player.fullRotation = player.velocity.Y * 0.1f * player.direction * direction * mountData.jumpHeight / 14f;
+				player.fullRotation = player.velocity.Y * 0.05f * player.direction * direction * mountData.jumpHeight / 14f;
 				player.fullRotationOrigin = (player.Hitbox.Size() + new Vector2(0, 42)) / 2;
-
-				Running();
 			}
 
 			else
-			{
 				player.fullRotation = 0;
-
-
-				if (velocity > 6)
-					Running();
-			}
 		}
 
 		public override bool Draw(List<DrawData> playerDrawData, int drawType, Player drawPlayer, ref Texture2D texture, ref Texture2D glowTexture, ref Vector2 drawPosition, ref Rectangle frame, ref Color drawColor, ref Color glowColor, ref float rotation, ref SpriteEffects spriteEffects, ref Vector2 drawOrigin, ref float drawScale, float shadow)
 		{
 			float velocity = Math.Abs(drawPlayer.velocity.X);
+			AuroraPlayer modplayer = drawPlayer.GetModPlayer<AuroraPlayer>();
 
 			//ripped from stag npc drawcode
 			int frameHeight = texture.Height / 10;
@@ -155,6 +155,7 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 			int frameX = 0;
 			int frameY = 0;
 			float drawYOffset = -18;
+			bool trail = false;
 
 			if (velocity > 6 || drawPlayer.velocity.Y != 0 || drawPlayer.oldVelocity.Y != 0)
 			{
@@ -170,6 +171,7 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 					frameY = (4 * frameHeight) - 2;
 
 				drawYOffset = -24;
+				trail = true;
 			}
 			else if (velocity > 0)
 			{
@@ -181,6 +183,18 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 
 			Rectangle sourceRectangle = new Rectangle(frameX, frameY, frameWidth - 12, frameHeight);
 
+			if (trail)
+			{
+				for (int i = 0; i < modplayer.auroraoldposition.Length; i++)
+				{
+					float opacity = (float)Math.Pow(0.5f * ((modplayer.auroraoldposition.Length - i) / (float)modplayer.auroraoldposition.Length), 3);
+					Vector2 DrawPos = modplayer.auroraoldposition[i] - Main.screenPosition + new Vector2(0, drawYOffset);
+					playerDrawData.Add(new DrawData(texture, DrawPos, sourceRectangle, drawColor * opacity, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
+
+					playerDrawData.Add(new DrawData(mod.GetTexture("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow"), DrawPos, sourceRectangle, Color.White * opacity, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
+
+				}
+			}
 			playerDrawData.Add(new DrawData(texture, drawPosition + new Vector2(0, drawYOffset), sourceRectangle, drawColor, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
 
 			playerDrawData.Add(new DrawData(mod.GetTexture("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow"), drawPosition + new Vector2(0, drawYOffset), sourceRectangle, Color.White, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
@@ -192,6 +206,18 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 				playerDrawData.Add(new DrawData(mod.GetTexture("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow"), pulsedrawpos, sourceRectangle, glowcolor * 0.5f, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
 			}
 			return false;
+		}
+	}
+
+	public class AuroraPlayer : ModPlayer
+	{
+		private static readonly int length = 10;
+		public Vector2[] auroraoldposition = new Vector2[length];
+		public float[] auroraoldrotation = new float[length];
+		public override void Initialize()
+		{
+			auroraoldposition = new Vector2[10]; 
+			auroraoldrotation = new float[10];
 		}
 	}
 }

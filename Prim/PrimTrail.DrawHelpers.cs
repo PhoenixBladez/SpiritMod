@@ -23,13 +23,13 @@ namespace SpiritMod.Prim
 			public void ApplyShader<T>(Effect effect, T trail, List<Vector2> positions, string esp, float progressParam)
 			{
 				if (effect.HasParameter("vnoise"))
-					effect.Parameters["vnoise"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Noise/vnoise"));
+					effect.Parameters["vnoise"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Utilities/Noise/vnoise"));
 
 				if (effect.HasParameter("noiseTexture"))
-					effect.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Noise/noise"));
+					effect.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Utilities/Noise/noise"));
 
 				if (effect.HasParameter("spotTexture"))
-					effect.Parameters["spotTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Noise/Spot"));
+					effect.Parameters["spotTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Utilities/Noise/Spot"));
 
 				if (effect.HasParameter("ripperTexture"))
 					effect.Parameters["ripperTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/RipperSlug"));
