@@ -196,8 +196,7 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 				}
 			}
 			playerDrawData.Add(new DrawData(texture, drawPosition + new Vector2(0, drawYOffset), sourceRectangle, drawColor, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
-
-			playerDrawData.Add(new DrawData(mod.GetTexture("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow"), drawPosition + new Vector2(0, drawYOffset), sourceRectangle, Color.White, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
+			
 			for (int i = 0; i < 6; i++)
 			{
 				float glowtimer = (float)(Math.Sin(Main.GlobalTime * 3) / 2 + 0.5f);
@@ -205,6 +204,7 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 				Vector2 pulsedrawpos = drawPosition + new Vector2(0, drawYOffset) + new Vector2(5, 0).RotatedBy(i * MathHelper.TwoPi / 6) * (1.25f - glowtimer);
 				playerDrawData.Add(new DrawData(mod.GetTexture("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow"), pulsedrawpos, sourceRectangle, glowcolor * 0.5f, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
 			}
+			playerDrawData.Add(new DrawData(mod.GetTexture("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow"), drawPosition + new Vector2(0, drawYOffset), sourceRectangle, Color.White, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
 			return false;
 		}
 	}

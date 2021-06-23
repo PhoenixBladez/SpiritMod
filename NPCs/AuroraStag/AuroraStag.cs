@@ -324,14 +324,14 @@ namespace SpiritMod.NPCs.AuroraStag
 
 			spriteBatch.Draw(stagTexture, drawPosition, sourceRectangle, Lighting.GetColor(npcPoint.X, npcPoint.Y) * npc.Opacity, 0f, Vector2.Zero, 1f, effects, 0f);
 
-			spriteBatch.Draw(mod.GetTexture("NPCs/AuroraStag/AuroraStagGlowmask"), drawPosition, sourceRectangle, Color.White * npc.Opacity, 0f, Vector2.Zero, 1f, effects, 0f);
-			for(int i = 0; i < 6; i++)
+			for (int i = 0; i < 6; i++)
 			{
 				float glowtimer = (float)(Math.Sin(Main.GlobalTime * 3) / 2 + 0.5f);
 				Color glowcolor = Color.White * glowtimer;
 				Vector2 pulsedrawpos = drawPosition + new Vector2(5, 0).RotatedBy(i * MathHelper.TwoPi / 6) * (1.25f - glowtimer);
 				spriteBatch.Draw(mod.GetTexture("NPCs/AuroraStag/AuroraStagGlowmask"), pulsedrawpos, sourceRectangle, glowcolor * 0.5f * npc.Opacity, 0f, Vector2.Zero, 1f, effects, 0f);
 			}
+			spriteBatch.Draw(mod.GetTexture("NPCs/AuroraStag/AuroraStagGlowmask"), drawPosition, sourceRectangle, Color.White * npc.Opacity, 0f, Vector2.Zero, 1f, effects, 0f);
 
 			if (TameAnimationTimer > 0)
 				spriteBatch.Draw(mod.GetTexture("NPCs/AuroraStag/AuroraStagOverlay"), drawPosition, sourceRectangle, new Color(184, 244, 255) * Brightness, 0f, Vector2.Zero, 1f, effects, 0f);
