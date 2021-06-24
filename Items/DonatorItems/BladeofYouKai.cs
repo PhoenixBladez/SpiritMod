@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.DuskingDrops;
 using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
