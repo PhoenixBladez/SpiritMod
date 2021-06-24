@@ -12,6 +12,7 @@ namespace SpiritMod.Items.Weapon.Thrown.PiecesOfEight
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pieces of Eight");
+			Tooltip.SetDefault("Critical hits cause enemies to drop more coins");
 		}
 
 		public override void SetDefaults()
@@ -24,14 +25,13 @@ namespace SpiritMod.Items.Weapon.Thrown.PiecesOfEight
 			item.ranged = true;
 			item.noMelee = true;
 			item.shoot = ModContent.ProjectileType<EightCoin>();
-			item.useAnimation = 45;
-			item.useTime = 45;
+			item.useAnimation = 41;
+			item.useTime = 41;
 			item.shootSpeed = 6f;
-			item.damage = 30;
+			item.damage = 34;
 			item.knockBack = 1.5f;
-			item.value = Item.sellPrice(0, 0, 0, 20);
-			item.crit = 8;
-			item.rare = ItemRarityID.Blue;
+			item.value = Item.sellPrice(0, 1, 90, 0);
+			item.rare = 4;
 			item.autoReuse = true;
 			item.consumable = false;
 		}
@@ -75,6 +75,8 @@ namespace SpiritMod.Items.Weapon.Thrown.PiecesOfEight
 			}
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity) {
+
+			Main.PlaySound(0, projectile.Center);
 			bounces--;
 				if (projectile.velocity.X != oldVelocity.X) {
 					projectile.velocity.X = -oldVelocity.X * 0.7f;
@@ -91,6 +93,7 @@ namespace SpiritMod.Items.Weapon.Thrown.PiecesOfEight
 		}
 		public override void Kill(int timeLeft)
 		{
+			Main.PlaySound(38, projectile.Center, 0);
 			for (int i = 0; i < 5; i++)
 				Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 244).velocity *= 0.4f;
 		}

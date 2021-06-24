@@ -7,7 +7,7 @@ using System.Linq;
 using System;
 using static Terraria.ModLoader.ModContent;
 using System.Reflection;
-using SpiritMod.Stargoop;
+using SpiritMod.Effects.Stargoop;
 using SpiritMod.Prim;
 
 namespace SpiritMod.Items.Weapon.Magic.RealityQuill

@@ -418,7 +418,7 @@ namespace SpiritMod.UI.QuestUI
 			_obnoxiousTutorialGlow.Height.Set(102f, 0f);
 			_obnoxiousTutorialGlow.Width.Set(189f, 0f);
 			_obnoxiousTutorialGlow.Effect = SpiritMod.Instance.GetEffect("Effects/QuestShaders");
-			_obnoxiousTutorialGlow.Effect.Parameters["NoiseTexture"].SetValue(SpiritMod.Instance.GetTexture("Noise/noise"));
+			_obnoxiousTutorialGlow.Effect.Parameters["NoiseTexture"].SetValue(SpiritMod.Instance.GetTexture("Utilities/Noise/noise"));
 			_obnoxiousTutorialGlow.Effect.Parameters["NoiseWidth"].SetValue(489f);
 			_obnoxiousTutorialGlow.Pass = _obnoxiousTutorialGlow.Effect.CurrentTechnique.Passes["GodRays"];
 			_obnoxiousTutorialGlow.PreDraw += () =>

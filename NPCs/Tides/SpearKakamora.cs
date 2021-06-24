@@ -7,7 +7,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Tide;
+using SpiritMod.NPCs.Tides.Tide;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Thrown;

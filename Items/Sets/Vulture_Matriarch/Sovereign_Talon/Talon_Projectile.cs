@@ -7,103 +7,102 @@ using Terraria.ModLoader;
  
 namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 {
-    public class Talon_Projectile : ModProjectile
+    public class Talon_Projectile : ModProjectile, IDrawAdditive
     {
-		protected int dustTimer;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Annihilation Talon");
+            DisplayName.SetDefault("Gilded Wave");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         } 
+
         public override void SetDefaults()
         {
-			projectile.width = 4;
-			projectile.height = 4;
-			projectile.aiStyle = 1;
-			projectile.penetrate = 2;
-			projectile.timeLeft = 360;
+			projectile.Size = new Vector2(20, 20);
+			projectile.penetrate = -1;
+			projectile.extraUpdates = 2;
 			projectile.scale = 1f;
 			projectile.tileCollide = true;
 			projectile.friendly = true;
 			projectile.melee = true;
+			projectile.alpha = 255;
+			projectile.ignoreWater = true;
+			projectile.hide = true;
+			projectile.scale = 3f;
         }
+
 		public override void AI()
-        {		
-			Player player = Main.player[projectile.owner];
-			player.channel = false;
-			createDusts();
-			makeDusts();
-        }
-		private void makeDusts()
-		{		
-			int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 87, projectile.velocity.X * 0.4f, projectile.velocity.Y * 0.4f, 100, new Color(), 1f);
-			Main.dust[index2].noGravity = true;
-			Main.dust[index2].velocity.X *= 1f;
-			Main.dust[index2].velocity.Y *= 1f;
-		}
-		private void createDusts()
 		{
-			if (Main.player[projectile.owner].channel)
+			if(Main.rand.NextBool(3))
+				MakeDusts();
+
+			if (projectile.ai[0] == 0)
 			{
-				dustTimer--;
+				if (projectile.velocity.Length() < 12)
+					projectile.velocity *= 1.05f;
+
+				projectile.alpha = Math.Max(projectile.alpha - 9, 0);
+				if (projectile.scale > 0.75f)
+					projectile.scale -= 0.05f;
+				else
+					projectile.ai[0]++;
 			}
 			else
 			{
-				dustTimer = 0;
-			}
-			if (dustTimer <= 0 && Main.player[projectile.owner].channel)
-			{
-				dustTimer = 24;
-				for (int index1 = 0; index1 < 5; ++index1)
-				{
-				  int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 87, 0.0f, 0.0f, 200, new Color(), 2f);
-				  Main.dust[index2].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.14159274101257) * (float) Main.rand.NextDouble() * (float) projectile.width / 2f;
-				  Main.dust[index2].noGravity = true;
-				  Main.dust[index2].velocity *= 3f;
-				  int index3 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 87, 0.0f, 0.0f, 100, new Color(), 1f);
-				  Main.dust[index3].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.14159274101257) * (float) Main.rand.NextDouble() * (float) projectile.width / 2f;
-				  Main.dust[index3].velocity *= 2f;
-				  Main.dust[index3].noGravity = true;
-				  Main.dust[index3].fadeIn = 1f;
-				  Main.dust[index3].color = Color.Crimson * 0.5f;
-				}
+				projectile.alpha += 9;
+				projectile.velocity *= 0.98f;
+				if (projectile.alpha >= 255)
+					projectile.Kill();
 			}
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => damage = (int)(damage * projectile.scale * 1.5f);
+
+		public override void ModifyHitPvp(Player target, ref int damage, ref bool crit) => damage = (int)(damage * projectile.scale * 1.5f);
+
+		public override bool CanDamage() => projectile.ai[0] == 0;
+
+		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			SpriteEffects effects1 = SpriteEffects.None;
-				Texture2D texture = Main.projectileTexture[projectile.type];
-				int height = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-				int y2 = height * projectile.frame;
-				Vector2 position = (projectile.position - (0.5f * projectile.velocity) + new Vector2((float) projectile.width, (float) projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition).Floor();
-				float num1 = 1f;
-				if (projectile.direction == 1)
-				{
-					Main.spriteBatch.Draw(texture, position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), Color.White, projectile.rotation, new Vector2((float) texture.Width / 2f, (float) height / 2f), projectile.scale, effects1, 0.0f);
-					//Main.spriteBatch.Draw(mod.GetTexture("Items/Sets/Dim_Mayhem_Set/Annihilation_Claws/Projectiles/Annihilation_Claws_Projectile_Glow"), position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), Color.White, projectile.rotation, new Vector2((float) texture.Width / 2f, (float) height / 2f), projectile.scale, effects1, 0.0f);
-				}
-				else
-				{
-					Main.spriteBatch.Draw(texture, position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), Color.White, projectile.rotation, new Vector2((float) texture.Width / 2f, (float) height / 2f), projectile.scale, SpriteEffects.FlipHorizontally, 0.0f);
-					//Main.spriteBatch.Draw(mod.GetTexture("Items/Sets/Dim_Mayhem_Set/Annihilation_Claws/Projectiles/Annihilation_Claws_Projectile_Glow"), position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), Color.White, projectile.rotation, new Vector2((float) texture.Width / 2f, (float) height / 2f), projectile.scale, SpriteEffects.FlipHorizontally, 0.0f);
-				}
+			projectile.ai[0] = 1;
+			projectile.velocity = oldVelocity;
+			projectile.tileCollide = false;
 			return false;
 		}
-		public override void Kill(int timeLeft)
+
+		private void MakeDusts()
+		{		
+			Dust dust = Dust.NewDustPerfect(projectile.Center + Vector2.Normalize(projectile.velocity.RotatedBy(MathHelper.PiOver2)) * Main.rand.NextFloat(-40, 40) * projectile.scale, DustID.Sandnado, projectile.velocity * Main.rand.NextFloat() * projectile.scale/3, 100, new Color(), 1f);
+			dust.noGravity = true;
+			dust.fadeIn = 1f;
+		}
+
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 73, 1f, 0f);
-			for (int index1 = 0; index1 < 10; ++index1)
+			if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(),
+				projectile.Center + Vector2.Normalize(projectile.velocity.RotatedBy(MathHelper.PiOver2)) * 40 * projectile.scale * 1.25f,
+				projectile.Center - Vector2.Normalize(projectile.velocity.RotatedBy(MathHelper.PiOver2)) * 40 * projectile.scale * 1.25f))
+				return true;
+
+			return base.Colliding(projHitbox, targetHitbox);
+		}
+
+		public void AdditiveCall(SpriteBatch spriteBatch)
+		{
+			Texture2D tex = Main.projectileTexture[projectile.type];
+			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
+			spriteBatch.Draw(bloom, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(new Color(255, 236, 115, 200)) * 0.75f, 
+				projectile.velocity.ToRotation() + MathHelper.PiOver2, bloom.Size() / 2, projectile.scale, SpriteEffects.None, 0);
+
+			for(int i = 0; i < ProjectileID.Sets.TrailCacheLength[projectile.type]; i++)
 			{
-			  int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 87, 0.0f, 0.0f, 200, new Color(), 2f);
-			  Main.dust[index2].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.14159274101257) * (float) Main.rand.NextDouble() * (float) projectile.width / 2f;
-			  Main.dust[index2].noGravity = true;
-			  Main.dust[index2].velocity *= 3f;
-			  int index3 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 87, 0.0f, 0.0f, 100, new Color(), 1f);
-			  Main.dust[index3].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.14159274101257) * (float) Main.rand.NextDouble() * (float) projectile.width / 2f;
-			  Main.dust[index3].velocity *= 2f;
-			  Main.dust[index3].noGravity = true;
-			  Main.dust[index3].fadeIn = 1f;
-			  Main.dust[index3].color = Color.Crimson * 0.5f;
+				float opacity = 0.7f * ((ProjectileID.Sets.TrailCacheLength[projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[projectile.type]);
+				spriteBatch.Draw(tex, projectile.oldPos[i] + projectile.Size/2 - Main.screenPosition, null, projectile.GetAlpha(new Color(255, 236, 115, 200)) * opacity, 
+					projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(tex.Width/2, tex.Height/4), projectile.scale * opacity, SpriteEffects.None, 0);
 			}
+
+			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(new Color(255, 236, 115, 200)), 
+				projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(tex.Width / 2, tex.Height / 4), projectile.scale, SpriteEffects.None, 0);
 		}
     }
 }

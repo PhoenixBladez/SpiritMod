@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
+using SpiritMod.Utilities;
 namespace SpiritMod.Items.DonatorItems
 {
 	class Shinigami : ModItem

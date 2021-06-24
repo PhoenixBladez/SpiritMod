@@ -1,5 +1,5 @@
 using SpiritMod.Items.Accessory;
-using SpiritMod.Items.Consumable.GamblerChests;
+using SpiritMod.Items.Sets.GamblerChestLoot;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;

@@ -4,7 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Stargoop;
+using SpiritMod.Effects.Stargoop;
 using SpiritMod.Dusts;
 using SpiritMod.Items.Material;
 

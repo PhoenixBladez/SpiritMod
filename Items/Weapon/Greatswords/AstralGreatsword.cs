@@ -4,7 +4,6 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using SpiritMod.ChargeMeter;
 using SpiritMod.Prim;
 using SpiritMod.Utilities;
 

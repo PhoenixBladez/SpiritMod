@@ -1,4 +1,4 @@
-using SpiritMod.Items.Accessory;
+using SpiritMod.Items.Sets.DuskingDrops;
 using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;

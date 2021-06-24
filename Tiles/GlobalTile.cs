@@ -252,6 +252,10 @@ namespace SpiritMod.Tiles
 				{
 					Item.NewItem(i * 16, j * 16, 64, 48, ItemID.VineRope);
 				}
+				if (Main.rand.NextBool(40) && type == ModContent.TileType<Tiles.Ambient.HangingChimes.HangingChimes>())
+				{
+					Item.NewItem(i * 16, j * 16, 64, 48, ItemID.CrystalShard);
+				}
 				if (player.inventory[player.selectedItem].type == ItemID.Sickle && (type == ModContent.TileType<Tiles.Ambient.Briar.BriarFoliage>() || type == ModContent.TileType<Tiles.Ambient.Briar.BriarFoliage1>()))
 				{
                     {

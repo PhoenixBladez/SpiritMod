@@ -1,15 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
-using SpiritMod.Items.Accessory;
-using SpiritMod.Items.Armor.Masks;
-using SpiritMod.Items.Boss;
-using SpiritMod.Items.BossBags;
+using SpiritMod.Items.Sets.DuskingDrops;
 using SpiritMod.Items.Consumable;
-using SpiritMod.Items.Material;
-using SpiritMod.Items.Weapon.Bow;
-using SpiritMod.Items.Weapon.Magic;
-using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Projectiles.Hostile;
 using SpiritMod.Utilities;
 using System;

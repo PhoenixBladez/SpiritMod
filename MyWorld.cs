@@ -50,7 +50,7 @@ using static Terraria.ModLoader.ModContent;
 using SpiritMod.Items.Equipment.ToxicBottle;
 using SpiritMod.Items.Weapon.Swung.AccursedBlade;
 using SpiritMod.Items.Weapon.Summon.OldCross;
-using SpiritMod.Sepulchre;
+using SpiritMod.World.Sepulchre;
 using System.Diagnostics.Contracts;
 using static SpiritMod.Utilities.ChestPoolUtils;
 using SpiritMod.Items.Tool;
@@ -1296,7 +1296,7 @@ namespace SpiritMod
 			int[] potionscrim = new int[] { ItemID.RagePotion, ItemID.HeartreachPotion };
 			int[] other1 = new int[] { ItemID.HerbBag, ItemID.Grenade };
 			int[] other2 = new int[] { ItemID.Bottle, ItemID.Torch };
-			int[] moddedMaterials = new int[] { ItemType<BismiteCrystal>(), ItemType<OldLeather>() };
+			int[] moddedMaterials = new int[] { ItemType<Items.Sets.Bismite.BismiteCrystal>(), ItemType<OldLeather>() };
 
 			//Tile tile;
 			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY) * 15E-05); k++) {

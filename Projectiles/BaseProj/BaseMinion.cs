@@ -61,8 +61,11 @@ namespace SpiritMod.Projectiles.BaseProj
 			get => _hadTarget;
 			set
 			{
-				_hadTarget = value;
-				projectile.netUpdate = true;
+				if(_hadTarget != value)
+				{
+					_hadTarget = value;
+					projectile.netUpdate = true;
+				}
 			}
 		}
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.ChargeMeter;
+using SpiritMod.UI.ChargeMeter;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;

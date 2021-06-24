@@ -14,6 +14,7 @@ using SpiritMod.Items.Pets;
 using SpiritMod.Items.Placeable.Furniture;
 using SpiritMod.Items.Placeable.IceSculpture;
 using SpiritMod.Items.Tool;
+using SpiritMod.Items.Sets.Frigid;
 using SpiritMod.Items.Weapon;
 using SpiritMod.Items.Weapon.Bow;
 using SpiritMod.Items.Weapon.Gun;
@@ -35,7 +36,7 @@ using SpiritMod.Items.Weapon.Thrown.SlingHammers;
 using SpiritMod.NPCs.Town;
 using SpiritMod.NPCs.Tides;
 using SpiritMod.Projectiles.Arrow;
-using SpiritMod.Tide;
+using SpiritMod.NPCs.Tides.Tide;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -1172,7 +1173,21 @@ namespace SpiritMod.NPCs
 				}
 				if (npc.type == NPCID.PirateCaptain)
 				{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Weapon.Thrown.ExplosiveRum.ExplosiveRum>(), Main.rand.Next(38, 77));
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Weapon.Thrown.ExplosiveRum.ExplosiveRum>(), Main.rand.Next(38, 77));
+				}
+			}
+			if (npc.type == NPCID.PirateDeadeye)
+			{
+				if (Main.rand.Next(Main.expertMode ? 175 : 225) < 3)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Gun.LadyLuck.LadyLuck>());
+				}
+			}
+			if (npc.type == NPCID.PirateDeckhand)
+			{
+				if (Main.rand.Next(Main.expertMode ? 185 : 240) < 2)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Thrown.PiecesOfEight.PiecesOfEight>());
 				}
 			}
 			if (npc.type == NPCID.MartianOfficer && Main.rand.Next(23) == 1) {

@@ -4,10 +4,10 @@ using SpiritMod.Items.Material;
 using SpiritMod.Items.Pins;
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Town;
+using SpiritMod.NPCs.Tides.Tide;
 using SpiritMod.Projectiles;
 using SpiritMod.Skies;
 using SpiritMod.Skies.Overlays;
-using SpiritMod.Tide;
 using SpiritMod.Utilities;
 using SpiritMod.World;
 using SpiritMod.Sounds;
@@ -41,10 +41,11 @@ using SpiritMod.UI.QuestUI;
 using SpiritMod.Mechanics.QuestSystem;
 using System.Collections.Concurrent;
 using Terraria.DataStructures;
-using SpiritMod.Stargoop;
+using SpiritMod.Effects.Stargoop;
 using SpiritMod.NPCs.ExplosiveBarrel;
 using SpiritMod.Mechanics.PortraitSystem;
 using SpiritMod.Mechanics.Boids;
+using SpiritMod.Mechanics.AutoSell;
 using SpiritMod.Buffs.Summon;
 using System.Linq;
 using static Terraria.ModLoader.Core.TmodFile;
@@ -98,6 +99,7 @@ namespace SpiritMod
 		public UserInterface SellWeapons_INTERFACE;
 
 		public static SoundLooper nighttimeAmbience;
+		public static SoundLooper underwaterAmbience;
 		public static SoundLooper scarabWings;
 		public static SoundLooper wavesAmbience;
 		public static SoundLooper lightWind;
@@ -906,6 +908,7 @@ namespace SpiritMod
 		public override void Unload()
 		{
 			nighttimeAmbience = null;
+			underwaterAmbience = null;
 			wavesAmbience = null;
 			desertWind = null;
 			caveAmbience = null;
@@ -1109,6 +1112,7 @@ namespace SpiritMod
 		public override void PostUpdateInput()
 		{
 			nighttimeAmbience?.Update();
+			underwaterAmbience?.Update();
 			wavesAmbience?.Update();
 			lightWind?.Update();
 			desertWind?.Update();
@@ -1147,6 +1151,7 @@ namespace SpiritMod
 		public override void PostSetupContent()
 		{
 			nighttimeAmbience = new SoundLooper(this, "Sounds/NighttimeAmbience");
+			underwaterAmbience = new SoundLooper(this, "Sounds/UnderwaterAmbience");
 			wavesAmbience = new SoundLooper(this, "Sounds/WavesAmbience");
 			lightWind = new SoundLooper(this, "Sounds/LightWind");
 			desertWind = new SoundLooper(this, "Sounds/DesertWind");

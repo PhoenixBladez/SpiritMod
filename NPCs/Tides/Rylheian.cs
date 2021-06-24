@@ -12,7 +12,7 @@ using SpiritMod.Items.Weapon.Flail;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Boss;
-using SpiritMod.Tide;
+using SpiritMod.NPCs.Tides.Tide;
 using System.IO;
 
 namespace SpiritMod.NPCs.Tides

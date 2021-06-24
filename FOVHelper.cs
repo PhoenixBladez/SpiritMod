@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 
-namespace SpiritMod
+namespace SpiritMod.Utilities
 {
 	class FOVHelper
 	{

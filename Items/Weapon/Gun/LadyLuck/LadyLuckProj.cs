@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Weapon.Gun.LadyLuck
 
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Coin");
+			DisplayName.SetDefault("Lucky Coin");
 			Main.projFrames[projectile.type] = 2;
 		}
 
@@ -60,7 +60,7 @@ namespace SpiritMod.Items.Weapon.Gun.LadyLuck
                         direction.Normalize();
                         direction *= proj.velocity.Length();
                         proj.velocity = direction;
-                        proj.damage *= 7 - projectile.penetrate;
+                        proj.damage *= (int)(5.75f - projectile.penetrate);
 						SpiritMod.primitives.CreateTrail(new LLPrimTrail(proj, Color.Gold));
                         proj.GetGlobalProjectile<LLProj>().shotFromGun = false;
                     }
@@ -77,10 +77,13 @@ namespace SpiritMod.Items.Weapon.Gun.LadyLuck
             }
             if (Math.Abs(projectile.velocity.Y) < 2f)
                 projectile.velocity.Y *= 0.98f;
+            projectile.velocity *= .996f;
         }
 
 		public override void Kill(int timeLeft)
 		{
+			Main.PlaySound(38, projectile.Center, 0);
+			Main.PlaySound(0, projectile.Center, 0);
 			for (int i = 0; i < 5; i++)
 				Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 246).velocity *= 0.4f;
 		}

@@ -66,16 +66,14 @@ namespace SpiritMod.NPCs.BloodGazer
 		private ref float AiTimer => ref npc.ai[1];
 		private ref float AttackCounter => ref npc.ai[2];
 		private ref float Phase => ref npc.ai[3];
-		private ref float GlowOpacity => ref npc.localAI[1];
-		private ref float PulseDrawTimer => ref npc.localAI[2];
+		private ref float GlowmaskOpacity => ref npc.localAI[1];
+		private ref float GlowTrailOpacity => ref npc.localAI[2];
+		private ref float PulseDrawTimer => ref npc.localAI[3];
 		public bool trailing = false;
-
-		public bool glowtrail = false;
 
 		private void UpdateAiState(BloodGazerAiStates aistate)
 		{
 			trailing = false;
-			glowtrail = false;
 			AiState = (float)aistate;
 			AiTimer = 0;
 			npc.netUpdate = true;
@@ -212,15 +210,14 @@ namespace SpiritMod.NPCs.BloodGazer
 
 				case BloodGazerAiStates.Phase2Transition:
 					npc.knockBackResist = 0f;
-					npc.localAI[1] = MathHelper.Lerp(npc.localAI[1], 0.75f, 0.05f);
-					npc.spriteDirection = Math.Sign(npc.velocity.X) < 0 ? -1 : 1;
+					GlowmaskOpacity = MathHelper.Lerp(npc.localAI[1], 0.75f, 0.05f);
 
 					if (AiTimer <= 31)
 						npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionFrom(player.Center), 0.1f);
 
-					if (npc.localAI[1] > 0.6f)
+					if (GlowmaskOpacity > 0.6f)
 					{
-						npc.localAI[1] = 0.75f;
+						GlowmaskOpacity = 0.75f;
 						if (Main.netMode != NetmodeID.Server)
 							Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 2, 0.75f, -5f);
 
@@ -233,6 +230,8 @@ namespace SpiritMod.NPCs.BloodGazer
 					break;
 
 				case BloodGazerAiStates.EyeMortar:
+					GlowTrailOpacity = MathHelper.Lerp(GlowTrailOpacity, 0, 0.1f);
+
 					if (AiTimer < 110)
 						npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(player.Center - Vector2.UnitY * 300) * MathHelper.Clamp(npc.Distance(player.Center - Vector2.UnitY * 200) / 75, 3, 12) * 1.5f, 0.07f);
 					else
@@ -259,6 +258,7 @@ namespace SpiritMod.NPCs.BloodGazer
 
 				case BloodGazerAiStates.RuneEyes:
 					npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(player.Center) * MathHelper.Clamp(npc.Distance(player.Center) / 200, 0.5f, 2), 0.075f);
+					GlowTrailOpacity = MathHelper.Lerp(GlowTrailOpacity, 0, 0.1f);
 
 					if (AiTimer % 15 == 0 && AiTimer > 15 && AiTimer < 105)
 					{
@@ -287,7 +287,8 @@ namespace SpiritMod.NPCs.BloodGazer
 						return;
 					}
 					npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(player.Center) * 4, 0.04f);
-					glowtrail = true;
+					GlowTrailOpacity = MathHelper.Lerp(GlowTrailOpacity, 1, 0.1f);
+					GlowTrailOpacity = MathHelper.Lerp(GlowTrailOpacity, 1, 0.1f);
 					npc.rotation = npc.velocity.ToRotation() + (npc.spriteDirection < 0 ? MathHelper.PiOver2 : MathHelper.PiOver2);
 					if (AiTimer % 60 == 0 && AiTimer > 60){
 						trailing = true;
@@ -319,17 +320,10 @@ namespace SpiritMod.NPCs.BloodGazer
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
 			Texture2D tex = ModContent.GetTexture(Texture + "_mask");
-			Texture2D bloom = mod.GetTexture("Effects/Masks/Extra_49");
-			spriteBatch.Draw(bloom, npc.Center - Main.screenPosition, null, Color.Red * npc.localAI[1] * npc.Opacity, npc.rotation, bloom.Size() / 2, 
-				npc.scale * 0.9f * ((float)Math.Sin(Main.GlobalTime * 5)/8 + 1f), SpriteEffects.None, 0);
-
-			if (glowtrail)
+			for (int i = 0; i < NPCID.Sets.TrailCacheLength[npc.type]; i++)
 			{
-				for (int i = 0; i < NPCID.Sets.TrailCacheLength[npc.type]; i++)
-				{
-					float opacity = 0.5f * (float)(NPCID.Sets.TrailCacheLength[npc.type] - i) / NPCID.Sets.TrailCacheLength[npc.type];
-					spriteBatch.Draw(tex, npc.oldPos[i] + npc.Size / 2 - Main.screenPosition, npc.frame, Color.White * opacity, npc.rotation, npc.frame.Size() / 2, npc.scale * 1.35f, SpriteEffects.None, 0);
-				}
+				float opacity = 0.5f * (float)(NPCID.Sets.TrailCacheLength[npc.type] - i) / NPCID.Sets.TrailCacheLength[npc.type];
+				spriteBatch.Draw(tex, npc.oldPos[i] + npc.Size / 2 - Main.screenPosition, npc.frame, Color.White * opacity * GlowTrailOpacity, npc.rotation, npc.frame.Size() / 2, npc.scale * 1.35f, SpriteEffects.None, 0);
 			}
 		}
 
@@ -340,13 +334,13 @@ namespace SpiritMod.NPCs.BloodGazer
 		public override void SendExtraAI(BinaryWriter writer) {
 			writer.Write(npc.knockBackResist);
 			writer.Write(trailing);
-			writer.Write(glowtrail);
+			writer.Write(GlowmaskOpacity);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader){
 			npc.knockBackResist = reader.ReadSingle();
 			trailing = reader.ReadBoolean();
-			glowtrail = reader.ReadBoolean();
+			GlowmaskOpacity = reader.ReadSingle();
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
@@ -402,7 +396,36 @@ namespace SpiritMod.NPCs.BloodGazer
 				}
 			}
 
-			return true;
+			Texture2D glowmask = ModContent.GetTexture(Texture + "_mask");
+			void DrawMask(Vector2 center, float opacity) => spriteBatch.Draw(glowmask, center - Main.screenPosition, npc.frame, Color.Red * opacity * GlowmaskOpacity * npc.Opacity, npc.rotation, 
+																				npc.frame.Size() / 2, npc.scale * 1.2f, (npc.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+			DrawMask(npc.Center, 0.5f);
+			int numtodraw = 6;
+			for(int i = 0; i < numtodraw; i++)
+			{
+				float timer = ((float)Math.Sin(Main.GlobalTime * 3) / 2 + 0.5f);
+				Vector2 center = npc.Center + new Vector2(0, 8).RotatedBy(i * MathHelper.TwoPi / numtodraw) * timer;
+				DrawMask(center, 1 - timer);
+			}
+
+			spriteBatch.Draw(tex, npc.Center - Main.screenPosition, npc.frame, npc.GetAlpha(drawColor), npc.rotation, npc.frame.Size() / 2, npc.scale, (npc.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+
+			return false;
+		}
+
+		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			Texture2D glowmask = ModContent.GetTexture(Texture + "_mask2");
+			void DrawMask(Vector2 center, float opacity) => spriteBatch.Draw(glowmask, center - Main.screenPosition, npc.frame, Color.Red * opacity * GlowmaskOpacity * npc.Opacity, npc.rotation,
+																				npc.frame.Size() / 2, npc.scale, (npc.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+			DrawMask(npc.Center, 0.5f);
+			int numtodraw = 6;
+			for (int i = 0; i < numtodraw; i++)
+			{
+				float timer = ((float)Math.Sin(Main.GlobalTime * 3) / 2 + 0.5f);
+				Vector2 center = npc.Center + new Vector2(0, 8).RotatedBy(i * MathHelper.TwoPi / numtodraw) * timer;
+				DrawMask(center, 1 - timer);
+			}
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.spawnTileY < Main.rockLayer && (Main.bloodMoon) && Main.hardMode && !NPC.AnyNPCs(ModContent.NPCType<BloodGazer>()) ? SpawnCondition.OverworldNightMonster.Chance * 0.05f : 0f;

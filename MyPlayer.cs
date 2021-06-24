@@ -18,7 +18,7 @@ using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Boss.MoonWizard;
 using SpiritMod.NPCs.Mimic;
 using SpiritMod.Projectiles;
-using SpiritMod.Tide;
+using SpiritMod.NPCs.Tides.Tide;
 using SpiritMod.NPCs.Tides;
 using SpiritMod.Projectiles.DonatorItems;
 using SpiritMod.Projectiles.Magic;
@@ -45,6 +45,8 @@ using SpiritMod.Items.Consumable.Food;
 using SpiritMod.NPCs.AuroraStag;
 using SpiritMod.Tiles.Walls.Natural;
 using SpiritMod.Items.Accessory.GranitechDrones;
+using SpiritMod.Items.Equipment.AuroraSaddle;
+using SpiritMod.Particles;
 
 namespace SpiritMod
 {
@@ -1967,6 +1969,11 @@ namespace SpiritMod
                     SpiritMod.spookyAmbience.SetTo(Main.ambientVolume);
                 else
                     SpiritMod.spookyAmbience.Stop();
+
+				if (Framing.GetTileSafely(x1, y1 - 1).liquid == 255 && Framing.GetTileSafely(x1, y1).liquid == 255 && player.wet)
+					SpiritMod.underwaterAmbience.SetTo(Main.ambientVolume);
+				else
+					SpiritMod.underwaterAmbience.Stop();				
             }
             if (!player.ZoneOverworldHeight)
             {
@@ -2487,7 +2494,8 @@ namespace SpiritMod
 					DashEnd();
 					ActiveDash = DashType.None;
 				}
-			} else if(player.dashDelay < 0) {
+			} 
+			else if(player.dashDelay < 0) {
 				// Powered phase
 				// Manage dash abilities here
 				float speedCap = 20f;
@@ -2495,103 +2503,138 @@ namespace SpiritMod
 				float speedMax = Math.Max(player.accRunSpeed, player.maxRunSpeed);
 				float decayMax = 0.96f;
 				int delay = 20;
-				if(ActiveDash == DashType.Phase) {
-					for(int k = 0; k < 2; k++) {
-						int dust;
-						if(player.velocity.Y == 0f) {
-							dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 8, ModContent.DustType<TemporalDust>(), 0f, 0f, 100, default, 1.4f);
-						} else {
-							dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (player.height >> 1) - 8f), player.width, 16, ModContent.DustType<TemporalDust>(), 0f, 0f, 100, default, 1.4f);
+
+				switch (ActiveDash)
+				{
+					case DashType.Phase:
+						for (int k = 0; k < 2; k++)
+						{
+							int dust;
+							if (player.velocity.Y == 0f)
+							{
+								dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 8, ModContent.DustType<TemporalDust>(), 0f, 0f, 100, default, 1.4f);
+							}
+							else
+							{
+								dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (player.height >> 1) - 8f), player.width, 16, ModContent.DustType<TemporalDust>(), 0f, 0f, 100, default, 1.4f);
+							}
+
+							Main.dust[dust].velocity *= 0.1f;
+							Main.dust[dust].scale *= 1f + Main.rand.Next(20) * 0.01f;
 						}
 
-						Main.dust[dust].velocity *= 0.1f;
-						Main.dust[dust].scale *= 1f + Main.rand.Next(20) * 0.01f;
-					}
+						speedCap = speedMax;
+						decayCapped = 0.985f;
+						decayMax = decayCapped;
+						delay = 30;
+						break;
+					case DashType.Firewall:
+						if (firewallHit < 0)
+						{
+							Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<BinaryDust>());
+							Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<BinaryDust>());
+							Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<BinaryDust>());
+							Rectangle hitbox = new Rectangle((int)(player.position.X + player.velocity.X * 0.5 - 4), (int)(player.position.Y + player.velocity.Y * 0.5 - 4), player.width + 8, player.height + 8);
+							for (int i = 0; i < Main.maxNPCs; i++)
+							{
+								var npc = Main.npc[i];
+								if (npc.active && !npc.dontTakeDamage && !npc.friendly)
+								{
+									if (hitbox.Intersects(npc.Hitbox) && (npc.noTileCollide || Collision.CanHit(player.position, player.width, player.height, npc.position, npc.width, npc.height)))
+									{
+										float damage = 40f * player.meleeDamage;
+										float knockback = 12f;
+										bool crit = false;
 
-					speedCap = speedMax;
-					decayCapped = 0.985f;
-					decayMax = decayCapped;
-					delay = 30;
-				} 
-				else if(ActiveDash == DashType.Firewall) {
-					if(firewallHit < 0) {
-						Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<BinaryDust>());
-						Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<BinaryDust>());
-						Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<BinaryDust>());
-						Rectangle hitbox = new Rectangle((int)(player.position.X + player.velocity.X * 0.5 - 4), (int)(player.position.Y + player.velocity.Y * 0.5 - 4), player.width + 8, player.height + 8);
-						for(int i = 0; i < Main.maxNPCs; i++) {
-							var npc = Main.npc[i];
-							if(npc.active && !npc.dontTakeDamage && !npc.friendly) {
-								if(hitbox.Intersects(npc.Hitbox) && (npc.noTileCollide || Collision.CanHit(player.position, player.width, player.height, npc.position, npc.width, npc.height))) {
-									float damage = 40f * player.meleeDamage;
-									float knockback = 12f;
-									bool crit = false;
-
-									if(player.kbGlove) {
-										knockback *= 2f;
-									}
-
-									if(player.kbBuff) {
-										knockback *= 1.5f;
-									}
-
-									if(Main.rand.Next(100) < player.meleeCrit) {
-										crit = true;
-									}
-
-									int hitDirection = player.velocity.X < 0f ? -1 : 1;
-
-									if(player.whoAmI == Main.myPlayer) {
-										npc.AddBuff(ModContent.BuffType<StackingFireBuff>(), 600);
-										npc.StrikeNPC((int)damage, knockback, hitDirection, crit);
-										if(Main.netMode != NetmodeID.SinglePlayer) {
-											NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, i, damage, knockback, hitDirection, 0, 0, 0);
+										if (player.kbGlove)
+										{
+											knockback *= 2f;
 										}
-									}
 
-									player.dashDelay = 30;
-									player.velocity.X = -hitDirection * 1f;
-									player.velocity.Y = -4f;
-									player.immune = true;
-									player.immuneTime = 2;
-									firewallHit = i;
+										if (player.kbBuff)
+										{
+											knockback *= 1.5f;
+										}
+
+										if (Main.rand.Next(100) < player.meleeCrit)
+										{
+											crit = true;
+										}
+
+										int hitDirection = player.velocity.X < 0f ? -1 : 1;
+
+										if (player.whoAmI == Main.myPlayer)
+										{
+											npc.AddBuff(ModContent.BuffType<StackingFireBuff>(), 600);
+											npc.StrikeNPC((int)damage, knockback, hitDirection, crit);
+											if (Main.netMode != NetmodeID.SinglePlayer)
+											{
+												NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, i, damage, knockback, hitDirection, 0, 0, 0);
+											}
+										}
+
+										player.dashDelay = 30;
+										player.velocity.X = -hitDirection * 1f;
+										player.velocity.Y = -4f;
+										player.immune = true;
+										player.immuneTime = 2;
+										firewallHit = i;
+									}
 								}
 							}
 						}
-					}
-				} 
-				else if(ActiveDash == DashType.Shinigami) {
-					speedCap = speedMax;
-					decayCapped = 0.88f;
-					delay = 30;
+						break;
+					case DashType.Shinigami:
+						speedCap = speedMax;
+						decayCapped = 0.88f;
+						delay = 30;
 
-					int animationLimit = (int)(player.itemAnimationMax * 0.6f);
-					if(player.itemAnimation > 0 && player.itemAnimation < animationLimit) {
-						player.itemAnimation = animationLimit;
-					}
-				}
-
-				else if (ActiveDash == DashType.Chitin) {
-
-					for (int k = 0; k < 2; k++) {
-						int dust;
-						if (player.velocity.Y == 0f) {
-							dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 8, ModContent.DustType<SandDust>(), 0f, 0f, 100, default, 1.4f);
+						int animationLimit = (int)(player.itemAnimationMax * 0.6f);
+						if (player.itemAnimation > 0 && player.itemAnimation < animationLimit)
+						{
+							player.itemAnimation = animationLimit;
 						}
-						else {
-							dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (player.height >> 1) - 8f), player.width, 16, ModContent.DustType<SandDust>(), 0f, 0f, 100, default, 1.4f);
+						break;
+					case DashType.Chitin:
+						for (int k = 0; k < 2; k++)
+						{
+							int dust;
+							if (player.velocity.Y == 0f)
+							{
+								dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 8, ModContent.DustType<SandDust>(), 0f, 0f, 100, default, 1.4f);
+							}
+							else
+							{
+								dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (player.height >> 1) - 8f), player.width, 16, ModContent.DustType<SandDust>(), 0f, 0f, 100, default, 1.4f);
+							}
+
+							Main.dust[dust].velocity *= 0.1f;
+							Main.dust[dust].scale *= 1f + Main.rand.Next(20) * 0.01f;
 						}
 
-						Main.dust[dust].velocity *= 0.1f;
-						Main.dust[dust].scale *= 1f + Main.rand.Next(20) * 0.01f;
-					}
+						ChitinDashTicks = 20;
+						player.noKnockback = true;
+						speedCap = speedMax;
+						decayCapped = 0.91f;
+						decayMax = decayCapped;
+						delay = 25;
+						break;
+					case DashType.AuroraStag:
+						player.noKnockback = true;
 
-					ChitinDashTicks = 20;
-					player.noKnockback = true;
-					speedCap = speedMax;
-					decayCapped = 0.91f;
-					decayMax = decayCapped;
-					delay = 25;
+						for(int i = 0; i < 2; i++)
+						{
+							AuroraStagMount.MakeStar(Main.rand.NextFloat(0.1f, 0.2f), player.Center);
+							Dust dust = Dust.NewDustDirect(player.position - new Vector2(40, 0), player.width + 80, player.height, DustID.Rainbow, player.velocity.X * Main.rand.NextFloat(), 0, 200, AuroraStagMount.AuroraColor * 0.8f, Main.rand.NextFloat(0.9f, 1.3f));
+							dust.fadeIn = 0.4f;
+							dust.noGravity = true;
+						}
+
+						speedCap = speedMax;
+						decayCapped = 0.92f;
+						decayMax = decayCapped;
+						delay = 40;
+						break;
 				}
 
 				if (ActiveDash != DashType.None) {
@@ -2602,14 +2645,17 @@ namespace SpiritMod
 					player.vortexStealthActive = false;
 					if(player.velocity.X > speedCap || player.velocity.X < -speedCap) {
 						player.velocity.X = player.velocity.X * decayCapped;
-					} else if(player.velocity.X > speedMax || player.velocity.X < -speedMax) {
+					} 
+					else if(player.velocity.X > speedMax || player.velocity.X < -speedMax) {
 						player.velocity.X = player.velocity.X * decayMax;
-					} else {
+					} 
+					else {
 						player.dashDelay = delay;
 
 						if(player.velocity.X < 0f) {
 							player.velocity.X = -speedMax;
-						} else if(player.velocity.X > 0f) {
+						} 
+						else if(player.velocity.X > 0f) {
 							player.velocity.X = speedMax;
 						}
 					}
@@ -2620,7 +2666,8 @@ namespace SpiritMod
 				bool dashInput = false;
 				if(player.dashTime > 0) {
 					player.dashTime--;
-				} else if(player.dashTime < 0) {
+				} 
+				else if(player.dashTime < 0) {
 					player.dashTime++;
 				}
 
@@ -2632,7 +2679,8 @@ namespace SpiritMod
 					} else {
 						player.dashTime = 15;
 					}
-				} else if(player.controlLeft && player.releaseLeft) {
+				} 
+				else if(player.controlLeft && player.releaseLeft) {
 					if(player.dashTime < 0) {
 						dir = -1;
 						dashInput = true;
@@ -2651,48 +2699,61 @@ namespace SpiritMod
 		internal void PerformDash(DashType dash, sbyte dir, bool local = true)
 		{
 			float velocity = dir;
-			if(dash == DashType.Phase) {
-				velocity *= 30f;
-				phaseStacks--;
+			switch (dash)
+			{
+				case DashType.Phase:
+					velocity *= 30f;
+					phaseStacks--;
 
-				if(local) {
-					player.AddBuff(ModContent.BuffType<TemporalShift>(), 3 * 60);
-				}
+					if (local)
+					{
+						player.AddBuff(ModContent.BuffType<TemporalShift>(), 3 * 60);
+					}
 
-				// vfx
-				for(int num17 = 0; num17 < 20; num17++) {
-					int dust = Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<TemporalDust>(), 0f, 0f, 100, default, 2f);
-					Main.dust[dust].position.X += Main.rand.Next(-5, 6);
-					Main.dust[dust].position.Y += Main.rand.Next(-5, 6);
-					Main.dust[dust].velocity *= 0.2f;
-					Main.dust[dust].scale *= 1.4f + Main.rand.Next(20) * 0.01f;
-				}
-			} 
-			else if(dash == DashType.Firewall) {
-				firewallHit = -1;
+					// vfx
+					for (int num17 = 0; num17 < 20; num17++)
+					{
+						int dust = Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<TemporalDust>(), 0f, 0f, 100, default, 2f);
+						Main.dust[dust].position.X += Main.rand.Next(-5, 6);
+						Main.dust[dust].position.Y += Main.rand.Next(-5, 6);
+						Main.dust[dust].velocity *= 0.2f;
+						Main.dust[dust].scale *= 1.4f + Main.rand.Next(20) * 0.01f;
+					}
+					break;
+				case DashType.Firewall:
+					firewallHit = -1;
 
-				Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<BinaryDust>(), 0f, 0f, 0, default, 1f);
-				Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<BinaryDust>(), 0f, 0f, 0, default, 1f);
+					Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<BinaryDust>(), 0f, 0f, 0, default, 1f);
+					Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<BinaryDust>(), 0f, 0f, 0, default, 1f);
 
-				velocity *= 18.5f;
+					velocity *= 18.5f;
 
-				for(int num22 = 0; num22 < 0; num22++) {
-					int num23f = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, ModContent.DustType<TemporalDust>(), 0f, 0f, 100, default, 2f);
-					Main.dust[num23f].position.X = Main.dust[num23f].position.X + Main.rand.Next(-5, 6);
-					Main.dust[num23f].position.Y = Main.dust[num23f].position.Y + Main.rand.Next(-5, 6);
-					Main.dust[num23f].velocity *= 0.2f;
-					Main.dust[num23f].shader = GameShaders.Armor.GetSecondaryShader(player.shield, player);
-				}
-			} 
-			else if(dash == DashType.Shinigami) {
-				velocity *= 40;
-			}
-			else if (dash == DashType.Chitin) {
-				velocity *= 20;
-				Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/BossSFX/Scarab_Roar2").WithPitchVariance(0.2f).WithVolume(0.5f), player.Center);
-				for(int i = 0; i < 16; i++) {
-					Dust.NewDust(player.position, player.width, player.height, mod.DustType("SandDust"), Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1), Scale: Main.rand.NextFloat(1, 2));
-				}
+					for (int num22 = 0; num22 < 0; num22++)
+					{
+						int num23f = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, ModContent.DustType<TemporalDust>(), 0f, 0f, 100, default, 2f);
+						Main.dust[num23f].position.X = Main.dust[num23f].position.X + Main.rand.Next(-5, 6);
+						Main.dust[num23f].position.Y = Main.dust[num23f].position.Y + Main.rand.Next(-5, 6);
+						Main.dust[num23f].velocity *= 0.2f;
+						Main.dust[num23f].shader = GameShaders.Armor.GetSecondaryShader(player.shield, player);
+					}
+					break;
+				case DashType.Shinigami:
+					velocity *= 40;
+					break;
+				case DashType.Chitin:
+					velocity *= 20;
+					Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/BossSFX/Scarab_Roar2").WithPitchVariance(0.2f).WithVolume(0.5f), player.Center);
+					for (int i = 0; i < 16; i++)
+					{
+						Dust.NewDust(player.position, player.width, player.height, mod.DustType("SandDust"), Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1), Scale: Main.rand.NextFloat(1, 2));
+					}
+					break;
+				case DashType.AuroraStag:
+					velocity *= 40;
+					for(int i = 0; i < 25; i++)
+						AuroraStagMount.MakeStar(Main.rand.NextFloat(0.4f, 0.6f), player.Center);
+					break;
+
 			}
 
 			player.velocity.X = velocity;
@@ -2719,7 +2780,12 @@ namespace SpiritMod
 		public DashType FindDashes()
 		{
 			if (player.mount.Active)
+			{
+				if (player.mount.Type == ModContent.MountType<AuroraStagMount>())
+					return DashType.AuroraStag;
+
 				return DashType.None;
+			}
 
 			if (phaseStacks > 0) {
 				return DashType.Phase;
