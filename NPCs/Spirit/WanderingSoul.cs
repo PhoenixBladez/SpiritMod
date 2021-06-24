@@ -22,11 +22,11 @@ namespace SpiritMod.NPCs.Spirit
 			npc.height = 48;
 			npc.damage = 37;
 			npc.defense = 40;
-			npc.lifeMax = 540;
+			npc.lifeMax = 340;
 			npc.HitSound = SoundID.NPCHit3;
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.value = 60f;
-			npc.knockBackResist = .60f;
+			npc.knockBackResist = .65f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.aiStyle = 22;

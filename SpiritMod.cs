@@ -355,6 +355,14 @@ namespace SpiritMod
 				priority = MusicPriority.BiomeHigh;
 			}
 
+			if (config.UnderwaterMusic
+				&& player.ZoneBeach
+				&& !MyWorld.luminousOcean
+				&& spirit.isFullySubmerged) {
+				music = GetSoundSlot(SoundType.Music, "Sounds/Music/UnderwaterMusic");
+				priority = MusicPriority.BiomeHigh;
+			}
+
 			if (config.LuminousMusic
 				&& player.ZoneBeach
 				&& MyWorld.luminousOcean

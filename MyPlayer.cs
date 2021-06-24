@@ -404,6 +404,8 @@ namespace SpiritMod
         public bool soulPotion;
         public bool gremlinBuff;
 
+		public bool isFullySubmerged;
+
 		public float WingTimeMaxMultiplier = 1f;
 		public bool StarjinxSet = false;
 		public int starjinxtimer = 0;
@@ -1905,6 +1907,11 @@ namespace SpiritMod
             int y1 = (int)player.Center.Y / 16;
             var config = ModContent.GetInstance<SpiritClientConfig>();
 
+			if (Framing.GetTileSafely(x1, y1 - 16).liquid == 255 && Framing.GetTileSafely(x1, y1).liquid == 255 && player.wet)
+				isFullySubmerged = true;
+			else
+				isFullySubmerged = false;
+				
 			if (player.ZoneSnow && Main.rand.NextBool(27))
 			{
 				int d = Dust.NewDust(new Vector2(player.position.X + 8 * player.direction, player.Center.Y - 13f), player.width, 10, ModContent.DustType<FrostBreath>(), 1.5f * player.direction, 0f, 100, default, Main.rand.NextFloat(.7f, 1.7f));
