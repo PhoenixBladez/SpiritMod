@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -88,6 +89,18 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 			}
 
 			projOwner.itemRotation = MathHelper.WrapAngle(projOwner.AngleTo(projectile.Center) - ((projOwner.direction < 0) ? MathHelper.Pi : 0));
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(Timer);
+			writer.Write(RotationOffset);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			Timer = reader.ReadSingle();
+			RotationOffset = reader.ReadSingle();
 		}
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Main.player[projectile.owner].Center, projectile.Center) ? true : base.Colliding(projHitbox, targetHitbox);

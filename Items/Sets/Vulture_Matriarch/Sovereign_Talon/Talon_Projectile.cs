@@ -77,6 +77,16 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 			dust.fadeIn = 1f;
 		}
 
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+		{
+			if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(),
+				projectile.Center + Vector2.Normalize(projectile.velocity.RotatedBy(MathHelper.PiOver2)) * 40 * projectile.scale * 1.25f,
+				projectile.Center - Vector2.Normalize(projectile.velocity.RotatedBy(MathHelper.PiOver2)) * 40 * projectile.scale * 1.25f))
+				return true;
+
+			return base.Colliding(projHitbox, targetHitbox);
+		}
+
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
 			Texture2D tex = Main.projectileTexture[projectile.type];
