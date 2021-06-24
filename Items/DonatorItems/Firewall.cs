@@ -1,5 +1,5 @@
 
-using SpiritMod.Items.Accessory;
+using SpiritMod.Items.Sets.InfernonDrops;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

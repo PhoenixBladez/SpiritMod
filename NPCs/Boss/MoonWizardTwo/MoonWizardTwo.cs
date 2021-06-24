@@ -93,7 +93,6 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			npc.defense = 20;
 			npc.value = 40000;
 			npc.aiStyle = -1;
-            bossBag = ModContent.ItemType<MJWBag>();
             npc.knockBackResist = 0f;
 			npc.width = 17;
 			npc.height = 35;

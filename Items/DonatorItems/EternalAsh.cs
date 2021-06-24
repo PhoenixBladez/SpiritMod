@@ -48,19 +48,11 @@ namespace SpiritMod.Items.DonatorItems
 		{
 			ModRecipe modRecipe = new ModRecipe(mod);
 			modRecipe.AddIngredient(ItemID.FireFeather, 1);
-			modRecipe.AddIngredient(ModContent.ItemType<FleshClump>(), 3);
+			modRecipe.AddIngredient(ItemID.SoulofNight, 3);
 			modRecipe.AddIngredient(ItemID.PixieDust, 20);
 			modRecipe.AddTile(TileID.MythrilAnvil);
 			modRecipe.SetResult(this, 1);
 			modRecipe.AddRecipe();
-
-			ModRecipe modRecipe2 = new ModRecipe(mod);
-			modRecipe2.AddIngredient(ItemID.FireFeather, 1);
-			modRecipe2.AddIngredient(ModContent.ItemType<PutridPiece>(), 3);
-			modRecipe2.AddIngredient(ItemID.PixieDust, 20);
-			modRecipe2.AddTile(TileID.MythrilAnvil);
-			modRecipe2.SetResult(this, 1);
-			modRecipe2.AddRecipe();
 		}
 	}
 }

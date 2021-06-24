@@ -1074,12 +1074,6 @@ namespace SpiritMod
 				ItemID.TissueSample
 			}));
 
-			RecipeGroup.RegisterGroup("SpiritMod:ModEvil", basegroup(ModContent.ItemType<CursedFire>(), new int[]
-			{
-				ModContent.ItemType<CursedFire>(),
-				ModContent.ItemType<NightmareFuel>()
-			}));
-
 			RecipeGroup.RegisterGroup("SpiritMod:SilverBars", basegroup(ItemID.SilverBar, new int[]
 			{
 				ItemID.SilverBar,
