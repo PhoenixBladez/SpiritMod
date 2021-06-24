@@ -1357,12 +1357,11 @@ namespace SpiritMod.Tiles.Block.Ambient
 			dustType = 0;
         }
     }
+
 	public class CrimsonPustuleItem : AmbientCrimsonItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Crimson Pustule");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Crimson Pustule");
+
 		public override void SetDefaults()
 		{
 			item.width = 16;
@@ -1380,13 +1379,14 @@ namespace SpiritMod.Tiles.Block.Ambient
             item.createTile = ModContent.TileType<CrimsonPustuleBlockTile>();
         }
     }
+
     public class CrimsonPustuleBlockTile : ModTile
     {
         public override void SetDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
-			Main.tileBlendAll[this.Type] = true;
+			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(92, 36, 49));
 			drop = ModContent.ItemType<CrimsonPustuleItem>();
@@ -1395,6 +1395,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			dustType = 5;
         }
     }
+
 	public class CrimsonScabItem : AmbientCrimsonItem
     {
 		public override void SetStaticDefaults()
@@ -1418,6 +1419,7 @@ namespace SpiritMod.Tiles.Block.Ambient
             item.createTile = ModContent.TileType<CrimsonScabTile>();
         }
     }
+
     public class CrimsonScabTile : ModTile
     {
         public override void SetDefaults()
@@ -1433,12 +1435,11 @@ namespace SpiritMod.Tiles.Block.Ambient
 			dustType = 5;
         }
     }
+
 	public class BloodyFoliageItem : AmbientLeafItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bloody Foliage");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Bloody Foliage");
+
 		public override void SetDefaults()
 		{
 			item.width = 16;
@@ -1456,6 +1457,7 @@ namespace SpiritMod.Tiles.Block.Ambient
             item.createTile = ModContent.TileType<BloodyFoliageTile>();
         }
     }
+
     public class BloodyFoliageTile : ModTile
     {
         public override void SetDefaults()
@@ -1472,12 +1474,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 			dustType = 5;
         }
     }
+
 	public class CrimsonBlisterItem : AmbientCrimsonItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Crimson Blister");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Crimson Blister");
 		public override void SetDefaults()
 		{
 			item.width = 16;
@@ -1495,6 +1495,7 @@ namespace SpiritMod.Tiles.Block.Ambient
             item.createTile = ModContent.TileType<CrimsonBlisterTile>();
         }
     }
+
     public class CrimsonBlisterTile : ModTile
     {
         public override void SetDefaults()
@@ -1510,6 +1511,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			dustType = 5;
 			Main.tileLighted[Type] = true;
         }
+
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
 			r = 0.212f;
@@ -1529,6 +1531,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			}
 		}
     }
+
 	public class HallowPrismstoneItem : AmbientHallowItem
     {
 		public override void SetStaticDefaults()

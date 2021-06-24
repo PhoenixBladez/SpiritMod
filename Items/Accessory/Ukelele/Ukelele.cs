@@ -1,12 +1,9 @@
-﻿using SpiritMod;
-using Terraria;
+﻿using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
 
 namespace SpiritMod.Items.Accessory.Ukelele
 {
@@ -21,15 +18,16 @@ namespace SpiritMod.Items.Accessory.Ukelele
 
 		public override void SetDefaults()
 		{
-			item.width = 24;
-			item.height = 24;
+			item.width = 60;
+			item.height = 58;
 			item.value = Item.buyPrice(0, 3, 0, 0);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.accessory = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<UkelelePlayer>().active = true;
 	}
+
 	public class UkelelePlayer : ModPlayer
     {
 		public bool active = false;
@@ -66,6 +64,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
 			}
 		}
 	}
+
 	public class UkeleleProj : ModProjectile
     {
         public NPC[] hit = new NPC[8];
@@ -101,19 +100,16 @@ namespace SpiritMod.Items.Accessory.Ukelele
 			set => projectile.ai[1] = value.whoAmI;
 		}
 
-		private Vector2 Origin
+		private void SetOrigin(Vector2 value)
 		{
-			get => new Vector2(projectile.localAI[0], projectile.localAI[1]);
-			set {
-				projectile.localAI[0] = value.X;
-				projectile.localAI[1] = value.Y;
-			}
+			projectile.localAI[0] = value.X;
+			projectile.localAI[1] = value.Y;
 		}
 
 		public override void AI()
 		{
 			if (Mode == 0) {
-				Origin = projectile.position;
+				SetOrigin(projectile.position);
 				Mode = 1;
 			}
 			else {
@@ -138,7 +134,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
 							projectile.Kill();
 					}
 				}
-				Origin = projectile.position;
+				SetOrigin(projectile.position);
 			}
 		}
 

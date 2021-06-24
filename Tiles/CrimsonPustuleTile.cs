@@ -44,7 +44,7 @@ namespace SpiritMod.Tiles
 			Tile tile = Main.tile[i, j];
 			Point16 tileEntityPos = new Point16(i - tile.frameX / 18 % 2, j - tile.frameY / 18 % 2);
 
-			CrimsonPustuleTileEntity tileEntity = TileEntity.ByPosition[tileEntityPos] as CrimsonPustuleTileEntity;
+			var tileEntity = TileEntity.ByPosition[tileEntityPos] as CrimsonPustuleTileEntity;
 
 			Color color = Main.LocalPlayer.dangerSense ? new Color(255, 50, 50, Main.mouseTextColor) : Lighting.GetColor(i, j);
 			Vector2 offScreenRange = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
@@ -54,30 +54,8 @@ namespace SpiritMod.Tiles
 			Texture2D flashTexture = mod.GetTexture("Tiles/CrimsonPustuleTile_Flash");
 			float scale = 1f + tileEntity.Pulse * 0.08f;
 
-			spriteBatch.Draw(
-				tileTexture,
-				drawPos,
-				new Rectangle(tile.frameX, tile.frameY, 16, 16),
-				color,
-				0f,
-				origin,
-				scale,
-				SpriteEffects.None,
-				0
-			);
-
-			spriteBatch.Draw(
-				flashTexture,
-				drawPos,
-				new Rectangle(tile.frameX, tile.frameY, 16, 16),
-				color * tileEntity.Pulse,
-				0f,
-				origin,
-				scale,
-				SpriteEffects.None,
-				0
-			);
-
+			spriteBatch.Draw(tileTexture, drawPos, new Rectangle(tile.frameX, tile.frameY, 16, 16), color, 0f, origin, scale, SpriteEffects.None, 0);
+			spriteBatch.Draw(flashTexture, drawPos, new Rectangle(tile.frameX, tile.frameY, 16, 16), color * tileEntity.Pulse, 0f, origin, scale, SpriteEffects.None, 0);
 			return false;
 		}
 
@@ -183,14 +161,14 @@ namespace SpiritMod.Tiles
 		{
 			Tile tile = Framing.GetTileSafely(i, j);
 
-			if (tile.type != TileID.Crimstone)
+			if (tile.type != TileID.Crimstone) //I should be crimstone
 				return;
 
 			Tile rightTile = Framing.GetTileSafely(i + 1, j);
-			if (!rightTile.active() || rightTile.type != TileID.Crimstone)
+			if (!rightTile.active() || rightTile.type != TileID.Crimstone) //And my friend should be too
 				return;
 
-			for (int x = i; x <= i + 1; x++)
+			for (int x = i; x <= i + 1; x++) //And we should have space to breathe
 				for (int y = j - 2; y <= j - 1; y++)
 					if (Framing.GetTileSafely(x, y).active())
 						return;

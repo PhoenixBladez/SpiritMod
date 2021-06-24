@@ -162,7 +162,7 @@ namespace SpiritMod.Utilities
 					var pos = new Vector2(Main.screenWidth / 2 - (252 + portrait.BaseSize.X), 100); //Portrait position
 					Main.spriteBatch.Draw(portrait.Texture, pos, portrait.GetFrame(Main.npcChatText, talkNPC), Color.White, 0f, default, 1f, SpriteEffects.None, 0f); //Portrait
 				}
-
+				
 				DrawPortraitName(talkNPC, size); //Draws the name
 			}
 

@@ -22,7 +22,7 @@ namespace SpiritMod.Mounts.Minecarts
 		public override void OnHitPlayer(NPC npc, Player target, int damage, bool crit)
 		{
 			if (target.mount.Type == ModContent.MountType<MarbleMinecart.MarbleMinecart>() && Math.Abs(target.velocity.X) > 3.5f) //does extra damage on hit
-				npc.StrikeNPC((int)(target.velocity.X), 4f, target.direction, true, false, false);
+				npc.StrikeNPC((int)target.velocity.X, 4f, target.direction, true, false, false);
 		}
 	}
 }

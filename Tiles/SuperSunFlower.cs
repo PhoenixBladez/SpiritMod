@@ -64,7 +64,7 @@ namespace SpiritMod.Tiles
 			if (tile.frameY > 54 || Main.dayTime)
 				return;
 
-			if (Main.rand.NextBool(180)) {
+			if (Main.rand.NextBool(180) && !Main.gamePaused) {
 				GlowParticle particle = new GlowParticle(
 					new Vector2(i, j).ToWorldCoordinates() + new Vector2(40f * (Main.rand.NextBool() ? 1 : -1), 30f * (Main.rand.NextBool() ? 1 : -1)),
 					Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.1f, 0.4f),
