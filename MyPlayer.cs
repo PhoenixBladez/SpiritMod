@@ -1121,7 +1121,7 @@ namespace SpiritMod
             }
             if (player.ZoneBeach && Main.rand.NextBool(125))
             {
-                caughtType = ModContent.ItemType<Items.Weapon.Club.BassSlapper>();
+                caughtType = ModContent.ItemType<Items.Sets.ClubSubclass.BassSlapper>();
             }
         }
         public override void AnglerQuestReward(float quality, List<Item> rewardItems)

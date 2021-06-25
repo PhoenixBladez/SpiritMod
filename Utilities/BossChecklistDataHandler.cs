@@ -12,7 +12,7 @@ using SpiritMod.Items.Material;
 using SpiritMod.Items.Placeable.MusicBox;
 using SpiritMod.Items.Weapon.Bow;
 using SpiritMod.Items.Weapon.Summon.ElectricGun;
-using SpiritMod.Items.Weapon.Club;
+using SpiritMod.Items.Sets.ClubSubclass;
 using SpiritMod.Items.Weapon.Flail;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Magic;

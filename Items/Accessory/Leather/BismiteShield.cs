@@ -1,5 +1,5 @@
 
-using SpiritMod.Items.Sets.Bismite;
+using SpiritMod.Items.Sets.BismiteSet;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

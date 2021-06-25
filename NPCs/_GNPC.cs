@@ -14,7 +14,7 @@ using SpiritMod.Items.Pets;
 using SpiritMod.Items.Placeable.Furniture;
 using SpiritMod.Items.Placeable.IceSculpture;
 using SpiritMod.Items.Tool;
-using SpiritMod.Items.Sets.Frigid;
+using SpiritMod.Items.Sets.FrigidSet;
 using SpiritMod.Items.Weapon;
 using SpiritMod.Items.Weapon.Bow;
 using SpiritMod.Items.Weapon.Gun;
@@ -33,7 +33,7 @@ using SpiritMod.NPCs.Boss.ReachBoss;
 using SpiritMod.NPCs.Boss.Scarabeus;
 using SpiritMod.NPCs.Boss.SteamRaider;
 using SpiritMod.NPCs.Critters.Algae;
-using SpiritMod.Items.Weapon.Thrown.SlingHammers;
+using SpiritMod.Items.Sets.SlingHammerSubclass;
 using SpiritMod.NPCs.Town;
 using SpiritMod.NPCs.Tides;
 using SpiritMod.Projectiles.Arrow;
@@ -702,7 +702,7 @@ namespace SpiritMod.NPCs
 				}
 			}
 			else if (type == NPCID.WitchDoctor) {
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Weapon.Club.Macuahuitl>());
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Sets.ClubSubclass.Macuahuitl>());
                 nextSlot++;
             }
             else if (type == NPCID.Painter) {
@@ -1127,7 +1127,7 @@ namespace SpiritMod.NPCs
             {
                 if (Main.rand.Next(Main.expertMode ? 95 : 110) < 1)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Weapon.Club.BoneClub>());
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.ClubSubclass.BoneClub>());
                 }
             }
             if (closest.GetSpiritPlayer().ZoneAsteroid && Main.rand.Next(50) == 0) {

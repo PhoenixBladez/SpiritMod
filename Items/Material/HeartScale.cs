@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Material
 
 			ModRecipe recipe2 = new ModRecipe(mod);
 			recipe2.AddIngredient(ModContent.ItemType<HeartScale>(), 3);
-			recipe2.AddIngredient(ModContent.ItemType<Items.Sets.Bismite.BismiteCrystal>(), 6);
+			recipe2.AddIngredient(ModContent.ItemType<Items.Sets.BismiteSet.BismiteCrystal>(), 6);
 			recipe2.AddTile(TileID.Anvils);
 			recipe2.SetResult(ItemID.LifeCrystal, 1);
 			recipe2.AddRecipe();

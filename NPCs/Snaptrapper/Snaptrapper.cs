@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using System.Collections.Generic;
-using SpiritMod.Items.Weapon.Club;
+using SpiritMod.Items.Sets.ClubSubclass;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Utilities;
 

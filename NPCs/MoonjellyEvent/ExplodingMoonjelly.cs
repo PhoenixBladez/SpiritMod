@@ -8,7 +8,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Items.Weapon.Club;
+using SpiritMod.Items.Sets.ClubSubclass;
 
 namespace SpiritMod.NPCs.MoonjellyEvent
 {

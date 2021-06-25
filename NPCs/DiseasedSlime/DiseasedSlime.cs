@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
-using SpiritMod.Items.Sets.Bismite;
+using SpiritMod.Items.Sets.BismiteSet;
 using SpiritMod.Items.Consumable.Food;
 using Terraria;
 using Terraria.ID;

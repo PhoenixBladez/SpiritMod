@@ -1297,7 +1297,7 @@ namespace SpiritMod
 			int[] potionscrim = new int[] { ItemID.RagePotion, ItemID.HeartreachPotion };
 			int[] other1 = new int[] { ItemID.HerbBag, ItemID.Grenade };
 			int[] other2 = new int[] { ItemID.Bottle, ItemID.Torch };
-			int[] moddedMaterials = new int[] { ItemType<Items.Sets.Bismite.BismiteCrystal>(), ItemType<OldLeather>() };
+			int[] moddedMaterials = new int[] { ItemType<Items.Sets.BismiteSet.BismiteCrystal>(), ItemType<OldLeather>() };
 
 			//Tile tile;
 			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY) * 15E-05); k++) {
