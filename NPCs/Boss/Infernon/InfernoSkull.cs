@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.BossBags;
+using SpiritMod.Items.Sets.InfernonDrops;
 using SpiritMod.Projectiles.Hostile;
 using System;
 using Terraria;

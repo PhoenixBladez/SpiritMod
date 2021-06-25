@@ -39,8 +39,6 @@ namespace SpiritMod.Items.Consumable
 		public override void RightClick(Player player)
 		{
 			int[] lootTable = {
-				ModContent.ItemType<PutridPiece>(),
-				ModContent.ItemType<FleshClump>(),
 				ModContent.ItemType<SpiritOre>(),
 				ModContent.ItemType<Rune>(),
 				ModContent.ItemType<StarPiece>(),
@@ -51,8 +49,6 @@ namespace SpiritMod.Items.Consumable
 			player.QuickSpawnItem(lootTable[loot], Main.rand.Next(3, 5));
 			if (Main.rand.Next(4) == 1) {
 				int[] lootTable3 = {
-					ModContent.ItemType<PutridPiece>(),
-					ModContent.ItemType<FleshClump>(),
 					ModContent.ItemType<SpiritOre>(),
 					ModContent.ItemType<Rune>(),
 					ModContent.ItemType<StarPiece>(),

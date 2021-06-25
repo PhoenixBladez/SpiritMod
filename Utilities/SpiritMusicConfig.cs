@@ -73,6 +73,11 @@ namespace SpiritMod.Utilities
         [DefaultValue(true)]
         public bool CalmNightMusic { get; set; }
 
+        [Label("Ocean Depths Music")]
+        [Tooltip("Enables unique music for the Ocean while deep underwater")]
+        [DefaultValue(true)]
+        public bool UnderwaterMusic { get; set; }
+
         [Label("Hyperspace Biome Music")]
         [Tooltip("Enables two unique tracks while in Hyperspace")]
         [DefaultValue(true)]

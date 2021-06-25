@@ -355,6 +355,14 @@ namespace SpiritMod
 				priority = MusicPriority.BiomeHigh;
 			}
 
+			if (config.UnderwaterMusic
+				&& player.ZoneBeach
+				&& !MyWorld.luminousOcean
+				&& spirit.isFullySubmerged) {
+				music = GetSoundSlot(SoundType.Music, "Sounds/Music/UnderwaterMusic");
+				priority = MusicPriority.BiomeHigh;
+			}
+
 			if (config.LuminousMusic
 				&& player.ZoneBeach
 				&& MyWorld.luminousOcean
@@ -1064,12 +1072,6 @@ namespace SpiritMod
 			{
 				ItemID.ShadowScale,
 				ItemID.TissueSample
-			}));
-
-			RecipeGroup.RegisterGroup("SpiritMod:ModEvil", basegroup(ModContent.ItemType<CursedFire>(), new int[]
-			{
-				ModContent.ItemType<CursedFire>(),
-				ModContent.ItemType<NightmareFuel>()
 			}));
 
 			RecipeGroup.RegisterGroup("SpiritMod:SilverBars", basegroup(ItemID.SilverBar, new int[]

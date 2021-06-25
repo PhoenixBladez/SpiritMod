@@ -24,6 +24,7 @@ using SpiritMod.Items.Weapon.Spear;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Items.Weapon.Yoyo;
+using SpiritMod.Items.Sets.MoonWizardDrops;
 using SpiritMod.NPCs.Boss;
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Boss.Dusking;
