@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SpiritMod.Items.Sets.StarplateDrops;
 using SpiritMod.Tiles.Ambient;
 using SpiritMod.Tiles.Ambient.Corals;
 using SpiritMod.Tiles.Ambient.IceSculpture;

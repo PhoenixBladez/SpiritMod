@@ -5,7 +5,6 @@ using Terraria;
 using SpiritMod.Buffs;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Items.BossBags;
 using SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles;
 using SpiritMod.Prim;
 using SpiritMod.Utilities;

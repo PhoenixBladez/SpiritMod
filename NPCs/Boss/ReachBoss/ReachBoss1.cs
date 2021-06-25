@@ -1,10 +1,4 @@
-﻿using SpiritMod.Items.Armor.Masks;
-using SpiritMod.Items.Boss;
-using SpiritMod.Items.BossBags;
-using SpiritMod.Items.Material;
-using SpiritMod.Items.Weapon.Bow;
-using SpiritMod.Items.Weapon.Magic;
-using SpiritMod.Items.Weapon.Swung;
+﻿using SpiritMod.Items.Sets.VinewrathDrops;
 using Terraria;
 using Terraria.Audio;
 using System;

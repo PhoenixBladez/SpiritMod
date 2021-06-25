@@ -1,12 +1,4 @@
 
-using SpiritMod.Items.Accessory;
-using SpiritMod.Items.Armor.Masks;
-using SpiritMod.Items.Boss;
-using SpiritMod.Items.Material;
-using SpiritMod.Items.Weapon.Bow;
-using SpiritMod.Items.Weapon.Magic;
-using SpiritMod.Items.Weapon.Summon;
-using SpiritMod.Items.Weapon.Swung;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

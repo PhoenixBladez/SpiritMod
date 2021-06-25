@@ -2,16 +2,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using SpiritMod.Items.Weapon.Magic;
-using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Items.Sets.RlyehianDrops;
 using SpiritMod.Projectiles.Hostile;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Items.Weapon.Flail;
-using SpiritMod.Items.Weapon.Magic;
-using SpiritMod.Items.Armor.Masks;
-using SpiritMod.Items.Boss;
 using SpiritMod.NPCs.Tides.Tide;
 using System.IO;
 

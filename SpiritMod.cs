@@ -700,7 +700,7 @@ namespace SpiritMod
 
 			if (Main.netMode != NetmodeID.Server) {
 				TrailManager = new TrailManager(this);
-				AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Armor/TalonGarb_Legs");
+				AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Sets/AvianDrops/ApostleArmor/TalonGarb_Legs");
 				EmptyTexture = GetTexture("Empty");
 				auroraEffect = GetEffect("Effects/aurora");
 				noise = GetTexture("Textures/noise");

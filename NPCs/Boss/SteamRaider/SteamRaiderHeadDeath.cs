@@ -1,9 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Armor.Masks;
-using SpiritMod.Items.Boss;
-using SpiritMod.Items.BossBags;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.StarplateDrops;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
