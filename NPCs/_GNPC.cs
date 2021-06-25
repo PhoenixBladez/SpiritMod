@@ -1286,15 +1286,12 @@ namespace SpiritMod.NPCs
 
 			if (npc.type == NPCID.CultistBoss) {
 				int item = 0;
-				switch (Main.rand.Next(4)) {
+				switch (Main.rand.Next(2)) {
 					case 0:
 						item = ItemType<Ancient>();
 						break;
 					case 1:
 						item = ItemType<CultistScarf>();
-						break;
-					case 2:
-						item = ItemType<Tesseract>();
 						break;
 				}
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, item);

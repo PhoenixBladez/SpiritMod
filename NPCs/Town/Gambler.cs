@@ -1,3 +1,4 @@
+using SpiritMod.Items.Accessory.AceCardsSet;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Sets.GamblerChestLoot;
 using System.Collections.Generic;

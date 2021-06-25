@@ -22,7 +22,7 @@ namespace SpiritMod.NPCs.Hemophora
             npc.height = 44;
             npc.damage = 10;
             npc.defense = 18;
-            npc.lifeMax = 84;
+            npc.lifeMax = 121;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.value = 220f;
@@ -134,7 +134,7 @@ namespace SpiritMod.NPCs.Hemophora
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.JungleSpores, Main.rand.Next(2,5));
             }
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Thrown.FlaskOfGore>(), Main.rand.Next(21, 43));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.ThrownMisc.FlaskofGore.FlaskOfGore>(), Main.rand.Next(21, 43));
 
         }
 
