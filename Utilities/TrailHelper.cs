@@ -599,6 +599,34 @@ namespace SpiritMod.Utilities
 			}
 		}
 	}
+
+	public class TriangleCap : ITrailCap
+	{
+		public int ExtraTris => 1;
+
+		private readonly float _widthmod;
+		private readonly float _length;
+		public TriangleCap(float width = 1f, float length = 1f)
+		{
+			_widthmod = width;
+			_length = length;
+		}
+
+		public void AddCap(VertexPositionColorTexture[] array, ref int currentIndex, Color colour, Vector2 position, Vector2 startNormal, float width)
+		{
+			width *= _widthmod;
+			float rotation = startNormal.ToRotation();
+			float halfwidth = width / 2;
+			Vector2 TipPos = position + (Vector2.UnitY.RotatedBy(rotation) * width * _length) - Main.screenPosition;
+			Vector2 LeftBasePos = position + (Vector2.UnitY.RotatedBy(rotation + MathHelper.PiOver2) * halfwidth) - Main.screenPosition;
+			Vector2 RightBasePos = position + (Vector2.UnitY.RotatedBy(rotation - MathHelper.PiOver2) * halfwidth) - Main.screenPosition;
+
+			array[currentIndex++] = new VertexPositionColorTexture(new Vector3(LeftBasePos, 0), colour, Vector2.Zero);
+			array[currentIndex++] = new VertexPositionColorTexture(new Vector3(RightBasePos, 0), colour, Vector2.One);
+			array[currentIndex++] = new VertexPositionColorTexture(new Vector3(TipPos, 0), colour, new Vector2(0.5f, 1f));
+		}
+	}
+
 	public class NoCap : ITrailCap
 	{
 		public int ExtraTris => 0;
