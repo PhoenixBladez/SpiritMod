@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Armor;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.CoilSet;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Projectiles;
 using SpiritMod.Projectiles.Hostile;

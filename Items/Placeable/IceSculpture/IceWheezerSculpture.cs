@@ -1,4 +1,4 @@
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.CryoliteSet;
 using SpiritMod.Items.Placeable.Tiles;
 using SpiritMod.Tiles.Ambient.IceSculpture;
 using Terraria;

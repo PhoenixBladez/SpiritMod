@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
 using SpiritMod.Items.Accessory;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.CryoliteSet;
 using SpiritMod.Projectiles.Hostile;
 using SpiritMod.Dusts;
 using System;

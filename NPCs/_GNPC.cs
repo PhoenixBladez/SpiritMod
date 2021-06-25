@@ -1242,9 +1242,6 @@ namespace SpiritMod.NPCs
 			if (npc.type == NPCID.SpikedIceSlime || npc.type == NPCID.ArmedZombieEskimo) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<FrigidFragment>(), Main.rand.Next(1, 3));
 			}
-			if ((npc.type == NPCID.ZombieEskimo || npc.type == NPCID.IceBat) && Main.rand.Next(100) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<ThrallGate>());
-			}
 			if (closest.GetSpiritPlayer().vitaStone) {
 				if (!npc.friendly && npc.lifeMax > 5 && Main.rand.Next(9) == 1 && closest.statLife < closest.statLifeMax) {
 					if (Main.halloween) {

@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.CryoliteSet;
 using SpiritMod.Projectiles.DonatorItems;
 using Terraria;
 using Terraria.ID;

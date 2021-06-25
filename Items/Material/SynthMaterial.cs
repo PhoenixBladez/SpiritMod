@@ -49,7 +49,7 @@ namespace SpiritMod.Items.Material
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<TechDrive>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<Items.Sets.CoilSet.TechDrive>(), 1);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 10);
             recipe.AddRecipe();

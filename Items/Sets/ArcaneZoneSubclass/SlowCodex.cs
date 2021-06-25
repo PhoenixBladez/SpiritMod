@@ -80,7 +80,7 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<EmptyCodex>(), 1);
-            recipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<Items.Sets.CryoliteSet.CryoliteBar>(), 8);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
