@@ -36,7 +36,7 @@ namespace SpiritMod.NPCs.BloodGazer
 			if (projectile.velocity.Length() < 22)
 				projectile.velocity *= 1.02f;
 
-			if (!primsCreated) {
+			if (!primsCreated && !Main.dedServ) {
 				primsCreated = true;
 				SpiritMod.primitives.CreateTrail(new RipperPrimTrail(projectile));
 			}

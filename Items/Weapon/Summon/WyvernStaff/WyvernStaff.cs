@@ -82,7 +82,7 @@ namespace SpiritMod.Items.Weapon.Summon.WyvernStaff
 			if ((int)projectile.ai[0] % 15 == 0 && numSegments < 25)
 			{
 				if (!Main.projectile[latestSegment].active)
-					Main.NewText("Uh oh. Something went fucksy wucksy with the Wyvern Staff. Report to Spirit Mod devs immediately: Issue #3");
+					Main.NewText("Uh oh. Something went wrong with the Wyvern Staff. Report to Spirit Mod devs immediately: Issue #3");
 				Main.projectile[latestSegment].frame = 1 + (int)projectile.ai[0] % 2;
 				latestSegment = Projectile.NewProjectile(Main.projectile[latestSegment].Center, Vector2.Zero, ModContent.ProjectileType<WyvernStaffBody>(), projectile.damage, projectile.knockBack, projectile.owner, latestSegment);
 				numSegments++;

@@ -1,16 +1,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using SpiritMod.Utilities;
-using Terraria.Graphics.Shaders;
-using SpiritMod.Prim;
 using System;
+using Terraria;
+using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Sets.StarjinxSet.Orion
+namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 {
-	public class OrionArrow : ModProjectile, ITrailProjectile
+	public class SagittariusArrow : ModProjectile, ITrailProjectile
 	{
 		public override string Texture => "Terraria/Extra_89";
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Astral Arrow");
@@ -39,13 +36,12 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Orion
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Texture2D tex = Main.projectileTexture[projectile.type];
-			float Timer = (float)(Math.Abs(Math.Sin(Main.GlobalTime * 1.5f)) / 6f) + 0.7f; 
+			float Timer = (float)(Math.Abs(Math.Sin(Main.GlobalTime * 6f)) / 18f) + 0.7f;
 			Vector2 scaleVerticalGlow = new Vector2(0.4f, 2f) * Timer;
 			Vector2 scaleHorizontalGlow = new Vector2(0.4f, 4f) * Timer;
-			Color blurcolor = new Color(255, 255, 255, 100) * 0.8f;
+			Color blurcolor = new Color(255, 255, 255, 100) * 0.7f;
 			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, blurcolor * Timer, 0, tex.Size() / 2, scaleVerticalGlow, SpriteEffects.None, 0);
 			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, blurcolor * Timer, MathHelper.PiOver2, tex.Size() / 2, scaleHorizontalGlow, SpriteEffects.None, 0);
-
 
 			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, blurcolor, projectile.velocity.ToRotation() + MathHelper.PiOver2, tex.Size() / 2, new Vector2(0.4f, 4f), SpriteEffects.None, 0);
 			return false;

@@ -2635,6 +2635,10 @@ namespace SpiritMod
 							Dust dust = Dust.NewDustDirect(player.position - new Vector2(40, 0), player.width + 80, player.height, DustID.Rainbow, player.velocity.X * Main.rand.NextFloat(), 0, 200, AuroraStagMount.AuroraColor * 0.8f, Main.rand.NextFloat(0.9f, 1.3f));
 							dust.fadeIn = 0.4f;
 							dust.noGravity = true;
+							if(player.miscDyes[3] != null && player.miscDyes[3].active)
+							{
+								dust.shader = GameShaders.Armor.GetShaderFromItemId(player.miscDyes[3].type);
+							}
 						}
 
 						speedCap = speedMax;

@@ -1,13 +1,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using System;
+using Terraria;
+using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Sets.StarjinxSet.Orion
+namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 {
-	public class OrionConstellation : ModProjectile, IDrawAdditive
+	public class SagittariusConstellation : ModProjectile, IDrawAdditive
 	{
 		public override string Texture => "SpiritMod/Effects/Masks/Star";
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Constellation");
@@ -38,7 +37,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Orion
 
 		public override bool PreAI()
 		{
-			if(projectile.localAI[0] == 0)
+			if (projectile.localAI[0] == 0)
 			{
 				_position = projectile.Center - Owner.MountedCenter;
 				projectile.localAI[0]++;
@@ -52,29 +51,28 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Orion
 		public override void AI()
 		{
 			projectile.rotation += 0.05f * Owner.direction * ((StarsLeft % 2 == 0) ? 1 : -1);
-			if(++Timer < 20)
+			if (++Timer < 20)
 			{
 				projectile.scale *= 1.05f;
 				projectile.alpha = Math.Max(projectile.alpha - 10, 0);
 			}
 
-			if(Owner == Main.LocalPlayer)
+			if (Owner == Main.LocalPlayer)
 			{
 				if (Timer == 10 && StarsLeft > 1)
 				{
 					Projectile.NewProjectileDirect(Owner.MountedCenter - Owner.DirectionTo(Main.MouseWorld).RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(70, 150),
-						Vector2.Zero, ModContent.ProjectileType<OrionConstellation>(), projectile.damage, projectile.knockBack, projectile.owner, StarsLeft - 1, projectile.whoAmI).netUpdate = true;
+						Vector2.Zero, ModContent.ProjectileType<SagittariusConstellation>(), projectile.damage, projectile.knockBack, projectile.owner, StarsLeft - 1, projectile.whoAmI).netUpdate = true;
 					projectile.netUpdate = true;
 				}
 
 				if (Timer == 30)
 				{
-					
-					Projectile proj = Projectile.NewProjectileDirect(projectile.Center, projectile.DirectionTo(Main.MouseWorld).RotatedByRandom(MathHelper.PiOver2) * 18, ModContent.ProjectileType<OrionConstellationArrow>(), projectile.damage, 
-						projectile.knockBack, projectile.owner, StarsLeft % 2);
+					Projectile proj = Projectile.NewProjectileDirect(projectile.Center, projectile.DirectionTo(Main.MouseWorld).RotatedByRandom(MathHelper.PiOver2) * 18, 
+						ModContent.ProjectileType<SagittariusConstellationArrow>(), projectile.damage, projectile.knockBack, projectile.owner, StarsLeft % 2);
 
-					if(proj.modProjectile is OrionConstellationArrow)
-						(proj.modProjectile as OrionConstellationArrow).TargetPos = Main.MouseWorld;
+					if (proj.modProjectile is SagittariusConstellationArrow)
+						(proj.modProjectile as SagittariusConstellationArrow).TargetPos = Main.MouseWorld;
 
 					proj.netUpdate = true;
 
@@ -83,7 +81,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Orion
 				}
 			}
 
-			if(Timer > 50)
+			if (Timer > 50)
 			{
 				projectile.scale *= 0.98f;
 				projectile.alpha += 10;
@@ -99,7 +97,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Orion
 			Color color = (StarsLeft % 2 == 1) ? new Color(101, 255, 245) : new Color(255, 176, 244);
 			float bloomopacity = 0.75f;
 			float bloomscale = 0.75f;
-			if(Timer > 15 && Timer < 45)
+			if (Timer > 15 && Timer < 45)
 			{
 				color = Color.Lerp(color, Color.White, 1 - Math.Abs(30 - Timer) / 15);
 				bloomopacity = MathHelper.Lerp(bloomopacity, 2f, 1 - Math.Abs(30 - Timer) / 15);
@@ -109,7 +107,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Orion
 			if (LastStar >= 0)
 			{
 				Projectile laststar = Main.projectile[(int)LastStar];
-				if(laststar.active && laststar.type == projectile.type && laststar.ai[0] == projectile.ai[0] + 1 && laststar.owner == projectile.owner)
+				if (laststar.active && laststar.type == projectile.type && laststar.ai[0] == projectile.ai[0] + 1 && laststar.owner == projectile.owner)
 				{
 					Texture2D Beam = mod.GetTexture("Textures/Trails/Trail_4");
 					Vector2 scale = new Vector2(projectile.Distance(laststar.Center) / Beam.Width, projectile.scale * 20 / Beam.Height);
@@ -125,7 +123,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Orion
 
 			spriteBatch.Draw(MainTex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(Color.White), projectile.rotation, MainTex.Size() / 2, projectile.scale, SpriteEffects.None, 0);
 
-			if(Timer > 30 && Timer < 50)
+			if (Timer > 30 && Timer < 50)
 			{
 				float scale = 1 - Math.Abs(40 - Timer) / 10;
 				spriteBatch.Draw(MainTex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(Color.White), -projectile.rotation * 2, MainTex.Size() / 2, projectile.scale * scale, SpriteEffects.None, 0);

@@ -101,15 +101,16 @@ namespace SpiritMod.Projectiles.Summon
 
 			else
 			{
+				CanRetarget = AiTimer <= 1;
 				--AiTimer;
 				if (AiTimer <= 0)
 				{
 					AiTimer = Main.rand.Next(2, 6) * 20;
-					projectile.velocity = projectile.DirectionTo(target.Center).RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(10, 12) * MathHelper.Clamp(projectile.Distance(target.Center) / 100, 1f, 2f);
+					projectile.velocity = projectile.DirectionTo(target.Center).RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(10, 12) * MathHelper.Clamp(projectile.Distance(target.Center) / 100, 1.33f, 1.75f);
 					projectile.netUpdate = true;
 				}
 
-				projectile.velocity = projectile.velocity.Length() * 0.96f * Vector2.Normalize(Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center) * projectile.velocity.Length(), 0.2f));
+				projectile.velocity = projectile.velocity.Length() * 0.97f * Vector2.Normalize(Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center) * projectile.velocity.Length(), 0.2f));
 
 				projectile.rotation = Utils.AngleLerp(projectile.rotation, projectile.velocity.ToRotation() + MathHelper.PiOver2, 0.04f);
 			}

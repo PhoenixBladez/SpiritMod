@@ -3,13 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Utilities;
-using Terraria.Graphics.Shaders;
-using SpiritMod.Prim;
 
-namespace SpiritMod.Items.Sets.StarjinxSet.Orion
+namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 {
-	public class Orion : ModItem
+	public class Sagittarius : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -42,10 +39,10 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Orion
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			type = ModContent.ProjectileType<OrionArrow>();
+			type = ModContent.ProjectileType<SagittariusArrow>();
 			Vector2 shootDir = Vector2.Normalize(new Vector2(speedX, speedY));
-			Projectile.NewProjectileDirect(player.MountedCenter - shootDir.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(70, 150), 
-				Vector2.Zero, ModContent.ProjectileType<OrionConstellation>(), (int)(damage * 0.75f), knockBack, player.whoAmI, 4, -1).netUpdate = true;
+			Projectile.NewProjectileDirect(player.MountedCenter - shootDir.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(70, 150),
+				Vector2.Zero, ModContent.ProjectileType<SagittariusConstellation>(), (int)(damage * 0.75f), knockBack, player.whoAmI, 4, -1).netUpdate = true;
 			return true;
 		}
 	}
