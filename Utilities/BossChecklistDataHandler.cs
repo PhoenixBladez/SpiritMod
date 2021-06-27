@@ -5,6 +5,7 @@ using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Armor;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Sets.RlyehianDrops;
+using SpiritMod.Items.Sets.SeraphSet;
 using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Consumable.Potion;
 using SpiritMod.Items.Equipment;

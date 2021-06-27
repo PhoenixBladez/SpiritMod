@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Consumable.Potion;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.SeraphSet;
 using SpiritMod.Items.Weapon.Magic;
 using System;
 using Terraria;
