@@ -81,7 +81,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.NightSky
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Items.Weapon.Bow.StarlightBow>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<Items.Sets.BowsMisc.StarSpray.StarlightBow>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<Items.Sets.StarplateDrops.SteamplateBow>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<Items.Sets.FrigidSet.FrostSpine>(), 1);
 			recipe.AddIngredient(ItemID.HellwingBow, 1);

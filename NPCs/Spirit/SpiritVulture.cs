@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Material;
-using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Sets.SpiritBiomeDrops;
 using SpiritMod.Projectiles.Hostile;
 using SpiritMod.Tiles.Block;
 using System.Linq;

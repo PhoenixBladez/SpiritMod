@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Pets;
+using SpiritMod.Items.Sets.SpiritBiomeDrops;
 using SpiritMod.Projectiles.Hostile;
 using SpiritMod.Tiles.Block;
 using System.Linq;

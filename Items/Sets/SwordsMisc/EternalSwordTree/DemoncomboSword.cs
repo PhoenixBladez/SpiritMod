@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Items.Material;
 using SpiritMod.Items.Sets.SpiritSet;
 using SpiritMod.Projectiles.DonatorItems;
 using Terraria;
@@ -58,7 +57,6 @@ namespace SpiritMod.Items.Sets.SwordsMisc.EternalSwordTree
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<DemoniceSword>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<DemonfireSword>(), 1);
-			recipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 8);
 			recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 8);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.SpiritSet;
+using SpiritMod.Items.Sets.SlagSet;
 using SpiritMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ID;
@@ -55,6 +56,7 @@ namespace SpiritMod.Items.Weapon.Summon
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 12);
+			recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 5);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

@@ -15,7 +15,6 @@ using SpiritMod.Items.Placeable.Furniture;
 using SpiritMod.Items.Placeable.IceSculpture;
 using SpiritMod.Items.Sets.FrigidSet;
 using SpiritMod.Items.Weapon;
-using SpiritMod.Items.Weapon.Bow;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Summon;
@@ -1120,7 +1119,7 @@ namespace SpiritMod.NPCs
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Blaster>());
 			}
 			if (npc.type == NPCID.Harpy && Main.rand.Next(45) == 0) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<StarlightBow>());
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.BowsMisc.StarSpray.StarlightBow>());
 			}
 			if (npc.type == NPCID.Harpy && Main.rand.Next(45) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.MagicMisc.ZephyrBreath.BreathOfTheZephyr>());
@@ -1216,7 +1215,7 @@ namespace SpiritMod.NPCs
                 || npc.type == NPCID.HellArmoredBonesMace
                 || npc.type == NPCID.HellArmoredBonesSword))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Morningtide>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.BowsMisc.Morningtide.Morningtide>());
             }
             if (npc.type == NPCID.ZombieEskimo
 				|| npc.type == NPCID.IceSlime
@@ -1259,7 +1258,7 @@ namespace SpiritMod.NPCs
 				}
 			}
 			if (npc.type == NPCID.EyeofCthulhu && Main.rand.Next(5) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Eyeshot>());
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.BowsMisc.Eyeshot.Eyeshot>());
 
 			if (npc.type == NPCID.MartianSaucer && Main.rand.Next(2) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Weapon.Yoyo.Martian>());
@@ -1287,7 +1286,7 @@ namespace SpiritMod.NPCs
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Weapon.Yoyo.Typhoon>());
 
 			if (npc.type == NPCID.Demon && NPC.downedBoss3 && Main.rand.Next(4) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<CarvedRock>(), Main.rand.Next(1) + 2);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.SlagSet.CarvedRock>(), Main.rand.Next(1) + 2);
 
 			if (npc.type == NPCID.PigronCorruption || npc.type == NPCID.PigronHallow || npc.type == NPCID.PigronCrimson) {
 				if (Main.rand.Next(12) == 0) {

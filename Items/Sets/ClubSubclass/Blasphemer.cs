@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Sets.ClubSubclass
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Material.CarvedRock>(), 25);
+            recipe.AddIngredient(ModContent.ItemType<Items.Sets.SlagSet.CarvedRock>(), 25);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

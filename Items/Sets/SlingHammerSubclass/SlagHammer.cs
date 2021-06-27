@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.SlagSet;
 using SpiritMod.Projectiles.Held;
 using SpiritMod.Projectiles.Returning;
 using Terraria;

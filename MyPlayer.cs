@@ -39,6 +39,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using SpiritMod.Items.Equipment;
 using SpiritMod.NPCs.Boss.Scarabeus;
+using SpiritMod.Items.Sets.SpiritBiomeDrops;
 using System.Linq;
 using Terraria.Audio;
 using SpiritMod.Items.Consumable.Food;
