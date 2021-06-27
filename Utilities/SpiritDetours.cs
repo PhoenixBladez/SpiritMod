@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using SpiritMod.Items.Tool;
 using SpiritMod.Particles;
 using SpiritMod.Tiles;
 using System;

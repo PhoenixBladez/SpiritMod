@@ -1,4 +1,4 @@
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.BriarDrops;
 using SpiritMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;

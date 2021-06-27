@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
-namespace SpiritMod.Items.Tool
+namespace SpiritMod.Items.Sets.BriarChestLoot
 {
 	internal class ThornHook : ModItem
 	{
@@ -134,7 +134,7 @@ namespace SpiritMod.Items.Tool
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D texture = ModContent.GetTexture("SpiritMod/Items/Tool/ThornHook_Chain");
+			Texture2D texture = ModContent.GetTexture("SpiritMod/Items/Sets/BriarChestLoot/ThornHook_Chain");
 			Vector2 vector = projectile.Center;
 			Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
 			Rectangle? sourceRectangle = null;

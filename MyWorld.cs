@@ -12,11 +12,12 @@ using SpiritMod.Items.Pets;
 using SpiritMod.Items.Placeable;
 using SpiritMod.Items.Placeable.Tiles;
 using SpiritMod.Items.Sets.StarplateDrops;
+using SpiritMod.Items.Sets.BriarChestLoot;
+using SpiritMod.Items.Sets.BriarDrops;
+using SpiritMod.Items.Sets.HuskstalkSet;
 using SpiritMod.Items.Sets.ToolsMisc.Evergreen;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Magic;
-using SpiritMod.Items.Weapon.Returning;
-using SpiritMod.Items.Weapon.Spear;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Items.Books;
@@ -55,7 +56,6 @@ using SpiritMod.Items.Weapon.Summon.OldCross;
 using SpiritMod.World.Sepulchre;
 using System.Diagnostics.Contracts;
 using static SpiritMod.Utilities.ChestPoolUtils;
-using SpiritMod.Items.Tool;
 using SpiritMod.Tiles;
 using Terraria.DataStructures;
 using SpiritMod.Utilities;
@@ -1435,8 +1435,8 @@ namespace SpiritMod
 			AddToModdedChest(goblinPool, TileType<GoblinChest>());
 
 			List<ChestInfo> briarPool = new List<ChestInfo> {
-				new ChestInfo(new int[] { ItemType<ReachChestMagic>(), ItemType<TwigStaff>(), ItemType<ThornHook>(), ItemType<ReachStaffChest>(), ItemType<ReachBoomerang>(), ItemType<ReachBrooch>() }),
-				new ChestInfo(new int[]{ ItemType<Book_Briar>(), ItemType<Book_BriarArt>(), ItemType<GladeWreath>(), ItemType<Items.Placeable.LivingElderbarkWand>() }, 1, 0.25f),
+				new ChestInfo(new int[] { ItemType<ReachChestMagic>(), ItemType<TwigStaff>(), ItemType<ThornHook>(), ItemType<ReachBoomerang>(), ItemType<ReachBrooch>() }),
+				new ChestInfo(new int[]{ ItemType<Book_Briar>(), ItemType<Book_BriarArt>(), ItemType<GladeWreath>(), ItemType<LivingElderbarkWand>() }, 1, 0.25f),
 				new ChestInfo(commonItems1, WorldGen.genRand.Next(3, 10)),
 				new ChestInfo(ammo1, WorldGen.genRand.Next(20, 50)),
 				new ChestInfo(potions, WorldGen.genRand.Next(2, 4)),

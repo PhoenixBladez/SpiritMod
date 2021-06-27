@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Accessory
+namespace SpiritMod.Items.Sets.BriarChestLoot
 {
 	[AutoloadEquip(EquipType.Neck)]
 	public class ReachBrooch : SpiritAccessory
@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Accessory
 		{
 			DisplayName.SetDefault("Forsworn Pendant");	
 			Tooltip.SetDefault("Generates a subtle glow around the player\nAllows for increased night vision in the Briar");	
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Accessory/ReachBrooch");
+			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/BriarChestLoot/ReachBrooch");
 		}
 		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
 		{

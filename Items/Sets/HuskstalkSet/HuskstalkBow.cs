@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Weapon.Bow
+namespace SpiritMod.Items.Sets.HuskstalkSet
 {
 	public class HuskstalkBow : ModItem
 	{

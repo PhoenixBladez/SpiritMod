@@ -1,7 +1,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Material
+namespace SpiritMod.Items.Sets.BriarDrops
 {
 	public class ReachFishingCatch : ModItem
 	{

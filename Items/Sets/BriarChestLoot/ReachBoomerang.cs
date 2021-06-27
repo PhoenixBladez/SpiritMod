@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Weapon.Returning
+namespace SpiritMod.Items.Sets.BriarChestLoot
 {
 	public class ReachBoomerang : ModItem
 	{

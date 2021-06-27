@@ -3,6 +3,7 @@ using SpiritMod.Items.Ammo.Arrow;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Pins;
 using SpiritMod.Items.Placeable.Furniture;
+using SpiritMod.Items.Sets.HuskstalkSet;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Utilities;
 using System.Collections.Generic;

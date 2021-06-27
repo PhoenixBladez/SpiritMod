@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Armor.ElderbarkArmor
+namespace SpiritMod.Items.Sets.HuskstalkSet.ElderbarkArmor
 {
 	[AutoloadEquip(EquipType.Body)]
 	public class ElderbarkChest : ModItem

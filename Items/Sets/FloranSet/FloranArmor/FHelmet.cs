@@ -1,4 +1,4 @@
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.BriarDrops;
 using SpiritMod.Items.Sets.FloranSet;
 using Terraria;
 using Terraria.ID;

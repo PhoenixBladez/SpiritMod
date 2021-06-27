@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Sets.ClubSubclass
         {
 			var recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Sets.FloranSet.FloranBar>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<Material.EnchantedLeaf>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<Sets.BriarDrops.EnchantedLeaf>(), 4);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

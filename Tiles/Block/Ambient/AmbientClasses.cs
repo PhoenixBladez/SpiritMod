@@ -1,6 +1,8 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Sets.HuskstalkSet;
+using SpiritMod.Items.Sets.BriarDrops;
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -101,7 +103,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.DirtBlock, 25);
-			recipe.AddIngredient(ModContent.ItemType<Items.Material.EnchantedLeaf>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 1);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
 			recipe.SetResult(this, 25);
 			recipe.AddRecipe();

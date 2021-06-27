@@ -1108,7 +1108,7 @@ namespace SpiritMod
                 caughtType = ModContent.ItemType<Obolos>();
             }
             if (modPlayer.ZoneReach && Main.rand.NextBool(5)) {
-                caughtType = ModContent.ItemType<ReachFishingCatch>();
+                caughtType = ModContent.ItemType<Items.Sets.BriarDrops.ReachFishingCatch>();
             }
             if (modPlayer.ZoneReach && Main.rand.NextBool(player.cratePotion ? 25 : 45)) {
                 caughtType = ModContent.ItemType<ReachCrate>();

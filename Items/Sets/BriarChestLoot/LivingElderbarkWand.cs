@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Placeable
+namespace SpiritMod.Items.Sets.BriarChestLoot
 {
 	public class LivingElderbarkWand : ModItem
 	{
@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Placeable
 			item.useTime = 10;
 			item.autoReuse = true;
 			item.maxStack = 99;
-			item.tileWand = ModContent.ItemType<Items.Material.AncientBark>();
+			item.tileWand = ModContent.ItemType<Items.Sets.HuskstalkSet.AncientBark>();
 			item.consumable = false;
 			item.createTile = ModContent.TileType<LivingBriarWood>();
 			item.width = 36;

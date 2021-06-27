@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
-namespace SpiritMod.Items.Armor.ElderbarkArmor
+namespace SpiritMod.Items.Sets.HuskstalkSet.ElderbarkArmor
 {
 	[AutoloadEquip(EquipType.Legs)]
 	public class ElderbarkLegs : ModItem

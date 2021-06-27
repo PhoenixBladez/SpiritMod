@@ -2,7 +2,7 @@ using SpiritMod.Tiles.Block;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Material
+namespace SpiritMod.Items.Sets.HuskstalkSet
 {
 	public class AncientBark : ModItem
 	{

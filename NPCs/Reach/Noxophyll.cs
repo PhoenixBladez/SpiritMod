@@ -23,7 +23,7 @@ namespace SpiritMod.NPCs.Reach
 			npc.defense = 0;
 			npc.lifeMax = 5;
 			Main.npcCatchable[npc.type] = true;
-			npc.catchItem = (short)ModContent.ItemType<Items.Material.ReachFishingCatch>();
+			npc.catchItem = (short)ModContent.ItemType<Items.Sets.BriarDrops.ReachFishingCatch>();
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.knockBackResist = .35f;

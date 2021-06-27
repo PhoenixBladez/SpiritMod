@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 
-namespace SpiritMod.Items.Tool.Coral_Catcher
+namespace SpiritMod.Items.Sets.CascadeSet.Coral_Catcher
 {
     public class Coral_Catcher_Hook : ModProjectile
     {		

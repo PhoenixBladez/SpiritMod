@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.HuskstalkSet;
 using SpiritMod.Items.Pins;
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Town;

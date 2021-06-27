@@ -2,7 +2,7 @@ using SpiritMod.Items.Material;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Tool
+namespace SpiritMod.Items.Sets.HuskstalkSet
 {
 	public class HuskstalkHammer : ModItem
 	{

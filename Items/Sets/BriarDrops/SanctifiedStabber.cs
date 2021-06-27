@@ -2,7 +2,7 @@ using SpiritMod.Buffs;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace SpiritMod.Items.Weapon.Spear
+namespace SpiritMod.Items.Sets.BriarDrops
 {
 	public class SanctifiedStabber : ModItem
 	{

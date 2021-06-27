@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Weapon.Flail
+namespace SpiritMod.Items.Sets.BriarDrops
 {
 	public class VineChain : ModItem
 	{

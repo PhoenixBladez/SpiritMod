@@ -1,5 +1,5 @@
 using SpiritMod.Items.Sets.FloranSet;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.BriarDrops;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

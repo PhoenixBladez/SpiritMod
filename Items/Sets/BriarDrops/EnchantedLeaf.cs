@@ -5,7 +5,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace SpiritMod.Items.Material
+namespace SpiritMod.Items.Sets.BriarDrops
 {
 	public class EnchantedLeaf : ModItem
 	{

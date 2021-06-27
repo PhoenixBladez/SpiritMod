@@ -16,7 +16,6 @@ using SpiritMod.Items.Sets.ClubSubclass;
 using SpiritMod.Items.Weapon.Flail;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Magic;
-using SpiritMod.Items.Weapon.Spear;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Items.Weapon.Thrown;

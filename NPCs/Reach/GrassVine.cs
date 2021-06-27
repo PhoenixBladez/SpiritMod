@@ -1,11 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Material;
 using SpiritMod.Tiles.Block;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Sets.BriarDrops;
 using SpiritMod.Items.Consumable.Food;
 
 namespace SpiritMod.NPCs.Reach

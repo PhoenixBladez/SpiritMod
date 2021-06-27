@@ -13,14 +13,11 @@ using SpiritMod.Items.Material;
 using SpiritMod.Items.Pets;
 using SpiritMod.Items.Placeable.Furniture;
 using SpiritMod.Items.Placeable.IceSculpture;
-using SpiritMod.Items.Tool;
 using SpiritMod.Items.Sets.FrigidSet;
 using SpiritMod.Items.Weapon;
 using SpiritMod.Items.Weapon.Bow;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Magic;
-using SpiritMod.Items.Weapon.Returning;
-using SpiritMod.Items.Weapon.Spear;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Items.Weapon.Yoyo;
@@ -1317,7 +1314,7 @@ namespace SpiritMod.NPCs
 
 			if (npc.type == NPCID.EaterofWorldsTail && !NPC.AnyNPCs(NPCID.EaterofWorldsHead) && !NPC.AnyNPCs(NPCID.EaterofWorldsBody)) {
 				if (Main.rand.Next(3) == 1) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<EoWSpear>(), 1);
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.SpearsMisc.RotScourge.EoWSpear>(), 1);
 				}
 			}
 		}

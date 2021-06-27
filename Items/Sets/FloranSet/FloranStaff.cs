@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.BriarDrops;
 using SpiritMod.Projectiles;
 using System;
 using Terraria;

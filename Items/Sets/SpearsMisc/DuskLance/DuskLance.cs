@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Weapon.Spear
+namespace SpiritMod.Items.Sets.SpearsMisc.DuskLance
 {
 	public class DuskLance : ModItem
 	{
