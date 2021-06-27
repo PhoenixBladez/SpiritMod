@@ -77,7 +77,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<Starblade>(), 1);
-			recipe.AddIngredient(ModContent.ItemType<Items.Weapon.Swung.SpiritSaber>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<Items.Sets.SpiritSet.SpiritSaber>(), 1);
 			recipe.AddIngredient(ItemID.Ectoplasm, 15);
 			recipe.AddIngredient(ItemID.FragmentSolar, 4);
 			recipe.AddIngredient(ItemID.FragmentVortex, 4);

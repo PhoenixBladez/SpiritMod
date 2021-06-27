@@ -1,4 +1,6 @@
 using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.SpiritSet;
+using SpiritMod.Items.Sets.RunicSet;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Thrown;
 using Terraria;

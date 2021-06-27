@@ -120,7 +120,6 @@ namespace SpiritMod.NPCs.Town
 		{
 			AddItem(ref shop, ref nextSlot, ItemID.TrapsightPotion, 2000);
 			AddItem(ref shop, ref nextSlot, ItemID.DartTrap, 5000);
-			AddItem(ref shop, ref nextSlot, ItemType<WornSword>());
 			AddItem(ref shop, ref nextSlot, ItemID.WhoopieCushion, 15000, NPC.downedBoss2);
 			AddItem(ref shop, ref nextSlot, ItemID.Book, 20, NPC.downedBoss3);
             AddItem(ref shop, ref nextSlot, ItemType<WWPainting>());

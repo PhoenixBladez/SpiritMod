@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Accessory.MageTree
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<ArcaneNecklace>());
             recipe.AddIngredient(ModContent.ItemType<ManaShield>());
-            recipe.AddIngredient(ModContent.ItemType<Items.Material.SoulShred>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<Items.Sets.SpiritSet.SoulShred>(), 5);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
 			recipe.AddRecipe();

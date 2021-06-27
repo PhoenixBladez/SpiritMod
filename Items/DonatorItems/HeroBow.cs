@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
 using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.SpiritSet;
 using SpiritMod.Projectiles;
 using System.Collections.Generic;
 using Terraria;

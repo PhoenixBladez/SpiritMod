@@ -3,7 +3,7 @@ using SpiritMod.Items.Weapon.Gun;
 using System;
 using Terraria;
 using Terraria.ID;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.BloodcourtSet;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.BottomFeeder

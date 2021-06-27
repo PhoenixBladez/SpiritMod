@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.SpiritSet;
 using SpiritMod.Tiles.Block;
 using System.Linq;
 using Terraria;

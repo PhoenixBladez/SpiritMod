@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Consumable.Potion
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<SoulBloom>(), 1);
 			recipe.AddIngredient(ItemID.IronOre, 1);
-			recipe.AddIngredient(ModContent.ItemType<SpiritOre>(), 3);
+			recipe.AddIngredient(ModContent.ItemType<Items.Sets.SpiritSet.SpiritOre>(), 3);
 			recipe.AddIngredient(ItemID.BottledWater, 1);
 			recipe.AddTile(TileID.Bottles);
 			recipe.SetResult(this);

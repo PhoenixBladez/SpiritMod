@@ -1,5 +1,5 @@
 
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.SpiritSet;
 using SpiritMod.NPCs.Boss.Dusking;
 using Terraria;
 using Terraria.ID;

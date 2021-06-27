@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Sets.SpiritSet;
 using SpiritMod.Items.Material;
 using SpiritMod.Tiles.Block;
 using System.Linq;

@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.SpiritSet;
 using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Projectiles.Hostile;
 using Terraria;
