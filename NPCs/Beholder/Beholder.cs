@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.MarbleSet;
 using SpiritMod.Items.Weapon.Yoyo;
 using System;
 using System.Collections.Generic;

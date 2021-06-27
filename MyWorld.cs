@@ -12,6 +12,7 @@ using SpiritMod.Items.Pets;
 using SpiritMod.Items.Placeable;
 using SpiritMod.Items.Placeable.Tiles;
 using SpiritMod.Items.Sets.StarplateDrops;
+using SpiritMod.Items.Sets.ToolsMisc.Evergreen;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Returning;

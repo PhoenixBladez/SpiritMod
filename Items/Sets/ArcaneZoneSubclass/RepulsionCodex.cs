@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Armor;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.GraniteSet;
 using SpiritMod.Projectiles.Summon.Zones;
 using Terraria;
 using Terraria.ID;

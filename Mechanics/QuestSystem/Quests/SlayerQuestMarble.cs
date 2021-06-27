@@ -22,7 +22,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		{
 			(ModContent.ItemType<Items.Armor.Masks.BeholderMask>(), 1),
 			(ModContent.ItemType<Items.Placeable.Furniture.MarblePillars.Pillar1>(), 5),
-			(ModContent.ItemType<Items.Material.MarbleChunk>(), 15),
+			(ModContent.ItemType<Items.Sets.MarbleSet.MarbleChunk>(), 15),
 			(ModContent.ItemType<Items.Weapon.Thrown.TargetBottle>(), 35),
 			(Terraria.ID.ItemID.GoldCoin, 2)
 		};

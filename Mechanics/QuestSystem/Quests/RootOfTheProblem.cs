@@ -22,7 +22,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		private (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Armor.Masks.GladeWraithMask>(), 1),
-			(ModContent.ItemType<Items.Material.FloranOre>(), 15),
+			(ModContent.ItemType<Items.Sets.FloranSet.FloranOre>(), 15),
 			(Terraria.ID.ItemID.HealingPotion, 5),
 			(Terraria.ID.ItemID.GoldCoin, 1)
 		};

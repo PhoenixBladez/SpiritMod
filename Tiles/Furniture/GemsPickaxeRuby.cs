@@ -1,6 +1,6 @@
 ﻿
 using Microsoft.Xna.Framework;
-using SpiritMod.Items.Tool;
+using SpiritMod.Items.Sets.ToolsMisc.BrilliantHarvester;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;

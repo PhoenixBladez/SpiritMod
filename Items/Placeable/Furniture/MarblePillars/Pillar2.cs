@@ -1,5 +1,5 @@
 using SpiritMod.Tiles.Ambient.Pillars;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.MarbleSet;
 using Terraria.ID;
 using Terraria.ModLoader;
 

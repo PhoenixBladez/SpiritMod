@@ -197,11 +197,6 @@ namespace SpiritMod.NPCs
 
 		public override void HitEffect(NPC npc, int hitDirection, double damage)
 		{
-			if (npc.type == NPCID.MartianSaucer) {
-				if (Main.netMode != NetmodeID.MultiplayerClient && npc.life < 0 && !NPC.AnyNPCs(ModContent.NPCType<Town.Martian>())) {
-					NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<Town.Martian>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-				}
-			}
 			if ((npc.type == NPCID.GraniteFlyer || npc.type == NPCID.GraniteGolem) && NPC.downedBoss2 && Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0 && Main.rand.Next(3) == 0) {
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
 				{
@@ -585,12 +580,6 @@ namespace SpiritMod.NPCs
 					return "You wouldn't believe me if I told you I got this from a faraway kingdom made of CANDY! I promise it has an exquisite taste.";
 				else
 					return "I hear you can get more candy from the goodie bags that monsters hold. As if I needed an excuse to slay some zombies!";
-			}
-			else if (npc.type == NPCType<Town.Martian>()) {
-				if (dialogue == 0)
-					return "I've determined through years of scientific analysis that this candy here is irresistible to any anyone who- hey, give it back!";
-				else
-					return "I'm unfamiliar with this holiday of yours. Am I supposed to give only treats? Why can I not trick as well?";
 			}
 			else if (npc.type == NPCType<Rogue>()) {
 				if (dialogue == 0)
@@ -1137,7 +1126,7 @@ namespace SpiritMod.NPCs
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<StarlightBow>());
 			}
 			if (npc.type == NPCID.Harpy && Main.rand.Next(45) == 0) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<BreathOfTheZephyr>());
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.MagicMisc.ZephyrBreath.BreathOfTheZephyr>());
 			}
 			if (npc.type == NPCID.Tim) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<TimScroll>());
@@ -1207,7 +1196,7 @@ namespace SpiritMod.NPCs
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<SnakeStaff>());
 			}
 			if (npc.type == NPCID.DarkCaster && Main.rand.Next(42) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<DungeonStaff>());
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.MagicMisc.TerraStaffTree.DungeonStaff>());
 			}
 			if (Main.rand.NextBool(200) &&
 				(npc.type == NPCID.RustyArmoredBonesAxe
@@ -1329,13 +1318,6 @@ namespace SpiritMod.NPCs
 			if (npc.type == NPCID.EaterofWorldsTail && !NPC.AnyNPCs(NPCID.EaterofWorldsHead) && !NPC.AnyNPCs(NPCID.EaterofWorldsBody)) {
 				if (Main.rand.Next(3) == 1) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<EoWSpear>(), 1);
-				}
-			}
-
-			// Donator Items
-			if (npc.type == NPCID.RedDevil) {
-				if (Main.rand.Next(80) == 0) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<CombatShotgun>());
 				}
 			}
 		}
