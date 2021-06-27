@@ -156,9 +156,8 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
                 Color color = new Color(77, 255, 193) * 0.75f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
 
                 float scale = projectile.scale;
-                Texture2D tex = ModContent.GetTexture("SpiritMod/Items/Weapon/Bow/ArtemisHunt/ArtemisHuntArrow_Glow");
-
-                spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, projectile.rotation, tex.Size() / 2, scale, default, default);
+				Texture2D tex = ModContent.GetTexture("SpiritMod/Items/Sets/OlympiumSet/ArtemisHunt/ArtemisHunt_Glow");
+				spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, projectile.rotation, tex.Size() / 2, scale, default, default);
             }
         }
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
