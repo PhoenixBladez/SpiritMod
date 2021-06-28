@@ -1,5 +1,5 @@
 ﻿using SpiritMod.Items.Material;
-using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Items.Sets.GunsMisc.Spineshot;
 using SpiritMod.Items.Weapon.Thrown;
 using SpiritMod.NPCs.OceanSlime;
 using SpiritMod.Items.Consumable.Food;

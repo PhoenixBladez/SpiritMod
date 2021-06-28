@@ -16,7 +16,6 @@ using SpiritMod.Items.Sets.BriarChestLoot;
 using SpiritMod.Items.Sets.BriarDrops;
 using SpiritMod.Items.Sets.HuskstalkSet;
 using SpiritMod.Items.Sets.ToolsMisc.Evergreen;
-using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;

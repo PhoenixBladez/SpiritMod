@@ -204,7 +204,7 @@ namespace SpiritMod.NPCs.Bloater
             }
             if (Main.rand.NextBool(33))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Gun.Spineshot>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.GunsMisc.Spineshot.Spineshot>());
             }
         }
     }

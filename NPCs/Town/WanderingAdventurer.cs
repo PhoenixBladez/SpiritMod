@@ -4,7 +4,6 @@ using SpiritMod.Items.Material;
 using SpiritMod.Items.Pins;
 using SpiritMod.Items.Placeable.Furniture;
 using SpiritMod.Items.Sets.HuskstalkSet;
-using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
@@ -130,8 +129,8 @@ namespace SpiritMod.NPCs.Town
             AddItem(ref shop, ref nextSlot, ItemType<WWPainting>());
             AddItem(ref shop, ref nextSlot, ItemType<Items.Placeable.Furniture.SkullStick>(), 1000, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
 			AddItem(ref shop, ref nextSlot, ItemType<AncientBark>(), 200, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
-			AddItem(ref shop, ref nextSlot, ItemType<PolymorphGun>(), check: NPC.downedMechBossAny);
-            AddItem(ref shop, ref nextSlot, ItemType<PinGreen>());
+			AddItem(ref shop, ref nextSlot, ItemType<Items.Sets.GunsMisc.PolymorphGun.PolymorphGun>(), check: NPC.downedMechBossAny);
+			AddItem(ref shop, ref nextSlot, ItemType<PinGreen>());
 			AddItem(ref shop, ref nextSlot, ItemType<PinYellow>());
           
             /*if (MyWorld.sepulchreComplete) {

@@ -12,7 +12,6 @@ using SpiritMod.Items.Ammo.Arrow;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Pins;
 using SpiritMod.Items.Placeable.Furniture;
-using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Mechanics.QuestSystem.Quests;
 using SpiritMod.NPCs.Town;
 

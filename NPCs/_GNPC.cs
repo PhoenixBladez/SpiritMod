@@ -15,7 +15,6 @@ using SpiritMod.Items.Placeable.Furniture;
 using SpiritMod.Items.Placeable.IceSculpture;
 using SpiritMod.Items.Sets.FrigidSet;
 using SpiritMod.Items.Weapon;
-using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
@@ -677,7 +676,7 @@ namespace SpiritMod.NPCs
 			}
 			else if (type == NPCID.PartyGirl) {
 				if (NPC.downedMechBossAny) {
-					shop.item[nextSlot].SetDefaults(ItemType<PartyStarter>(), false);
+					shop.item[nextSlot].SetDefaults(ItemType<Items.Sets.GunsMisc.Partystarter.PartyStarter>(), false);
 					nextSlot++;
                     shop.item[nextSlot].SetDefaults(ItemType<Items.Placeable.MusicBox.NeonMusicBox>(), false);
                     shop.item[nextSlot].shopCustomPrice = 50000;
@@ -1116,7 +1115,7 @@ namespace SpiritMod.NPCs
                 }
             }
             if (closest.GetSpiritPlayer().ZoneAsteroid && Main.rand.Next(50) == 0) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Blaster>());
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.GunsMisc.Blaster.Blaster>());
 			}
 			if (npc.type == NPCID.Harpy && Main.rand.Next(45) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.BowsMisc.StarSpray.StarlightBow>());
@@ -1145,7 +1144,7 @@ namespace SpiritMod.NPCs
 
 			if (npc.type == NPCID.PirateShip || npc.type == NPCID.PirateCaptain) {
 				if (Main.rand.Next(50) <= 2) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<CaptainsRegards>());
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.GunsMisc.CaptainsRegards.CaptainsRegards>());
 				}
 				if (Main.rand.Next(100) <= 6) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Weapon.Magic.SoulSiphon>());
@@ -1166,7 +1165,7 @@ namespace SpiritMod.NPCs
 			{
 				if (Main.rand.Next(Main.expertMode ? 175 : 225) < 3)
 				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Gun.LadyLuck.LadyLuck>());
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.GunsMisc.LadyLuck.LadyLuck>());
 				}
 			}
 			if (npc.type == NPCID.PirateDeckhand)
@@ -1207,7 +1206,7 @@ namespace SpiritMod.NPCs
 				|| npc.type == NPCID.HellArmoredBonesSpikeShield
 				|| npc.type == NPCID.HellArmoredBonesMace
 				|| npc.type == NPCID.HellArmoredBonesSword)) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Swordsplosion>());
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.GunsMisc.Swordsplosion.Swordsplosion>());
 			}
             if (Main.rand.NextBool(175) &&
                 ( npc.type == NPCID.HellArmoredBones

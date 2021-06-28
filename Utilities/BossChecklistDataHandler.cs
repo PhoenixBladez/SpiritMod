@@ -14,7 +14,6 @@ using SpiritMod.Items.Placeable.MusicBox;
 using SpiritMod.Items.Weapon.Summon.ElectricGun;
 using SpiritMod.Items.Sets.ClubSubclass;
 using SpiritMod.Items.Sets.TideDrops;
-using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
