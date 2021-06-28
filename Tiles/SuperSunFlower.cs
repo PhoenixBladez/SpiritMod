@@ -69,7 +69,7 @@ namespace SpiritMod.Tiles
 					new Vector2(i, j).ToWorldCoordinates() + new Vector2(40f * (Main.rand.NextBool() ? 1 : -1), 30f * (Main.rand.NextBool() ? 1 : -1)),
 					Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.1f, 0.4f),
 					new Color(0.7f, 0.7f, 0.15f),
-					Main.rand.NextFloat(1f, 2f),
+					Main.rand.NextFloat(0.03f, 0.06f),
 					Main.rand.Next(180, 400));
 
 				ParticleHandler.SpawnParticle(particle);

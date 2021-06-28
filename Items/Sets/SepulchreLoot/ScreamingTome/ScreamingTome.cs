@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Weapon.Magic.ScreamingTome
+namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
 {
     public class ScreamingTome : ModItem
     {
@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic.ScreamingTome
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Screaming Tome");
-            Tooltip.SetDefault("Creates orbiting skulls \nRelease to launch skulls");
+            Tooltip.SetDefault("Creates orbiting skulls\nRelease to launch skulls");
         }
         public override bool CanUseItem(Player player)
         {

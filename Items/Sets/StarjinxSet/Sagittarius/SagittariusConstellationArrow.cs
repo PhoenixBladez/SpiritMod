@@ -59,7 +59,10 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 				float homestrength = MathHelper.Clamp(1 - projectile.Distance(TargetPos) / 500, 0.05f, 0.2f);
 				projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(TargetPos) * 18, homestrength);
 				if (projectile.Distance(TargetPos) < 40)
+				{
 					projectile.ai[1]++;
+					projectile.netUpdate = true;
+				}
 			}
 			else if (projectile.velocity.Length() < 25)
 				projectile.velocity *= 1.02f;

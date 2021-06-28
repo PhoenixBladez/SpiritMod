@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Equipment.ToxicBottle
+namespace SpiritMod.Items.Sets.SepulchreLoot.ToxicBottle
 {
 	public class ToxicBottle : ModItem
 	{

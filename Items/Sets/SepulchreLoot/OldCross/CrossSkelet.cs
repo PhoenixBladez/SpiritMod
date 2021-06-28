@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Weapon.Summon.OldCross
+namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 {
 	public class CrossSkelet : ModProjectile
 	{

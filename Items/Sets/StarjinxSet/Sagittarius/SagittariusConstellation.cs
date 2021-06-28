@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
@@ -21,6 +22,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 			projectile.alpha = 255;
 			projectile.rotation = Main.rand.NextFloat(MathHelper.TwoPi);
 			projectile.hide = true;
+			projectile.tileCollide = false;
+			projectile.ignoreWater = true;
 		}
 
 		public override bool CanDamage() => false;
@@ -74,7 +77,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 					if (proj.modProjectile is SagittariusConstellationArrow)
 						(proj.modProjectile as SagittariusConstellationArrow).TargetPos = Main.MouseWorld;
 
-					proj.netUpdate = true;
+					if (Main.netMode != NetmodeID.SinglePlayer)
+						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
 
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithPitchVariance(0.2f).WithVolume(0.5f), projectile.Center);
 					projectile.netUpdate = true;

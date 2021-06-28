@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Weapon.Magic.ScreamingTome
+namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
 {
 	public class ScreamingSkull : ModProjectile
 	{

@@ -200,7 +200,7 @@ namespace SpiritMod.NPCs.HauntedTome
 
 		public override void NPCLoot()
 		{
-			npc.DropItem(ModContent.ItemType<Items.Weapon.Magic.ScreamingTome.ScreamingTome>());
+			npc.DropItem(ModContent.ItemType<Items.Sets.SepulchreLoot.ScreamingTome.ScreamingTome>());
 			MyWorld.downedTome = true;
 			if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.WorldData);
@@ -234,7 +234,7 @@ namespace SpiritMod.NPCs.HauntedTome
 				null,
 				null,
 				new List<int> {
-					ModContent.ItemType<Items.Weapon.Magic.ScreamingTome.ScreamingTome>()
+					ModContent.ItemType<Items.Sets.SepulchreLoot.ScreamingTome.ScreamingTome>()
 				});
 			spawnInfo =
 				"Haunted Tomes can be found while exploring Dark Sepulchres and interacting with certain items.";
@@ -245,7 +245,7 @@ namespace SpiritMod.NPCs.HauntedTome
 
 	internal class HauntedSkull : ModProjectile
 	{
-		public override string Texture => "SpiritMod/Items/Weapon/Magic/ScreamingTome/ScreamingSkull";
+		public override string Texture => "SpiritMod/Items/Sets/SepulchreLoot/ScreamingTome/ScreamingSkull";
 
 		public override void SetStaticDefaults()
 		{

@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 
 		public void DoTrailCreation(TrailManager tM)
 		{
-			tM.CreateTrail(projectile, new GradientTrail(Color.White * 0.2f, Color.Transparent), new RoundCap(), new DefaultTrailPosition(), 40, 800);
+			tM.CreateTrail(projectile, new GradientTrail(Color.White * 0.2f, Color.Transparent), new RoundCap(), new DefaultTrailPosition(), 60, 800);
 			tM.CreateTrail(projectile, new StandardColorTrail(Color.White), new NoCap(), new DefaultTrailPosition(), 10, 600);
 			tM.CreateTrail(projectile, new StandardColorTrail(new Color(101, 255, 245)), new NoCap(), new DefaultTrailPosition(), 120, 500, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1));
 		}

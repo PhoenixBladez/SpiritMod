@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Items.Weapon.Magic.ScreamingTome;
+using SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome;
 using SpiritMod.NPCs.HauntedTome;
 using Terraria;
 using Terraria.ID;

@@ -6,7 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Weapon.Swung.AccursedBlade
+namespace SpiritMod.Items.Sets.SepulchreLoot.AccursedBlade
 {
     public class AccursedBlade : ModItem
     {

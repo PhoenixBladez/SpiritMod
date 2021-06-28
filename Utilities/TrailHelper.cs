@@ -548,6 +548,24 @@ namespace SpiritMod.Utilities
 			return _colour * (1f - progress);
 		}
 	}
+
+	public class ProjectileOpacityTrail : ITrailColor
+	{
+		private Color _colour;
+		private Projectile _proj;
+
+		public ProjectileOpacityTrail(Projectile projectile, Color colour)
+		{
+			_proj = projectile;
+			_colour = colour;
+		}
+
+		public Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points)
+		{
+			float progress = distanceFromStart / trailLength;
+			return _colour * (1f - progress) * _proj.Opacity;
+		}
+	}
 	#endregion
 
 	public interface ITrailCap

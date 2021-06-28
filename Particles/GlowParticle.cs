@@ -38,7 +38,7 @@ namespace SpiritMod.Particles
 
 			Color = glowColor * opacity;
 			Lighting.AddLight(Position, Color.R / 255f, Color.G / 255f, Color.B / 255f);
-			Velocity = Velocity.RotatedByRandom(0.03f);
+			Velocity = Velocity.RotatedByRandom(0.03f) * 0.99f;
 
 			if (opacity <= 0f)
 				Kill();

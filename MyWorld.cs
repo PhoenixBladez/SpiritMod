@@ -49,9 +49,6 @@ using Terraria.World.Generation;
 using Terraria.Utilities;
 using Terraria.Localization;
 using static Terraria.ModLoader.ModContent;
-using SpiritMod.Items.Equipment.ToxicBottle;
-using SpiritMod.Items.Weapon.Swung.AccursedBlade;
-using SpiritMod.Items.Weapon.Summon.OldCross;
 using SpiritMod.World.Sepulchre;
 using System.Diagnostics.Contracts;
 using static SpiritMod.Utilities.ChestPoolUtils;
@@ -59,6 +56,9 @@ using SpiritMod.Tiles;
 using Terraria.DataStructures;
 using SpiritMod.Utilities;
 using SpiritMod.Mechanics.PortraitSystem;
+using SpiritMod.Items.Sets.SepulchreLoot.ToxicBottle;
+using SpiritMod.Items.Sets.SepulchreLoot.AccursedBlade;
+using SpiritMod.Items.Sets.SepulchreLoot.OldCross;
 
 namespace SpiritMod
 {
