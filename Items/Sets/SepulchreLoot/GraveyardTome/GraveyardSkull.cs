@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 			tM.CreateTrail(projectile, new ProjectileOpacityTrail(projectile, Color.Lerp(Color.White, Color.LimeGreen, 0.5f) * 0.2f), new RoundCap(), new SleepingStarTrailPosition(), 100 * projectile.scale, 300);
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.immune[projectile.owner] = 10;
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.immune[projectile.owner] = 20;
 
 		public struct SkullMovement
 		{
@@ -65,13 +65,13 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 		{
 			projectile.alpha = (int)MathHelper.Max(projectile.alpha - 10, 0);
 
-			if (!Main.dedServ && Main.rand.NextFloat(2.55f) < projectile.alpha/100f)
+			if (!Main.dedServ && Main.rand.NextFloat(2f) < projectile.alpha/255f)
 			{
 				GlowParticle particle = new GlowParticle(
-					projectile.Center + Main.rand.NextVector2Circular(4, 4),
-					projectile.velocity.RotatedByRandom(MathHelper.Pi / 12) * Main.rand.NextFloat(0.25f),
+					projectile.Center + Main.rand.NextVector2Circular(4, 4) * projectile.scale,
+					projectile.velocity.RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(0.4f) * (projectile.alpha / 255f),
 					Color.LimeGreen * (projectile.Opacity/2 + 0.5f),
-					Main.rand.NextFloat(0.03f, 0.05f),
+					Main.rand.NextFloat(0.02f, 0.04f),
 					Main.rand.Next(30, 40));
 
 				ParticleHandler.SpawnParticle(particle);
@@ -88,7 +88,10 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 			{
 				NPC npc = Projectiles.ProjectileExtras.FindNearestNPC(projectile.Center, 150, false);
 				if(npc != null)
-					_origVel = Vector2.Lerp(_origVel, projectile.DirectionTo(npc.Center) * 24, 0.17f);
+				{
+					_origVel = Vector2.Lerp(_origVel, projectile.DirectionTo(npc.Center) * 20, 0.17f);
+					Movement.Amplitude = MathHelper.Lerp(Movement.Amplitude, 0, 0.1f);
+				}
 
 				projectile.velocity = _origVel.RotatedBy(Math.Cos(MathHelper.TwoPi * Timer / Movement.WaveLength) * MathHelper.ToRadians(Movement.Amplitude) * Movement.Direction);
 				if (Timer < 40)

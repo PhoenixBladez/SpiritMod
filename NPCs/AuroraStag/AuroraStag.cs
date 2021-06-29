@@ -26,7 +26,7 @@ namespace SpiritMod.NPCs.AuroraStag
 
 		public static float ParticleReturnTime => TameAnimationLength * 0.1f;
 
-		private float Brightness => (float)Math.Pow((TameAnimationLength - TameAnimationTimer) / TameAnimationLength, 3);
+		private float Brightness => (float)Math.Pow((TameAnimationLength - TameAnimationTimer) / TameAnimationLength, 12);
 
 		// the time left before the stag starts moving again if it is standing still, or the time left until it stops if it is moving
 		// ignored if the stag is alerted or scared
@@ -76,6 +76,7 @@ namespace SpiritMod.NPCs.AuroraStag
 		{
 			DisplayName.SetDefault("Aurora Stag");
 			Main.npcFrameCount[npc.type] = 10;
+			npc.frame.Width = 402;
 		}
 
 		public override void SetDefaults()

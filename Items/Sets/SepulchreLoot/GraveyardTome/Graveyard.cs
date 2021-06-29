@@ -15,8 +15,8 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 
 		public override void SetDefaults()
         {
-			item.Size = new Vector2(36, 40);
-            item.damage = 46;
+			item.Size = new Vector2(36, 54);
+            item.damage = 60;
             item.noMelee = true;
             item.magic = true;
             item.useTime = 14;

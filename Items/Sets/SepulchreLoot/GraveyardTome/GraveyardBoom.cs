@@ -47,6 +47,6 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 			return false;
 		}
 
-		public override bool CanDamage() => projectile.frame <= (Main.projFrames[projectile.type] / 2);
+		public override bool CanDamage() => projectile.frame <= (Main.projFrames[projectile.type] / 3);
 	}
 }

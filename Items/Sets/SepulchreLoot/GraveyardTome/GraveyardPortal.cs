@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 		public override string Texture => "SpiritMod/Textures/StardustPillarStar";
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Graveyard Portal");
 
-		private const float maxscale = 1.2f;
+		public const float MaxScale = 1.2f;
 
 		public override void SetDefaults()
 		{
@@ -49,18 +49,19 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 			projectile.timeLeft = 20;
 			Direction = MathHelper.Lerp(Direction, player.direction, 0.07f);
 			projectile.Center = player.MountedCenter - new Vector2(50 * Direction, 50 + (float)(Math.Sin(Main.GameUpdateCount / 30f) * 7));
+			float particlerate = 0.2f;
 
 			if (!player.channel)
 			{
 				projectile.scale -= 0.025f;
+				particlerate = 0.4f;
 				if (projectile.scale <= 0)
 					projectile.Kill();
-				return;
 			}
 			else
 			{
-				projectile.scale = Math.Min(projectile.scale + 0.025f, maxscale);
-				if (projectile.scale == maxscale)
+				projectile.scale = Math.Min(projectile.scale + 0.025f, MaxScale);
+				if (projectile.scale == MaxScale)
 				{
 					if (++Timer % player.HeldItem.useTime == 0)
 					{
@@ -84,6 +85,15 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 							player.channel = false;
 					}
 				}
+				else
+					particlerate = 0.4f;
+			}
+
+			if(Main.rand.NextFloat() < particlerate && !Main.dedServ)
+			{
+				Vector2 offset = Main.rand.NextVector2CircularEdge(30, 30) * projectile.scale;
+				Vector2 velocity = Vector2.Normalize(projectile.Center - offset).RotatedBy(MathHelper.Pi * Direction) * Main.rand.NextFloat(0.3f, 0.6f);
+				ParticleHandler.SpawnParticle(new GraveyardPortalParticle(projectile, offset, velocity, Main.rand.NextFloat(0.02f, 0.035f), Main.rand.Next(20, 30)));
 			}
 		}
 
@@ -101,7 +111,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 			SpiritMod.ShaderDict["PortalShader"].Parameters["Timer"].SetValue(MathHelper.WrapAngle(Main.GlobalTime / 3));
 			SpiritMod.ShaderDict["PortalShader"].CurrentTechnique.Passes[0].Apply();
 
-			float opacitymod = (float)Math.Pow(projectile.scale / maxscale, 2);
+			float opacitymod = (float)Math.Pow(projectile.scale / MaxScale, 2);
 
 			float numtodraw = 3;
 			for (float i = 0; i < numtodraw; i++) //pulsating bloom type effect, draws multiple of the texture that grow in scale over time and fade out
