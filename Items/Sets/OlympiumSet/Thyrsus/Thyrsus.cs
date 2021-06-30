@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -90,21 +92,137 @@ namespace SpiritMod.Items.Sets.OlympiumSet.Thyrsus
 			{
 				stuck = true;
 				projectile.tileCollide = false;
+				projectile.timeLeft = 375;
+				Vector2 velocity = new Vector2(oldVelocity.X == projectile.velocity.X ? 0 : Math.Sign(oldVelocity.X), oldVelocity.Y == projectile.velocity.Y ? 0 : Math.Sign(oldVelocity.Y));
+				//Main.NewText("X: " + velocity.X.ToString());
+				//Main.NewText("Y: " + velocity.Y.ToString());
+				Projectile proj = Projectile.NewProjectileDirect(projectile.Center, projectile.velocity, ModContent.ProjectileType<ThyrsusProjTwo>(), projectile.damage, projectile.knockBack, projectile.owner);
+				if (proj.modProjectile is ThyrsusProjTwo modproj)
+				{
+					velocity = velocity.RotatedBy(-1.57f / 2);
+					velocity.Normalize();
+					modproj.moveDirection = velocity;
+				}
+				proj = Projectile.NewProjectileDirect(projectile.Center, projectile.velocity, ModContent.ProjectileType<ThyrsusProjTwo>(), projectile.damage, projectile.knockBack, projectile.owner);
+				if (proj.modProjectile is ThyrsusProjTwo modproj2)
+				{
+					velocity = velocity.RotatedBy(1.57f);
+					velocity.Normalize();
+					modproj2.moveDirection = velocity;
+				}
 				projectile.velocity = Vector2.Zero;
-				projectile.timeLeft = 100;
 			}
 			return false;
 		}
-		//public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		//{
-		//    Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-		//    for (int k = 0; k < projectile.oldPos.Length; k++)
-		//    {
-		//        Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-		//        Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-		//        spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
-		//    }
-		//    return true;
-		//}
+	}
+	public class ThyrsusProjTwo : ModProjectile
+	{
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Vine");
+
+
+		public ThyrsusPrimTrail trail;
+		public List<Vector2> points = new List<Vector2>();
+
+		public Vector2 moveDirection;
+		public Vector2 newVelocity = Vector2.Zero;
+		public float speed = 3f;
+
+		private float growCounter = 0;
+		private bool primsCreated;
+		bool collideX = false;
+		bool collideY = false;
+		public override void SetDefaults()
+		{
+			projectile.penetrate = -1;
+			projectile.tileCollide = false;
+			projectile.hostile = false;
+			projectile.friendly = true;
+			projectile.minion = true;
+			projectile.minionSlots = 0;
+			projectile.width = projectile.height = 8;
+			projectile.timeLeft = 750;
+			projectile.ignoreWater = true;
+			projectile.extraUpdates = 1;
+			projectile.alpha = 255;
+		}
+		public override void AI()
+		{
+			if (!primsCreated)
+			{
+				trail = new ThyrsusPrimTrail(projectile);
+
+				SpiritMod.primitives.CreateTrail(trail);
+				primsCreated = true;
+			}
+
+			if (growCounter < 1)
+				projectile.scale = growCounter += 0.1f;
+
+			newVelocity = Collide();
+			if (Math.Abs(newVelocity.X) < 0.5f)
+				collideX = true;
+			else
+				collideX = false;
+			if (Math.Abs(newVelocity.Y) < 0.5f)
+				collideY = true;
+			else
+				collideY = false;
+
+			if (projectile.ai[1] == 0f)
+			{
+				projectile.rotation += (float)(moveDirection.X * moveDirection.Y) * 0.13f;
+				if (collideY)
+				{
+					projectile.ai[0] = 2f;
+				}
+				if (!collideY && projectile.ai[0] == 2f)
+				{
+					moveDirection.X = -moveDirection.X;
+					projectile.ai[1] = 1f;
+					projectile.ai[0] = 1f;
+				}
+				if (collideX)
+				{
+					moveDirection.Y = -moveDirection.Y;
+					projectile.ai[1] = 1f;
+				}
+			}
+			else
+			{
+				projectile.rotation -= (float)(moveDirection.X * moveDirection.Y) * 0.13f;
+				if (collideX)
+				{
+					projectile.ai[0] = 2f;
+				}
+				if (!collideX && projectile.ai[0] == 2f)
+				{
+					moveDirection.Y = -moveDirection.Y;
+					projectile.ai[1] = 0f;
+					projectile.ai[0] = 1f;
+				}
+				if (collideY)
+				{
+					moveDirection.X = -moveDirection.X;
+					projectile.ai[1] = 0f;
+				}
+			}
+			if (projectile.timeLeft > 600)
+			{
+				projectile.velocity = speed * moveDirection;
+				projectile.velocity = Collide();
+				trail._addPoints = true;
+			}
+			else
+			{
+				projectile.velocity = Vector2.Zero;
+				trail._addPoints = false;
+			}
+		}
+
+		protected virtual Vector2 Collide()
+		{
+			return Collision.noSlopeCollision(projectile.position, projectile.velocity, projectile.width, projectile.height, true, true);
+		}
+
 	}
 }

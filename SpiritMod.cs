@@ -82,6 +82,7 @@ namespace SpiritMod
 		public static Effect ArcLashShader;
 		public static Effect JemShaders;
 		public static Effect SunOrbShader;
+		public static Effect ThyrsusShader;
 
 		public static IDictionary<string, Effect> ShaderDict = new Dictionary<string, Effect>();
 
@@ -744,6 +745,7 @@ namespace SpiritMod
 				ArcLashShader = instance.GetEffect("Effects/ArcLashShader");
 				JemShaders = instance.GetEffect("Effects/JemShaders");
 				SunOrbShader = instance.GetEffect("Effects/SunOrbShader");
+				ThyrsusShader = instance.GetEffect("Effects/ThyrsusShader");
 				GSaber = instance.GetEffect("Effects/GSaber");
 
 				SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
@@ -934,6 +936,7 @@ namespace SpiritMod
 			EyeballShader = null;
 			ArcLashShader = null;
 			JemShaders = null;
+			ThyrsusShader = null;
 			SunOrbShader = null;
 			noise = null;
 			instance = null;
