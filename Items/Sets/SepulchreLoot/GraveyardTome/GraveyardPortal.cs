@@ -49,12 +49,12 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 			projectile.timeLeft = 20;
 			Direction = MathHelper.Lerp(Direction, player.direction, 0.07f);
 			projectile.Center = player.MountedCenter - new Vector2(50 * Direction, 50 + (float)(Math.Sin(Main.GameUpdateCount / 30f) * 7));
-			float particlerate = 0.2f;
+			float particlerate = 0.15f;
 
 			if (!player.channel)
 			{
 				projectile.scale -= 0.025f;
-				particlerate = 0.4f;
+				particlerate = 0.3f;
 				if (projectile.scale <= 0)
 					projectile.Kill();
 			}
@@ -68,7 +68,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 						if (player.CheckMana(player.HeldItem.mana, true))
 						{
 							if (!Main.dedServ)
-								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/skullscrem").WithPitchVariance(0.2f).WithVolume(0.33f), projectile.Center);
+								Main.PlaySound(SoundID.Item104.WithPitchVariance(0.3f).WithVolume(0.5f), projectile.Center);
 
 							if (player == Main.LocalPlayer)
 							{
@@ -86,13 +86,13 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 					}
 				}
 				else
-					particlerate = 0.4f;
+					particlerate = 0.3f;
 			}
 
 			if(Main.rand.NextFloat() < particlerate && !Main.dedServ)
 			{
-				Vector2 offset = Main.rand.NextVector2CircularEdge(30, 30) * projectile.scale;
-				Vector2 velocity = Vector2.Normalize(projectile.Center - offset).RotatedBy(MathHelper.Pi * Direction) * Main.rand.NextFloat(0.3f, 0.6f);
+				Vector2 offset = Main.rand.NextVector2CircularEdge(15, 30) * projectile.scale;
+				Vector2 velocity = Vector2.Normalize(projectile.Center + new Vector2(Direction * 3, 0).RotatedBy(projectile.rotation) - offset).RotatedBy(MathHelper.Pi * Direction) * Main.rand.NextFloat(0.2f, 0.4f);
 				ParticleHandler.SpawnParticle(new GraveyardPortalParticle(projectile, offset, velocity, Main.rand.NextFloat(0.02f, 0.035f), Main.rand.Next(20, 30)));
 			}
 		}
@@ -100,9 +100,8 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Texture2D bloom = mod.GetTexture("Effects/Masks/Extra_A1");
-			for (int i = 0; i < 5; i++)
-				spriteBatch.Draw(bloom, projectile.Center - Main.screenPosition, null, new Color(2, 56, 14), 0, bloom.Size() / 2, 
-					projectile.scale * MathHelper.Lerp(1.2f, 1.6f, i / 5f), SpriteEffects.None, 0); //draw a dark bloom beneath the portal
+			spriteBatch.Draw(bloom, projectile.Center - Main.screenPosition, null, Color.Black, 0, bloom.Size() / 2, 
+				projectile.scale * 1.3f, SpriteEffects.None, 0); //draw a dark bloom beneath the portal
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
 			Texture2D tex = Main.projectileTexture[projectile.type];
@@ -120,14 +119,14 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 				float Opacity = 0.33f * (float)Math.Pow(Math.Sin(Timer * MathHelper.Pi), 3);
 				float Scale = 0.6f * (projectile.scale + (Timer * projectile.scale));
 				float Rotation = Main.GlobalTime / 2 * ((i % 2 == 0) ? -1 : 1) * (MathHelper.TwoPi * i / numtodraw);
-				spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, new Color(142, 223, 38) * Opacity * opacitymod,
+				spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, new Color(94, 25, 25) * Opacity * opacitymod,
 					Rotation, tex.Size() / 2, Scale, SpriteEffects.None, 0);
 			}
 
 			Vector2 ellipticalscale = new Vector2(projectile.scale * 0.5f, projectile.scale);
-			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, new Color(67, 168, 23) * opacitymod, projectile.rotation, tex.Size() / 2, //the main "body" of the portal
+			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, new Color(15, 4, 4) * opacitymod, projectile.rotation, tex.Size() / 2, //the main "body" of the portal
 				ellipticalscale, SpriteEffects.None, 0);
-			spriteBatch.Draw(tex, projectile.Center + new Vector2(Direction * 3, 0).RotatedBy(projectile.rotation) - Main.screenPosition, null, new Color(17, 83, 3) * opacitymod, 
+			spriteBatch.Draw(tex, projectile.Center + new Vector2(Direction * 3, 0).RotatedBy(projectile.rotation) - Main.screenPosition, null, new Color(212, 8, 8) * opacitymod, 
 				projectile.rotation, tex.Size() / 2, ellipticalscale * 0.66f, SpriteEffects.None, 0);  //the center, moves slightly depending on direction for illusion of facing the player
 
 			spriteBatch.End(); spriteBatch.Begin(default, BlendState.AlphaBlend, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);

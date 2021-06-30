@@ -25,8 +25,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
             item.useTime = 42;
             item.useAnimation = 42;
             item.useStyle = ItemUseStyleID.Stabbing;
-            item.shoot = mod.ProjectileType("StarfireLampYellow");
-            item.shootSpeed = 9f;
+            item.shoot = ModContent.ProjectileType<StarfireProj>();
+            item.shootSpeed = 14f;
             item.knockBack = 3f;
             item.autoReuse = true;
             item.rare = ItemRarityID.Pink;
@@ -74,23 +74,10 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 direction = Vector2.Zero;
-            Dust dust;
-            if (player.ownedProjectileCounts[mod.ProjectileType("StarfireLampYellow")] < 2)
-            {
-                int p = Projectile.NewProjectile(player.Center.X - Main.rand.Next(-50, 50), player.Center.Y - Main.rand.Next(40, 80), 0f, 0f, mod.ProjectileType("StarfireLampYellow"), damage, knockBack, player.whoAmI);
-                Main.projectile[p].ai[0] = player.whoAmI;
-            }
-            if (player.ownedProjectileCounts[mod.ProjectileType("StarfireLampPurple")] < 2)
-            {
-                int p = Projectile.NewProjectile(player.Center.X - Main.rand.Next(-50, 50), player.Center.Y - Main.rand.Next(40, 80), 0f, 0f, mod.ProjectileType("StarfireLampPurple"), damage, knockBack, player.whoAmI);
-                Main.projectile[p].ai[0] = player.whoAmI;
-            }
-            DustHelper.DrawStar2(player.Center - new Vector2(0, 60), 66, 5, 2f, 2f, 1f, 1, 0.5f, true, 0, -1, SpiritMod.StarjinxColor(Main.GlobalTime * 3));
-            return false;
+			position.Y -= 45;
+            return true;
         }
 
-        public override bool CanUseItem(Player player) => (player.ownedProjectileCounts[mod.ProjectileType("StarfireLampPurple")] < 2 || player.ownedProjectileCounts[mod.ProjectileType("StarfireLampYellow")] < 2);
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -102,6 +89,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
             recipe.AddRecipe();
         }
     }
+
     public class StarfireLampPlayer : ModPlayer
     {
         public static bool isHolding = false;

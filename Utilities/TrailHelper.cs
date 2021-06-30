@@ -552,18 +552,27 @@ namespace SpiritMod.Utilities
 	public class ProjectileOpacityTrail : ITrailColor
 	{
 		private Color _colour;
+		private Color _colour2;
 		private Projectile _proj;
 
 		public ProjectileOpacityTrail(Projectile projectile, Color colour)
 		{
 			_proj = projectile;
 			_colour = colour;
+			_colour2 = colour;
+		}
+
+		public ProjectileOpacityTrail(Projectile projectile, Color startColour, Color endColour)
+		{
+			_proj = projectile;
+			_colour = startColour;
+			_colour2 = endColour;
 		}
 
 		public Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points)
 		{
 			float progress = distanceFromStart / trailLength;
-			return _colour * (1f - progress) * _proj.Opacity;
+			return Color.Lerp(_colour, _colour2, progress) * (1f - progress) * _proj.Opacity;
 		}
 	}
 	#endregion

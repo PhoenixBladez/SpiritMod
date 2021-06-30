@@ -13,14 +13,11 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 {
 	public class GraveyardSkull : ModProjectile, ITrailProjectile
 	{
-		public override string Texture => "SpiritMod/Items/Sets/SepulchreLoot/ScreamingTome/ScreamingSkull";
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Haunted Skull");
-			Main.projFrames[projectile.type] = 6;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+			Main.projFrames[projectile.type] = 3;
+			ProjectileID.Sets.Homing[projectile.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -29,15 +26,16 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 			projectile.scale = Main.rand.NextFloat(0.4f, 0.5f);
 			projectile.friendly = true;
 			projectile.magic = true;
-			projectile.tileCollide = true;
 			projectile.alpha = 255;
+			projectile.frame = Main.rand.Next(3);
 			projectile.timeLeft = 120;
 		}
 
 		public void DoTrailCreation(TrailManager tM)
 		{
-			tM.CreateTrail(projectile, new ProjectileOpacityTrail(projectile, Color.LimeGreen), new NoCap(), new DefaultTrailPosition(), 40 * projectile.scale, 150, new ImageShader(mod.GetTexture("Textures/vnoise"), 0.01f, 1f, 1f));
-			tM.CreateTrail(projectile, new ProjectileOpacityTrail(projectile, Color.Lerp(Color.White, Color.LimeGreen, 0.5f) * 0.2f), new RoundCap(), new SleepingStarTrailPosition(), 100 * projectile.scale, 300);
+			tM.CreateTrail(projectile, new ProjectileOpacityTrail(projectile, Color.Lerp(Color.White, Color.Red, 0.65f) * 0.1f), new RoundCap(), new SleepingStarTrailPosition(), 100 * projectile.scale, 300);
+			tM.CreateTrail(projectile, new ProjectileOpacityTrail(projectile, Color.Red, new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 100 * projectile.scale, 200, new ImageShader(mod.GetTexture("Textures/Trails/Trail_3"), 0.2f, 1f, 1f));
+			tM.CreateTrail(projectile, new ProjectileOpacityTrail(projectile, Color.Red, new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 100 * projectile.scale, 200, new ImageShader(mod.GetTexture("Textures/Trails/Trail_3"), 0.2f, 1f, 1f));
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.immune[projectile.owner] = 20;
@@ -64,20 +62,21 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 		public override void AI()
 		{
 			projectile.alpha = (int)MathHelper.Max(projectile.alpha - 10, 0);
+			projectile.tileCollide = projectile.timeLeft < 110;
 
 			if (!Main.dedServ && Main.rand.NextFloat(2f) < projectile.alpha/255f)
 			{
 				GlowParticle particle = new GlowParticle(
 					projectile.Center + Main.rand.NextVector2Circular(4, 4) * projectile.scale,
 					projectile.velocity.RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(0.4f) * (projectile.alpha / 255f),
-					Color.LimeGreen * (projectile.Opacity/2 + 0.5f),
+					Color.Red * (projectile.Opacity/2 + 0.5f),
 					Main.rand.NextFloat(0.02f, 0.04f),
 					Main.rand.Next(30, 40));
 
 				ParticleHandler.SpawnParticle(particle);
 			}
 
-			Lighting.AddLight(projectile.Center, Color.LimeGreen.ToVector3() / 2);
+			Lighting.AddLight(projectile.Center, Color.Red.ToVector3() / 2);
 
 			if (++Timer == 1)
 			{
@@ -94,21 +93,25 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 				}
 
 				projectile.velocity = _origVel.RotatedBy(Math.Cos(MathHelper.TwoPi * Timer / Movement.WaveLength) * MathHelper.ToRadians(Movement.Amplitude) * Movement.Direction);
-				if (Timer < 40)
+				if (Timer < 30)
 				{
-					_origVel *= 1.025f;
+					_origVel *= 1.03f;
 					projectile.scale *= 1.025f;
 				}
 			}
 
-			projectile.frame = 5;
+			projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+			if (projectile.frameCounter++ % 5 == 0)
+			{
+				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
+			}
 			projectile.spriteDirection = Math.Sign(projectile.velocity.X);
 			projectile.rotation = projectile.velocity.ToRotation() - ((projectile.spriteDirection < 0) ? MathHelper.Pi : 0);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D mask = mod.GetTexture("Items/Sets/SepulchreLoot/GraveyardTome/GraveyardSkullMask");
+			Texture2D mask = ModContent.GetTexture(Texture + "_mask");
 			spriteBatch.Draw(mask, projectile.Center - Main.screenPosition, projectile.DrawFrame(), Color.White * projectile.Opacity,
 				projectile.rotation, projectile.DrawFrame().Size() / 2, projectile.scale * 1.15f, projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
@@ -138,14 +141,18 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 3, 1f, 0f);
+			if (!Main.dedServ)
+			{
+				Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 3, 1f, 0f);
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/skullscrem").WithPitchVariance(0.2f).WithVolume(0.7f), projectile.Center);
+			}
 
 			Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ModContent.ProjectileType<GraveyardBoom>(), projectile.damage, projectile.knockBack, projectile.owner);
 			for (int i = 0; i <= 3; i++)
 			{
 				Gore gore = Gore.NewGoreDirect(projectile.position + new Vector2(Main.rand.Next(projectile.width), Main.rand.Next(projectile.height)),
 					Main.rand.NextVector2Circular(-1, 1),
-					mod.GetGoreSlot("Gores/Skelet/bonger" + Main.rand.Next(1, 5)),
+					mod.GetGoreSlot("Gores/Skelet/grave" + Main.rand.Next(1, 5)),
 					projectile.scale);
 				gore.timeLeft = 20;
 			}

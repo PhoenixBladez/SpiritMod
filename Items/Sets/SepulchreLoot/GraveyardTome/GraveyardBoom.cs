@@ -22,13 +22,14 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 			projectile.alpha = 0;
 			projectile.tileCollide = false;
 			projectile.friendly = true;
+			projectile.magic = true;
 			projectile.scale = Main.rand.NextFloat(0.6f, 0.8f);
-			projectile.rotation = Main.rand.NextFloat(-0.2f, 0.2f);
+			projectile.rotation = Main.rand.NextFloat(-0.1f, 0.1f);
 		}
 
 		public override void AI()
 		{
-			Lighting.AddLight(projectile.Center, Color.LimeGreen.ToVector3() / 2);
+			Lighting.AddLight(projectile.Center, Color.Red.ToVector3() / 2);
 			projectile.frameCounter++;
 			if (projectile.frameCounter > 3) {
 				projectile.frameCounter = 0;
@@ -43,7 +44,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 			Texture2D texture = Main.projectileTexture[projectile.type];
 			int frameheight = texture.Height / Main.projFrames[projectile.type];
 			Rectangle drawrect = new Rectangle(0, frameheight * projectile.frame, texture.Width, frameheight);
-			spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, drawrect, Color.White, 0, drawrect.Size() / 2, projectile.scale, SpriteEffects.None, 0);
+			spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, drawrect, Color.White, projectile.rotation, drawrect.Size() / 2, projectile.scale, SpriteEffects.None, 0);
 			return false;
 		}
 

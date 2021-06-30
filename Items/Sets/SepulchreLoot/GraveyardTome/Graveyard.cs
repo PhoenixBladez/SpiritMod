@@ -30,6 +30,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
             item.UseSound = SoundID.Item104;
             item.value = Item.buyPrice(0, 1, 40, 0);
             item.mana = 6;
+			item.noUseGraphic = true;
             item.channel = true;
         }
 
@@ -47,11 +48,35 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
             return false;
         }
 
+		public override void HoldItem(Player player)
+		{
+			GraveyardPlayer modplayer = player.GetModPlayer<GraveyardPlayer>();
+			if(player.itemAnimation > 0)
+			{
+				int framespersecond = 7;
+				modplayer.GraveyardFrame += (100 / 60f) * (framespersecond / 60f);
+				if (modplayer.GraveyardFrame > 5 && !Main.dedServ) //workaround for rounding errors
+				{
+					modplayer.GraveyardFrame = 0;
+					Main.PlaySound(SpiritMod.instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/PageFlip").WithPitchVariance(0.2f), player.Center);
+				}
+
+				if (Main.rand.NextBool(10))
+				{
+					Vector2 velocity = -Vector2.UnitY.RotatedByRandom(MathHelper.Pi/4) * Main.rand.NextFloat(1f, 2f);
+					Particles.ParticleHandler.SpawnParticle(new GraveyardRunes(player, Vector2.Zero, velocity, Main.rand.NextFloat(0.6f, 0.8f), 25));
+				}
+			}
+		}
+
+		public override Vector2? HoldoutOffset() => new Vector2(-10, 2);
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<ScreamingTome.ScreamingTome>(), 1);
 			recipe.AddIngredient(ItemID.SoulofNight, 12);
+			recipe.AddIngredient(ItemID.Bone, 40);
 			recipe.AddIngredient(ItemID.DarkShard, 2);
 			recipe.AddTile(TileID.Bookcases);
 			recipe.SetResult(this, 1);

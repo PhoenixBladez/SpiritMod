@@ -18,10 +18,10 @@ namespace SpiritMod
 			return new Rectangle(0, projectile.frame * texture.Height / Main.projFrames[projectile.type], texture.Width, texture.Height / Main.projFrames[projectile.type]);
 		}
 
-		public static void QuickDraw(this Projectile projectile, SpriteBatch spriteBatch, float? rotation = null, SpriteEffects? spriteEffects = null)
+		public static void QuickDraw(this Projectile projectile, SpriteBatch spriteBatch, float? rotation = null, SpriteEffects? spriteEffects = null, Color? drawColor = null)
 		{
 			Texture2D tex = Main.projectileTexture[projectile.type];
-			Color color = Lighting.GetColor((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16);
+			Color color = drawColor ?? Lighting.GetColor((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16);
 			if(spriteEffects == null)
 				spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
@@ -40,10 +40,10 @@ namespace SpiritMod
 			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, projectile.DrawFrame(),color ?? Color.White, rotation ?? projectile.rotation, projectile.DrawFrame().Size() / 2, projectile.scale, spriteEffects ?? (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
 		}
 
-		public static void QuickDrawTrail(this Projectile projectile, SpriteBatch spriteBatch, float Opacity = 0.5f, float? rotation = null, SpriteEffects? spriteEffects = null)
+		public static void QuickDrawTrail(this Projectile projectile, SpriteBatch spriteBatch, float Opacity = 0.5f, float? rotation = null, SpriteEffects? spriteEffects = null, Color? drawColor = null)
 		{
 			Texture2D tex = Main.projectileTexture[projectile.type];
-			Color color = Lighting.GetColor((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16);
+			Color color = drawColor ?? Lighting.GetColor((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16);
 			if (spriteEffects == null)
 				spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
