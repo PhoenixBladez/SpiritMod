@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Prim;
+using SpiritMod.VerletChains;
 
 namespace SpiritMod.Items.Sets.OlympiumSet.Thyrsus
 {
@@ -92,23 +93,18 @@ namespace SpiritMod.Items.Sets.OlympiumSet.Thyrsus
 			{
 				stuck = true;
 				projectile.tileCollide = false;
-				projectile.timeLeft = 375;
-				Vector2 velocity = new Vector2(oldVelocity.X == projectile.velocity.X ? 0 : Math.Sign(oldVelocity.X), oldVelocity.Y == projectile.velocity.Y ? 0 : Math.Sign(oldVelocity.Y));
-				//Main.NewText("X: " + velocity.X.ToString());
-				//Main.NewText("Y: " + velocity.Y.ToString());
-				Projectile proj = Projectile.NewProjectileDirect(projectile.Center, projectile.velocity, ModContent.ProjectileType<ThyrsusProjTwo>(), projectile.damage, projectile.knockBack, projectile.owner);
-				if (proj.modProjectile is ThyrsusProjTwo modproj)
+				projectile.timeLeft = 900;
+				Vector2 direction = new Vector2(oldVelocity.X == projectile.velocity.X ? 0 : 0 - Math.Sign(oldVelocity.X), oldVelocity.Y == projectile.velocity.Y ? 0 : 0 - Math.Sign(oldVelocity.Y));
+				direction.Normalize();
+				for (int i = 0; i < 3; i++)
 				{
-					velocity = velocity.RotatedBy(-1.57f / 2);
-					velocity.Normalize();
-					modproj.moveDirection = velocity;
-				}
-				proj = Projectile.NewProjectileDirect(projectile.Center, projectile.velocity, ModContent.ProjectileType<ThyrsusProjTwo>(), projectile.damage, projectile.knockBack, projectile.owner);
-				if (proj.modProjectile is ThyrsusProjTwo modproj2)
-				{
-					velocity = velocity.RotatedBy(1.57f);
-					velocity.Normalize();
-					modproj2.moveDirection = velocity;
+					Projectile proj = Projectile.NewProjectileDirect(projectile.Center, direction.RotatedBy(Main.rand.NextFloat(-1f, 1f)) * 5, ModContent.ProjectileType<ThyrsusProjTwo>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.whoAmI);
+					if (proj.modProjectile is ThyrsusProjTwo modProj)
+					{
+						modProj.InitializeChain(projectile.Center);
+						modProj.initialVelocity = proj.velocity;
+						modProj.sinMult = Main.rand.NextFloat(0.03f, 0.1f);
+					}
 				}
 				projectile.velocity = Vector2.Zero;
 			}
@@ -117,20 +113,29 @@ namespace SpiritMod.Items.Sets.OlympiumSet.Thyrsus
 	}
 	public class ThyrsusProjTwo : ModProjectile
 	{
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Vine");
+		public Vector2 initialVelocity;
+		private Chain _chain;
+
+		public float sinMult;
+
+		private float sinCounter;
+
+		private int chainSegments = 10;
+
+		private Projectile Parent => Main.projectile[(int)projectile.ai[0]];
+
+		private float Distance => (Parent.Center - projectile.Center).Length();
+
+		private bool _attacking = false;
 
 
-		public ThyrsusPrimTrail trail;
-		public List<Vector2> points = new List<Vector2>();
-
-		public Vector2 moveDirection;
-		public Vector2 newVelocity = Vector2.Zero;
-		public float speed = 3f;
-
-		private float growCounter = 0;
-		private bool primsCreated;
-		bool collideX = false;
-		bool collideY = false;
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Vine");
+			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
+			ProjectileID.Sets.Homing[projectile.type] = true;
+			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+		}
 		public override void SetDefaults()
 		{
 			projectile.penetrate = -1;
@@ -142,87 +147,34 @@ namespace SpiritMod.Items.Sets.OlympiumSet.Thyrsus
 			projectile.width = projectile.height = 8;
 			projectile.timeLeft = 750;
 			projectile.ignoreWater = true;
-			projectile.extraUpdates = 1;
-			projectile.alpha = 255;
 		}
+		public void InitializeChain(Vector2 position) => _chain = new Chain(ModContent.GetTexture(Texture + "_chain"), 8, chainSegments, position, new ChainPhysics(0.9f, 0.5f, 0f), true, true, 2);
+
 		public override void AI()
 		{
-			if (!primsCreated)
+			float _speed = 2;
+			if (!Parent.active)
 			{
-				trail = new ThyrsusPrimTrail(projectile);
-
-				SpiritMod.primitives.CreateTrail(trail);
-				primsCreated = true;
-			}
-
-			if (growCounter < 1)
-				projectile.scale = growCounter += 0.1f;
-
-			newVelocity = Collide();
-			if (Math.Abs(newVelocity.X) < 0.5f)
-				collideX = true;
-			else
-				collideX = false;
-			if (Math.Abs(newVelocity.Y) < 0.5f)
-				collideY = true;
-			else
-				collideY = false;
-
-			if (projectile.ai[1] == 0f)
-			{
-				projectile.rotation += (float)(moveDirection.X * moveDirection.Y) * 0.13f;
-				if (collideY)
-				{
-					projectile.ai[0] = 2f;
-				}
-				if (!collideY && projectile.ai[0] == 2f)
-				{
-					moveDirection.X = -moveDirection.X;
-					projectile.ai[1] = 1f;
-					projectile.ai[0] = 1f;
-				}
-				if (collideX)
-				{
-					moveDirection.Y = -moveDirection.Y;
-					projectile.ai[1] = 1f;
-				}
+				projectile.active = false;
+				return;
 			}
 			else
-			{
-				projectile.rotation -= (float)(moveDirection.X * moveDirection.Y) * 0.13f;
-				if (collideX)
-				{
-					projectile.ai[0] = 2f;
-				}
-				if (!collideX && projectile.ai[0] == 2f)
-				{
-					moveDirection.Y = -moveDirection.Y;
-					projectile.ai[1] = 0f;
-					projectile.ai[0] = 1f;
-				}
-				if (collideY)
-				{
-					moveDirection.X = -moveDirection.X;
-					projectile.ai[1] = 0f;
-				}
-			}
-			if (projectile.timeLeft > 600)
-			{
-				projectile.velocity = speed * moveDirection;
-				projectile.velocity = Collide();
-				trail._addPoints = true;
-			}
-			else
-			{
-				projectile.velocity = Vector2.Zero;
-				trail._addPoints = false;
-			}
+				projectile.timeLeft = 2;
+			float ChainLength = 26 * chainSegments;
+			NPC target = Main.npc.Where(n => n.CanBeChasedBy(projectile, false) && Vector2.Distance(n.Center, Parent.Center) < ChainLength).OrderBy(n => Vector2.Distance(n.Center, Parent.Center)).FirstOrDefault();
+
+			if (Main.netMode != NetmodeID.Server)
+				_chain.Update(Parent.Center, projectile.position);
 		}
 
-		protected virtual Vector2 Collide()
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => _attacking = false;
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			return Collision.noSlopeCollision(projectile.position, projectile.velocity, projectile.width, projectile.height, true, true);
-		}
+			if (_chain == null)
+				return false;
 
+			_chain.Draw(spriteBatch, out float endrot, out Vector2 endpos);
+			return false;
+		}
 	}
 }

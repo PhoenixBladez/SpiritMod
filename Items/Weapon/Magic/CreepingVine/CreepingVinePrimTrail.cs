@@ -10,11 +10,11 @@ using System;
 using static Terraria.ModLoader.ModContent;
 using System.Reflection;
 
-namespace SpiritMod.Items.Sets.OlympiumSet.Thyrsus
+namespace SpiritMod.Items.Weapon.Magic.CreepingVine
 {
-    public class ThyrsusPrimTrail : PrimTrail
+    public class CreepingVinePrimTrail : PrimTrail
     {
-        public ThyrsusPrimTrail(Projectile projectile)
+        public CreepingVinePrimTrail(Projectile projectile)
         {
 			Entity = projectile;
 			EntityType = projectile.type;
@@ -88,7 +88,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.Thyrsus
 			Effect effect = SpiritMod.ThyrsusShader;
 			if (effect.HasParameter("vineTexture"))
 			{
-				effect.Parameters["vineTexture"].SetValue(GetInstance<SpiritMod>().GetTexture("Textures/ThyrsusVine"));
+				effect.Parameters["vineTexture"].SetValue(GetInstance<SpiritMod>().GetTexture("Textures/CreepingVine"));
 			}
 			PrepareShader(effect,"MainPS", (float)_length);
         }

@@ -211,7 +211,7 @@ namespace SpiritMod.NPCs.Automata
 			projectile.tileCollide = false;
 			projectile.hostile = true;
 			projectile.friendly = false;
-			projectile.width = projectile.height = 8;
+			projectile.width = projectile.height = 38;
 			projectile.timeLeft = 150;
 			projectile.ignoreWater = true;
 		}
