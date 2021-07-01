@@ -19,6 +19,7 @@ using SpiritMod.Mechanics.QuestSystem;
 using System.Collections.Generic;
 using Terraria.Localization;
 using SpiritMod.Mechanics.PortraitSystem;
+using SpiritMod.Mechanics.BackgroundSystem;
 
 namespace SpiritMod.Utilities
 {
@@ -45,6 +46,9 @@ namespace SpiritMod.Utilities
 			On.Terraria.NPC.SpawnSkeletron += SpawnSkeletron;
 			On.Terraria.NPC.SpawnWOF += SpawnWOF;
 			On.Terraria.NPC.AI_084_LunaticCultist += LunaticCultist;
+
+			On.Terraria.Main.DrawBackgroundBlackFill += Main_DrawBackgroundBlackFill; //BackgroundItemManager.Draw()
+			On.Terraria.Main.Update += Main_Update; //BackgroundItemManager.Update()
 
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
 			IL.Terraria.WorldGen.hardUpdateWorld += WorldGen_hardUpdateWorld;
@@ -75,6 +79,23 @@ namespace SpiritMod.Utilities
 			IL.Terraria.Player.ItemCheck -= Player_ItemCheck;
 			IL.Terraria.WorldGen.hardUpdateWorld -= WorldGen_hardUpdateWorld;
 			Main.OnPreDraw -= Main_OnPreDraw;
+		}
+
+		private static void Main_Update(On.Terraria.Main.orig_Update orig, Main self, GameTime gameTime)
+		{
+			bool playerInv = Main.hasFocus && (!Main.autoPause || Main.netMode != NetmodeID.SinglePlayer || (Main.autoPause && !Main.playerInventory && Main.netMode == NetmodeID.SinglePlayer));
+			if (Main.playerLoaded && BackgroundItemManager.Loaded && playerInv) //Update all background items
+				BackgroundItemManager.Update();
+
+			orig(self, gameTime);
+		}
+
+		private static void Main_DrawBackgroundBlackFill(On.Terraria.Main.orig_DrawBackgroundBlackFill orig, Main self)
+		{
+			orig(self);
+
+			if (Main.playerLoaded && BackgroundItemManager.Loaded && !Main.gameMenu)
+				BackgroundItemManager.Draw(); //Draw all background items
 		}
 
 		private static void SpawnOnPlayer(On.Terraria.NPC.orig_SpawnOnPlayer orig, int plr, int type)

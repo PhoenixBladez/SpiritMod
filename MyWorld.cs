@@ -58,6 +58,7 @@ using SpiritMod.Tiles;
 using Terraria.DataStructures;
 using SpiritMod.Utilities;
 using SpiritMod.Mechanics.PortraitSystem;
+using SpiritMod.Mechanics.BackgroundSystem;
 
 namespace SpiritMod
 {
@@ -155,7 +156,6 @@ namespace SpiritMod
 			HiveTiles = tileCounts[TileID.Hive];
 		}
 
-
 		public override TagCompound Save()
 		{
 			TagCompound data = new TagCompound();
@@ -219,8 +219,8 @@ namespace SpiritMod
 
 			data.Add("superSunFlowerPositions", superSunFlowerPositions.ToList());
 
-			//Portrait system - Gabe
-			//PortraitManager.Unload(); //Load portraits so the detour can access them
+			List<TagCompound> backgroundItems = BackgroundItemManager.Save();
+			data.Add("backgroundItems", backgroundItems); //Save background items
 
 			return data;
 		}
@@ -266,8 +266,12 @@ namespace SpiritMod
 			superSunFlowerPositions = new HashSet<Point16>(tag.GetList<Point16>("superSunFlowerPositions"));
 			// verify that there are super sunflowers at the loaded positions
 			foreach (Point16 point in superSunFlowerPositions.ToList())
-				if (Framing.GetTileSafely(point).type != ModContent.TileType<SuperSunFlower>())
+				if (Framing.GetTileSafely(point).type != TileType<SuperSunFlower>())
 					superSunFlowerPositions.Remove(point);
+
+			var bgItems = tag.GetList<TagCompound>("backgroundItems");
+			if (bgItems != null) //Loads background items
+				BackgroundItemManager.Load(bgItems);
 		}
 
 		public override void LoadLegacy(BinaryReader reader)
