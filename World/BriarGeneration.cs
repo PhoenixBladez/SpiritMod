@@ -897,12 +897,12 @@ namespace SpiritMod.World
 					if (WithinRoseCurve(k, x, y, oreX, oreY, size, myOffset)) {
 						Tile tile = Framing.GetTileSafely(oreX, oreY);
 						if (tile.active() && (tile.type == TileID.Stone || tile.type == TileID.Dirt)) {
-							tile.type = (ushort)ModContent.TileType<Tiles.Block.FloranOreTile>();
+							tile.type = (ushort)ModContent.TileType<Items.Sets.FloranSet.FloranOreTile>();
 						}
 					}
 				}
 			}
-			WorldGen.OreRunner(x, y, 3, 2, (ushort)ModContent.TileType<Tiles.Block.FloranOreTile>());
+			WorldGen.OreRunner(x, y, 3, 2, (ushort)ModContent.TileType<Items.Sets.FloranSet.FloranOreTile>());
 		}
 
 		private bool WithinRoseCurve(int k, int originX, int originY, int x, int y, int size, float offset)

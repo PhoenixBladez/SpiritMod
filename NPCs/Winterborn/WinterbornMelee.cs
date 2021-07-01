@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.CryoliteSet;
 using SpiritMod.Items.Consumable.Food;
 using Terraria;
 using Terraria.ID;

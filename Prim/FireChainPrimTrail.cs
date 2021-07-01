@@ -1,4 +1,4 @@
-﻿using SpiritMod.Items.Weapon.Flail.BetrayersChains;
+﻿using SpiritMod.Items.Sets.OlympiumSet.BetrayersChains;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Linq;

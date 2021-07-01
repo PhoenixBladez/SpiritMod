@@ -60,7 +60,7 @@ namespace SpiritMod.NPCs.Spirit
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(3) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Material.Rune>());
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.RunicSet.Rune>());
 		}
 
 	}

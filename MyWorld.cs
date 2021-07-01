@@ -11,10 +11,12 @@ using SpiritMod.Items.Material;
 using SpiritMod.Items.Pets;
 using SpiritMod.Items.Placeable;
 using SpiritMod.Items.Placeable.Tiles;
-using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Items.Sets.StarplateDrops;
+using SpiritMod.Items.Sets.BriarChestLoot;
+using SpiritMod.Items.Sets.BriarDrops;
+using SpiritMod.Items.Sets.HuskstalkSet;
+using SpiritMod.Items.Sets.ToolsMisc.Evergreen;
 using SpiritMod.Items.Weapon.Magic;
-using SpiritMod.Items.Weapon.Returning;
-using SpiritMod.Items.Weapon.Spear;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Items.Books;
@@ -47,18 +49,16 @@ using Terraria.World.Generation;
 using Terraria.Utilities;
 using Terraria.Localization;
 using static Terraria.ModLoader.ModContent;
-using SpiritMod.Items.Equipment.ToxicBottle;
-using SpiritMod.Items.Weapon.Swung.AccursedBlade;
-using SpiritMod.Items.Weapon.Summon.OldCross;
 using SpiritMod.World.Sepulchre;
 using System.Diagnostics.Contracts;
 using static SpiritMod.Utilities.ChestPoolUtils;
-using SpiritMod.Items.Tool;
 using SpiritMod.Tiles;
 using Terraria.DataStructures;
 using SpiritMod.Utilities;
 using SpiritMod.Mechanics.PortraitSystem;
-using SpiritMod.Mechanics.BackgroundSystem;
+using SpiritMod.Items.Sets.SepulchreLoot.ToxicBottle;
+using SpiritMod.Items.Sets.SepulchreLoot.AccursedBlade;
+using SpiritMod.Items.Sets.SepulchreLoot.OldCross;
 
 namespace SpiritMod
 {
@@ -156,6 +156,7 @@ namespace SpiritMod
 			HiveTiles = tileCounts[TileID.Hive];
 		}
 
+
 		public override TagCompound Save()
 		{
 			TagCompound data = new TagCompound();
@@ -219,8 +220,8 @@ namespace SpiritMod
 
 			data.Add("superSunFlowerPositions", superSunFlowerPositions.ToList());
 
-			List<TagCompound> backgroundItems = BackgroundItemManager.Save();
-			data.Add("backgroundItems", backgroundItems); //Save background items
+			//Portrait system - Gabe
+			//PortraitManager.Unload(); //Load portraits so the detour can access them
 
 			return data;
 		}
@@ -266,12 +267,8 @@ namespace SpiritMod
 			superSunFlowerPositions = new HashSet<Point16>(tag.GetList<Point16>("superSunFlowerPositions"));
 			// verify that there are super sunflowers at the loaded positions
 			foreach (Point16 point in superSunFlowerPositions.ToList())
-				if (Framing.GetTileSafely(point).type != TileType<SuperSunFlower>())
+				if (Framing.GetTileSafely(point).type != ModContent.TileType<SuperSunFlower>())
 					superSunFlowerPositions.Remove(point);
-
-			var bgItems = tag.GetList<TagCompound>("backgroundItems");
-			if (bgItems != null) //Loads background items
-				BackgroundItemManager.Load(bgItems);
 		}
 
 		public override void LoadLegacy(BinaryReader reader)
@@ -1300,7 +1297,7 @@ namespace SpiritMod
 			int[] potionscrim = new int[] { ItemID.RagePotion, ItemID.HeartreachPotion };
 			int[] other1 = new int[] { ItemID.HerbBag, ItemID.Grenade };
 			int[] other2 = new int[] { ItemID.Bottle, ItemID.Torch };
-			int[] moddedMaterials = new int[] { ItemType<Items.Sets.Bismite.BismiteCrystal>(), ItemType<OldLeather>() };
+			int[] moddedMaterials = new int[] { ItemType<Items.Sets.BismiteSet.BismiteCrystal>(), ItemType<OldLeather>() };
 
 			//Tile tile;
 			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY) * 15E-05); k++) {
@@ -1309,7 +1306,7 @@ namespace SpiritMod
 				Tile t = Framing.GetTileSafely(x, y);
 				if (t.active()) {
 					if (t.type == TileID.IceBlock || t.type == TileID.CorruptIce || t.type == TileID.HallowedIce || t.type == TileID.FleshIce)
-						WorldGen.OreRunner(x, y, WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)TileType<CryoliteOreTile>());
+						WorldGen.OreRunner(x, y, WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)TileType<Items.Sets.CryoliteSet.CryoliteOreTile>());
 				}
 			}
 			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * 5.5f) * 15E-05); k++) {
@@ -1327,7 +1324,7 @@ namespace SpiritMod
 				ItemType<CimmerianScepter>() }, 
 				1, 0.33f) , lockedgoldChests, 1);
 			AddToVanillaChest(new ChestInfo(new int[] { 
-				ItemType<OvergrowthStaff>() }, 
+				ItemType<Items.Sets.SummonsMisc.OvergrowthStaff.OvergrowthStaff>() }, 
 				1, 0.33f) , livingWoodChests, 1);
 			AddToVanillaChest(new ChestInfo(new int[] { ItemType<MetalBand>(), ItemType<ShortFuse>(), ItemType<LongFuse>() }, 1, 0.1f) , goldChests, 1);
 			AddToVanillaChest(new ChestInfo(ItemType<HollowNail>()), spiderChests, 1);
@@ -1437,8 +1434,8 @@ namespace SpiritMod
 			AddToModdedChest(goblinPool, TileType<GoblinChest>());
 
 			List<ChestInfo> briarPool = new List<ChestInfo> {
-				new ChestInfo(new int[] { ItemType<ReachChestMagic>(), ItemType<TwigStaff>(), ItemType<ThornHook>(), ItemType<ReachStaffChest>(), ItemType<ReachBoomerang>(), ItemType<ReachBrooch>() }),
-				new ChestInfo(new int[]{ ItemType<Book_Briar>(), ItemType<Book_BriarArt>(), ItemType<GladeWreath>(), ItemType<Items.Placeable.LivingElderbarkWand>() }, 1, 0.25f),
+				new ChestInfo(new int[] { ItemType<ReachChestMagic>(), ItemType<TwigStaff>(), ItemType<ThornHook>(), ItemType<ReachBoomerang>(), ItemType<ReachBrooch>() }),
+				new ChestInfo(new int[]{ ItemType<Book_Briar>(), ItemType<Book_BriarArt>(), ItemType<GladeWreath>(), ItemType<LivingElderbarkWand>() }, 1, 0.25f),
 				new ChestInfo(commonItems1, WorldGen.genRand.Next(3, 10)),
 				new ChestInfo(ammo1, WorldGen.genRand.Next(20, 50)),
 				new ChestInfo(potions, WorldGen.genRand.Next(2, 4)),

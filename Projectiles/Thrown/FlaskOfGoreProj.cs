@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs;
-using SpiritMod.Items;
+using SpiritMod.Items.Sets.ThrownMisc.FlaskofGore;
 
 namespace SpiritMod.Projectiles.Thrown
 {

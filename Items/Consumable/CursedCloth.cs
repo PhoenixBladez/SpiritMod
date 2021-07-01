@@ -1,5 +1,5 @@
 
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.SlagSet;
 using SpiritMod.NPCs.Boss.Infernon;
 using Terraria;
 using Terraria.ID;

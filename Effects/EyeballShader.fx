@@ -35,7 +35,7 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
 };
 float4 White(VertexShaderOutput input) : COLOR0
 {
-    float4 color = tex2D(vineSampler, float2((input.TextureCoordinates.x * (progress + 0.1f)) % 1.0f, input.TextureCoordinates.y));
+    float4 color = tex2D(vineSampler, float2((input.TextureCoordinates.x * (progress + 0.1f)) % 1, input.TextureCoordinates.y));
 	return color * float4(uColor,1);
 }
 

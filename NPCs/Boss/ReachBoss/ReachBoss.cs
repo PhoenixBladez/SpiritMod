@@ -1,14 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 //using SpiritMod.Effects;
-using SpiritMod.Items.Accessory;
-using SpiritMod.Items.Armor.Masks;
-using SpiritMod.Items.Boss;
+using SpiritMod.Items.Sets.VinewrathDrops;
 using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Placeable.MusicBox;
-using SpiritMod.Items.Weapon.Bow;
-using SpiritMod.Items.Weapon.Magic;
-using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;

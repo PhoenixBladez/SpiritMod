@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
 using SpiritMod.Items.Consumable.Potion;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.SeraphSet;
 using SpiritMod.Projectiles.Hostile;
 using Terraria;
 using Terraria.ID;

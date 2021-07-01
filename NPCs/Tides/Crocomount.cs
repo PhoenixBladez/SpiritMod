@@ -1,14 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Equipment;
 using SpiritMod.Projectiles.Hostile;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Items.Material;
-using SpiritMod.Items.Weapon.Magic;
-using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Items.Sets.TideDrops;
 using SpiritMod.NPCs.Tides.Tide;
 
 namespace SpiritMod.NPCs.Tides

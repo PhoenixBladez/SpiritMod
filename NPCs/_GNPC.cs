@@ -13,14 +13,9 @@ using SpiritMod.Items.Material;
 using SpiritMod.Items.Pets;
 using SpiritMod.Items.Placeable.Furniture;
 using SpiritMod.Items.Placeable.IceSculpture;
-using SpiritMod.Items.Tool;
-using SpiritMod.Items.Sets.Frigid;
+using SpiritMod.Items.Sets.FrigidSet;
 using SpiritMod.Items.Weapon;
-using SpiritMod.Items.Weapon.Bow;
-using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Magic;
-using SpiritMod.Items.Weapon.Returning;
-using SpiritMod.Items.Weapon.Spear;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Items.Weapon.Yoyo;
@@ -33,7 +28,7 @@ using SpiritMod.NPCs.Boss.ReachBoss;
 using SpiritMod.NPCs.Boss.Scarabeus;
 using SpiritMod.NPCs.Boss.SteamRaider;
 using SpiritMod.NPCs.Critters.Algae;
-using SpiritMod.Items.Weapon.Thrown.SlingHammers;
+using SpiritMod.Items.Sets.SlingHammerSubclass;
 using SpiritMod.NPCs.Town;
 using SpiritMod.NPCs.Tides;
 using SpiritMod.Projectiles.Arrow;
@@ -197,11 +192,6 @@ namespace SpiritMod.NPCs
 
 		public override void HitEffect(NPC npc, int hitDirection, double damage)
 		{
-			if (npc.type == NPCID.MartianSaucer) {
-				if (Main.netMode != NetmodeID.MultiplayerClient && npc.life < 0 && !NPC.AnyNPCs(ModContent.NPCType<Town.Martian>())) {
-					NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<Town.Martian>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-				}
-			}
 			if ((npc.type == NPCID.GraniteFlyer || npc.type == NPCID.GraniteGolem) && NPC.downedBoss2 && Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0 && Main.rand.Next(3) == 0) {
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
 				{
@@ -586,12 +576,6 @@ namespace SpiritMod.NPCs
 				else
 					return "I hear you can get more candy from the goodie bags that monsters hold. As if I needed an excuse to slay some zombies!";
 			}
-			else if (npc.type == NPCType<Town.Martian>()) {
-				if (dialogue == 0)
-					return "I've determined through years of scientific analysis that this candy here is irresistible to any anyone who- hey, give it back!";
-				else
-					return "I'm unfamiliar with this holiday of yours. Am I supposed to give only treats? Why can I not trick as well?";
-			}
 			else if (npc.type == NPCType<Rogue>()) {
 				if (dialogue == 0)
 					return "You want some candy? Here, catch!";
@@ -692,7 +676,7 @@ namespace SpiritMod.NPCs
 			}
 			else if (type == NPCID.PartyGirl) {
 				if (NPC.downedMechBossAny) {
-					shop.item[nextSlot].SetDefaults(ItemType<PartyStarter>(), false);
+					shop.item[nextSlot].SetDefaults(ItemType<Items.Sets.GunsMisc.Partystarter.PartyStarter>(), false);
 					nextSlot++;
                     shop.item[nextSlot].SetDefaults(ItemType<Items.Placeable.MusicBox.NeonMusicBox>(), false);
                     shop.item[nextSlot].shopCustomPrice = 50000;
@@ -702,7 +686,7 @@ namespace SpiritMod.NPCs
 				}
 			}
 			else if (type == NPCID.WitchDoctor) {
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Weapon.Club.Macuahuitl>());
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Sets.ClubSubclass.Macuahuitl>());
                 nextSlot++;
             }
             else if (type == NPCID.Painter) {
@@ -1127,17 +1111,17 @@ namespace SpiritMod.NPCs
             {
                 if (Main.rand.Next(Main.expertMode ? 95 : 110) < 1)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Weapon.Club.BoneClub>());
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.ClubSubclass.BoneClub>());
                 }
             }
             if (closest.GetSpiritPlayer().ZoneAsteroid && Main.rand.Next(50) == 0) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Blaster>());
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.GunsMisc.Blaster.Blaster>());
 			}
 			if (npc.type == NPCID.Harpy && Main.rand.Next(45) == 0) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<StarlightBow>());
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.BowsMisc.StarSpray.StarlightBow>());
 			}
 			if (npc.type == NPCID.Harpy && Main.rand.Next(45) == 0) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<BreathOfTheZephyr>());
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.MagicMisc.ZephyrBreath.BreathOfTheZephyr>());
 			}
 			if (npc.type == NPCID.Tim) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<TimScroll>());
@@ -1160,7 +1144,7 @@ namespace SpiritMod.NPCs
 
 			if (npc.type == NPCID.PirateShip || npc.type == NPCID.PirateCaptain) {
 				if (Main.rand.Next(50) <= 2) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<CaptainsRegards>());
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.GunsMisc.CaptainsRegards.CaptainsRegards>());
 				}
 				if (Main.rand.Next(100) <= 6) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Weapon.Magic.SoulSiphon>());
@@ -1181,7 +1165,7 @@ namespace SpiritMod.NPCs
 			{
 				if (Main.rand.Next(Main.expertMode ? 175 : 225) < 3)
 				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Gun.LadyLuck.LadyLuck>());
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.GunsMisc.LadyLuck.LadyLuck>());
 				}
 			}
 			if (npc.type == NPCID.PirateDeckhand)
@@ -1207,7 +1191,7 @@ namespace SpiritMod.NPCs
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<SnakeStaff>());
 			}
 			if (npc.type == NPCID.DarkCaster && Main.rand.Next(42) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<DungeonStaff>());
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.MagicMisc.TerraStaffTree.DungeonStaff>());
 			}
 			if (Main.rand.NextBool(200) &&
 				(npc.type == NPCID.RustyArmoredBonesAxe
@@ -1222,7 +1206,7 @@ namespace SpiritMod.NPCs
 				|| npc.type == NPCID.HellArmoredBonesSpikeShield
 				|| npc.type == NPCID.HellArmoredBonesMace
 				|| npc.type == NPCID.HellArmoredBonesSword)) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Swordsplosion>());
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.GunsMisc.Swordsplosion.Swordsplosion>());
 			}
             if (Main.rand.NextBool(175) &&
                 ( npc.type == NPCID.HellArmoredBones
@@ -1230,7 +1214,7 @@ namespace SpiritMod.NPCs
                 || npc.type == NPCID.HellArmoredBonesMace
                 || npc.type == NPCID.HellArmoredBonesSword))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Morningtide>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.BowsMisc.Morningtide.Morningtide>());
             }
             if (npc.type == NPCID.ZombieEskimo
 				|| npc.type == NPCID.IceSlime
@@ -1241,9 +1225,6 @@ namespace SpiritMod.NPCs
 			}
 			if (npc.type == NPCID.SpikedIceSlime || npc.type == NPCID.ArmedZombieEskimo) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<FrigidFragment>(), Main.rand.Next(1, 3));
-			}
-			if ((npc.type == NPCID.ZombieEskimo || npc.type == NPCID.IceBat) && Main.rand.Next(100) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<ThrallGate>());
 			}
 			if (closest.GetSpiritPlayer().vitaStone) {
 				if (!npc.friendly && npc.lifeMax > 5 && Main.rand.Next(9) == 1 && closest.statLife < closest.statLifeMax) {
@@ -1276,7 +1257,7 @@ namespace SpiritMod.NPCs
 				}
 			}
 			if (npc.type == NPCID.EyeofCthulhu && Main.rand.Next(5) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Eyeshot>());
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.BowsMisc.Eyeshot.Eyeshot>());
 
 			if (npc.type == NPCID.MartianSaucer && Main.rand.Next(2) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Weapon.Yoyo.Martian>());
@@ -1286,15 +1267,12 @@ namespace SpiritMod.NPCs
 
 			if (npc.type == NPCID.CultistBoss) {
 				int item = 0;
-				switch (Main.rand.Next(4)) {
+				switch (Main.rand.Next(2)) {
 					case 0:
 						item = ItemType<Ancient>();
 						break;
 					case 1:
 						item = ItemType<CultistScarf>();
-						break;
-					case 2:
-						item = ItemType<Tesseract>();
 						break;
 				}
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, item);
@@ -1307,7 +1285,7 @@ namespace SpiritMod.NPCs
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Weapon.Yoyo.Typhoon>());
 
 			if (npc.type == NPCID.Demon && NPC.downedBoss3 && Main.rand.Next(4) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<CarvedRock>(), Main.rand.Next(1) + 2);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.SlagSet.CarvedRock>(), Main.rand.Next(1) + 2);
 
 			if (npc.type == NPCID.PigronCorruption || npc.type == NPCID.PigronHallow || npc.type == NPCID.PigronCrimson) {
 				if (Main.rand.Next(12) == 0) {
@@ -1334,14 +1312,7 @@ namespace SpiritMod.NPCs
 
 			if (npc.type == NPCID.EaterofWorldsTail && !NPC.AnyNPCs(NPCID.EaterofWorldsHead) && !NPC.AnyNPCs(NPCID.EaterofWorldsBody)) {
 				if (Main.rand.Next(3) == 1) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<EoWSpear>(), 1);
-				}
-			}
-
-			// Donator Items
-			if (npc.type == NPCID.RedDevil) {
-				if (Main.rand.Next(80) == 0) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<CombatShotgun>());
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.SpearsMisc.RotScourge.EoWSpear>(), 1);
 				}
 			}
 		}

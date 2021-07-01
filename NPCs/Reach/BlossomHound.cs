@@ -1,7 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.BriarDrops;
+using SpiritMod.Items.Sets.HuskstalkSet;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

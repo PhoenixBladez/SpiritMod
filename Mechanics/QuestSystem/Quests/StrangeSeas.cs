@@ -23,7 +23,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Armor.DiverSet.DiverHead>(), 1),
 			(ModContent.ItemType<Items.Armor.DiverSet.DiverBody>(), 1),
 			(ModContent.ItemType<Items.Armor.DiverSet.DiverLegs>(), 1),
-			(ModContent.ItemType<Items.Material.TribalScale>(), 3),
+			(ModContent.ItemType<Items.Sets.TideDrops.TribalScale>(), 3),
 			(Terraria.ID.ItemID.GoldCoin, 6)
 		};
 

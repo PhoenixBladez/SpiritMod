@@ -1,5 +1,8 @@
 using SpiritMod.Items.Material;
-using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Items.Sets.SpiritSet;
+using SpiritMod.Items.Sets.SeraphSet;
+using SpiritMod.Items.Sets.RunicSet;
+using SpiritMod.Items.Sets.SpiritBiomeDrops;
 using SpiritMod.Items.Weapon.Thrown;
 using Terraria;
 using Terraria.ID;
@@ -57,9 +60,6 @@ namespace SpiritMod.Items.Consumable
 				int loot3 = Main.rand.Next(lootTable3.Length);
 
 				player.QuickSpawnItem(lootTable3[loot3], Main.rand.Next(3, 5));
-			}
-			if (Main.rand.Next(7) == 0) {
-				player.QuickSpawnItem(ModContent.ItemType<SoulStinger>());
 			}
             if (Main.rand.Next(10) == 0)
             {

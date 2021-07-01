@@ -3,7 +3,7 @@ using SpiritMod.Items.Ammo.Arrow;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Pins;
 using SpiritMod.Items.Placeable.Furniture;
-using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Items.Sets.HuskstalkSet;
 using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
@@ -56,7 +56,7 @@ namespace SpiritMod.NPCs.Town
 		{
 			if (Mechanics.QuestSystem.QuestManager.GetQuest<Mechanics.QuestSystem.Quests.FirstAdventure>().IsActive)
 			{
-				Main.PlaySound(16, npc.Center, 0);
+				Main.PlaySound(SoundID.DoubleJump, npc.Center, 0);
 				Rectangle textPos = new Rectangle((int)npc.position.X, (int)npc.position.Y - 60, npc.width, npc.height);
 				CombatText.NewText(textPos, new Color(255, 240, 0, 100), "Gotta go adventurin', see you later!");
 				for (int i = 0; i < 2; i++)
@@ -65,14 +65,14 @@ namespace SpiritMod.NPCs.Town
 					Gore.NewGore(npc.position, npc.velocity, 13);
 					Gore.NewGore(npc.position, npc.velocity, 12);
 				}
+				npc.life = 0;
 				npc.active = false;
-				npc.netUpdate = true;
+
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+					NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI);
 			}
 		}
-		public override bool CanTownNPCSpawn(int numTownNPCs, int money)
-		{
-			return false;
-		}
+		public override bool CanTownNPCSpawn(int numTownNPCs, int money) => false;
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
@@ -124,14 +124,13 @@ namespace SpiritMod.NPCs.Town
 		{
 			AddItem(ref shop, ref nextSlot, ItemID.TrapsightPotion, 2000);
 			AddItem(ref shop, ref nextSlot, ItemID.DartTrap, 5000);
-			AddItem(ref shop, ref nextSlot, ItemType<WornSword>());
 			AddItem(ref shop, ref nextSlot, ItemID.WhoopieCushion, 15000, NPC.downedBoss2);
 			AddItem(ref shop, ref nextSlot, ItemID.Book, 20, NPC.downedBoss3);
             AddItem(ref shop, ref nextSlot, ItemType<WWPainting>());
             AddItem(ref shop, ref nextSlot, ItemType<Items.Placeable.Furniture.SkullStick>(), 1000, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
 			AddItem(ref shop, ref nextSlot, ItemType<AncientBark>(), 200, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
-			AddItem(ref shop, ref nextSlot, ItemType<PolymorphGun>(), check: NPC.downedMechBossAny);
-            AddItem(ref shop, ref nextSlot, ItemType<PinGreen>());
+			AddItem(ref shop, ref nextSlot, ItemType<Items.Sets.GunsMisc.PolymorphGun.PolymorphGun>(), check: NPC.downedMechBossAny);
+			AddItem(ref shop, ref nextSlot, ItemType<PinGreen>());
 			AddItem(ref shop, ref nextSlot, ItemType<PinYellow>());
           
             /*if (MyWorld.sepulchreComplete) {

@@ -1,4 +1,4 @@
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.StarplateDrops;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

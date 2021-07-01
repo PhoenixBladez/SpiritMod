@@ -1,4 +1,4 @@
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.HuskstalkSet;
 using SpiritMod.Tiles.Walls.Natural;
 using Terraria.ID;
 using Terraria.ModLoader;

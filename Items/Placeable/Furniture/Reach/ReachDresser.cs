@@ -1,4 +1,4 @@
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.HuskstalkSet;
 using Terraria.ID;
 using Terraria.ModLoader;
 using ReachDresserTile = SpiritMod.Tiles.Furniture.Reach.ReachDresser;

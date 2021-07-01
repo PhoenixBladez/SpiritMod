@@ -1,6 +1,7 @@
 using SpiritMod.Tiles.Furniture;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Sets.SpiritSet;
 using SpiritMod.Items.Material;
 
 namespace SpiritMod.Items.Placeable.Furniture
@@ -36,7 +37,7 @@ namespace SpiritMod.Items.Placeable.Furniture
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<Canvas>());
-			recipe.AddIngredient(ModContent.ItemType<MoonStone>());
+			recipe.AddIngredient(ModContent.ItemType<SoulShred>());
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

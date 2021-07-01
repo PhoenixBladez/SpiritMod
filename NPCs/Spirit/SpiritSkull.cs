@@ -34,7 +34,7 @@ namespace SpiritMod.NPCs.Spirit
         public override void NPCLoot()
         {
               if (Main.rand.NextBool(90))
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Magic.SpiritFlameStaff>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.SpiritBiomeDrops.SpiritFlameStaff>());
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{

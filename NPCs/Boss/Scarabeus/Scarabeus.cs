@@ -1,12 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Armor.Masks;
-using SpiritMod.Items.Boss;
-using SpiritMod.Items.BossBags;
 using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Equipment;
-using SpiritMod.Items.Material;
 using SpiritMod.Items.Placeable.MusicBox;
 using SpiritMod.Items.Sets.ScarabeusDrops;
 using SpiritMod.Items.Sets.ScarabeusDrops.Khopesh;

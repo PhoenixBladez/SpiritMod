@@ -5,6 +5,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Sets.SpiritBiomeDrops;
 
 namespace SpiritMod.NPCs.Spirit
 {
@@ -72,9 +73,9 @@ namespace SpiritMod.NPCs.Spirit
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(3) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Material.Rune>());
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.RunicSet.Rune>());
 			if (Main.rand.NextBool(100))
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.StoneOfSpiritsPast>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StoneOfSpiritsPast>());
         }
 
 	}

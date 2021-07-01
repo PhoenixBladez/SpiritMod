@@ -1,4 +1,4 @@
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.SlagSet;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

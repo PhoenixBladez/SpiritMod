@@ -22,8 +22,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		private (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Accessory.FeralConcoction>(), 1),
-			(ModContent.ItemType<Items.Accessory.FloranCharm>(), 1),
-			(ModContent.ItemType<Items.Material.EnchantedLeaf>(), 6),
+			(ModContent.ItemType<Items.Sets.FloranSet.FloranCharm>(), 1),
+			(ModContent.ItemType<Items.Sets.BriarDrops.EnchantedLeaf>(), 6),
 			(Terraria.ID.ItemID.SilverCoin, 50)
 		};
 

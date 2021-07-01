@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
-using SpiritMod.Items.Weapon.Spear;
+using SpiritMod.Items.Sets.BriarDrops;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

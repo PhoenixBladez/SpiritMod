@@ -191,6 +191,8 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 
 				projectile.velocity = direction;
 			}
+
+			projectile.spriteDirection = -player.direction;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => attacking = false;

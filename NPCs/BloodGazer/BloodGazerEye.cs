@@ -13,7 +13,7 @@ namespace SpiritMod.NPCs.BloodGazer
 {
 	public class BloodGazerEye : ModNPC
 	{
-		private Chain chain;
+		private Chain _chain;
 
 		private NPC Parent => Main.npc[(int)npc.ai[0]];
 
@@ -21,7 +21,7 @@ namespace SpiritMod.NPCs.BloodGazer
 
 		private bool Active => Parent.active && Parent.type == ModContent.NPCType<BloodGazer>() &&
 			((Parent.ai[0] != (float)BloodGazerAiStates.Passive && Parent.ai[0] != (float)BloodGazerAiStates.Despawn && Parent.ai[0] != (float)BloodGazerAiStates.Phase2Transition) ||
-			detatched);
+			_detatched);
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Blood Gazer");
 
 		public override void SetDefaults()
@@ -45,7 +45,8 @@ namespace SpiritMod.NPCs.BloodGazer
 		}
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.damage = (int)(npc.damage * bossLifeScale * 0.66f);
 
-		public void InitializeChain(Vector2 position) => chain = new Chain(ModContent.GetTexture(Texture + "_chain"), 8, 16, position, new ChainPhysics(0.9f, 0.5f, 0f));
+		private const int chainSegments = 16;
+		public void InitializeChain(Vector2 position) => _chain = new Chain(ModContent.GetTexture(Texture + "_chain"), 8, chainSegments, position, new ChainPhysics(0.9f, 0.5f, 0f));
 
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => false;
 
@@ -67,15 +68,15 @@ namespace SpiritMod.NPCs.BloodGazer
 
 		ref float KillTimer => ref npc.ai[3];
 
-		private bool contactdamage = false;
+		private bool _contactDamageAllowed = false;
 
-		private bool detatched = false;
+		private bool _detatched = false;
 
-		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => contactdamage;
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => _contactDamageAllowed;
 
 		public override void AI()
 		{
-			if(npc.localAI[0] == 0){
+			if(npc.localAI[0] == 0 && Main.netMode != NetmodeID.Server){
 				InitializeChain(Parent.Center);
 				npc.localAI[0]++;
 			}
@@ -90,11 +91,13 @@ namespace SpiritMod.NPCs.BloodGazer
 
 			npc.realLife = (int)npc.ai[0];
 
-			float ChainLength = (chain.Texture.Height * chain.Segments.Count);
-			if (detatched)
+			float ChainLength = 32 * chainSegments;
+			if (_detatched)
 			{
-				chain.FirstVertex.Static = false;
-				contactdamage = true;
+				if(Main.netMode != NetmodeID.Server)
+					_chain.FirstVertex.Static = false;
+
+				_contactDamageAllowed = true;
 				KillTimer++;
 				if (KillTimer > 270)
 				{
@@ -135,7 +138,7 @@ namespace SpiritMod.NPCs.BloodGazer
 						if (AiTimer == startswingtime) //swing
 						{
 							npc.velocity = 50 * (npc.Distance(Parent.Center) / ChainLength) * Parent.DirectionTo(Target.Center).RotatedBy(MathHelper.PiOver4 * ((npc.ai[1] % 2 == 0) ? 1 : -1));
-							contactdamage = true;
+							_contactDamageAllowed = true;
 							(Parent.modNPC as BloodGazer).trailing = true;
 							Parent.velocity = Parent.DirectionTo(Target.Center) * 15 * npc.Distance(Parent.Center) / (ChainLength * chandistratio);
 							Parent.netUpdate = true;
@@ -155,7 +158,12 @@ namespace SpiritMod.NPCs.BloodGazer
 									Main.PlaySound(SoundID.Item, npc.Center, 95);
 
 								if (Main.netMode != NetmodeID.MultiplayerClient)
-									Projectile.NewProjectileDirect(npc.Center, npc.DirectionFrom(Parent.Center) * 5, ModContent.ProjectileType<BloodGazerEyeShot>(), NPCUtils.ToActualDamage(40, 1.5f), 1, Main.myPlayer).netUpdate = true;
+								{
+									Projectile p = Projectile.NewProjectileDirect(npc.Center, npc.DirectionFrom(Parent.Center) * 5, ModContent.ProjectileType<BloodGazerEyeShot>(), NPCUtils.ToActualDamage(40, 1.5f), 1, Main.myPlayer);
+
+									if (Main.netMode != NetmodeID.SinglePlayer)
+										NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, p.whoAmI);
+								}
 
 								npc.velocity += npc.DirectionTo(Parent.Center);
 								npc.netUpdate = true;
@@ -164,7 +172,7 @@ namespace SpiritMod.NPCs.BloodGazer
 
 						if (AiTimer == startslowdowntime)
 						{
-							contactdamage = false;
+							_contactDamageAllowed = false;
 							(Parent.modNPC as BloodGazer).trailing = false;
 							Parent.netUpdate = true;
 							npc.netUpdate = true;
@@ -196,7 +204,12 @@ namespace SpiritMod.NPCs.BloodGazer
 									Main.PlaySound(SoundID.Item, npc.Center, 95);
 
 								if (Main.netMode != NetmodeID.MultiplayerClient)
-									Projectile.NewProjectileDirect(npc.Center, npc.DirectionFrom(Parent.Center) * 2f, ModContent.ProjectileType<BloodGazerEyeShotWavy>(), NPCUtils.ToActualDamage(40, 1.5f), 1, Main.myPlayer, Main.rand.NextBool() ? -1 : 1).netUpdate = true;
+								{
+									Projectile p = Projectile.NewProjectileDirect(npc.Center, npc.DirectionFrom(Parent.Center) * 2f, ModContent.ProjectileType<BloodGazerEyeShotWavy>(), NPCUtils.ToActualDamage(40, 1.5f), 1, Main.myPlayer, Main.rand.NextBool() ? -1 : 1);
+
+									if(Main.netMode != NetmodeID .SinglePlayer)
+										NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, p.whoAmI);
+								}
 							}
 						}
 						break;
@@ -206,7 +219,7 @@ namespace SpiritMod.NPCs.BloodGazer
 						pullbackstrength = 0.75f;
 						if (AiTimer > 30 * EyeNumber)
 						{
-							detatched = true;
+							_detatched = true;
 							Parent.velocity = npc.DirectionTo(Parent.Center) * 6;
 							if (Main.netMode != NetmodeID.Server)
 								Main.PlaySound(new LegacySoundStyle(SoundID.NPCKilled, 22).WithPitchVariance(0.2f).WithVolume(0.8f), Parent.Center);
@@ -221,40 +234,47 @@ namespace SpiritMod.NPCs.BloodGazer
 				}
 				npc.velocity += npc.DirectionTo(Parent.Center) * pullbackstrength * npc.Distance(Parent.Center) / ChainLength;
 			}
-			chain.Update(Parent.Center, npc.Center);
+
+			if(Main.netMode != NetmodeID.Server)
+				_chain.Update(Parent.Center, npc.Center);
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(npc.knockBackResist);
-			writer.Write(contactdamage);
-			writer.Write(detatched);
+			writer.Write(_contactDamageAllowed);
+			writer.Write(_detatched);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			npc.knockBackResist = reader.ReadSingle();
-			contactdamage = reader.ReadBoolean();
-			detatched = reader.ReadBoolean();
+			_contactDamageAllowed = reader.ReadBoolean();
+			_detatched = reader.ReadBoolean();
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			chain.Draw(spriteBatch, out float endrot, out Vector2 endpos);
+			if (_chain == null)
+				return false;
+
+			_chain.Draw(spriteBatch, out float endrot, out Vector2 endpos);
 			Texture2D tex = Main.npcTexture[npc.type];
 
-			spriteBatch.Draw(tex, endpos - new Vector2(chain.Texture.Height / 2, -chain.Texture.Width / 2).RotatedBy(endrot) - Main.screenPosition, tex.Bounds, drawColor, endrot, tex.Bounds.Size() / 2, npc.scale, SpriteEffects.None, 0);
+			spriteBatch.Draw(tex, endpos - new Vector2(_chain.Texture.Height / 2, -_chain.Texture.Width / 2).RotatedBy(endrot) - Main.screenPosition, tex.Bounds, drawColor, endrot, tex.Bounds.Size() / 2, npc.scale, SpriteEffects.None, 0);
 			return false;
 		}
 
 		public override void NPCLoot()
 		{
-			if (Main.netMode != NetmodeID.Server)
+			if (!Main.dedServ)
+			{
 				Main.PlaySound(SoundID.NPCDeath22, npc.Center);
 
-			Gore.NewGore(npc.position, npc.velocity / 2, mod.GetGoreSlot("Gores/Gazer/GazerEye"), 1f);
-			foreach (var segment in chain.Segments)
-				Gore.NewGore(segment.Vertex2.Position, npc.velocity / 2, mod.GetGoreSlot("Gores/Gazer/GazerChain"), 1f);
+				Gore.NewGore(npc.position, npc.velocity / 2, mod.GetGoreSlot("Gores/Gazer/GazerEye"), 1f);
+				foreach (var segment in _chain.Segments)
+					Gore.NewGore(segment.Vertex2.Position, npc.velocity / 2, mod.GetGoreSlot("Gores/Gazer/GazerChain"), 1f);
+			}
 		}
 	}
 }

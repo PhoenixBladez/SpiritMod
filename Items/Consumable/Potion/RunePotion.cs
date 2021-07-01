@@ -1,5 +1,6 @@
 using SpiritMod.Buffs.Potion;
 using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.RunicSet;
 using Terraria.ID;
 using Terraria.ModLoader;
 

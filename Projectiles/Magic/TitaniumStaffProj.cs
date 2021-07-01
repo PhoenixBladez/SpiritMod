@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Sets.MagicMisc.HardmodeOreStaves;
 using System;
 using Terraria;
 using Terraria.ID;

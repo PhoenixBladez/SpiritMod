@@ -1,4 +1,5 @@
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.HuskstalkSet;
+using SpiritMod.Items.Sets.BriarDrops;
 using SpiritMod.Tiles.Furniture;
 using Terraria.ID;
 using Terraria.ModLoader;

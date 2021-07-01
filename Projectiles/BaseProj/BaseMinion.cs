@@ -50,6 +50,10 @@ namespace SpiritMod.Projectiles.BaseProj
 			AbstractSetDefaults();
 		}
 
+		private NPC _targetNPC;
+
+		public bool CanRetarget { get; set; }
+
 		public virtual void AbstractSetDefaults() { }
 
 		internal Player Player => Main.player[projectile.owner];
@@ -71,35 +75,42 @@ namespace SpiritMod.Projectiles.BaseProj
 
 		public override void AI()
 		{
-			NPC target = null;
 			float maxdist = TargettingRange;
 			NPC miniontarget = projectile.OwnerMinionAttackTargetNPC;
 			if (miniontarget != null && miniontarget.CanBeChasedBy(this) && (CanHit(projectile.Center, miniontarget.Center) || HadTarget) && CanHit(Player.Center, miniontarget.Center)
 				&& (miniontarget.Distance(Player.Center) <= maxdist || miniontarget.Distance(projectile.Center) <= maxdist) && miniontarget.Distance(Player.Center) <= DeaggroRange)
-				target = miniontarget;
+				_targetNPC = miniontarget;
 
 			else
 			{
 				var validtargets = Main.npc.Where(x => x != null && x.CanBeChasedBy(this) && (CanHit(projectile.Center, x.Center) || HadTarget) && CanHit(Player.Center, x.Center)
 														 && (x.Distance(Player.Center) <= maxdist || x.Distance(projectile.Center) <= maxdist) && x.Distance(Player.Center) <= DeaggroRange);
 
-				foreach (NPC npc in validtargets)
+				if (!validtargets.Contains(_targetNPC))
+					_targetNPC = null;
+
+				if (CanRetarget)
 				{
-					if (npc.Distance(projectile.Center) <= maxdist)
+					foreach (NPC npc in validtargets)
 					{
-						maxdist = npc.Distance(projectile.Center);
-						target = npc;
+						if (npc.Distance(projectile.Center) <= maxdist)
+						{
+							maxdist = npc.Distance(projectile.Center);
+							_targetNPC = npc;
+						}
 					}
 				}
 			}
-			if (target == null)
+
+			CanRetarget = true;
+			if (_targetNPC == null)
 			{
 				IdleMovement(Player);
 				HadTarget = false;
 			}
 			else
 			{
-				TargettingBehavior(Player, target);
+				TargettingBehavior(Player, _targetNPC);
 				HadTarget = true;
 			}
 
@@ -114,8 +125,20 @@ namespace SpiritMod.Projectiles.BaseProj
 
 		public override bool? CanCutTiles() => false;
 
-		public override void SendExtraAI(BinaryWriter writer) => writer.Write(HadTarget);
-		public override void ReceiveExtraAI(BinaryReader reader) => HadTarget = reader.ReadBoolean();
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(HadTarget);
+			writer.Write(_targetNPC == null ? -1 : _targetNPC.whoAmI);
+			writer.Write(CanRetarget);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			HadTarget = reader.ReadBoolean();
+			int whoamI = reader.ReadInt32();
+			_targetNPC = whoamI == -1 ? null : Main.npc[_targetNPC.whoAmI];
+			CanRetarget = reader.ReadBoolean();
+		}
 
 		public override bool MinionContactDamage() => ContactDamage;
 

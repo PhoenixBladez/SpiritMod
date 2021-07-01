@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using SpiritMod.Dusts;
-using SpiritMod.Items;
+using SpiritMod.Items.Sets.ClubSubclass.ClubSandwich;
 
 namespace SpiritMod.Projectiles.Clubs
 {

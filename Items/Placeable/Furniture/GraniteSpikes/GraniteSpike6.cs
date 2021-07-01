@@ -1,5 +1,5 @@
 using SpiritMod.Tiles.Ambient.GraniteSpike;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.GraniteSet;
 using Terraria.ID;
 using Terraria.ModLoader;
 

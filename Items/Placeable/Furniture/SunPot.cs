@@ -1,7 +1,7 @@
 using SpiritMod.Tiles.Furniture;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.BriarDrops;
 
 namespace SpiritMod.Items.Placeable.Furniture
 {

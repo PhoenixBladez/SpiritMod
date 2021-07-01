@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Accessory.UmbillicalEyeball;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.BloodcourtSet;
 using SpiritMod.Utilities;
 using System;
 using System.IO;
@@ -51,10 +51,10 @@ namespace SpiritMod.NPCs.BloodGazer
 			Main.npcFrameCount[npc.type] = 4;
 			npc.HitSound = SoundID.NPCHit19;
 			npc.DeathSound = SoundID.NPCDeath10;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.BloodGazerBanner>();
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.BloodGazerBanner>();
 			npc.netAlways = true;
-        }
+		}
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
@@ -68,7 +68,7 @@ namespace SpiritMod.NPCs.BloodGazer
 		private ref float Phase => ref npc.ai[3];
 		private ref float GlowmaskOpacity => ref npc.localAI[1];
 		private ref float GlowTrailOpacity => ref npc.localAI[2];
-		private ref float PulseDrawTimer => ref npc.localAI[3];
+		private float _pulseDrawTimer;
 		public bool trailing = false;
 
 		private void UpdateAiState(BloodGazerAiStates aistate)
@@ -92,26 +92,30 @@ namespace SpiritMod.NPCs.BloodGazer
 			if (Main.netMode != NetmodeID.Server && Main.rand.Next(60) == 0)
 				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/HeartbeatFx"));
 
-			if(Phase == 0 && npc.life <= npc.lifeMax / 2)
+			if (Phase == 0 && npc.life <= npc.lifeMax / 2)
 			{
 				Phase++;
 				UpdateAiState(BloodGazerAiStates.Phase2Transition);
 			}
 
-			switch ((BloodGazerAiStates)AiState) {
+			switch ((BloodGazerAiStates)AiState)
+			{
 				case BloodGazerAiStates.EyeSpawn:
 					npc.knockBackResist = 0.1f;
 					npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
 
-					if (AiTimer % 40 == 0) {
-						if (Main.netMode != NetmodeID.Server)
+					if (AiTimer % 40 == 0)
+					{
+						if (!Main.dedServ)
 							Main.PlaySound(new LegacySoundStyle(SoundID.NPCKilled, 22).WithPitchVariance(0.2f).WithVolume(0.8f), npc.Center);
 
-						if (Main.netMode != NetmodeID.MultiplayerClient) {
+						if (Main.netMode != NetmodeID.MultiplayerClient)
+						{
 							NPC eye = Main.npc[NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<BloodGazerEye>(), 0, npc.whoAmI, (int)(AiTimer / 40))];
 							Vector2 velocity = Main.rand.NextVector2CircularEdge(1, 1) * Main.rand.NextFloat(2, 4);
 							eye.velocity = velocity;
-							for (int i = 0; i < 25; i++) {
+							for (int i = 0; i < 25; i++)
+							{
 								Dust dust = Dust.NewDustDirect(npc.Center, 10, 10, ModContent.DustType<Dusts.Blood>(), 0f, -2f, 0, default, Main.rand.NextFloat(0.9f, 1.5f));
 								dust.velocity = velocity.RotatedByRandom(MathHelper.Pi / 14) * Main.rand.NextFloat(0.5f, 1f);
 							}
@@ -155,7 +159,7 @@ namespace SpiritMod.NPCs.BloodGazer
 					float prespintime = 60;
 					float spintime = 60;
 					float slowdowntime = 40;
-					if(AiTimer < prespintime)
+					if (AiTimer < prespintime)
 						npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
 
 					if ((AiTimer > prespintime + spintime) && (Math.Sign(npc.velocity.X) * (player.Center.X - npc.Center.X)) < -300)
@@ -163,12 +167,12 @@ namespace SpiritMod.NPCs.BloodGazer
 
 					float startvel = 1;
 					float maxvel = 16;
-					if(AiTimer == prespintime)
+					if (AiTimer == prespintime)
 					{
 						npc.velocity.X = (Math.Sign(npc.DirectionTo(player.Center).X) == 0 ? 1 : Math.Sign(npc.DirectionTo(player.Center).X)) * startvel;
 						npc.netUpdate = true;
 
-						if (Main.netMode != NetmodeID.Server)
+						if (!Main.dedServ)
 							Main.PlaySound(SoundID.NPCKilled, (int)npc.Center.X, (int)npc.Center.Y, 10, 1, -0.5f);
 					}
 
@@ -215,10 +219,13 @@ namespace SpiritMod.NPCs.BloodGazer
 					if (AiTimer <= 31)
 						npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionFrom(player.Center), 0.1f);
 
+					else
+						npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.075f);
+
 					if (GlowmaskOpacity > 0.6f)
 					{
 						GlowmaskOpacity = 0.75f;
-						if (Main.netMode != NetmodeID.Server)
+						if (!Main.dedServ)
 							Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 2, 0.75f, -5f);
 
 						npc.netUpdate = true;
@@ -237,11 +244,12 @@ namespace SpiritMod.NPCs.BloodGazer
 					else
 						npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
 
-					if(AiTimer % 8 == 0 && AiTimer > 130 && AiTimer < 280){
-						Vector2 targetPos = player.Center + new Vector2(MathHelper.Lerp(1500 * npc.spriteDirection, 0, Math.Min((AiTimer-130) / 100f, 1)), 0);
+					if (AiTimer % 8 == 0 && AiTimer > 130 && AiTimer < 280)
+					{
+						Vector2 targetPos = player.Center + new Vector2(MathHelper.Lerp(1500 * npc.spriteDirection, 0, Math.Min((AiTimer - 130) / 100f, 1)), 0);
 						Vector2 vel = npc.GetArcVel(targetPos, 0.35f, 300, 1000, heightabovetarget: 350);
 						npc.velocity = -Vector2.Normalize(vel);
-						if (Main.netMode != NetmodeID.Server)
+						if (!Main.dedServ)
 							Main.PlaySound(new LegacySoundStyle(SoundID.NPCKilled, 22).WithPitchVariance(0.2f).WithVolume(0.8f), npc.Center);
 
 						if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -251,13 +259,14 @@ namespace SpiritMod.NPCs.BloodGazer
 						}
 					}
 
-					if(AiTimer >= 300)
+					if (AiTimer >= 300)
 						UpdateAiState(Main.rand.NextBool() ? BloodGazerAiStates.SpookyDash : BloodGazerAiStates.RuneEyes);
 
 					break;
 
 				case BloodGazerAiStates.RuneEyes:
-					npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(player.Center) * MathHelper.Clamp(npc.Distance(player.Center) / 200, 0.5f, 2), 0.075f);
+					npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(player.Center), 0.075f);
+					_pulseDrawTimer++;
 					GlowTrailOpacity = MathHelper.Lerp(GlowTrailOpacity, 0, 0.1f);
 
 					if (AiTimer % 15 == 0 && AiTimer > 15 && AiTimer < 105)
@@ -265,7 +274,7 @@ namespace SpiritMod.NPCs.BloodGazer
 						Vector2 spawnPos = npc.DirectionTo(player.Center).RotatedBy(MathHelper.Pi * Main.rand.NextFloat(0.08f, 0.12f) * (Main.rand.NextBool() ? -1 : 1)) * AiTimer * 12;
 						spawnPos += npc.Center;
 
-						if (Main.netMode != NetmodeID.Server)
+						if (!Main.dedServ)
 							Main.PlaySound(new LegacySoundStyle(SoundID.Item, 104).WithPitchVariance(0.3f).WithVolume(0.5f), spawnPos);
 
 						if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -276,7 +285,10 @@ namespace SpiritMod.NPCs.BloodGazer
 					}
 
 					if (AiTimer >= 115)
+					{
 						UpdateAiState(Main.rand.NextBool() ? BloodGazerAiStates.EyeMortar : BloodGazerAiStates.SpookyDash);
+						_pulseDrawTimer = 0;
+					}
 
 					break;
 
@@ -290,9 +302,10 @@ namespace SpiritMod.NPCs.BloodGazer
 					GlowTrailOpacity = MathHelper.Lerp(GlowTrailOpacity, 1, 0.1f);
 					GlowTrailOpacity = MathHelper.Lerp(GlowTrailOpacity, 1, 0.1f);
 					npc.rotation = npc.velocity.ToRotation() + (npc.spriteDirection < 0 ? MathHelper.PiOver2 : MathHelper.PiOver2);
-					if (AiTimer % 60 == 0 && AiTimer > 60){
+					if (AiTimer % 60 == 0 && AiTimer > 60)
+					{
 						trailing = true;
-						if (Main.netMode != NetmodeID.Server)
+						if (!Main.dedServ)
 							Main.PlaySound(SoundID.DD2_WyvernDiveDown.WithVolume(1.5f), npc.Center);
 						npc.velocity = npc.DirectionTo(player.Center) * 40;
 						npc.netUpdate = true;
@@ -301,7 +314,7 @@ namespace SpiritMod.NPCs.BloodGazer
 					break;
 			}
 
-			if((npc.Distance(player.Center) > 2000) && AiState != (float)BloodGazerAiStates.Passive && AiState != (float)BloodGazerAiStates.Despawn && Phase == 0)  //deaggro if player is too far away
+			if ((npc.Distance(player.Center) > 2000) && AiState != (float)BloodGazerAiStates.Passive && AiState != (float)BloodGazerAiStates.Despawn && Phase == 0)  //deaggro if player is too far away
 				UpdateAiState(BloodGazerAiStates.Passive);
 
 			if (!player.active || player.dead || ((npc.Distance(player.Center) > 3000 && AiState != (float)BloodGazerAiStates.Phase2Transition) || Main.dayTime) && AiState != (float)BloodGazerAiStates.Despawn)  //despawn if day or player dead
@@ -310,12 +323,11 @@ namespace SpiritMod.NPCs.BloodGazer
 
 		public override bool CheckActive()
 		{
-			if(AiState == (float)BloodGazerAiStates.Passive || AiState == (float)BloodGazerAiStates.Despawn)
+			if (AiState == (float)BloodGazerAiStates.Passive || AiState == (float)BloodGazerAiStates.Despawn)
 				return true;
 
 			return false;
 		}
-
 
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
@@ -331,13 +343,15 @@ namespace SpiritMod.NPCs.BloodGazer
 
 		public override bool? CanHitNPC(NPC target) => trailing;
 
-		public override void SendExtraAI(BinaryWriter writer) {
+		public override void SendExtraAI(BinaryWriter writer)
+		{
 			writer.Write(npc.knockBackResist);
 			writer.Write(trailing);
 			writer.Write(GlowmaskOpacity);
 		}
 
-		public override void ReceiveExtraAI(BinaryReader reader){
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
 			npc.knockBackResist = reader.ReadSingle();
 			trailing = reader.ReadBoolean();
 			GlowmaskOpacity = reader.ReadSingle();
@@ -345,28 +359,33 @@ namespace SpiritMod.NPCs.BloodGazer
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0 || npc.life >= 0) {
+			if (npc.life <= 0 || npc.life >= 0)
+			{
 				int d = 5;
-				for (int k = 0; k < 25; k++) {
+				for (int k = 0; k < 25; k++)
+				{
 					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
 					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, .97f);
 				}
 			}
 
-			if (npc.life <= 0) {
+			if (npc.life <= 0)
+			{
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gazer/Gazer1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gazer/Gazer2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gazer/Gazer3"), 1f);
 				int d = 5;
-				for (int k = 0; k < 25; k++) {
+				for (int k = 0; k < 25; k++)
+				{
 					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.97f);
 					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 1.27f);
 				}
 			}
 		}
+
 		public override bool PreNPCLoot()
 		{
-			if(Main.netMode != NetmodeID.Server)
+			if (!Main.dedServ)
 				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/DownedMiniboss"));
 			MyWorld.downedGazer = true;
 			return true;
@@ -389,19 +408,21 @@ namespace SpiritMod.NPCs.BloodGazer
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			Texture2D tex = Main.npcTexture[npc.type];
-			if (trailing) {
-				for (int i = 0; i < NPCID.Sets.TrailCacheLength[npc.type]; i++) {
+			if (trailing)
+			{
+				for (int i = 0; i < NPCID.Sets.TrailCacheLength[npc.type]; i++)
+				{
 					float opacity = 0.25f * (float)(NPCID.Sets.TrailCacheLength[npc.type] - i) / NPCID.Sets.TrailCacheLength[npc.type];
-					spriteBatch.Draw(tex, npc.oldPos[i] + npc.Size/2 - Main.screenPosition, npc.frame, drawColor * opacity, npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
+					spriteBatch.Draw(tex, npc.oldPos[i] + npc.Size / 2 - Main.screenPosition, npc.frame, drawColor * opacity, npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
 				}
 			}
 
 			Texture2D glowmask = ModContent.GetTexture(Texture + "_mask");
-			void DrawMask(Vector2 center, float opacity) => spriteBatch.Draw(glowmask, center - Main.screenPosition, npc.frame, Color.Red * opacity * GlowmaskOpacity * npc.Opacity, npc.rotation, 
+			void DrawMask(Vector2 center, float opacity) => spriteBatch.Draw(glowmask, center - Main.screenPosition, npc.frame, Color.Red * opacity * GlowmaskOpacity * npc.Opacity, npc.rotation,
 																				npc.frame.Size() / 2, npc.scale * 1.2f, (npc.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 			DrawMask(npc.Center, 0.5f);
 			int numtodraw = 6;
-			for(int i = 0; i < numtodraw; i++)
+			for (int i = 0; i < numtodraw; i++)
 			{
 				float timer = ((float)Math.Sin(Main.GlobalTime * 3) / 2 + 0.5f);
 				Vector2 center = npc.Center + new Vector2(0, 8).RotatedBy(i * MathHelper.TwoPi / numtodraw) * timer;
@@ -410,6 +431,17 @@ namespace SpiritMod.NPCs.BloodGazer
 
 			spriteBatch.Draw(tex, npc.Center - Main.screenPosition, npc.frame, npc.GetAlpha(drawColor), npc.rotation, npc.frame.Size() / 2, npc.scale, (npc.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
+			float pulsetime = 75;
+			if(_pulseDrawTimer > 0 && _pulseDrawTimer < pulsetime)
+			{
+				for(int i = 0; i < 6; i++)
+				{
+					Vector2 drawOffset = Vector2.UnitX.RotatedBy(i/6f * MathHelper.TwoPi) * 20 * (1 - Math.Abs((pulsetime/2) - _pulseDrawTimer) / (pulsetime/2));
+					float opacity = 1 - (Math.Abs((pulsetime / 2) - _pulseDrawTimer) / (pulsetime / 2));
+					opacity *= 0.66f;
+					spriteBatch.Draw(tex, npc.Center + drawOffset - Main.screenPosition, npc.frame, npc.GetAlpha(drawColor) * opacity, npc.rotation, npc.frame.Size() / 2, npc.scale, (npc.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+				}
+			}
 			return false;
 		}
 

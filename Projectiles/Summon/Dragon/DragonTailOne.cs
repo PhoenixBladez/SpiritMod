@@ -12,7 +12,7 @@ namespace SpiritMod.Projectiles.Summon.Dragon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Jade Dragon");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 		public override void SetDefaults()
@@ -22,11 +22,9 @@ namespace SpiritMod.Projectiles.Summon.Dragon
 			projectile.hostile = false;
 			projectile.friendly = true;
 			projectile.timeLeft = 95;
-			projectile.damage = 13;
+			projectile.magic = true;
 			// projectile.extraUpdates = 1;
 			projectile.width = projectile.height = 32;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 
 		}
 		int num;

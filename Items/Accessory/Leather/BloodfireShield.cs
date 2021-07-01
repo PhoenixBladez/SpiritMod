@@ -1,5 +1,5 @@
 
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.BloodcourtSet;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

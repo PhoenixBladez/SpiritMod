@@ -1,5 +1,5 @@
 
-using SpiritMod.Items.Sets.Frigid;
+using SpiritMod.Items.Sets.FrigidSet;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

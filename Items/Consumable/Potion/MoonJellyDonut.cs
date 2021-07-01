@@ -5,7 +5,6 @@ using SpiritMod.Buffs.Potion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -103,7 +102,7 @@ namespace SpiritMod.Items.Consumable.Potion
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<MoonJelly>(), 1);
-            recipe.AddIngredient(ModContent.ItemType<Items.Material.MoonStone>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<Items.Sets.SeraphSet.MoonStone>(), 1);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

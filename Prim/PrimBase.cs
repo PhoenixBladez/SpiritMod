@@ -78,9 +78,8 @@ namespace SpiritMod.Prim
 
 		public void CreateTrail(PrimTrail trail)
 		{
-			if (Main.netMode == NetmodeID.Server) //never make trails on servers
-				return;
-			_trails.Add(trail);
+			if (!Main.dedServ) //never make trails on servers
+				_trails.Add(trail);
 		}
 	}
 }

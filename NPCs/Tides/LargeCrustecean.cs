@@ -5,9 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.NPCs.Tides.Tide;
-using SpiritMod.Items.Material;
-using SpiritMod.Items.Weapon.Summon;
-using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Sets.TideDrops;
 
 namespace SpiritMod.NPCs.Tides
 {

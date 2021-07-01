@@ -3,7 +3,7 @@ using SpiritMod.Items.Ammo.Arrow;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Pins;
 using SpiritMod.Items.Placeable.Furniture;
-using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Items.Sets.HuskstalkSet;
 using SpiritMod.Utilities;
 using System.Collections.Generic;
 using System.Linq;
@@ -120,13 +120,12 @@ namespace SpiritMod.NPCs.Town
 		{
 			AddItem(ref shop, ref nextSlot, ItemID.TrapsightPotion, 2000);
 			AddItem(ref shop, ref nextSlot, ItemID.DartTrap, 5000);
-			AddItem(ref shop, ref nextSlot, ItemType<WornSword>());
 			AddItem(ref shop, ref nextSlot, ItemID.WhoopieCushion, 15000, NPC.downedBoss2);
 			AddItem(ref shop, ref nextSlot, ItemID.Book, 20, NPC.downedBoss3);
             AddItem(ref shop, ref nextSlot, ItemType<WWPainting>());
             AddItem(ref shop, ref nextSlot, ItemType<Items.Placeable.Furniture.SkullStick>(), 1000, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
 			AddItem(ref shop, ref nextSlot, ItemType<AncientBark>(), 200, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
-			AddItem(ref shop, ref nextSlot, ItemType<PolymorphGun>(), check: NPC.downedMechBossAny);
+			AddItem(ref shop, ref nextSlot, ItemType<Items.Sets.GunsMisc.PolymorphGun.PolymorphGun>(), check: NPC.downedMechBossAny);
             AddItem(ref shop, ref nextSlot, ItemType<PinGreen>());
 			AddItem(ref shop, ref nextSlot, ItemType<PinYellow>());
           

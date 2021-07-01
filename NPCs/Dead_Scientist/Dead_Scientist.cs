@@ -93,7 +93,7 @@ namespace SpiritMod.NPCs.Dead_Scientist
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1304, 1);
 			}
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Thrown.FlaskOfGore>(), Main.rand.Next(108, 163));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.ThrownMisc.FlaskofGore.FlaskOfGore>(), Main.rand.Next(108, 163));
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{

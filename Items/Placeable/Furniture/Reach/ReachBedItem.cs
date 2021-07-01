@@ -1,4 +1,4 @@
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.HuskstalkSet;
 using SpiritMod.Tiles.Furniture.Reach;
 using Terraria.ID;
 using Terraria.ModLoader;

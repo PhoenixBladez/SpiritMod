@@ -22,7 +22,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		private (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Placeable.Furniture.StarplatePainting>(), 1),
-			(ModContent.ItemType<Items.Material.TechDrive>(), 7),
+			(ModContent.ItemType<Items.Sets.CoilSet.TechDrive>(), 7),
 			(ModContent.ItemType<Items.Placeable.Tiles.ScrapItem>(), 50),
 			(Terraria.ID.ItemID.GoldCoin, 4)
 		};

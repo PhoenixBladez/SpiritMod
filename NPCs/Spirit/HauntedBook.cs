@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Pets;
+using SpiritMod.Items.Sets.SpiritBiomeDrops;
 using SpiritMod.Projectiles.Hostile;
 using SpiritMod.Tiles.Block;
 using System.Linq;
@@ -104,7 +104,7 @@ namespace SpiritMod.NPCs.Spirit
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(2) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Material.Rune>(), Main.rand.Next(1) + 2);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.RunicSet.Rune>(), Main.rand.Next(1) + 2);
 
 			if (Main.rand.Next(20) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PossessedBook>());

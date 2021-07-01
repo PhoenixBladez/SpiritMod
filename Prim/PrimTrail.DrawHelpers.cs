@@ -36,9 +36,6 @@ namespace SpiritMod.Prim
 
 				if (effect.HasParameter("arcLashColorTwo"))
 					effect.Parameters["arcLashColorTwo"].SetValue(new Vector3(1.0f, 1.0f, 1.0f));
-
-				if (effect.HasParameter("vineTexture")) 
-					effect.Parameters["vineTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/ThyrsusVine"));
 				
 				try {
 					effect.Parameters["progress"].SetValue(progressParam);

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.HuskstalkSet;
 using SpiritMod.Items.Pins;
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Town;
@@ -30,10 +31,10 @@ using Terraria.ModLoader.Core;
 using Terraria.Utilities;
 using Terraria.UI.Chat;
 using SpiritMod.Prim;
-using SpiritMod.Items.Weapon.Bow.GemBows.Emerald_Bow;
-using SpiritMod.Items.Weapon.Bow.GemBows.Ruby_Bow;
-using SpiritMod.Items.Weapon.Bow.GemBows.Sapphire_Bow;
-using SpiritMod.Items.Weapon.Bow.GemBows.Topaz_Bow;
+using SpiritMod.Items.Sets.BowsMisc.GemBows.Emerald_Bow;
+using SpiritMod.Items.Sets.BowsMisc.GemBows.Ruby_Bow;
+using SpiritMod.Items.Sets.BowsMisc.GemBows.Sapphire_Bow;
+using SpiritMod.Items.Sets.BowsMisc.GemBows.Topaz_Bow;
 using SpiritMod.Items.Consumable;
 using SpiritMod.NPCs.AuroraStag;
 using SpiritMod.Particles;
@@ -81,6 +82,7 @@ namespace SpiritMod
 		public static Effect ArcLashShader;
 		public static Effect JemShaders;
 		public static Effect SunOrbShader;
+		public static Effect ThyrsusShader;
 
 		public static IDictionary<string, Effect> ShaderDict = new Dictionary<string, Effect>();
 
@@ -700,7 +702,7 @@ namespace SpiritMod
 
 			if (Main.netMode != NetmodeID.Server) {
 				TrailManager = new TrailManager(this);
-				AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Armor/TalonGarb_Legs");
+				AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Sets/AvianDrops/ApostleArmor/TalonGarb_Legs");
 				EmptyTexture = GetTexture("Empty");
 				auroraEffect = GetEffect("Effects/aurora");
 				noise = GetTexture("Textures/noise");
@@ -743,6 +745,7 @@ namespace SpiritMod
 				ArcLashShader = instance.GetEffect("Effects/ArcLashShader");
 				JemShaders = instance.GetEffect("Effects/JemShaders");
 				SunOrbShader = instance.GetEffect("Effects/SunOrbShader");
+				ThyrsusShader = instance.GetEffect("Effects/ThyrsusShader");
 				GSaber = instance.GetEffect("Effects/GSaber");
 
 				SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
@@ -933,6 +936,7 @@ namespace SpiritMod
 			EyeballShader = null;
 			ArcLashShader = null;
 			JemShaders = null;
+			ThyrsusShader = null;
 			SunOrbShader = null;
 			noise = null;
 			instance = null;
@@ -1169,7 +1173,6 @@ namespace SpiritMod
 				census.Call("TownNPCCondition", ModContent.NPCType<Gambler>(), "Rescue the Gambler from a Goblin Tower\nIf your world does not have a Goblin Tower, have at least 1 Gold in your inventory");
 				census.Call("TownNPCCondition", ModContent.NPCType<Rogue>(), "Rescue the Bandit from the Bandit Hideout\nIf your world does not have a Goblin Tower, have at least 1 Gold in your inventory");
 				census.Call("TownNPCCondition", ModContent.NPCType<RuneWizard>(), "Have a Blank Glyph in your inventory");
-				census.Call("TownNPCCondition", ModContent.NPCType<Martian>(), "Defeat the Martian Madness event\nHave at least 1 gold in your inventory");
 			}
 			if (fargos != null) {
 				// AddSummon, order or value in terms of vanilla bosses, your mod internal name, summon   

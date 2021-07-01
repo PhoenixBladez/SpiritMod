@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.SpiritSet;
+using SpiritMod.Items.Sets.SpiritBiomeDrops;
 using Terraria;
 using Terraria.ID;
 using SpiritMod.Tiles.Block;
@@ -42,7 +43,7 @@ namespace SpiritMod.NPCs.Spirit
             if (Main.rand.Next(2) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SoulShred>(), Main.rand.Next(1) + 1);
             if (Main.rand.NextBool(75))
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Bow.Gravehunter>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.SpiritBiomeDrops.Gravehunter>());
         }
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{

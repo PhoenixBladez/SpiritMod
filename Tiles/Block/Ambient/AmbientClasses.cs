@@ -1,6 +1,8 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Sets.HuskstalkSet;
+using SpiritMod.Items.Sets.BriarDrops;
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -101,7 +103,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.DirtBlock, 25);
-			recipe.AddIngredient(ModContent.ItemType<Items.Material.EnchantedLeaf>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 1);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
 			recipe.SetResult(this, 25);
 			recipe.AddRecipe();
@@ -119,7 +121,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.StoneBlock, 50);
-			recipe.AddIngredient(ModContent.ItemType<Items.Material.MoonStone>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<Items.Sets.SeraphSet.MoonStone>(), 1);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
 			recipe.SetResult(this, 50);
 			recipe.AddRecipe();
@@ -127,7 +129,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			ModRecipe recipe1 = new ModRecipe(mod);
 			recipe1.AddIngredient(this, 50);
 			recipe1.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe1.SetResult(ModContent.ItemType<Items.Material.MoonStone>(),1);
+			recipe1.SetResult(ModContent.ItemType<Items.Sets.SeraphSet.MoonStone>(),1);
 			recipe1.AddRecipe();
 		}
 	}

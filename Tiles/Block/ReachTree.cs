@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.HuskstalkSet;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Tiles.Block

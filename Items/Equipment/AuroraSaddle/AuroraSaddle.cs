@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -183,28 +184,40 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 
 			Rectangle sourceRectangle = new Rectangle(frameX, frameY, frameWidth - 12, frameHeight);
 
+			void AddDrawDataWithMountShader(DrawData data)
+			{
+				if (!drawPlayer.miscDyes[3].active || drawPlayer.miscDyes[3] == null)
+				{
+					playerDrawData.Add(data);
+					return;
+				}
+
+				data.shader = GameShaders.Armor.GetShaderIdFromItemId(drawPlayer.miscDyes[3].type);
+				playerDrawData.Add(data);
+			}
+
 			if (trail)
 			{
 				for (int i = 0; i < modplayer.auroraoldposition.Length; i++)
 				{
 					float opacity = (float)Math.Pow(0.5f * ((modplayer.auroraoldposition.Length - i) / (float)modplayer.auroraoldposition.Length), 3);
 					Vector2 DrawPos = modplayer.auroraoldposition[i] - Main.screenPosition + new Vector2(0, drawYOffset);
-					playerDrawData.Add(new DrawData(texture, DrawPos, sourceRectangle, drawColor * opacity, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
+					AddDrawDataWithMountShader(new DrawData(texture, DrawPos, sourceRectangle, drawColor * opacity, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
 
-					playerDrawData.Add(new DrawData(mod.GetTexture("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow"), DrawPos, sourceRectangle, Color.White * opacity, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
+					AddDrawDataWithMountShader(new DrawData(mod.GetTexture("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow"), DrawPos, sourceRectangle, Color.White * opacity, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
 
 				}
 			}
-			playerDrawData.Add(new DrawData(texture, drawPosition + new Vector2(0, drawYOffset), sourceRectangle, drawColor, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
+			AddDrawDataWithMountShader(new DrawData(texture, drawPosition + new Vector2(0, drawYOffset), sourceRectangle, drawColor, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
 			
 			for (int i = 0; i < 6; i++)
 			{
 				float glowtimer = (float)(Math.Sin(Main.GlobalTime * 3) / 2 + 0.5f);
 				Color glowcolor = Color.White * glowtimer;
 				Vector2 pulsedrawpos = drawPosition + new Vector2(0, drawYOffset) + new Vector2(5, 0).RotatedBy(i * MathHelper.TwoPi / 6) * (1.25f - glowtimer);
-				playerDrawData.Add(new DrawData(mod.GetTexture("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow"), pulsedrawpos, sourceRectangle, glowcolor * 0.5f, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
+				AddDrawDataWithMountShader(new DrawData(mod.GetTexture("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow"), pulsedrawpos, sourceRectangle, glowcolor * 0.5f, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
 			}
-			playerDrawData.Add(new DrawData(mod.GetTexture("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow"), drawPosition + new Vector2(0, drawYOffset), sourceRectangle, Color.White, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
+			AddDrawDataWithMountShader(new DrawData(mod.GetTexture("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow"), drawPosition + new Vector2(0, drawYOffset), sourceRectangle, Color.White, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
 			return false;
 		}
 	}

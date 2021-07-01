@@ -1,9 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles.Hostile;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.BriarDrops;
 using SpiritMod.Items.Armor.Masks;
-using SpiritMod.Items.Weapon.Flail;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

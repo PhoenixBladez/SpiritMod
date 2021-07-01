@@ -1,14 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Armor.Masks;
-using SpiritMod.Items.Boss;
-using SpiritMod.Items.BossBags;
-using SpiritMod.Items.Armor;
-using SpiritMod.Items.Weapon.Magic;
-using SpiritMod.Items.Weapon.Spear;
-using SpiritMod.Items.Weapon.Summon;
-using SpiritMod.Items.Weapon.Swung;
-using SpiritMod.Items.Weapon.Thrown;
+using SpiritMod.Items.Sets.AvianDrops.ApostleArmor;
+using SpiritMod.Items.Sets.AvianDrops;
 using SpiritMod.Projectiles.Hostile;
 using SpiritMod.Utilities;
 using Terraria;

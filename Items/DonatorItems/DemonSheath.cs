@@ -1,5 +1,5 @@
 using SpiritMod.Buffs.Pet;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.BloodcourtSet;
 using SpiritMod.Projectiles.Pet;
 using Terraria;
 using Terraria.ID;

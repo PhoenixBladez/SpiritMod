@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.SlagSet;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

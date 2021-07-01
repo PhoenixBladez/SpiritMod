@@ -8,9 +8,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.NPCs.Tides.Tide;
-using SpiritMod.Items.Weapon.Gun;
-using SpiritMod.Items.Weapon.Magic;
-using SpiritMod.Items.Weapon.Thrown;
+using SpiritMod.Items.Sets.TideDrops;
 
 namespace SpiritMod.NPCs.Tides
 {
@@ -200,9 +198,6 @@ namespace SpiritMod.NPCs.Tides
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_GoreSpear"), 1f);
-			}
-			else {
-				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraHit"));
 			}
 		}
 	}

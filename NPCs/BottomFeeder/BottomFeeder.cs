@@ -1,9 +1,8 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Items.Weapon.Gun;
 using System;
 using Terraria;
 using Terraria.ID;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.BloodcourtSet;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.BottomFeeder
@@ -85,7 +84,7 @@ namespace SpiritMod.NPCs.BottomFeeder
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(20) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BottomFeederGun>());
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.GunsMisc.Belcher.BottomFeederGun>());
 			}
             if (Main.rand.Next(20) == 1)
             {

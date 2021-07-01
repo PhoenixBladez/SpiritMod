@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.BloodcourtSet;
 using System;
 using System.Collections.Generic;
 using SpiritMod.Items.Weapon.Summon.SacrificialDagger;

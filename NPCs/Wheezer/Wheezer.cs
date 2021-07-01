@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Accessory;
-using SpiritMod.Items.Weapon.Flail;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -63,8 +62,8 @@ namespace SpiritMod.NPCs.Wheezer
             if (Main.rand.Next(80) == 0)
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DepthMeter);
             if (Main.rand.NextBool(60))
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ClatterMace>());
-            if (Main.rand.Next(80) == 0)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.FlailsMisc.ClatterMace.ClatterMace>());
+			if (Main.rand.Next(80) == 0)
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Compass);
             if (Main.rand.Next(200) == 0)
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Rally);

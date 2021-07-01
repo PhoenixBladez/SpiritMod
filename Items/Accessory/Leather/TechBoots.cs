@@ -1,6 +1,6 @@
 
 using Microsoft.Xna.Framework;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.CoilSet;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

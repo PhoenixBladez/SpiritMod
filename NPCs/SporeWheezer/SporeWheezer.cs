@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Material;
-using SpiritMod.Items.Weapon.Flail;
 using SpiritMod.Projectiles.Hostile;
 using System;
 using Terraria;
@@ -74,7 +73,7 @@ namespace SpiritMod.NPCs.SporeWheezer
             }
             if (Main.rand.NextBool(60))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ClatterMace>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.FlailsMisc.ClatterMace.ClatterMace>());
             }
             if (Main.rand.Next(80) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Compass);

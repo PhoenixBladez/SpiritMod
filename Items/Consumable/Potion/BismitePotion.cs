@@ -1,6 +1,6 @@
 using SpiritMod.Buffs.Potion;
-using SpiritMod.Items.Sets.Bismite;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.BismiteSet;
+using SpiritMod.Items.Sets.BriarDrops;
 using Terraria.ID;
 using Terraria.ModLoader;
 

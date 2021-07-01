@@ -20,7 +20,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
-			(ModContent.ItemType<Items.Material.TechDrive>(), 5),
+			(ModContent.ItemType<Items.Sets.CoilSet.TechDrive>(), 5),
 			(ModContent.ItemType<Items.Ammo.FaerieStar>(), 75),
 			(Terraria.ID.ItemID.GoldCoin, 2)
 		};

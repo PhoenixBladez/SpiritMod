@@ -39,6 +39,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using SpiritMod.Items.Equipment;
 using SpiritMod.NPCs.Boss.Scarabeus;
+using SpiritMod.Items.Sets.SpiritBiomeDrops;
 using System.Linq;
 using Terraria.Audio;
 using SpiritMod.Items.Consumable.Food;
@@ -1108,7 +1109,7 @@ namespace SpiritMod
                 caughtType = ModContent.ItemType<Obolos>();
             }
             if (modPlayer.ZoneReach && Main.rand.NextBool(5)) {
-                caughtType = ModContent.ItemType<ReachFishingCatch>();
+                caughtType = ModContent.ItemType<Items.Sets.BriarDrops.ReachFishingCatch>();
             }
             if (modPlayer.ZoneReach && Main.rand.NextBool(player.cratePotion ? 25 : 45)) {
                 caughtType = ModContent.ItemType<ReachCrate>();
@@ -1121,7 +1122,7 @@ namespace SpiritMod
             }
             if (player.ZoneBeach && Main.rand.NextBool(125))
             {
-                caughtType = ModContent.ItemType<Items.Weapon.Club.BassSlapper>();
+                caughtType = ModContent.ItemType<Items.Sets.ClubSubclass.BassSlapper>();
             }
         }
         public override void AnglerQuestReward(float quality, List<Item> rewardItems)
@@ -1203,7 +1204,7 @@ namespace SpiritMod
                 target.AddBuff(ModContent.BuffType<MageFreeze>(), 180);
             }
             if (AceOfDiamonds && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue) {
-                ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ModContent.ItemType<DiamondAce>());
+                ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ModContent.ItemType<Items.Accessory.AceCardsSet.DiamondAce>());
                 for (int i = 0; i < 3; i++) {
                     Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<DiamondDust>(), 0, -0.8f);
                 }
@@ -2395,7 +2396,7 @@ namespace SpiritMod
 				Rectangle npcBox = npc.getRect();
 				npcBox.Inflate((int)zoom.X, (int)zoom.Y);
 
-				if (Vector2.DistanceSquared(player.Center, npc.Center) < 5000 && npcBox.Contains(Main.MouseWorld.ToPoint()))
+				if ((int)(Vector2.Distance(player.Center, hoveredStag.npc.Center) / 16) < 8 && npcBox.Contains(Main.MouseWorld.ToPoint()))
 					hoveredStag = auroraStag;
 			}
 
@@ -2403,7 +2404,7 @@ namespace SpiritMod
 				Rectangle npcBox = hoveredStag.npc.getRect();
 				npcBox.Inflate((int)zoom.X, (int)zoom.Y);
 
-				if (Vector2.DistanceSquared(player.Center, hoveredStag.npc.Center) > 5000 || !npcBox.Contains(Main.MouseWorld.ToPoint()))
+				if ((int)(Vector2.Distance(player.Center, hoveredStag.npc.Center) / 16) > 8 || !npcBox.Contains(Main.MouseWorld.ToPoint()))
 					hoveredStag = null;
 			}
 		}
@@ -2635,6 +2636,10 @@ namespace SpiritMod
 							Dust dust = Dust.NewDustDirect(player.position - new Vector2(40, 0), player.width + 80, player.height, DustID.Rainbow, player.velocity.X * Main.rand.NextFloat(), 0, 200, AuroraStagMount.AuroraColor * 0.8f, Main.rand.NextFloat(0.9f, 1.3f));
 							dust.fadeIn = 0.4f;
 							dust.noGravity = true;
+							if(player.miscDyes[3] != null && player.miscDyes[3].active)
+							{
+								dust.shader = GameShaders.Armor.GetShaderFromItemId(player.miscDyes[3].type);
+							}
 						}
 
 						speedCap = speedMax;
