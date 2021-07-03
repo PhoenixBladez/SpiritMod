@@ -221,9 +221,11 @@ namespace SpiritMod
 
 			data.Add("superSunFlowerPositions", superSunFlowerPositions.ToList());
 
-			List<TagCompound> backgroundItems = BackgroundItemManager.Save();
-			data.Add("backgroundItems", backgroundItems);
-
+			if (BackgroundItemManager.Loaded)
+			{
+				List<TagCompound> backgroundItems = BackgroundItemManager.Save();
+				data.Add("backgroundItems", backgroundItems);
+			}
 			return data;
 		}
 
@@ -272,8 +274,7 @@ namespace SpiritMod
 					superSunFlowerPositions.Remove(point);
 
 			var bgItems = tag.GetList<TagCompound>("backgroundItems");
-			if (bgItems != null)
-				BackgroundItemManager.Load(bgItems);
+			BackgroundItemManager.Load(bgItems, bgItems != null);
 		}
 
 		public override void LoadLegacy(BinaryReader reader)

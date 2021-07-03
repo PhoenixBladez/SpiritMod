@@ -80,26 +80,29 @@ namespace SpiritMod.Mechanics.BackgroundSystem
 			return tags;
 		}
 
-		public static void Load(IList<TagCompound> info)
+		public static void Load(IList<TagCompound> info, bool loadData)
 		{
 			bgItems = new List<BaseBGItem>(); //Set all lists
 			organizedItems = bgItems.OrderBy(x => x.scale);
 			Loaded = true;
 
-			foreach (var item in info)
+			if (loadData)
 			{
-				string name = item.GetString("Name");
-				try
+				foreach (var item in info)
 				{
-					Type bgItemType = typeof(BackgroundItemManager).Assembly.GetType(name, true);
-					var bgItem = Activator.CreateInstance(bgItemType) as BaseBGItem;
-					bgItem.Load(item);
-					bgItems.Add(bgItem);
-				}
-				catch (Exception e)
-				{
-					SpiritMod mod = SpiritMod.Instance;
-					mod.Logger.Warn("Failed to load BGItem assembly type.\n", e);
+					string name = item.GetString("Name");
+					try
+					{
+						Type bgItemType = typeof(BackgroundItemManager).Assembly.GetType(name, true);
+						var bgItem = Activator.CreateInstance(bgItemType) as BaseBGItem;
+						bgItem.Load(item);
+						bgItems.Add(bgItem);
+					}
+					catch (Exception e)
+					{
+						SpiritMod mod = SpiritMod.Instance;
+						mod.Logger.Warn("Failed to load BGItem assembly type.\n", e);
+					}
 				}
 			}
 		}
