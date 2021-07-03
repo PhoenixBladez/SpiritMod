@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Sets.SeraphSet;
-using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Sets.MagicMisc.AstralClock;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Projectiles.Hostile;
 using System;

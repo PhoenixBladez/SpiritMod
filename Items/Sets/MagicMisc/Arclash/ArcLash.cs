@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Prim;
 using System;
-namespace SpiritMod.Items.Weapon.Magic.Arclash
+namespace SpiritMod.Items.Sets.MagicMisc.Arclash
 {
 	public class ArcLash : ModItem
 	{

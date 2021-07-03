@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Consumable.Potion;
 using SpiritMod.Items.Sets.SeraphSet;
-using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Sets.MagicMisc.AstralClock;
 using System;
 using Terraria;
 using Terraria.DataStructures;
