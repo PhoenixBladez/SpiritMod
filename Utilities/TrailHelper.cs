@@ -669,9 +669,17 @@ namespace SpiritMod.Utilities
 		private float _start;
 		private readonly float _speed;
 		private readonly float _opacity;
+		private Projectile _proj;
 
 		public StarjinxTrail(float StartingTimer, float AnimationSpeed = 1f, float Opacity = 1f)
 		{
+			_start = StartingTimer;
+			_speed = AnimationSpeed;
+			_opacity = Opacity;
+		}
+		public StarjinxTrail(Projectile projectile, float StartingTimer, float AnimationSpeed = 1f, float Opacity = 1f)
+		{
+			_proj = projectile;
 			_start = StartingTimer;
 			_speed = AnimationSpeed;
 			_opacity = Opacity;
@@ -680,7 +688,12 @@ namespace SpiritMod.Utilities
 		public Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points)
 		{
 			float progress = distanceFromStart / trailLength;
-			return Color.Lerp(SpiritMod.StarjinxColor(_start + Main.GlobalTime * _speed), SpiritMod.StarjinxColor(_start + 5 + Main.GlobalTime * _speed), progress) * (1f - progress) * _opacity;
+			Color returnColor = Color.Lerp(SpiritMod.StarjinxColor(_start + Main.GlobalTime * _speed), SpiritMod.StarjinxColor(_start + 5 + Main.GlobalTime * _speed), progress) * (1f - progress) * _opacity;
+			if (_proj != null)
+			{
+				return returnColor * _proj.Opacity;
+			}
+			return returnColor;
 		}
 	}
 

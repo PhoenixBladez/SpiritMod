@@ -16,7 +16,6 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Haunted Skull");
-			Main.projFrames[projectile.type] = 3;
 			ProjectileID.Sets.Homing[projectile.type] = true;
 		}
 
@@ -27,7 +26,6 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 			projectile.friendly = true;
 			projectile.magic = true;
 			projectile.alpha = 255;
-			projectile.frame = Main.rand.Next(3);
 			projectile.timeLeft = 120;
 		}
 
@@ -96,15 +94,11 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 				if (Timer < 30)
 				{
 					_origVel *= 1.03f;
-					projectile.scale *= 1.025f;
+					projectile.scale *= 1.02f;
 				}
 			}
 
 			projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
-			if (projectile.frameCounter++ % 5 == 0)
-			{
-				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
-			}
 			projectile.spriteDirection = Math.Sign(projectile.velocity.X);
 			projectile.rotation = projectile.velocity.ToRotation() - ((projectile.spriteDirection < 0) ? MathHelper.Pi : 0);
 		}

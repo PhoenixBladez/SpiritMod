@@ -90,6 +90,7 @@ namespace SpiritMod.NPCs.AuroraStag
 			npc.value = 800;
 			npc.knockBackResist = .85f;
 			npc.aiStyle = -1;
+			npc.chaseable = false;
 
 			for (int i = 0; i < BuffLoader.BuffCount; i++)
 				npc.buffImmune[i] = true;
@@ -266,11 +267,10 @@ namespace SpiritMod.NPCs.AuroraStag
 		{
 			Color color = AuroraColor;
 			color.A = (byte)Main.rand.Next(100, 150);
-			AuroraStarParticle particle = new AuroraStarParticle(
+			StarParticle particle = new StarParticle(
 				npc.Center + Main.rand.NextVector2Circular(30, 30),
 				Main.rand.NextVector2Unit() * Main.rand.NextFloat(1.5f, 3f),
 				color,
-				Main.rand.NextFloat(MathHelper.TwoPi),
 				scale,
 				Main.rand.Next(60, 120));
 

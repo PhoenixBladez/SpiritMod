@@ -101,11 +101,10 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 		{
 			Color color = AuroraColor;
 			color.A = (byte)Main.rand.Next(100, 150);
-			AuroraStarParticle particle = new AuroraStarParticle(
+			StarParticle particle = new StarParticle(
 				center + Main.rand.NextVector2Circular(30, 30),
 				Main.rand.NextVector2Unit() * Main.rand.NextFloat(1.5f, 3f),
 				color,
-				Main.rand.NextFloat(MathHelper.TwoPi),
 				scale,
 				Main.rand.Next(60, 120));
 

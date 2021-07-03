@@ -120,23 +120,44 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 			{
 				switch ((int)symbolCounterThree % numberOfSymbols)
 				{
-					case 0: //bar
+					case 0: //bell
 						CombatText.NewText(new Microsoft.Xna.Framework.Rectangle(X * 16, Y * 16, _player.width, _player.height), Microsoft.Xna.Framework.Color.Gold,
-				   		"Bar!");
+				   		"Bell");
 						break;
-					case 1: //seven
+					case 1: //mjw
 						CombatText.NewText(new Microsoft.Xna.Framework.Rectangle(X * 16, Y * 16, _player.width, _player.height), Microsoft.Xna.Framework.Color.Gold,
-				   		"Lucky Seven!");
+				   		"MJW");
 						break;
-					case 2: //cherry
+					case 2: //lemon
+						CombatText.NewText(new Microsoft.Xna.Framework.Rectangle(X * 16, Y * 16, _player.width, _player.height), Microsoft.Xna.Framework.Color.Gold,
+				   		"lemon");
+						break;
+					case 3: //diamond
 						CombatText.NewText(new Microsoft.Xna.Framework.Rectangle(X * 16, Y * 16, _player.width, _player.height), Microsoft.Xna.Framework.Color.Red,
-				   		"Smells like Cherries!");
+				   		"diamond");
 						break;
+					case 4: //bomb
+						CombatText.NewText(new Microsoft.Xna.Framework.Rectangle(X * 16, Y * 16, _player.width, _player.height), Microsoft.Xna.Framework.Color.Red,
+				   		"bomb");
+						break;
+					case 5: //cherry
+						CombatText.NewText(new Microsoft.Xna.Framework.Rectangle(X * 16, Y * 16, _player.width, _player.height), Microsoft.Xna.Framework.Color.Red,
+				   		"cherry");
+						break;
+					case 6: //bar
+						CombatText.NewText(new Microsoft.Xna.Framework.Rectangle(X * 16, Y * 16, _player.width, _player.height), Microsoft.Xna.Framework.Color.Red,
+				   		"bar");
+						break;
+					case 7: //seven
+						CombatText.NewText(new Microsoft.Xna.Framework.Rectangle(X * 16, Y * 16, _player.width, _player.height), Microsoft.Xna.Framework.Color.Red,
+				   		"seven");
+						break;
+
 				}
 				ModContent.GetInstance<SpiritMod>().SlotUserInterface.SetState(null);
 			}
 		}
-		const int numberOfSymbols = 3;
+		const int numberOfSymbols = 8;
 		protected override void DrawSelf(SpriteBatch spriteBatch) {
 			if (mainPanel.ContainsPoint(Main.MouseScreen)) {
 				Main.LocalPlayer.mouseInterface = true;
@@ -159,13 +180,13 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 
 			Texture2D texturesymbols = ModContent.GetTexture("SpiritMod/Tiles/Furniture/SlotMachine/SlotMachineSymbols");
 			
-			Vector2 symbolOffsetOne = new Vector2(24,70);
+			Vector2 symbolOffsetOne = new Vector2(29,70);
 			Vector2 symbolOffsetTwo = symbolOffsetOne + new Vector2(68,0);
 			Vector2 symbolOffsetThree = symbolOffsetTwo + new Vector2(68,0);
 
-			Microsoft.Xna.Framework.Rectangle rectSymbolOne = new Microsoft.Xna.Framework.Rectangle(62 * ((int)symbolCounterOne % numberOfSymbols), 0, 62, 70);
-			Microsoft.Xna.Framework.Rectangle rectSymbolTwo = new Microsoft.Xna.Framework.Rectangle(62 * ((int)symbolCounterTwo % numberOfSymbols), 0, 62, 70);
-			Microsoft.Xna.Framework.Rectangle rectSymbolThree = new Microsoft.Xna.Framework.Rectangle(62 * ((int)symbolCounterThree % numberOfSymbols), 0, 62, 70);
+			Microsoft.Xna.Framework.Rectangle rectSymbolOne = new Microsoft.Xna.Framework.Rectangle(52 * ((int)symbolCounterOne % numberOfSymbols), 0, 52, 70);
+			Microsoft.Xna.Framework.Rectangle rectSymbolTwo = new Microsoft.Xna.Framework.Rectangle(52 * ((int)symbolCounterTwo % numberOfSymbols), 0, 52, 70);
+			Microsoft.Xna.Framework.Rectangle rectSymbolThree = new Microsoft.Xna.Framework.Rectangle(52 * ((int)symbolCounterThree % numberOfSymbols), 0, 52, 70);
 
 			spriteBatch.Draw(texturesymbols, symbolOffsetOne + position + new Vector2(offsetX, offsetY) + new Vector2(texturebase.Width / -4, texturebase.Height / -2), rectSymbolOne, Microsoft.Xna.Framework.Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0f);
 			spriteBatch.Draw(texturesymbols, symbolOffsetTwo + position + new Vector2(offsetX, offsetY) + new Vector2(texturebase.Width / -4, texturebase.Height / -2), rectSymbolTwo, Microsoft.Xna.Framework.Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0f);
