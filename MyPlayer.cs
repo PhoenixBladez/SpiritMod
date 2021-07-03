@@ -2396,7 +2396,7 @@ namespace SpiritMod
 				Rectangle npcBox = npc.getRect();
 				npcBox.Inflate((int)zoom.X, (int)zoom.Y);
 
-				if ((int)(Vector2.Distance(player.Center, hoveredStag.npc.Center) / 16) < 8 && npcBox.Contains(Main.MouseWorld.ToPoint()))
+				if ((int)(Vector2.Distance(player.Center, npc.Center) / 16) < 8 && npcBox.Contains(Main.MouseWorld.ToPoint()))
 					hoveredStag = auroraStag;
 			}
 

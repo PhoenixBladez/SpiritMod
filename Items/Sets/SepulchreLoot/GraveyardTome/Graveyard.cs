@@ -55,7 +55,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 			{
 				int framespersecond = 7;
 				modplayer.GraveyardFrame += (100 / 60f) * (framespersecond / 60f);
-				if (modplayer.GraveyardFrame > 5 && !Main.dedServ) //workaround for rounding errors
+				if (modplayer.GraveyardFrame > 5 && !Main.dedServ)
 				{
 					modplayer.GraveyardFrame = 0;
 					Main.PlaySound(SpiritMod.instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/PageFlip").WithPitchVariance(0.2f), player.Center);
