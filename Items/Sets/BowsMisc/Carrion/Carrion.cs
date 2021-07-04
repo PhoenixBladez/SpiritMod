@@ -12,24 +12,24 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Carrion");
-			Tooltip.SetDefault("Wooden Arrows turn into Eyeballs!");
+			Tooltip.SetDefault("Converts wooden arrows into Carrion Crows\nCarrion Crows grow stronger after hitting enemies");
 		}
 
 
 
 		public override void SetDefaults()
 		{
-			item.damage = 14;
+			item.damage = 35;
 			item.noMelee = true;
 			item.ranged = true;
 			item.width = 50;
 			item.height = 30;
-			item.useTime = 18;
-			item.useAnimation = 18;
+			item.useTime = 15;
+			item.useAnimation = 15;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ProjectileID.Shuriken;
 			item.useAmmo = AmmoID.Arrow;
-			item.knockBack = 4;
+			item.knockBack = 3;
 			item.useTurn = false;
 			item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
 			item.rare = ItemRarityID.Blue;
@@ -62,6 +62,24 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 			}
 			return false;
 
+		}
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.HellwingBow, 1);
+			recipe.AddIngredient(ItemID.SoulofNight, 12);
+			recipe.AddIngredient(ItemID.RottenChunk, 10);
+			recipe.AddTile(TileID.MythrilAnvil);
+			recipe.SetResult(this, 1);
+			recipe.AddRecipe();
+
+			ModRecipe recipe1 = new ModRecipe(mod);
+			recipe1.AddIngredient(ItemID.HellwingBow, 1);
+			recipe1.AddIngredient(ItemID.SoulofNight, 12);
+			recipe1.AddIngredient(ItemID.Vertebrae, 10);
+			recipe1.AddTile(TileID.MythrilAnvil);
+			recipe1.SetResult(this, 1);
+			recipe1.AddRecipe();
 		}
 	}
 }

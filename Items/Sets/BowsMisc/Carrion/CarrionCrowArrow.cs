@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using SpiritMod.Utilities;
 using System;
@@ -26,8 +27,9 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 			projectile.hostile = false;
 			projectile.friendly = true;
 			projectile.penetrate = 5;
-			projectile.width = 12;
-			projectile.height = 32;
+			projectile.width = 22;
+			projectile.height = 44;
+			projectile.timeLeft = 900;
 		}
 		public void DoTrailCreation(TrailManager tManager)
 		{
@@ -48,17 +50,17 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 			public Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points)
 			{
 				float progress = distanceFromStart / trailLength;
-				return _colour * (1f - progress) * MathHelper.Lerp(0, 1, 4 - (_proj.penetrate));
+				return _colour * (1f - progress) * MathHelper.Lerp(0f, 1, _proj.localAI[0]);
 			}
 		}
 		public bool looping = false;
-		public int loopSize = 12;
+		public int loopSize = 14;
 		public int loopCounter = 0;
 		public override void AI()
         {
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			projectile.frameCounter++;
-			if (projectile.frameCounter >= 4)
+			if (projectile.frameCounter >= 3)
 			{
 				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
 				projectile.frameCounter = 0;
@@ -73,9 +75,16 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 					looping = false;
 				}
 			}
-			if (projectile.penetrate < 3 && !looping)
+			if (projectile.penetrate < 4 && !looping)
             {
 				Homing();
+            }
+			if (projectile.penetrate <= 4)
+            {
+				if (projectile.localAI[0] < 1.5f)
+				{
+					projectile.localAI[0] += .096f;
+				}
             }
 		}
 		public void Homing()
@@ -142,29 +151,50 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 		}
 		public override void Kill(int timeLeft)
 		{
-			for (int i = 0; i < 5; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 5);
+			Main.PlaySound(new LegacySoundStyle(29, 53).WithPitchVariance(0.3f), projectile.Center);
+			if (projectile.penetrate <= 4)
+			{
+				Vector2 vector9 = projectile.position;
+				Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
+				vector9 += value19 * 16f;
+				for (int num257 = 0; num257 < 20; num257++)
+				{
+					int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, 73, 0f, 0f, 0, default(Color), 1f);
+					Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
+					Main.dust[newDust].velocity += value19 * 2f;
+					Main.dust[newDust].velocity *= 0.5f;
+					Main.dust[newDust].noGravity = true;
+					vector9 -= value19 * 8f;
+				}
 			}
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (projectile.penetrate > 3 || projectile.penetrate == 2)
+			if (projectile.penetrate > 4)
+            {
+				Main.PlaySound(new LegacySoundStyle(4, 6).WithPitchVariance(0.3f), projectile.Center);
+			}
+			if (projectile.penetrate > 4 || projectile.penetrate == 3)
 			{ 
 				looping = true;
-				loopSize = (int)(Main.rand.Next(34, 37)/projectile.penetrate);
+				loopSize = (int)(Main.rand.Next(60, 63)/projectile.penetrate);
 				projectile.velocity *= 1.4f;
 			}
+			if (projectile.penetrate <= 4)
+            {
+				projectile.localAI[0] += .38f;
+            }
 			projectile.tileCollide = false;
 		}
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
 			for (int k = 0; k < projectile.oldPos.Length; k++)
 			{
-				Color color = new Color(20, 20, 20) * 0.75f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+				Color color = Color.Black * 0.75f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
 
 				float scale = projectile.scale;
 				Texture2D tex = ModContent.GetTexture("SpiritMod/Items/Sets/BowsMisc/Carrion/CarrionCrowArrow_Glow");
+				Texture2D tex2 = ModContent.GetTexture("SpiritMod/Items/Sets/BowsMisc/Carrion/CarrionCrowArrowEye");
 
 				spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, projectile.rotation, tex.Size() / 2, scale, default, default);
 
@@ -173,6 +203,8 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 				{
 					spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition + new Vector2(Main.rand.Next(-3, 3), Main.rand.Next(-3, 3)), null, color1, projectile.rotation, tex.Size() / 2, scale * 1.25425f, default, default);
 				}
+				spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, Color.White * .3f, projectile.rotation, tex.Size() / 2, scale * 1.25425f, default, default);
+				spriteBatch.Draw(tex2, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, Color.White * .5f, projectile.rotation, tex.Size() / 2, scale * 1.25425f, default, default);
 			}
 		}
 	}
