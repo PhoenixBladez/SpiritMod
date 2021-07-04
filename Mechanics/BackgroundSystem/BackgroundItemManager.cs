@@ -80,13 +80,15 @@ namespace SpiritMod.Mechanics.BackgroundSystem
 			return tags;
 		}
 
-		public static void Load(IList<TagCompound> info, bool loadData)
+		/// <summary>Sets the bgItem lists and loads saved data, if possible.</summary>
+		/// <param name="info"></param>
+		public static void Load(IList<TagCompound> info)
 		{
 			bgItems = new List<BaseBGItem>(); //Set all lists
 			organizedItems = bgItems.OrderBy(x => x.scale);
 			Loaded = true;
 
-			if (loadData)
+			if (info != null)
 			{
 				foreach (var item in info)
 				{

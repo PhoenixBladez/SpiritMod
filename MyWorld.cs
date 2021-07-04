@@ -274,7 +274,7 @@ namespace SpiritMod
 					superSunFlowerPositions.Remove(point);
 
 			var bgItems = tag.GetList<TagCompound>("backgroundItems");
-			BackgroundItemManager.Load(bgItems, bgItems != null);
+			BackgroundItemManager.Load(bgItems);
 		}
 
 		public override void LoadLegacy(BinaryReader reader)
