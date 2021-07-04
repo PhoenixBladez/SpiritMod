@@ -8,7 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 
-namespace SpiritMod.Items.Weapon.Magic
+namespace SpiritMod.Items.Sets.MagicMisc.Lightspire
 {
 	public class AkaviriStaff : ModItem
 	{
@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			DisplayName.SetDefault("Lightspire");
 			Tooltip.SetDefault("'Any amount of light is enough'");
-            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Magic/AkaviriStaff_Glow");
+            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/MagicMisc/Lightspire/AkaviriStaff_Glow");
         }
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Magic
             texture = Main.itemTexture[item.type];
             spriteBatch.Draw
             (
-                ModContent.GetTexture("SpiritMod/Items/Weapon/Magic/AkaviriStaff_Glow"),
+                ModContent.GetTexture("SpiritMod/Items/Sets/MagicMisc/Lightspire/AkaviriStaff_Glow"),
                 new Vector2
                 (
                     item.position.X - Main.screenPosition.X + item.width * 0.5f,

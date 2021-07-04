@@ -1146,9 +1146,6 @@ namespace SpiritMod.NPCs
 				if (Main.rand.Next(50) <= 2) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.GunsMisc.CaptainsRegards.CaptainsRegards>());
 				}
-				if (Main.rand.Next(100) <= 6) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Weapon.Magic.SoulSiphon>());
-				}
 				if (npc.type == NPCID.PirateShip)
 				{
 					if (Main.rand.NextBool(3))

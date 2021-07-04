@@ -20,7 +20,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
-			(ModContent.ItemType<Items.Weapon.Magic.AkaviriStaff>(), 1),
+			(ModContent.ItemType<Items.Sets.MagicMisc.Lightspire.AkaviriStaff>(), 1),
 			(Terraria.ID.ItemID.GoldCoin, 3)
 		};
 

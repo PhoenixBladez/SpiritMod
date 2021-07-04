@@ -232,7 +232,7 @@ namespace SpiritMod.Utilities
 					null,
 					new List<int> {
 						ModContent.ItemType<MoonStone>(),
-						ModContent.ItemType<StopWatch>(),
+						ModContent.ItemType<Items.Sets.MagicMisc.AstralClock.StopWatch>(),
 						ModContent.ItemType<MagicConch>(),
 						ModContent.ItemType<GloomgusStaff>(),
 						ModContent.ItemType<MadHat>()
