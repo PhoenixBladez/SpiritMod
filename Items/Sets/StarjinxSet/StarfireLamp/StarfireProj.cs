@@ -6,6 +6,8 @@ using SpiritMod.Particles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
+using System.IO;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 {
@@ -20,12 +22,11 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
 		}
 
-		private const int MaxTimeLeft = 180;
+		private const int MaxTimeLeft = 220;
         public override void SetDefaults()
         {
 			projectile.Size = new Vector2(20, 20);
-            projectile.scale = Main.rand.NextFloat(1f, 1.5f);
-            projectile.tileCollide = true;
+            projectile.scale = Main.rand.NextFloat(0.7f, 1.2f);
             projectile.friendly = true;
             projectile.magic = true;
 			projectile.timeLeft = MaxTimeLeft;
@@ -50,7 +51,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 					SpiritMod.StarjinxColor(Main.GlobalTime - 1), Main.rand.NextFloat(0.2f, 0.4f), 25));
 			}
 
-			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit"), projectile.Center);
+			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithPitchVariance(0.2f).WithVolume(0.3f), projectile.Center);
         }
 
 		private Vector2 OrigVel;
@@ -58,28 +59,70 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 		private const float JustSpawned = 0;
 		private const float CosWave = 1;
 		private const float Circling = 2;
-		private const float Homing = 3;
+		private const float HomingAim = 3;
+		private const float HomingAccelerate = 4;
 
 		private ref float Direction => ref projectile.ai[1];
 
-		private float Timer => MaxTimeLeft - projectile.timeLeft;
+		private ref float Timer => ref projectile.localAI[0];
+
+		private NPC Target;
 
 		public override void AI()
 		{
+			Lighting.AddLight(projectile.Center, SpiritMod.StarjinxColor(Main.GlobalTime - 1).ToVector3() / 3);
 			projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
 			projectile.alpha = Math.Max(projectile.alpha - 15, 0);
+			projectile.tileCollide = Timer > 20;
+			void TargetCheck()
+			{
+				int maxDist = 1000;
+				foreach(NPC npc in Main.npc.Where(x => x.Distance(projectile.Center) < maxDist && x.active && x.CanBeChasedBy(this) && x != null)){
+					StarfireLampPlayer player = Main.player[projectile.owner].GetModPlayer<StarfireLampPlayer>();
+					if (player.LampTargetNPC == npc && npc.active && npc != null && npc.CanBeChasedBy(this))
+					{
+						AiState = HomingAim;
+						Target = npc;
+						projectile.netUpdate = true;
+						Timer = 0;
+					}
+				}
+			}
 			switch (AiState)
 			{
 				case JustSpawned:
 					Direction = Main.rand.NextBool() ? -1 : 1;
 					OrigVel = projectile.velocity;
-					AiState = Main.rand.NextBool() ? CosWave : Circling;
+					AiState = Main.rand.NextBool(3) ? Circling : CosWave;
 					break;
 				case CosWave:
+					++Timer;
 					projectile.velocity = OrigVel.RotatedBy(Math.Cos(Timer / 60 * MathHelper.TwoPi) * Direction * MathHelper.Pi / 8);
+					if(Timer > 10)
+						TargetCheck();
 					break;
 				case Circling:
-					projectile.velocity = (OrigVel.RotatedBy(MathHelper.ToRadians((Timer + 10) * Direction * 5)) * 0.5f) + (OrigVel * 0.33f);
+					++Timer;
+					projectile.velocity = (OrigVel.RotatedBy(MathHelper.ToRadians(Timer * Direction * 7) + MathHelper.PiOver2 * Direction) * 0.5f) + (OrigVel * 0.33f);
+					if(Timer > 10)
+						TargetCheck();
+					break;
+				case HomingAim:
+					++Timer;
+					if (Timer > 8 || Target == null || !Target.active || !Target.CanBeChasedBy(this))
+					{
+						AiState = HomingAccelerate;
+						break;
+					}
+					projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(Target.Center) * 3, 0.2f);
+					break;
+				case HomingAccelerate:
+					if (projectile.velocity.Length() < 24)
+						projectile.velocity *= 1.05f;
+
+					if (Target != null && Target.active && Target.CanBeChasedBy(this))
+						projectile.velocity = projectile.velocity.Length() * 
+							Vector2.Normalize(Vector2.Lerp(projectile.velocity, projectile.DirectionTo(Target.Center) * projectile.velocity.Length(), 0.1f));
 					break;
 			}
 
@@ -93,6 +136,18 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(0.4f), Color.White * 0.5f,
 					SpiritMod.StarjinxColor(Main.GlobalTime - 1) * 0.5f, Main.rand.NextFloat(0.1f, 0.2f), 25));
 			}
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(Target.whoAmI);
+			writer.Write(Timer);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			Target = Main.npc[reader.ReadInt32()];
+			Timer = reader.ReadSingle();
 		}
 
 		public void AdditiveCall(SpriteBatch spriteBatch)

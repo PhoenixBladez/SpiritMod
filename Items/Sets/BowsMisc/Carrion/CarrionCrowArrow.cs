@@ -28,14 +28,17 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 			projectile.friendly = true;
 			projectile.penetrate = 5;
 			projectile.width = 22;
-			projectile.height = 44;
+			projectile.height = 22;
+			projectile.alpha = 255;
 			projectile.timeLeft = 900;
 		}
+
 		public void DoTrailCreation(TrailManager tManager)
 		{
 			tManager.CreateTrail(projectile, new CarrionCrowTrail(projectile, new Color(99, 23, 51, 200)), new RoundCap(), new DefaultTrailPosition(), 90f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
 			//tManager.CreateTrail(projectile, new CarrionCrowTrail(projectile, Color.White * 0.2f), new NoCap(), new DefaultTrailPosition(), 24f, 80f, new DefaultShader());
 		}
+
 		internal class CarrionCrowTrail : ITrailColor
 		{
 			private Color _colour;
@@ -53,11 +56,13 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 				return _colour * (1f - progress) * MathHelper.Lerp(0f, 1, _proj.localAI[0]);
 			}
 		}
+
 		public bool looping = false;
 		public int loopSize = 14;
 		public int loopCounter = 0;
 		public override void AI()
         {
+			projectile.alpha = Math.Max(projectile.alpha - 10, 0);
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			projectile.frameCounter++;
 			if (projectile.frameCounter >= 3)
@@ -83,10 +88,11 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
             {
 				if (projectile.localAI[0] < 1.5f)
 				{
-					projectile.localAI[0] += .096f;
+					projectile.localAI[0] += .15f;
 				}
             }
 		}
+
 		public void Homing()
         {
 			projectile.ai[1] += 1f;
@@ -118,7 +124,14 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 				else
 				{
 					projectile.ai[0] = (float)target.whoAmI;
-					ProjectileExtras.HomingAI(this, target, 10f, 5f);
+					if (projectile.Distance(target.Center) > 150)
+					{
+						if (projectile.velocity.Length() < 20f)
+							projectile.velocity *= 1.04f;
+						projectile.velocity = projectile.velocity.Length() * Vector2.Normalize(Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center) * projectile.velocity.Length(), 0.2f));
+					}
+					else if (projectile.Distance(target.Center) > 20)
+						projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center) * 12, 0.07f);
 				}
 			}
 
@@ -143,12 +156,6 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 			}
 		}
 
-		private void AdjustMagnitude(ref Vector2 vector)
-		{
-			float magnitude = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
-			if (magnitude > 7f)
-				vector *= 7f / magnitude;
-		}
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(new LegacySoundStyle(29, 53).WithPitchVariance(0.3f), projectile.Center);
@@ -186,11 +193,12 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
             }
 			projectile.tileCollide = false;
 		}
+
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
 			for (int k = 0; k < projectile.oldPos.Length; k++)
 			{
-				Color color = Color.Black * 0.75f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+				Color color = Color.Black * 0.75f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length) * projectile.Opacity;
 
 				float scale = projectile.scale;
 				Texture2D tex = ModContent.GetTexture("SpiritMod/Items/Sets/BowsMisc/Carrion/CarrionCrowArrow_Glow");
@@ -198,13 +206,13 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 
 				spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, projectile.rotation, tex.Size() / 2, scale, default, default);
 
-				Color color1 = new Color(255, 186, 252) * 0.45475f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+				Color color1 = new Color(255, 186, 252) * projectile.Opacity * 0.45475f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
 				for (int j = 0; j < 3; j++)
 				{
 					spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition + new Vector2(Main.rand.Next(-3, 3), Main.rand.Next(-3, 3)), null, color1, projectile.rotation, tex.Size() / 2, scale * 1.25425f, default, default);
 				}
-				spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, Color.White * .3f, projectile.rotation, tex.Size() / 2, scale * 1.25425f, default, default);
-				spriteBatch.Draw(tex2, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, Color.White * .5f, projectile.rotation, tex.Size() / 2, scale * 1.25425f, default, default);
+				spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, Color.White * .3f * projectile.Opacity, projectile.rotation, tex.Size() / 2, scale * 1.25425f, default, default);
+				spriteBatch.Draw(tex2, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, Color.White * .5f * projectile.Opacity, projectile.rotation, tex.Size() / 2, scale * 1.25425f, default, default);
 			}
 		}
 	}

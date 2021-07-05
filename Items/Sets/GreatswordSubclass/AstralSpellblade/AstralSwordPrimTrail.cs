@@ -1,15 +1,11 @@
-﻿using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Terraria;
-using System.Collections.Generic;
 using System.Linq;
 using System;
-using static Terraria.ModLoader.ModContent;
-using System.Reflection;
 using SpiritMod.Prim;
 
-namespace SpiritMod.Items.Sets.GreatswordSubclass
+namespace SpiritMod.Items.Sets.GreatswordSubclass.AstralSpellblade
 {
     class AstralSwordPrimTrail : PrimTrail
     {

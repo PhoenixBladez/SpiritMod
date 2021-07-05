@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using System;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 {
@@ -13,9 +14,8 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 		{
 			DisplayName.SetDefault("Carrion");
 			Tooltip.SetDefault("Converts wooden arrows into Carrion Crows\nCarrion Crows grow stronger after hitting enemies");
+			SpiritGlowmask.AddGlowMask(item.type, Texture + "_glow");
 		}
-
-
 
 		public override void SetDefaults()
 		{
@@ -32,11 +32,14 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 			item.knockBack = 3;
 			item.useTurn = false;
 			item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.Blue;
+			item.rare = ItemRarityID.LightRed;
 			item.UseSound = SoundID.Item5;
 			item.autoReuse = true;
 			item.shootSpeed = 11.25f;
 		}
+
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, item, ModContent.GetTexture(Texture + "_glow"), rotation, scale);
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			if (type == ProjectileID.WoodenArrowFriendly) {
@@ -63,6 +66,8 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 			return false;
 
 		}
+
+		public override Vector2? HoldoutOffset() => new Vector2(-14, 0);
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
