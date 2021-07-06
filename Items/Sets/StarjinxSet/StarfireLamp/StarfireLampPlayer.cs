@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 {
-	public class StarfireLampPlayer : ModPlayer
+	public class StarfireLampPlayer : ModPlayer, IDrawAdditive
 	{
 		public int TwinkleTime { get; set; }
 		public const int MaxTwinkleTime = 12;
@@ -17,6 +17,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 		public NPC LampTargetNPC { get; set; }
 		public int LampTargetTime { get; set; }
 		public const int MaxTargetTime = 480;
+
+		private int additiveCall = -1;
 
 		public override void Initialize()
 		{
@@ -42,8 +44,15 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 
 		public override void ModifyDrawLayers(List<PlayerLayer> layers)
 		{
+			if(additiveCall != -1)
+			{
+				AdditiveCallManager.RemoveCall(additiveCall);
+				additiveCall = -1;
+			}
+
 			if(player.HeldItem.type == ModContent.ItemType<StarfireLamp>())
 			{
+				additiveCall = AdditiveCallManager.ManualAppend(this);
 				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(mod.Name, "StarfireLampHeld",
 					delegate (PlayerDrawInfo info) { DrawItem(mod.GetTexture("Items/Sets/StarjinxSet/StarfireLamp/StarfireLamp"),
 						mod.GetTexture("Items/Sets/StarjinxSet/StarfireLamp/StarfireLampGlow"), info); }));
@@ -120,6 +129,37 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 
 				data.rotation += MathHelper.PiOver2;
 				Main.playerDrawData.Add(data);
+			}
+		}
+
+		public void AdditiveCall(SpriteBatch sB)
+		{
+			if (LampTargetNPC == null || LampTargetTime == 0)
+				return;
+
+			Texture2D star = mod.GetTexture("Effects/Masks/Star");
+			Texture2D beam = mod.GetTexture("Effects/Mining_Helmet");
+
+			float Timer = (float)Math.Sin(Main.GameUpdateCount / 24f);
+			Vector2 drawPosition = player.MountedCenter - new Vector2(0, 60 + (Timer * 4)) + new Vector2(0, 6);
+
+			Color color = Color.Lerp(SpiritMod.StarjinxColor(Main.GameUpdateCount / 12f) , Color.White, 0.5f);
+
+			float halfTargetTime = MaxTargetTime / 2f;
+			float starOpacity = Math.Min(2 * ((halfTargetTime - Math.Abs(halfTargetTime - LampTargetTime)) / halfTargetTime), 0.7f);
+			float beamOpacity = Math.Max((15f - Math.Abs(15f - (MaxTargetTime - LampTargetTime))) / 15f, starOpacity);
+
+			Vector2 dist = LampTargetNPC.Center - drawPosition;
+
+			sB.Draw(star, LampTargetNPC.Center - Main.screenPosition, null, color * starOpacity, Main.GameUpdateCount / 24f, star.Size() / 2, 1f, SpriteEffects.None, 0);
+			sB.Draw(star, LampTargetNPC.Center - Main.screenPosition, null, color * starOpacity * 0.8f, -Main.GameUpdateCount / 24f, star.Size() / 2, 0.8f, SpriteEffects.None, 0);
+
+			for (int i = -1; i <= 1; i++)
+			{
+				float rot = dist.ToRotation();
+				Vector2 offset = (i == 0) ? Vector2.Zero : Vector2.UnitX.RotatedBy(rot + MathHelper.PiOver4 * i) * 4;
+				float opacity = (i == 0) ? 1f : 0.5f;
+				sB.Draw(beam, drawPosition + offset - Main.screenPosition, null, color * beamOpacity * opacity, rot + MathHelper.PiOver2, new Vector2(beam.Width / 2f, beam.Height * 0.58f), new Vector2(1, dist.Length() / (beam.Height / 2f)), SpriteEffects.None, 0);
 			}
 		}
 	}

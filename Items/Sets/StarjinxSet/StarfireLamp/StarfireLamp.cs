@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
             item.UseSound = SoundID.Item45.WithPitchVariance(0.2f).WithVolume(0.5f);
             item.value = Item.sellPrice(silver: 55);
             item.useTurn = false;
-            item.mana = 15;
+            item.mana = 7;
         }
 
         public override void SetStaticDefaults()
@@ -49,6 +49,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 		{
 			if(player.altFunctionUse == 2)
 			{
+				item.useTime = 30;
+				item.useAnimation = 30;
 				NPC mousehovernpc = null; //see if an npc is intersecting the mouse
 				foreach (NPC npc in Main.npc.Where(x => x.active && x.CanBeChasedBy(player) && x != null))
 				{
@@ -63,8 +65,12 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 
 				return true;
 			}
+			item.useTime = 12;
+			item.useAnimation = 12;
 			return true;
 		}
+
+		public override void ModifyManaCost(Player player, ref float reduce, ref float mult) => mult = (player.altFunctionUse == 2) ? 50/7f : 1;
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
