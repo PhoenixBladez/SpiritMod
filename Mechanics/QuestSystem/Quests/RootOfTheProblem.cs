@@ -29,8 +29,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		private RootOfTheProblem()
         {
-			_tasks.AddTask(new TalkNPCTask(ModContent.NPCType<NPCs.Town.Adventurer>(), "I thought I was a real goner there! If you didn't butt in, I probably would've been fed to whatever those monsters were trying to conjure up over there. I wouldn't touch it if I were you... Look, you have my thanks; but just between you and me, it's been a long few months, and all I want is a vacation from adventuring for a while. Life is short, and I'd rather not make it shorter. I'll see you around sometime. Could you get rid of that altar for me, too?", "Go to the Underground Briar and rescue the Adventurer"))
-				  .AddTask(new SlayTask(ModContent.NPCType<NPCs.Reach.ForestWraith>(), 1, "Glade Wraith")); 
+			_tasks.AddTask(new TalkNPCTask(ModContent.NPCType<NPCs.Town.Adventurer>(), "I thought I was a real goner there! If you didn't butt in, I probably would've been fed to whatever those monsters were trying to conjure up over there. I wouldn't touch it if I were you... Look, you have my thanks; but just between you and me, it's been a long few months, and all I want is a vacation from adventuring for a while. Life is short, and I'd rather not make it shorter. I'll see you around sometime. Could you get rid of that altar for me, too?", "Go to the Underground Briar and rescue the Adventurer"));
 		}
 
 		public override void OnQuestComplete()
@@ -42,11 +41,6 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			QuestManager.UnlockQuest<BareNecessities>(showUnlocks);
 			
 			QuestManager.UnlockQuest<SlayerQuestBriar>(showUnlocks);
-		
-			QuestManager.UnlockQuest<FriendSafari>(showUnlocks);
-			QuestManager.UnlockQuest<BreakingAndEntering>(showUnlocks);
-
-			QuestManager.SayInChat("Click on quests in the chat to open them in the book!", Color.White);
 
 			base.OnQuestComplete();
 		}

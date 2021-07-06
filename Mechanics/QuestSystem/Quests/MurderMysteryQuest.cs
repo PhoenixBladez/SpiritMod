@@ -14,7 +14,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
     {
         public override string QuestName => "Once in a Lifetime";
 		public override string QuestClient => "The Arms Dealer";
-		public override string QuestDescription => "I recognize skill when I see it. And it's here. The legendary Magnus Mustafa Thrax III is looking for a village to settle in. This guy is no joke. He's the best weapons master around- outside of guns, of course. Having him in your town would be the best thing to happen to you. He's got weapons made of Titanium, Shroomite, whatever. He's visiting town tonight, and I think you should greet him.";
+		public override string QuestDescription => "I recognize skill when I see it. And it's here. The legendary Magnus Mustafa Thrax III is looking for a village to settle in. He's the best weapons master around- outside of guns, of course. Having him in your town would be the best thing to happen to you. He's got weapons made of Titanium, Shroomite, whatever. He's visiting town tonight- I think you should greet him.";
 		public override int Difficulty => 1;
 		public override string QuestCategory => "Other";
 

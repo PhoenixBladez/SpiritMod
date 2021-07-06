@@ -1543,7 +1543,7 @@ namespace SpiritMod
 				else {
 					luminousOcean = false;
 				}
-                if (!Main.dayTime && (Main.moonPhase == 2 || Main.moonPhase == 5) && !Main.bloodMoon && Main.rand.Next(2) == 0)
+                if (!Main.dayTime && (Main.moonPhase == 2 || Main.moonPhase == 6) && !Main.bloodMoon && Main.rand.Next(2) == 0)
                 {
                     calmNight = true;
                 }

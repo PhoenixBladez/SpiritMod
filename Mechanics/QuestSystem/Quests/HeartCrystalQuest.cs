@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Microsoft.Xna.Framework;
+
 using Terraria;
 using Terraria.ModLoader;
 
@@ -13,7 +15,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
     {
         public override string QuestName => "Heart to the Cause";
 		public override string QuestClient => "The Guide";
-		public override string QuestDescription => "If you want to stay alive and keep exploring this world (with my help, of course), we'll need to make sure you're hale and hearty. Get it? You'll need to head underground to retrieve a Heart Crystal or too. It'll give you the boost you need!";
+		public override string QuestDescription => "If you want to stay alive and keep exploring this world (with my help, of course), we'll need to make sure you're hale and hearty. Get it? You'll need to head underground to retrieve a Heart Crystal or too. It'll give you the boost you need! After that, you should be able to try out some of the more difficult quests that the Adventurer left behind.";
 		public override int Difficulty => 2;
 		public override string QuestCategory => "Forager";
 
@@ -31,6 +33,11 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			QuestManager.UnlockQuest<ItsNoSalmon>(showUnlocks);
 			QuestManager.UnlockQuest<SporeSalvage>(showUnlocks);
 			QuestManager.UnlockQuest<ManicMage>(showUnlocks);
+
+			QuestManager.UnlockQuest<FriendSafari>(showUnlocks);
+			QuestManager.UnlockQuest<BreakingAndEntering>(showUnlocks);
+
+			QuestManager.SayInChat("Click on quests in the chat to open them in the book!", Color.White);
 
 			base.OnQuestComplete();
 		}
