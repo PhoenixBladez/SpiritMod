@@ -44,7 +44,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Guide, QuestManager.GetQuest<RootOfTheProblem>());
 			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Demolitionist, QuestManager.GetQuest<RescueQuestStylist>());
 			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.ArmsDealer, QuestManager.GetQuest<MurderMysteryQuest>());
-			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Dryad, QuestManager.GetQuest<CritterCaptureLumoth>());
+			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Dryad, QuestManager.GetQuest<LumothQuest>());
 			QuestManager.UnlockQuest<ExplorerQuestCrimson>(showUnlocks);
 			QuestManager.UnlockQuest<ExplorerQuestCorrupt>(showUnlocks);
 			QuestManager.UnlockQuest<HeartCrystalQuest>(showUnlocks);

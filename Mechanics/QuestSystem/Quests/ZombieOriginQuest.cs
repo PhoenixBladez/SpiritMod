@@ -60,5 +60,5 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
             _tasks.AddBranches(branch1, branch2);
 
         }
-    }
+	}
 }

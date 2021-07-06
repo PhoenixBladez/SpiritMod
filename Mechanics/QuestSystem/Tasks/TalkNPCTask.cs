@@ -67,7 +67,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			if (Main.netMode == Terraria.ID.NetmodeID.SinglePlayer)
 			{
-				if (Main.LocalPlayer.talkNPC != -1)
+				if (Main.LocalPlayer.talkNPC != -1 && Main.npc[Main.LocalPlayer.talkNPC].type == _npcType)
 				{
 					Main.npcChatText = NPCText;
 					if (_itemReceived != null && !hasTakenItems)
