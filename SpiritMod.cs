@@ -787,6 +787,7 @@ namespace SpiritMod
 				//Music Boxes
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/TranquilWinds"), ItemType("TranquilWindsBox"), TileType("TranquilWindsBox"));
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech"), ItemType("NeonMusicBox"), TileType("NeonMusicBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech1"), ItemType("HyperspaceDayBox"), TileType("HyperspaceDayBox"));
 
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritOverworld"), ItemType("SpiritBox1"), TileType("SpiritBox1"));
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer1"), ItemType("SpiritBox2"), TileType("SpiritBox2"));

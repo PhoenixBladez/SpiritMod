@@ -16,13 +16,13 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
         public override string QuestName => "Luminous Luster";
 		public override string QuestClient => "The Dryad";
 		public override string QuestDescription => "As protectors of nature, we Dryads have an obligation to protect all flora and fauna- to 'look out for the little guy,' as you may put it. This applies especially to those creatures that cannot defend themselves. A prime example is the brilliant Lumoth. It shines in the darkness of caves. Bring it to me so we can preserve the species for future generations.";
-		public override int Difficulty => 2;
+		public override int Difficulty => 1;
 		public override string QuestCategory => "Forager";
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
-			(ModContent.ItemType<Items.Book.Book_Lumoth>(), 1),
+			(ModContent.ItemType<Items.Books.Book_Lumoth>(), 1),
 			(Terraria.ID.ItemID.ShinePotion, 3),
 			(Terraria.ID.ItemID.SilverCoin, 35)
 		};
@@ -31,7 +31,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			bool showUnlocks = true;
 
 			QuestManager.UnlockQuest<CritterCaptureBlossmoon>(showUnlocks);
-			
+			QuestManager.UnlockQuest<CritterCaptureFloater>(showUnlocks);
+
 			base.OnQuestComplete();
 
 		}

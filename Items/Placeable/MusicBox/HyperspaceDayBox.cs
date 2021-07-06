@@ -1,9 +1,9 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-using NeonMusicBoxTile = SpiritMod.Tiles.MusicBox.NeonMusicBox;
+using HyperspaceDayBoxTile = SpiritMod.Tiles.MusicBox.HyperspaceDayBox;
 namespace SpiritMod.Items.Placeable.MusicBox
 {
-	public class NeonMusicBox : ModItem
+	public class HyperspaceDayBox : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Placeable.MusicBox
 			item.useTime = 10;
 			item.autoReuse = true;
 			item.consumable = true;
-			item.createTile = ModContent.TileType<NeonMusicBoxTile>();
+			item.createTile = ModContent.TileType<HyperspaceDayBoxTile>();
 			item.width = 24;
 			item.height = 24;
 			item.rare = ItemRarityID.LightRed;
