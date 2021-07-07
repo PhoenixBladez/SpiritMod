@@ -1,2 +1,2 @@
 # Spirit Mod
-The public Repo of Terraria's Spirit Mod!
+The GitHub repository of Terraria's Spirit Mod!
