@@ -257,9 +257,8 @@ namespace SpiritMod.Utilities
 		{
 			if (!Main.dedServ)
 			{
-				SpiritMod.primitives.DrawTargetProj(Main.spriteBatch);
 				SpiritMod.TrailManager.DrawTrails(Main.spriteBatch);
-
+				SpiritMod.primitives.DrawTargetProj(Main.spriteBatch);
 
 				//make this cleaner later probably
 				var primdrawprojs = Main.projectile.Where(x => x.active && x.modProjectile is IBasicPrimDraw);
