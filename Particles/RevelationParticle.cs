@@ -1,11 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Linq;
 using Terraria;
+using Terraria.ModLoader;
+using SpiritMod.Items.Sets.FlailsMisc.Revelation;
 
 namespace SpiritMod.Particles
 {
-	public class StarParticle : Particle
+	public class RevelationParticle : Particle
 	{
 		private Color starColor;
 		private Color bloomColor;
@@ -14,7 +17,7 @@ namespace SpiritMod.Particles
 
 		public override bool UseAdditiveBlend => true;
 
-		public StarParticle(Vector2 position, Vector2 velocity, Color color, float scale, int maxTime)
+		public RevelationParticle(Vector2 position, Vector2 velocity, Color color, float scale, int maxTime)
 		{
 			Position = position;
 			Velocity = velocity;
@@ -25,7 +28,7 @@ namespace SpiritMod.Particles
 			MaxTime = maxTime;
 		}
 
-		public StarParticle(Vector2 position, Vector2 velocity, Color StarColor, Color BloomColor, float scale, int maxTime)
+		public RevelationParticle(Vector2 position, Vector2 velocity, Color StarColor, Color BloomColor, float scale, int maxTime)
 		{
 			Position = position;
 			Velocity = velocity;
@@ -46,6 +49,9 @@ namespace SpiritMod.Particles
 			Velocity *= 0.98f;
 			Rotation += (Velocity.X > 0) ? 0.07f : -0.07f;
 
+			Projectile proj = Main.projectile.Where(n => n.active && n.type == ModContent.ProjectileType<RevelationProj>() && Vector2.Distance(n.Center, Position) < 200).OrderBy(n => Vector2.Distance(n.Center, Position)).FirstOrDefault();
+			if (proj != default)
+				Position = proj.Center;
 			if (TimeActive >= MaxTime)
 				Kill();
 		}

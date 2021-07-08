@@ -10,6 +10,7 @@ using Terraria.Graphics.Shaders;
 using SpiritMod.Utilities;
 using Terraria.ModLoader;
 using SpiritMod.Prim;
+using SpiritMod.Particles;
 
 namespace SpiritMod.Items.Sets.FlailsMisc.Revelation
 {
@@ -35,7 +36,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.Revelation
 	}
 	public class RevelationProj : BaseFlailProj, ITrailProjectile
 	{
-		public RevelationProj() : base(new Vector2(0.7f, 1.3f), new Vector2(0.5f, 3f)) { }
+		public RevelationProj() : base(new Vector2(0.7f, 1.3f), new Vector2(0.5f, 3f), 2, 70, 8) { }
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Revelation");
 
@@ -45,15 +46,25 @@ namespace SpiritMod.Items.Sets.FlailsMisc.Revelation
 			{
 				SpiritMod.primitives.CreateTrail(new RevelationPrimTrailTwo(projectile, Color.White, 6, 5, 0.8f));
 			}
-			if (++projectile.localAI[0] % 25 == 0)
+			if (++projectile.localAI[0] % 40 == 0)
+			{
 				Projectile.NewProjectile(projectile.Center, Main.rand.NextVector2Circular(10, 10) + (Main.player[projectile.owner].velocity / 5), ModContent.ProjectileType<RevelationSoulWeak>(), projectile.damage, 0, projectile.owner);
+				RevelationParticle particle = new RevelationParticle(
+					projectile.Center,
+					Vector2.Zero,
+					Color.White,
+					new Color(255, 94, 206),
+					0.7f,
+					20);
+				ParticleHandler.SpawnParticle(particle);
+			}
 
 		}
 
 		public override void NotSpinningExtras(Player player)
 		{
 			projectile.localAI[0]+= .5f;
-			CreateRotatingDust();
+			//CreateRotatingDust();
 		}
 
 		public void CreateRotatingDust()
@@ -117,6 +128,11 @@ namespace SpiritMod.Items.Sets.FlailsMisc.Revelation
 			projectile.tileCollide = false;
 			projectile.timeLeft = Duration;
 			projectile.penetrate = 1;
+		}
+
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return Color.White;
 		}
 		public override void AI()
 		{
