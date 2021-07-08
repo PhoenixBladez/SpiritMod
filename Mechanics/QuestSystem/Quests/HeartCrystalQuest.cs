@@ -31,7 +31,6 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			QuestManager.UnlockQuest<DecrepitDepths>(showUnlocks);
 			QuestManager.UnlockQuest<SkyHigh>(showUnlocks);
 			QuestManager.UnlockQuest<ItsNoSalmon>(showUnlocks);
-			QuestManager.UnlockQuest<SporeSalvage>(showUnlocks);
 			QuestManager.UnlockQuest<ManicMage>(showUnlocks);
 
 			QuestManager.UnlockQuest<FriendSafari>(showUnlocks);

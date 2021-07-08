@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.GameContent.Shaders;
+using Terraria.GameContent.Dyes;
 using Terraria.GameContent.UI;
 using Terraria.Graphics;
 using Terraria.Graphics.Effects;
@@ -709,6 +710,14 @@ namespace SpiritMod
 				noise = GetTexture("Textures/noise");
 
 				SpiritModAutoSellTextures.Load();
+
+				GameShaders.Hair.BindShader(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.SeafoamDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(Color.Cyan, Color.White, MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(3f + Main.GlobalTime * 1.3f) + 1f) * 0.5f)))));
+				GameShaders.Hair.BindShader(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.MeteorDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorHades")).UseImage("Images/Misc/noise").UseColor(Color.Orange).UseSecondaryColor(Color.DarkOrange).UseSaturation(5.3f);
+				GameShaders.Hair.BindShader(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.ViciousDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorVortex")).UseImage("Images/Misc/noise").UseColor(Color.Crimson).UseSaturation(3.3f);
+				GameShaders.Hair.BindShader(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.CystalDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorNebula")).UseImage("Images/Misc/Perlin").UseColor(Color.Plum).UseSaturation(5.3f);
+				GameShaders.Hair.BindShader(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.SnowMirageDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorMirage")).UseImage("Images/Misc/Perlin").UseColor(Color.PaleTurquoise).UseSaturation(2.3f);
+				//GameShaders.Hair.BindShader(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.BrightbloodDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorAcid")).UseImage("Images/Misc/noise").UseColor(Color.Red).UseSaturation(2.3f);
+				GameShaders.Hair.BindShader(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.BrightbloodDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorGel")).UseImage("Images/Misc/noise").UseColor(Color.Red).UseSecondaryColor(Color.Tomato).UseSaturation(2.3f);
 
 				PortraitManager.Load();
 

@@ -13,7 +13,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
     public class CritterCaptureFloater : Quest
     {
-        public override string QuestName => "Nightlights";
+        public override string QuestName => "Sanctuary: Nightlights";
 		public override string QuestClient => "The Dryad";
 		public override string QuestDescription => "I have detected traces of another species in need of our protection. While most jellyfish in this world can protect themselves, these smaller ones cannot. They often travel in packs to appear larger than they are. Let us retrieve one of these Luminous Floaters so that we can preserve them. You can find them on the ocean floor at nighttime.";
 		public override int Difficulty => 1;

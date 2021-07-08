@@ -82,6 +82,14 @@ namespace SpiritMod.Mechanics.QuestSystem
 					}
 				}
 			}
+			if (type == NPCID.Stylist)
+            {
+				if (QuestManager.GetQuest<StylistQuestSeafoam>().IsCompleted)
+				{
+					shop.item[nextSlot].SetDefaults(ItemType<Items.Sets.DyesMisc.HairDye.SeafoamDye>(), false);
+					nextSlot++;
+				}
+			}
 			if (type == ModContent.NPCType<Adventurer>())
 			{
 				if (QuestManager.GetQuest<DecrepitDepths>().IsCompleted) {
