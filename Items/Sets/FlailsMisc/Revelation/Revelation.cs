@@ -41,10 +41,18 @@ namespace SpiritMod.Items.Sets.FlailsMisc.Revelation
 			if (projectile.localAI[0] == 0)
 			{
 				SpiritMod.primitives.CreateTrail(new RevelationPrimTrailTwo(projectile, new Color(255, 0, 177), 14, 7, 0.75f));
-				SpiritMod.primitives.CreateTrail(new RevelationPrimTrailTwo(projectile, Color.White, 6, 5, 1));
+				SpiritMod.primitives.CreateTrail(new RevelationPrimTrailTwo(projectile, Color.White, 6, 5, 0.8f));
 			}
 			if (++projectile.localAI[0] % 50 == 0)
 				Projectile.NewProjectile(projectile.Center, Main.rand.NextVector2Circular(10, 10) + (Main.player[projectile.owner].velocity / 5), ModContent.ProjectileType<RevelationSoulWeak>(), projectile.damage, 0, projectile.owner);
+			if (projectile.localAI[0] % 2 == 0)
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.PinkFlame);
+		}
+
+		public override void NotSpinningExtras(Player player)
+		{
+			if (++projectile.localAI[0] % 2 == 0)
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.PinkFlame);
 		}
 	}
 	public class RevelationSoulWeak : ModProjectile
@@ -85,6 +93,8 @@ namespace SpiritMod.Items.Sets.FlailsMisc.Revelation
 				projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(Player.Center) * Speed, 0.02f);
 			}
 			projectile.rotation = projectile.velocity.ToRotation();
+			if (++projectile.localAI[0] % 4 == 0)
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.PinkFlame);
 		}
 	}
 }
