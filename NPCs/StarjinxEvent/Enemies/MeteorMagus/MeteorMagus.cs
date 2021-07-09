@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 {
-	public class MeteorMagus : ModNPC
+	public class MeteorMagus : ModNPC,StarjinxEnemy
 	{
 		public override void SetStaticDefaults()
 		{
@@ -265,6 +265,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
 			return false;
 		}
+		public void DrawPathfinderOutline(SpriteBatch spriteBatch) => PathfinderOutlineDraw.DrawAfterImage(spriteBatch, npc, npc.frame, Vector2.Zero, Color.White, 0.75f, 1, 1.4f, npc.frame.Size() / 2);
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{

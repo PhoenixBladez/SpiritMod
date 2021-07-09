@@ -64,7 +64,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		}
 	}
 
-	public class Starachnid : ModNPC
+	public class Starachnid : ModNPC, StarjinxEnemy
 	{
 		public List<StarThread> threads = new List<StarThread>(); //All active threads the spider has weaved
 		public StarThread currentThread; //The current thread the starachnid is on
@@ -195,6 +195,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			DrawThreads(spriteBatch);
 			return false;
 		}
+
+		public void DrawPathfinderOutline(SpriteBatch spriteBatch) => PathfinderOutlineDraw.DrawAfterImage(spriteBatch, npc, npc.frame, Vector2.Zero, Color.White, 0.75f, 1, 1.4f, npc.frame.Size() / 2);
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter %= Main.npcFrameCount[npc.type];
