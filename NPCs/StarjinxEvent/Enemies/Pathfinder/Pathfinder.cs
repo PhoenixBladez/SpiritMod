@@ -73,7 +73,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 			if (Target != null)
 				Target.GetGlobalNPC<PathfinderGNPC>().Targetted = false;
 
-			NPC target = Main.npc.Where(n => n.active && Vector2.Distance(n.Center, npc.Center) < 500 && !n.GetGlobalNPC<PathfinderGNPC>().Targetted && n.modNPC is StarjinxEnemy modEnemy).OrderBy(n => Vector2.Distance(n.Center, npc.Center)).FirstOrDefault();
+			NPC target = Main.npc.Where(n => n.active && Vector2.Distance(n.Center, npc.Center) < 600 && !n.GetGlobalNPC<PathfinderGNPC>().Targetted && n.modNPC is StarjinxEnemy modEnemy).OrderBy(n => Vector2.Distance(n.Center, npc.Center)).FirstOrDefault();
 			if (target != default)
 			{
 				Target = target;
@@ -84,7 +84,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 		{
 			Target.GetGlobalNPC<PathfinderGNPC>().Targetted = true;
 			Vector2 direction = Target.Center - npc.Center;
-			if (direction.Length() > 150)
+			if (direction.Length() > 250)
 			{
 				direction.Normalize();
 				npc.velocity = Vector2.Lerp(npc.velocity, direction * Speed, 0.018f);
