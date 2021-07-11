@@ -56,6 +56,7 @@ namespace SpiritMod.NPCs.PirateLobber
 			}
 			else {
 				npc.aiStyle = 3;
+				aiType = NPCID.AngryBones;
 			}
 		}
 
