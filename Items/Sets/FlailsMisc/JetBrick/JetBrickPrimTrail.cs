@@ -59,14 +59,16 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
                 }
             }
         }
+
+		public float ColorCounter = 0;
        public override void SetShaders()
         {
 			Effect effect = SpiritMod.JetbrickTrailShader;
 			Color color;
-			if (Counter < 60)
-				color = Color.Lerp(Color.Orange, Color.Cyan, Counter / 60f);
+			if (ColorCounter < 60)
+				color = Color.Lerp(Color.Orange, Color.Cyan, ColorCounter / 60f);
 			else
-				color = Color.Lerp(Color.Cyan, Color.Red, Math.Min(Counter / 120f, 1));
+				color = Color.Lerp(Color.Cyan, Color.Red, Math.Min(ColorCounter / 120f, 1));
 
 			if (effect.HasParameter("noise"))
 				effect.Parameters["noise"].SetValue(GetInstance<SpiritMod>().GetTexture("Textures/vnoise"));
@@ -78,8 +80,10 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
         public override void OnUpdate()
         {
 			if (Entity is Projectile proj && proj.active)
-				Counter = (int)proj.localAI[0];
-            PointCount= Points.Count() * 6;
+				Counter = (int)proj.localAI[1];
+			if (Entity is Projectile proj2 && proj2.active)
+				ColorCounter = (int)proj2.localAI[0];
+			PointCount = Points.Count() * 6;
             if (Cap < PointCount / 6)
             {
                 Points.RemoveAt(0);
@@ -90,7 +94,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
             }
             else
             {
-                Points.Add(Entity.Center + Entity.velocity);
+                Points.Add(Entity.Center + (Entity.velocity * 2));
             }
         }
         public override void OnDestroy()

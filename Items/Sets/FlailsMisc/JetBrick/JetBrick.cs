@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -35,6 +36,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
 
 		public override void SpinExtras(Player player)
 		{
+			projectile.localAI[1]++;
 			if (projectile.localAI[0]++ == 0)
 			{
 				SpiritMod.primitives.CreateTrail(new JetBrickPrimTrail(projectile));
@@ -44,6 +46,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
 
 		public override void NotSpinningExtras(Player player)
 		{
+			projectile.localAI[1]++;
 			AddColor();
 		}
 
@@ -62,6 +65,18 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
 			else
 				color = Color.Lerp(Color.Cyan, Color.Red, Math.Min(projectile.localAI[0] / 120f, 1));
 			Lighting.AddLight(projectile.Center, color.ToVector3());
+		}
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			float sineAdd = (float)Math.Sin(projectile.localAI[1] * 0.1f) + 3;
+			Color color;
+			if (projectile.localAI[0] < 60)
+				color = Color.Lerp(Color.Orange, Color.Cyan, projectile.localAI[0] / 60f);
+			else
+				color = Color.Lerp(Color.Cyan, Color.Red, Math.Min(projectile.localAI[0] / 120f, 1));
+			color.A = 0;
+			Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), projectile.Center - Main.screenPosition, null, color * 0.7f, 0f, SpiritMod.instance.GetTexture("Effects/Masks/Extra_49").Size() / 2, 0.1f * (sineAdd + 1), SpriteEffects.None, 0f);
+			return true;
 		}
 	}
 }
