@@ -8,7 +8,7 @@ using System;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies
 {
-	public class Pulsar : ModNPC
+	public class Pulsar : ModNPC,StarjinxEnemy
 	{
 		public override void SetStaticDefaults()
 		{
@@ -113,5 +113,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies
 			return false;
         
 		}
+		public void DrawPathfinderOutline(SpriteBatch spriteBatch) => PathfinderOutlineDraw.DrawAfterImage(spriteBatch, npc, npc.frame, new Vector2(0,-44), Color.White, 0.75f, 1, 1.4f, new Vector2(33, 0));
 	}
 }
