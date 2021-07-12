@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,12 +30,18 @@ namespace SpiritMod.NPCs.DesertBandit
 			npc.width = 30;
 			npc.height = 42;
 			npc.damage = 18;
-			npc.lavaImmune = false;
+			npc.lavaImmune = true;
+			for (int k = 0; k < npc.buffImmune.Length; k++)
+			{
+				npc.buffImmune[k] = true;
+			}
 			npc.noTileCollide = false;
 			npc.alpha = 255;
 			npc.dontTakeDamage = false;
 			npc.DeathSound = new Terraria.Audio.LegacySoundStyle(4, 1);
         }
+		public override void SendExtraAI(BinaryWriter writer) => writer.Write(npc.localAI[2]);
+		public override void ReceiveExtraAI(BinaryReader reader) => npc.localAI[2] = reader.ReadInt32();
 		public override bool PreAI()
 		{
 			Rectangle textPos = new Rectangle((int)npc.position.X, (int)npc.position.Y - 60, npc.width, npc.height);
@@ -92,18 +99,16 @@ namespace SpiritMod.NPCs.DesertBandit
 				npc.friendly = true;
 				npc.townNPC = true;
 				npc.homeless = true;
-				foreach (var player in Main.player)
+				npc.immortal = true;
+				if (Mechanics.QuestSystem.QuestManager.GetQuest<Mechanics.QuestSystem.Quests.TravelingMerchantDesertQuest>().IsCompleted)
 				{
-					if (!player.active) continue;
-					if (player.talkNPC == npc.whoAmI && player.HasItem(ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.RoyalCrown>()))
-					{
-						CombatText.NewText(textPos, new Color(61, 255, 142, 100), "Thank you again! Here's a gift for you.");
-						npc.active = false;
-						Gore.NewGore(npc.position, npc.velocity, 99);
-						Gore.NewGore(npc.position, npc.velocity, 99);
-						Gore.NewGore(npc.position, npc.velocity, 99);
-						npc.netUpdate = true;
-					}
+					CombatText.NewText(textPos, new Color(61, 255, 142, 100), "Thank you again!");
+					npc.active = false;
+					Gore.NewGore(npc.position, npc.velocity, 99);
+					Gore.NewGore(npc.position, npc.velocity, 99);
+					Gore.NewGore(npc.position, npc.velocity, 99);
+					npc.localAI[2] = 0f;
+					npc.netUpdate = true;
 				}
 			}
 			if (NPC.CountNPCS(ModContent.NPCType<DesertBandit>()) == 1 && npc.localAI[2] == 0f)

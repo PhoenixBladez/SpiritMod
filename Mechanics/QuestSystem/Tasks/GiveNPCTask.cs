@@ -149,7 +149,6 @@ namespace SpiritMod.Mechanics.QuestSystem
 			{
 				if (!requirements.Contains(false))
 				{
-					Main.NewText("Completed!");
 					return true;
 				}
 				Item item = p.inventory[i];

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
@@ -28,8 +29,11 @@ namespace SpiritMod.NPCs.BloodstainedChest
             npc.noTileCollide = false;
             npc.dontCountMe = true;
 			npc.townNPC = true;
-        }
-        float alphaCounter = 0;
+			for (int k = 0; k < npc.buffImmune.Length; k++)
+			{
+				npc.buffImmune[k] = true;
+			}
+		}
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
              Vector2 center = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
@@ -51,6 +55,16 @@ namespace SpiritMod.NPCs.BloodstainedChest
             return true;
         }
         bool rightClicked = false;
+		public override bool? CanBeHitByItem(Player player, Item item)
+		{
+			return false;       
+		}
+		public override bool? CanBeHitByProjectile(Projectile projectile)
+		{
+			return false;
+		}
+		public override void SendExtraAI(BinaryWriter writer) => writer.Write(rightClicked);
+		public override void ReceiveExtraAI(BinaryReader reader) => rightClicked = reader.ReadBoolean();
 		public override void AI()
 		{
 			npc.ai[2] += 0.03f;

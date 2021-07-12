@@ -56,7 +56,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		}
 		private StylistQuestCorrupt()
         {
-			_tasks.AddParallelTasks(new SlayTask(ModContent.NPCType<NPCs.Cystal.Cystal>(), 1, "Cystal"), new RetrievalTask(ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.CorruptDyeMaterial>(), 1, "Harvest"));
+			_tasks.AddParallelTasks(new SlayTask(ModContent.NPCType<NPCs.Cystal.Cystal>(), 1), new RetrievalTask(ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.CorruptDyeMaterial>(), 1, "Harvest"));
 			
 			TaskBuilder branch1 = new TaskBuilder();
 			branch1.AddTask(new GiveNPCTask(NPCID.Stylist, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.CorruptDyeMaterial>(), 1, "Wow, you smell pretty terrible. Take a shower, then come back to me for a shampoo on the house. I insist! But thank you for doing this for me, hun. You've been working really hard, so I wanted to give you this exclusive hair dye I've creates. You'll never find it anywhere else! This dye and the one you've helped create work best with white hair, so let me know if you want a pre-dye.", "Bring the Violet Crystal back to the Stylist", true, true, ModContent.ItemType<Items.Sets.DyesMisc.HairDye.ViciousDye>()));

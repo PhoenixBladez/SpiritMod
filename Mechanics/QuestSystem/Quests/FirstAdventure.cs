@@ -45,6 +45,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Demolitionist, QuestManager.GetQuest<RescueQuestStylist>());
 			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.ArmsDealer, QuestManager.GetQuest<MurderMysteryQuest>());
 			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Dryad, QuestManager.GetQuest<LumothQuest>());
+			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.TravellingMerchant, QuestManager.GetQuest<TravelingMerchantDesertQuest>());
+
 			QuestManager.UnlockQuest<ExplorerQuestCrimson>(showUnlocks);
 			QuestManager.UnlockQuest<ExplorerQuestCorrupt>(showUnlocks);
 			QuestManager.UnlockQuest<HeartCrystalQuest>(showUnlocks);

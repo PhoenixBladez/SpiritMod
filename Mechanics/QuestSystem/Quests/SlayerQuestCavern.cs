@@ -30,7 +30,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		private SlayerQuestCavern()
         {
-            _tasks.AddTask(new SlayTask(new int[] { ModContent.NPCType<NPCs.Wheezer.Wheezer>(), ModContent.NPCType<NPCs.CavernCrawler.CavernCrawler>(), Terraria.ID.NPCID.GiantShelly, Terraria.ID.NPCID.Salamander, Terraria.ID.NPCID.Crawdad}, 8, "underground monsters"));
+            _tasks.AddTask(new SlayTask(new int[] { ModContent.NPCType<NPCs.Wheezer.Wheezer>(), ModContent.NPCType<NPCs.CavernCrawler.CavernCrawler>(), Terraria.ID.NPCID.GiantShelly, Terraria.ID.NPCID.Salamander, Terraria.ID.NPCID.Crawdad}, 8));
 
         }
     }

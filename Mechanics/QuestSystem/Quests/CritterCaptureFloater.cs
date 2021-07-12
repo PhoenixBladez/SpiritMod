@@ -53,7 +53,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 			TaskBuilder branch3 = new TaskBuilder();
 			branch3.AddParallelTasks(
-				new SlayTask(new int[] { ModContent.NPCType<NPCs.Critters.Floater>(), ModContent.NPCType<NPCs.Critters.Floater1>() }, 2, "Luminous Floaters"),
+				new SlayTask(new int[] { ModContent.NPCType<NPCs.Critters.Floater>(), ModContent.NPCType<NPCs.Critters.Floater1>() }, 2),
 				new RetrievalTask(ModContent.ItemType<Items.Consumable.Fish.RawFish>(), 1, "Harvest"))
 				.AddTask(new GiveNPCTask(NPCID.Angler, ModContent.ItemType<Items.Consumable.Fish.RawFish>(), 1, "This looks absolutely scrumptions! And they're all mine- oh, you're still here? Fine, I guess I'll thank you this once, but don't expect me to always be this nice!", "Return the raw fish to the Angler", true, true, ModContent.ItemType<Items.Consumable.Fish.CrystalFish>()));
 

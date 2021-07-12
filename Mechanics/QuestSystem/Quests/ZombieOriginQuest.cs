@@ -49,14 +49,14 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
             	.AddTask(new RetrievalTask(149, 3))
             	.AddTask(new GiveNPCTask(NPCID.Guide, 149, 3, "This research is ambiguous, but I think it points toward a maniacal scientist creating hordes of zombies. You may need to find a way to get their attention tonight. How about we stitch together a lure using some grisly zombie bits? I'm sure the researcher would find it interesting.", "Return the books to the Guide"))
                	.AddTask(new RetrievalTask(ModContent.ItemType<ScientistLure>(), 1, "Craft"))
-				.AddTask(new SlayTask(ModContent.NPCType<NPCs.Dead_Scientist.Dead_Scientist>(), 1, "Undead Scientist", 0.75f)); 
+				.AddTask(new SlayTask(ModContent.NPCType<NPCs.Dead_Scientist.Dead_Scientist>(), 1, "Kill the Undead Scientist", 0.75f)); 
 
             TaskBuilder branch2 = new TaskBuilder();
             branch2.AddTask(new TalkNPCTask(NPCID.Dryad, "This scroll is alarming. You found it on the remains of a zombie, no? Poor, wretched things. I think this scroll could help us understand why zombies have been plaguing our land. This faint powder on the scroll smells just like the evil that plagues our world. We should collect some herbs from that biome and compare.", "Or talk to the Dryad about the mysterious scroll."))
            		.AddTask(new RetrievalTask(itemType, 5))
                 .AddTask(new GiveNPCTask(NPCID.Dryad, itemType, 5, "I was right! I now think some kind of evil wizard may have a hand in creating these vile monstrosities. We need to get this horrible necromancer's attention tonight. I think that putrid powder you collected can help craft a lure for it. Dispatch them quickly, and perhaps we will be rid of zombies for good!", "Return the powder to the Dryad"))
                	.AddTask(new RetrievalTask(lureType, 1, "Craft"))
-				.AddTask(new SlayTask(ModContent.NPCType<NPCs.Undead_Warlock.Undead_Warlock>(), 1, "Undead Warlock", 0.75f)); 
+				.AddTask(new SlayTask(ModContent.NPCType<NPCs.Undead_Warlock.Undead_Warlock>(), 1, "Kill the Undead Warlock", 0.75f)); 
             _tasks.AddBranches(branch1, branch2);
 
         }

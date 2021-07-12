@@ -31,7 +31,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		private SlayerQuestUGDesert()
         {
-            _tasks.AddTask(new SlayTask(new int[] { NPCID.TombCrawlerHead, NPCID.FlyingAntlion, NPCID.WalkingAntlion}, 8, "Underground desert enemies"));
+            _tasks.AddTask(new SlayTask(new int[] { NPCID.TombCrawlerHead, NPCID.FlyingAntlion, NPCID.WalkingAntlion}, 8));
         }
     }
 }

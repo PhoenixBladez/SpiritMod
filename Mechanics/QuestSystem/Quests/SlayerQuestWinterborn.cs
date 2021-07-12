@@ -29,7 +29,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		private SlayerQuestWinterborn()
         {
-            _tasks.AddTask(new SlayTask(new int[] { ModContent.NPCType<NPCs.Winterborn.WinterbornMelee>(), ModContent.NPCType<NPCs.WinterbornHerald.WinterbornMagic>()}, 8, "Winterborn"));
+            _tasks.AddTask(new SlayTask(new int[] { ModContent.NPCType<NPCs.Winterborn.WinterbornMelee>(), ModContent.NPCType<NPCs.WinterbornHerald.WinterbornMagic>()}, 8));
         }
     }
 }

@@ -48,7 +48,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		private StylistQuestMeteor()
         {
-            _tasks.AddParallelTasks(new SlayTask(new int[] { ModContent.NPCType<NPCs.AstralAdventurer.AstralAdventurer>(), ModContent.NPCType<NPCs.FallingAsteroid.Falling_Asteroid>(), ModContent.NPCType<NPCs.MoltenCore.Molten_Core>()}, 5, "Astral Adventurers, Falling Asteroids, or Molten Cores"), new RetrievalTask(ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.MeteorDyeMaterial>(), 1, "Harvest"))
+            _tasks.AddParallelTasks(new SlayTask(new int[] { ModContent.NPCType<NPCs.AstralAdventurer.AstralAdventurer>(), ModContent.NPCType<NPCs.FallingAsteroid.Falling_Asteroid>(), ModContent.NPCType<NPCs.MoltenCore.Molten_Core>()}, 5), new RetrievalTask(ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.MeteorDyeMaterial>(), 1, "Harvest"))
 				  .AddTask(new GiveNPCTask(NPCID.Stylist, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.MeteorDyeMaterial>(), 1, "Welcome back! Looks like you need a hair day right about now, all your ends are burnt! I'm glad you got back safe, and I can't wait to change hair chic as we know it with this new hair dye I'm whipping up. Ouch, that's hot. Remember, your next makeover day is on me, 'kay?", "Bring the Photosphere Shard back to the Stylist", true, true));
 		}
 	}
