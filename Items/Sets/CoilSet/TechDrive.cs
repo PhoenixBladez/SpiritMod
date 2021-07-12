@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Sets.CoilSet
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Tech Drive");
-			Tooltip.SetDefault("'How does a goblin stumble upon such advanced circuitry?'");
+			Tooltip.SetDefault("'Strangely advanced circuitry'");
 		}
 
 

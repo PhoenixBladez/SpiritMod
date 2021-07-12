@@ -50,22 +50,20 @@ namespace SpiritMod.Mechanics.QuestSystem
 				npc.type == ModContent.NPCType<NPCs.Boss.MoonWizard.MoonWizard>() ||
 				npc.type == ModContent.NPCType<NPCs.Boss.SteamRaider.SteamRaiderHead>())
             {
-                QuestManager.UnlockQuest<SlayerQuestOccultist>(true);
-                QuestManager.UnlockQuest<UnidentifiedFloatingObjects>(true);
+				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<SlayerQuestOccultist>());
+				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<UnidentifiedFloatingObjects>());
             }
 
             if (npc.type == NPCID.EaterofWorldsHead)
 			{
-                QuestManager.UnlockQuest<SlayerQuestMarble>(true);
-                QuestManager.UnlockQuest<SlayerQuestMeteor>(true);                
+				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<SlayerQuestMarble>());
             }
 
             if (npc.type == NPCID.SkeletronHead)
             {
-                QuestManager.UnlockQuest<RaidingTheStars>(true);
-                QuestManager.UnlockQuest<SongOfIceAndFire>(true);
-				QuestManager.UnlockQuest<StrangeSeas>(true);
-            }
+				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<RaidingTheStars>());
+				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<StrangeSeas>());
+			}
             OnNPCLoot?.Invoke(npc);
         }
 
@@ -87,6 +85,11 @@ namespace SpiritMod.Mechanics.QuestSystem
 				if (QuestManager.GetQuest<StylistQuestSeafoam>().IsCompleted)
 				{
 					shop.item[nextSlot].SetDefaults(ItemType<Items.Sets.DyesMisc.HairDye.SeafoamDye>(), false);
+					nextSlot++;
+				}
+				if (QuestManager.GetQuest<StylistQuestMeteor>().IsCompleted)
+				{
+					shop.item[nextSlot].SetDefaults(ItemType<Items.Sets.DyesMisc.HairDye.MeteorDye>(), false);
 					nextSlot++;
 				}
 			}

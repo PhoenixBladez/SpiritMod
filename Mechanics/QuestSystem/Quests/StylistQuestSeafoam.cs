@@ -38,6 +38,13 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			QuestGlobalNPC.OnNPCLoot -= QuestGlobalNPC_OnNPCLoot;
 			base.OnDeactivate();
 		}
+		public override void OnQuestComplete()
+		{
+			bool showUnlocks = true;
+			QuestManager.UnlockQuest<StylistQuestCorrupt>(showUnlocks);
+			QuestManager.UnlockQuest<StylistQuestCrimson>(showUnlocks);
+			base.OnQuestComplete();
+		}
 		private void QuestGlobalNPC_OnNPCLoot(NPC npc)
 		{
 			if (npc.type == ModContent.NPCType<NPCs.SeaMandrake.SeaMandrake>())

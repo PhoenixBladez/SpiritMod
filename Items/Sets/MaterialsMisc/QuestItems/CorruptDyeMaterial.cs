@@ -8,9 +8,9 @@ using SpiritMod.Mechanics.QuestSystem.Quests;
 
 namespace SpiritMod.Items.Sets.MaterialsMisc.QuestItems
 {
-	public class SeaMandrakeSac : ModItem
+	public class CorruptDyeMaterial : ModItem
 	{
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Sea Mandrake Sac");
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Violet Crystal");
 
 		public override void SetDefaults()
 		{
@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Sets.MaterialsMisc.QuestItems
 			item.maxStack = 99;
 		}
 
-		public override bool OnPickup(Player player) => !player.HasItem(ModContent.ItemType<SeaMandrakeSac>());
+		public override bool OnPickup(Player player) => !player.HasItem(ModContent.ItemType<CorruptDyeMaterial>());
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
@@ -30,10 +30,14 @@ namespace SpiritMod.Items.Sets.MaterialsMisc.QuestItems
 				};
 				tooltips.Add(line);
 			}
-			TooltipLine line1 = new TooltipLine(mod, "FavoriteDesc", "'The ink within flashes different colors'") {
+			TooltipLine line1 = new TooltipLine(mod, "FavoriteDesc", "'The crystal is both beautiful and disgsting to look at'") {
 				overrideColor = new Color(255, 255, 255)
 			};
 			tooltips.Add(line1);
+		}
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return Color.White;
 		}
 	}
 }
