@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Prim;
+using SpiritMod.Particles;
 
 namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
 {
@@ -42,12 +43,14 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
 				SpiritMod.primitives.CreateTrail(new JetBrickPrimTrail(projectile));
 			}
 			AddColor();
+			CreateSmoke(3, true, player);
 		}
 
 		public override void NotSpinningExtras(Player player)
 		{
 			projectile.localAI[1]++;
 			AddColor();
+			CreateSmoke(5, false, player);
 		}
 
 		public override void LaunchExtras(Player player)
@@ -59,21 +62,28 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
 
 		private void AddColor()
 		{
-			Color color;
-			if (projectile.localAI[0] < 60)
-				color = Color.Lerp(Color.Orange, Color.Cyan, projectile.localAI[0] / 60f);
-			else
-				color = Color.Lerp(Color.Cyan, Color.Red, Math.Min(projectile.localAI[0] / 120f, 1));
+			Color color = Color.Lerp(Color.Orange, Color.Red, Math.Min(projectile.localAI[0] / 120f, 1));
 			Lighting.AddLight(projectile.Center, color.ToVector3());
+		}
+
+		private void CreateSmoke(int rate, bool spinning, Player player)
+		{
+			if (projectile.localAI[1] % rate == 0)
+			{
+				Vector2 direction = spinning ? projectile.DirectionTo(player.Center).RotatedBy(player.direction * -1.57f) * 3 : Main.rand.NextVector2Circular(3, 3);
+				SmokeParticle particle = new SmokeParticle(
+					projectile.Center,
+					direction,
+					Color.Lerp(Color.Black, Color.Gray, Main.rand.NextFloat()),
+					Main.rand.NextFloat(0.3f, 0.5f),
+					60);
+				ParticleHandler.SpawnParticle(particle);
+			}
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			float sineAdd = (float)Math.Sin(projectile.localAI[1] * 0.1f) + 3;
-			Color color;
-			if (projectile.localAI[0] < 60)
-				color = Color.Lerp(Color.Orange, Color.Cyan, projectile.localAI[0] / 60f);
-			else
-				color = Color.Lerp(Color.Cyan, Color.Red, Math.Min(projectile.localAI[0] / 120f, 1));
+			Color color = Color.Lerp(Color.Orange, Color.Red, Math.Min(projectile.localAI[0] / 120f, 1));
 			color.A = 0;
 			Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), projectile.Center - Main.screenPosition, null, color * 0.7f, 0f, SpiritMod.instance.GetTexture("Effects/Masks/Extra_49").Size() / 2, 0.1f * (sineAdd + 1), SpriteEffects.None, 0f);
 			return true;

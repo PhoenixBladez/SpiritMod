@@ -19,10 +19,10 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
         }
         public override void SetDefaults()
         {
-			Width = 12;
+			Width = 16;
 			Color = Color.White;
             AlphaValue= 1f;
-			Cap = 12;
+			Cap = 15;
         }
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
                 {
                     if (i != Points.Count - 1)
                     {
-						widthVar = ((Width * (1 - ((float)(Points.Count - i) / (float)Points.Count))) + Width) * 0.5f;
+						widthVar = Width * (1 - ((float)(Points.Count - i) / (float)Points.Count));
                         Vector2 normal = CurveNormal(Points, i);
                         Vector2 normalAhead = CurveNormal(Points, i + 1);
                         Vector2 firstUp = Points[i] - normal * widthVar;
@@ -64,11 +64,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
        public override void SetShaders()
         {
 			Effect effect = SpiritMod.JetbrickTrailShader;
-			Color color;
-			if (ColorCounter < 60)
-				color = Color.Lerp(Color.Orange, Color.Cyan, ColorCounter / 60f);
-			else
-				color = Color.Lerp(Color.Cyan, Color.Red, Math.Min(ColorCounter / 120f, 1));
+			Color color = Color.Lerp(Color.Orange, Color.Red, Math.Min(ColorCounter / 120f, 1));
 
 			if (effect.HasParameter("noise"))
 				effect.Parameters["noise"].SetValue(GetInstance<SpiritMod>().GetTexture("Textures/vnoise"));
