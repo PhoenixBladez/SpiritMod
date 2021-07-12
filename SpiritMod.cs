@@ -84,6 +84,7 @@ namespace SpiritMod
 		public static Effect JemShaders;
 		public static Effect SunOrbShader;
 		public static Effect ThyrsusShader;
+		public static Effect JetbrickTrailShader;
 		public static Effect OutlinePrimShader;
 
 		public static IDictionary<string, Effect> ShaderDict = new Dictionary<string, Effect>();
@@ -756,6 +757,7 @@ namespace SpiritMod
 				JemShaders = instance.GetEffect("Effects/JemShaders");
 				SunOrbShader = instance.GetEffect("Effects/SunOrbShader");
 				ThyrsusShader = instance.GetEffect("Effects/ThyrsusShader");
+				JetbrickTrailShader = instance.GetEffect("Effects/JetbrickTrailShader");
 				OutlinePrimShader = instance.GetEffect("Effects/OutlinePrimShader");
 				GSaber = instance.GetEffect("Effects/GSaber");
 
@@ -949,6 +951,7 @@ namespace SpiritMod
 			ArcLashShader = null;
 			JemShaders = null;
 			ThyrsusShader = null;
+			JetbrickTrailShader = null;
 			OutlinePrimShader = null;
 			SunOrbShader = null;
 			noise = null;
