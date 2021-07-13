@@ -55,6 +55,7 @@ namespace SpiritMod.NPCs.BloodstainedChest
             return true;
         }
         bool rightClicked = false;
+
 		public override bool? CanBeHitByItem(Player player, Item item)
 		{
 			return false;       

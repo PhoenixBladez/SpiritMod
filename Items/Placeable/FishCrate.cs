@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Placeable
 			item.height = 20;
 			item.rare = ItemRarityID.Orange;
 			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.createTile = mod.TileType("FishCrate_Tile");
+			item.createTile = mod.TileType("IceDeityDecor");
 			item.maxStack = 999;
 			item.autoReuse = true;
 			item.useAnimation = 15;
