@@ -12,7 +12,6 @@ using SpiritMod.Items.Sets.MaterialsMisc.QuestItems;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
-	//Please help me figure out why this is throwing an error on world load
     public class IceDeityQuest : Quest
     {
         public override string QuestName => "Beneath the Ice";
@@ -24,10 +23,12 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
-			(ModContent.ItemType<Items.Accessory.DesertSlab>(), 1),
-			(ItemID.Fez, 1),
-			(ItemID.DynastyWood, 150),
-			(Terraria.ID.ItemID.GoldCoin, 1)
+			(ModContent.ItemType<Items.Placeable.IceSculpture.IceDeitySculpture>(), 1),
+			(ModContent.ItemType<Items.Armor.HunterArmor.SnowRangerHead>(), 1),
+			(ModContent.ItemType<Items.Armor.HunterArmor.SnowRangerBody>(), 1),
+			(ModContent.ItemType<Items.Armor.HunterArmor.SnowRangerLegs>(), 1),
+			(ModContent.ItemType<Items.Placeable.IceSculpture.WinterbornSculpture>(), 3),
+			(Terraria.ID.ItemID.GoldCoin, 3)
 		};
 		public override void OnActivate()
 		{
@@ -75,10 +76,13 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 				   .AddTask(new RetrievalTask(ModContent.ItemType<IceDeityShard3>(), 1))
 				   .AddTask(new GiveNPCTask(ModContent.NPCType<NPCs.Town.RuneWizard>(), new int[] { ModContent.ItemType<IceDeityShard1>(), ModContent.ItemType<IceDeityShard2>(), ModContent.ItemType<IceDeityShard3>() }, new int[] { 1, 1, 1 }, "You've done a splendid job! These artifacts seem to create a giant statue that resembles a warrior-knight of some kind. Perhaps it's a deity. Perhaps it's just a passion project- there's so much we don't know! And though I'm not sure why the icy caverns have become so dangerous, I'm content with having learned more about our world. I do hope you put this statue up somewhere!", "Give all the artifacts to the Enchanter", true, true));
 
-			_tasks.AddTask(new TalkNPCTask(NPCID.Dryad, "So you wish to know about the icy caverns? Well, they have existed since before I was born- I'm not that old! However, I have heard tales about numerous civilizations rising and falling beneath the frozen surface. Some were peaceful, while others went so far as to freeze their enemies alive for sport! If you listen closely, I am sure that you could glean more information from the souls of the frozen caverns.", "Ask the Dryad about the ancient myths"))
-				  .AddTask(new TalkNPCTask(ModContent.NPCType<NPCs.Town.Adventurer>(), "I don't know much about ancient history, but a few of my associates have scouted a growing threat in the icy caverns. Sometimes, they even get bold enough to roam the surface durin' heavy blizzards. I'm not sure what's got 'em so riled up, but the frozen fields are more dangerous than ever.", "Ask the Adventurer about the unusual activity in the Snow Biome"))
-				  .AddTask(new TalkNPCTask(ModContent.NPCType<NPCs.Town.RuneWizard>(), "I see! These leads are promising- perhaps killing some of these frozen creatures or trying to find one of these souls the Dryad mentioned could shed some light on the restlessness of the ice biome.", "Return to the Enchanter with what you know"))
-				  .AddBranches(branch2, branch3);
+			TaskBuilder branch1 = new TaskBuilder();
+			branch1.AddTask(new TalkNPCTask(NPCID.Dryad, "So you wish to know about the icy caverns? Well, they have existed since before I was born- I'm not that old! However, I have heard tales about numerous civilizations rising and falling beneath the frozen surface. Some were peaceful, while others went so far as to freeze their enemies alive for sport! If you listen closely, I am sure that you could glean more information from the souls of the frozen caverns.", "Ask the Dryad about the ancient myths"))
+				   .AddTask(new TalkNPCTask(ModContent.NPCType<NPCs.Town.Adventurer>(), "I don't know much about ancient history, but a few of my associates have scouted a growing threat in the icy caverns. Sometimes, they even get bold enough to roam the surface durin' heavy blizzards. I'm not sure what's got 'em so riled up, but the frozen fields are more dangerous than ever.", "Ask the Adventurer about the Snow Biome"))
+				   .AddTask(new TalkNPCTask(ModContent.NPCType<NPCs.Town.RuneWizard>(), "I see! These leads are promising- perhaps killing some of these frozen creatures or trying to find one of these souls the Dryad mentioned could shed some light on the restlessness of the ice biome.", "Return to the Enchanter with what you know"))
+				   .AddBranches(branch2, branch3);
+
+			_tasks.AddBranches(branch1);
 		}
 	}
 }

@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Sets.MaterialsMisc.QuestItems
 			item.width = item.height = 16;
 			item.rare = -11;
 			item.maxStack = 99;
-			item.value = 5000;
+			item.value = 800;
 		}
 
 		public override bool OnPickup(Player player) => !player.HasItem(ModContent.ItemType<IceDeityShard1>());
@@ -69,7 +69,6 @@ namespace SpiritMod.Items.Sets.MaterialsMisc.QuestItems
 		public override bool OnPickup(Player player) => !player.HasItem(ModContent.ItemType<IceDeityShard2>());
 		public override void AddRecipes()
 		{
-
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<Items.Sets.CryoliteSet.CryoliteBar>(), 8);
 			recipe.AddIngredient(ModContent.ItemType<Items.Placeable.Tiles.CreepingIce>(), 25);

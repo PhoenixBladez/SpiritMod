@@ -43,12 +43,12 @@ namespace SpiritMod.Mechanics.QuestSystem
                 {
 					AddQuestQueue(NPCID.Dryad, QuestManager.GetQuest<CritterCaptureSoulOrb>());
 				}
-				if (NPC.downedBoss2)
-                {
-					AddQuestQueue(NPCID.Stylist, QuestManager.GetQuest<StylistQuestMeteor>());
-				}
 			}
-        }
+			if (NPC.downedBoss2)
+			{
+				AddQuestQueue(NPCID.Stylist, QuestManager.GetQuest<StylistQuestMeteor>());
+			}
+		}
 
 		public override void Load(TagCompound tag)
 		{

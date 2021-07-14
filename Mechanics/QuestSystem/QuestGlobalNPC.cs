@@ -63,8 +63,10 @@ namespace SpiritMod.Mechanics.QuestSystem
             {
 				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<RaidingTheStars>());
 				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<StrangeSeas>());
+				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<RuneWizard>(), QuestManager.GetQuest<IceDeityQuest>());
+
 			}
-            OnNPCLoot?.Invoke(npc);
+			OnNPCLoot?.Invoke(npc);
         }
 
 		public override void SetupShop(int type, Chest shop, ref int nextSlot)
@@ -117,8 +119,16 @@ namespace SpiritMod.Mechanics.QuestSystem
 					shop.item[nextSlot].SetDefaults(ItemType<Items.Consumable.SeedBag>(), false);
 					nextSlot++;
 				}
-				if (QuestManager.GetQuest<SlayerQuestWinterborn>().IsCompleted) {
+				if (QuestManager.GetQuest<IceDeityQuest>().IsCompleted) {
 					shop.item[nextSlot].SetDefaults(ItemType<Items.Weapon.Thrown.CryoKnife>(), false);
+					nextSlot++;
+				}
+			}
+			if (type == ModContent.NPCType<Adventurer>())
+			{
+				if (QuestManager.GetQuest<IceDeityQuest>().IsCompleted)
+				{
+					shop.item[nextSlot].SetDefaults(ItemType<Items.Placeable.IceSculpture.IceDeitySculpture>(), false);
 					nextSlot++;
 				}
 			}
