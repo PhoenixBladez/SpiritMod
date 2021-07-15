@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Weapon.Summon.ButterflyStaff
 			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
 		}
 
-		public override void AbstractSetDefaults() => projectile.hide = true;
+		//public override void AbstractSetDefaults() => projectile.hide = true;
 
 		public override bool PreAI()
 		{
@@ -113,11 +113,11 @@ namespace SpiritMod.Items.Weapon.Summon.ButterflyStaff
 
 		public void AdditiveCall(SpriteBatch sB)
 		{
-			projectile.QuickDrawTrail(sB, AiState == Moving ? 0.75f : 0f);
-			projectile.QuickDraw(sB);
-
 			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
-			sB.Draw(bloom, projectile.Center - Main.screenPosition, null, Color.LightPink * projectile.Opacity, 0, bloom.Size() / 2, 0.2f, SpriteEffects.None, 0);
+			sB.Draw(bloom, projectile.Center - Main.screenPosition, null, Color.LightPink * projectile.Opacity * 0.6f, 0, bloom.Size() / 2, 0.2f, SpriteEffects.None, 0);
+
+			projectile.QuickDrawTrail(sB, AiState == Moving ? 0.6f : 0f);
+			projectile.QuickDraw(sB);
 		}
 	}
 }
