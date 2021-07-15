@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -151,7 +152,7 @@ namespace SpiritMod.Particles
 		internal static void DrawAllParticles(SpriteBatch spriteBatch)
 		{
 			foreach (Particle particle in particles) {
-				if (particle == null)
+				if (particle == null || particle is ScreenParticle && ModContent.GetInstance<SpiritClientConfig>().Particles == false)
 					continue;
 				
 				if (particle.UseAdditiveBlend)

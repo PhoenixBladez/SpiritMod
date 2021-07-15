@@ -45,8 +45,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 
             projectile.velocity.Y += 0.1f;
 
-            if (Main.rand.Next(50) == 0)
-                Gore.NewGore(projectile.Center, projectile.velocity / 4, mod.GetGoreSlot("Gores/StarjinxGore"), 0.75f);
+			if (Main.rand.Next(50) == 0)
+				Particles.ParticleHandler.SpawnParticle(new Particles.StarParticle(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.Pi / 8), Color.White * 0.66f, SpiritMod.StarjinxColor(Main.GlobalTime), Main.rand.NextFloat(0.2f, 0.3f), 35));
         }
 
         private float Timer => Main.GlobalTime * 2 + projectile.ai[0];

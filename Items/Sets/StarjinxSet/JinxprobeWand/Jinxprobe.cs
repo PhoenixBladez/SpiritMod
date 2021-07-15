@@ -18,7 +18,6 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 
 		public override void AbstractSetStaticDefaults() => DisplayName.SetDefault("Jinxprobe");
 
-		Player Player => Main.player[projectile.owner];
 		Vector2 truePosition = Vector2.Zero;
 		Vector2 newCenter = Vector2.Zero;
 
@@ -35,7 +34,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 			if (Vector2.Distance(newCenter, Player.Center) > 500) //if too much distance from the center used for orbiting and the real player's center, set the new center to the player's center
 				newCenter = Player.Center;
 			else //otherwise slowly adjust it
-				newCenter = Vector2.Lerp(newCenter, Player.Center, 0.05f);
+				newCenter = Vector2.Lerp(newCenter, Player.Center, 0.066f);
 
 			projectile.position -= projectile.velocity; //override default position updating, make it relative to player position
 			truePosition += projectile.velocity;
@@ -51,9 +50,9 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 
 		private void OrbitingMovement()
         {
-			float distanceStrength = 0.001f;
-			float mindistance = 50;
-			float maxdistance = 200;
+			float distanceStrength = 0.0015f;
+			float mindistance = 30;
+			float maxdistance = 150;
 
 			if (projectile.Distance(newCenter) > mindistance)
 				projectile.velocity += projectile.DirectionTo(newCenter) * MathHelper.Clamp((projectile.Distance(newCenter) - mindistance) * distanceStrength, 0, 0.5f);

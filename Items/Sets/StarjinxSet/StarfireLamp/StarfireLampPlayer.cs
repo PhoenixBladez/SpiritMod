@@ -137,7 +137,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 			if (LampTargetNPC == null || LampTargetTime == 0)
 				return;
 
-			Texture2D star = mod.GetTexture("Effects/Masks/Star");
+			//Texture2D star = mod.GetTexture("Effects/Masks/Star");
 			Texture2D beam = mod.GetTexture("Effects/Mining_Helmet");
 
 			float Timer = (float)Math.Sin(Main.GameUpdateCount / 24f);
@@ -151,15 +151,15 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 
 			Vector2 dist = LampTargetNPC.Center - drawPosition;
 
-			sB.Draw(star, LampTargetNPC.Center - Main.screenPosition, null, color * starOpacity, Main.GameUpdateCount / 24f, star.Size() / 2, 1f, SpriteEffects.None, 0);
-			sB.Draw(star, LampTargetNPC.Center - Main.screenPosition, null, color * starOpacity * 0.8f, -Main.GameUpdateCount / 24f, star.Size() / 2, 0.8f, SpriteEffects.None, 0);
+			//sB.Draw(star, LampTargetNPC.Center - Main.screenPosition, null, color * starOpacity, Main.GameUpdateCount / 24f, star.Size() / 2, 1f, SpriteEffects.None, 0);
+			//sB.Draw(star, LampTargetNPC.Center - Main.screenPosition, null, color * starOpacity * 0.8f, -Main.GameUpdateCount / 24f, star.Size() / 2, 0.8f, SpriteEffects.None, 0);
 
 			for (int i = -1; i <= 1; i++)
 			{
 				float rot = dist.ToRotation();
 				Vector2 offset = (i == 0) ? Vector2.Zero : Vector2.UnitX.RotatedBy(rot + MathHelper.PiOver4 * i) * 4;
 				float opacity = (i == 0) ? 1f : 0.5f;
-				sB.Draw(beam, drawPosition + offset - Main.screenPosition, null, color * beamOpacity * opacity, rot + MathHelper.PiOver2, new Vector2(beam.Width / 2f, beam.Height * 0.58f), new Vector2(1, dist.Length() / (beam.Height / 2f)), SpriteEffects.None, 0);
+				sB.Draw(beam, drawPosition + offset - Main.screenPosition, null, color * beamOpacity * opacity, rot + MathHelper.PiOver2, new Vector2(beam.Width / 2f, beam.Height * 0.58f), new Vector2(1, (dist.Length() * 1.2f) / (beam.Height / 2f)), SpriteEffects.None, 0);
 			}
 		}
 	}

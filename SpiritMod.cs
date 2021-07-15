@@ -645,7 +645,6 @@ namespace SpiritMod
 			//Always keep this call in the first line of Load!
 			LoadReferences();
 			StructureLoader.Load(this);
-
 			QuestBookHotkey = RegisterHotKey("SpiritMod:QuestBookToggle", "C");
 			QuestHUDHotkey = RegisterHotKey("SpiritMod:QuestHUDToggle", "V");
 

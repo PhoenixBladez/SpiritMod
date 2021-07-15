@@ -30,9 +30,8 @@ namespace SpiritMod.Particles
 			spiritParticle.Position = startingPosition;
 			spiritParticle.OriginalScreenPosition = Main.screenPosition;
 			spiritParticle.Velocity = Main.rand.NextFloat(-1.2f, -0.8f) * Vector2.UnitY;
-			spiritParticle.Rotation = Main.rand.NextFloat(MathHelper.TwoPi);
 			spiritParticle.Scale = Main.rand.NextFloat(0.4f, 0.6f);
-			spiritParticle.Color = Color.White;
+			spiritParticle.ParallaxStrength = spiritParticle.Scale;
 
 			ParticleHandler.SpawnParticle(spiritParticle);
 		}

@@ -17,20 +17,14 @@ namespace SpiritMod.Particles
 			Vector2 addedVelocity = 1.5f * Velocity.RotatedBy(MathHelper.Pi / 6 * (float)Math.Sin(Math.PI * ((MaxTime - TimeActive) / 60f) * (1f - Scale)));
 			Position += addedVelocity;
 
-			Color = Color.White * (float)Math.Sin(MathHelper.TwoPi * ((TimeActive - MaxTime) / (float)MaxTime));
+			Color = ((GetHashCode() % 2 == 0) ? new Color(50, 160, 149) : new Color(179, 86, 158)) * (float)Math.Sin(MathHelper.TwoPi * ((TimeActive - MaxTime) / (float)MaxTime));
 		}
 
 		public override bool ActiveCondition => Main.LocalPlayer.GetModPlayer<MyPlayer>().ZoneSynthwave;
 
 		public override float ScreenSpawnChance => 0.2f;
 
-		public override bool UseCustomScreenDraw => true;
-
-		public override void CustomScreenDraw(SpriteBatch spriteBatch)
-		{
-			Rectangle drawFrame = new Rectangle(0, ((GetHashCode() % 2 == 0) ? 0 : 1) * Texture.Height / 2, Texture.Width, Texture.Height/2);
-			spriteBatch.Draw(Texture, GetDrawPosition(), drawFrame, Color * activeOpacity, Rotation, Origin, Scale * Main.GameViewMatrix.Zoom, SpriteEffects.None, 0);
-		}
+		public override bool UseAdditiveBlend => true;
 
 		public override void OnSpawnAttempt()
 		{
@@ -41,9 +35,8 @@ namespace SpiritMod.Particles
 			hyperSpaceParticle.Position = startingPosition;
 			hyperSpaceParticle.OriginalScreenPosition = Main.screenPosition;
 			hyperSpaceParticle.Velocity = Main.rand.NextFloat(-1, -0.5f) * Vector2.UnitY;
-			hyperSpaceParticle.Rotation = Main.rand.NextFloat(MathHelper.TwoPi);
-			hyperSpaceParticle.Scale = Main.rand.NextFloat(0.4f, 0.6f);
-			hyperSpaceParticle.Color = Color.White;
+			hyperSpaceParticle.Scale = Main.rand.NextFloat(0.04f, 0.08f);
+			hyperSpaceParticle.ParallaxStrength = hyperSpaceParticle.Scale * 5;
 
 			ParticleHandler.SpawnParticle(hyperSpaceParticle);
 		}
