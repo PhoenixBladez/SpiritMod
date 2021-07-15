@@ -51,6 +51,8 @@ using SpiritMod.Mechanics.AutoSell;
 using SpiritMod.Buffs.Summon;
 using System.Linq;
 using static Terraria.ModLoader.Core.TmodFile;
+using SpiritMod.Items.Weapon.Magic.Rhythm;
+using SpiritMod.Items.Weapon.Magic.Rhythm.Anthem;
 
 namespace SpiritMod
 {
@@ -125,7 +127,8 @@ namespace SpiritMod
 		public static int GlyphCurrencyID;
 
 		internal static SpiritMod instance;
-		
+		internal static float deltaTime;
+
 		public SpiritMod()
 		{
 			Instance = this;
@@ -856,6 +859,9 @@ namespace SpiritMod
 				InitStargoop();
 				Boids.LoadContent();
 				AdditiveCallManager.Load();
+
+				RhythmMinigame.LoadStatic();
+				GuitarMinigame.LoadStatic();
 			}
 			// LoadDetours();
 

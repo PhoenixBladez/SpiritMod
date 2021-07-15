@@ -50,6 +50,8 @@ namespace SpiritMod.Utilities
 			On.Terraria.Main.DrawBackgroundBlackFill += Main_DrawBackgroundBlackFill; //BackgroundItemManager.Draw()
 			On.Terraria.Main.Update += Main_Update; //BackgroundItemManager.Update()
 
+
+
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
 			IL.Terraria.WorldGen.hardUpdateWorld += WorldGen_hardUpdateWorld;
 			Main.OnPreDraw += Main_OnPreDraw;
@@ -86,6 +88,8 @@ namespace SpiritMod.Utilities
 			bool playerInv = Main.hasFocus && (!Main.autoPause || Main.netMode != NetmodeID.SinglePlayer || (Main.autoPause && !Main.playerInventory && Main.netMode == NetmodeID.SinglePlayer));
 			if (Main.playerLoaded && BackgroundItemManager.Loaded && playerInv) //Update all background items
 				BackgroundItemManager.Update();
+
+			SpiritMod.deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
 			orig(self, gameTime);
 		}
