@@ -9,10 +9,9 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Weapon.Magic.Rhythm.Anthem
 {
-	public class Anthem : ModItem
+	public class Anthem : ModItem, IRhythmWeapon
 	{
-		GuitarMinigame minigame;
-		bool minigameCreated = false;
+		public RhythmMinigame Minigame { get; set; }
 
 		public override void SetStaticDefaults()
 		{
@@ -48,34 +47,20 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm.Anthem
 
 		public override void UpdateInventory(Player player)
 		{
-			if (!minigameCreated)
+			if (Minigame == null)
 			{
-				minigame = new GuitarMinigame(new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 - 120));
-				minigame.BeatEvent += (success, combo) =>
-				{
-					if (success)
-					{
-						Vector2 mousePos = Main.MouseWorld;
-						Vector2 dirToMouse = (mousePos - player.Center);
-						dirToMouse.Normalize();
-
-						var proj = Main.projectile[Projectile.NewProjectile(player.Center + dirToMouse * 8, item.shootSpeed * dirToMouse, ModContent.ProjectileType<AnthemNote>(), item.damage, item.knockBack, player.whoAmI)];
-						if (proj.modProjectile is AnthemNote note) note.SetUpBeat(minigame);
-					}
-				};
-
-				minigameCreated = true;
+				Minigame = new GuitarMinigame(new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 - 120), player, this);
 			}
 
 			if (player.inventory[player.selectedItem] != item)
 			{
-				minigame.Pause();
+				Minigame.Pause();
 			}
 			else
 			{
-				minigame.Unpause();
+				Minigame.Unpause();
 			}
-			minigame.Update(SpiritMod.deltaTime);
+			Minigame.Update(SpiritMod.deltaTime);
 		}
 
 		public override void HoldItem(Player player) {
@@ -88,14 +73,14 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm.Anthem
 		public override bool PreDrawInInventory(SpriteBatch sB, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale) 
 		{
 			Player owner = Main.player[item.owner];
-			if (item.owner == Main.myPlayer && minigame != null)
+			if (item.owner == Main.myPlayer && Minigame != null)
 			{
-				minigame.Draw(sB);
+				Minigame.Draw(sB);
 
 				Texture2D circle = SpiritMod.instance.GetTexture("Items/Weapon/Magic/Rhythm/Anthem/Circle");
 				Vector2 pos = owner.Center - Main.screenPosition;
-				float beatScale = (float)Math.Sqrt(minigame.BeatScale);
-				float comboScale = Utils.Clamp(0.1f + minigame.ComboScale * 0.1f, 0, 1f);
+				float beatScale = (float)Math.Sqrt(Minigame.BeatScale);
+				float comboScale = Utils.Clamp(0.1f + Minigame.ComboScale * 0.1f, 0, 1f);
 				float alpha = beatScale * (0.3f + 0.3f * comboScale);
 
 				sB.End();
@@ -113,6 +98,20 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm.Anthem
 			}
 
 			return base.PreDrawInInventory(sB, position, frame, drawColor, itemColor, origin, scale);
+		}
+
+		public void OnBeat(bool success, int combo)
+		{
+			Player player = Main.player[item.owner];
+			if (success)
+			{
+				Vector2 mousePos = Main.MouseWorld;
+				Vector2 dirToMouse = (mousePos - player.Center);
+				dirToMouse.Normalize();
+
+				var proj = Main.projectile[Projectile.NewProjectile(player.Center + dirToMouse * 8, item.shootSpeed * dirToMouse, ModContent.ProjectileType<AnthemNote>(), item.damage, item.knockBack, player.whoAmI)];
+				if (proj.modProjectile is AnthemNote note) note.SetUpBeat(Minigame);
+			}
 		}
 	}
 }

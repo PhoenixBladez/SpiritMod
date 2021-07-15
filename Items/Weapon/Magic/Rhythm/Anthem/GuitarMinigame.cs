@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm.Anthem
 		public static Texture2D Bolt { get; set; }
 		public static SoundEffect Guitar { get; set; }
 
-		public GuitarMinigame(Vector2 position) : base(position, 130, Guitar)
+		public GuitarMinigame(Vector2 position, Player owner, IRhythmWeapon item) : base(position, owner, item, 130, Guitar)
 		{
 			Left = new Color(255, 46, 46);
 			LeftOutline = new Color(255, 160, 160);

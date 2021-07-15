@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm.Anthem
 
 		public override void Kill(int timeLeft)
 		{
-			minigame.BeatEvent -= OnBeat;
+			// IDK
 		}
 
 		public void AdditiveCall(SpriteBatch sB) 
@@ -52,12 +52,6 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm.Anthem
 		public void SetUpBeat(RhythmMinigame minigame)
 		{
 			this.minigame = minigame;
-			minigame.BeatEvent += OnBeat;
-		}
-
-		private void OnBeat(bool successful, int combo)
-		{
-			
 		}
 	}
 }

@@ -17,11 +17,6 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm
 
 	public class RhythmMinigame
 	{
-		/// <summary>
-		/// Executed when a successful beat happens or when a beat is missed.
-		/// </summary>
-		public event BeatEventHandler BeatEvent;
-
 		public Vector2 Position { get; set; }
 		public InterpolatedFloat Visibility { get; set; }
 		public int BPM { get; set; }
@@ -32,6 +27,8 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm
 		protected SoundEffectInstance Music { get; set; }
 		protected InterpolatedFloat MusicVolume { get; set; }
 		protected bool Paused { get; set; }
+		protected Player Owner { get; set; }
+		protected IRhythmWeapon Weapon { get; set; }
 
 		protected static Color Left = new Color(184, 136, 255);
 		protected static Color LeftOutline = new Color(227, 180, 255);
@@ -52,7 +49,7 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm
 		float maxTime;
 		float timer = 0f;
 
-		public RhythmMinigame(Vector2 position, int bPM, SoundEffect music)
+		public RhythmMinigame(Vector2 position, Player owner, IRhythmWeapon item, int bPM, SoundEffect music)
 		{
 			Position = position;
 			BPM = bPM;
@@ -75,13 +72,26 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm
 			Visibility = new InterpolatedFloat(0f, 0.5f, InterpolatedFloat.EaseInOut);
 			Visibility.Set(1f);
 
-			Main.OnTick += MusicStopEnsurer;
+			Main.OnTick += MinigameDisposal;
+
+			Owner = owner;
+			Weapon = item;
 		}
 
-		private void MusicStopEnsurer() // fucking items dont have a "this item is no longer updating" hook so i gotta do it the Dirty Way
+		private void MinigameDisposal() // fucking items dont have a "this item is no longer updating" hook so i gotta do it the Dirty Way
 		{
-			if (Main.gameInactive || Main.gameMenu || Main.gamePaused)
+			if (Owner.dead)
 				Pause();
+			else if (!Owner.inventory.Any(i => { if (i.modItem is IRhythmWeapon rw) return rw == Weapon; return false; }) || Main.gameInactive || Main.gameMenu || Main.gamePaused)
+			{
+				if (Weapon is IRhythmWeapon wep)
+				{
+					Music.Dispose();
+					wep.Minigame = null;
+
+					Main.OnTick -= MinigameDisposal;
+				}
+			}
 
 		}
 
@@ -106,13 +116,13 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm
 
 			BeatScale = new InterpolatedFloat(1f, 0.25f);
 			BeatScale.Set(0f);
-			BeatEvent?.Invoke(true, Combo);
+			Weapon.OnBeat(true, Combo);
 			MusicVolume.Set(0.1f + Utils.Clamp(Combo, 0, 10) * 0.09f);
 		}
 
 		public void Break()
 		{
-			BeatEvent?.Invoke(false, Combo);
+			Weapon.OnBeat(false, Combo);
 
 			Combo = 0;
 			ComboScale.Set(Combo);
@@ -124,25 +134,28 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm
 			bool m1 = Mouse.GetState().LeftButton == ButtonState.Pressed;
 			bool m2 = Mouse.GetState().RightButton == ButtonState.Pressed;
 
-			if (((m1 && !lastM1) || (m2 && !lastM2)) && !Notes.Any(n => n.CanBeHit()))
+			if (!Paused)
 			{
-				Break();
-			}
+				if (((m1 && !lastM1) || (m2 && !lastM2)) && !Notes.Any(n => n.CanBeHit()))
+				{
+					Break();
+				}
 
-			foreach (var note in Notes.ToList())
-			{
-				note.Update(deltaTime, m1, lastM1);
-			}
+				foreach (var note in Notes.ToList())
+				{
+					note.Update(deltaTime, m1, lastM1);
+				}
 
 
 
-			timer += deltaTime;
+				timer += deltaTime;
 
-			if (timer >= maxTime)
-			{
-				timer -= maxTime;
+				if (timer >= maxTime)
+				{
+					timer -= maxTime;
 
-				Notes.Add(new RhythmNote(this));
+					Notes.Add(new RhythmNote(this));
+				}
 			}
 
 			ComboScale.Process(deltaTime);
