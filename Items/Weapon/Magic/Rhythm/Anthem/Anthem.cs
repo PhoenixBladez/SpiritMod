@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Particles;
 using SpiritMod.Projectiles.Magic;
 using SpiritMod.Utilities;
 using System;
@@ -23,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm.Anthem
 		{
 			item.damage = 24;
 			item.magic = true;
-			item.mana = 10;
+			item.mana = 40;
 			item.width = 40;
 			item.height = 40;
 			item.useTime = 5;
@@ -38,6 +39,13 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm.Anthem
 			item.autoReuse = false;
 			item.shootSpeed = 16f;
 
+		}
+
+		public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
+		{
+			mult = 0f;
+
+			base.ModifyManaCost(player, ref reduce, ref mult);
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -77,24 +85,25 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm.Anthem
 			{
 				Minigame.Draw(sB);
 
-				Texture2D circle = SpiritMod.instance.GetTexture("Items/Weapon/Magic/Rhythm/Anthem/Circle");
-				Vector2 pos = owner.Center - Main.screenPosition;
-				float beatScale = (float)Math.Sqrt(Minigame.BeatScale);
-				float comboScale = Utils.Clamp(0.1f + Minigame.ComboScale * 0.1f, 0, 1f);
-				float alpha = beatScale * (0.3f + 0.3f * comboScale);
+				if (owner.inventory[owner.selectedItem] == item && Minigame.Combo > 8)
+				{
+					Texture2D basetexture = SpiritMod.instance.GetTexture("Effects/Masks/Star");
 
-				sB.End();
+					sB.End();
 
-				sB.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.EffectMatrix);
+					sB.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.EffectMatrix);
 
-				sB.Draw(circle, pos, null, new Color(255, 0, 0, alpha), 0f, new Vector2(128, 128), 0.1f + (0.3f * comboScale + 0.11f) * (1-beatScale), SpriteEffects.None, 0);
-				sB.Draw(circle, pos, null, new Color(0, 255, 0, alpha), 0f, new Vector2(128, 128), 0.1f + (0.3f * comboScale + 0.1f) * (1-beatScale), SpriteEffects.None, 0);
-				sB.Draw(circle, pos, null, new Color(0, 0, 255, alpha), 0f, new Vector2(128, 128), 0.1f + (0.3f * comboScale + 0.09f) * (1-beatScale), SpriteEffects.None, 0);
+					float starScale = (Utils.Clamp(Minigame.ComboScale, 0f, 16f) - 8f) / 8f + Minigame.BeatScale;
 
+					float starRot = (float)Main.time * 0.1f + Minigame.BeatScale * 0.5f;
 
-				sB.End();
+					sB.Draw(basetexture, owner.Center + new Vector2(owner.direction * 4, 4) - Main.screenPosition, null, Color.White * starScale * 0.8f, starRot, basetexture.Size() / 2, starScale * 0.5f, SpriteEffects.None, 0);
+					sB.Draw(basetexture, owner.Center + new Vector2(owner.direction * 4, 4) - Main.screenPosition, null, Color.White * starScale * 0.3f, -starRot * 0.8f, basetexture.Size() / 2, starScale * 0.2f, SpriteEffects.None, 0);
 
-				sB.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.EffectMatrix);
+					sB.End();
+
+					sB.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.EffectMatrix);
+				}
 			}
 
 			return base.PreDrawInInventory(sB, position, frame, drawColor, itemColor, origin, scale);
@@ -111,6 +120,18 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm.Anthem
 
 				var proj = Main.projectile[Projectile.NewProjectile(player.Center + dirToMouse * 8, item.shootSpeed * dirToMouse, ModContent.ProjectileType<AnthemNote>(), item.damage, item.knockBack, player.whoAmI)];
 				if (proj.modProjectile is AnthemNote note) note.SetUpBeat(Minigame);
+
+				float extraComboScale = Utils.Clamp(Minigame.ComboScale, 0f, 10f) * 0.05f;
+
+				var particle = new AnthemCircle(player.Center - dirToMouse * 4f, dirToMouse * (2f + extraComboScale * 2), 0.1f, 0.25f + extraComboScale, 1f);
+				ParticleHandler.SpawnParticle(particle);
+
+				particle = new AnthemCircle(player.Center - dirToMouse * 6f, dirToMouse * (1.5f + extraComboScale * 2), 0.05f, 0.2f + extraComboScale, 0.9f);
+				ParticleHandler.SpawnParticle(particle);
+			}
+			else
+			{
+				player.statMana -= item.mana;
 			}
 		}
 	}

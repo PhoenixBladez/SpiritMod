@@ -88,6 +88,7 @@ namespace SpiritMod
 		public static Effect ThyrsusShader;
 		public static Effect JetbrickTrailShader;
 		public static Effect OutlinePrimShader;
+		public static Effect AnthemCircle;
 
 		public static IDictionary<string, Effect> ShaderDict = new Dictionary<string, Effect>();
 
@@ -762,6 +763,7 @@ namespace SpiritMod
 				JetbrickTrailShader = instance.GetEffect("Effects/JetbrickTrailShader");
 				OutlinePrimShader = instance.GetEffect("Effects/OutlinePrimShader");
 				GSaber = instance.GetEffect("Effects/GSaber");
+				AnthemCircle = instance.GetEffect("Effects/AnthemCircle");
 
 				SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
 				Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
