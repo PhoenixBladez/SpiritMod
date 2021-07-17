@@ -161,6 +161,9 @@ namespace SpiritMod.Tiles
 		{
 			Tile tile = Framing.GetTileSafely(i, j);
 
+			if (MyWorld.CrimHazards >= 20) //There shouldn't be too many in the world
+				return;
+
 			if (tile.type != TileID.Crimstone) //I should be crimstone
 				return;
 
