@@ -130,6 +130,8 @@ namespace SpiritMod
 		internal static SpiritMod instance;
 		internal static float deltaTime;
 
+		private Vector2 _lastScreenSize;
+
 		public SpiritMod()
 		{
 			Instance = this;
@@ -661,6 +663,7 @@ namespace SpiritMod
 				QuestHUD = new QuestHUD();
 				Boids = new BoidHost();
 				Mechanics.EventSystem.EventManager.Load();
+				_lastScreenSize = new Vector2(Main.screenWidth, Main.screenHeight);
 			}
 			QuestManager.Load();
 
@@ -869,6 +872,22 @@ namespace SpiritMod
 
 			// using a mildly specific name to avoid mod clashes
 			ChatManager.Register<UI.Chat.QuestTagHandler>(new string[] { "sq", "spiritQuest" });
+		}
+
+		public override void PreUpdateEntities()
+		{
+			if (!Main.dedServ)
+			{
+				if (_lastScreenSize != new Vector2(Main.screenWidth, Main.screenHeight))
+				{
+					if(primitives != null)
+						primitives.LoadContent(Main.graphics.GraphicsDevice);
+
+					if(Metaballs != null)
+						Metaballs.Initialize(Main.graphics.GraphicsDevice);
+				}
+				_lastScreenSize = new Vector2(Main.screenWidth, Main.screenHeight);
+			}
 		}
 
 		/// <summary>

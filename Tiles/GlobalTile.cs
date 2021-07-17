@@ -222,7 +222,7 @@ namespace SpiritMod.Tiles
                 MyPlayer modPlayer = player.GetSpiritPlayer();
                 if (type == 1 || type == 25 || type == 117 || type == 203 || type == 57)
                 {
-                    if (Main.rand.Next(50) == 1 && modPlayer.gemPickaxe)
+                    if (Main.rand.Next(25) == 1 && modPlayer.gemPickaxe && !fail)
                     {
                         tremorItem = Main.rand.Next(new int[] { 11, 12, 13, 14, 699, 700, 701, 702, 999, 182, 178, 179, 177, 180, 181 });
                         if (Main.hardMode)

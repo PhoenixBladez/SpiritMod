@@ -39,14 +39,17 @@ namespace SpiritMod.Items.Sets.MagicMisc.HardmodeOreStaves
 		{
 			int shardType;
 			shardType = Main.rand.Next(new int[] { ModContent.ProjectileType<CobaltStaffProj>(), ModContent.ProjectileType<CobaltStaffProj1>() });
+
+			//set the spawn position to the first solid tile in the direction of the cursor, or the cursor, whichever is closer
 			float[] scanarray = new float[3];
-			float dist = player.Distance(Main.MouseWorld);
-			Collision.LaserScan(player.Center, player.DirectionTo(Main.MouseWorld), 0, dist, scanarray);
+			float dist = player.Distance(Main.MouseWorld); //set the maximum distance to the distance between the player and the cursor
+			Collision.LaserScan(player.Center, player.DirectionTo(Main.MouseWorld), 0, dist, scanarray); //scan to find the first solid tile in the direction of the cursor
 			dist = 0;
-			foreach(float array in scanarray) {
+			foreach(float array in scanarray) //make the distance the average of the samples
 				dist += array / (scanarray.Length);
-			}
+
 			Vector2 spawnpos = player.Center + player.DirectionTo(Main.MouseWorld) * dist;
+
 			Projectile p = Projectile.NewProjectileDirect(spawnpos + Main.rand.NextVector2Square(-20, 20), Main.rand.NextVector2Circular(10, 10), shardType, damage, knockBack, player.whoAmI);
 			p.scale = Main.rand.NextFloat(.4f, 1.1f);
 			p.netUpdate = true;

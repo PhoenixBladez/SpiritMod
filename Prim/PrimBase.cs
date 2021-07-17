@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Prim
 {
@@ -27,7 +28,7 @@ namespace SpiritMod.Prim
 
 			gD.SetRenderTarget(primTargetNPC);
 			gD.Clear(Color.Transparent);
-			spriteBatch.Begin();
+			spriteBatch.Begin(default, default, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
 			foreach (PrimTrail trail in _trails.ToArray().Where(x => x.DrawType == DrawNPC)) {
 				if (trail.Pixellated && !trail.Disabled)
 					trail.Draw();
@@ -50,7 +51,7 @@ namespace SpiritMod.Prim
 
 			gD.SetRenderTarget(primTargetProjectile);
 			gD.Clear(Color.Transparent);
-			spriteBatch.Begin();
+			spriteBatch.Begin(default, default, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
 			foreach (PrimTrail trail in _trails.ToArray().Where(x => x.DrawType == DrawProjectile)) {
 				if (trail.Pixellated && !trail.Disabled)
 					trail.Draw();
@@ -60,7 +61,7 @@ namespace SpiritMod.Prim
 		}
 		public void DrawTargetProj(SpriteBatch spriteBatch)
 		{
-			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
+			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, default, Main.GameViewMatrix.ZoomMatrix);
 			if (primTargetProjectile != null)
 				Main.spriteBatch.Draw(primTargetProjectile, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
 			spriteBatch.End();
