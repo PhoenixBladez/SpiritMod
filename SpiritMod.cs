@@ -131,6 +131,7 @@ namespace SpiritMod
 		internal static float deltaTime;
 
 		private Vector2 _lastScreenSize;
+		private Vector2 _lastViewSize;
 
 		public SpiritMod()
 		{
@@ -664,6 +665,7 @@ namespace SpiritMod
 				Boids = new BoidHost();
 				Mechanics.EventSystem.EventManager.Load();
 				_lastScreenSize = new Vector2(Main.screenWidth, Main.screenHeight);
+				_lastViewSize = Main.ViewSize;
 			}
 			QuestManager.Load();
 
@@ -878,15 +880,14 @@ namespace SpiritMod
 		{
 			if (!Main.dedServ)
 			{
-				if (_lastScreenSize != new Vector2(Main.screenWidth, Main.screenHeight))
-				{
-					if(primitives != null)
-						primitives.LoadContent(Main.graphics.GraphicsDevice);
+				if (_lastScreenSize != new Vector2(Main.screenWidth, Main.screenHeight) && primitives != null)
+					primitives.LoadContent(Main.graphics.GraphicsDevice);
 
-					if(Metaballs != null)
-						Metaballs.Initialize(Main.graphics.GraphicsDevice);
-				}
+				if(_lastViewSize != Main.ViewSize && Metaballs != null)
+					Metaballs.Initialize(Main.graphics.GraphicsDevice);
+
 				_lastScreenSize = new Vector2(Main.screenWidth, Main.screenHeight);
+				_lastViewSize = Main.ViewSize;
 			}
 		}
 

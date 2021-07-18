@@ -31,7 +31,7 @@ namespace SpiritMod.Effects.Stargoop
 
 		public void Initialize(GraphicsDevice graphicsDevice)
 		{
-			UpdateWindowSize(graphicsDevice, (int)Main.ViewSize.X / 2, (int)Main.ViewSize.Y / 2);
+			UpdateWindowSize(graphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2);
 		}
 		public void LoadContent()
 		{
