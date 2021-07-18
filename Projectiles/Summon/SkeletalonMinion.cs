@@ -19,10 +19,9 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.Raven);
 			projectile.netImportant = true;
-			projectile.width = 26;
-			projectile.height = 26;
+			projectile.width = 42;
+			projectile.height = 44;
 			projectile.friendly = true;
 			projectile.minion = true;
 			projectile.penetrate = -1;
@@ -138,6 +137,7 @@ namespace SpiritMod.Projectiles.Summon
 				}
 			}
 			else {
+
 				if (projectile.ai[1] == -1f)
 					projectile.ai[1] = 17f;
 
@@ -165,30 +165,23 @@ namespace SpiritMod.Projectiles.Summon
 					if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 10f)
 						projectile.velocity *= 1.05f;
 				}
-				projectile.rotation = projectile.velocity.X * 0.05f;
+
 				projectile.frameCounter++;
-				if (projectile.frameCounter >= 5) {
+				if (projectile.frameCounter >= 5)
+				{
 					projectile.frameCounter = 0;
 					projectile.frame++;
 				}
-				if (projectile.frame < 4)
-					projectile.frame = 2;
-				else if (projectile.frame > 5)
-					projectile.frame = 2;
-
+				if (projectile.frame > 4)
+				{
+					projectile.frame = 0;
+				}
+				projectile.rotation = projectile.velocity.X * 0.05f;
 				if (Math.Abs(projectile.velocity.X) > 0.2) {
 					projectile.spriteDirection = -projectile.direction;
 					return;
 				}
 			}
-
-			if (projectile.frameCounter < 5)
-				projectile.frame = 0;
-			else if (projectile.frameCounter >= 5 && projectile.frameCounter < 4)
-				projectile.frame = 1;
-			else
-				projectile.frameCounter = 0;
-			projectile.frameCounter++;
 		}
 
 		public override bool MinionContactDamage()

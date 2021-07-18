@@ -81,7 +81,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) => false;
 
-		public override Vector2? HoldoutOffset() => new Vector2(-16, 0);
+		public override Vector2? HoldoutOffset() => new Vector2(-20, 0);
 
 		public override void AddRecipes()
 		{

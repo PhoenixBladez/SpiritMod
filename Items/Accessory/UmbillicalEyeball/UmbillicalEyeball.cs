@@ -108,8 +108,8 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 			if (modOwner.EyeballMinion)
 				projectile.timeLeft = 2;
 
-			float maxRange = 160f;
-			int range = 10;
+			float maxRange = 360f;
+			int range = 17;
 
 			if (projectile.ai[1] == -1) //boilerplate, sorry
 			{

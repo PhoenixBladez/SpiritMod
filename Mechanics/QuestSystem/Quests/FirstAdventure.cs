@@ -17,7 +17,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
     {
         public override string QuestName => "The First Adventure";
 		public override string QuestClient => "The Adventurer";
-		public override string QuestDescription => "So you wanna be an adventurer, eh? Well, pack a bag and get out there! I'd actually planned to craft you a set of special armor. Unfortunately, some mangy Hookbats stole the sheaf of Durasilk I was usin'! They only come out at night around the forest surface. Mind retrievin' that silk for me so I can thank you properly?";
+		public override string QuestDescription => "So you wanna be an adventurer, eh? Well, pack a bag and get out there! I'd actually planned to craft you a set of special armor so that you could get started. Unfortunately, some mangy Hookbats stole the sheaf of Durasilk I was usin'! They only come out at night around the forest surface. Mind retrievin' that silk for me so I can thank you properly?";
 		public override int Difficulty => 1;
 		public override string QuestCategory => "Main";
 		public override bool TutorialActivateButton => true;
