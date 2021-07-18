@@ -1918,7 +1918,21 @@ namespace SpiritMod
 				int d = Dust.NewDust(new Vector2(player.position.X + 8 * player.direction, player.Center.Y - 13f), player.width, 10, ModContent.DustType<FrostBreath>(), 1.5f * player.direction, 0f, 100, default, Main.rand.NextFloat(.7f, 1.7f));
 				Main.dust[d].velocity.Y *= 0f;
 			}
-
+			if (player.ZoneDesert && player.ZoneOverworldHeight && Main.rand.Next(33) == 0)
+			{
+				int index = Dust.NewDust(player.position, player.width + 4, player.height + 2, 211, 0.0f, 0.0f, 50, default(Color), 0.8f);
+				if (Main.rand.Next(2) == 0)
+					Main.dust[index].alpha += 50;
+				if (Main.rand.Next(2) == 0)
+					Main.dust[index].alpha += 50;
+				Main.dust[index].noLight = true;
+				Dust dust1 = Main.dust[index];
+				Vector2 vector2_1 = dust1.velocity * .12f;
+				dust1.velocity = vector2_1;
+				Dust dust2 = Main.dust[index];
+				Vector2 vector2_2 = dust2.velocity + player.velocity;
+				dust2.velocity = vector2_2;
+			}
 			if (!NPC.AnyNPCs(ModContent.NPCType<Scarabeus>()))
 				SpiritMod.scarabWings.Halt();
 			if (config.AmbientSounds)

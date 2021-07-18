@@ -1,5 +1,6 @@
 ﻿using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria;
 
 namespace SpiritMod.NPCs.DungeonCube
 {
@@ -15,6 +16,10 @@ namespace SpiritMod.NPCs.DungeonCube
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
+			if (NPC.downedPlantBoss)
+			{
+				return spawnInfo.player.ZoneDungeon && NPC.CountNPCS(ModContent.NPCType<DungeonCubeGreen>()) < 1 ? 0.0015f : 0f;
+			}
 			if (spawnInfo.spawnTileType == TileID.GreenDungeonBrick) {
 				return spawnInfo.player.ZoneDungeon ? 0.04f : 0f;
 			}

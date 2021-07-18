@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Sets.ClubSubclass.ClubSandwich
 		{
 			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 2));
 			{
-				player.AddBuff(BuffID.WellFed, 540);
+				player.AddBuff(BuffID.WellFed, 240);
 			}
 			return false;
 		}

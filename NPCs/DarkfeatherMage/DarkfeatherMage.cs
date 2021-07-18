@@ -21,13 +21,13 @@ namespace SpiritMod.NPCs.DarkfeatherMage
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Darkfeather Mage");
-			Main.npcFrameCount[npc.type] = 5;
+			Main.npcFrameCount[npc.type] = 6;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 46;
-			npc.height = 40;
+			npc.width = 66;
+			npc.height = 60;
 			npc.damage = 16;
 			npc.defense = 15;
 			npc.rarity = 3;
@@ -415,9 +415,8 @@ namespace SpiritMod.NPCs.DarkfeatherMage
             Color color1 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
 
             int r1 = (int)color1.R;
-            drawOrigin.Y += 30f;
-            drawOrigin.Y += 8f;
-            --drawOrigin.X;
+            drawOrigin.Y += 14f;
+			--drawOrigin.X;
             Vector2 position1 = npc.Bottom - Main.screenPosition;
             Texture2D texture2D2 = Main.glowMaskTexture[239];
             float num11 = (float)((double)Main.GlobalTime % 1.0 / 1.0);
@@ -434,7 +433,7 @@ namespace SpiritMod.NPCs.DarkfeatherMage
                 num14 = 0.0f;
             Rectangle r2 = texture2D2.Frame(1, 1, 0, 0);
             drawOrigin = r2.Size() / 2f;
-            Vector2 position3 = position1 + new Vector2(17.0f * npc.spriteDirection, 3.5f);
+            Vector2 position3 = position1 + new Vector2(22.0f * npc.spriteDirection, -1f);
             Color color3 = new Color(137, 209, 61) * 1.6f;
             Main.spriteBatch.Draw(texture2D2, position3, new Rectangle?(r2), color3, npc.rotation, drawOrigin, npc.scale * 0.275f, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
             float num15 = 1f + num11 * 0.75f;

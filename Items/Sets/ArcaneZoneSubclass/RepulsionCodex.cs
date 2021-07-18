@@ -55,6 +55,7 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 			item.knockBack = 0;
 			item.value = 10000;
 			item.rare = 2;
+			item.reuseDelay = 300;
 			item.UseSound = SoundID.DD2_EtherianPortalSpawnEnemy;
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<RepulsionZone>();
@@ -68,17 +69,6 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 		{
 			return true;
 		}
-        public override bool CanUseItem(Player player)
-        {
-            for (int i = 0; i < 1000; ++i)
-            {
-                if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Vector2 value18 = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY);
