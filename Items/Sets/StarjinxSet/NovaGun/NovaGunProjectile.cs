@@ -8,6 +8,7 @@ using System;
 using SpiritMod.Utilities;
 using SpiritMod.Projectiles;
 using SpiritMod;
+using SpiritMod.Particles;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.NovaGun
 {
@@ -33,6 +34,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.NovaGun
             projectile.ignoreWater = true;
         }
         Vector2 originalvel = Vector2.Zero;
+		private readonly float period = 30f;
         public override void AI()
         {
             projectile.rotation += 0.1f;
@@ -40,10 +42,10 @@ namespace SpiritMod.Items.Sets.StarjinxSet.NovaGun
             if(projectile.ai[0] == 0)
             {
                 originalvel = projectile.velocity;
-                projectile.ai[0] += Main.rand.NextFloat(10f); //random offset for color and sin wave
-                projectile.ai[1] += Main.rand.NextFloat(0.25f, 1.25f);
+                projectile.ai[0] += Main.rand.NextFloat(period * 2); //random offset for color and sin wave
+                projectile.ai[1] += Main.rand.NextFloat(0.25f, 1f);
             }
-            projectile.ai[0] += 0.1f;
+            projectile.ai[0]++;
             //search for a stellanova that is active, in a charging state, owned by the same player, and is close enough. If it exists, home in on it and die, then charge it up
             var validprojs = Main.projectile.Where(x => x.type == ModContent.ProjectileType<NovaGunStar>() && x.active && x.ai[0] < 90 && x.ai[0] >= 30 && x.owner == projectile.owner && x.Distance(projectile.Center) < 500);
             if (validprojs.Any())
@@ -63,13 +65,13 @@ namespace SpiritMod.Items.Sets.StarjinxSet.NovaGun
                 }
             }
             else
-                projectile.velocity = originalvel.RotatedBy(Math.Sin(projectile.ai[0]) * Math.PI / 8);
+                projectile.velocity = originalvel.RotatedBy(Math.Cos((projectile.ai[0] / period) * MathHelper.PiOver2) * projectile.ai[1] * Math.PI / 8);
 
-            if (Main.rand.Next(50) == 0)
-                Gore.NewGore(projectile.Center, projectile.velocity / 4, mod.GetGoreSlot("Gores/StarjinxGore"), 0.75f);
-        }
+			if (Main.rand.Next(50) == 0)
+				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.Pi / 12) * Main.rand.NextFloat(), Color.White * 0.66f, SpiritMod.StarjinxColor(Main.GlobalTime), Main.rand.NextFloat(0.2f, 0.3f), 35));
+		}
 
-        private float Timer => Main.GlobalTime * 2 + projectile.ai[0];
+        private float Timer => Main.GlobalTime * 2 + (projectile.ai[0] / 10);
 
         public void DoTrailCreation(TrailManager tM)
         {

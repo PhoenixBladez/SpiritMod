@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 
 		public void DoTrailCreation(TrailManager tManager)
 		{
-			tManager.CreateTrail(projectile, new CarrionCrowTrail(projectile, new Color(99, 23, 51, 200)), new RoundCap(), new DefaultTrailPosition(), 90f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
+			tManager.CreateTrail(projectile, new CarrionCrowTrail(projectile, new Color(99, 23, 51, 150)), new RoundCap(), new DefaultTrailPosition(), 90f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
 			//tManager.CreateTrail(projectile, new CarrionCrowTrail(projectile, Color.White * 0.2f), new NoCap(), new DefaultTrailPosition(), 24f, 80f, new DefaultShader());
 		}
 
@@ -65,6 +65,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 			projectile.alpha = Math.Max(projectile.alpha - 10, 0);
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			projectile.frameCounter++;
+
 			if (projectile.frameCounter >= 3)
 			{
 				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
@@ -75,9 +76,11 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 				Vector2 currentSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y);
 				projectile.velocity = currentSpeed.RotatedBy(Math.PI / loopSize);
 				loopCounter++;
+				projectile.tileCollide = false;
 				if (loopCounter >= loopSize * 2)
 				{
 					looping = false;
+					projectile.tileCollide = true;
 				}
 			}
 			if (projectile.penetrate < 4 && !looping)
@@ -85,59 +88,62 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 				Homing();
             }
 			if (projectile.penetrate <= 4)
-            {
+			{
 				if (projectile.localAI[0] < 1.5f)
 				{
-					projectile.localAI[0] += .15f;
+					projectile.localAI[0] += .075f;
 				}
-            }
+			}
+			else if (projectile.velocity.Length() < 24)
+				projectile.velocity *= 1.015f;
 		}
 
 		public void Homing()
         {
-			projectile.ai[1] += 1f;
-			bool chasing = false;
-			if (projectile.ai[1] >= 20f)
+			bool chasing = true;
+
+			NPC target = null;
+			if (projectile.ai[0] == -1f)
 			{
-				chasing = true;
+				target = ProjectileExtras.FindRandomNPC(projectile.Center, 1000f, false);
+			}
+			else
+			{
+				target = Main.npc[(int)projectile.ai[0]];
+				if (!target.active || !target.CanBeChasedBy())
+				{
+					target = ProjectileExtras.FindRandomNPC(projectile.Center, 1000f, false);
+				}
+			}
 
-				projectile.friendly = true;
-				NPC target = null;
-				if (projectile.ai[0] == -1f)
-				{
-					target = ProjectileExtras.FindRandomNPC(projectile.Center, 1360f, false);
-				}
-				else
-				{
-					target = Main.npc[(int)projectile.ai[0]];
-					if (!target.active || !target.CanBeChasedBy())
-					{
-						target = ProjectileExtras.FindRandomNPC(projectile.Center, 1360f, false);
-					}
-				}
+			if (target == null)
+			{
+				chasing = false;
+				projectile.ai[0] = -1f;
+			}
+			else
+			{
+				projectile.tileCollide = false;
+				projectile.ai[0] = target.whoAmI;
+				if (Math.Abs(MathHelper.WrapAngle(projectile.velocity.ToRotation() - projectile.AngleTo(target.Center))) < (MathHelper.Pi / 6f)) //if close enough in desired angle, accelerate and home accurately
+					projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center) * 26, 0.175f);
 
-				if (target == null)
+				else //if too much of an angle, circle around
 				{
-					chasing = false;
-					projectile.ai[0] = -1f;
-				}
-				else
-				{
-					projectile.ai[0] = (float)target.whoAmI;
-					if (projectile.Distance(target.Center) > 150)
-					{
-						if (projectile.velocity.Length() < 20f)
-							projectile.velocity *= 1.04f;
-						projectile.velocity = projectile.velocity.Length() * Vector2.Normalize(Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center) * projectile.velocity.Length(), 0.2f));
-					}
-					else if (projectile.Distance(target.Center) > 20)
-						projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center) * 12, 0.07f);
+					if (projectile.velocity.Length() > 8)
+						projectile.velocity *= 0.96f;
+
+					if (projectile.velocity.Length() < 6)
+						projectile.velocity *= 1.05f;
+
+					projectile.velocity = projectile.velocity.Length() * Vector2.Normalize(Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center) * projectile.velocity.Length(), 0.15f));
 				}
 			}
 
 			ProjectileExtras.LookAlongVelocity(this);
 			if (!chasing)
 			{
+				projectile.tileCollide = false;
 				Vector2 dir = projectile.velocity;
 				float vel = projectile.velocity.Length();
 				if (vel != 0f)
@@ -161,20 +167,12 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 			Main.PlaySound(new LegacySoundStyle(29, 53).WithPitchVariance(0.3f), projectile.Center);
 			if (projectile.penetrate <= 4)
 			{
-				Vector2 vector9 = projectile.position;
-				Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
-				vector9 += value19 * 16f;
 				for (int num257 = 0; num257 < 20; num257++)
-				{
-					int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, 134, 0f, 0f, 0, default(Color), 1f);
-					Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
-					Main.dust[newDust].velocity += value19 * 2f;
-					Main.dust[newDust].velocity *= 0.5f;
-					Main.dust[newDust].noGravity = true;
-					vector9 -= value19 * 8f;
-				}
+					Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(4, 4), 134, 
+						projectile.velocity.RotatedByRandom(MathHelper.Pi / 8) * Main.rand.NextFloat(0.2f, 0.6f), 0, default, Main.rand.NextFloat(1f, 1.5f)).noGravity = true;
 			}
 		}
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (projectile.penetrate > 4)
@@ -191,7 +189,8 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
             {
 				projectile.localAI[0] += .38f;
             }
-			projectile.tileCollide = false;
+
+			projectile.ai[0] = target.whoAmI;
 		}
 
 		public void AdditiveCall(SpriteBatch spriteBatch)
