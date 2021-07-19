@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Sets.ToolsMisc.Evergreen
 			item.width = 46;
 			item.height = 46;
 			item.value = 10000;
-			item.rare = ItemRarityID.Blue;
+			item.rare = 3;
 			item.axe = 12;
 			item.damage = 18;
 			item.knockBack = 6;

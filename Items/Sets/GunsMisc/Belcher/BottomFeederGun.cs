@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.Belcher
 			item.knockBack = 0f;
 			item.useTurn = false;
 			item.value = Terraria.Item.sellPrice(0, 1, 32, 0);
-			item.rare = ItemRarityID.Green;
+			item.rare = 3;
 			item.UseSound = SoundID.NPCHit18;
 			item.autoReuse = true;
 			item.shoot = ProjectileID.PurificationPowder;
