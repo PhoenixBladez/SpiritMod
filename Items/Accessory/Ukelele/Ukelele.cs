@@ -1,4 +1,5 @@
 ﻿using Terraria;
+using System;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,8 +12,8 @@ namespace SpiritMod.Items.Accessory.Ukelele
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ukelele");
-			Tooltip.SetDefault("Hitting enemies has a chance to cause a chain of lightning\n'...and his music was electric.'");
+			DisplayName.SetDefault("Ukulele");
+			Tooltip.SetDefault("Hitting enemies has a chance to create a chain of lightning\n'...and his music was electric.'");
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(4, 12));
 		}
 
@@ -21,10 +22,46 @@ namespace SpiritMod.Items.Accessory.Ukelele
 			item.width = 60;
 			item.height = 58;
 			item.value = Item.buyPrice(0, 3, 0, 0);
-			item.rare = ItemRarityID.Orange;
+			item.rare = 4;
 			item.accessory = true;
 		}
-
+		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			Rectangle aga = Main.itemTexture[item.type].Frame(1, 1, 0, 0);
+			Lighting.AddLight(new Vector2(item.Center.X, item.Center.Y), 0.075f, 0.231f, 0.255f);
+			var vector2_3 = new Vector2((float)(Main.itemTexture[item.type].Width / 2), (float)(Main.itemTexture[item.type].Height / 1 / 2));
+			float addY = 0f;
+			float addHeight = -2f;
+			int num7 = 5;
+			float num9 = (float)(Math.Cos((double)Main.GlobalTime % 2.40000009536743 / 2.40000009536743 * 6.28318548202515) / 1.0 + 0.5);
+			float num8 = 0f;
+			Texture2D texture = Main.itemTexture[item.type];
+			float num10 = 0.0f;
+			Vector2 bb = item.Center - Main.screenPosition - new Vector2((float)texture.Width, (float)(texture.Height / 1)) * item.scale / 2f + vector2_3 * item.scale + new Vector2(0.0f, addY + addHeight);
+			Color color2 = new Color((int)sbyte.MaxValue - item.alpha, (int)sbyte.MaxValue - item.alpha, (int)sbyte.MaxValue - item.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.White);
+			for (int index2 = 0; index2 < num7; ++index2)
+			{
+				Color newColor2 = color2;
+				Color faa = item.GetAlpha(newColor2) * (1f - num8);
+				Vector2 position2 = item.Center + ((float)((double)index2 / (double)num7 * 6.28318548202515) + rotation + num10).ToRotationVector2() * (float)(2.0 * (double)num8 + 2.0) - Main.screenPosition - new Vector2((float)texture.Width, (float)(texture.Height / 1)) * item.scale / 2f + vector2_3 * item.scale + new Vector2(0.0f, addY + addHeight);
+				Main.spriteBatch.Draw(mod.GetTexture("Items/Accessory/Ukelele/Ukelele_Glow"), position2, new Microsoft.Xna.Framework.Rectangle?(aga), faa, rotation, vector2_3, item.scale, spriteEffects, 0.0f);
+			}
+			for (int index2 = 0; index2 < 4; ++index2)
+			{
+				Color newColor2 = color2;
+				Color faa = item.GetAlpha(newColor2) * (1f - num9);
+				Vector2 position2 = item.Center + ((float)((double)index2 / (double)4 * 6.28318548202515) + rotation + num10).ToRotationVector2() * (float)(4.0 * (double)num9 + 2.0) - Main.screenPosition - new Vector2((float)texture.Width, (float)(texture.Height / 1)) * item.scale / 2f + vector2_3 * item.scale + new Vector2(0.0f, addY + addHeight);
+				Vector2 pos2 = item.Center + ((float)((double)index2 / (double)4 * 6.28318548202515) + rotation + num10).ToRotationVector2() * (float)(2.0 * (double)num9 + 2.0) - Main.screenPosition - new Vector2((float)texture.Width, (float)(texture.Height / 1)) * item.scale / 2f + vector2_3 * item.scale + new Vector2(0.0f, addY + addHeight);
+				Main.spriteBatch.Draw(mod.GetTexture("Items/Accessory/Ukelele/Ukelele_Glow"), pos2, new Microsoft.Xna.Framework.Rectangle?(aga), color2, rotation, vector2_3, item.scale, spriteEffects, 0.0f);
+			}
+			Main.spriteBatch.Draw(mod.GetTexture("Items/Accessory/Ukelele/Ukelele_Glow"), bb, new Microsoft.Xna.Framework.Rectangle?(aga), color2, rotation, vector2_3, item.scale, spriteEffects, 0.0f);
+			return true;
+		}
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return Color.White;
+		}
 		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<UkelelePlayer>().active = true;
 	}
 
@@ -43,13 +80,19 @@ namespace SpiritMod.Items.Accessory.Ukelele
 		public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
 			if (active && proj.type != ModContent.ProjectileType<UkeleleProj>() && Main.rand.Next(4) == 0 && overcharge < 30)
+			{
+				Main.PlaySound(2, target.position, 12);
 				DoLightningChain(target, damage);
+			}
 		}
 
 		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
 			if (active && Main.rand.Next(4) == 0 && overcharge < 30)
+			{
+				Main.PlaySound(2, target.position, 12);
 				DoLightningChain(target, damage);
+			}
 		}
 
 		private void DoLightningChain(NPC target, int damage)
@@ -124,7 +167,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
 					if (animCounter == 1)
 					{
 						NPC target = TargetNext(currentEnemy);
-						if (target != null)
+						if (target != null && !target.friendly && !target.townNPC)
 						{
 							projectile.Center = target.Center;
 							Trail(currentEnemy.position + new Vector2(currentEnemy.width / 2, 0), target.position + new Vector2(target.width / 2, 0));
@@ -174,7 +217,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
 
 		public NPC TargetNext(NPC current)
 		{
-			float range = 75 * 14;
+			float range = 50 * 14;
 			range *= range;
 			NPC target = null;
 			var center = projectile.Center;
