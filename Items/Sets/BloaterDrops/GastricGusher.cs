@@ -16,32 +16,28 @@ namespace SpiritMod.Items.Sets.BloaterDrops
 		public override void SetDefaults()
 		{
 			item.damage = 10;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.ranged = true;
 			item.width = 20;
 			item.height = 46;
-			item.useTime = 21;
-			item.useAnimation = 21;
+			item.useTime = 20;
+			item.useAnimation = 20;
+			item.knockBack = 1;
+			item.crit = 8;
+			item.shootSpeed = 0f;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAmmo = AmmoID.Gel;
-			item.knockBack = 1;
-			item.useTurn = false;
-			item.value = Item.sellPrice(0, 0, 20, 0);
 			item.rare = ItemRarityID.Blue;
 			item.UseSound = SoundID.Item5;
-			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<GastricGusherProjectile>();
-			item.shootSpeed = 0f;
-			item.crit = 8;
+			item.value = Item.sellPrice(0, 0, 20, 0);
 			item.channel = true;
+			item.noMelee = true;
+			item.useTurn = false;
+			item.noUseGraphic = true;
+			item.autoReuse = false;
+			item.ranged = true;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			return true;
-		}
-
+		public override bool ConsumeAmmo(Player player) => false;
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0;
 	}
 }

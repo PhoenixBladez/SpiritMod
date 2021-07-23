@@ -1903,21 +1903,22 @@ namespace SpiritMod
 		int MinifishTimer = 0;
 
 		public override void PreUpdate()
-        {
-            int x1 = (int)player.Center.X / 16;
-            int y1 = (int)player.Center.Y / 16;
-            var config = ModContent.GetInstance<SpiritClientConfig>();
+		{
+			int x1 = (int)player.Center.X / 16;
+			int y1 = (int)player.Center.Y / 16;
+			var config = ModContent.GetInstance<SpiritClientConfig>();
 
-			if (Framing.GetTileSafely(x1, y1 - 16).liquid == 255 && Framing.GetTileSafely(x1, y1).liquid == 255 && player.wet)
+			if (WorldGen.InWorld(x1, y1 - 16) && Framing.GetTileSafely(x1, y1 - 16).liquid == 255 && Framing.GetTileSafely(x1, y1).liquid == 255 && player.wet)
 				isFullySubmerged = true;
 			else
 				isFullySubmerged = false;
-				
+
 			if (player.ZoneSnow && Main.rand.NextBool(27))
 			{
 				int d = Dust.NewDust(new Vector2(player.position.X + 8 * player.direction, player.Center.Y - 13f), player.width, 10, ModContent.DustType<FrostBreath>(), 1.5f * player.direction, 0f, 100, default, Main.rand.NextFloat(.7f, 1.7f));
 				Main.dust[d].velocity.Y *= 0f;
 			}
+
 			if (player.ZoneDesert && player.ZoneOverworldHeight && Main.rand.Next(33) == 0)
 			{
 				int index = Dust.NewDust(player.position, player.width + 4, player.height + 2, 211, 0.0f, 0.0f, 50, default(Color), 0.8f);
@@ -1933,10 +1934,12 @@ namespace SpiritMod
 				Vector2 vector2_2 = dust2.velocity + player.velocity;
 				dust2.velocity = vector2_2;
 			}
+
 			if (!NPC.AnyNPCs(ModContent.NPCType<Scarabeus>()))
 				SpiritMod.scarabWings.Halt();
+
 			if (config.AmbientSounds)
-            { 
+			{
 				if (!Main.dayTime && !player.ZoneSnow
 					&& player.ZoneOverworldHeight
 					&& !Main.dayTime
@@ -1948,399 +1951,415 @@ namespace SpiritMod
 					&& !player.ZoneDesert
 					&& !Main.raining
 					&& !Main.bloodMoon && !ZoneReach && !ZoneSpirit)
-                {
-                    if (Framing.GetTileSafely(x1, y1 + 1).wall == 0 && Framing.GetTileSafely(x1, y1).wall == 0)
-                        SpiritMod.nighttimeAmbience.SetTo(Main.ambientVolume);
+				{
+					if (Framing.GetTileSafely(x1, y1 + 1).wall == 0 && Framing.GetTileSafely(x1, y1).wall == 0)
+						SpiritMod.nighttimeAmbience.SetTo(Main.ambientVolume);
 					else
-                        SpiritMod.nighttimeAmbience.Stop();
+						SpiritMod.nighttimeAmbience.Stop();
 				}
 				else
 					SpiritMod.nighttimeAmbience.Stop();
 
 				if (player.ZoneBeach && player.ZoneDesert && player.ZoneOverworldHeight)
-                    SpiritMod.wavesAmbience.SetTo(Main.ambientVolume);
-                else
-                    SpiritMod.wavesAmbience.Stop();
+					SpiritMod.wavesAmbience.SetTo(Main.ambientVolume);
+				else
+					SpiritMod.wavesAmbience.Stop();
 
-                if (player.ZoneDesert && player.ZoneOverworldHeight && !Sandstorm.Happening && !Main.raining && !player.ZoneBeach)
-                {
-                    if (Framing.GetTileSafely(x1, y1 + 1).wall == 0 && Framing.GetTileSafely(x1, y1).wall == 0)
-                        SpiritMod.desertWind.SetTo(Main.ambientVolume);
-                    else
-                        SpiritMod.desertWind.Stop();
-                }
-                else
-                    SpiritMod.desertWind.Stop();
+				if (player.ZoneDesert && player.ZoneOverworldHeight && !Sandstorm.Happening && !Main.raining && !player.ZoneBeach)
+				{
+					if (Framing.GetTileSafely(x1, y1 + 1).wall == 0 && Framing.GetTileSafely(x1, y1).wall == 0)
+						SpiritMod.desertWind.SetTo(Main.ambientVolume);
+					else
+						SpiritMod.desertWind.Stop();
+				}
+				else
+					SpiritMod.desertWind.Stop();
 
 				if ((ZoneReach || player.ZoneJungle) && player.ZoneOverworldHeight && !Main.raining)
-                {
-                    if (Framing.GetTileSafely(x1, y1 + 1).wall == 0 && Framing.GetTileSafely(x1, y1).wall == 0)
-                        SpiritMod.lightWind.SetTo(Main.ambientVolume);
+				{
+					if (Framing.GetTileSafely(x1, y1 + 1).wall == 0 && Framing.GetTileSafely(x1, y1).wall == 0)
+						SpiritMod.lightWind.SetTo(Main.ambientVolume);
 					else
-                        SpiritMod.lightWind.Stop();
-                }
-                else
-                    SpiritMod.lightWind.Stop();
+						SpiritMod.lightWind.Stop();
+				}
+				else
+					SpiritMod.lightWind.Stop();
 
 				if (player.ZoneRockLayerHeight)
-                    SpiritMod.caveAmbience.SetTo(Main.ambientVolume);
-                else
-                    SpiritMod.caveAmbience.Stop();
+					SpiritMod.caveAmbience.SetTo(Main.ambientVolume);
+				else
+					SpiritMod.caveAmbience.Stop();
 
 				if (player.ZoneDungeon || player.ZoneRockLayerHeight && Framing.GetTileSafely(x1, y1 + 1).wall == ModContent.WallType<SepulchreWallTile>() && Framing.GetTileSafely(x1, y1).wall == ModContent.WallType<SepulchreWallTile>())
-                    SpiritMod.spookyAmbience.SetTo(Main.ambientVolume);
-                else
-                    SpiritMod.spookyAmbience.Stop();
+					SpiritMod.spookyAmbience.SetTo(Main.ambientVolume);
+				else
+					SpiritMod.spookyAmbience.Stop();
 
 				if (Framing.GetTileSafely(x1, y1 - 1).liquid == 255 && Framing.GetTileSafely(x1, y1).liquid == 255 && player.wet)
 					SpiritMod.underwaterAmbience.SetTo(Main.ambientVolume);
 				else
-					SpiritMod.underwaterAmbience.Stop();				
-            }
-            if (!player.ZoneOverworldHeight)
-            {
-                if (Framing.GetTileSafely(x1, y1 + 1).wall == 62 && Framing.GetTileSafely(x1, y1).wall == 62)
-                    ZoneSpider = true;
+					SpiritMod.underwaterAmbience.Stop();
+			}
+
+			if (!player.ZoneOverworldHeight)
+			{
+				if (Framing.GetTileSafely(x1, y1 + 1).wall == 62 && Framing.GetTileSafely(x1, y1).wall == 62)
+					ZoneSpider = true;
 				else
-                    ZoneSpider = false;
+					ZoneSpider = false;
 
-                if (Framing.GetTileSafely(x1, y1 + 1).wall == 178 && Framing.GetTileSafely(x1, y1).wall == 178)
-                    inMarble = true;
-                else
-                    inMarble = false;
+				if (Framing.GetTileSafely(x1, y1 + 1).wall == 178 && Framing.GetTileSafely(x1, y1).wall == 178)
+					inMarble = true;
+				else
+					inMarble = false;
 
-                if (Framing.GetTileSafely(x1, y1 + 1).wall == 180 && Framing.GetTileSafely(x1, y1).wall == 180)
-                    inGranite = true;
-                else
-                {
-                    inGranite = false;
-                }
-            }
-			
-			if(zipline) {
-				if(!ziplineActive) {
+				if (Framing.GetTileSafely(x1, y1 + 1).wall == 180 && Framing.GetTileSafely(x1, y1).wall == 180)
+					inGranite = true;
+				else
+					inGranite = false;
+			}
+
+			if (zipline)
+			{
+				if (!ziplineActive)
+				{
 					ziplineCounter = 45;
 					ziplineActive = true;
 				}
 				player.justJumped = true;
 				float g = 0.18f;
-				if(ziplineCounter * g * ziplineY < 20 && ziplineCounter < 400)
+				if (ziplineCounter * g * ziplineY < 20 && ziplineCounter < 400)
 					ziplineCounter += 2;
 				Dust.NewDustPerfect(new Vector2(player.position.X + Main.rand.Next(player.width), player.position.Y + player.height - Main.rand.Next(7)), 6, new Vector2(-ziplineX * Main.rand.Next(6), -ziplineY * Main.rand.Next(10)));
 				player.velocity = MathHelper.Max(ziplineCounter * g * ziplineY, 5) * new Vector2(ziplineX, ziplineY);
-			} else if(ziplineCounter > 45) {
-				ziplineCounter -= 0.75f;
 			}
-			if(mushroomPotion) {
+			else if (ziplineCounter > 45)
+				ziplineCounter -= 0.75f;
+			if (mushroomPotion)
+			{
 				shroomtimer++;
-				if(shroomtimer >= 20 && player.velocity != Vector2.Zero) {
+				if (shroomtimer >= 20 && player.velocity != Vector2.Zero)
+				{
 					shroomtimer = 0;
 					int proj = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 0, ProjectileID.Mushroom, 10, 1, Main.myPlayer, 0.0f, 1);
 					Main.projectile[proj].timeLeft = 120;
 				}
 			}
-			if(bloodCourtHead) {
+			if (bloodCourtHead)
+			{
 				bloodTimer++;
-				if(bloodTimer >= 40) {
+				if (bloodTimer >= 40)
+				{
 					bloodTimer = 0;
-					int proj = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-30, 30), player.Center.Y - Main.rand.Next(40, 50), Main.rand.Next(-1, 1), -1, ModContent.ProjectileType<BloodRuneEffect>(), 0, 0, Main.myPlayer, 0.0f, 1);
+					Projectile.NewProjectile(player.Center.X + Main.rand.Next(-30, 30), player.Center.Y - Main.rand.Next(40, 50), Main.rand.Next(-1, 1), -1, ModContent.ProjectileType<BloodRuneEffect>(), 0, 0, Main.myPlayer, 0.0f, 1);
 				}
 			}
-			if(MyWorld.meteorShowerWeather && Main.rand.Next(270) == 0 && ZoneAsteroid) {
+			if (MyWorld.meteorShowerWeather && Main.rand.Next(270) == 0 && ZoneAsteroid)
+			{
 				Vector2 vector2_1 = new Vector2((float)(player.position.X + player.width * 0.5 + (Main.rand.Next(201) * -player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X)), (float)(player.position.Y + player.height * 0.5 - 600.0));   //this defines the projectile width, direction and position
 				vector2_1.X = (float)((vector2_1.X + player.Center.X) / 2.0) + Main.rand.Next(-200, 201);
 				vector2_1.Y -= 100;
 				float num12 = Main.rand.Next(-30, 30);
 				float num13 = 100;
-				if(num13 < 0) num13 *= -1f;
-				if(num13 < 20) num13 = 20f;
+				if (num13 < 0) num13 *= -1f;
+				if (num13 < 20) num13 = 20f;
 				float num14 = (float)Math.Sqrt(num12 * num12 + num13 * num13);
 				float num15 = 10 / num14;
 				float num16 = num12 * num15;
 				float num17 = num13 * num15;
-				float SpeedX = num16 + Main.rand.Next(-40, 41) * 0.02f;  //this defines the projectile X position speed and randomnes
-				float SpeedY = num17 + Main.rand.Next(-40, 41) * 0.02f;  //this defines the projectile Y position speed and randomnes
-				int proj = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, ModContent.ProjectileType<Projectiles.Hostile.Meteor>(), 30, 3, Main.myPlayer, 0.0f, 1);
+				float SpeedX = num16 + Main.rand.Next(-40, 41) * 0.02f;
+				float SpeedY = num17 + Main.rand.Next(-40, 41) * 0.02f;
+				Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, ModContent.ProjectileType<Projectiles.Hostile.Meteor>(), 30, 3, Main.myPlayer, 0.0f, 1);
 			}
 
-			if(!throwerGlove || (throwerStacks >= 7 && firedSharpshooter)) {
+			if (!throwerGlove || (throwerStacks >= 7 && firedSharpshooter))
+			{
 				throwerStacks = 0;
 				firedSharpshooter = false;
 			}
 
-			if(ShieldCore) {
-				if(!spawnedShield) {
-					//shootingCrystal = false;
+			if (ShieldCore)
+			{
+				if (!spawnedShield)
+				{
 					Player player = Main.player[Main.myPlayer];
 					int num = shieldsLeft;
-					for(int i = 0; i < num; i++) {
+					for (int i = 0; i < num; i++)
+					{
 						int DegreeDifference = 360 / num;
 						Projectile.NewProjectile((int)player.Center.X + (int)(Math.Sin(i * DegreeDifference) * 80), (int)player.Center.Y + (int)(Math.Sin(i * DegreeDifference) * 80), 0, 0, ModContent.ProjectileType<InterstellarShield>(), 1, 0, player.whoAmI, 0, i * DegreeDifference);
 					}
 					spawnedShield = true;
 
 				}
-				if(shieldsLeft == 0) {
+				if (shieldsLeft == 0)
+				{
 					shieldCounter++;
-					if(shieldCounter > 2000) {
+					if (shieldCounter > 2000)
+					{
 						shieldsLeft = 2;
 						spawnedShield = false;
 						shieldCounter = 0;
 					}
 				}
-			} else {
-				spawnedShield = false;
 			}
+			else
+				spawnedShield = false;
 
-			if(ZoneAsteroid && MyWorld.stardustWeather) {
+			if (ZoneAsteroid && MyWorld.stardustWeather)
+			{
 				int d = Main.rand.Next(new int[] { 180, 226, 206 });
+
+				if (Main.rand.Next(10) == 0)
 				{
-					//int maxValue = 800;
-					int num1 = (int)((int)(500.0 * (Main.screenWidth / (float)Main.maxScreenW)) * (1.0 + 2.0 * Main.cloudAlpha));
-					float num2 = (float)(1.0 + 50.0 * Main.cloudAlpha);
-					if(Main.rand.Next(10) == 0) {
-						int num3 = Main.rand.Next(Main.screenWidth + 1000) - 500;
-						int num4 = (int)Main.screenPosition.Y - Main.rand.Next(50);
-						if(Main.player[Main.myPlayer].velocity.Y > 0.0)
-							num4 -= (int)Main.player[Main.myPlayer].velocity.Y;
-						if(Main.rand.Next(5) == 0)
-							num3 = Main.rand.Next(500) - 500;
-						else if(Main.rand.Next(5) == 0)
-							num3 = Main.rand.Next(500) + Main.screenWidth;
-						if(num3 < 0 || num3 > Main.screenWidth)
-							num4 += Main.rand.Next((int)(Main.screenHeight * 0.8)) + (int)(Main.screenHeight * 0.1);
-						int num5 = num3 + (int)Main.screenPosition.X;
-						int index2 = num5 / 16;
-						int index3 = num4 / 16;
-						if(Main.tile[index2, index3] != null) {
-							if(Main.tile[index2, index3].wall == 0) {
-								int index4 = Dust.NewDust(new Vector2(num5, num4), 10, 10, d, 0.0f, 0.0f, 0, new Color(), 1f);
-								Main.dust[index4].scale += Main.cloudAlpha * 0.2f;
-								Main.dust[index4].velocity.Y = (float)(3.0 + Main.rand.Next(30) * 0.100000001490116);
-								Main.dust[index4].velocity.Y *= Main.dust[index4].scale;
-								if(!Main.raining) {
-									Main.dust[index4].velocity.X = Main.windSpeed + Main.rand.Next(-10, 10) * 0.1f;
-									Main.dust[index4].velocity.X += (float)(Main.windSpeed * Main.cloudAlpha * 10.0);
-								} else {
-									Main.dust[index4].velocity.X = (float)(Math.Sqrt(Math.Abs(Main.windSpeed)) * Math.Sign(Main.windSpeed) * (Main.cloudAlpha + 0.5) * 25.0 + (double)Main.rand.NextFloat() * 0.200000002980232 - 0.100000001490116);
-									Main.dust[index4].velocity.Y *= 0.5f;
-								}
-								Main.dust[index4].velocity.Y *= (float)(1.0 + 0.300000011920929 * Main.cloudAlpha);
-								Main.dust[index4].scale += Main.cloudAlpha * 0.2f;
-								Main.dust[index4].velocity *= (float)(1.0 + Main.cloudAlpha * 0.5);
+					int num3 = Main.rand.Next(Main.screenWidth + 1000) - 500;
+					int num4 = (int)Main.screenPosition.Y - Main.rand.Next(50);
+					if (Main.LocalPlayer.velocity.Y > 0.0)
+						num4 -= (int)Main.player[Main.myPlayer].velocity.Y;
+					if (Main.rand.Next(5) == 0)
+						num3 = Main.rand.Next(500) - 500;
+					else if (Main.rand.Next(5) == 0)
+						num3 = Main.rand.Next(500) + Main.screenWidth;
+					if (num3 < 0 || num3 > Main.screenWidth)
+						num4 += Main.rand.Next((int)(Main.screenHeight * 0.8)) + (int)(Main.screenHeight * 0.1);
+					int num5 = num3 + (int)Main.screenPosition.X;
+					int x = num5 / 16;
+					int y = num4 / 16;
+					if (Main.tile[x, y] != null)
+					{
+						if (Main.tile[x, y].wall == 0)
+						{
+							Dust dust = Main.dust[Dust.NewDust(new Vector2(num5, num4), 10, 10, d, 0.0f, 0.0f, 0, new Color(), 1f)];
+							dust.scale += Main.cloudAlpha * 0.2f;
+							dust.velocity.Y = (float)(3.0 + Main.rand.Next(30) * 0.100000001490116);
+							dust.velocity.Y *= dust.scale;
+							if (!Main.raining)
+								dust.velocity.X = (Main.windSpeed + Main.rand.Next(-10, 10) * 0.1f) + (float)(Main.windSpeed * Main.cloudAlpha * 10.0);
+							else
+							{
+								dust.velocity.X = (float)(Math.Sqrt(Math.Abs(Main.windSpeed)) * Math.Sign(Main.windSpeed) * (Main.cloudAlpha + 0.5) * 25.0 + Main.rand.NextFloat() * 0.200000002980232 - 0.100000001490116);
+								dust.velocity.Y *= 0.5f;
 							}
+							dust.velocity.Y *= (float)(1.0 + 0.300000011920929 * Main.cloudAlpha);
+							dust.scale += Main.cloudAlpha * 0.2f;
+							dust.velocity *= (float)(1.0 + Main.cloudAlpha * 0.5);
 						}
 					}
 				}
 			}
-			if(player.ZoneSkyHeight) {
-				Vector2 vector2_1 = new Vector2((float)(player.position.X + player.width * 0.5 + (Main.rand.Next(201) * -player.direction) + ((double)Main.mouseX + (double)Main.screenPosition.X - (double)player.position.X)), (float)((double)player.position.Y + (double)player.height * 0.5 - 600.0));   //this defines the projectile width, direction and position
 
-				string[] smallDebris = { "SpaceDebris1", "SpaceDebris2" };
-				int small = Main.rand.Next(smallDebris.Length);
-				string[] bigDebris = { "SpaceDebris3", "SpaceDebris4", "MeteorShard5", "MeteorShard6" };
-				int big = Main.rand.Next(bigDebris.Length);
-				vector2_1.X = (float)(((double)vector2_1.X + player.Center.X) / 2.0) + Main.rand.Next(-200, 201);
-				vector2_1.Y -= 100;
-				float num12 = Main.rand.Next(12, 18);
-				float num13 = 100;
-				if(num13 < 0.0) num13 *= -1f;
-				if(num13 < 20.0) num13 = 20f;
-				float num14 = (float)Math.Sqrt(num12 * num12 + num13 * num13);
+			if (player.ZoneSkyHeight) //Meteor projectiles in the space biome
+			{
+				float rand = Main.rand.Next(12, 18);
+				float num14 = (float)Math.Sqrt(rand * rand + 100 * 100);
 				float num15 = 10 / num14;
-				float num16 = num12 * num15;
-				float num17 = num13 * num15;
-				float SpeedX = num16 + Main.rand.Next(-40, 41) * Main.windSpeed + (.01f * Main.windSpeed);  //this defines the projectile X position speed and randomnes
-				float SpeedY = num17 + Main.rand.Next(-40, 41) * 0.02f;  //this defines the projectile Y position speed and randomnes
+				float num16 = rand * num15;
+				float num17 = 100 * num15;
+				float SpeedX = num16 + Main.rand.Next(-40, 41) * Main.windSpeed + (.01f * Main.windSpeed);
+				float SpeedY = num17 + Main.rand.Next(-40, 41) * 0.02f;
+
+				string[] bigDebris = { "SpaceDebris3", "SpaceDebris4", "MeteorShard5", "MeteorShard6" };
+				string[] smallDebris = { "SpaceDebris1", "SpaceDebris2" };
+
 				if (ZoneAsteroid && MyWorld.spaceJunkWeather && Main.rand.Next(59) == 0)
 				{
-					if(Main.rand.Next(7) == 0) {
-						int proj = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, mod.ProjectileType(bigDebris[big]), 16, 3, Main.myPlayer, 0.0f, 1);
-					} else {
-						int proj1 = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, mod.ProjectileType(smallDebris[small]), 7, 3, Main.myPlayer, 0.0f, 1);
-					}
+					if (Main.rand.Next(7) == 0)
+						Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, mod.ProjectileType(Main.rand.Next(bigDebris)), 16, 3, Main.myPlayer, 0.0f, 1);
+					else
+						Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, mod.ProjectileType(Main.rand.Next(smallDebris)), 7, 3, Main.myPlayer, 0.0f, 1);
 				}
 				if (MyWorld.rareStarfallEvent && Main.rand.Next(65) == 0)
 				{
 					if (ZoneAsteroid)
-					{
-						int proj1 = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-800, 800), player.Center.Y + Main.rand.Next(-1000, -900), Main.rand.Next(26, 33) * Main.windSpeed, 4, mod.ProjectileType("Comet"), 0, 3, Main.myPlayer, 0.0f, 1);
-					}
+						Projectile.NewProjectile(player.Center.X + Main.rand.Next(-800, 800), player.Center.Y + Main.rand.Next(-1000, -900), Main.rand.Next(26, 33) * Main.windSpeed, 4, mod.ProjectileType("Comet"), 0, 3, Main.myPlayer, 0.0f, 1);
 					else
-					{
-						int proj1 = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-800, 800), player.Center.Y + Main.rand.Next(-1000, -900), Main.rand.Next(26, 33) * Main.windSpeed, 4, mod.ProjectileType("Comet"), 0, 3, Main.myPlayer, 0.0f, 1);
-					}
+						Projectile.NewProjectile(player.Center.X + Main.rand.Next(-800, 800), player.Center.Y + Main.rand.Next(-1000, -900), Main.rand.Next(26, 33) * Main.windSpeed, 4, mod.ProjectileType("Comet"), 0, 3, Main.myPlayer, 0.0f, 1);
 				}
 			}
-			if(ZoneReach && !Main.raining && !MyWorld.downedReachBoss) {
+
+			if (ZoneReach && !Main.raining && !MyWorld.downedReachBoss)
+			{
 				Main.cloudAlpha += .007f;
-				if(Main.cloudAlpha >= .65f) {
+				if (Main.cloudAlpha >= .65f)
 					Main.cloudAlpha = .65f;
-				}
 			}
-			if(illusionistEye) {
+
+			if (illusionistEye)
+			{
 				illusionistTimer--;
-				if(illusionistTimer == 0) {
-					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
-					for(int i = 0; i < 6; i++) {
+				if (illusionistTimer == 0)
+				{
+					Main.PlaySound(new LegacySoundStyle(25, 1));
+					for (int i = 0; i < 6; i++)
+					{
 						int num = Dust.NewDust(player.position, player.width, player.height, 156, 0f, -2f, 0, new Color(0, 255, 142), 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].scale *= .25f;
-						if(Main.dust[num].position != player.Center)
+						if (Main.dust[num].position != player.Center)
 							Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
 					}
 				}
 			}
-			if(fierySet) {
+
+			if (fierySet)
 				fierySetTimer--;
-			} else {
+			else
 				fierySetTimer = 480;
-			}
-			if(surferSet) {
+			if (surferSet)
 				surferTimer--;
-			} else {
+			else
 				surferTimer = 330;
-			}
-			if(fierySetTimer == 0) {
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
-				for(int i = 0; i < 2; i++) {
+
+			if (fierySetTimer == 0)
+			{
+				Main.PlaySound(new LegacySoundStyle(25, 1));
+				for (int i = 0; i < 2; i++)
+				{
 					int num = Dust.NewDust(player.position, player.width, player.height, 6, 0f, -2f, 0, default(Color), 2f);
 					Main.dust[num].noGravity = true;
 					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
 					Main.dust[num].scale *= .25f;
-					if(Main.dust[num].position != player.Center)
+					if (Main.dust[num].position != player.Center)
 						Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
 				}
 			}
-			if(marbleSet) {
+
+			if (marbleSet)
+			{
 				marbleJump--;
 				marbleJustJumped = true;
 			}
-			if(marbleJump == 0) {
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
-				for(int i = 0; i < 2; i++) {
+
+			if (marbleJump == 0)
+			{
+				Main.PlaySound(new LegacySoundStyle(25, 1));
+				for (int i = 0; i < 2; i++)
+				{
 					int num = Dust.NewDust(player.position, player.width, player.height, 222, 0f, -2f, 0, default, 2f);
 					Main.dust[num].noGravity = true;
 					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
 					Main.dust[num].scale *= .25f;
-					if(Main.dust[num].position != player.Center)
+					if (Main.dust[num].position != player.Center)
 						Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
 				}
 			}
-			if(!marbleSet) {
-				marbleJustJumped = false;
-			}
-			if((player.velocity.Y == 0f || player.sliding || (player.autoJump && player.justJumped)) && marbleJustJumped) {
-				marbleJustJumped = true;
-			}
-			if(graniteSet) {
-				int num323;
-				int num326;
-				if(player.velocity.Y == 0f && player.HasBuff(ModContent.BuffType<GraniteBonus>()) && !player.mount.Active) {
-					num326 = 1;
-					num326 += player.extraFall;
-					num323 = (int)((player.position.Y / 16f) - player.fallStart) / 2;
-					if(num323 >= 8) {
-						num323 = 8;
-					}
-					{
-						if(player.gravDir == 1f && num323 > num326) {
-							player.ClearBuff(ModContent.BuffType<GraniteBonus>());
-							Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
-							{
-								for(int i = 0; i < 8 * num323; i++) {
-									int num = Dust.NewDust(player.position, player.width, player.height, 226, 0f, -2f, 0, default, 2f);
-									Main.dust[num].noGravity = true;
-									Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-									Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-									Main.dust[num].scale *= .25f;
-									if(Main.dust[num].position != player.Center)
-										Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
-								}
-							}
-							int proj = Projectile.NewProjectile(player.position.X, player.position.Y,
-								0, 0, ModContent.ProjectileType<GraniteSpike1>(), num323 * 10, 0, player.whoAmI);
-							Projectile.NewProjectile(player.position.X, player.position.Y,
-							   0, 0, ModContent.ProjectileType<StompExplosion>(), num323 * 10, 6, player.whoAmI);
-							Main.projectile[proj].timeLeft = 0;
-							Main.projectile[proj].ranged = true;
 
+			if (!marbleSet)
+				marbleJustJumped = false;
+
+			if ((player.velocity.Y == 0f || player.sliding || (player.autoJump && player.justJumped)) && marbleJustJumped)
+				marbleJustJumped = true;
+
+			if (graniteSet)
+			{
+				if (player.velocity.Y == 0f && player.HasBuff(ModContent.BuffType<GraniteBonus>()) && !player.mount.Active)
+				{
+					int num323 = (int)((player.position.Y / 16f) - player.fallStart) / 2;
+					if (num323 >= 8)
+						num323 = 8;
+					if (player.gravDir == 1f && num323 > 1 + player.extraFall)
+					{
+						player.ClearBuff(ModContent.BuffType<GraniteBonus>());
+						Main.PlaySound(new LegacySoundStyle(2, 109));
+						{
+							for (int i = 0; i < 8 * num323; i++)
+							{
+								int num = Dust.NewDust(player.position, player.width, player.height, 226, 0f, -2f, 0, default, 2f);
+								Main.dust[num].noGravity = true;
+								Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+								Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+								Main.dust[num].scale *= .25f;
+								if (Main.dust[num].position != player.Center)
+									Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
+							}
 						}
+						int proj = Projectile.NewProjectile(player.position.X, player.position.Y,
+							0, 0, ModContent.ProjectileType<GraniteSpike1>(), num323 * 10, 0, player.whoAmI);
+						Projectile.NewProjectile(player.position.X, player.position.Y,
+						   0, 0, ModContent.ProjectileType<StompExplosion>(), num323 * 10, 6, player.whoAmI);
+						Main.projectile[proj].timeLeft = 0;
+						Main.projectile[proj].ranged = true;
+
 					}
 					stompCooldown = 540;
 				}
 				stompCooldown--;
-				if(stompCooldown == 0) {
-					Rectangle textPos = new Rectangle((int)player.position.X, (int)player.position.Y - 20, player.width, player.height);
+				if (stompCooldown == 0)
+				{
+					var textPos = new Rectangle((int)player.position.X, (int)player.position.Y - 20, player.width, player.height);
 					CombatText.NewText(textPos, new Color(82, 226, 255, 100), "Energy Stomp Ready!");
-					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
-					for(int i = 0; i < 2; i++) {
+					Main.PlaySound(new LegacySoundStyle(25, 1));
+					for (int i = 0; i < 2; i++)
+					{
 						int num = Dust.NewDust(player.position, player.width, player.height, 226, 0f, -2f, 0, default, 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].scale *= .25f;
-						if(Main.dust[num].position != player.Center)
+						if (Main.dust[num].position != player.Center)
 							Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
 					}
-
 				}
 			}
-			if(!Main.dayTime && MyWorld.dayTimeSwitched) {
+
+			if (!Main.dayTime && MyWorld.dayTimeSwitched)
+			{
 				candyInBowl = 2;
 				candyFromTown.Clear();
 			}
-			if(ZoneAsteroid) {
+
+			if (ZoneAsteroid)
 				Main.numCloudsTemp = 0;
-			}
+
 			if (ChildSafety.Disabled)
 			{
-				if (Main.rand.NextBool(6) && (ZoneReach || MyWorld.calmNight) && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly && !player.ZoneSnow) {
+				if (Main.rand.NextBool(6) && (ZoneReach || MyWorld.calmNight) && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly && !player.ZoneSnow)
+				{
 					float goreScale = 0.01f * Main.rand.Next(20, 70);
 					int a = Gore.NewGore(new Vector2(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + (Main.rand.Next(-1000, -100))), new Vector2(Main.windSpeed * 3f, 0f), 911, goreScale);
 					Main.gore[a].timeLeft = 15;
 					Main.gore[a].rotation = 0f;
 					Main.gore[a].velocity = new Vector2(Main.windSpeed * 40f, Main.rand.NextFloat(0.2f, 2f));
 				}
-				if(Main.rand.Next(9) == 0 && (ZoneReach || MyWorld.calmNight) && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly && !player.ZoneSnow) {
+				if (Main.rand.Next(9) == 0 && (ZoneReach || MyWorld.calmNight) && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly && !player.ZoneSnow)
+				{
 					float goreScale = Main.rand.NextFloat(0.5f, 0.9f);
 					int x = (int)(Main.windSpeed > 0 ? Main.screenPosition.X - 100 : Main.screenPosition.X + Main.screenWidth + 100);
 					int y = (int)Main.screenPosition.Y + Main.rand.Next(-100, Main.screenHeight);
-					int a = Gore.NewGore(new Vector2(x, y), Vector2.Zero, mod.GetGoreSlot("Gores/GreenLeaf"), goreScale);
-					Main.gore[a].rotation = 0f;
-					Main.gore[a].velocity.Y = Main.rand.NextFloat(1f, 3f);
+					int gore = Gore.NewGore(new Vector2(x, y), Vector2.Zero, mod.GetGoreSlot("Gores/GreenLeaf"), goreScale);
+					Main.gore[gore].rotation = 0f;
+					Main.gore[gore].velocity.Y = Main.rand.NextFloat(1f, 3f);
 				}
 			}
 
-			if(windEffect) {
-				if(Main.windSpeed <= -.01f) {
-					Main.windSpeed = -.8f; ;
-				}
+			if (windEffect)
+			{
+				if (Main.windSpeed <= -.01f)
+					Main.windSpeed = -.8f;
 
-				if(Main.windSpeed >= .01f) {
+				if (Main.windSpeed >= .01f)
 					Main.windSpeed = .8f;
-				}
 			}
 
 			CalculateSpeed();
 
-			if(player.whoAmI == Main.myPlayer) {
-				if(!player.HeldItem.IsAir) {
-					glyph = player.HeldItem.GetGlobalItem<Items.GItem>().Glyph;
-					if(glyph == GlyphType.None && player.nonTorch >= 0 && player.nonTorch != player.selectedItem) {
-						if(!player.inventory[player.nonTorch].IsAir) {
-							glyph = player.inventory[player.nonTorch].GetGlobalItem<Items.GItem>().Glyph;
-						}
-					}
-				} else {
-					glyph = GlyphType.None;
+			if (player.whoAmI == Main.myPlayer)
+			{
+				if (!player.HeldItem.IsAir)
+				{
+					glyph = player.HeldItem.GetGlobalItem<GItem>().Glyph;
+					if (glyph == GlyphType.None && player.nonTorch >= 0 && player.nonTorch != player.selectedItem && !player.inventory[player.nonTorch].IsAir)
+						glyph = player.inventory[player.nonTorch].GetGlobalItem<Items.GItem>().Glyph;
 				}
+				else
+					glyph = GlyphType.None;
 
-				if(Main.netMode == NetmodeID.MultiplayerClient) {
+				if (Main.netMode == NetmodeID.MultiplayerClient)
+				{
 					ModPacket packet = SpiritMod.instance.GetPacket(MessageType.PlayerGlyph, 2);
 					packet.Write((byte)Main.myPlayer);
 					packet.Write((byte)glyph);
@@ -2348,48 +2367,54 @@ namespace SpiritMod
 				}
 			}
 
-			if(glyph == GlyphType.Bee) {
+			if (glyph == GlyphType.Bee)
 				player.AddBuff(BuffID.Honey, 2);
-			} else if(glyph == GlyphType.Phase) {
-				if(phaseStacks < 3) {
+			else if (glyph == GlyphType.Phase)
+			{
+				if (phaseStacks < 3)
+				{
 					phaseCounter++;
-					if(phaseCounter >= 12 * 60) {
+					if (phaseCounter >= 12 * 60)
+					{
 						phaseCounter = 0;
 						phaseStacks++;
 						player.AddBuff(ModContent.BuffType<TemporalShift>(), 2);
 					}
 				}
-			} else if(glyph == GlyphType.Veil) {
+			}
+			else if (glyph == GlyphType.Veil)
+			{
 				veilCounter++;
-				if(veilCounter >= 8 * 60) {
+				if (veilCounter >= 8 * 60)
+				{
 					veilCounter = 0;
 					player.AddBuff(ModContent.BuffType<PhantomVeil>(), 2);
 				}
-			} else if(glyph == GlyphType.Void) {
+			}
+			else if (glyph == GlyphType.Void)
 				Items.Glyphs.VoidGlyph.DevouringVoid(player);
-			} else if(glyph == GlyphType.Radiant) {
+			else if (glyph == GlyphType.Radiant)
+			{
 				divineCounter++;
-				if(divineCounter >= 60) {
+				if (divineCounter >= 60)
+				{
 					divineCounter = 0;
 					player.AddBuff(ModContent.BuffType<DivineStrike>(), 2);
 				}
 			}
-			if(phaseStacks > 3) {
+			if (phaseStacks > 3)
 				phaseStacks = 3;
-			}
 
-			if(flametrail && player.velocity.X != 0) {
+			if (flametrail && player.velocity.X != 0)
 				Projectile.NewProjectile(player.position.X, player.position.Y + 40, 0f, 0f, ModContent.ProjectileType<CursedFlameTrail>(), 35, 0f, player.whoAmI);
-			}
 
-			if(CrystalShield && player.velocity.X != 0 && Main.rand.NextBool(3)) {
-				if(player.velocity.X < 0) {
+			if (CrystalShield && player.velocity.X != 0 && Main.rand.NextBool(3))
+			{
+				if (player.velocity.X < 0)
 					Projectile.NewProjectile(player.position.X, player.Center.Y, Main.rand.Next(6, 10), Main.rand.Next(-3, 3), ProjectileID.CrystalShard, 36, 0f, player.whoAmI);
-				}
 
-				if(player.velocity.X > 0) {
+				if (player.velocity.X > 0)
 					Projectile.NewProjectile(player.position.X, player.Center.Y, Main.rand.Next(-10, -6), Main.rand.Next(-3, 3), ProjectileID.CrystalShard, 36, 0f, player.whoAmI);
-				}
 			}
 
 			if (player.HeldItem.type == mod.ItemType("Minifish"))
@@ -2399,7 +2424,8 @@ namespace SpiritMod
 
 			Vector2 zoom = Main.GameViewMatrix.Zoom;
 
-			foreach (NPC npc in Main.npc) {
+			foreach (NPC npc in Main.npc)
+			{
 				if (!npc.active || npc.type != ModContent.NPCType<AuroraStag>())
 					continue;
 
@@ -2414,7 +2440,8 @@ namespace SpiritMod
 					hoveredStag = auroraStag;
 			}
 
-			if (hoveredStag != null) {
+			if (hoveredStag != null)
+			{
 				Rectangle npcBox = hoveredStag.npc.getRect();
 				npcBox.Inflate((int)zoom.X, (int)zoom.Y);
 

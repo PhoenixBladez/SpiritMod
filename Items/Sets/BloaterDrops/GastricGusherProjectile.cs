@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -14,8 +15,8 @@ namespace SpiritMod.Items.Sets.BloaterDrops
 
 		const int MinimumCharge = 30; //How long it takes for a minimum charge - 1/2 second by default
 
-		private float Scaling => ((_endCharge - MinimumCharge) * 0.04f) + 1f; //Scale factor for projectile damage, spread and speed
-
+		private float Scaling => ((_charge - MinimumCharge) * 0.02f) + 1f; //Scale factor for projectile damage, spread and speed
+		private float ScalingCapped => Scaling > 3 ? 3f : Scaling; //Cap for scaling so there's not super OP charging lol
 
 		public override void SetStaticDefaults()
 		{
@@ -35,7 +36,6 @@ namespace SpiritMod.Items.Sets.BloaterDrops
 			projectile.ignoreWater = true;
 			projectile.ranged = true;
 			projectile.aiStyle = -1;
-			//projectile.ownerHitCheck = true;
 
 			drawHeldProjInFrontOfHeldItemAndArms = true;
 		}
@@ -46,28 +46,26 @@ namespace SpiritMod.Items.Sets.BloaterDrops
 
 			if (p.whoAmI != Main.myPlayer) return; //mp check (hopefully)
 
-			projectile.Center = p.Center - (Vector2.Normalize(p.MountedCenter - Main.MouseWorld) * 30);
-			projectile.rotation = Vector2.Normalize(p.MountedCenter - Main.MouseWorld).ToRotation() - MathHelper.Pi;
+			projectile.Center = p.Center - (Vector2.Normalize(p.MountedCenter - Main.MouseWorld) * 30) + new Vector2(21, 12);
+			projectile.rotation = Vector2.Normalize(p.MountedCenter - Main.MouseWorld).ToRotation() - MathHelper.Pi; //So it looks like the player is holding it properly
 
-			if (!p.channel && _endCharge == -1)
+			if (!p.channel && _endCharge == -1) //Fire (if possible)
 			{
 				_endCharge = _charge;
 				if (_endCharge > MinimumCharge)
 					Fire(p);
 			}
 
-			if (p.channel)
-			{
+			if (p.channel) //Use turn functionality
 				p.direction = Main.MouseWorld.X >= p.MountedCenter.X ? 1 : -1;
-			}
 
-			if (_charge > _endCharge + 20 && _endCharge != -1)
+			if (_charge > _endCharge + 10 && _endCharge != -1) //Kill projectile when done shooting
 				projectile.active = false;
 
-			_charge++;
-			projectile.timeLeft++;
+			_charge++; //Increase charge timer...
+			projectile.timeLeft++; //...and dont die
 
-			if (_endCharge == -1)
+			if (_endCharge == -1) //Wait until the player has fired to let go
 			{
 				p.itemTime = 10;
 				p.itemAnimation = 10;
@@ -76,10 +74,43 @@ namespace SpiritMod.Items.Sets.BloaterDrops
 
 		private void Fire(Player p)
 		{
-			Vector2 vel = Vector2.Normalize(Main.MouseWorld - p.Center) * 9.5f * Scaling;
+			Vector2 vel = Vector2.Normalize(Main.MouseWorld - p.Center) * 9.5f * ScalingCapped;
+			int inc = 3 + (int)ScalingCapped;
 
-			for (int i = 4; i < 9; i++)
-				Projectile.NewProjectile(p.Center, vel.RotatedByRandom(Scaling * 0.2f) * Main.rand.NextFloat(0.9f, 1.1f), ProjectileID.WoodenArrowFriendly, (int)(10 * Scaling), 0.2f);
+			for (int i = 0; i < inc; i++) //Projectiles
+			{
+				Vector2 velocity = vel.RotatedByRandom(ScalingCapped * 0.2f) * Main.rand.NextFloat(0.9f, 1.1f);
+				int proj = Projectile.NewProjectile(p.Center, velocity, ProjectileID.WoodenArrowFriendly, (int)(10 * ScalingCapped), 0.2f, projectile.owner);
+				Main.projectile[proj].penetrate = 1;
+			}
+
+			for (int i = 0; i < p.inventory.Length; ++i) //Consume ammo here so it's used when shot rather than when clicked
+			{
+				if (p.inventory[i].ammo == AmmoID.Gel)
+				{
+					p.inventory[i].stack--;
+					if (p.inventory[i].stack <= 0)
+						p.inventory[i].TurnToAir();
+				}
+			}
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Player p = Main.player[projectile.owner];
+			Texture2D t = Main.projectileTexture[projectile.type];
+			SpriteEffects e = Main.MouseWorld.X >= p.MountedCenter.X ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+
+			float realRot = projectile.rotation;
+			if (e == SpriteEffects.FlipHorizontally)
+				realRot -= MathHelper.Pi;
+
+			Vector2 drawPos = projectile.position - Main.screenPosition;
+			if (_charge > MinimumCharge)
+				drawPos += new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * ScalingCapped;
+
+			spriteBatch.Draw(t, drawPos, new Rectangle(0, 0, 42, 24), Color.White, realRot, new Vector2(21, 12), 1f, e, 1f);
+			return false;
 		}
 	}
 }
