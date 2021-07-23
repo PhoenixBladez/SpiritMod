@@ -7,7 +7,7 @@ namespace SpiritMod.Items.Placeable.MusicBox
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Music Box (Hyperspace- Night)");
+			DisplayName.SetDefault("Music Box (Hyperspace- Day)");
 		}
 
 		public override void SetDefaults()

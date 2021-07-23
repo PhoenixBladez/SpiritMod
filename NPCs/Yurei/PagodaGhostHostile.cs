@@ -101,7 +101,7 @@ namespace SpiritMod.NPCs.Yurei
 
 				int angle = Main.rand.Next(360);
 				int distX = (int)(Math.Sin(angle * (Math.PI / 180)) * 90);
-				int distY = (int)(Math.Cos(angle * (Math.PI / 180)) * 160);
+				int distY = (int)(Math.Cos(angle * (Math.PI / 180)) * 300);
 				Gore.NewGore(npc.position, npc.velocity, 99);
 				Gore.NewGore(npc.position, npc.velocity, 99);
 				npc.position.X = player.position.X + distX;

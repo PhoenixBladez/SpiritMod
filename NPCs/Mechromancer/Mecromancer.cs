@@ -52,7 +52,7 @@ namespace SpiritMod.NPCs.Mechromancer
 			if (NPC.AnyNPCs(ModContent.NPCType<Mecromancer>())) {
 				return 0f;
 			}
-			return SpawnCondition.GoblinArmy.Chance * 0.0366f;
+			return SpawnCondition.GoblinArmy.Chance * 0.0266f;
 		}
 
 		public override void NPCLoot()

@@ -11,9 +11,9 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
     public class SporeSalvage : Quest
     {
-        public override string QuestName => "Spore Salvage";
-		public override string QuestClient => "The Adventurer";
-		public override string QuestDescription => "I've been hearin' stories about some new flora that's cropped up around those strange Mushroom Forests recently. These lil' buggers seem to just sway from side to side, as if they're dancin'. I have no real motive this time around, I just wanna see one of 'em. Mind fetching one for me?";
+        public override string QuestName => "Sanctuary: Spore Salvage";
+		public override string QuestClient => "The Dryad";
+		public override string QuestDescription => "The glowing mushroom fields are a hotspot for biodiverse flora and fauna. It is no surprise that a new, sentient mushroom has been spotted; however, this fungus is not dangerous at all. All it seems to do is sway gently from side to side. We must ensure its survival, and not just because it is cute!";
 		public override int Difficulty => 2;
 		public override string QuestCategory => "Forager";
 

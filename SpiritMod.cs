@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.GameContent.Shaders;
+using Terraria.GameContent.Dyes;
 using Terraria.GameContent.UI;
 using Terraria.Graphics;
 using Terraria.Graphics.Effects;
@@ -50,6 +51,8 @@ using SpiritMod.Mechanics.AutoSell;
 using SpiritMod.Buffs.Summon;
 using System.Linq;
 using static Terraria.ModLoader.Core.TmodFile;
+using SpiritMod.Items.Weapon.Magic.Rhythm;
+using SpiritMod.Items.Weapon.Magic.Rhythm.Anthem;
 
 namespace SpiritMod
 {
@@ -83,6 +86,9 @@ namespace SpiritMod
 		public static Effect JemShaders;
 		public static Effect SunOrbShader;
 		public static Effect ThyrsusShader;
+		public static Effect JetbrickTrailShader;
+		public static Effect OutlinePrimShader;
+		public static Effect AnthemCircle;
 
 		public static IDictionary<string, Effect> ShaderDict = new Dictionary<string, Effect>();
 
@@ -122,7 +128,11 @@ namespace SpiritMod
 		public static int GlyphCurrencyID;
 
 		internal static SpiritMod instance;
-		
+		internal static float deltaTime;
+
+		private Vector2 _lastScreenSize;
+		private Vector2 _lastViewSize;
+
 		public SpiritMod()
 		{
 			Instance = this;
@@ -642,7 +652,6 @@ namespace SpiritMod
 			//Always keep this call in the first line of Load!
 			LoadReferences();
 			StructureLoader.Load(this);
-
 			QuestBookHotkey = RegisterHotKey("SpiritMod:QuestBookToggle", "C");
 			QuestHUDHotkey = RegisterHotKey("SpiritMod:QuestHUDToggle", "V");
 
@@ -655,6 +664,8 @@ namespace SpiritMod
 				QuestHUD = new QuestHUD();
 				Boids = new BoidHost();
 				Mechanics.EventSystem.EventManager.Load();
+				_lastScreenSize = new Vector2(Main.screenWidth, Main.screenHeight);
+				_lastViewSize = Main.ViewSize;
 			}
 			QuestManager.Load();
 
@@ -709,6 +720,14 @@ namespace SpiritMod
 
 				SpiritModAutoSellTextures.Load();
 
+				GameShaders.Hair.BindShader(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.SeafoamDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(Color.Cyan, Color.White, MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(3f + Main.GlobalTime * 1.3f) + 1f) * 0.5f)))));
+				GameShaders.Hair.BindShader(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.MeteorDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorHades")).UseImage("Images/Misc/noise").UseColor(Color.Orange).UseSecondaryColor(Color.DarkOrange).UseSaturation(5.3f);
+				GameShaders.Hair.BindShader(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.ViciousDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorVortex")).UseImage("Images/Misc/noise").UseColor(Color.Crimson).UseSaturation(3.3f);
+				GameShaders.Hair.BindShader(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.CystalDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorNebula")).UseImage("Images/Misc/Perlin").UseColor(Color.Plum).UseSaturation(5.3f);
+				GameShaders.Hair.BindShader(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.SnowMirageDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorMirage")).UseImage("Images/Misc/Perlin").UseColor(Color.PaleTurquoise).UseSaturation(2.3f);
+				//GameShaders.Hair.BindShader(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.BrightbloodDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorAcid")).UseImage("Images/Misc/noise").UseColor(Color.Red).UseSaturation(2.3f);
+				GameShaders.Hair.BindShader(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.BrightbloodDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorGel")).UseImage("Images/Misc/noise").UseColor(Color.Red).UseSecondaryColor(Color.Tomato).UseSaturation(2.3f);
+
 				PortraitManager.Load();
 
 				AutoSellUI_INTERFACE = new UserInterface();
@@ -746,7 +765,10 @@ namespace SpiritMod
 				JemShaders = instance.GetEffect("Effects/JemShaders");
 				SunOrbShader = instance.GetEffect("Effects/SunOrbShader");
 				ThyrsusShader = instance.GetEffect("Effects/ThyrsusShader");
+				JetbrickTrailShader = instance.GetEffect("Effects/JetbrickTrailShader");
+				OutlinePrimShader = instance.GetEffect("Effects/OutlinePrimShader");
 				GSaber = instance.GetEffect("Effects/GSaber");
+				AnthemCircle = instance.GetEffect("Effects/AnthemCircle");
 
 				SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
 				Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
@@ -787,6 +809,7 @@ namespace SpiritMod
 				//Music Boxes
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/TranquilWinds"), ItemType("TranquilWindsBox"), TileType("TranquilWindsBox"));
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech"), ItemType("NeonMusicBox"), TileType("NeonMusicBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech1"), ItemType("HyperspaceDayBox"), TileType("HyperspaceDayBox"));
 
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritOverworld"), ItemType("SpiritBox1"), TileType("SpiritBox1"));
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer1"), ItemType("SpiritBox2"), TileType("SpiritBox2"));
@@ -843,11 +866,29 @@ namespace SpiritMod
 				InitStargoop();
 				Boids.LoadContent();
 				AdditiveCallManager.Load();
+
+				RhythmMinigame.LoadStatic();
+				GuitarMinigame.LoadStatic();
 			}
 			// LoadDetours();
 
 			// using a mildly specific name to avoid mod clashes
 			ChatManager.Register<UI.Chat.QuestTagHandler>(new string[] { "sq", "spiritQuest" });
+		}
+
+		public override void PreUpdateEntities()
+		{
+			if (!Main.dedServ)
+			{
+				if (_lastScreenSize != new Vector2(Main.screenWidth, Main.screenHeight) && primitives != null)
+					primitives.LoadContent(Main.graphics.GraphicsDevice);
+
+				if(_lastViewSize != Main.ViewSize && Metaballs != null)
+					Metaballs.Initialize(Main.graphics.GraphicsDevice);
+
+				_lastScreenSize = new Vector2(Main.screenWidth, Main.screenHeight);
+				_lastViewSize = Main.ViewSize;
+			}
 		}
 
 		/// <summary>
@@ -937,6 +978,8 @@ namespace SpiritMod
 			ArcLashShader = null;
 			JemShaders = null;
 			ThyrsusShader = null;
+			JetbrickTrailShader = null;
+			OutlinePrimShader = null;
 			SunOrbShader = null;
 			noise = null;
 			instance = null;

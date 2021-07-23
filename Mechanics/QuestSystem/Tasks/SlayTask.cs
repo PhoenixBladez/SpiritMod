@@ -91,10 +91,11 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public string GetObjectives(bool showProgress)
 		{
 			StringBuilder builder = new StringBuilder();
-
-			string count = _killsRequired > 1 ? _killsRequired.ToString() : "a";
-			builder.Append("Kill ").Append(count).Append(" ");
-
+			if (_monsterNameOverride == null)
+			{
+				string count = _killsRequired > 1 ? _killsRequired.ToString() : "a";
+				builder.Append("Kill ").Append(count).Append(" ");
+			}
 			// start with: - Kill x monster, monster or monster
 			if (_monsterNameOverride == null)
 			{

@@ -44,6 +44,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 
 		public override void AI()
 		{
+			//lock the projectile's position to the player's center, and make the player "hold" the projectile
 			Player projOwner = Main.player[projectile.owner];
 			Vector2 ownerMountedCenter = projOwner.RotatedRelativePoint(projOwner.MountedCenter, true);
 			projectile.direction = projOwner.direction;
@@ -51,6 +52,8 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 			projOwner.itemTime = 2;
 			projOwner.itemAnimation = 2;
 			Lighting.AddLight(projectile.Center, new Color(255, 236, 115).ToVector3() * (float)Math.Pow(Charge / maxcharge, 2));
+
+			//reset the swing and increase charge, and update the direction
 			if(++Timer % TimePerSwing == 0 && projOwner == Main.LocalPlayer)
 			{
 				if(!projOwner.channel || Charge >= maxcharge)
@@ -67,10 +70,12 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 				Main.PlaySound(projOwner.HeldItem.UseSound, ownerMountedCenter);
 			}
 
+			//move the projectile from the player's center to where it would be for a swing
 			float Distance = 20 + (Math.Abs((float)Math.Sin((Timer/TimePerSwing) * MathHelper.Pi)) * 150 * ((Charge == maxcharge) ? 0.75f : 1));
 			projectile.Center = ownerMountedCenter;
 			projectile.position += Vector2.Normalize(projectile.velocity).RotatedBy(MathHelper.Lerp(RotationOffset, -RotationOffset, (Timer/TimePerSwing) % 1)) * Distance;
-
+			
+			//fire a wave halfway through the final swing
 			if(Charge == maxcharge && (Timer % TimePerSwing) == TimePerSwing / 2)
 			{
 				Projectile proj = Projectile.NewProjectileDirect(projectile.Center, projectile.velocity * 6, ModContent.ProjectileType<Talon_Projectile>(), projectile.damage, projectile.knockBack, projectile.owner);
@@ -79,7 +84,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starCast").WithPitchVariance(0.3f), projectile.Center);
 			}
 
-			projOwner.itemRotation = MathHelper.WrapAngle(projOwner.AngleTo(projectile.Center) - ((projOwner.direction < 0) ? MathHelper.Pi : 0));
+			//set the owner's direction and item rotation, and the projectile's rotation
 			projOwner.ChangeDir(projectile.velocity.X > 0 ? 1 : -1);
 
 			projectile.rotation = projectile.AngleFrom(ownerMountedCenter) + MathHelper.ToRadians(135f);

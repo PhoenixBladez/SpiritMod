@@ -41,8 +41,9 @@ namespace SpiritMod.NPCs.Town
 		public override void SetDefaults()
 		{
 			npc.CloneDefaults(NPCID.Guide);
-			npc.townNPC = true;
+			npc.townNPC = false;
 			npc.friendly = true;
+			npc.immortal = true;
 			npc.aiStyle = 7;
 			npc.damage = 30;
 			npc.defense = 30;
@@ -56,24 +57,26 @@ namespace SpiritMod.NPCs.Town
 		{
 			if (Mechanics.QuestSystem.QuestManager.GetQuest<Mechanics.QuestSystem.Quests.FirstAdventure>().IsActive)
 			{
-				Main.PlaySound(SoundID.DoubleJump, npc.Center, 0);
-				Rectangle textPos = new Rectangle((int)npc.position.X, (int)npc.position.Y - 60, npc.width, npc.height);
-				CombatText.NewText(textPos, new Color(255, 240, 0, 100), "Gotta go adventurin', see you later!");
-				for (int i = 0; i < 2; i++)
+				if (npc.active)
 				{
-					Gore.NewGore(npc.position, npc.velocity, 11);
-					Gore.NewGore(npc.position, npc.velocity, 13);
-					Gore.NewGore(npc.position, npc.velocity, 12);
+					Main.PlaySound(SoundID.DoubleJump, npc.Center, 0);
+					Rectangle textPos = new Rectangle((int)npc.position.X, (int)npc.position.Y - 60, npc.width, npc.height);
+					CombatText.NewText(textPos, new Color(255, 240, 0, 100), "Gotta go adventurin', see you later!");
+					for (int i = 0; i < 2; i++)
+					{
+						Gore.NewGore(npc.position, npc.velocity, 11);
+						Gore.NewGore(npc.position, npc.velocity, 13);
+						Gore.NewGore(npc.position, npc.velocity, 12);
+					}
+					npc.life = -1;
+					npc.active = false;
 				}
-				npc.life = 0;
-				npc.active = false;
-
-				if (Main.netMode != NetmodeID.MultiplayerClient)
-					NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI);
 			}
 		}
-		public override bool CanTownNPCSpawn(int numTownNPCs, int money) => false;
-
+		public override bool CanChat()
+		{
+			return true;
+		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0) {

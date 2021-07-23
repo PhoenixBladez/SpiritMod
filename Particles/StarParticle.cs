@@ -40,7 +40,7 @@ namespace SpiritMod.Particles
 
 		public override void Update()
 		{
-			opacity = (float)Math.Sin((MaxTime - TimeActive / (float)MaxTime) * MathHelper.Pi);
+			opacity = (float)Math.Sin(((float)TimeActive / MaxTime) * MathHelper.Pi);
 			Color = bloomColor * opacity;
 			Lighting.AddLight(Position, Color.R / 255f, Color.G / 255f, Color.B / 255f);
 			Velocity *= 0.98f;

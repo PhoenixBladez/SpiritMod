@@ -41,6 +41,8 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 			npc.HitSound = new Terraria.Audio.LegacySoundStyle(3, 6);
 			npc.DeathSound = new Terraria.Audio.LegacySoundStyle(4, 5);
 		}
+
+		public override bool? CanBeHitByProjectile(Projectile projectile) => (projectile.type != ProjectileID.Boulder && projectile.type != ProjectileID.BoulderStaffOfEarth);
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];

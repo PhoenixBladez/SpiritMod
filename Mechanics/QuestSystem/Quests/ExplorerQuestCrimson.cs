@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Microsoft.Xna.Framework;
+
 using Terraria;
 using Terraria.ModLoader;
 
@@ -13,7 +15,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
     {
         public override string QuestName => "Body Horrors";
 		public override string QuestClient => "The Guide";
-		public override string QuestDescription => "So you're planning on staying in this world for a while, huh? We've got a lot of exploring to do before we can get a grasp of this region. We need to know how dangerous the Crimson fields are and how to deal with those disgusting Face Monsters. I'm not strong enough, so you'll need to handle this alone.";
+		public override string QuestDescription => "So you're planning on staying in this world for a while, huh? We've got a lot of exploring to do before we can get a grasp of this region. We need to know how dangerous the Crimson fields are and how to deal with those disgusting Face Monsters. I'm not strong enough, so you'll need to handle this alone. If you can survive there, you can explore the other territories the Adventurer mentioned in his journal.";
 		public override int Difficulty => 2;
 		public override string QuestCategory => "Explorer";
 
@@ -43,7 +45,9 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			QuestManager.UnlockQuest<ExplorerQuestAurora>(showUnlocks);
 			QuestManager.UnlockQuest<ExplorerQuestLuminous>(showUnlocks);
 
-            base.OnQuestComplete();
+			QuestManager.SayInChat("Click on quests in the chat to open them in the book!", Color.White);
+
+			base.OnQuestComplete();
         }
     }
 }

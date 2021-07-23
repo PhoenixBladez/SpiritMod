@@ -21,10 +21,11 @@ namespace SpiritMod.Mechanics.QuestSystem
 		private int[] _itemIDs;
 		private int[] _itemStacks;
 		private bool _takenItems;
+		private int _optionalReward;
 
 		public GiveNPCTask() { }
 
-		public GiveNPCTask(int npcType, int[] giveItem, int[] stack, string text, string objective = null, bool requireAll = true, bool takeItems = true)
+		public GiveNPCTask(int npcType, int[] giveItem, int[] stack, string text, string objective = null, bool requireAll = true, bool takeItems = true, Nullable<int> optionalReward = null)
 		{
 			_npcType = npcType;
 			_objective = objective;
@@ -40,12 +41,13 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 			RequireAllItems = requireAll;
 			TakeItems = takeItems;
+			_optionalReward = optionalReward.GetValueOrDefault();
 			NPCText = text;
 
 			_takenItems = false;
 		}
 
-		public GiveNPCTask(int npcType, int giveItem, int stack, string text, string objective, bool requireAll = true, bool takeItems = true) : this(npcType, new int[] { giveItem }, new int[] { stack }, text, objective, requireAll, takeItems)
+		public GiveNPCTask(int npcType, int giveItem, int stack, string text, string objective, bool requireAll = true, bool takeItems = true, Nullable<int> optionalReward = null) : this(npcType, new int[] { giveItem }, new int[] { stack }, text, objective, requireAll, takeItems, optionalReward)
 		{ }
 		public override QuestTask Parse(object[] args)
 		{
@@ -80,7 +82,13 @@ namespace SpiritMod.Mechanics.QuestSystem
 					if (ScanForItems(Main.LocalPlayer))
 					{
 						if (TakeItems && !_takenItems)
+						{
 							RemoveItems(Main.LocalPlayer);
+						}
+						if (_optionalReward != null)
+						{
+							Main.LocalPlayer.QuickSpawnItem((int)_optionalReward);
+						}
 						Main.npcChatText = NPCText;
 						return true;
 					}
@@ -95,7 +103,13 @@ namespace SpiritMod.Mechanics.QuestSystem
 						if (ScanForItems(Main.player[i]))
 						{
 							if (TakeItems && !_takenItems)
+							{
 								RemoveItems(Main.player[i]);
+							}
+							if (_optionalReward != null)
+							{
+								Main.player[i].QuickSpawnItem(_optionalReward);
+							}
 							Main.npcChatText = NPCText;
 							return true;
 						}
@@ -135,7 +149,6 @@ namespace SpiritMod.Mechanics.QuestSystem
 			{
 				if (!requirements.Contains(false))
 				{
-					Main.NewText("Completed!");
 					return true;
 				}
 				Item item = p.inventory[i];

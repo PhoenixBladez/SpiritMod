@@ -15,10 +15,11 @@ namespace SpiritMod.Items.Weapon.Summon.PigronStaff
 	public class PigronMinion : BaseMinion
 	{
 		public PigronMinion() : base(800, 1800, new Vector2(30, 30)) { }
+
 		public override void AbstractSetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pigron");
-			Main.projFrames[projectile.type] = 14;
+			Main.projFrames[projectile.type] = 7;
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
 		}
@@ -31,42 +32,65 @@ namespace SpiritMod.Items.Weapon.Summon.PigronStaff
 
 		public override bool PreAI()
 		{
-			projectile.direction = projectile.spriteDirection = Math.Sign(-projectile.velocity.X);
-			projectile.rotation = projectile.velocity.ToRotation() + (projectile.direction > 0 ? MathHelper.Pi : 0);
 			if (Main.rand.Next(600) == 0 && Main.netMode != NetmodeID.Server)
 				Main.PlaySound(SoundID.Zombie, (int)projectile.Center.X, (int)projectile.Center.Y, Main.rand.Next(39, 41), 0.33f, 0.5f);
 
 			return true;
 		}
 
+		private int BiomeType => IndexOfType % 3;
+
 		public override void IdleMovement(Player player)
 		{
-			if(projectile.Distance(player.Center) > 70)
-				projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(player.Center) * MathHelper.Clamp(projectile.Distance(player.Center) / 50, 8, 14), 0.04f / (IndexOfType/3f + 1));
+			projectile.direction = projectile.spriteDirection = (projectile.Center.X < player.MountedCenter.X) ? -1 : 1;
+			Vector2 targetCenter = player.MountedCenter - new Vector2(50 * (IndexOfType + 1) * player.direction, 50 + (float)(Math.Sin((Main.GameUpdateCount / 8f) + IndexOfType) * 6));
+			projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(targetCenter) * 
+				MathHelper.Clamp(projectile.Distance(targetCenter) * (float)Math.Pow((float)IndexOfType / (player.ownedProjectileCounts[projectile.type] + 1) + 1, 2) / 20, 3, 24), 0.03f);
 
-			if (projectile.Distance(player.Center) > 1800)
+			projectile.rotation = Utils.AngleLerp(projectile.velocity.X * 0.05f, projectile.velocity.ToRotation() + (projectile.direction > 0 ? MathHelper.Pi : 0), 
+				MathHelper.Clamp((projectile.Distance(targetCenter) - 200) / 200f, 0, 1f));
+
+			if (projectile.Distance(targetCenter) > 1800)
 			{
-				projectile.Center = player.Center;
+				projectile.Center = targetCenter;
 				projectile.netUpdate = true;
 			}
 
 			projectile.ai[0] = 0;
-			projectile.ai[1] = 0;
+			projectile.ai[1] = -1;
 			projectile.alpha = Math.Max(projectile.alpha - 8, 0);
 		}
 
 		public override void TargettingBehavior(Player player, NPC target)
 		{
 			projectile.ai[0] = 1;
-			if(Main.rand.Next(9) == 0 && projectile.velocity.Length() > 7)
+			projectile.direction = projectile.spriteDirection = (projectile.velocity.X < 1) ? 1 : -1;
+			projectile.rotation = projectile.velocity.ToRotation() + (projectile.direction > 0 ? MathHelper.Pi : 0);
+			if (Main.rand.Next(9) == 0 && projectile.velocity.Length() > 7)
 			{
-				Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 255, projectile.velocity.X / 3, projectile.velocity.Y / 3, 100, default, Main.rand.NextFloat(0.7f, 1.2f));
+				int dustID = 0;
+				switch (BiomeType)
+				{
+					case 0:
+						dustID = DustID.CrystalPulse2;
+						break;
+					case 1:
+						dustID = 112;
+						break;
+					case 2:
+						dustID = 114;
+						break;
+				}
+				Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, dustID, projectile.velocity.X / 3, projectile.velocity.Y / 3, 100, default, Main.rand.NextFloat(0.7f, 1.2f));
 				dust.fadeIn = 0.8f;
 				dust.noGravity = true;
 			}
 
 			switch (projectile.ai[1])
 			{
+				case -1:
+					projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center) * 12, 0.1f);
+					goto case 4;
 				case 0:
 				case 2:
 				case 4:
@@ -109,7 +133,7 @@ namespace SpiritMod.Items.Weapon.Summon.PigronStaff
 					{
 						projectile.velocity = projectile.velocity.RotatedBy(projectile.localAI[1] * MathHelper.TwoPi / 20);
 						if(projectile.localAI[0] % 7 == 0){
-							Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<HallowBubble>(), projectile.damage / 3, projectile.knockBack, projectile.owner, target.whoAmI);
+							Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<PigronBubble>(), projectile.damage / 3, projectile.knockBack, projectile.owner, target.whoAmI, BiomeType);
 							projectile.netUpdate = true;
 						}
 					}
@@ -138,18 +162,40 @@ namespace SpiritMod.Items.Weapon.Summon.PigronStaff
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			if(projectile.ai[0] == 1)
-				projectile.QuickDrawTrail(spriteBatch);
-			projectile.QuickDraw(spriteBatch);
+			Texture2D drawTex = ModContent.GetTexture(Texture);
+			Color trailColor = Color.Pink;
+			switch (BiomeType) {
+				case 1:
+					trailColor = Color.Purple;
+					drawTex = ModContent.GetTexture(Texture + "_corrupt");
+					break;
+				case 2:
+					trailColor = Color.Red;
+					drawTex = ModContent.GetTexture(Texture + "_crim");
+					break;
+			}
+
+			if (projectile.ai[0] == 1) { 
+				for(int i = 0; i < ProjectileID.Sets.TrailCacheLength[projectile.type]; i++)
+				{
+					float opacity = (ProjectileID.Sets.TrailCacheLength[projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[projectile.type];
+					opacity *= 0.5f * projectile.Opacity;
+					spriteBatch.Draw(drawTex, projectile.oldPos[i] + (projectile.Size / 2) - Main.screenPosition, projectile.DrawFrame(), trailColor * opacity, projectile.oldRot[i], 
+						projectile.DrawFrame().Size() / 2, projectile.scale, (projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+				}
+			}
+
+			spriteBatch.Draw(drawTex, projectile.Center - Main.screenPosition, projectile.DrawFrame(), lightColor * projectile.Opacity, projectile.rotation, projectile.DrawFrame().Size() / 2, 
+				projectile.scale, (projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 			return false;
 		}
 	}
 
-	internal class HallowBubble : ModProjectile, IDrawAdditive
+	internal class PigronBubble : ModProjectile, IDrawAdditive
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Hallow Bubble");
+			DisplayName.SetDefault("Pigron Bubble");
 			ProjectileID.Sets.MinionShot[projectile.type] = true;
 		}
 
@@ -163,6 +209,8 @@ namespace SpiritMod.Items.Weapon.Summon.PigronStaff
 			projectile.rotation = Main.rand.NextFloat(MathHelper.Pi);
 			projectile.hide = true;
 		}
+
+		private int BiomeType => (int)projectile.ai[1];
 
 		public override void AI()
 		{
@@ -183,7 +231,21 @@ namespace SpiritMod.Items.Weapon.Summon.PigronStaff
 
 			for(int i = 0; i < 12; i++)
 			{
-				Dust dust = Dust.NewDustPerfect(projectile.Center, 255, Main.rand.NextVector2Circular(5, 5), 50, default, (projectile.scale / 3) * Main.rand.NextFloat(0.7f, 1.3f));
+				int dustID = 0;
+				switch (BiomeType)
+				{
+					case 0:
+						dustID = DustID.CrystalPulse2;
+						break;
+					case 1:
+						dustID = 112;
+						break;
+					case 2:
+						dustID = 114;
+						break;
+				}
+
+				Dust dust = Dust.NewDustPerfect(projectile.Center, dustID, Main.rand.NextVector2Circular(5, 5), 50, default, (projectile.scale / 3) * Main.rand.NextFloat(0.7f, 1.3f));
 				dust.noGravity = true;
 				dust.fadeIn = 0.4f;
 			}
@@ -194,14 +256,23 @@ namespace SpiritMod.Items.Weapon.Summon.PigronStaff
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
 			Texture2D tex = Main.projectileTexture[projectile.type];
-			Color drawColor = Color.White;
+			Color drawColor = new Color(255, 99, 229);
+			switch (BiomeType)
+			{
+				case 1:
+					drawColor = new Color(131, 8, 255);
+					break;
+				case 2:
+					drawColor = Color.Red;
+					break;
+			}
 			float glowscale = (float)(Math.Sin(Main.GlobalTime * 4) / 5 + 1);
 			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, drawColor, projectile.rotation, tex.Size() / 2, projectile.scale, SpriteEffects.None, 0);
 			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, drawColor * 0.75f, projectile.rotation, tex.Size() / 2, projectile.scale * glowscale, SpriteEffects.None, 0);
 			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, drawColor * 0.75f, projectile.rotation, tex.Size() / 2, projectile.scale * (1/glowscale), SpriteEffects.None, 0);
 
 			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
-			spriteBatch.Draw(bloom, projectile.Center - Main.screenPosition, null, Color.Pink * 0.75f, projectile.rotation, bloom.Size() / 2, projectile.scale/3.5f, SpriteEffects.None, 0);
+			spriteBatch.Draw(bloom, projectile.Center - Main.screenPosition, null, Color.Lerp(drawColor, Color.White, 0.25f) * 0.8f, projectile.rotation, bloom.Size() / 2, projectile.scale/3.5f, SpriteEffects.None, 0);
 		}
 	}
 }

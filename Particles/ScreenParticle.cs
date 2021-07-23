@@ -11,6 +11,7 @@ namespace SpiritMod.Particles
 	public abstract class ScreenParticle : Particle
 	{
 		public Vector2 OriginalScreenPosition;
+		public float ParallaxStrength;
 		protected float activeOpacity;
 
 		/// <summary>
@@ -48,8 +49,8 @@ namespace SpiritMod.Particles
 		/// <returns>The position on the screen to draw the particle, with a parallax effect, screen wrapping, and adjusting for game zoom</returns>
 		public Vector2 GetDrawPosition()
 		{
-			//modify the drawing position based on the difference between the current screen position, the original screen position when spawned, and the scale of the particle
-			Vector2 drawPosition = Position - Vector2.Lerp(Main.screenPosition, Main.screenPosition - 2 * (OriginalScreenPosition - Main.screenPosition), Scale);
+			//modify the drawing position based on the difference between the current screen position, the original screen position when spawned, and the strength of the parallax effect
+			Vector2 drawPosition = Position - Vector2.Lerp(Main.screenPosition, Main.screenPosition - 2 * (OriginalScreenPosition - Main.screenPosition), ParallaxStrength);
 
 			//modify the position to keep particles onscreen at all times, as to not easily all be cleared due to parallax effect
 			Vector2 ScreenSize = new Vector2(Main.screenWidth, Main.screenHeight);

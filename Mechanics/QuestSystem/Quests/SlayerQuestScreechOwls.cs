@@ -30,7 +30,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		private SlayerQuestScreechOwls()
         {
-            _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.ScreechOwl.ScreechOwl>(), 2, "Screech Owls"));
+            _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.ScreechOwl.ScreechOwl>(), 2));
         }
 
     	public override void OnQuestComplete()

@@ -17,17 +17,21 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		private int _npcType;
 		private Nullable<float> _spawnIncrease;
+		private int _itemReceived;
 		private string _objective;
 		public readonly string NPCText = "Have a great day!";
+		private bool hasTakenItems;
 
 		public TalkNPCTask() { }
 
-		public TalkNPCTask(int npcType, string text, string objective = null, Nullable<float> spawnIncrease = null)
+		public TalkNPCTask(int npcType, string text, string objective = null, Nullable<float> spawnIncrease = null, Nullable<int> itemReceived = null)
 		{
 			_npcType = npcType;
 			NPCText = text;
-			_spawnIncrease = spawnIncrease;
 			_objective = objective;
+			_spawnIncrease = spawnIncrease;
+			_itemReceived = itemReceived.GetValueOrDefault();
+			hasTakenItems = false;
 		}
 
 		public override QuestTask Parse(object[] args)
@@ -63,9 +67,14 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			if (Main.netMode == Terraria.ID.NetmodeID.SinglePlayer)
 			{
-				if (Main.LocalPlayer.talkNPC != -1)
+				if (Main.LocalPlayer.talkNPC != -1 && Main.npc[Main.LocalPlayer.talkNPC].type == _npcType)
 				{
 					Main.npcChatText = NPCText;
+					if (_itemReceived != null && !hasTakenItems)
+					{
+						Main.LocalPlayer.QuickSpawnItem(_itemReceived);
+						hasTakenItems = true;
+					}
 					return Main.npc[Main.LocalPlayer.talkNPC].type == _npcType;
 				}
 			}
@@ -76,6 +85,11 @@ namespace SpiritMod.Mechanics.QuestSystem
 					if (Main.player[i].active && Main.player[i].talkNPC >= 0 && Main.npc[Main.player[i].talkNPC].netID == _npcType)
 					{
 						Main.npcChatText = NPCText;
+						if (_itemReceived != null && !hasTakenItems)
+						{
+							Main.player[i].QuickSpawnItem((int)_itemReceived);
+							hasTakenItems = true;
+						}
 						return true;
 					}
 				}

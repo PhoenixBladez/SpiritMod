@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Prim;
+using Terraria.Audio;
 
 namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 {
@@ -37,6 +38,8 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 			item.ranged = true;
 			item.channel = true;
 			item.noUseGraphic = true;
+			item.useAmmo = AmmoID.Gel;
+			item.UseSound = SoundID.DD2_SkyDragonsFuryShot;
 		}
 		public override Vector2? HoldoutOffset()
 		{
@@ -101,6 +104,13 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 
 			if (player.channel)
 			{
+				if (projectile.soundDelay <= 0)
+				{
+					projectile.soundDelay = 10;
+					projectile.soundDelay *= 2;
+					Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 15);
+
+				}
 				projectile.timeLeft = 2;
 				counter++;
 				projectile.frame = (counter / 5) % 4;

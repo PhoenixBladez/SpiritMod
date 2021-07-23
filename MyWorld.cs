@@ -97,6 +97,7 @@ namespace SpiritMod
 		public static int ReachTiles = 0;
 		public static int HiveTiles = 0;
 		public static int CorruptHazards = 0;
+		public static int CrimHazards = 0;
 
 		public static bool Magicite = false;
 		public static bool Cryolite = false;
@@ -152,6 +153,7 @@ namespace SpiritMod
 			ReachTiles = tileCounts[ModContent.TileType<BriarGrass>()];
 			AsteroidTiles = tileCounts[ModContent.TileType<Asteroid>()] + tileCounts[ModContent.TileType<BigAsteroid>()] + tileCounts[ModContent.TileType<SpaceJunkTile>()] + tileCounts[ModContent.TileType<Glowstone>()];
 			CorruptHazards = tileCounts[ModContent.TileType<Corpsebloom>()] + tileCounts[ModContent.TileType<Corpsebloom1>()] + tileCounts[ModContent.TileType<Corpsebloom2>()];
+			CrimHazards = tileCounts[TileType<CrimsonPustuleTile>()];
 			MarbleTiles = tileCounts[TileID.Marble];
 			GraniteTiles = tileCounts[TileID.Granite];
 			HiveTiles = tileCounts[TileID.Hive];
@@ -1543,7 +1545,7 @@ namespace SpiritMod
 				else {
 					luminousOcean = false;
 				}
-                if (!Main.dayTime && (Main.moonPhase == 2 || Main.moonPhase == 5) && !Main.bloodMoon && Main.rand.Next(2) == 0)
+                if (!Main.dayTime && (Main.moonPhase == 2 || Main.moonPhase == 6) && !Main.bloodMoon && Main.rand.Next(2) == 0)
                 {
                     calmNight = true;
                 }

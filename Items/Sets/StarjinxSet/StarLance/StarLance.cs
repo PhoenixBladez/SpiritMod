@@ -120,8 +120,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarLance
 						}
 
                         Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 105, 0.5f, 0.5f);
+						Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.SmallExplosion>(), (int)(projectile.damage * Main.rand.NextFloat(0.85f, 1.15f)), 0, projectile.owner);
 
-                        target.StrikeNPC((int)(projectile.damage * Main.rand.NextFloat(0.85f,1.15f)), 0f, 0);
 					}
 					if (projectile.scale > 1)
 						projectile.scale = ((projectile.scale - 1) / 2f) + 1;

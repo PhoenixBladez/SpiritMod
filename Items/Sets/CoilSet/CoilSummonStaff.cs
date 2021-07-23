@@ -79,7 +79,7 @@ namespace SpiritMod.Items.Sets.CoilSet
 			player.FindSentryRestingSpot(type, out int worldX, out int worldY, out int pushYUp);
 			Projectile.NewProjectile(worldX, worldY - pushYUp, speedX, speedY, type, damage, knockBack, player.whoAmI);
 			player.UpdateMaxTurrets();
-			return false;
+			return player.altFunctionUse != 2;
 		}
 		public override void AddRecipes()
 		{

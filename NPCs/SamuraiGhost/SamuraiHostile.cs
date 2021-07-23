@@ -210,7 +210,7 @@ namespace SpiritMod.NPCs.SamuraiGhost
 				if(Main.netMode != NetmodeID.MultiplayerClient) {
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
-					direction.X *= 17;
+					direction.X *= 18;
 					direction.Y *= 9;
 					npc.velocity.X = direction.X;
 					npc.velocity.Y = direction.Y;

@@ -108,8 +108,8 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 			if (modOwner.EyeballMinion)
 				projectile.timeLeft = 2;
 
-			float maxRange = 160f;
-			int range = 10;
+			float maxRange = 600f;
+			int range = 22;
 
 			if (projectile.ai[1] == -1) //boilerplate, sorry
 			{
@@ -164,7 +164,7 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 				posToBe.Y -= 30;
 				posToBe += player.Center;
 
-				if (attackCounter % 7 > 6.8)
+				if (attackCounter % 5 > 4.8)
 					attacking = true;
 			}
 			else

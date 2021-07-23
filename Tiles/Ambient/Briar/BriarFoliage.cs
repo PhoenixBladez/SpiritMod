@@ -55,7 +55,13 @@ namespace SpiritMod.Tiles.Ambient.Briar
 		{
 			offsetY = 2;
 		}
-
+		public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
+		{
+			if (Main.rand.NextBool(8))
+			{
+				Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Placeable.Tiles.BriarGrassSeeds>());
+			}
+		}
 		public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
 		{
 			Tile tileBelow = Framing.GetTileSafely(i, j + 1);

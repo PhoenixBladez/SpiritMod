@@ -122,8 +122,8 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
 			Texture2D texture = Main.projectileTexture[projectile.type];
 			int frameHeight = texture.Height / Main.projFrames[projectile.type];
 			Rectangle frameRect = new Rectangle(0, projectile.frame * frameHeight, texture.Width, frameHeight);
-			Main.spriteBatch.Draw(mod.GetTexture("Items/Weapon/Magic/ScreamingTome/ScreamingSkull"), projectile.Center - Main.screenPosition, frameRect, drawColor, 0f, center, 1, spriteEffects3, 0f);
-			Main.spriteBatch.Draw(mod.GetTexture("Items/Weapon/Magic/ScreamingTome/ScreamingSkull_Glow"), projectile.Center - Main.screenPosition, frameRect, Color.White, 0f, center, 1, spriteEffects3, 0f);
+			Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frameRect, drawColor, 0f, center, 1, spriteEffects3, 0f);
+			Main.spriteBatch.Draw(ModContent.GetTexture(Texture + "_glow"), projectile.Center - Main.screenPosition, frameRect, Color.White, 0f, center, 1, spriteEffects3, 0f);
 
 			//Main.spriteBatch.End();
 			//Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);

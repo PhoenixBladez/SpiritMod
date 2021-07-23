@@ -62,23 +62,20 @@ namespace SpiritMod.Items.Consumable.Potion
 				player.AddBuff(BuffID.PotionSickness, 3600);
 			else
 				player.AddBuff(BuffID.PotionSickness, 2700);
-			if (player.statLife <= player.statLifeMax2 - 100)
-			{
-				player.statLife += 100;
-				player.HealEffect(100);
-			}
-			else
-			{
-				player.statLife += (int)(player.statLifeMax2 - player.statLifeMax);
-				player.HealEffect(player.statLifeMax2 - player.statLifeMax);
-			}
             if (player.statLife == player.statLifeMax2)
             {
                 return false;
             }
 			return true;
 		}
-
+		public override void GetHealLife(Player player, bool quickHeal, ref int healValue)
+		{
+			healValue = 100;
+		}
+		public override bool ConsumeItem(Player player)
+		{
+			return false;
+		}
 		public override void UpdateInventory(Player player) => item.healLife = 100; //update the heal life back to 120 for tooltip and quick heal purposes
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)

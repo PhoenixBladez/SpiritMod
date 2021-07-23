@@ -6,6 +6,7 @@ using System.Text;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Items.Weapon.Magic.RealityQuill
 {
@@ -13,6 +14,13 @@ namespace SpiritMod.Items.Weapon.Magic.RealityQuill
 	{
 		Vector2 lastSpawnPos;
 		float lastTimeSpawned;
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Void Quill");
+			Tooltip.SetDefault("Creates a tear in reality, damaging enemies\n'Write your own destiny'");
+			SpiritGlowmask.AddGlowMask(item.type, Texture + "_glow");
+		}
+
 		public override void SetDefaults()
 		{
 			item.damage = 100;
@@ -33,12 +41,6 @@ namespace SpiritMod.Items.Weapon.Magic.RealityQuill
 			item.shoot = ModContent.ProjectileType<RealityQuillProjectileTwo>();
 		}
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Void Quill");
-			Tooltip.SetDefault("Creates a tear in reality, damaging enemies\n'Write your own destiny'");
-		}
-
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Vector2 mouseDelta = Main.MouseWorld;
@@ -46,7 +48,9 @@ namespace SpiritMod.Items.Weapon.Magic.RealityQuill
 			return false;
 		}
 
-        public override void AddRecipes()
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, item, ModContent.GetTexture(Texture + "_glow"), rotation, scale);
+
+		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.FragmentNebula, 18);

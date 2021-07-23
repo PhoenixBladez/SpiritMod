@@ -50,23 +50,23 @@ namespace SpiritMod.Mechanics.QuestSystem
 				npc.type == ModContent.NPCType<NPCs.Boss.MoonWizard.MoonWizard>() ||
 				npc.type == ModContent.NPCType<NPCs.Boss.SteamRaider.SteamRaiderHead>())
             {
-                QuestManager.UnlockQuest<SlayerQuestOccultist>(true);
-                QuestManager.UnlockQuest<UnidentifiedFloatingObjects>(true);
+				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<SlayerQuestOccultist>());
+				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<UnidentifiedFloatingObjects>());
             }
 
             if (npc.type == NPCID.EaterofWorldsHead)
 			{
-                QuestManager.UnlockQuest<SlayerQuestMarble>(true);
-                QuestManager.UnlockQuest<SlayerQuestMeteor>(true);                
+				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<SlayerQuestMarble>());
             }
 
             if (npc.type == NPCID.SkeletronHead)
             {
-                QuestManager.UnlockQuest<RaidingTheStars>(true);
-                QuestManager.UnlockQuest<SongOfIceAndFire>(true);
-				QuestManager.UnlockQuest<StrangeSeas>(true);
-            }
-            OnNPCLoot?.Invoke(npc);
+				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<RaidingTheStars>());
+				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<StrangeSeas>());
+				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<RuneWizard>(), QuestManager.GetQuest<IceDeityQuest>());
+
+			}
+			OnNPCLoot?.Invoke(npc);
         }
 
 		public override void SetupShop(int type, Chest shop, ref int nextSlot)
@@ -80,6 +80,19 @@ namespace SpiritMod.Mechanics.QuestSystem
 						shop.item[nextSlot].SetDefaults(ItemType<Items.Placeable.Furniture.OccultistMap>(), false);
 						nextSlot++;
 					}
+				}
+			}
+			if (type == NPCID.Stylist)
+            {
+				if (QuestManager.GetQuest<StylistQuestSeafoam>().IsCompleted)
+				{
+					shop.item[nextSlot].SetDefaults(ItemType<Items.Sets.DyesMisc.HairDye.SeafoamDye>(), false);
+					nextSlot++;
+				}
+				if (QuestManager.GetQuest<StylistQuestMeteor>().IsCompleted)
+				{
+					shop.item[nextSlot].SetDefaults(ItemType<Items.Sets.DyesMisc.HairDye.MeteorDye>(), false);
+					nextSlot++;
 				}
 			}
 			if (type == ModContent.NPCType<Adventurer>())
@@ -106,8 +119,16 @@ namespace SpiritMod.Mechanics.QuestSystem
 					shop.item[nextSlot].SetDefaults(ItemType<Items.Consumable.SeedBag>(), false);
 					nextSlot++;
 				}
-				if (QuestManager.GetQuest<SlayerQuestWinterborn>().IsCompleted) {
+				if (QuestManager.GetQuest<IceDeityQuest>().IsCompleted) {
 					shop.item[nextSlot].SetDefaults(ItemType<Items.Weapon.Thrown.CryoKnife>(), false);
+					nextSlot++;
+				}
+			}
+			if (type == ModContent.NPCType<Adventurer>())
+			{
+				if (QuestManager.GetQuest<IceDeityQuest>().IsCompleted)
+				{
+					shop.item[nextSlot].SetDefaults(ItemType<Items.Placeable.IceSculpture.IceDeitySculpture>(), false);
 					nextSlot++;
 				}
 			}

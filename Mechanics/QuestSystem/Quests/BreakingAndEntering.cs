@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
@@ -29,7 +30,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		private BreakingAndEntering()
         {
-            _tasks.AddTask(new TalkNPCTask(ModContent.NPCType<Gambler>(), "Must be my lucky day to see a friendly face around here!\nThese goblins didn't take too kindly to me offering a, uh, rigged deal.\nAnyway, d'you have a place to stay? Let's flip for it.","Find the Arcane Goblin Tower and rescue the prisoner."))
+            _tasks.AddTask(new TalkNPCTask(ModContent.NPCType<Gambler>(), "Must be my lucky day to see a friendly face around here!\nThese goblins didn't take too kindly to me offering a, uh, rigged deal.\nAnyway, d'you have a place to stay? Let's flip for it.","Find the Arcane Goblin Tower and rescue the prisoner.", null, ItemID.StarWrath))
 				.AddTask(new RetrievalTask(ModContent.ItemType<Items.Weapon.Magic.ShadowflameStoneStaff>(), 1));
 		}
 

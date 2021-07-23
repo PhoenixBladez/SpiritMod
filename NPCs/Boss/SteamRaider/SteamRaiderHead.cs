@@ -698,7 +698,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					num14 = 0.0f;
 				Microsoft.Xna.Framework.Rectangle r2 = texture2D2.Frame(1, 1, 0, 0);
 				drawOrigin = r2.Size() / 2f;
-				Vector2 position3 = position1 + new Vector2(0.0f, -20f);
+				Vector2 position3 = position1 + new Vector2(0.0f, -24f);
 				Color color3 = new Microsoft.Xna.Framework.Color(255, 138, 36) * 1.6f;
 				Main.spriteBatch.Draw(texture2D2, position3, new Microsoft.Xna.Framework.Rectangle?(r2), color3, npc.rotation, drawOrigin, npc.scale * 0.5f, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
 				float num15 = 1f + num11 * 0.75f;

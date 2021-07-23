@@ -355,7 +355,7 @@ namespace SpiritMod.NPCs.FallingAsteroid
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			var effects = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
 							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/FallingAsteroid/Falling_Asteroid_Glow"));
