@@ -2,6 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using SpiritMod.Projectiles.Clubs;
 
 namespace SpiritMod.Items.Sets.ClubSubclass
 {
@@ -27,21 +28,14 @@ namespace SpiritMod.Items.Sets.ClubSubclass
             item.noMelee = true;
             item.knockBack = 12;
             item.useTurn = false;
-            item.value = Terraria.Item.sellPrice(0, 1, 42, 0);
+            item.value = Item.sellPrice(0, 1, 42, 0);
             item.rare = ItemRarityID.Orange;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("BassSlapperProj");
+			item.shoot = ModContent.ProjectileType<BassSlapperProj>();
             item.shootSpeed = 6f;
             item.noUseGraphic = true;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
-        }
-        public override bool CanUseItem(Player player)
-        {
-            return base.CanUseItem(player);
-        }
+
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-10, 0);
