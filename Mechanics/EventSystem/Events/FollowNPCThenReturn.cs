@@ -30,7 +30,7 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			{
 				if (_setReturn) return _currentTime >= lerpTime;
 
-				// the npc is dead
+				// the npc is dead or the time exceeds the max time
 				if (!npc.active || _type != npc.type || _currentTime > maxTime)
 				{
 					_currentTime = 0f;
@@ -38,7 +38,7 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 					// reset camera and make it a different one, this one set to return to the player
 					CameraController.CameraPointData data = camera.CurrentData;
 					camera.Reset();
-					camera.AddPoint(0f, new CameraController.StaticPoint(data), EaseFunction.Linear)
+					camera.AddPoint(0, new CameraController.StaticPoint(data), EaseFunction.Linear)
 						.AddPoint(lerpTime, new CameraController.EntityRelativePoint(Main.LocalPlayer, Vector2.Zero) { Zoom = new Vector2(Main.GameZoomTarget) }, EaseFunction.EaseQuadInOut);
 
 					_setReturn = true;

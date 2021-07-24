@@ -1173,7 +1173,7 @@ namespace SpiritMod
 
 		public override void PostUpdateEverything()
 		{
-			if (Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.I) && Terraria.GameInput.PlayerInput.MouseInfo.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed) {
+			/*if (Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.I) && Terraria.GameInput.PlayerInput.MouseInfo.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed) {
 				Tile tile = Framing.GetTileSafely(Player.tileTargetX, Player.tileTargetY);
 				if (!tile.active()) {
 					tile.active(true);
@@ -1190,7 +1190,7 @@ namespace SpiritMod
 					tile.type = (ushort)ModContent.TileType<Tiles.Block.BriarGrass>();
 					WorldGen.SquareTileFrame(Player.tileTargetX, Player.tileTargetY);
 				}
-			}
+			}*/
 
 			if (!Main.dedServ) {
 				ParticleHandler.RunRandomSpawnAttempts();
