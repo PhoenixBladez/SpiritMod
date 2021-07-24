@@ -109,7 +109,7 @@ namespace SpiritMod.Items.Sets.BloaterDrops
 			if (_charge > MinimumCharge && _endCharge == -1)
 				drawPos += new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * (ScalingCapped * 0.75f);
 
-			spriteBatch.Draw(t, drawPos, new Rectangle(0, 0, 42, 24), Color.White, realRot, new Vector2(21, 12), 1f, e, 1f);
+			spriteBatch.Draw(t, drawPos, new Rectangle(0, 0, 42, 24), lightColor, realRot, new Vector2(21, 12), 1f, e, 1f);
 			return false;
 		}
 	}
