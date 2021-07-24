@@ -80,9 +80,7 @@ namespace SpiritMod.Items.Sets.BloaterDrops
 			for (int i = 0; i < inc; i++) //Projectiles
 			{
 				Vector2 velocity = vel.RotatedByRandom(ScalingCapped * 0.2f) * Main.rand.NextFloat(0.9f, 1.1f);
-				int proj = Projectile.NewProjectile(p.Center, velocity, ProjectileID.ChlorophyteBullet, (int)(10 * ScalingCapped), 0.2f, projectile.owner);
-				Main.projectile[proj].penetrate = 0;
-				Main.projectile[proj].maxPenetrate = 0;
+				int proj = Projectile.NewProjectile(p.Center, velocity, ProjectileID.ChlorophyteBullet, (int)(10 * ScalingCapped), 1f, projectile.owner);
 			}
 
 			for (int i = 0; i < p.inventory.Length; ++i) //Consume ammo here so it's used when shot rather than when clicked
@@ -92,6 +90,7 @@ namespace SpiritMod.Items.Sets.BloaterDrops
 					p.inventory[i].stack--;
 					if (p.inventory[i].stack <= 0)
 						p.inventory[i].TurnToAir();
+					break;
 				}
 			}
 		}
