@@ -53,6 +53,7 @@ using System.Linq;
 using static Terraria.ModLoader.Core.TmodFile;
 using SpiritMod.Items.Weapon.Magic.Rhythm;
 using SpiritMod.Items.Weapon.Magic.Rhythm.Anthem;
+using SpiritMod.Mechanics.EventSystem;
 
 namespace SpiritMod
 {
@@ -996,7 +997,7 @@ namespace SpiritMod
 			QuestHUD = null;
 			QuestBookHotkey = null;
 			QuestHUDHotkey = null;
-			Mechanics.EventSystem.EventManager.Unload();
+			EventManager.Unload();
 
 			AdditiveCallManager.Unload();
 			SpiritGlowmask.Unload();

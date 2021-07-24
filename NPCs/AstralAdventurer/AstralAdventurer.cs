@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.AstralAdventurer
 {
-	public class AstralAdventurer : ModNPC
+	public class AstralAdventurer : SpiritNPC
 	{
 		public int pickedWeapon = 1;
 		public int flyingTimer = 0;
@@ -39,10 +39,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath1;
 		}
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-		{
-			npc.lifeMax = (int)(npc.lifeMax * bossLifeScale);
-		}
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = (int)(npc.lifeMax * bossLifeScale);
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -53,7 +50,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
 		{
 			Player player = Main.player[npc.target];
 			npc.TargetClosest(true);
-			CheckPlatform(player);
+			PlayerPlatformCheck(player);
 
 			flyingTimer++;
 			weaponTimer++;
@@ -69,7 +66,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
 			{
 				npc.aiStyle = 0;
 				npc.spriteDirection = -npc.direction;
-				flying();
+				Flying();
 				if (npc.velocity.X > .5f || npc.velocity.X < -.5f)
 				npc.rotation = npc.velocity.X * 0.15f;
 			}
@@ -78,7 +75,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
 				npc.rotation = 0f;
 				npc.aiStyle = -1;
 				npc.spriteDirection = -npc.direction;
-				walking();
+				Walking();
 			}
 			
 			Lighting.AddLight(new Vector2(npc.Center.X, npc.Center.Y), 0.5f, 0.25f, 0f);
@@ -158,21 +155,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
 			
 		}
 
-		private void CheckPlatform(Player player)
-		{
-			bool onplatform = true;
-			for (int i = (int)npc.position.X; i < npc.position.X + npc.width; i += npc.width / 4) {
-				Tile tile = Framing.GetTileSafely(new Point((int)npc.position.X / 16, (int)(npc.position.Y + npc.height + 8) / 16));
-				if (!TileID.Sets.Platforms[tile.type])
-					onplatform = false;
-			}
-			if (onplatform && npc.Bottom.Y < player.Top.Y)
-				npc.noTileCollide = true;
-			else
-				npc.noTileCollide = false;
-		}
-
-		public void flying()
+		public void Flying()
 		{	 
 			npc.TargetClosest(true);
 			flyingTimer++;
@@ -237,7 +220,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
 			  npc.velocity.Y = -2f;
 			}
 		}
-		public void walking()
+		public void Walking()
 		{
 			int num1 = 30;
 			int num2 = 10;
@@ -508,16 +491,9 @@ namespace SpiritMod.NPCs.AstralAdventurer
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MeteoriteSpewer"), 1);
 			}
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0)
-			{
-                Main.PlaySound(SoundID.Item, npc.Center, 14);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AstralAdventurer/AstralAdventurerGore1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AstralAdventurer/AstralAdventurerGore2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AstralAdventurer/AstralAdventurerGore3"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AstralAdventurer/AstralAdventurerGore4"), 1f);
-			}
 			for (int k = 0; k < 7; k++)
 			{
 				Dust.NewDust(npc.position, npc.width, npc.height, 240, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
@@ -525,14 +501,23 @@ namespace SpiritMod.NPCs.AstralAdventurer
 				Dust.NewDust(npc.position, npc.width, npc.height, 6, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
 			}
 		}
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+
+		public override void OnHitKill(int hitDirection, double damage)
 		{
-			return SpawnCondition.Meteor.Chance * 0.05f;
+			if (Main.dedServ)
+				return;
+
+			Main.PlaySound(SoundID.Item, npc.Center, 14);
+			Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AstralAdventurer/AstralAdventurerGore1"), 1f);
+			Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AstralAdventurer/AstralAdventurerGore2"), 1f);
+			Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AstralAdventurer/AstralAdventurerGore3"), 1f);
+			Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AstralAdventurer/AstralAdventurerGore4"), 1f);
 		}
-		
+
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => SpawnCondition.Meteor.Chance * 0.05f;
+
 		public override void FindFrame(int frameHeight)
 		{
-			Player player = Main.player[npc.target];
 			npc.frameCounter++;
 			if (npc.velocity.Y == 0f)
 			{

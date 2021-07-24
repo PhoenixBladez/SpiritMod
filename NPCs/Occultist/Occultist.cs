@@ -9,30 +9,34 @@ using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Particles;
+using System.Reflection;
+using SpiritMod.Mechanics.EventSystem;
+using SpiritMod.Mechanics.EventSystem.Events;
 
 namespace SpiritMod.NPCs.Occultist
 {
 	[AutoloadBossHead]
-	public class Occultist : ModNPC, IBCRegistrable
+	public class Occultist : SpiritNPC, IBCRegistrable, IDrawAdditive
 	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Occultist");
-			Main.npcFrameCount[npc.type] = 4;
+			Main.npcFrameCount[npc.type] = 16;
 		}
 
 		public override void SetDefaults()
 		{
 			npc.width = 32;
-			npc.height = 50;
+			npc.height = 48;
 
-			npc.lifeMax = 431;
+			npc.lifeMax = 1000;
 			npc.defense = 14;
 			npc.damage = 30;
 
 			npc.HitSound = SoundID.DD2_SkeletonHurt;
-			npc.DeathSound = SoundID.DD2_SkeletonDeath;
-
+			npc.DeathSound = SoundID.NPCDeath59;
+			npc.aiStyle = -1;
 			npc.value = 300f;
 			npc.knockBackResist = 0.45f;
 			npc.netAlways = true;
@@ -40,253 +44,537 @@ namespace SpiritMod.NPCs.Occultist
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.OccultistBanner>();
 		}
-		public override bool PreAI()
+
+		private ref float AiState => ref npc.ai[0];
+
+		private const float AISTATE_SPAWN = 0;
+		private const float AISTATE_DESPAWN = 1;
+		private const float AISTATE_PHASE1 = 2;
+		private const float AISTATE_PHASETRANSITION = 3;
+		private const float AISTATE_PHASE2 = 4;
+
+		private ref float AttackType => ref npc.ai[1];
+
+		private const float WAVEHANDS = 0;
+		private const float SACDAGGERS = 1;
+		private const float HOMINGSOULS = 2;
+		private const float SUMMONBRUTE = 3;
+
+		private ref float AiTimer => ref npc.ai[2];
+
+		private ref float SecondaryCounter => ref npc.ai[3];
+
+		private float _pulseGlowmask;
+		private float _ritualCircle;
+		private float _whiteGlow;
+
+		private RotatingObjectManager _rotMan = new RotatingObjectManager();
+
+		private void UpdateAIState(float State)
+		{
+			AiState = State;
+			AiTimer = 0;
+			SecondaryCounter = 0;
+			npc.netUpdate = true;
+
+			if (!Main.dedServ)
+				_rotMan.KillAllObjects();
+		}
+
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
+
+		public override void AI()
 		{
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.46f, 0.12f, .64f);
+			Player target = Main.player[npc.target];
 
+			if ((AiState == AISTATE_PHASE1 || AiState == AISTATE_PHASE2))
+			{
+				if(Main.dayTime)
+					UpdateAIState(AISTATE_DESPAWN);
+
+				if (target.dead || !target.active)
+				{
+					npc.TargetClosest(true); //look for another player
+					if (target.dead || !target.active)
+						UpdateAIState(AISTATE_DESPAWN); //despawn if still none alive
+				}
+			}
+
+			if (AiState == AISTATE_PHASE1 && npc.life < (npc.lifeMax / 2))
+				UpdateAIState(AISTATE_PHASETRANSITION);
+
+			switch (AiState)
+			{
+				case AISTATE_SPAWN:
+					npc.TargetClosest(true);
+					npc.noGravity = true;
+					npc.noTileCollide = true;
+					npc.dontTakeDamage = true;
+					SpawnAnimation(target);
+					break;
+
+				case AISTATE_DESPAWN:
+					npc.noGravity = true;
+					npc.noTileCollide = true;
+					npc.dontTakeDamage = true;
+					Despawn();
+					break;
+
+				case AISTATE_PHASE1:
+					npc.noGravity = false;
+					npc.noTileCollide = false;
+					npc.dontTakeDamage = false;
+					npc.velocity.X *= 0.9f;
+					Phase1(target);
+					break;
+
+				case AISTATE_PHASETRANSITION:
+					npc.TargetClosest(true);
+					npc.noGravity = true;
+					npc.noTileCollide = true;
+					npc.dontTakeDamage = true;
+					PhaseTransition();
+					break;
+
+				case AISTATE_PHASE2:
+					npc.noGravity = true;
+					npc.noTileCollide = true;
+					npc.dontTakeDamage = false;
+					break;
+			}
+			++AiTimer;
+
+			if (Main.rand.NextBool(5) && !Main.dedServ)
+				ParticleHandler.SpawnParticle(new GlowParticle(npc.Center + Main.rand.NextVector2Circular(15, 20), -Vector2.UnitY * Main.rand.NextFloat(), Color.Red * 0.75f, Main.rand.NextFloat(0.02f, 0.04f), 60));
+
+			if (!Main.dedServ)
+				_rotMan.UpdateObjects();
+		}
+
+		#region Animations
+		private void SpawnAnimation(Player target)
+		{
+			int animtime = 180;
+
+			float halfanimtime = animtime / 2f;
+			if (SecondaryCounter == 0)
+			{
+				if (!EventManager.IsPlaying<FollowNPCThenReturn>() && !Main.dedServ)
+					EventManager.PlayEvent(new FollowNPCThenReturn(npc, 1.5f, (animtime / 60) + 1, 1.5f));
+
+				AiTimer = 0;
+				UpdateYFrame(12, 15, 5, delegate (int frameY) 
+				{ 
+					if(frameY == 5) //when anim is complete, increase counter and reset frame
+					{
+						frame.Y = 0;
+						SecondaryCounter++;
+						npc.netUpdate = true;
+					}
+				});
+			}
+			else if(AiTimer < animtime)
+			{
+				npc.velocity.Y = (float)Math.Sin(AiTimer / 12f);
+				_pulseGlowmask = _ritualCircle = (halfanimtime - Math.Abs(halfanimtime - AiTimer)) / halfanimtime;
+
+				if (Main.rand.NextBool(3) && !Main.dedServ)
+				{
+					Vector2 offset = Main.rand.NextVector2CircularEdge(200, 200) * _ritualCircle;
+					ParticleHandler.SpawnParticle(new GlowParticle(npc.Center + offset, -offset/30f, Color.Magenta * 0.75f, Main.rand.NextFloat(0.06f, 0.12f) * _ritualCircle, 30));
+				}
+
+				UpdateYFrame(4, 0, 5);
+			}
+			else
+			{
+				_pulseGlowmask = _ritualCircle = 0;
+
+				npc.velocity.Y = 0;
+				UpdateYFrame(12, 0, 15, delegate (int frameY)
+				{
+					if (frameY == 15)
+					{
+						UpdateAIState(AISTATE_PHASE1);
+						Teleport(target);
+					}
+				});
+			}
+		}
+
+		private void PhaseTransition()
+		{
+			//slow rise and make glowmask
+			int RiseTime = 40;
+			int ChargeTime = 200;
+			int EndTime = 20;
+
+			if (AiTimer <= RiseTime)
+			{
+				if (!EventManager.IsPlaying<FollowNPCThenReturn>() && !Main.dedServ)
+					EventManager.PlayEvent(new FollowNPCThenReturn(npc, 1.5f, ((RiseTime + ChargeTime + EndTime) / 60) + 1, 1.5f));
+
+				UpdateYFrame(4, 0, 5);
+				npc.velocity = new Vector2(0, (float)-Math.Cos((AiTimer/RiseTime) * MathHelper.PiOver2) * 0.75f);
+				_pulseGlowmask = MathHelper.Lerp(_pulseGlowmask, 1, 0.1f);
+			}
+
+			// make circle and create runes
+			else if(AiTimer < (RiseTime + ChargeTime))
+			{
+				UpdateYFrame(7, 0, 5);
+				_ritualCircle = (AiTimer - RiseTime) / ChargeTime;
+				_whiteGlow = 0.5f * (float)Math.Pow((AiTimer - RiseTime) / ChargeTime, 2);
+				if (AiTimer % 4 == 0)
+					AddRune();
+			}
+			//burst of souls and particles
+			else if(AiTimer == RiseTime + ChargeTime)
+			{
+				for(int i = 0; i < 8; i++)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						Vector2 vel = Main.rand.NextVector2CircularEdge(5f, 5f) * Main.rand.NextFloat(0.8f, 1.2f);
+
+						Projectile.NewProjectileDirect(npc.Center + vel * Main.rand.NextFloat(2, 6), vel, ModContent.ProjectileType<OccultistSoul>(), 0, 1, Main.myPlayer).netUpdate = true;
+					}
+
+				if (!Main.dedServ)
+				{
+					_rotMan.KillAllObjects();
+					for (int i = 0; i < 30; i++)
+						ParticleHandler.SpawnParticle(new GlowParticle(npc.Center, Main.rand.NextVector2Circular(12, 12), new Color(99, 23, 51), Main.rand.NextFloat(0.04f, 0.08f), 40));
+
+					ParticleHandler.SpawnParticle(new PulseCircle(npc.Center, new Color(99, 23, 51), 200, 20));
+					ParticleHandler.SpawnParticle(new PulseCircle(npc.Center, new Color(99, 23, 51), 400, 20));
+					ParticleHandler.SpawnParticle(new PulseCircle(npc.Center, new Color(99, 23, 51), 600, 20));
+
+					EventManager.PlayEvent(new ScreenShake(30f, 0.33f));
+				}
+			}
+
+			else
+			{
+				UpdateYFrame(3, 0, 5);
+				_ritualCircle = 0;
+				_whiteGlow = 0;
+				if (AiTimer > RiseTime + ChargeTime + EndTime)
+					UpdateAIState(AISTATE_PHASE2);
+			}
+		}
+
+		private void Despawn()
+		{
+			int RiseTime = 40;
+			_pulseGlowmask = 0;
+			_ritualCircle = 0;
+			if (AiTimer <= RiseTime)
+			{
+				UpdateYFrame(4, 0, 5);
+				npc.velocity = new Vector2(0, (float)-Math.Cos((AiTimer / RiseTime) * MathHelper.PiOver2) * 0.75f);
+			}
+
+			else
+			{
+				UpdateYFrame(12, 0, 15, delegate (int frameY)
+				{
+					if (frameY == 15)
+					{
+						npc.active = false;
+					}
+				});
+			}
+		}
+
+		#endregion
+
+		private void AddRune()
+		{
+			if (!Main.dedServ)
+			{
+				Texture2D rune = ModContent.GetTexture(Texture + "_runes");
+				int framenum = Main.rand.Next(4);
+				Rectangle frame = new Rectangle(0, framenum * (int)(rune.Height / 4f), rune.Width, (int)(rune.Height / 4f));
+				float Scale = Main.rand.NextFloat(0.4f, 0.6f);
+				float YPos = Main.rand.NextFloat(-13, 13);
+				float Radius = Main.rand.NextFloat(20, 40);
+				float Offset = Main.rand.Next(80);
+				_rotMan.AddObject(rune, YPos, Radius, Scale, new Color(252, 3, 102), 60, frame, 50, Offset);
+			}
+		}
+
+		private void SwapAttack()
+		{
+			float newattack = AttackType;
+			while (newattack == AttackType)
+				newattack = Main.rand.Next(new float[] { WAVEHANDS, HOMINGSOULS, SACDAGGERS });
+
+			AttackType = newattack;
+		}
+
+		#region Phase 1
+
+		private void Phase1(Player target)
+		{
+			switch (SecondaryCounter)
+			{
+				case 0:
+					npc.TargetClosest(true);
+					AiTimer = 0;
+					UpdateYFrame(12, 15, 5, delegate (int frameY)
+					{
+						if (frameY == 5)
+						{
+							frame.Y = 0;
+							SecondaryCounter++;
+						}
+					});
+					break;
+
+				case 1:
+					switch (AttackType)
+					{
+						case WAVEHANDS:
+							WaveHandsP1(target);
+							break;
+						case SACDAGGERS:
+							DaggersP1(target);
+							break;
+						case HOMINGSOULS:
+							SoulsP1(target);
+							break;
+						case SUMMONBRUTE:
+							WaveHandsP1(target);
+							//	BruteP1(target);
+							break;
+					}
+
+					break;
+
+				case 2:
+					UpdateYFrame(12, 5, 15, delegate (int frameY)
+					{
+						if (frameY == 15)
+						{
+							SwapAttack();
+							Teleport(target);
+							SecondaryCounter = 0;
+						}
+					});
+					break;
+			}
+		}
+
+		private void WaveHandsP1(Player target)
+		{
+			if(AiTimer < 40)
+			{
+				npc.TargetClosest(true);
+				if (AiTimer % 6 == 0)
+					AddRune();
+				return;
+			}
+			UpdateYFrame(12, 0, 5, delegate (int frameY)
+			{
+				if ((frameY == 5 || frameY == 2) && Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					Vector2 spawnPos = npc.Center + (Vector2.UnitX * npc.direction).RotatedByRandom(MathHelper.Pi / 4) * Main.rand.NextFloat(20, 40);
+					float amplitude = Main.rand.NextFloat(5, 10);
+					float periodOffset = Main.rand.Next(160);
+					Projectile proj = Projectile.NewProjectileDirect(spawnPos, npc.direction * Vector2.UnitX * Main.rand.NextFloat(2, 3), ModContent.ProjectileType<OccultistHand>(), NPCUtils.ToActualDamage(40, 1.5f), 1f, Main.myPlayer, amplitude, periodOffset);
+					proj.netUpdate = true;
+				}
+			});
+
+			if (AiTimer > 100)
+				SecondaryCounter++;
+		}
+
+		private void DaggersP1(Player target)
+		{
+			if (AiTimer < 60)
+				npc.TargetClosest(true);
+			else
+				UpdateYFrame(5, 0, 5);
+
+			if ((AiTimer == 1 || AiTimer == 20) && !Main.dedServ)
+			{
+				Texture2D dagger = ModContent.GetTexture(Texture + "Dagger");
+				Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
+				float height = (AiTimer == 1) ? 0 : -10;
+				float radius = (AiTimer == 1) ? 30 : 40;
+				float scale = (AiTimer == 1) ? 0.25f : 0.5f;
+				float opacity = (AiTimer == 1) ? 0.66f : 0.8f;
+				float offset = (AiTimer == 1) ? 0 : 10;
+				for(int i = 0; i < 3; i++)
+				{
+					_rotMan.AddObject(bloom, height, radius, scale / 3, Color.Pink * opacity * 0.66f, -1, null, 60, (40 * i) + offset);
+					_rotMan.AddObject(dagger, height, radius, scale, Color.White * opacity, -1, null, 60, (40 * i) + offset);
+				}
+			}
+
+			if (AiTimer == 60 && !Main.dedServ)
+				_rotMan.KillAllObjects();
+
+			if(AiTimer > 60 && AiTimer % 5 == 0 && AiTimer <= 90)
+			{
+				if(Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					float timer = AiTimer - 50;
+					if (npc.direction > 0)
+						timer = 40 - timer;
+
+					float angle = (timer / 40) * MathHelper.Pi;
+					Vector2 spawnPos = npc.Center - new Vector2(0, 500) + new Vector2(0, 300).RotatedBy((angle - MathHelper.PiOver2)/2.5f);
+					Projectile proj = Projectile.NewProjectileDirect(spawnPos, Vector2.Zero, ModContent.ProjectileType<OccultistDagger>(), NPCUtils.ToActualDamage(40, 1.5f), 1f, Main.myPlayer, angle);
+					proj.netUpdate = true;
+				}
+			}
+
+			if (AiTimer > 120)
+				SecondaryCounter++;
+		}
+
+		private void SoulsP1(Player Target)
+		{
 			npc.TargetClosest(true);
 
-			//"teleport away" at daylight
-			if (Main.dayTime) {
-				npc.alpha = 255;
-				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
-				for (int index1 = 0; index1 < 50; ++index1) {
-					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 231, 0.0f, 0.0f, 100, new Color(), .95f);
-					Main.dust[newDust].velocity *= 3f;
-					Main.dust[newDust].noGravity = true;
-				}
-				npc.active = false;
-				npc.life = 0;
-			}
-			if (npc.ai[2] != 0 && npc.ai[3] != 0) {
-				// Teleport effects: away.
-				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
-				for (int index1 = 0; index1 < 50; ++index1) {
-					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 231, 0.0f, 0.0f, 100, new Color(), .95f);
-					Main.dust[newDust].velocity *= 3f;
-					Main.dust[newDust].noGravity = true;
-				}
-				npc.position.X = (npc.ai[2] * 16 - (npc.width / 2) + 8);
-				npc.position.Y = npc.ai[3] * 16f - npc.height;
-				npc.velocity.X = 0.0f;
-				npc.velocity.Y = 0.0f;
-				npc.ai[2] = 0.0f;
-				npc.ai[3] = 0.0f;
-				// Teleport effects: arrived.
-				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
-				for (int index1 = 0; index1 < 50; ++index1) {
-					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 231, 0.0f, 0.0f, 100, new Color(), .95f);
-					Main.dust[newDust].velocity *= 3f;
-					Main.dust[newDust].noGravity = true;
-				}
-			}
-			npc.velocity.X = npc.velocity.X * 0.93f;
-			if (npc.velocity.X > -0.1F && npc.velocity.X < 0.1F)
-				npc.velocity.X = 0;
-			++npc.ai[0];
+			UpdateYFrame(8, 0, 5);
 
-			if (npc.ai[0] == 300) {
-				npc.ai[1] = 40f;
-				npc.netUpdate = true;
-			}
-
-			bool teleport = false;
-
-			// Teleport
-			if (npc.ai[0] >= 600 && Main.netMode != NetmodeID.MultiplayerClient) {
-				teleport = true;
-			}
-
-			if (teleport)
-				Teleport();
-
-			if (npc.ai[1] > 0) {
-				--npc.ai[1];
-				int numZombies = 0;
-				foreach(NPC zombie in Main.npc)
+			if (AiTimer % 12 == 0)
+			{
+				if(Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					if ((zombie.type == NPCID.BloodZombie || zombie.type == NPCID.Zombie) && zombie.active && zombie.life > 0) 
-					{
-						numZombies++;
-					}
+					Vector2 vel = Main.rand.NextVector2CircularEdge(2.5f, 2.5f) * Main.rand.NextFloat(0.8f, 1.2f);
 
-				}
-
-				if (npc.ai[1] == 0 && numZombies < 10) {
-					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
-					if (Main.netMode != NetmodeID.MultiplayerClient) {
-						Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 53);
-						if (Main.rand.Next(4) == 0) {
-							{
-								Vector2 direction = Main.player[npc.target].Center - npc.Center;
-								direction.Normalize();
-								direction.X *= 6f;
-								direction.Y *= 6f;
-								float A = (float)Main.rand.Next(-120, 120) * 0.01f;
-								float B = (float)Main.rand.Next(-120, 120) * 0.01f;
-								for (int z = 0; z <= Main.rand.Next(1, 4); z++) {
-									int p = Projectile.NewProjectile((int)npc.position.X + Main.rand.Next(-60, 60), (int)npc.position.Y + Main.rand.Next(-200, -100), direction.X + A, direction.Y + B, ModContent.ProjectileType<OccultistHand>(), 16, 1, Main.myPlayer, 0, 0);
-									Main.projectile[p].velocity.X = Main.player[npc.target].Center.X - Main.projectile[p].Center.X;
-									Main.projectile[p].velocity.Y = Main.player[npc.target].Center.Y - Main.projectile[p].Center.Y;
-									Main.projectile[p].velocity.Normalize();
-									Main.projectile[p].velocity.X *= 3;
-									Main.projectile[p].velocity.Y *= 3;
-									Main.PlaySound(SoundID.Item, (int)Main.projectile[p].position.X, (int)Main.projectile[p].position.Y, 8);
-									for (int i = 0; i < 10; i++) {
-										int num = Dust.NewDust(Main.projectile[p].position, Main.projectile[p].width, Main.projectile[p].height, 231, 0f, -2f, 0, default(Color), 1.2f);
-										Main.dust[num].noGravity = true;
-										Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-										Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-										if (Main.dust[num].position != Main.projectile[p].Center) {
-											Main.dust[num].velocity = Main.projectile[p].DirectionTo(Main.dust[num].position) * 6f;
-										}
-									}
-								}
-							}
-						}
-						if (Main.rand.Next(8) == 0 || (!NPC.AnyNPCs(NPCID.BloodZombie))) {
-							for (int z = 0; z <= Main.rand.Next(1, 4); z++) {
-								if (Main.rand.Next(4) == 0) {
-									int p = NPC.NewNPC((int)Main.player[npc.target].position.X + Main.rand.Next(-200, 200), (int)Main.player[npc.target].position.Y + Main.rand.Next(-200, -100), NPCID.BloodZombie, 0, 0, 0, 0, 0, 255);
-									for (int i = 0; i < 10; i++) {
-										int num = Dust.NewDust(Main.npc[p].position, Main.npc[p].width, Main.npc[p].height, 231, 0f, -2f, 0, default(Color), 1.2f);
-										Main.dust[num].noGravity = true;
-										Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-										Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-										if (Main.dust[num].position != Main.npc[p].Center) {
-											Main.dust[num].velocity = Main.npc[p].DirectionTo(Main.dust[num].position) * 6f;
-										}
-									}
-								}
-								else {
-									int p = NPC.NewNPC((int)Main.player[npc.target].position.X + Main.rand.Next(-200, 200), (int)Main.player[npc.target].position.Y + Main.rand.Next(-200, -100), NPCID.Zombie, 0, 0, 0, 0, 0, 255);
-									for (int i = 0; i < 10; i++) {
-										int num = Dust.NewDust(Main.npc[p].position, Main.npc[p].width, Main.npc[p].height, 231, 0f, -2f, 0, default(Color), 1.2f);
-										Main.dust[num].noGravity = true;
-										Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-										Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-										if (Main.dust[num].position != Main.npc[p].Center) {
-											Main.dust[num].velocity = Main.npc[p].DirectionTo(Main.dust[num].position) * 6f;
-										}
-									}
-								}
-							}
-						}
-						else if (NPC.AnyNPCs(NPCID.BloodZombie)) {
-							int feast = NPC.FindFirstNPC(NPCID.BloodZombie);
-							Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 6);
-							Main.PlaySound(SoundID.NPCKilled, Main.npc[feast].position, 2);
-							Main.npc[feast].life = 0;
-							for (int i = 0; i < 40; i++) {
-								int num = Dust.NewDust(Main.npc[feast].position, Main.npc[feast].width, Main.npc[feast].height, 231, 0f, -2f, 0, default(Color), 1.2f);
-								Main.dust[num].noGravity = true;
-								Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-								Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-								if (Main.dust[num].position != Main.npc[feast].Center) {
-									Main.dust[num].velocity = Main.npc[feast].DirectionTo(Main.dust[num].position) * 6f;
-								}
-							}
-							if (npc.life <= npc.lifeMax - 30) {
-								npc.life += 30;
-								npc.HealEffect(30, true);
-							}
-							else if (npc.life < npc.lifeMax) {
-								npc.HealEffect(npc.lifeMax - npc.life, true);
-								npc.life += npc.lifeMax - npc.life;
-							}
-						}
-					}
+					Projectile.NewProjectileDirect(npc.Center + vel * Main.rand.NextFloat(5, 15), vel, ModContent.ProjectileType<OccultistSoul>(), 0, 1, Main.myPlayer).netUpdate = true;
 				}
 			}
+				
 
-			if (Main.rand.Next(3) == 0)
-				return false;
-			Dust dust = Main.dust[Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 2f), npc.width, npc.height, 231, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, new Color(), 0.9f)];
-			dust.noGravity = true;
-			dust.velocity.X = dust.velocity.X * 0.3f;
-			dust.velocity.Y = (dust.velocity.Y * 0.2f) - 1;
+			if(AiTimer % 15 == 0 && AiTimer <= 45)
+			{
+				if(Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					Vector2 vel = npc.DirectionFrom(Target.Center).RotatedByRandom(MathHelper.PiOver2) * 4;
+					Projectile.NewProjectileDirect(npc.Center + vel * Main.rand.NextFloat(10, 20), vel, ModContent.ProjectileType<OccultistSoul>(), NPCUtils.ToActualDamage(30, 1.5f), 1, Main.myPlayer, 1, Target.whoAmI).netUpdate = true;
+				}
+			}
+				
 
-			return false;
+			if (AiTimer > 120)
+				SecondaryCounter++;
 		}
+
+		public void Teleport(Player player)
+		{
+			Point desiredPos;
+			Point FindRandomPos() => (player.Center + new Vector2((Main.rand.NextBool() ? -1 : 1) * Main.rand.NextFloat(200, 300), Main.rand.NextFloat(-100, 0))).ToTileCoordinates();
+			desiredPos = FindRandomPos();
+			while (desiredPos.X < 0 || desiredPos.Y < 0 || desiredPos.X > Main.maxTilesX || desiredPos.Y > Main.maxTilesY) //out of bounds bad
+				desiredPos = FindRandomPos();
+
+			int numTries = 0;
+			int maxTries = 1000;
+
+			while (numTries < maxTries && ExtraUtils.CheckSolidTilesAndPlatforms(new Rectangle(desiredPos.X, desiredPos.Y, 1, 3))) //find a random point not within tiles
+			{
+				numTries++;
+				desiredPos = FindRandomPos();
+				while (desiredPos.X < 0 || desiredPos.Y < 0 || desiredPos.X > Main.maxTilesX || desiredPos.Y > Main.maxTilesY) //out of bounds still bad
+					desiredPos = FindRandomPos();
+			}
+
+			while (desiredPos.Y < Main.maxTilesY && !ExtraUtils.CheckSolidTilesAndPlatforms(new Rectangle(desiredPos.X, desiredPos.Y + 4, 1, 0)))
+				desiredPos.Y++;
+
+			npc.position = desiredPos.ToWorldCoordinates();
+			npc.netUpdate = true;
+		}
+		#endregion
+
+		#region Drawing
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
+			float timer = (float)Math.Sin(Main.GlobalTime * 3) / 2 + 0.5f;
+			Color glowColor = Color.Lerp(Color.Red, Color.Magenta, timer);
+
+
+			//draw ritual circle and a bloom
+			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
+			spriteBatch.Draw(bloom, npc.Center - Main.screenPosition, null, glowColor * _ritualCircle * 0.66f, 0, bloom.Size() / 2, _ritualCircle * 1.25f, SpriteEffects.None, 0);
+
+			Texture2D circle = ModContent.GetTexture(Texture + "_circle");
+			spriteBatch.Draw(circle, npc.Center - Main.screenPosition, null, glowColor * _ritualCircle * 0.75f, Main.GlobalTime * 2, circle.Size() / 2, _ritualCircle, SpriteEffects.None, 0);
+			spriteBatch.Draw(circle, npc.Center - Main.screenPosition, null, glowColor * _ritualCircle * 0.75f, Main.GlobalTime * -2, circle.Size() / 2, _ritualCircle, SpriteEffects.None, 0);
+
+			if (_rotMan != null)
+				_rotMan.DrawBack(spriteBatch, npc.Center);
+
+			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
+
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+
+			Texture2D mask = ModContent.GetTexture(Texture + "_mask");
+
+			void DrawTexture(Texture2D tex, Color color, float scale = 1f, Vector2? offset = null) => spriteBatch.Draw(tex, npc.Center + (offset ?? Vector2.Zero) - Main.screenPosition + new Vector2(0, npc.gfxOffY), 
+				npc.frame, color, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+
+			//pulse glowmask effect
+			for(int i = 0; i < 6; i++)
+			{
+				Vector2 offset = Vector2.UnitX.RotatedBy((i / 6f) * MathHelper.TwoPi) * timer * 8;
+				DrawTexture(mask, glowColor * (1 - timer) * _pulseGlowmask, 1f, offset);
+			}
+			DrawTexture(mask, glowColor * _pulseGlowmask, 1.1f);
+
+			//normal drawing replacement
+			DrawTexture(Main.npcTexture[npc.type], drawColor);
 			return false;
 		}
+
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Occultist/Occultist_Glow"));
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Occultist/Occultist_glow"));
+
+			Texture2D mask = ModContent.GetTexture(Texture + "_mask");
+			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(mask, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, Color.White * _whiteGlow, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 		}
+
+		public void AdditiveCall(SpriteBatch spriteBatch)
+		{
+			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
+			spriteBatch.Draw(bloom, npc.Center - Main.screenPosition, null, Color.White * _whiteGlow * 0.8f, 0, bloom.Size() / 2, _whiteGlow, SpriteEffects.None, 0);
+
+			if (_rotMan != null)
+				_rotMan.DrawFront(spriteBatch, npc.Center);
+		}
+
+		#endregion
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.75f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 0.75f);
 		}
-		public void Teleport()
-		{
-			npc.ai[0] = 1f;
-			int num1 = (int)Main.player[npc.target].position.X / 16;
-			int num2 = (int)Main.player[npc.target].position.Y / 16;
-			int num3 = (int)npc.position.X / 16;
-			int num4 = (int)npc.position.Y / 16;
-			int num5 = 20;
-			int num6 = 0;
-			bool flag1 = false;
-			if (Math.Abs(npc.position.X - Main.player[npc.target].position.X) + Math.Abs(npc.position.Y - Main.player[npc.target].position.Y) > 2000.0) {
-				num6 = 100;
-				flag1 = true;
-			}
-			while (!flag1 && num6 < 100) {
-				++num6;
-				int index1 = Main.rand.Next(num1 - num5, num1 + num5);
-				for (int index2 = Main.rand.Next(num2 - num5, num2 + num5); index2 < num2 + num5; ++index2) {
-					if ((index2 < num2 - 4 || index2 > num2 + 4 || (index1 < num1 - 4 || index1 > num1 + 4)) && (index2 < num4 - 1 || index2 > num4 + 1 || (index1 < num3 - 1 || index1 > num3 + 1)) && Main.tile[index1, index2].nactive()) {
-						bool flag2 = true;
-						if (Main.tile[index1, index2 - 1].lava())
-							flag2 = false;
-						if (flag2 && Main.tileSolid[(int)Main.tile[index1, index2].type] && !Collision.SolidTiles(index1 - 1, index1 + 1, index2 - 4, index2 - 1)) {
-							npc.ai[1] = 30;
-							npc.ai[2] = (float)index1;
-							npc.ai[3] = (float)index2;
-							flag1 = true;
-							break;
-						}
-					}
-				}
-			}
-			npc.netUpdate = true;
-		}
-        public override bool PreNPCLoot()
+
+		public override bool CheckActive() => false; //uses custom despawn so not needed
+
+		public override bool PreNPCLoot()
         {
             Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
             MyWorld.downedOccultist = true;
+			if (Main.netMode != NetmodeID.SinglePlayer)
+				NetMessage.SendData(MessageID.WorldData);
             return true;
         }
-        public override void FindFrame(int frameHeight)
-		{
-			int currShootFrame = (int)npc.ai[1];
-			if (currShootFrame >= 25)
-				npc.frame.Y = frameHeight;
-			else if (currShootFrame >= 20)
-				npc.frame.Y = frameHeight * 2;
-			else if (currShootFrame >= 15)
-				npc.frame.Y = frameHeight * 3;
-			else if (currShootFrame >= 10)
-				npc.frame.Y = frameHeight * 2;
-			else if (currShootFrame >= 5)
-				npc.frame.Y = frameHeight;
-			else
-				npc.frame.Y = 0;
 
-			npc.spriteDirection = npc.direction;
-		}
-
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return spawnInfo.spawnTileY < Main.rockLayer && (Main.bloodMoon) && !NPC.AnyNPCs(ModContent.NPCType<Occultist>()) && (NPC.downedBoss1 || NPC.downedBoss2 || NPC.downedBoss3 || MyWorld.downedScarabeus || MyWorld.downedAncientFlier || MyWorld.downedMoonWizard || MyWorld.downedRaider) ? 0.03f : 0f;
-		}
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.spawnTileY < Main.rockLayer && (Main.bloodMoon) && !NPC.AnyNPCs(ModContent.NPCType<Occultist>()) && (NPC.downedBoss1 || NPC.downedBoss2 || NPC.downedBoss3 || MyWorld.downedScarabeus || MyWorld.downedAncientFlier || MyWorld.downedReachBoss || MyWorld.downedMoonWizard || MyWorld.downedRaider) ? 0.03f : 0f;
+		
 		public override void NPCLoot()
 		{
 			string[] lootTable = { "Handball", "SacrificialDagger", "BloodWard" };
@@ -296,22 +584,29 @@ namespace SpiritMod.NPCs.Occultist
 			}
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BloodFire>(), 4 + Main.rand.Next(3, 5));
 		}
-		public override void HitEffect(int hitDirection, double damage)
+
+		public override void SafeHitEffect(int hitDirection, double damage)
 		{
-			int d = 231;
-			int d1 = 231;
+			if (Main.dedServ)
+				return;
+
 			Main.PlaySound(SoundID.NPCHit, npc.Center, 2);
-			for (int k = 0; k < 15; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
-				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
-			}
-			if (npc.life <= 0) {
-				Main.PlaySound(SoundID.NPCKilled, npc.Center, 2);
-				for (int k = 0; k < 60; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -4.5f, 0, default(Color), Main.rand.NextFloat(.9f, 1.4f));
-					Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -4.5f, 0, default(Color), Main.rand.NextFloat(.9f, 1.4f));
-				}
-			}
+			for(int i = 0; i < 3; i++)
+				ParticleHandler.SpawnParticle(new GlowParticle(npc.Center + Main.rand.NextVector2Circular(15, 20), 
+					(Vector2.UnitX * hitDirection).RotatedByRandom(MathHelper.Pi / 3) * Main.rand.NextFloat(2, 3), Color.Red, Main.rand.NextFloat(0.02f, 0.04f), 30));
+		}
+
+		public override void OnHitKill(int hitDirection, double damage)
+		{
+			if (Main.dedServ)
+				return;
+
+			for (int i = 0; i < 30; i++)
+				ParticleHandler.SpawnParticle(new GlowParticle(npc.Center + Main.rand.NextVector2Circular(15, 20),
+					Main.rand.NextVector2Unit() * Main.rand.NextFloat(4), Color.Red, Main.rand.NextFloat(0.03f, 0.05f), 30));
+
+			for (int j = 0; j < 12; j++)
+				Gore.NewGore(npc.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(6), mod.GetGoreSlot("Gores/Skelet/grave" + Main.rand.Next(1, 5)));
 		}
 
 		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,
@@ -335,7 +630,7 @@ namespace SpiritMod.NPCs.Occultist
 					ModContent.ItemType<BloodFire>()
 				});
 			spawnInfo =
-				"The Occultist spawns rarely during a Blood Moon after the Eye of Cthulhu has been defeated.";
+				"The Occultist spawns rarely during a Blood Moon after any prehardmode boss has been defeated.";
 			texture = "SpiritMod/Textures/BossChecklist/OccultistTexture";
 			headTextureOverride = "SpiritMod/NPCs/BloodMoon/Occultist_Head_Boss";
 		}

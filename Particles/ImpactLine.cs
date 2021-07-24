@@ -1,10 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using SpiritMod.Particles;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace SpiritMod.Items.Sets.GreatswordSubclass.AstralSpellblade
+namespace SpiritMod.Particles
 {
 	public class ImpactLine : Particle
 	{

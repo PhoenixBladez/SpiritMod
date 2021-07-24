@@ -64,14 +64,19 @@ namespace SpiritMod.Mechanics.Boids
 		//TODO: Move to update hook soon
 		private void Main_DrawWoF(On.Terraria.Main.orig_DrawWoF orig, Main self)
 		{
-			Update();
-			Draw(Main.spriteBatch);
+			if(Flocks != null)
+			{
+				Update();
+				Draw(Main.spriteBatch);
+			}
 			orig(self);
 		}
 
 		public void UnloadContent()
 		{
-			Flocks.Clear(); 
+			if(Flocks != null)
+				Flocks.Clear(); 
+
 			On.Terraria.Main.DrawWoF -= Main_DrawWoF;
 		}
 	}
