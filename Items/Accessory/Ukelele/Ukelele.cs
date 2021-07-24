@@ -22,46 +22,39 @@ namespace SpiritMod.Items.Accessory.Ukelele
 			item.width = 60;
 			item.height = 58;
 			item.value = Item.buyPrice(0, 3, 0, 0);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.accessory = true;
 		}
+
 		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
 		{
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			Rectangle aga = Main.itemTexture[item.type].Frame(1, 1, 0, 0);
 			Lighting.AddLight(new Vector2(item.Center.X, item.Center.Y), 0.075f, 0.231f, 0.255f);
-			var vector2_3 = new Vector2((float)(Main.itemTexture[item.type].Width / 2), (float)(Main.itemTexture[item.type].Height / 1 / 2));
-			float addY = 0f;
-			float addHeight = -2f;
-			int num7 = 5;
-			float num9 = (float)(Math.Cos((double)Main.GlobalTime % 2.40000009536743 / 2.40000009536743 * 6.28318548202515) / 1.0 + 0.5);
-			float num8 = 0f;
+
+			Rectangle frame = Main.itemTexture[item.type].Frame(1, 1, 0, 0);
+			var origin = new Vector2(Main.itemTexture[item.type].Width / 2, Main.itemTexture[item.type].Height / 2);
+			float cos = (float)(Math.Cos(Main.GlobalTime % 2.4 / 2.4 * MathHelper.TwoPi) / 1.0 + 0.5);
 			Texture2D texture = Main.itemTexture[item.type];
-			float num10 = 0.0f;
-			Vector2 bb = item.Center - Main.screenPosition - new Vector2((float)texture.Width, (float)(texture.Height / 1)) * item.scale / 2f + vector2_3 * item.scale + new Vector2(0.0f, addY + addHeight);
-			Color color2 = new Color((int)sbyte.MaxValue - item.alpha, (int)sbyte.MaxValue - item.alpha, (int)sbyte.MaxValue - item.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.White);
-			for (int index2 = 0; index2 < num7; ++index2)
+			Color baseCol = new Color(sbyte.MaxValue - item.alpha, sbyte.MaxValue - item.alpha, sbyte.MaxValue - item.alpha, 0).MultiplyRGBA(Color.White);
+
+			for (int i = 0; i < 5; ++i)
 			{
-				Color newColor2 = color2;
-				Color faa = item.GetAlpha(newColor2) * (1f - num8);
-				Vector2 position2 = item.Center + ((float)((double)index2 / (double)num7 * 6.28318548202515) + rotation + num10).ToRotationVector2() * (float)(2.0 * (double)num8 + 2.0) - Main.screenPosition - new Vector2((float)texture.Width, (float)(texture.Height / 1)) * item.scale / 2f + vector2_3 * item.scale + new Vector2(0.0f, addY + addHeight);
-				Main.spriteBatch.Draw(mod.GetTexture("Items/Accessory/Ukelele/Ukelele_Glow"), position2, new Microsoft.Xna.Framework.Rectangle?(aga), faa, rotation, vector2_3, item.scale, spriteEffects, 0.0f);
+				Color drawCol = item.GetAlpha(baseCol) * 1f;
+				Vector2 gPos = item.Center + ((i / 5 * MathHelper.TwoPi) + rotation).ToRotationVector2() * 2f - Main.screenPosition - new Vector2(texture.Width, texture.Height) * item.scale / 2f + origin * item.scale + new Vector2(0.0f, -2f);
+				Main.spriteBatch.Draw(mod.GetTexture("Items/Accessory/Ukelele/Ukelele_Glow"), gPos, frame, drawCol, rotation, origin, item.scale, SpriteEffects.None, 0.0f);
 			}
-			for (int index2 = 0; index2 < 4; ++index2)
+
+			for (int i = 0; i < 4; ++i)
 			{
-				Color newColor2 = color2;
-				Color faa = item.GetAlpha(newColor2) * (1f - num9);
-				Vector2 position2 = item.Center + ((float)((double)index2 / (double)4 * 6.28318548202515) + rotation + num10).ToRotationVector2() * (float)(4.0 * (double)num9 + 2.0) - Main.screenPosition - new Vector2((float)texture.Width, (float)(texture.Height / 1)) * item.scale / 2f + vector2_3 * item.scale + new Vector2(0.0f, addY + addHeight);
-				Vector2 pos2 = item.Center + ((float)((double)index2 / (double)4 * 6.28318548202515) + rotation + num10).ToRotationVector2() * (float)(2.0 * (double)num9 + 2.0) - Main.screenPosition - new Vector2((float)texture.Width, (float)(texture.Height / 1)) * item.scale / 2f + vector2_3 * item.scale + new Vector2(0.0f, addY + addHeight);
-				Main.spriteBatch.Draw(mod.GetTexture("Items/Accessory/Ukelele/Ukelele_Glow"), pos2, new Microsoft.Xna.Framework.Rectangle?(aga), color2, rotation, vector2_3, item.scale, spriteEffects, 0.0f);
+				Vector2 gPos = item.Center + ((i / 4 * MathHelper.TwoPi) + rotation).ToRotationVector2() * (float)(2.0 * cos + 2.0) - Main.screenPosition - new Vector2(texture.Width, texture.Height) * item.scale / 2f + origin * item.scale + new Vector2(0.0f, -2f);
+				Main.spriteBatch.Draw(mod.GetTexture("Items/Accessory/Ukelele/Ukelele_Glow"), gPos, frame, baseCol, rotation, origin, item.scale, SpriteEffects.None, 0.0f);
 			}
-			Main.spriteBatch.Draw(mod.GetTexture("Items/Accessory/Ukelele/Ukelele_Glow"), bb, new Microsoft.Xna.Framework.Rectangle?(aga), color2, rotation, vector2_3, item.scale, spriteEffects, 0.0f);
+
+			Vector2 glowPos = item.Center - Main.screenPosition - new Vector2(texture.Width, (texture.Height / 1)) * item.scale / 2f + origin * item.scale + new Vector2(0.0f, -2f);
+			Main.spriteBatch.Draw(mod.GetTexture("Items/Accessory/Ukelele/Ukelele_Glow"), glowPos, frame, baseCol, rotation, origin, item.scale, SpriteEffects.None, 0.0f);
 			return true;
 		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return Color.White;
-		}
+
+		public override Color? GetAlpha(Color lightColor) => Color.White;
 		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<UkelelePlayer>().active = true;
 	}
 
@@ -81,7 +74,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
         {
 			if (active && proj.type != ModContent.ProjectileType<UkeleleProj>() && Main.rand.Next(4) == 0 && overcharge < 30)
 			{
-				Main.PlaySound(2, target.position, 12);
+				Main.PlaySound(SoundID.Item, target.position, 12);
 				DoLightningChain(target, damage);
 			}
 		}
@@ -90,7 +83,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
         {
 			if (active && Main.rand.Next(4) == 0 && overcharge < 30)
 			{
-				Main.PlaySound(2, target.position, 12);
+				Main.PlaySound(SoundID.Item, target.position, 12);
 				DoLightningChain(target, damage);
 			}
 		}
@@ -192,18 +185,6 @@ namespace SpiritMod.Items.Accessory.Ukelele
 				Main.dust[d].noGravity = true;
 				Main.dust[d].velocity = Vector2.Zero;
 				Main.dust[d].scale *= .7f;
-				/*if (Main.rand.Next(50) == 0)
-				{
-					float angle = Main.rand.NextFloat(6.28f);
-					int length = Main.rand.Next(30,50);
-					for (int i = 0; i < length; i+= 2)
-					{
-						d = Dust.NewDust(point + (angle.ToRotationVector2() * i), 7, 7, 226, 0f, 0f, 0, default, .3f * projectile.penetrate);
-						Main.dust[d].noGravity = true;
-						Main.dust[d].velocity = Vector2.Zero;
-						Main.dust[d].scale *= .7f;
-					}
-				}*/
 			}
 		}
 
@@ -247,6 +228,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
 			projectile.netUpdate = true;
 		}
 	}
+
 	public class UkeleleProjTwo : ModProjectile
     {
 		public override void SetStaticDefaults()
@@ -266,19 +248,20 @@ namespace SpiritMod.Items.Accessory.Ukelele
 			projectile.height = 68;
 			projectile.width = 74;
 		}
+
 		public override void AI()
 		{
 			projectile.frame = ((16 - projectile.timeLeft) / 4) - 1;
 			Color color = Color.Cyan;
-			Lighting.AddLight((int)((projectile.position.X + (float)(projectile.width / 2)) / 16f), (int)((projectile.position.Y + (float)(projectile.height / 2)) / 16f), color.R / 450f, color.G / 450f, color.B / 450f);
+			Lighting.AddLight((int)((projectile.position.X + (projectile.width / 2)) / 16f), (int)((projectile.position.Y + (projectile.height / 2)) / 16f), color.R / 450f, color.G / 450f, color.B / 450f);
 		}
+
 		public override bool PreDraw(SpriteBatch sb, Color color)
 		{
 			Texture2D tex = Main.projectileTexture[projectile.type];
-			int frameHeight = (tex.Height / 4);
-			sb.Draw(tex, (projectile.Center - Main.screenPosition + new Vector2(0, projectile.gfxOffY)), new Rectangle(0,projectile.frame * frameHeight,tex.Width, frameHeight), Color.White, projectile.rotation, new Vector2(tex.Width - (projectile.width / 2), tex.Height / 4), projectile.scale, SpriteEffects.None, 0);
+			int frameHeight = tex.Height / 4;
+			sb.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0, projectile.gfxOffY), new Rectangle(0,projectile.frame * frameHeight,tex.Width, frameHeight), Color.White, projectile.rotation, new Vector2(tex.Width - (projectile.width / 2), frameHeight), projectile.scale, SpriteEffects.None, 0);
 			return false;
 		}
 	}
-
 }

@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Sets.BloaterDrops
 			drawHeldProjInFrontOfHeldItemAndArms = true;
 		}
 
-		public override bool CanDamage() => base.CanDamage();
+		public override bool CanDamage() => false;
 
 		public override void AI()
 		{
@@ -75,13 +75,13 @@ namespace SpiritMod.Items.Sets.BloaterDrops
 
 		private void Fire(Player p)
 		{
-			Vector2 vel = Vector2.Normalize(Main.MouseWorld - p.Center) * 8f * ScalingCapped;
+			Vector2 vel = Vector2.Normalize(Main.MouseWorld - p.Center) * 5f * ScalingCapped;
 			int inc = 3 + (int)ScalingCapped;
 
 			for (int i = 0; i < inc; i++) //Projectiles
 			{
-				Vector2 velocity = vel.RotatedByRandom(ScalingCapped * 0.2f) * Main.rand.NextFloat(0.9f, 1.1f);
-				Projectile.NewProjectile(p.Center, velocity, ProjectileID.ChlorophyteBullet, (int)(10 * ScalingCapped), 1f, projectile.owner);
+				Vector2 velocity = vel.RotatedByRandom(ScalingCapped * 0.15f) * Main.rand.NextFloat(0.95f, 1.05f);
+				Projectile.NewProjectile(p.Center, velocity, ProjectileID.Bullet, (int)(10 * ScalingCapped), 1f, projectile.owner);
 			}
 
 			for (int i = 0; i < p.inventory.Length; ++i) //Consume ammo here so it's used when shot rather than when clicked
@@ -91,6 +91,7 @@ namespace SpiritMod.Items.Sets.BloaterDrops
 					p.inventory[i].stack--;
 					if (p.inventory[i].stack <= 0)
 						p.inventory[i].TurnToAir();
+					break;
 				}
 			}
 		}
