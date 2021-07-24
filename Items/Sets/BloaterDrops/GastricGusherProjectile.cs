@@ -29,8 +29,7 @@ namespace SpiritMod.Items.Sets.BloaterDrops
 		{
 			projectile.width = 42;
 			projectile.height = 24;
-			projectile.friendly = false;
-			projectile.hostile = false;
+			projectile.friendly = true;
 			projectile.penetrate = -1;
 			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
@@ -39,6 +38,8 @@ namespace SpiritMod.Items.Sets.BloaterDrops
 
 			drawHeldProjInFrontOfHeldItemAndArms = true;
 		}
+
+		public override bool CanDamage() => base.CanDamage();
 
 		public override void AI()
 		{
@@ -80,9 +81,7 @@ namespace SpiritMod.Items.Sets.BloaterDrops
 			for (int i = 0; i < inc; i++) //Projectiles
 			{
 				Vector2 velocity = vel.RotatedByRandom(ScalingCapped * 0.2f) * Main.rand.NextFloat(0.9f, 1.1f);
-				int proj = Projectile.NewProjectile(p.Center, velocity, ProjectileID.ChlorophyteBullet, (int)(10 * ScalingCapped), 0.2f, projectile.owner);
-				Main.projectile[proj].penetrate = 0;
-				Main.projectile[proj].maxPenetrate = 0;
+				Projectile.NewProjectile(p.Center, velocity, ProjectileID.ChlorophyteBullet, (int)(10 * ScalingCapped), 1f, projectile.owner);
 			}
 
 			for (int i = 0; i < p.inventory.Length; ++i) //Consume ammo here so it's used when shot rather than when clicked
