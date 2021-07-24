@@ -54,6 +54,10 @@ namespace SpiritMod.Utilities
 		[DefaultValue(true)]
 		public bool EnemyFishing { get; set; }
 
+		[Label("Falling Leaf Ambience")]
+		[Tooltip("Enables falling leaf ambience during Calm Nights or while in the Briar\nDisable this to prevent strange interactions while playing Terraria Overhaul.")]
+		[DefaultValue(true)]
+		public bool LeafFall { get; set; }
 
 		[Label("Boss Titles")]
 		[Tooltip("Enables the showing of titles when spawning a boss, or what bosses titles display for")]

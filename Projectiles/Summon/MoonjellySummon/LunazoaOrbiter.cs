@@ -15,9 +15,9 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
         {
             DisplayName.SetDefault("Lunazoa");
             Main.projFrames[projectile.type] = 3;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 1;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-        }
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+		}
 
 		public override void SetDefaults()
 		{
@@ -29,7 +29,6 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
 			projectile.hostile = false;
             projectile.minion = true;
             projectile.penetrate = 1;
-            projectile.hide = false;
 			projectile.timeLeft = 300;
 		}
         float alphaCounter;
@@ -72,6 +71,7 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
 			}
 
         }
+
         public override void Kill(int timeLeft)
         {
 			NPC mainTarget = projectile.OwnerMinionAttackTargetNPC;
