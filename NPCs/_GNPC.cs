@@ -946,8 +946,8 @@ namespace SpiritMod.NPCs
 				if (Main.rand.NextBool(100))
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Consumable.Potion.BottomlessAle>());
 			}
-            #endregion
-            /* 
+			#endregion
+			/* 
 			if (Main.rand.Next(40) == 1 && !npc.SpawnedFromStatue)
 			{
 				npc.DropItem(ModContent.ItemType<PrimordialMagic>());
@@ -1052,6 +1052,13 @@ namespace SpiritMod.NPCs
 			}
 			#endregion
 			*/
+			if (npc.type == NPCID.AngryNimbus)
+			{
+				if (Main.rand.Next(Main.expertMode ? 200 : 250) < 2)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.Ukelele.Ukelele>());
+				}
+			}
 			if (npc.type == NPCID.GoblinArcher)
 			{
 				if (Main.rand.Next(Main.expertMode ? 95 : 100) == 0)

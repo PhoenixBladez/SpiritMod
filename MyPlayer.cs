@@ -2315,7 +2315,7 @@ namespace SpiritMod
 			if (ZoneAsteroid)
 				Main.numCloudsTemp = 0;
 
-			if (ChildSafety.Disabled)
+			if (ChildSafety.Disabled && config.LeafFall)
 			{
 				if (Main.rand.NextBool(6) && (ZoneReach || MyWorld.calmNight) && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly && !player.ZoneSnow)
 				{

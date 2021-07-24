@@ -237,7 +237,7 @@ namespace SpiritMod.Projectiles.Summon.BowSummon
                         }
                         for (int index = 0; index < 58; ++index)
                         {
-                            if (player.inventory[index].ammo == AmmoID.Arrow && player.HasItem(ItemID.EndlessQuiver) == false && player.inventory[index].stack >= 1)
+                            if (player.inventory[index].ammo == AmmoID.Arrow && player.HasItem(ItemID.EndlessQuiver) == false && player.inventory[index].stack >= 1 && player.inventory[index].consumable)
                             {
                                 player.inventory[index].stack -= 1;
                                 int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, direction.X, direction.Y, shootType, projectile.damage, projectile.knockBack, Main.myPlayer);

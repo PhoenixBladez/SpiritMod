@@ -49,7 +49,7 @@ namespace SpiritMod.NPCs.Automata
 		public override void AI()
 		{
 			aiCounter++;
-
+			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.Center.Y + (float)(npc.height / 2)) / 16f), 0.1f * 2, 0.1f * 2, .1f * 2);
 			if (aiCounter % TIMERAMOUNT == ATKAMOUNT)
 			{
 				attacking = true;
@@ -77,6 +77,8 @@ namespace SpiritMod.NPCs.Automata
 
 			if (npc.frameCounter > 2 && !shot)
 			{
+				int glyphnum = Main.rand.Next(10);
+				DustHelper.DrawDustImage(npc.Center, 6, 0.05f, "SpiritMod/Effects/Glyphs/Glyph" + glyphnum, 1.5f);
 				Projectile proj = Projectile.NewProjectileDirect(npc.Center, npc.velocity, ModContent.ProjectileType<AutomataCreeperProj>(), Main.expertMode ? 40 : 60, 4, npc.target, npc.ai[0], npc.ai[1]);
 				if (proj.modProjectile is AutomataCreeperProj modproj)
 				{
@@ -167,7 +169,6 @@ namespace SpiritMod.NPCs.Automata
 			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation % 6.28f, npc.frame.Size() / 2, npc.scale, initialDirection != 1 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
 			return false;
 		}
-
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			int x = spawnInfo.spawnTileX;
@@ -196,7 +197,12 @@ namespace SpiritMod.NPCs.Automata
 	}
 	public class AutomataCreeperProj : ModProjectile
 	{
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Cog");
+		public override void SetStaticDefaults()
+		{
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			DisplayName.SetDefault("Cog");
+		}
 
 		public Vector2 moveDirection;
 		public Vector2 newVelocity = Vector2.Zero;
@@ -211,12 +217,14 @@ namespace SpiritMod.NPCs.Automata
 			projectile.tileCollide = false;
 			projectile.hostile = true;
 			projectile.friendly = false;
-			projectile.width = projectile.height = 38;
+			projectile.width = projectile.height = 36;
 			projectile.timeLeft = 150;
 			projectile.ignoreWater = true;
 		}
 		public override void AI()
 		{
+			Dust.NewDustPerfect(new Vector2(projectile.position.X + Main.rand.Next(projectile.width), projectile.position.Y + projectile.height - Main.rand.Next(7)), 6, new Vector2(-projectile.velocity.X, -projectile.velocity.Y *.5f)).noGravity = true;
+			Lighting.AddLight((int)(projectile.position.X / 16f), (int)(projectile.position.Y / 16f), 0.301f, .047f, .016f);
 			if (speed < 12)
 				speed *= 1.03f;
 			if (growCounter < 1)
@@ -234,7 +242,7 @@ namespace SpiritMod.NPCs.Automata
 
 			if (projectile.ai[1] == 0f)
 			{
-				projectile.rotation += (float)(moveDirection.X * moveDirection.Y) * 0.13f;
+				projectile.rotation += (float)(moveDirection.X * moveDirection.Y) * 0.43f;
 				if (collideY)
 				{
 					projectile.ai[0] = 2f;
@@ -273,11 +281,20 @@ namespace SpiritMod.NPCs.Automata
 			projectile.velocity = speed * moveDirection;
 			projectile.velocity = Collide();
 		}
-
 		protected virtual Vector2 Collide()
 		{
 			return Collision.noSlopeCollision(projectile.position, projectile.velocity, projectile.width, projectile.height, true, true);
 		}
-
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+			for (int k = 0; k < projectile.oldPos.Length; k++)
+			{
+				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
+				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+			}
+			return false;
+		}
 	}
 }
