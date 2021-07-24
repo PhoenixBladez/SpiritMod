@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 			projectile.height = 8;
 			projectile.friendly = true;
 			projectile.timeLeft = 600;
-			projectile.scale = Main.rand.NextFloat(0.15f, 0.25f);
+			projectile.scale = Main.rand.NextFloat(0.12f, 0.2f);
 			projectile.alpha = 255;
 			projectile.rotation = Main.rand.NextFloat(MathHelper.TwoPi);
 			projectile.hide = true;

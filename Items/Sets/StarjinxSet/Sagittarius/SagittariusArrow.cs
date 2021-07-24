@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 			projectile.height = 8;
 			projectile.friendly = true;
 			projectile.penetrate = -1;
-			projectile.timeLeft = 50;
+			projectile.timeLeft = 70;
 			projectile.ranged = true;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 10;
@@ -36,9 +36,9 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Texture2D tex = Main.projectileTexture[projectile.type];
-			float Timer = (float)(Math.Abs(Math.Sin(Main.GlobalTime * 6f)) / 18f) + 0.7f;
-			Vector2 scaleVerticalGlow = new Vector2(0.4f, 2f) * Timer;
-			Vector2 scaleHorizontalGlow = new Vector2(0.4f, 4f) * Timer;
+			float Timer = (float)(Math.Abs(Math.Sin(Main.GlobalTime * 6f)) / 12f) + 0.7f;
+			Vector2 scaleVerticalGlow = new Vector2(0.7f, 2f) * Timer;
+			Vector2 scaleHorizontalGlow = new Vector2(0.7f, 4f) * Timer;
 			Color blurcolor = new Color(255, 255, 255, 100) * 0.7f;
 			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, blurcolor * Timer, 0, tex.Size() / 2, scaleVerticalGlow, SpriteEffects.None, 0);
 			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, blurcolor * Timer, MathHelper.PiOver2, tex.Size() / 2, scaleHorizontalGlow, SpriteEffects.None, 0);

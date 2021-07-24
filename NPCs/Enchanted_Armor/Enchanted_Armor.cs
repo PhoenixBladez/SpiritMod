@@ -78,7 +78,6 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 				npc.localAI[2] = npc.Left.Y + 16;
 				npc.netUpdate = true;
 			}
-
 			if (!player.active || player.dead || npc.Distance(player.Center) > 2000) {
 				movement();
 				DespawnTimer--;

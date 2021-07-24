@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 {
-	public class MeteorMagus : ModNPC,StarjinxEnemy
+	public class MeteorMagus : SpiritNPC, StarjinxEnemy
 	{
 		public override void SetStaticDefaults()
 		{
@@ -22,8 +22,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		}
 
 		//large chunk of this(attack pattern use and randomizing) directly ripped from haunted tome, TODO: reduce boilerplate a lot
-
-		private Point frame = new Point(0, 0);
 
 		public override void SetDefaults()
 		{
@@ -114,12 +112,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 				npc.rotation = 0f;
 
-				UpdateFrame(8, 0, 3);
+				UpdateYFrame(8, 0, 3);
 				frame.X = 1;
 			}
 			else
 			{
-				UpdateFrame(10, 0, 4);
+				UpdateYFrame(10, 0, 4);
 				frame.X = 0;
 			}
 
@@ -209,48 +207,14 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 				modnpc.ResetPattern();
 		}
 
-		private void UpdateFrame(int framespersecond, int minframe, int maxframe)
+		public override void SafeFindFrame(int frameHeight) => npc.frame.Width = 168;
+
+		public override void OnHitKill(int hitDirection, double damage)
 		{
-			npc.frameCounter++;
-			if (npc.frameCounter >= (60 / framespersecond))
+			for (int i = 0; i < 6; i++)
 			{
-				frame.Y++;
-				npc.frameCounter = 0;
+				Gore.NewGore(npc.Center, npc.velocity * .5f, 99, Main.rand.NextFloat(.75f, 1f));
 			}
-			if (frame.Y > maxframe || frame.Y < minframe)
-				frame.Y = minframe;
-		}
-
-		public override void HitEffect(int hitDirection, double damage)
-		{
-			if (npc.life <= 0)
-			{
-				for (int i = 0; i < 6; i++)
-				{
-					Gore.NewGore(npc.Center, npc.velocity * .5f, 99, Main.rand.NextFloat(.75f, 1f));
-				}
-			}
-		}
-
-		/*public override void NPCLoot()
-		{
-			npc.DropItem(ModContent.ItemType<Items.Weapon.Magic.ScreamingTome.ScreamingTome>());
-			MyWorld.downedTome = true;
-			if (Main.netMode != NetmodeID.SinglePlayer)
-				NetMessage.SendData(MessageID.WorldData);
-
-			for (int i = 0; i < 8; i++)
-				Gore.NewGore(npc.Center, Main.rand.NextVector2Circular(0.5f, 0.5f), 99, Main.rand.NextFloat(0.6f, 1.2f));
-
-			if (Main.netMode != NetmodeID.Server)
-				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/DownedMiniboss"));
-		}*/
-
-		public override void FindFrame(int frameHeight)
-		{
-			npc.frame.Y = frame.Y * frameHeight;
-			npc.frame.Width = 168;
-			npc.frame.X = frame.X * npc.frame.Width;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

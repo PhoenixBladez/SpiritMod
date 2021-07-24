@@ -17,8 +17,8 @@ namespace SpiritMod.Projectiles.Pet
 		{
 			projectile.CloneDefaults(ProjectileID.Penguin);
 			aiType = ProjectileID.Penguin;
-			projectile.width = 22;
-			projectile.height = 20;
+			projectile.width = 54;
+			projectile.height = 30;
 		}
 
 		public override bool PreAI()

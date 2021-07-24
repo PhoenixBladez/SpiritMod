@@ -549,30 +549,68 @@ namespace SpiritMod.Utilities
 		}
 	}
 
-	public class ProjectileOpacityTrail : ITrailColor
+	public class StarjinxTrail : ITrailColor
 	{
-		private Color _colour;
-		private Color _colour2;
+		private float _start;
+		private readonly float _speed;
+		private readonly float _opacity;
 		private Projectile _proj;
 
-		public ProjectileOpacityTrail(Projectile projectile, Color colour)
+		public StarjinxTrail(float StartingTimer, float AnimationSpeed = 1f, float Opacity = 1f)
 		{
-			_proj = projectile;
-			_colour = colour;
-			_colour2 = colour;
+			_start = StartingTimer;
+			_speed = AnimationSpeed;
+			_opacity = Opacity;
 		}
-
-		public ProjectileOpacityTrail(Projectile projectile, Color startColour, Color endColour)
+		public StarjinxTrail(Projectile projectile, float StartingTimer, float AnimationSpeed = 1f, float Opacity = 1f)
 		{
 			_proj = projectile;
-			_colour = startColour;
-			_colour2 = endColour;
+			_start = StartingTimer;
+			_speed = AnimationSpeed;
+			_opacity = Opacity;
 		}
 
 		public Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points)
 		{
 			float progress = distanceFromStart / trailLength;
-			return Color.Lerp(_colour, _colour2, progress) * (1f - progress) * _proj.Opacity;
+			Color returnColor = Color.Lerp(SpiritMod.StarjinxColor(_start + Main.GlobalTime * _speed), SpiritMod.StarjinxColor(_start + 5 + Main.GlobalTime * _speed), progress) * (1f - progress) * _opacity;
+			if (_proj != null)
+			{
+				return returnColor * _proj.Opacity;
+			}
+			return returnColor;
+		}
+	}
+
+	public class OpacityUpdatingTrail : ITrailColor
+	{
+
+		private Color _startcolor;
+		private Color _endcolor;
+		private Projectile _proj;
+		private float _opacity = 1f;
+
+		public OpacityUpdatingTrail(Projectile proj, Color color)
+		{
+			_startcolor = color;
+			_endcolor = color;
+			_proj = proj;
+		}
+
+		public OpacityUpdatingTrail(Projectile proj, Color startColor, Color endColor)
+		{
+			_startcolor = startColor;
+			_endcolor = endColor;
+			_proj = proj;
+		}
+
+		public Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points)
+		{
+			float progress = distanceFromStart / trailLength;
+			if (_proj.active && _proj != null)
+				_opacity = _proj.Opacity;
+
+			return Color.Lerp(_startcolor, _endcolor, progress) * (1f - progress) * _opacity;
 		}
 	}
 	#endregion
@@ -661,71 +699,6 @@ namespace SpiritMod.Utilities
 		public void AddCap(VertexPositionColorTexture[] array, ref int currentIndex, Color colour, Vector2 position, Vector2 startNormal, float width)
 		{
 
-		}
-	}
-
-	public class StarjinxTrail : ITrailColor
-	{
-		private float _start;
-		private readonly float _speed;
-		private readonly float _opacity;
-		private Projectile _proj;
-
-		public StarjinxTrail(float StartingTimer, float AnimationSpeed = 1f, float Opacity = 1f)
-		{
-			_start = StartingTimer;
-			_speed = AnimationSpeed;
-			_opacity = Opacity;
-		}
-		public StarjinxTrail(Projectile projectile, float StartingTimer, float AnimationSpeed = 1f, float Opacity = 1f)
-		{
-			_proj = projectile;
-			_start = StartingTimer;
-			_speed = AnimationSpeed;
-			_opacity = Opacity;
-		}
-
-		public Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points)
-		{
-			float progress = distanceFromStart / trailLength;
-			Color returnColor = Color.Lerp(SpiritMod.StarjinxColor(_start + Main.GlobalTime * _speed), SpiritMod.StarjinxColor(_start + 5 + Main.GlobalTime * _speed), progress) * (1f - progress) * _opacity;
-			if (_proj != null)
-			{
-				return returnColor * _proj.Opacity;
-			}
-			return returnColor;
-		}
-	}
-
-	public class OpacityUpdatingTrail : ITrailColor
-	{
-
-		private Color _startcolor;
-		private Color _endcolor;
-		private Projectile _proj;
-		private float _opacity = 1f;
-
-		public OpacityUpdatingTrail(Projectile proj, Color color)
-		{
-			_startcolor = color;
-			_endcolor = color;
-			_proj = proj;
-		}
-
-		public OpacityUpdatingTrail(Projectile proj, Color startColor, Color endColor)
-		{
-			_startcolor = startColor;
-			_endcolor = endColor;
-			_proj = proj;
-		}
-
-		public Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points)
-		{
-			float progress = distanceFromStart / trailLength;
-			if (_proj.active && _proj != null)
-				_opacity = _proj.Opacity;
-
-			return Color.Lerp(_startcolor, _endcolor, progress) * (1f - progress) * _opacity;
 		}
 	}
 	#endregion

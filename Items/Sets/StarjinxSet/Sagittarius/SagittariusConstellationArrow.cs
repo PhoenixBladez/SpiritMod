@@ -72,9 +72,9 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 		{
 			Texture2D tex = Main.projectileTexture[projectile.type];
 			float Timer = (float)(Math.Abs(Math.Sin(Main.GlobalTime * 6f)) / 12f) + 0.7f;
-			Vector2 scaleVerticalGlow = new Vector2(0.2f, 1f) * Timer;
-			Vector2 scaleHorizontalGlow = new Vector2(0.2f, 2f) * Timer;
-			Color blurcolor = new Color(255, 255, 255, 100) * 0.6f;
+			Vector2 scaleVerticalGlow = new Vector2(0.4f, 1f) * Timer;
+			Vector2 scaleHorizontalGlow = new Vector2(0.4f, 2f) * Timer;
+			Color blurcolor = new Color(255, 255, 255, 100) * 0.4f;
 			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, blurcolor * Timer, 0, tex.Size() / 2, scaleVerticalGlow, SpriteEffects.None, 0);
 			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, blurcolor * Timer, MathHelper.PiOver2, tex.Size() / 2, scaleHorizontalGlow, SpriteEffects.None, 0);
 			return false;

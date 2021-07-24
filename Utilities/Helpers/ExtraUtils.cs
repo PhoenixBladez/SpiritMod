@@ -71,5 +71,28 @@ namespace SpiritMod
 				spriteBatch.Draw(tex, projectile.oldPos[i] + projectile.Size / 2 - Main.screenPosition, projectile.DrawFrame(), (color ?? Color.White) * opacity, rotation ?? projectile.oldRot[i], projectile.DrawFrame().Size() / 2, projectile.scale, spriteEffects ?? (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
 			}
 		}
+
+		public static bool CheckSolidTilesAndPlatforms(Rectangle range)
+		{
+			int startX = range.X;
+			int endX = range.X + range.Width;
+
+			int startY = range.Y;
+			int endY = range.Y + range.Height;
+
+			if (Collision.SolidTiles(startX, endX, startY, endY))
+				return true;
+
+			for(int x = startX; x <= endX; x++)
+			{
+				for(int y = startY; y <= endY; y++)
+				{
+					if (TileID.Sets.Platforms[Main.tile[x, y].type])
+						return true;
+				}
+			}
+
+			return false;
+		}
 	}
 }
