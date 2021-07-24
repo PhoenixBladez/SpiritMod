@@ -9,10 +9,7 @@ namespace SpiritMod.Items.Sets.BloaterDrops
 {
 	public class GastricAcid : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Gastric Acid");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Gastric Acid");
 
 		public override void SetDefaults()
 		{
@@ -24,15 +21,31 @@ namespace SpiritMod.Items.Sets.BloaterDrops
 			projectile.ignoreWater = true;
 			projectile.ranged = true;
 			projectile.aiStyle = 1;
-			projectile.extraUpdates = 10;
 			projectile.timeLeft = 20;
 			aiType = ProjectileID.FlamethrowerTrap;
 		}
 
 		public override void AI()
 		{
-			if (Main.rand.NextBool(2))
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 138, Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f), 0, default, Main.rand.NextFloat(0.6f, 0.9f));
+			//if (projectile.timeLeft < 12) //Useless when the projectile is invisible
+			//	projectile.alpha = (int)((1 - projectile.timeLeft / 12f) * 255f); 
+
+			if (projectile.timeLeft < 10)
+				projectile.velocity *= 0.95f;
+
+			if (!projectile.wet)
+				projectile.velocity.Y += 0.2f;
+
+			float scaleMult = 1f;
+			if (projectile.timeLeft < 3)
+				scaleMult = 1.75f; //Final dusts are bigger
+			int dusts = 1 + (Main.rand.NextBool(2) ? 1 : 0);
+			for (int i = 0; i < dusts; ++i)
+			{
+				float xVel = Main.rand.NextFloat(-1f, 1f) * scaleMult;
+				float yVel = Main.rand.NextFloat(-1f, 1f) * scaleMult;
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<GastricDust>(), xVel, yVel, 0, default, Main.rand.NextFloat(0.8f, 1f) * scaleMult);
+			}
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => false;

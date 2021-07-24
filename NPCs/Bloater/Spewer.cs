@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Projectiles.Hostile;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -31,27 +30,23 @@ namespace SpiritMod.NPCs.Bloater
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.BloaterBanner>();
 		}
-		public override void FindFrame(int frameHeight)
-		{
-			npc.frame.Y = frameHeight * frame;
-		}
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return spawnInfo.player.ZoneCrimson && spawnInfo.player.ZoneOverworldHeight ? .075f : 0f;
-		}
+
+		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.player.ZoneCrimson && spawnInfo.player.ZoneOverworldHeight ? .075f : 0f;
+
 		int frame = 0;
+
 		public override void AI()
 		{
-
 			npc.rotation = npc.velocity.X * .08f;
 			bool expertMode = Main.expertMode;
 			float velMax = 1f;
 			float acceleration = 0.011f;
 			npc.TargetClosest(true);
 			Vector2 center = npc.Center;
-			float deltaX = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - center.X;
-			float deltaY = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - center.Y;
-			float distance = (float)Math.Sqrt((double)deltaX * (double)deltaX + (double)deltaY * (double)deltaY);
+			float deltaX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - center.X;
+			float deltaY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - center.Y;
+			float distance = (float)Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
 			npc.ai[1] += 1f;
 			if (distance < 240) {
 				if (npc.ai[1] >= 80 && npc.ai[1] <= 180) {
@@ -86,9 +81,8 @@ namespace SpiritMod.NPCs.Bloater
 						npc.ai[2] = 0;
 						frame++;
 					}
-					if (frame >= 9 || frame < 5) {
+					if (frame >= 9 || frame < 5)
 						frame = 7;
-					}
 				}
 				else {
 					++npc.ai[2];
@@ -96,9 +90,8 @@ namespace SpiritMod.NPCs.Bloater
 						npc.ai[2] = 0;
 						frame++;
 					}
-					if (frame >= 4) {
+					if (frame >= 4)
 						frame = 0;
-					}
 				}
 			}
 			else {
@@ -107,17 +100,16 @@ namespace SpiritMod.NPCs.Bloater
 					npc.ai[2] = 0;
 					frame++;
 				}
-				if (frame >= 4) {
+				if (frame >= 4)
 					frame = 0;
-				}
 			}
-			if ((double)npc.ai[1] > 200.0) {
+			if (npc.ai[1] > 200.0) {
 
-				if ((double)npc.ai[1] > 300.0) {
+				if (npc.ai[1] > 300.0) {
 					npc.ai[1] = 0f;
 				}
 			}
-			else if ((double)distance < 120.0) {
+			else if (distance < 120.0) {
 				npc.ai[0] += 0.9f;
 				if (npc.ai[0] > 0f) {
 					npc.velocity.Y = npc.velocity.Y + 0.039f;
@@ -144,19 +136,19 @@ namespace SpiritMod.NPCs.Bloater
 				}
 				npc.netUpdate = true;
 			}
-			if ((double)distance > 350.0) {
+			if (distance > 350.0) {
 				velMax = 5f;
 				acceleration = 0.2f;
 			}
-			else if ((double)distance > 300.0) {
+			else if (distance > 300.0) {
 				velMax = 3f;
 				acceleration = 0.25f;
 			}
-			else if ((double)distance > 250.0) {
+			else if (distance > 250.0) {
 				velMax = 2.5f;
 				acceleration = 0.13f;
 			}
-			if ((double)distance > 500) {
+			if (distance > 500) {
 				npc.noTileCollide = true;
 			}
 			else {
@@ -166,29 +158,24 @@ namespace SpiritMod.NPCs.Bloater
 			float velLimitX = deltaX * stepRatio;
 			float velLimitY = deltaY * stepRatio;
 			if (Main.player[npc.target].dead) {
-				velLimitX = (float)((double)((float)npc.direction * velMax) / 2.0);
-				velLimitY = (float)((double)(-(double)velMax) / 2.0);
+				velLimitX = (float)((npc.direction * velMax) / 2.0);
+				velLimitY = (float)((-velMax) / 2.0);
 			}
-			if (npc.velocity.X < velLimitX) {
+			if (npc.velocity.X < velLimitX)
 				npc.velocity.X = npc.velocity.X + acceleration;
-			}
-			else if (npc.velocity.X > velLimitX) {
+			else if (npc.velocity.X > velLimitX)
 				npc.velocity.X = npc.velocity.X - acceleration;
-			}
-			if (npc.velocity.Y < velLimitY) {
+			if (npc.velocity.Y < velLimitY)
 				npc.velocity.Y = npc.velocity.Y + acceleration;
-			}
-			else if (npc.velocity.Y > velLimitY) {
+			else if (npc.velocity.Y > velLimitY)
 				npc.velocity.Y = npc.velocity.Y - acceleration;
-			}
 			npc.spriteDirection = -npc.direction;
 
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for (int k = 0; k < 23; k++) {
+			for (int k = 0; k < 23; k++)
 				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection * 1.5f, -1f, 0, default(Color), .91f);
-			}
 			if (npc.life <= 0) {
 				Main.PlaySound(SoundID.NPCKilled, npc.Center, 30);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Spewer/Spewer1"), 1f);
@@ -199,13 +186,11 @@ namespace SpiritMod.NPCs.Bloater
         public override void NPCLoot()
         {
             if (Main.rand.NextBool(3))
-            {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Vertebrae);
-            }
             if (Main.rand.NextBool(33))
-            {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.GunsMisc.Spineshot.Spineshot>());
-            }
-        }
+			if (Main.rand.Next(100) < 4)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.BloaterDrops.GastricGusher>());
+		}
     }
 }
