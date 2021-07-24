@@ -74,14 +74,15 @@ namespace SpiritMod.Items.Sets.BloaterDrops
 
 		private void Fire(Player p)
 		{
-			Vector2 vel = Vector2.Normalize(Main.MouseWorld - p.Center) * 9.5f * ScalingCapped;
+			Vector2 vel = Vector2.Normalize(Main.MouseWorld - p.Center) * 8f * ScalingCapped;
 			int inc = 3 + (int)ScalingCapped;
 
 			for (int i = 0; i < inc; i++) //Projectiles
 			{
 				Vector2 velocity = vel.RotatedByRandom(ScalingCapped * 0.2f) * Main.rand.NextFloat(0.9f, 1.1f);
-				int proj = Projectile.NewProjectile(p.Center, velocity, ProjectileID.WoodenArrowFriendly, (int)(10 * ScalingCapped), 0.2f, projectile.owner);
-				Main.projectile[proj].penetrate = 1;
+				int proj = Projectile.NewProjectile(p.Center, velocity, ProjectileID.ChlorophyteBullet, (int)(10 * ScalingCapped), 0.2f, projectile.owner);
+				Main.projectile[proj].penetrate = 0;
+				Main.projectile[proj].maxPenetrate = 0;
 			}
 
 			for (int i = 0; i < p.inventory.Length; ++i) //Consume ammo here so it's used when shot rather than when clicked
