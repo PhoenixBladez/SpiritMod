@@ -77,6 +77,18 @@ namespace SpiritMod.NPCs
 			return SafePreAI();
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(npc.frameCounter);
+			writer.WriteVector2(frame.ToVector2());
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			npc.frameCounter = reader.ReadDouble();
+			frame = reader.ReadVector2().ToPoint();
+		}
+
 		/// <summary>
 		/// Simple helper method to make an npc pass through platforms when above the player, but not when at the same height as them
 		/// </summary>

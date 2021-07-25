@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Sets.BloaterDrops
+namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 {
 	public class GastricGusherProjectile : ModProjectile
 	{

@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -190,7 +191,7 @@ namespace SpiritMod.NPCs.Bloater
             if (Main.rand.NextBool(33))
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.GunsMisc.Spineshot.Spineshot>());
 			if (Main.rand.Next(100) < 4)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.BloaterDrops.GastricGusher>());
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GastricGusher>());
 		}
     }
 }

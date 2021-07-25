@@ -23,6 +23,8 @@ namespace SpiritMod.NPCs.Occultist
 		{
 			DisplayName.SetDefault("Occultist");
 			Main.npcFrameCount[npc.type] = 16;
+			NPCID.Sets.TrailCacheLength[npc.type] = 6;
+			NPCID.Sets.TrailingMode[npc.type] = 1;
 		}
 
 		public override void SetDefaults()
@@ -141,6 +143,7 @@ namespace SpiritMod.NPCs.Occultist
 					npc.noGravity = true;
 					npc.noTileCollide = true;
 					npc.dontTakeDamage = false;
+					Phase2(target);
 					break;
 			}
 			++AiTimer;
@@ -155,7 +158,7 @@ namespace SpiritMod.NPCs.Occultist
 		#region Animations
 		private void SpawnAnimation(Player target)
 		{
-			int animtime = 180;
+			int animtime = 120;
 
 			float halfanimtime = animtime / 2f;
 			if (SecondaryCounter == 0)
@@ -208,12 +211,12 @@ namespace SpiritMod.NPCs.Occultist
 			//slow rise and make glowmask
 			int RiseTime = 40;
 			int ChargeTime = 200;
-			int EndTime = 20;
+			int EndTime = 60;
 
 			if (AiTimer <= RiseTime)
 			{
 				if (!EventManager.IsPlaying<FollowNPCThenReturn>() && !Main.dedServ)
-					EventManager.PlayEvent(new FollowNPCThenReturn(npc, 1.5f, ((RiseTime + ChargeTime + EndTime) / 60) + 1, 1.5f));
+					EventManager.PlayEvent(new FollowNPCThenReturn(npc, 1.5f, (RiseTime + ChargeTime + EndTime/2) / 60, 1.5f));
 
 				UpdateYFrame(4, 0, 5);
 				npc.velocity = new Vector2(0, (float)-Math.Cos((AiTimer/RiseTime) * MathHelper.PiOver2) * 0.75f);
@@ -260,7 +263,10 @@ namespace SpiritMod.NPCs.Occultist
 				_ritualCircle = 0;
 				_whiteGlow = 0;
 				if (AiTimer > RiseTime + ChargeTime + EndTime)
+				{
+					SwapAttack();
 					UpdateAIState(AISTATE_PHASE2);
+				}
 			}
 		}
 
@@ -494,6 +500,217 @@ namespace SpiritMod.NPCs.Occultist
 		}
 		#endregion
 
+		#region Phase 2
+		private void Phase2(Player target)
+		{
+			int numAttacksPerCooldown = 3;
+			//if(SecondaryCounter < numAttacksPerCooldown)
+			//{
+				switch (AttackType)
+				{
+					case WAVEHANDS:
+						WaveHandsP2(target);
+						break;
+					case SACDAGGERS:
+						DaggersP2(target);
+						break;
+					case HOMINGSOULS:
+						SoulsP2(target);
+						break;
+					case SUMMONBRUTE:
+						WaveHandsP2(target);
+						//	BruteP1(target);
+						break;
+				}
+			//}
+		}
+
+		private void WaveHandsP2(Player target)
+		{
+			npc.TargetClosest(true);
+			int TPTime = 60;
+			if (AiTimer <= TPTime)
+			{
+				Vector2 TPPosition = target.Center + (target.velocity.X < 0 ? -1 : 1) * Vector2.UnitX * 300;
+				TeleportP2(TPPosition, TPTime);
+			}
+			else
+			{
+				float timer = AiTimer - TPTime; //make timing a bit simpler
+				if (timer % 6 == 0)
+					AddRune();
+
+				if (timer < 80) //home in on the side of the player that's closer
+				{
+					Vector2 DesiredPosition = target.Center + (target.DirectionTo(npc.Center).X < 0 ? -1 : 1) * Vector2.UnitX * 300;
+					DesiredPosition.Y += (float)Math.Sin(Main.GameUpdateCount / 10f) * 20;
+					float accel = MathHelper.Clamp(npc.Distance(DesiredPosition) / 400, 0.1f, 0.4f);
+					npc.AccelFlyingMovement(DesiredPosition, accel, 0.1f, 30);
+				}
+				else
+					npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.085f);
+
+				if (timer > 80)
+					UpdateYFrame(15, 0, 5, delegate (int frameY) 
+					{ 
+						if(frameY == 2 && Main.netMode != NetmodeID.MultiplayerClient)
+						{
+							Vector2 spawnPos = npc.Center + (Vector2.UnitX * npc.direction).RotatedByRandom(MathHelper.Pi / 4) * Main.rand.NextFloat(20, 40);
+							float amplitude = 70;
+							for(int i = -1; i <= 1; i++)
+							{
+								if (i == 0)
+									continue;
+
+								Projectile.NewProjectileDirect(spawnPos, npc.direction * Vector2.UnitX * 1.5f, ModContent.ProjectileType<OccultistHand>(), NPCUtils.ToActualDamage(40, 1.5f), 1f, Main.myPlayer, amplitude * i).netUpdate = true;
+							}
+							npc.velocity.X -= npc.direction * 5;
+							npc.netUpdate = true;
+						}
+					});
+				else
+					UpdateYFrame(6, 0, 5);
+
+				if (timer > 150)
+					ResetAttackP2();
+			}
+		}
+
+		private void DaggersP2(Player target)
+		{
+			int TPTime = 60;
+			if (AiTimer <= TPTime)
+			{
+				npc.TargetClosest(true);
+				Vector2 TPPosition = target.Center + ((target.velocity.X < 0 ? -1 : 1) * Vector2.UnitX * 500) - Vector2.UnitY * 170;
+				TeleportP2(TPPosition, TPTime);
+			}
+			else
+			{
+				float timer = AiTimer - TPTime; //make timing a bit simpler
+				float attacktime = 130;
+				float daggerstarttime = 40;
+
+				if (timer == 1 && !Main.dedServ)
+				{
+					Texture2D dagger = ModContent.GetTexture(Texture + "Dagger");
+					Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
+					float radius = 30;
+					float scale = 0.66f;
+					float opacity = 0.66f;
+					for (int i = 0; i < 5; i++)
+					{
+						_rotMan.AddObject(bloom, 0, radius, scale / 3, Color.Pink * opacity * 0.66f, -1, null, 60, 24 * i);
+						_rotMan.AddObject(dagger, 0, radius, scale, Color.White * opacity, -1, null, 60, 24 * i);
+					}
+				}
+
+				if (timer < daggerstarttime) //home in on the side of the player that's closer
+				{
+					Vector2 DesiredPosition = target.Center + ((target.DirectionTo(npc.Center).X < 0 ? -1 : 1) * Vector2.UnitX * 500) - Vector2.UnitY * 170;
+					float accel = MathHelper.Clamp(npc.Distance(DesiredPosition) / 400, 0.1f, 0.4f);
+					npc.AccelFlyingMovement(DesiredPosition, accel, 0.15f, 30);
+				}
+				else //move in direction it's facing, with quadratic easing formula to smooth out velocity
+				{
+					float progress = Math.Max((timer - daggerstarttime) / attacktime, 0);
+
+					npc.velocity.Y = 0;
+					npc.velocity.X = npc.direction * 16f * (progress < 0.5f ? 4 * (float)Math.Pow(progress, 2) : (float)Math.Pow((-2 * progress) + 2, 2));
+				}
+
+				if(timer % 7 == 0 && Main.netMode != NetmodeID.Server && timer > daggerstarttime)
+				{
+					Projectile proj = Projectile.NewProjectileDirect(npc.Center + Main.rand.NextVector2CircularEdge(30, 50), Vector2.Zero, 
+						ModContent.ProjectileType<OccultistDagger>(), NPCUtils.ToActualDamage(40, 1.5f), 1f, Main.myPlayer, 
+						Main.rand.NextFloat(-0.12f, 0.12f) + MathHelper.PiOver2);
+					proj.netUpdate = true;
+				}
+
+				UpdateYFrame(6, 0, 5);
+
+				if (timer > attacktime)
+				{
+					if (!Main.dedServ)
+						_rotMan.KillAllObjects();
+
+					ResetAttackP2();
+				}
+			}
+		}
+
+		private void SoulsP2(Player target)
+		{
+			npc.TargetClosest(true);
+			int TPTime = 60;
+			if (AiTimer <= TPTime)
+			{
+				npc.TargetClosest(true);
+				Vector2 TPPosition = target.Center - Vector2.UnitY * 200;
+				TeleportP2(TPPosition, TPTime);
+			}
+			else
+			{
+				float timer = AiTimer - TPTime; //make timing a bit simpler
+				float attacktime = 130;
+
+				UpdateYFrame(8, 0, 5);
+
+				npc.AccelFlyingMovement(target.Center, 0.07f, 0f, 10);
+				if (timer % 10 == 0)
+				{
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						Vector2 vel = Main.rand.NextVector2CircularEdge(2.5f, 2.5f) * Main.rand.NextFloat(0.8f, 1.2f);
+
+						Projectile.NewProjectileDirect(npc.Center + vel * Main.rand.NextFloat(5, 15), vel, ModContent.ProjectileType<OccultistSoul>(), 0, 1, Main.myPlayer).netUpdate = true;
+					}
+				}
+
+
+				if (timer % 12 == 0 && timer <= 60)
+				{
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						Vector2 vel = npc.DirectionFrom(target.Center).RotatedByRandom(MathHelper.PiOver2) * 4;
+						Projectile.NewProjectileDirect(npc.Center + vel * Main.rand.NextFloat(10, 20), vel, ModContent.ProjectileType<OccultistSoul>(), NPCUtils.ToActualDamage(30, 1.5f), 1, Main.myPlayer, 1, target.whoAmI).netUpdate = true;
+					}
+				}
+
+				if (timer > attacktime)
+					ResetAttackP2();
+			}
+		}
+
+		private void ResetAttackP2()
+		{
+			SwapAttack();
+			SecondaryCounter++;
+			AiTimer = 0;
+			npc.velocity = Vector2.Zero;
+			npc.netUpdate = true;
+		}
+
+		private void TeleportP2(Vector2 position, int time) //method to handle teleporting for at the start of the attack, as to reduce boilerplate
+		{
+			int halftime = time / 2;
+			if (AiTimer <= halftime)
+			{
+				UpdateYFrame(10 * (60/halftime), 5, 15, delegate (int frameY)
+				{
+					if (frameY == 15)
+					{
+						npc.Center = position;
+						npc.netUpdate = true;
+					}
+				});
+			}
+			else
+				UpdateYFrame(10 * (60/halftime), 15, 5);
+		}
+
+		#endregion
+
 		#region Drawing
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
@@ -520,14 +737,20 @@ namespace SpiritMod.NPCs.Occultist
 
 			Texture2D mask = ModContent.GetTexture(Texture + "_mask");
 
-			void DrawTexture(Texture2D tex, Color color, float scale = 1f, Vector2? offset = null) => spriteBatch.Draw(tex, npc.Center + (offset ?? Vector2.Zero) - Main.screenPosition + new Vector2(0, npc.gfxOffY), 
+			void DrawTexture(Texture2D tex, Color color, float scale = 1f, Vector2? position = null) => spriteBatch.Draw(tex, (position ?? npc.Center) - Main.screenPosition + new Vector2(0, npc.gfxOffY), 
 				npc.frame, color, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+
+			for(int j = 0; j < NPCID.Sets.TrailCacheLength[npc.type]; j++)
+			{
+				float Opacity = (NPCID.Sets.TrailCacheLength[npc.type] - j) / (float)NPCID.Sets.TrailCacheLength[npc.type];
+				DrawTexture(mask, glowColor * _pulseGlowmask * 0.5f * Opacity, 1f, npc.oldPos[j] + npc.Size/2);
+			}
 
 			//pulse glowmask effect
 			for(int i = 0; i < 6; i++)
 			{
 				Vector2 offset = Vector2.UnitX.RotatedBy((i / 6f) * MathHelper.TwoPi) * timer * 8;
-				DrawTexture(mask, glowColor * (1 - timer) * _pulseGlowmask, 1f, offset);
+				DrawTexture(mask, glowColor * (1 - timer) * _pulseGlowmask, 1f, npc.Center + offset);
 			}
 			DrawTexture(mask, glowColor * _pulseGlowmask, 1.1f);
 

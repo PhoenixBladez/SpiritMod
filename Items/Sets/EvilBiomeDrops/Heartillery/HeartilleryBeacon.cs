@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Weapon.Summon
+namespace SpiritMod.Items.Sets.EvilBiomeDrops.Heartillery
 {
 	public class HeartilleryBeacon : ModItem
 	{

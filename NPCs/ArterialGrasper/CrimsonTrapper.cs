@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
+using SpiritMod.Items.Sets.EvilBiomeDrops.Heartillery;
 
 namespace SpiritMod.NPCs.ArterialGrasper
 {
@@ -157,7 +158,7 @@ namespace SpiritMod.NPCs.ArterialGrasper
             }
             if (Main.rand.NextBool(33))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Summon.HeartilleryBeacon>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HeartilleryBeacon>());
             }
             if (Main.rand.NextBool(16))
             {

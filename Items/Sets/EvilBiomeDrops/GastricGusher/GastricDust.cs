@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Sets.BloaterDrops
+namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 {
 	public class GastricDust : ModDust
 	{

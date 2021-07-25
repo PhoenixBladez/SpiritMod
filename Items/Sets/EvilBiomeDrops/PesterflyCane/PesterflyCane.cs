@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Weapon.Magic
+namespace SpiritMod.Items.Sets.EvilBiomeDrops.PesterflyCane
 {
 	public class PesterflyCane : ModItem
 	{
