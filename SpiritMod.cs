@@ -1004,7 +1004,10 @@ namespace SpiritMod
 			StructureLoader.Unload();
 			ParticleHandler.Unload();
 			AutoloadMinionDictionary.Unload();
-			Boids.UnloadContent();
+
+			if (Boids != null)
+				Boids.UnloadContent();
+
 			glitchEffect = null;
 			glitchScreenShader = null;
 			TrailManager = null;
@@ -1016,10 +1019,10 @@ namespace SpiritMod
 			SpiritDetours.Unload();
 
 			PortraitManager.Unload(); //Idk if this is necessary but it seems like a good move - Gabe
-			//UnloadDetours();
+									  //UnloadDetours();
 
 			// remove any custom chat tag handlers
-			ConcurrentDictionary<string, ITagHandler> handlerDict = (ConcurrentDictionary<string, ITagHandler>)typeof(ChatManager).GetField("_handlers", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
+			var handlerDict = (ConcurrentDictionary<string, ITagHandler>)typeof(ChatManager).GetField("_handlers", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
 			handlerDict.TryRemove("spiritQuest", out var ignore);
 		}
 

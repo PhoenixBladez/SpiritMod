@@ -73,6 +73,8 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 
 		private void Fire(Player p)
 		{
+			Main.PlaySound(SoundID.NPCDeath13, projectile.Center);
+
 			Vector2 vel = Vector2.Normalize(Main.MouseWorld - p.Center) * 10f * (ScalingCapped * 0.8f);
 			int inc = 3 + (int)ScalingCapped;
 

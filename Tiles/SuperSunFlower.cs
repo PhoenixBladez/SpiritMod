@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using SpiritMod.Items.Placeable;
 using SpiritMod.Particles;
+using SpiritMod.Tiles.Block;
 using System;
 using Terraria;
 using Terraria.DataStructures;
@@ -30,7 +31,7 @@ namespace SpiritMod.Tiles
 			TileObjectData.newTile.DrawYOffset = 12;
 			TileObjectData.newTile.Origin = new Point16(1, 5);
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
-			TileObjectData.newTile.AnchorValidTiles = new int[] { TileID.Grass, TileID.Dirt, TileID.JungleGrass, TileID.Mud };
+			TileObjectData.newTile.AnchorValidTiles = new int[] { TileID.Grass, TileID.Dirt, TileID.JungleGrass, TileID.Mud, ModContent.TileType<BriarGrass>() };
 			TileObjectData.addTile(Type);
 
 			AddMapEntry(Color.LightGoldenrodYellow);
