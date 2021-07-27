@@ -35,11 +35,15 @@ namespace SpiritMod.Projectiles.Bullet
 		{
 			writer.WriteVector2(newCenter);
 			writer.Write(offset);
+			writer.Write(projectile.localAI[0]);
+			writer.Write(projectile.localAI[1]);
 		}
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			newCenter = reader.ReadVector2();
 			offset = reader.ReadSingle();
+			projectile.localAI[0] = reader.ReadSingle();
+			projectile.localAI[1] = reader.ReadSingle();
 		}
 		public override void AI()
 		{
@@ -47,7 +51,10 @@ namespace SpiritMod.Projectiles.Bullet
 			Vector2 homeCenter = owner.Center;
 			homeCenter.Y -= 50;
 			if (Main.myPlayer == owner.whoAmI)
+			{
 				projectile.ai[0] = Utils.AngleLerp(owner.AngleTo(Main.MouseWorld), projectile.AngleTo(Main.MouseWorld), 0.75f);
+				projectile.netUpdate = true;
+			}
 
 			if (projectile.localAI[1] == 0) {
 				projectile.rotation = projectile.ai[0];
@@ -86,11 +93,16 @@ namespace SpiritMod.Projectiles.Bullet
 						int damage = projectile.damage;
 						bool canshoot = true;
 						owner.PickAmmo(owner.inventory[owner.selectedItem], ref shoot, ref speed, ref canshoot, ref damage, ref knockback, true);
-						if (canshoot && Main.netMode != NetmodeID.MultiplayerClient) {
+						if (canshoot) {
 							Main.PlaySound(SoundID.Item11, projectile.Center);
-							Projectile.NewProjectile(projectile.Center + (Vector2.UnitX.RotatedBy(projectile.rotation) * offset), 
+							Projectile proj = Projectile.NewProjectileDirect(projectile.Center + (Vector2.UnitX.RotatedBy(projectile.rotation) * offset), 
 								Vector2.UnitX.RotatedBy(projectile.rotation) * (speed + 10), shoot, damage, knockback + projectile.knockBack, projectile.owner);
+
+							if (Main.netMode != NetmodeID.SinglePlayer)
+								NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
 						}
+
+						projectile.netUpdate = true;
 					}
 				}
 				else
