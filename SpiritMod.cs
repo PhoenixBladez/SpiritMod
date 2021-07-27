@@ -449,7 +449,6 @@ namespace SpiritMod
 				&& player.ZoneDesert
 				&& player.ZoneOverworldHeight
 				&& !Main.dayTime
-				&& !Main.bloodMoon
 				&& !player.ZoneCorrupt
 				&& !player.ZoneCrimson
 				&& !player.ZoneBeach) {

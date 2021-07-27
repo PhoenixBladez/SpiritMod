@@ -22,15 +22,15 @@ namespace SpiritMod.NPCs.Occultist
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Occultist");
-			Main.npcFrameCount[npc.type] = 16;
 			NPCID.Sets.TrailCacheLength[npc.type] = 6;
 			NPCID.Sets.TrailingMode[npc.type] = 1;
+			Main.npcFrameCount[npc.type] = 9;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 32;
-			npc.height = 48;
+			npc.width = 42;
+			npc.height = 56;
 
 			npc.lifeMax = 1000;
 			npc.defense = 14;
@@ -76,6 +76,7 @@ namespace SpiritMod.NPCs.Occultist
 		{
 			AiState = State;
 			AiTimer = 0;
+			frame.Y = 0;
 			SecondaryCounter = 0;
 			npc.netUpdate = true;
 
@@ -164,20 +165,21 @@ namespace SpiritMod.NPCs.Occultist
 			if (SecondaryCounter == 0)
 			{
 				if (!EventManager.IsPlaying<FollowNPCThenReturn>() && !Main.dedServ)
-					EventManager.PlayEvent(new FollowNPCThenReturn(npc, 1.5f, (animtime / 60) + 1, 1.5f));
+					EventManager.PlayEvent(new FollowNPCThenReturn(npc, 1.5f, (animtime / 60), 1.5f));
 
 				AiTimer = 0;
-				UpdateYFrame(12, 15, 5, delegate (int frameY) 
+				frame.X = 3;
+				UpdateYFrame(8, 0, 6, delegate (int frameY) 
 				{ 
-					if(frameY == 5) //when anim is complete, increase counter and reset frame
+					if(frameY == 6) //when anim is complete, increase counter and reset frame
 					{
-						frame.Y = 0;
+						frame = new Point(1, 0);
 						SecondaryCounter++;
 						npc.netUpdate = true;
 					}
 				});
 			}
-			else if(AiTimer < animtime)
+			else if(AiTimer <= animtime)
 			{
 				npc.velocity.Y = (float)Math.Sin(AiTimer / 12f);
 				_pulseGlowmask = _ritualCircle = (halfanimtime - Math.Abs(halfanimtime - AiTimer)) / halfanimtime;
@@ -188,17 +190,23 @@ namespace SpiritMod.NPCs.Occultist
 					ParticleHandler.SpawnParticle(new GlowParticle(npc.Center + offset, -offset/30f, Color.Magenta * 0.75f, Main.rand.NextFloat(0.06f, 0.12f) * _ritualCircle, 30));
 				}
 
-				UpdateYFrame(4, 0, 5);
+				UpdateYFrame(8, 0, 8, null, 4);
+				if(AiTimer == animtime)
+				{
+					frame = new Point(2, 0);
+					npc.netUpdate = true;
+				}
 			}
 			else
 			{
 				_pulseGlowmask = _ritualCircle = 0;
 
 				npc.velocity.Y = 0;
-				UpdateYFrame(12, 0, 15, delegate (int frameY)
+				UpdateYFrame(8, 0, 7, delegate (int frameY)
 				{
-					if (frameY == 15)
+					if (frameY == 7)
 					{
+						frame.Y = 0;
 						UpdateAIState(AISTATE_PHASE1);
 						Teleport(target);
 					}
@@ -218,7 +226,8 @@ namespace SpiritMod.NPCs.Occultist
 				if (!EventManager.IsPlaying<FollowNPCThenReturn>() && !Main.dedServ)
 					EventManager.PlayEvent(new FollowNPCThenReturn(npc, 1.5f, (RiseTime + ChargeTime + EndTime/2) / 60, 1.5f));
 
-				UpdateYFrame(4, 0, 5);
+				frame.X = 1;
+				UpdateYFrame(4, 0, 8, null, 4);
 				npc.velocity = new Vector2(0, (float)-Math.Cos((AiTimer/RiseTime) * MathHelper.PiOver2) * 0.75f);
 				_pulseGlowmask = MathHelper.Lerp(_pulseGlowmask, 1, 0.1f);
 			}
@@ -226,7 +235,8 @@ namespace SpiritMod.NPCs.Occultist
 			// make circle and create runes
 			else if(AiTimer < (RiseTime + ChargeTime))
 			{
-				UpdateYFrame(7, 0, 5);
+				frame.X = 1;
+				UpdateYFrame(7, 0, 8, null, 4);
 				_ritualCircle = (AiTimer - RiseTime) / ChargeTime;
 				_whiteGlow = 0.5f * (float)Math.Pow((AiTimer - RiseTime) / ChargeTime, 2);
 				if (AiTimer % 4 == 0)
@@ -259,7 +269,8 @@ namespace SpiritMod.NPCs.Occultist
 
 			else
 			{
-				UpdateYFrame(3, 0, 5);
+				frame.X = 0;
+				UpdateYFrame(3, 0, 2);
 				_ritualCircle = 0;
 				_whiteGlow = 0;
 				if (AiTimer > RiseTime + ChargeTime + EndTime)
@@ -277,15 +288,17 @@ namespace SpiritMod.NPCs.Occultist
 			_ritualCircle = 0;
 			if (AiTimer <= RiseTime)
 			{
-				UpdateYFrame(4, 0, 5);
+				frame.X = 0;
+				UpdateYFrame(3, 0, 2);
 				npc.velocity = new Vector2(0, (float)-Math.Cos((AiTimer / RiseTime) * MathHelper.PiOver2) * 0.75f);
 			}
 
 			else
 			{
-				UpdateYFrame(12, 0, 15, delegate (int frameY)
+				frame.X = 2;
+				UpdateYFrame(12, 0, 5, delegate (int frameY)
 				{
-					if (frameY == 15)
+					if (frameY == 5)
 					{
 						npc.active = false;
 					}
@@ -328,9 +341,10 @@ namespace SpiritMod.NPCs.Occultist
 				case 0:
 					npc.TargetClosest(true);
 					AiTimer = 0;
-					UpdateYFrame(12, 15, 5, delegate (int frameY)
+					frame.X = 3;
+					UpdateYFrame(9, 0, 6, delegate (int frameY)
 					{
-						if (frameY == 5)
+						if (frameY == 6)
 						{
 							frame.Y = 0;
 							SecondaryCounter++;
@@ -339,6 +353,7 @@ namespace SpiritMod.NPCs.Occultist
 					break;
 
 				case 1:
+					frame.X = 1;
 					switch (AttackType)
 					{
 						case WAVEHANDS:
@@ -359,9 +374,10 @@ namespace SpiritMod.NPCs.Occultist
 					break;
 
 				case 2:
-					UpdateYFrame(12, 5, 15, delegate (int frameY)
+					frame.X = 2;
+					UpdateYFrame(9, 0, 7, delegate (int frameY)
 					{
-						if (frameY == 15)
+						if (frameY == 7)
 						{
 							SwapAttack();
 							Teleport(target);
@@ -377,13 +393,14 @@ namespace SpiritMod.NPCs.Occultist
 			if(AiTimer < 40)
 			{
 				npc.TargetClosest(true);
+				UpdateYFrame(8, 0, 8, null, 4);
 				if (AiTimer % 6 == 0)
 					AddRune();
 				return;
 			}
-			UpdateYFrame(12, 0, 5, delegate (int frameY)
+			UpdateYFrame(11, 4, 8, delegate (int frameY)
 			{
-				if ((frameY == 5 || frameY == 2) && Main.netMode != NetmodeID.MultiplayerClient)
+				if ((frameY == 4 || frameY == 8) && Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					Vector2 spawnPos = npc.Center + (Vector2.UnitX * npc.direction).RotatedByRandom(MathHelper.Pi / 4) * Main.rand.NextFloat(20, 40);
 					float amplitude = Main.rand.NextFloat(5, 10);
@@ -393,8 +410,7 @@ namespace SpiritMod.NPCs.Occultist
 				}
 			});
 
-			if (AiTimer > 100)
-				SecondaryCounter++;
+			ResetAttackP1(100);
 		}
 
 		private void DaggersP1(Player target)
@@ -402,7 +418,7 @@ namespace SpiritMod.NPCs.Occultist
 			if (AiTimer < 60)
 				npc.TargetClosest(true);
 			else
-				UpdateYFrame(5, 0, 5);
+				UpdateYFrame(8, 0, 8, null, 4);
 
 			if ((AiTimer == 1 || AiTimer == 20) && !Main.dedServ)
 			{
@@ -438,15 +454,14 @@ namespace SpiritMod.NPCs.Occultist
 				}
 			}
 
-			if (AiTimer > 120)
-				SecondaryCounter++;
+			ResetAttackP1(120);
 		}
 
 		private void SoulsP1(Player Target)
 		{
 			npc.TargetClosest(true);
 
-			UpdateYFrame(8, 0, 5);
+			UpdateYFrame(8, 4, 8);
 
 			if (AiTimer % 12 == 0)
 			{
@@ -457,6 +472,9 @@ namespace SpiritMod.NPCs.Occultist
 					Projectile.NewProjectileDirect(npc.Center + vel * Main.rand.NextFloat(5, 15), vel, ModContent.ProjectileType<OccultistSoul>(), 0, 1, Main.myPlayer).netUpdate = true;
 				}
 			}
+
+			if (AiTimer % 20 == 0 && !Main.dedServ)
+				ParticleHandler.SpawnParticle(new PulseCircle(npc.Center, new Color(252, 3, 148, 100) * 0.5f, 120, 12));
 				
 
 			if(AiTimer % 15 == 0 && AiTimer <= 45)
@@ -467,10 +485,9 @@ namespace SpiritMod.NPCs.Occultist
 					Projectile.NewProjectileDirect(npc.Center + vel * Main.rand.NextFloat(10, 20), vel, ModContent.ProjectileType<OccultistSoul>(), NPCUtils.ToActualDamage(30, 1.5f), 1, Main.myPlayer, 1, Target.whoAmI).netUpdate = true;
 				}
 			}
-				
 
-			if (AiTimer > 120)
-				SecondaryCounter++;
+
+			ResetAttackP1(120);
 		}
 
 		public void Teleport(Player player)
@@ -497,6 +514,16 @@ namespace SpiritMod.NPCs.Occultist
 
 			npc.position = desiredPos.ToWorldCoordinates();
 			npc.netUpdate = true;
+		}
+
+		private void ResetAttackP1(int endTime)
+		{
+			if(AiTimer > endTime)
+			{
+				SecondaryCounter++;
+				frame.Y = 0;
+				npc.netUpdate = true;
+			}
 		}
 		#endregion
 
@@ -551,13 +578,15 @@ namespace SpiritMod.NPCs.Occultist
 					npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.085f);
 
 				if (timer > 80)
-					UpdateYFrame(15, 0, 5, delegate (int frameY) 
-					{ 
-						if(frameY == 2 && Main.netMode != NetmodeID.MultiplayerClient)
+				{ 
+					frame.X = 1;
+					UpdateYFrame(8, 0, 8, delegate (int frameY)
+					{
+						if (frameY == 4 && Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							Vector2 spawnPos = npc.Center + (Vector2.UnitX * npc.direction).RotatedByRandom(MathHelper.Pi / 4) * Main.rand.NextFloat(20, 40);
 							float amplitude = 70;
-							for(int i = -1; i <= 1; i++)
+							for (int i = -1; i <= 1; i++)
 							{
 								if (i == 0)
 									continue;
@@ -567,9 +596,15 @@ namespace SpiritMod.NPCs.Occultist
 							npc.velocity.X -= npc.direction * 5;
 							npc.netUpdate = true;
 						}
-					});
+					}, 4);
+				}
 				else
-					UpdateYFrame(6, 0, 5);
+				{
+					frame.X = 0;
+					UpdateYFrame(4, 0, 2);
+					if(timer == 80)
+						frame.Y = 0;
+				}
 
 				if (timer > 150)
 					ResetAttackP2();
@@ -582,7 +617,7 @@ namespace SpiritMod.NPCs.Occultist
 			if (AiTimer <= TPTime)
 			{
 				npc.TargetClosest(true);
-				Vector2 TPPosition = target.Center + ((target.velocity.X < 0 ? -1 : 1) * Vector2.UnitX * 500) - Vector2.UnitY * 170;
+				Vector2 TPPosition = target.Center + ((target.velocity.X < 0 ? -1 : 1) * Vector2.UnitX * 550) - Vector2.UnitY * 220;
 				TeleportP2(TPPosition, TPTime);
 			}
 			else
@@ -607,7 +642,7 @@ namespace SpiritMod.NPCs.Occultist
 
 				if (timer < daggerstarttime) //home in on the side of the player that's closer
 				{
-					Vector2 DesiredPosition = target.Center + ((target.DirectionTo(npc.Center).X < 0 ? -1 : 1) * Vector2.UnitX * 500) - Vector2.UnitY * 170;
+					Vector2 DesiredPosition = target.Center + ((target.DirectionTo(npc.Center).X < 0 ? -1 : 1) * Vector2.UnitX * 550) - Vector2.UnitY * 220;
 					float accel = MathHelper.Clamp(npc.Distance(DesiredPosition) / 400, 0.1f, 0.4f);
 					npc.AccelFlyingMovement(DesiredPosition, accel, 0.15f, 30);
 				}
@@ -615,8 +650,8 @@ namespace SpiritMod.NPCs.Occultist
 				{
 					float progress = Math.Max((timer - daggerstarttime) / attacktime, 0);
 
-					npc.velocity.Y = 0;
-					npc.velocity.X = npc.direction * 16f * (progress < 0.5f ? 4 * (float)Math.Pow(progress, 2) : (float)Math.Pow((-2 * progress) + 2, 2));
+					npc.velocity.Y = (float)Math.Sin(MathHelper.TwoPi * AiTimer / 90);
+					npc.velocity.X = npc.direction * 22f * (progress < 0.5f ? 4 * (float)Math.Pow(progress, 2) : (float)Math.Pow((-2 * progress) + 2, 2));
 				}
 
 				if(timer % 7 == 0 && Main.netMode != NetmodeID.Server && timer > daggerstarttime)
@@ -627,7 +662,8 @@ namespace SpiritMod.NPCs.Occultist
 					proj.netUpdate = true;
 				}
 
-				UpdateYFrame(6, 0, 5);
+				frame.X = 0;
+				UpdateYFrame(7, 0, 2);
 
 				if (timer > attacktime)
 				{
@@ -646,7 +682,7 @@ namespace SpiritMod.NPCs.Occultist
 			if (AiTimer <= TPTime)
 			{
 				npc.TargetClosest(true);
-				Vector2 TPPosition = target.Center - Vector2.UnitY * 200;
+				Vector2 TPPosition = target.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(150, 200);
 				TeleportP2(TPPosition, TPTime);
 			}
 			else
@@ -654,9 +690,10 @@ namespace SpiritMod.NPCs.Occultist
 				float timer = AiTimer - TPTime; //make timing a bit simpler
 				float attacktime = 130;
 
-				UpdateYFrame(8, 0, 5);
+				frame.X = 1;
+				UpdateYFrame(8, 4, 8);
 
-				npc.AccelFlyingMovement(target.Center, 0.07f, 0f, 10);
+				npc.velocity.Y = (float)Math.Sin(MathHelper.TwoPi * AiTimer / 90);
 				if (timer % 10 == 0)
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -667,6 +704,8 @@ namespace SpiritMod.NPCs.Occultist
 					}
 				}
 
+				if (AiTimer % 20 == 0 && !Main.dedServ)
+					ParticleHandler.SpawnParticle(new PulseCircle(npc.Center, new Color(252, 3, 148, 100) * 0.5f, 120, 12));
 
 				if (timer % 12 == 0 && timer <= 60)
 				{
@@ -687,6 +726,7 @@ namespace SpiritMod.NPCs.Occultist
 			SwapAttack();
 			SecondaryCounter++;
 			AiTimer = 0;
+			frame.Y = 0;
 			npc.velocity = Vector2.Zero;
 			npc.netUpdate = true;
 		}
@@ -696,26 +736,40 @@ namespace SpiritMod.NPCs.Occultist
 			int halftime = time / 2;
 			if (AiTimer <= halftime)
 			{
-				UpdateYFrame(10 * (60/halftime), 5, 15, delegate (int frameY)
+				frame.X = 2;
+				UpdateYFrame(7 * (60/halftime), 0, 7, delegate (int frameY)
 				{
-					if (frameY == 15)
+					if (frameY == 7)
 					{
 						npc.Center = position;
 						npc.netUpdate = true;
+						AiTimer = halftime;
 					}
 				});
 			}
 			else
-				UpdateYFrame(10 * (60/halftime), 15, 5);
+			{
+				frame.X = 3;
+				UpdateYFrame(6 * (60 / halftime), 0, 6);
+			}
 		}
 
 		#endregion
 
 		#region Drawing
+
+		private float DrawTimer => (float)Math.Sin(Main.GlobalTime * 3) / 2 + 0.5f;
+
+		private void DrawTex(SpriteBatch sB, Texture2D tex, Color color, float scale = 1f, Vector2? position = null)
+		{
+			var effects = npc.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			sB.Draw(tex, (position ?? npc.Center) - Main.screenPosition + new Vector2(0, npc.gfxOffY),
+				npc.frame, color, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			float timer = (float)Math.Sin(Main.GlobalTime * 3) / 2 + 0.5f;
-			Color glowColor = Color.Lerp(Color.Red, Color.Magenta, timer);
+			Color glowColor = Color.Lerp(Color.Red, Color.Magenta, DrawTimer);
 
 
 			//draw ritual circle and a bloom
@@ -733,39 +787,40 @@ namespace SpiritMod.NPCs.Occultist
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
 
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
 			Texture2D mask = ModContent.GetTexture(Texture + "_mask");
-
-			void DrawTexture(Texture2D tex, Color color, float scale = 1f, Vector2? position = null) => spriteBatch.Draw(tex, (position ?? npc.Center) - Main.screenPosition + new Vector2(0, npc.gfxOffY), 
-				npc.frame, color, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 
 			for(int j = 0; j < NPCID.Sets.TrailCacheLength[npc.type]; j++)
 			{
 				float Opacity = (NPCID.Sets.TrailCacheLength[npc.type] - j) / (float)NPCID.Sets.TrailCacheLength[npc.type];
-				DrawTexture(mask, glowColor * _pulseGlowmask * 0.5f * Opacity, 1f, npc.oldPos[j] + npc.Size/2);
+				DrawTex(spriteBatch, mask, glowColor * _pulseGlowmask * 0.5f * Opacity, 1f, npc.oldPos[j] + npc.Size/2);
 			}
 
 			//pulse glowmask effect
 			for(int i = 0; i < 6; i++)
 			{
-				Vector2 offset = Vector2.UnitX.RotatedBy((i / 6f) * MathHelper.TwoPi) * timer * 8;
-				DrawTexture(mask, glowColor * (1 - timer) * _pulseGlowmask, 1f, npc.Center + offset);
+				Vector2 offset = Vector2.UnitX.RotatedBy((i / 6f) * MathHelper.TwoPi) * DrawTimer * 8;
+				DrawTex(spriteBatch, mask, glowColor * (1 - DrawTimer) * _pulseGlowmask, 1f, npc.Center + offset);
 			}
-			DrawTexture(mask, glowColor * _pulseGlowmask, 1.1f);
+			DrawTex(spriteBatch, mask, glowColor * _pulseGlowmask, 1.1f);
 
 			//normal drawing replacement
-			DrawTexture(Main.npcTexture[npc.type], drawColor);
+			DrawTex(spriteBatch, Main.npcTexture[npc.type], drawColor);
 			return false;
 		}
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Occultist/Occultist_glow"));
+			Texture2D glow = mod.GetTexture("NPCs/Occultist/Occultist_glow");
+			for(int i = 0; i < 6; i++)
+			{
+				Vector2 offset = Vector2.UnitX.RotatedBy((i / 6f) * MathHelper.TwoPi) * DrawTimer * 2;
+				DrawTex(spriteBatch, glow, Color.White * 0.5f * (1.5f - DrawTimer), 1f, npc.Center + offset);
+			}
+			DrawTex(spriteBatch, glow, Color.White);
 
 			Texture2D mask = ModContent.GetTexture(Texture + "_mask");
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(mask, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, Color.White * _whiteGlow, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			DrawTex(spriteBatch, mask, Color.White * _whiteGlow);
 		}
 
 		public void AdditiveCall(SpriteBatch spriteBatch)
@@ -795,6 +850,8 @@ namespace SpiritMod.NPCs.Occultist
 				NetMessage.SendData(MessageID.WorldData);
             return true;
         }
+
+		public override void SafeFindFrame(int frameHeight) => npc.frame.Width = 72;
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.spawnTileY < Main.rockLayer && (Main.bloodMoon) && !NPC.AnyNPCs(ModContent.NPCType<Occultist>()) && (NPC.downedBoss1 || NPC.downedBoss2 || NPC.downedBoss3 || MyWorld.downedScarabeus || MyWorld.downedAncientFlier || MyWorld.downedReachBoss || MyWorld.downedMoonWizard || MyWorld.downedRaider) ? 0.03f : 0f;
 		

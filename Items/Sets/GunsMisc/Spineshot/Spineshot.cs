@@ -8,6 +8,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.Spineshot
 {
 	public class Spineshot : ModItem
 	{
+		public override bool Autoload(ref string name) => false;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spineshot");

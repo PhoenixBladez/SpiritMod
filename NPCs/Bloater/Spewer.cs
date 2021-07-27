@@ -188,8 +188,6 @@ namespace SpiritMod.NPCs.Bloater
         {
             if (Main.rand.NextBool(3))
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Vertebrae);
-            if (Main.rand.NextBool(33))
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.GunsMisc.Spineshot.Spineshot>());
 			if (Main.rand.Next(100) < 4)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GastricGusher>());
 		}
