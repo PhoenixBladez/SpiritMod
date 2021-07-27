@@ -18,7 +18,16 @@ namespace SpiritMod.Mechanics.BackgroundSystem
 		/// <summary>True when this has been loaded and is usable.</summary>
 		public static bool Loaded { get; private set; }
 
-		public static void AddItem(BaseBGItem item) => bgItems.Add(item);
+		public static void AddItem(BaseBGItem item)
+		{
+			if (item != null)
+				bgItems.Add(item);
+			else
+			{
+				SpiritMod mod = SpiritMod.Instance;
+				mod.Logger.Warn("Null BGItem add attempt. Report to mod devs.");
+			}
+		}
 
 		/// <summary>Draws all background items.</summary>
 		public static void Draw()
@@ -73,11 +82,14 @@ namespace SpiritMod.Mechanics.BackgroundSystem
 					}
 				}
 			}
+			return tags;
+		}
 
+		public static void Unload()
+		{
 			bgItems = null; //Clear it and unload
 			organizedItems = null;
 			Loaded = false;
-			return tags;
 		}
 
 		/// <summary>Sets the bgItem lists and loads saved data, if possible.</summary>

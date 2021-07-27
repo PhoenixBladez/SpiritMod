@@ -77,7 +77,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 			if(projectile.ai[1] > 60 && projectile.Distance(newCenter) < 300)
             {
 				if (Main.netMode != NetmodeID.Server)
-					Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/starCast").WithPitchVariance(0.3f).WithVolume(0.6f), projectile.position);
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starCast").WithPitchVariance(0.3f).WithVolume(0.6f), projectile.position);
 
 				Vector2 vel = projectile.GetArcVel(target.Center, 0.1f, heightabovetarget : Main.rand.Next(50, 100));
 				projectile.velocity = projectile.DirectionFrom(target.Center).RotatedByRandom(MathHelper.PiOver2) * 15;

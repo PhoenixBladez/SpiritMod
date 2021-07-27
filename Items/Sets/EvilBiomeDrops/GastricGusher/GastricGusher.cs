@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAmmo = AmmoID.Gel;
 			item.rare = ItemRarityID.Blue;
-			item.UseSound = SoundID.Item5;
+			//item.UseSound = SoundID.None;
 			item.shoot = ModContent.ProjectileType<GastricGusherProjectile>();
 			item.value = Item.sellPrice(0, 0, 20, 0);
 			item.channel = true;

@@ -30,11 +30,13 @@ namespace SpiritMod.Items.Sets.StarjinxSet.NovaGun
             item.noMelee = true;
             item.useAmmo = AmmoID.FallenStar;
             item.value = Item.sellPrice(silver: 55);
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starCast").WithPitchVariance(0.3f).WithVolume(0.7f);
             item.knockBack = 3f;
             item.ranged = true;
             item.rare = ItemRarityID.Pink;
-        }
+
+			var sound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/StarCast");
+			item.UseSound = Main.dedServ ? sound : sound.WithPitchVariance(0.3f).WithVolume(0.7f);
+		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(-20, -10);
 		public override bool AltFunctionUse(Player player) => true;

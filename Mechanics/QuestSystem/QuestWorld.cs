@@ -25,29 +25,19 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public override void PostUpdate()
 		{
-			Player player = Main.LocalPlayer;
-			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (zombieQuestStart)
-			{
                 QuestManager.UnlockQuest<ZombieOriginQuest>(true);
-			}
             if (Main.hardMode)
             {
                 QuestManager.UnlockQuest<ExplorerQuestBlueMoon>(true);
                 QuestManager.UnlockQuest<SlayerQuestVultureMatriarch>(true);
 				if (Main.bloodMoon && QuestManager.GetQuest<SlayerQuestClown>().IsUnlocked)
-				{
 					AddQuestQueue(NPCID.PartyGirl, QuestManager.GetQuest<SlayerQuestClown>());
-				}
 				if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
-                {
 					AddQuestQueue(NPCID.Dryad, QuestManager.GetQuest<CritterCaptureSoulOrb>());
-				}
 			}
 			if (NPC.downedBoss2)
-			{
 				AddQuestQueue(NPCID.Stylist, QuestManager.GetQuest<StylistQuestMeteor>());
-			}
 		}
 
 		public override void Load(TagCompound tag)
