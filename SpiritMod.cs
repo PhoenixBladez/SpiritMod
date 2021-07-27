@@ -1004,6 +1004,7 @@ namespace SpiritMod
 			StructureLoader.Unload();
 			ParticleHandler.Unload();
 			AutoloadMinionDictionary.Unload();
+			Mechanics.BackgroundSystem.BackgroundItemManager.Unload();
 
 			if (Boids != null)
 				Boids.UnloadContent();
