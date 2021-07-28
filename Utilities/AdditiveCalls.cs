@@ -52,6 +52,7 @@ namespace SpiritMod
 		}
 		//A bit difficult to manage, but better for performance. 
 		public static void RemoveCall(int Index) => AdditiveCalls[Index] = null;
+
 		public static void Load() => AdditiveCalls = new IDrawAdditive[MaxCalls];
 		public static void Unload() => AdditiveCalls = null;
 	}

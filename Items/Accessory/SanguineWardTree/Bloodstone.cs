@@ -3,10 +3,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Accessory
+namespace SpiritMod.Items.Accessory.SanguineWardTree
 {
 	public class Bloodstone : ModItem
 	{
+		public override bool Autoload(ref string name) => false;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bloodstone");
@@ -26,7 +27,6 @@ namespace SpiritMod.Items.Accessory
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			player.GetSpiritPlayer().vitaStone = true;
-			player.GetSpiritPlayer().Ward = true;
 		}
 		public override void AddRecipes()
 		{

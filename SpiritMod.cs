@@ -797,6 +797,9 @@ namespace SpiritMod
 				SkyManager.Instance["SpiritMod:BlueAlgaeSky"] = new BlueAlgaeSky();
 				Filters.Scene["SpiritMod:BlueAlgaeSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
 
+				SkyManager.Instance["SpiritMod:BloodMoonSky"] = new BloodMoonSky();
+				Filters.Scene["SpiritMod:BloodMoonSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
+
 				Filters.Scene["SpiritMod:Atlas"] = new Filter(new AtlasScreenShaderData("FilterMiniTower").UseColor(0.5f, 0.5f, 0.5f).UseOpacity(0.6f), EffectPriority.VeryHigh);
 				SkyManager.Instance["SpiritMod:Atlas"] = new AtlasSky();
 
