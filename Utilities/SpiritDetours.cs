@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using Terraria.Localization;
 using SpiritMod.Mechanics.PortraitSystem;
 using SpiritMod.Mechanics.BackgroundSystem;
+using Mono.Cecil;
 
 namespace SpiritMod.Utilities
 {
@@ -50,11 +51,11 @@ namespace SpiritMod.Utilities
 			On.Terraria.Main.DrawBackgroundBlackFill += Main_DrawBackgroundBlackFill; //BackgroundItemManager.Draw()
 			On.Terraria.Main.Update += Main_Update; //BackgroundItemManager.Update()
 
-
+			Main.OnPreDraw += Main_OnPreDraw;
 
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
 			IL.Terraria.WorldGen.hardUpdateWorld += WorldGen_hardUpdateWorld;
-			Main.OnPreDraw += Main_OnPreDraw;
+			//IL.Terraria.Main.DoDraw += Main_DoDraw;
 		}
 
 		public static void Unload()
@@ -78,9 +79,11 @@ namespace SpiritMod.Utilities
 			On.Terraria.NPC.SpawnWOF -= SpawnWOF;
 			On.Terraria.NPC.AI_084_LunaticCultist -= LunaticCultist;
 
+			Main.OnPreDraw -= Main_OnPreDraw;
+
 			IL.Terraria.Player.ItemCheck -= Player_ItemCheck;
 			IL.Terraria.WorldGen.hardUpdateWorld -= WorldGen_hardUpdateWorld;
-			Main.OnPreDraw -= Main_OnPreDraw;
+			//IL.Terraria.Main.DoDraw -= Main_DoDraw;
 		}
 
 		private static void Main_Update(On.Terraria.Main.orig_Update orig, Main self, GameTime gameTime)
@@ -450,6 +453,56 @@ namespace SpiritMod.Utilities
 				// Now we finish up and plant a sapling above the tile we hit
 				WorldGen.PlaceTile(currentX, currentY - 1, TileID.Saplings);
 			});
+		}
+
+		/// This IL edit hooks into the part of Main.DoDraw() that draws the default, basic Moon texture.
+		/// It allows us to use the MoonDrawHook in order to draw 
+		/// 
+		/// IL_35b8: ldc.r4 0.0 
+		/// IL_35bd: callvirt instance void[Microsoft.Xna.Framework.Graphics] Microsoft.Xna.Framework.Graphics.SpriteBatch::Draw(class [Microsoft.Xna.Framework.Graphics] Microsoft.Xna.Framework.Graphics.Texture2D, valuetype[Microsoft.Xna.Framework] Microsoft.Xna.Framework.Vector2, valuetype[mscorlib] System.Nullable`1<valuetype[Microsoft.Xna.Framework] Microsoft.Xna.Framework.Rectangle>, valuetype[Microsoft.Xna.Framework] Microsoft.Xna.Framework.Color, float32, valuetype[Microsoft.Xna.Framework] Microsoft.Xna.Framework.Vector2, float32, valuetype[Microsoft.Xna.Framework.Graphics] Microsoft.Xna.Framework.Graphics.SpriteEffects, float32)
+		/// IL_XXXX: [WE INSERT OUR OWN METHOD HERE]
+		/// IL_35c2: br IL_3665
+		private static void Main_DoDraw(ILContext il)
+		{
+			var cursor = new ILCursor(il);
+			ILog logger = ModContent.GetInstance<SpiritMod>().Logger;
+
+			// TEMP: First, I want to grab the X position of the moon [through IL for practice reasons]
+			//if (!cursor.TryGotoNext(i => i.MatchStloc(7)))
+			//{
+			//	logger.Error("Failed to patch Main.DoDraw for Moon x position.");
+			//	return;
+			//}
+
+			for (int c = 0; c < 10; c++) // Our target is the 10th Draw call in DoDraw
+			{
+				if (!cursor.TryGotoNext(i => i.MatchCallvirt<SpriteBatch>("Draw")))
+				{
+					logger.Error("Failed to patch Main.DoDraw for Moon System: First jump failed");
+					return;
+				}
+			}
+
+			cursor.Index++; // Skip over the relevant Draw call
+
+			// Now we (hopefully) add our own method that we can use for drawing
+
+		}
+
+		private static void MoonDrawHook()
+		{
+			int x = (int)(Main.time / 32400.0 * (Main.screenWidth + Main.moonTexture[Main.moonType].Width * 2)) - Main.moonTexture[Main.moonType].Width;
+
+			double num28 = Math.Pow(1.0 - Main.time / 32400.0 * 2.0, 2.0);
+			double top = (int)((0f - Main.screenPosition.Y) / (Main.worldSurface * 16.0 - 600.0) * 200.0);
+			int y = (int)(top + num28 * 250.0 + 180.0);
+
+			var source = new Rectangle(0, Main.moonTexture[Main.moonType].Width * Main.moonPhase, Main.moonTexture[Main.moonType].Width, Main.moonTexture[Main.moonType].Width);
+			Main.spriteBatch.Draw(Main.sun2Texture, new Vector2(x, y), source, Color.White);
+
+			Main.NewText("e");
+
+			ModContent.GetInstance<SpiritMod>().Logger.Debug("im so epic");
 		}
 
 		/// This IL edit is used to stop evil stones (ebonstone/crimstone) from spreading into areas protected by super sunflowers

@@ -39,6 +39,7 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 		public override void AI()
 		{
 			Player p = Main.player[projectile.owner];
+			p.heldProj = projectile.whoAmI;
 
 			if (p.whoAmI != Main.myPlayer) return; //mp check (hopefully)
 
