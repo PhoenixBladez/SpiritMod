@@ -23,7 +23,7 @@ namespace SpiritMod.Tiles.Furniture.JadeDragonStatue
 			TileObjectData.newTile.Width = 4;
 			TileObjectData.newTile.Height = 5;
 			TileObjectData.newTile.Origin = new Point16(2, 4);
-			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
+			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidWithTop, TileObjectData.newTile.Width, 0);
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16, 16 };
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.Direction = TileObjectDirection.PlaceLeft;

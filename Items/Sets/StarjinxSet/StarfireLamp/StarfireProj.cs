@@ -140,13 +140,14 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
-			writer.Write(Target.whoAmI);
+			writer.Write(Target == null ? -1 : Target.whoAmI);
 			writer.Write(Timer);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
-			Target = Main.npc[reader.ReadInt32()];
+			int whoami = reader.ReadInt32();
+			Target = whoami == -1 ? null : Main.npc[whoami];
 			Timer = reader.ReadSingle();
 		}
 

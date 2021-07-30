@@ -73,7 +73,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 			if (Target != null)
 				Target.GetGlobalNPC<PathfinderGNPC>().Targetted = false;
 
-			NPC target = Main.npc.Where(n => n.active && Vector2.Distance(n.Center, npc.Center) < 600 && !n.GetGlobalNPC<PathfinderGNPC>().Targetted && n.modNPC is StarjinxEnemy modEnemy).OrderBy(n => Vector2.Distance(n.Center, npc.Center)).FirstOrDefault();
+			NPC target = Main.npc.Where(n => n.active && Vector2.Distance(n.Center, npc.Center) < 600 && !n.GetGlobalNPC<PathfinderGNPC>().Targetted && n.modNPC is IStarjinxEnemy modEnemy).OrderBy(n => Vector2.Distance(n.Center, npc.Center)).FirstOrDefault();
 			if (target != default)
 			{
 				Target = target;
@@ -142,7 +142,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 
 		public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)
 		{
-			if (Targetted && npc.modNPC is StarjinxEnemy starjinxEnemy)
+			if (Targetted && npc.modNPC is IStarjinxEnemy starjinxEnemy)
 				starjinxEnemy.DrawPathfinderOutline(spriteBatch);
 			return base.PreDraw(npc, spriteBatch, drawColor);
 		}

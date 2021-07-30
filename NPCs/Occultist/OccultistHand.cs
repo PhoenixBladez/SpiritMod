@@ -12,7 +12,7 @@ namespace SpiritMod.NPCs.Occultist
 	{
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Dark Grasp");
 
-		private readonly int maxTimeLeft = 180;
+		public int maxTimeLeft = 180;
 		public override void SetDefaults()
 		{
 			projectile.width = 20;
@@ -32,19 +32,24 @@ namespace SpiritMod.NPCs.Occultist
 			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(99, 23, 51, 150), new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 150 * projectile.scale, 60, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.2f, 1f, 1f));
 		}
 
-		private readonly float period = 80;
+		public float period = 80;
 		private readonly float twinkleTime = 15;
-		private ref float Amplitude => ref projectile.ai[0];
+		public ref float Amplitude => ref projectile.ai[0];
 		private ref float PeriodOffset => ref projectile.ai[1];
 
 		private float AiTimer => maxTimeLeft - projectile.timeLeft;
+		public bool DoAcceleration = true;
+		public bool TileCollideCheck = true;
+
+		private readonly float acceleration = 1.015f;
 
 		public override void AI()
 		{
 			projectile.position -= projectile.velocity;
+			projectile.Size = Vector2.One * 20 * projectile.scale;
 			if(AiTimer > twinkleTime)
 			{
-				Vector2 cosVel = projectile.velocity.RotatedBy(MathHelper.ToRadians(Amplitude) * (float)Math.Sin(((AiTimer + PeriodOffset) / period) * MathHelper.TwoPi));
+				Vector2 cosVel = projectile.velocity.RotatedBy(MathHelper.ToRadians(Amplitude) * (float)Math.Cos(((AiTimer - (twinkleTime + 1) + PeriodOffset) / period) * MathHelper.TwoPi));
 				projectile.position += cosVel;
 				projectile.rotation = cosVel.ToRotation() + MathHelper.PiOver2;
 
@@ -62,9 +67,11 @@ namespace SpiritMod.NPCs.Occultist
 
 				if (AiTimer > maxTimeLeft / 3f)
 				{
-					projectile.tileCollide = true;
-					if(projectile.velocity.Length() < 20)
-						projectile.velocity *= 1.015f;
+					if(TileCollideCheck)
+						projectile.tileCollide = true;
+
+					if(projectile.velocity.Length() < 20 && DoAcceleration)
+						projectile.velocity *= acceleration;
 				}
 			}
 		}

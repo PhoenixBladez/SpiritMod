@@ -152,7 +152,7 @@ namespace SpiritMod.Structures.Fathomless_Chest
 				int y = j + 5 + ((Math.Abs(beam) == 1) ? 1 : 0);
 				bool reachedsolidtile = false;
 				while(!reachedsolidtile) { //loop until it reaches a solid tile
-					if (WorldGen.SolidOrSlopedTile(Framing.GetTileSafely(x, y))) 
+					if (WorldGen.SolidOrSlopedTile(Framing.GetTileSafely(x, y)) || TileID.Sets.BasicChest[Framing.GetTileSafely(x, y).type] || TileID.Sets.BasicChestFake[Framing.GetTileSafely(x, y).type]) 
 						reachedsolidtile = true;
 					
 					else {

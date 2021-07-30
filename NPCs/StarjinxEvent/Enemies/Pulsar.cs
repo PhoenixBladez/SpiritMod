@@ -8,7 +8,7 @@ using System;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies
 {
-	public class Pulsar : ModNPC,StarjinxEnemy
+	public class Pulsar : ModNPC,IStarjinxEnemy
 	{
 		public override void SetStaticDefaults()
 		{

@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.StarjinxEvent
 {
-    public interface StarjinxEnemy
+    public interface IStarjinxEnemy
 	{
 		void DrawPathfinderOutline(SpriteBatch spriteBatch);
 	}

@@ -308,6 +308,34 @@ namespace SpiritMod.Utilities
 		private static void Main_DrawPlayers(On.Terraria.Main.orig_DrawPlayers orig, Main self)
 		{
 			orig(self);
+
+			List<ExtraDrawOnPlayer> additiveCallPlayers = new List<ExtraDrawOnPlayer>();
+			List<ExtraDrawOnPlayer> alphaBlendCallPlayers = new List<ExtraDrawOnPlayer>();
+			foreach (Player player in Main.player.Where(x => x.active && x != null))
+			{
+				if (player.GetModPlayer<ExtraDrawOnPlayer>().AnyOfType(ExtraDrawOnPlayer.DrawType.Additive))
+					additiveCallPlayers.Add(player.GetModPlayer<ExtraDrawOnPlayer>());
+
+				if (player.GetModPlayer<ExtraDrawOnPlayer>().AnyOfType(ExtraDrawOnPlayer.DrawType.AlphaBlend))
+					alphaBlendCallPlayers.Add(player.GetModPlayer<ExtraDrawOnPlayer>());
+			}
+
+			if (additiveCallPlayers.Any())
+			{
+				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+				foreach (ExtraDrawOnPlayer player in additiveCallPlayers) 
+					player.DrawAllCallsOfType(Main.spriteBatch, ExtraDrawOnPlayer.DrawType.Additive); 
+				Main.spriteBatch.End();
+			}
+
+			if (alphaBlendCallPlayers.Any())
+			{
+				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+				foreach (ExtraDrawOnPlayer player in alphaBlendCallPlayers)
+					player.DrawAllCallsOfType(Main.spriteBatch, ExtraDrawOnPlayer.DrawType.AlphaBlend);
+				Main.spriteBatch.End();
+			}
+
 			SpiritMod.Metaballs.DrawFriendlyLayer(Main.spriteBatch);
 		}
 

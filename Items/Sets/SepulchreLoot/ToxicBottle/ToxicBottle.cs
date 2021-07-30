@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ToxicBottle
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Toxic Bottle");
-			Tooltip.SetDefault("Can be placed or thrown\nExplodes into cursed gas upon being struck");
+			Tooltip.SetDefault("Can be placed or thrown\nRight-click to detonate toxic bottles");
 		}
 
 
@@ -36,12 +36,32 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ToxicBottle
 			item.ranged = true;
 			item.damage = 15;
 		}
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0 && player.ownedProjectileCounts[ModContent.ProjectileType<ToxicBottleProj>()] == 0;
 
 		//public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0;
-
+		public override bool AltFunctionUse(Player player)
+		{
+			return true;
+		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			speedY /= 2;
+			if (player.altFunctionUse == 2)
+			{
+				{
+					for (int projFinder = 0; projFinder < 300; ++projFinder)
+					{
+						if (Main.projectile[projFinder].type == type)
+						{
+							Main.projectile[projFinder].Kill();
+						}
+					}
+				}
+				return false;
+			}
+			else
+			{
+				speedY /= 2;
+			}
 			return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
 		}
 	}
@@ -76,17 +96,6 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ToxicBottle
 			JumpCounter++;
 			projectile.velocity.Y += 0.4F;
 			projectile.velocity.X *= 0.98F;
-			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
-			foreach (var proj in list) {
-				if (proj.active && proj.friendly && !proj.hostile && proj != projectile) {
-					projectile.Kill();
-
-					if (Main.netMode != NetmodeID.SinglePlayer)
-						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile.whoAmI);
-				}
-			}
-
-
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
@@ -129,22 +138,6 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ToxicBottle
 		}
 	}
 
-	public class ToxicBottleItem : GlobalItem
-	{
-		public override void MeleeEffects(Item item, Player player, Rectangle hitbox)
-		{
-			var list = Main.projectile.Where(x => x.Hitbox.Intersects(hitbox) && x.type == mod.ProjectileType("ToxicBottleProj") && x.active == true);
-			if (!item.noMelee && item.damage > 0)
-			{
-				foreach (var proj in list) {
-					proj.Kill();
-
-					if(Main.netMode != NetmodeID.SinglePlayer)
-						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
-				}
-			}
-		}
-	}
 	public class ToxicBottleField : ModProjectile
 	{
 		public override void SetStaticDefaults()

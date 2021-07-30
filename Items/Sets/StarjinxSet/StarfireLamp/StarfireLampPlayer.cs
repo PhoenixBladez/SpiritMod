@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -9,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 {
-	public class StarfireLampPlayer : ModPlayer, IDrawAdditive
+	public class StarfireLampPlayer : ModPlayer
 	{
 		public int TwinkleTime { get; set; }
 		public const int MaxTwinkleTime = 12;
@@ -17,8 +18,6 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 		public NPC LampTargetNPC { get; set; }
 		public int LampTargetTime { get; set; }
 		public const int MaxTargetTime = 480;
-
-		private int additiveCall = -1;
 
 		public override void Initialize()
 		{
@@ -42,17 +41,16 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 				LampTargetNPC = null;
 		}
 
+		public override void PostUpdate()
+		{
+			if (player.HeldItem.type == ModContent.ItemType<StarfireLamp>())
+				player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawBeam(sB); }, ExtraDrawOnPlayer.DrawType.Additive);
+		}
+
 		public override void ModifyDrawLayers(List<PlayerLayer> layers)
 		{
-			if(additiveCall != -1)
-			{
-				AdditiveCallManager.RemoveCall(additiveCall);
-				additiveCall = -1;
-			}
-
 			if(player.HeldItem.type == ModContent.ItemType<StarfireLamp>())
 			{
-				additiveCall = AdditiveCallManager.ManualAppend(this);
 				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(mod.Name, "StarfireLampHeld",
 					delegate (PlayerDrawInfo info) { DrawItem(mod.GetTexture("Items/Sets/StarjinxSet/StarfireLamp/StarfireLamp"),
 						mod.GetTexture("Items/Sets/StarjinxSet/StarfireLamp/StarfireLampGlow"), info); }));
@@ -132,7 +130,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 			}
 		}
 
-		public void AdditiveCall(SpriteBatch sB)
+		public void DrawBeam(SpriteBatch sB)
 		{
 			if (LampTargetNPC == null || LampTargetTime == 0)
 				return;

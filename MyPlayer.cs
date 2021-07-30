@@ -204,8 +204,6 @@ namespace SpiritMod
         private const int saveVersion = 0;
         public bool minionName = false;
         public bool moonlightSack = false;
-        public bool Ward = false;
-        public bool Ward1 = false;
         public static bool hasProjectile;
         public bool DoomDestiny = false;
         public int HitNumber;
@@ -482,7 +480,8 @@ namespace SpiritMod
             player.ManageSpecialBiomeVisuals("SpiritMod:BlueMoonSky", blueMoon, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:MeteorSky", ZoneAsteroid);
             player.ManageSpecialBiomeVisuals("SpiritMod:MeteoriteSky", player.ZoneMeteor);
-            player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect", windEffect, player.Center);
+			player.ManageSpecialBiomeVisuals("SpiritMod:BloodMoonSky", Main.bloodMoon && player.ZoneOverworldHeight);
+			player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect", windEffect, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect2", windEffect2, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:Atlas", NPC.AnyNPCs(ModContent.NPCType<Atlas>()));
         }
@@ -678,8 +677,6 @@ namespace SpiritMod
             magazine = false;
             daybloomSet = false;
             daybloomGarb = false;
-            Ward = false;
-            Ward1 = false;
             CursedPendant = false;
             BlueDust = false;
             SnakeMinion = false;
@@ -1180,10 +1177,10 @@ namespace SpiritMod
 
                 Projectile.NewProjectile(distX, distY, direction.X + A, direction.Y + B, ModContent.ProjectileType<OriPetal>(), 30, 1, player.whoAmI, 0f, 0f);
             }
-            if (player.HeldItem.type == mod.ItemType("Minifish") && MinifishTimer <= 0) {
+            if (player.HeldItem.type == ModContent.ItemType<Items.Sets.TideDrops.Minifish>() && MinifishTimer <= 0) {
                 MinifishTimer = 120;
-                if (player.ownedProjectileCounts[mod.ProjectileType("MinifishProj")] < 3)
-                    Projectile.NewProjectile(player.Center + Main.rand.NextVector2Square(-50, 50) - new Vector2(0, 50), Vector2.Zero, mod.ProjectileType("MinifishProj"), player.HeldItem.damage, player.HeldItem.knockBack, player.whoAmI);
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Bullet.MinifishProj>()] < 3)
+                    Projectile.NewProjectileDirect(player.Center + Main.rand.NextVector2Square(-50, 50) - new Vector2(0, 50), Vector2.Zero, ModContent.ProjectileType<Projectiles.Bullet.MinifishProj>(), player.HeldItem.damage, player.HeldItem.knockBack, player.whoAmI).netUpdate = true;
             }
 
             LastEnemyHit = victim;
@@ -3207,11 +3204,6 @@ namespace SpiritMod
 				}
 			}
 
-			if(Ward || Ward1) {
-				if(player.ownedProjectileCounts[ModContent.ProjectileType<WardProj>()] <= 1) {
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<WardProj>(), 0, 0, player.whoAmI);
-				}
-			}
 			if(cryoSet) {
 				if(player.ownedProjectileCounts[ModContent.ProjectileType<CryoProj>()] <= 1) {
 					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<CryoProj>(), 0, 0, player.whoAmI);
@@ -3877,14 +3869,6 @@ namespace SpiritMod
 				}
 			}
 
-			if(Ward1 && crit) {
-				if(Main.rand.NextBool(10)) {
-					player.statLife += 2;
-				}
-
-				player.HealEffect(2);
-			}
-
 			if(starBuff && crit) {
 				if(Main.rand.NextBool(10)) {
 					for(int i = 0; i < 3; ++i) {
@@ -4004,11 +3988,6 @@ namespace SpiritMod
 
 			if(duskSet && proj.magic && Main.rand.NextBool(4)) {
 				target.AddBuff(BuffID.ShadowFlame, 300);
-			}
-
-			if(Ward1 && crit && Main.rand.NextBool(10)) {
-				player.statLife += 2;
-				player.HealEffect(2);
 			}
 
 			if(concentrated) {

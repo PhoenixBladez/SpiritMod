@@ -64,7 +64,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		}
 	}
 
-	public class Starachnid : ModNPC, StarjinxEnemy
+	public class Starachnid : ModNPC, IStarjinxEnemy
 	{
 		public List<StarThread> threads = new List<StarThread>(); //All active threads the spider has weaved
 		public StarThread currentThread; //The current thread the starachnid is on

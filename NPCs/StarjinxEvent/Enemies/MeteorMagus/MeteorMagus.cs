@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 {
-	public class MeteorMagus : SpiritNPC, StarjinxEnemy
+	public class MeteorMagus : SpiritNPC, IStarjinxEnemy
 	{
 		public override void SetStaticDefaults()
 		{

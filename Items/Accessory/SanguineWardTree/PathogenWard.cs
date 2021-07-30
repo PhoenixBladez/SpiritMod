@@ -3,10 +3,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Accessory
+namespace SpiritMod.Items.Accessory.SanguineWardTree
 {
 	public class PathogenWard : ModItem
 	{
+		public override bool Autoload(ref string name) => false;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pathogen Ward");
@@ -25,7 +26,6 @@ namespace SpiritMod.Items.Accessory
 		}
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			player.GetSpiritPlayer().Ward = true;
 			player.GetSpiritPlayer().vitaStone = true;
 			player.buffImmune[BuffID.Poisoned] = true;
 		}

@@ -30,7 +30,7 @@ namespace SpiritMod.NPCs
 		/// <param name="framespersecond"></param>
 		/// <param name="minframe"></param>
 		/// <param name="maxframe"></param>
-		public void UpdateYFrame(int framespersecond, int startframe, int endframe, UpdateFrameAction action = null)
+		public void UpdateYFrame(int framespersecond, int startframe, int endframe, UpdateFrameAction action = null, int? loopFrame = null)
 		{
 			npc.frameCounter++;
 			bool reverse = startframe > endframe; //invert the looping logic and decrease frame height if the ending frame is before the starting frame, to allow updating frames in reverse
@@ -39,7 +39,7 @@ namespace SpiritMod.NPCs
 			{
 				bool loopcheck = (reverse) ? (frame.Y < endframe || frame.Y > startframe) : (frame.Y > endframe || frame.Y < startframe);
 				if (loopcheck)
-					frame.Y = startframe;
+					frame.Y = loopFrame ?? startframe;
 			}
 
 			LoopCheck();

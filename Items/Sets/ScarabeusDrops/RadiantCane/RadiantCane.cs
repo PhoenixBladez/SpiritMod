@@ -141,7 +141,25 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.RadiantCane
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.immune[projectile.owner] = 15;
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => false;
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+			Texture2D bloom = Main.extraTexture[49];
+			SpiritMod.SunOrbShader.Parameters["colorMod"].SetValue(new Color(255, 245, 158).ToVector4());
+			SpiritMod.SunOrbShader.Parameters["colorMod2"].SetValue(Color.LightGoldenrodYellow.ToVector4());
+			SpiritMod.SunOrbShader.Parameters["timer"].SetValue(Main.GlobalTime / 3 % 1);
+			SpiritMod.SunOrbShader.CurrentTechnique.Passes[0].Apply();
+
+			float scale = MathHelper.Lerp(0.6f, 0.8f, (float)Math.Sin(Main.GlobalTime * 2) / 2 + 0.5f);
+			Color drawcolor = projectile.GetAlpha(Color.White);
+			Vector2 drawcenter = projectile.Center - Main.screenPosition;
+
+			spriteBatch.Draw(bloom, drawcenter, null, drawcolor, projectile.rotation, bloom.Size() / 2, projectile.scale * 0.66f * MathHelper.Lerp(scale, 1, 0.25f), SpriteEffects.None, 0);
+
+			spriteBatch.Draw(bloom, drawcenter, null, drawcolor * 0.33f, projectile.rotation, bloom.Size() / 2, projectile.scale * scale, SpriteEffects.None, 0);
+			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+			return false;
+		}
 
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
@@ -154,21 +172,6 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.RadiantCane
 				spriteBatch.Draw(ray, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(new Color(255, 245, 158)) * projectile.Opacity * 0.5f, rotation, 
 					new Vector2(0, ray.Height / 2), rayscale * projectile.scale, SpriteEffects.None, 0);
 			}
-
-			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
-			Texture2D bloom = Main.extraTexture[49];
-			SpiritMod.SunOrbShader.Parameters["colorMod"].SetValue(new Color(255, 245, 158).ToVector4());
-			SpiritMod.SunOrbShader.Parameters["colorMod2"].SetValue(Color.LightGoldenrodYellow.ToVector4());
-			SpiritMod.SunOrbShader.Parameters["timer"].SetValue(Main.GlobalTime/3 % 1);
-			SpiritMod.SunOrbShader.CurrentTechnique.Passes[0].Apply();
-
-			float scale = MathHelper.Lerp(0.6f, 0.8f, (float)Math.Sin(Main.GlobalTime * 2) / 2 + 0.5f);
-			Color drawcolor = projectile.GetAlpha(Color.White);
-			Vector2 drawcenter = projectile.Center - Main.screenPosition;
-
-			spriteBatch.Draw(bloom, drawcenter, null, drawcolor, projectile.rotation, bloom.Size() / 2, projectile.scale * 0.66f * MathHelper.Lerp(scale, 1, 0.25f), SpriteEffects.None, 0);
-
-			spriteBatch.Draw(bloom, drawcenter, null, drawcolor * 0.33f, projectile.rotation, bloom.Size() / 2, projectile.scale * scale, SpriteEffects.None, 0);
 		}
 	}
 }
