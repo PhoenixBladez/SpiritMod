@@ -36,11 +36,10 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 		}
 	}
 
-	public class BloodWardPlayer : ModPlayer, IDrawAdditive
+	public class BloodWardPlayer : ModPlayer
 	{
 		public bool HasRuneCircle { get; set; }
 		private RuneCircle _circle = null;
-		private int _additiveCall = -1;
 		private const float MAXRADIUS = 150;
 		private int _flashTime = 0;
 		private const int MAXFLASHTIME = 50;
@@ -48,25 +47,22 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 
 		public override void PostUpdateEquips()
 		{
-			if (_additiveCall != -1)
-			{
-				AdditiveCallManager.RemoveCall(_additiveCall);
-				_additiveCall = -1;
-			}
 
 			if (!HasRuneCircle && _circle != null)
 			{
-				_additiveCall = AdditiveCallManager.ManualAppend(this);
+				player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawBloom(sB); }, ExtraDrawOnPlayer.DrawType.Additive);
+				player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawRuneCircle(sB); }, ExtraDrawOnPlayer.DrawType.AlphaBlend);
 				_circle.Update(player.velocity.Length(), player.direction, true);
 				if (_circle.Dead)
 					_circle = null;
 			}
 			if (HasRuneCircle)
 			{
-				_additiveCall = AdditiveCallManager.ManualAppend(this);
+				player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawBloom(sB); }, ExtraDrawOnPlayer.DrawType.Additive);
+				player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawRuneCircle(sB); }, ExtraDrawOnPlayer.DrawType.AlphaBlend);
 
 				if (_circle == null)
-					_circle = new RuneCircle(MAXRADIUS, MAXRADIUS * 0.8f, 12, 12);
+					_circle = new RuneCircle(MAXRADIUS, MAXRADIUS * 0.8f, 12, 8);
 				else
 					_circle.Update(player.velocity.Length(), player.direction);
 
@@ -86,21 +82,44 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 			_flashTime = Math.Max(_flashTime - 1, 0);
 		}
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public void DrawBloom(SpriteBatch spriteBatch)
 		{
 			if (_circle == null || player.dead || player.frozen)
 				return;
 
-			float flashprogress = 0.25f * (float)Math.Sin((_flashTime / (float)MAXFLASHTIME) * MathHelper.Pi);
-			Color color = Color.Lerp(new Color(252, 3, 102) * 0.5f, Color.White, flashprogress);
+			float flashprogress = (float)Math.Sin((_flashTime / (float)MAXFLASHTIME) * MathHelper.Pi) / 2;
+			Color color = Color.Lerp(new Color(252, 3, 98), Color.White, flashprogress);
+			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
+
+			_circle.DelegateDraw(spriteBatch, player.MountedCenter, (flashprogress/5) + 0.3f, delegate (int runeNumber)
+			{
+				return new RuneCircle.RuneDrawInfo(bloom, color, bloom.Bounds);
+			});
+		}
+
+		public void DrawRuneCircle(SpriteBatch spriteBatch)
+		{
+			if (_circle == null || player.dead || player.frozen)
+				return;
+
+			float flashprogress = 0.66f * (float)Math.Sin((_flashTime / (float)MAXFLASHTIME) * MathHelper.Pi);
+			Color color = Color.Lerp(new Color(255, 0, 111) * 0.66f, Color.White, flashprogress);
+			float scale = 1.33f;
 			float timer = (float)(Math.Sin(Main.GameUpdateCount / 15f) / 2) + 0.5f;
 			for (int i = 0; i < 8; i++)
 			{
 				Vector2 drawPos = Vector2.UnitX.RotatedBy(MathHelper.TwoPi * i / 8f) * timer * 8;
-				_circle.Draw(spriteBatch, player.MountedCenter + drawPos, color * (((1 - timer) / 2) + 0.5f));
+				_circle.DelegateDraw(spriteBatch, player.MountedCenter + drawPos, scale, delegate(int runeNumber) 
+				{ 
+					return new RuneCircle.RuneDrawInfo(mod.GetTexture("Textures/Runes_outline"), color * (1 - timer)); 
+				});
 			}
-			_circle.Draw(spriteBatch, player.MountedCenter, color * 0.5f * timer, 1f + (0.6f * timer));
-			_circle.Draw(spriteBatch, player.MountedCenter, color);
+			_circle.Draw(spriteBatch, player.MountedCenter, color, scale);
+
+			_circle.DelegateDraw(spriteBatch, player.MountedCenter, scale, delegate (int runeNumber)
+			{
+				return new RuneCircle.RuneDrawInfo(mod.GetTexture("Textures/Runes_mask"), Color.White * flashprogress);
+			});
 		}
 
 		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)

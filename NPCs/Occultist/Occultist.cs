@@ -409,7 +409,7 @@ namespace SpiritMod.NPCs.Occultist
 		{
 			if (!Main.dedServ)
 			{
-				Texture2D rune = mod.GetTexture("Effects/Runes");
+				Texture2D rune = mod.GetTexture("Textures/Runes");
 				int framenum = Main.rand.Next(4);
 				Rectangle frame = new Rectangle(0, framenum * (int)(rune.Height / 4f), rune.Width, (int)(rune.Height / 4f));
 				float Scale = Main.rand.NextFloat(0.4f, 0.6f);
