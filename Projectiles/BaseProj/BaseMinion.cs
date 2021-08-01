@@ -14,13 +14,11 @@ namespace SpiritMod.Projectiles.BaseProj
 		private readonly float TargettingRange;
 		private readonly float DeaggroRange;
 		private readonly Vector2 Size;
-		private readonly bool ContactDamage;
-		public BaseMinion(float TargettingRange, float DeaggroRange, Vector2 Size, bool ContactDamage = true) 
+		public BaseMinion(float TargettingRange, float DeaggroRange, Vector2 Size) 
 		{
 			this.TargettingRange = TargettingRange;
 			this.DeaggroRange = DeaggroRange;
 			this.Size = Size;
-			this.ContactDamage = ContactDamage;
 		}
 		public override void SetStaticDefaults()
 		{
@@ -115,8 +113,10 @@ namespace SpiritMod.Projectiles.BaseProj
 			}
 
 			int framespersecond = 1;
-			if (DoAutoFrameUpdate(ref framespersecond))
-				UpdateFrame(framespersecond);
+			int startframe = 0;
+			int endframe = Main.projFrames[projectile.type];
+			if (DoAutoFrameUpdate(ref framespersecond, ref startframe, ref endframe))
+				UpdateFrame(framespersecond, startframe, endframe);
 		}
 
 		private bool CanHit(Vector2 center1, Vector2 center2) => Collision.CanHit(center1, 0, 0, center2, 0, 0);
@@ -140,13 +140,13 @@ namespace SpiritMod.Projectiles.BaseProj
 			CanRetarget = reader.ReadBoolean();
 		}
 
-		public override bool MinionContactDamage() => ContactDamage;
+		public override bool MinionContactDamage() => true;
 
 		public virtual void TargettingBehavior(Player player, NPC target) { }
 
-		public virtual bool DoAutoFrameUpdate(ref int framespersecond) => true;
+		public virtual bool DoAutoFrameUpdate(ref int framespersecond, ref int startframe, ref int endframe) => true;
 
-		private void UpdateFrame(int framespersecond)
+		private void UpdateFrame(int framespersecond, int startframe, int endframe)
 		{
 			projectile.frameCounter++;
 			if (projectile.frameCounter > 60 / framespersecond)
@@ -154,8 +154,8 @@ namespace SpiritMod.Projectiles.BaseProj
 				projectile.frameCounter = 0;
 				projectile.frame++;
 
-				if (projectile.frame >= Main.projFrames[projectile.type])
-					projectile.frame = 0;
+				if (projectile.frame >= endframe)
+					projectile.frame = startframe;
 			}
 		}
 	}

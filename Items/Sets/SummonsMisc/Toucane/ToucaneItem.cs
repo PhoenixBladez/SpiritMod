@@ -3,31 +3,31 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Weapon.Summon.PigronStaff
+namespace SpiritMod.Items.Sets.SummonsMisc.Toucane
 {
-	public class PigronStaff : ModItem
+	public class ToucaneItem : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Pigron Staff");
-			Tooltip.SetDefault("'Bacon now fights for you'");
+			DisplayName.SetDefault("Toucane");
+			Tooltip.SetDefault("Summons an angry toucan to fight for you");
 		}
 
 		public override void SetDefaults()
 		{
-			item.width = 26;
-			item.height = 28;
-			item.value = Item.sellPrice(0, 5, 0, 0);
-			item.rare = ItemRarityID.LightRed;
+			item.damage = 20;
+			item.width = 34;
+			item.height = 32;
+			item.value = Item.sellPrice(0, 2, 0, 0);
+			item.rare = ItemRarityID.Green;
 			item.mana = 12;
-			item.damage = 29;
-			item.knockBack = 2;
+			item.knockBack = 3f;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 30;
 			item.useAnimation = 30;
 			item.summon = true;
 			item.noMelee = true;
-			item.shoot = ModContent.ProjectileType<PigronMinion>();
+			item.shoot = ModContent.ProjectileType<ToucanMinion>();
 			item.UseSound = SoundID.Item44;
 		}
 

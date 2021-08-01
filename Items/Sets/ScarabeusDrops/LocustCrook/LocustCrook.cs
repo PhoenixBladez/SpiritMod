@@ -135,7 +135,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.LocustCrook
 			}
 		}
 
-		public override bool DoAutoFrameUpdate(ref int framespersecond)
+		public override bool DoAutoFrameUpdate(ref int framespersecond, ref int startframe, ref int endframe)
 		{
 			framespersecond = (int)MathHelper.Clamp(projectile.velocity.Length(), 10, 20);
 			return true;

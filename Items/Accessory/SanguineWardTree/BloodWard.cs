@@ -30,10 +30,7 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 			item.accessory = true;
 		}
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			player.GetModPlayer<BloodWardPlayer>().HasRuneCircle = true;
-		}
+		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<BloodWardPlayer>().HasRuneCircle = true;
 	}
 
 	public class BloodWardPlayer : ModPlayer
@@ -124,13 +121,13 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 
 		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
 		{
-			if (target.life <= 0 && target.Distance(player.Center) < MAXRADIUS && !target.SpawnedFromStatue && player.statLife < player.statLifeMax2)
+			if (target.life <= 0 && target.Distance(player.Center) < MAXRADIUS && !target.SpawnedFromStatue && player.statLife < player.statLifeMax2 && HasRuneCircle)
 				MakeRunicHeart(target.Center, Main.rand.Next(14, 17));
 		}
 
 		public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
 		{
-			if (target.life <= 0 && target.Distance(player.Center) < MAXRADIUS && !target.SpawnedFromStatue && player.statLife < player.statLifeMax2)
+			if (target.life <= 0 && target.Distance(player.Center) < MAXRADIUS && !target.SpawnedFromStatue && player.statLife < player.statLifeMax2 && HasRuneCircle)
 				MakeRunicHeart(target.Center, Main.rand.Next(9, 12));
 		}
 

@@ -43,7 +43,7 @@ using System.Linq;
 using SpiritMod.Items.Ammo.Rocket.Warhead;
 using SpiritMod.Projectiles.Summon.SacrificialDagger;
 using Terraria.Audio;
-using SpiritMod.Items.Weapon.Summon.PigronStaff;
+using SpiritMod.Items.Sets.SummonsMisc.PigronStaff;
 
 namespace SpiritMod.NPCs
 {
@@ -1293,7 +1293,7 @@ namespace SpiritMod.NPCs
 
 			if (npc.type == NPCID.PigronCorruption || npc.type == NPCID.PigronHallow || npc.type == NPCID.PigronCrimson) {
 				if (Main.rand.Next(12) == 0) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<PigronStaff>());
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<PigronStaffItem>());
 				}
 			}
 

@@ -9,7 +9,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Weapon.Summon.PigronStaff
+namespace SpiritMod.Items.Sets.SummonsMisc.PigronStaff
 {
 	[AutoloadMinionBuff("Pigron Minion", "Bacon!")]
 	public class PigronMinion : BaseMinion
@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Summon.PigronStaff
 			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
 		}
 
-		public override bool DoAutoFrameUpdate(ref int framespersecond)
+		public override bool DoAutoFrameUpdate(ref int framespersecond, ref int startframe, ref int endframe)
 		{
 			framespersecond = 14;
 			return true;

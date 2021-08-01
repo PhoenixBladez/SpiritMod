@@ -75,7 +75,7 @@ namespace SpiritMod.Items.Weapon.Summon.ButterflyStaff
 			}
 		}
 
-		public override bool DoAutoFrameUpdate(ref int framespersecond)
+		public override bool DoAutoFrameUpdate(ref int framespersecond, ref int startframe, ref int endframe)
 		{
 			framespersecond = 6;
 			return true;

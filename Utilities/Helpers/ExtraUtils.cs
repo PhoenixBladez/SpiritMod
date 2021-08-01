@@ -34,10 +34,11 @@ namespace SpiritMod
 				return;
 
 			Texture2D tex = ModContent.GetTexture(projectile.modProjectile.Texture + "_glow");
+			Rectangle frame = new Rectangle(0, projectile.frame * tex.Height / Main.projFrames[projectile.type], tex.Width, tex.Height / Main.projFrames[projectile.type]);
 			if (spriteEffects == null)
 				spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, projectile.DrawFrame(),color ?? Color.White, rotation ?? projectile.rotation, projectile.DrawFrame().Size() / 2, projectile.scale, spriteEffects ?? (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
+			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, color ?? Color.White, rotation ?? projectile.rotation, frame.Size() / 2, projectile.scale, spriteEffects ?? (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
 		}
 
 		public static void QuickDrawTrail(this Projectile projectile, SpriteBatch spriteBatch, float Opacity = 0.5f, float? rotation = null, SpriteEffects? spriteEffects = null, Color? drawColor = null)
@@ -61,6 +62,7 @@ namespace SpiritMod
 				return;
 
 			Texture2D tex = ModContent.GetTexture(projectile.modProjectile.Texture + "_glow");
+			Rectangle frame = new Rectangle(0, projectile.frame * tex.Height / Main.projFrames[projectile.type], tex.Width, tex.Height / Main.projFrames[projectile.type]);
 			if (spriteEffects == null)
 				spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
@@ -68,7 +70,7 @@ namespace SpiritMod
 			{
 				float opacity = (ProjectileID.Sets.TrailCacheLength[projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[projectile.type];
 				opacity *= Opacity;
-				spriteBatch.Draw(tex, projectile.oldPos[i] + projectile.Size / 2 - Main.screenPosition, projectile.DrawFrame(), (color ?? Color.White) * opacity, rotation ?? projectile.oldRot[i], projectile.DrawFrame().Size() / 2, projectile.scale, spriteEffects ?? (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
+				spriteBatch.Draw(tex, projectile.oldPos[i] + projectile.Size / 2 - Main.screenPosition, frame, (color ?? Color.White) * opacity, rotation ?? projectile.oldRot[i], frame.Size() / 2, projectile.scale, spriteEffects ?? (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
 			}
 		}
 
@@ -87,7 +89,7 @@ namespace SpiritMod
 			{
 				for(int y = startY; y <= endY; y++)
 				{
-					if (TileID.Sets.Platforms[Main.tile[x, y].type])
+					if (TileID.Sets.Platforms[Framing.GetTileSafely(new Point(x, y)).type])
 						return true;
 				}
 			}

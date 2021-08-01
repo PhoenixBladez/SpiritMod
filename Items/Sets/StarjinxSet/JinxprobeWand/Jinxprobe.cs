@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 	[AutoloadMinionBuff("Tiny Jinxprobe", "The Jinxprobe will fight for you")]
 	public class Jinxprobe : BaseMinion
 	{
-		public Jinxprobe() : base(800, 1600, new Vector2(32, 32), false) { }
+		public Jinxprobe() : base(800, 1600, new Vector2(32, 32)) { }
 
 		public override void AbstractSetStaticDefaults() => DisplayName.SetDefault("Jinxprobe");
 
@@ -41,6 +41,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 			projectile.Center = newCenter + truePosition;
             return base.PreAI();
         }
+
+		public override bool MinionContactDamage() => false;
 
 		public override void IdleMovement(Player player)
 		{

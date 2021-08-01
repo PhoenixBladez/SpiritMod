@@ -60,6 +60,7 @@ using SpiritMod.Items.Sets.SepulchreLoot.ToxicBottle;
 using SpiritMod.Items.Sets.SepulchreLoot.AccursedBlade;
 using SpiritMod.Items.Sets.SepulchreLoot.OldCross;
 using SpiritMod.Mechanics.BackgroundSystem;
+using SpiritMod.Items.Sets.SummonsMisc.Toucane;
 
 namespace SpiritMod
 {
@@ -1369,7 +1370,7 @@ namespace SpiritMod
 				ItemType<Book_Gunslinger>()},
 				1, 0.33f), goldChests, 2);
 			AddToVanillaChest(new ChestInfo(ItemType<Book_LuminousArt>(), 1, 0.33f), waterChests, 2);
-			AddToVanillaChest(new ChestInfo(ItemType<UnfellerOfEvergreens>(), 1, 0.175f), ivyChests, 1);
+			AddToVanillaChest(new ChestInfo(new int[] { ItemType<UnfellerOfEvergreens>(), ItemType<ToucaneItem>() }, 1, 0.4f), ivyChests, 1);
 
 			List<ChestInfo> PagodaPool = new List<ChestInfo> {
 				new ChestInfo(ItemType<JadeStaff>()),
