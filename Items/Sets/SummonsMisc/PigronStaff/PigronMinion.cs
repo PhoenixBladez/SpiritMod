@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.SummonsMisc.PigronStaff
 {
-	[AutoloadMinionBuff("Pigron Minion", "Bacon!")]
+	[AutoloadMinionBuff("Pigrons", "Bacon!")]
 	public class PigronMinion : BaseMinion
 	{
 		public PigronMinion() : base(800, 1800, new Vector2(30, 30)) { }

@@ -61,8 +61,9 @@ namespace SpiritMod.Utilities
 
 		[Label("Boss Titles")]
 		[Tooltip("Enables the showing of titles when spawning a boss, or what bosses titles display for")]
-		[DefaultValue(BossTitles.DrawCondition.SpiritBosses)]
+		[OptionStrings(new string[] { "Off", "Spirit Bosses Only", "Spirit and Vanilla Bosses Only", "All Applicable Bosses" })]
+		[DefaultValue("Spirit and Vanilla Bosses Only")]
 
-		public BossTitles.DrawCondition DrawCondition { get; set; }
+		public string DrawCondition { get; set; }
 	}
 }

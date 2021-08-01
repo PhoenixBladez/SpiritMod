@@ -102,7 +102,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.Toucane
 			//take the base desired homing position, and try to find the lowest solid tile for the minion to rest at from it
 			Point tilepos = targetCenter.ToTileCoordinates();
 			int tilesfrombase = 0;
-			int maxtilesfrombase = 25;
+			int maxtilesfrombase = 15;
 			bool canstartrest = true; //dont start resting if rest position is too far from the base desired position
 
 			int startX = tilepos.X + ((projectile.direction > 0) ? -1 : 0);

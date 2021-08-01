@@ -48,7 +48,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.LocustCrook
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, item, mod.GetTexture(Texture.Remove(0, mod.Name.Length + 1) + "_glow"), rotation, scale);
 	}
 
-	[AutoloadMinionBuff("Locust Minion", "Bringer of a plague")]
+	[AutoloadMinionBuff("Locusts", "Bringer of a plague")]
 	internal class LocustBig : BaseMinion
 	{
 		public LocustBig() : base(600, 1800, new Vector2(30, 30)) { }

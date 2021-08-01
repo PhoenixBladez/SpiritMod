@@ -77,14 +77,14 @@ namespace SpiritMod.Utilities
 		{
 			switch (ModContent.GetInstance<SpiritClientConfig>().DrawCondition)
 			{
-				case DrawCondition.SpiritBosses:
+				case "Spirit Bosses Only":
 					if (ModContent.GetModNPC(Type) == null) //return if from vanilla
 						return;
 					if (ModContent.GetModNPC(Type).mod != SpiritMod.instance) //then return if not from spirit mod
 						return;
 					break;
 
-				case DrawCondition.SpiritVanilla:
+				case "Spirit and Vanilla Bosses Only":
 					if (ModContent.GetModNPC(Type) != null) //check if not vanilla
 					{
 						if (ModContent.GetModNPC(Type).mod != SpiritMod.instance) //then return if not from spirit mod
@@ -93,7 +93,7 @@ namespace SpiritMod.Utilities
 
 					break;
 
-				case DrawCondition.Off: //always return
+				case "Off": //always return
 					return;
 			}
 			NPCType = Type;
