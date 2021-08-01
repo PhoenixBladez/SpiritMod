@@ -1,4 +1,5 @@
 ﻿using SpiritMod.Items.Material;
+using SpiritMod.Items.Sets.GunsMisc.Spineshot;
 using SpiritMod.Items.Weapon.Thrown;
 using SpiritMod.NPCs.OceanSlime;
 using SpiritMod.Items.Consumable.Food;
@@ -243,6 +244,13 @@ namespace SpiritMod.Tiles
                     player.AddBuff(ModContent.BuffType<Buffs.Armor.ExplorerMine>(), 600);
                 }
 
+                if (player.HasItem(ModContent.ItemType<Spineshot>()))
+                {
+                    if (type == 3 || type == 24 || type == 61 || type == 71 || type == 110 || type == 201)
+                    {
+                        Item.NewItem(i * 16, j * 16, 64, 48, ItemID.Seed, Main.rand.Next(1, 3));
+                    }
+                }
 				if (player.cordage && type == ModContent.TileType<Tiles.Ambient.Briar.BriarVines>())
 				{
 					Item.NewItem(i * 16, j * 16, 64, 48, ItemID.VineRope);
