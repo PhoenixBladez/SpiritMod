@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ToxicBottle
 			item.damage = 15;
 		}
 
-		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0;
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0 || player.altFunctionUse == 2;
 		public override bool AltFunctionUse(Player player) => true;
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
