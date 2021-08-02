@@ -21,7 +21,7 @@ namespace SpiritMod.NPCs.Occultist
 
 		public override void Update()
 		{
-			_frame = (int)(TimeActive / _numFrames);
+			_frame = (int)(_numFrames * TimeActive / _displayTime);
 			if (TimeActive > _displayTime)
 				Kill();
 		}

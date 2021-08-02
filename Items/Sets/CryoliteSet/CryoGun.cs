@@ -11,13 +11,13 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Winter's Wake");
-			Tooltip.SetDefault("Fires rockets");
+			Tooltip.SetDefault("Converts rockets into flake rockets");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/CryoliteSet/CryoGun_Glow");
 		}
 
 		public override void SetDefaults()
 		{
-			item.damage = 32;
+			item.damage = 42;
 			item.ranged = true;
 			item.noMelee = true;
 			item.rare = ItemRarityID.Orange;
@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 			item.crit = 6;
 			item.UseSound = SoundID.Item96;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.autoReuse = false;
+			item.autoReuse = true;
 			item.shoot = ProjectileID.RocketI;
 			item.shootSpeed = 10f;
 			item.useAmmo = AmmoID.Rocket;
@@ -58,6 +58,12 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 			);
 		}
 		public override Vector2? HoldoutOffset() => new Vector2(-8, 0);
+
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			type = ModContent.ProjectileType<Projectiles.Bullet.FlakeRocketProj>();
+			return true;
+		}
 
 		public override void AddRecipes()
 		{

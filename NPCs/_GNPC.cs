@@ -696,6 +696,8 @@ namespace SpiritMod.NPCs
                 nextSlot++;
             }
 			else if (type == NPCID.Demolitionist) {
+				shop.item[nextSlot].SetDefaults(ItemType<Warhead>(), false);
+				nextSlot++;
 				shop.item[nextSlot].SetDefaults(ItemType<ShortFuse>(), false);
 				nextSlot++;
 				shop.item[nextSlot].SetDefaults(ItemType<LongFuse>(), false);

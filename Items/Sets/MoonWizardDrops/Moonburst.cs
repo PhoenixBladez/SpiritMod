@@ -30,6 +30,7 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
 			item.useTime = 23;
 			item.shoot = ModContent.ProjectileType<MoonburstProj>();
 		}
+
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Lighting.AddLight(item.position, 0.1f, .37f, .52f);
@@ -52,5 +53,7 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
 				0f
 			);
 		}
+
+		public override void HoldItem(Player player) => player.stringColor = 1 + 3299 - 3293;
 	}
 }

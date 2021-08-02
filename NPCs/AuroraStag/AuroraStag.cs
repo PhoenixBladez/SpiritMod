@@ -283,7 +283,7 @@ namespace SpiritMod.NPCs.AuroraStag
 
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
-			Texture2D orbTexture = mod.GetTexture("NPCs/AuroraStag/GlowOrb");
+			Texture2D orbTexture = mod.GetTexture("NPCs/AuroraStag/AuroraOrbParticle");
 			Vector2 orbOrigin = new Vector2(orbTexture.Width / 2, orbTexture.Height / 2);
 			float opacity = 0.5f * (TameAnimationLength - TameAnimationTimer) / TameAnimationLength;
 			float scale = ((float)(Math.Sin(TameAnimationTimer / 30) / 4) + 1f) * ((TameAnimationTimer - TameAnimationLength) / TameAnimationLength);

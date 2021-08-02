@@ -75,7 +75,6 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.LocustCrook
 		public override bool PreAI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation();
-
 			return true;
 		}
 

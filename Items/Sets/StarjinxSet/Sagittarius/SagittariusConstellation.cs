@@ -60,6 +60,13 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 				projectile.alpha = Math.Max(projectile.alpha - 10, 0);
 			}
 
+			if(Timer == 30 && !Main.dedServ)
+			{
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithPitchVariance(0.2f).WithVolume(0.5f), projectile.Center);
+				for (int i = 0; i < 3; i++)
+					Particles.ParticleHandler.SpawnParticle(new Particles.StarParticle(projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.5f, 1.5f), Color.White * 0.7f, Main.rand.NextFloat(0.2f, 0.3f), 20));
+			}
+
 			if (Owner == Main.LocalPlayer)
 			{
 				if (Timer == 10 && StarsLeft > 1)
@@ -75,12 +82,11 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 						ModContent.ProjectileType<SagittariusConstellationArrow>(), projectile.damage, projectile.knockBack, projectile.owner, StarsLeft % 2);
 
 					if (proj.modProjectile is SagittariusConstellationArrow)
-						(proj.modProjectile as SagittariusConstellationArrow).TargetPos = Main.MouseWorld;
+						(proj.modProjectile as SagittariusConstellationArrow).TargetPos = Main.MouseWorld; 
 
 					if (Main.netMode != NetmodeID.SinglePlayer)
 						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
 
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithPitchVariance(0.2f).WithVolume(0.5f), projectile.Center);
 					projectile.netUpdate = true;
 				}
 			}
@@ -115,7 +121,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 				{
 					Texture2D Beam = mod.GetTexture("Textures/Trails/Trail_4");
 					Vector2 scale = new Vector2(projectile.Distance(laststar.Center) / Beam.Width, projectile.scale * 20 / Beam.Height);
-					float opacity = projectile.Opacity * laststar.Opacity;
+					float opacity = 0.8f * projectile.Opacity * laststar.Opacity;
 					Vector2 origin = new Vector2(0, Beam.Height / 2);
 					spriteBatch.Draw(Beam, projectile.Center - Main.screenPosition, null, Color.Lerp(Color.White, color, 0.5f) * opacity, projectile.AngleTo(laststar.Center), origin, scale, SpriteEffects.None, 0);
 				}

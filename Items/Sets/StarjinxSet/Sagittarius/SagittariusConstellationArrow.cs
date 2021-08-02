@@ -31,8 +31,9 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 
 		public void DoTrailCreation(TrailManager tM)
 		{
-			tM.CreateTrail(projectile, new StandardColorTrail(new Color(255, 255, 255)), new TriangleCap(), new DefaultTrailPosition(), 15, 150);
-			tM.CreateTrail(projectile, new GradientTrail(new Color(255, 255, 255), Color.Transparent), new TriangleCap(), new DefaultTrailPosition(), 5, 150);
+			tM.CreateTrail(projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new ArrowGlowPosition(), 30, 150);
+			tM.CreateTrail(projectile, new StandardColorTrail(Color.White), new TriangleCap(), new DefaultTrailPosition(), 15, 150);
+			tM.CreateTrail(projectile, new GradientTrail(Color.White, Color.Transparent), new TriangleCap(), new DefaultTrailPosition(), 5, 150);
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -66,6 +67,14 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 			}
 			else if (projectile.velocity.Length() < 25)
 				projectile.velocity *= 1.02f;
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			if (Main.dedServ)
+				return;
+
+			Particles.ParticleHandler.SpawnParticle(new Particles.StarParticle(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.Pi / 8) * Main.rand.NextFloat(0.5f), Color.White, Main.rand.NextFloat(0.3f, 0.4f), 15));
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

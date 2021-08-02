@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Particles;
 using SpiritMod.Utilities;
 using System;
 using Terraria;
@@ -31,6 +32,34 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 			tM.CreateTrail(projectile, new GradientTrail(Color.White * 0.2f, Color.Transparent), new RoundCap(), new DefaultTrailPosition(), 60, 800);
 			tM.CreateTrail(projectile, new StandardColorTrail(Color.White), new NoCap(), new DefaultTrailPosition(), 10, 600);
 			tM.CreateTrail(projectile, new StandardColorTrail(new Color(101, 255, 245)), new NoCap(), new DefaultTrailPosition(), 120, 500, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1));
+		}
+		public override void Kill(int timeLeft)
+		{
+			if (Main.dedServ)
+				return;
+
+			for (int i = 0; i < 3; i++)
+				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(0.25f), new Color(101, 255, 245) * 2, new Color(101, 255, 245), Main.rand.NextFloat(0.3f, 0.4f), 35));
+
+			for (int i = 0; i < 5; i++)
+				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.5f), Color.White, Main.rand.NextFloat(0.3f, 0.4f), 15));
+		}
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			if (Main.dedServ)
+				return;
+
+			Vector2 position = Main.rand.NextVector2CircularEdge(60, 60);
+			Color color = new Color(101, 255, 245);
+			color.A = (byte)(color.A * 2);
+			ParticleHandler.SpawnParticle(new ImpactLine(target.Center + position, -position / 6, color, Main.rand.NextFloat(0.8f, 1f) * new Vector2(1, 3), 12));
+			for (int i = 0; i < 4; i++)
+			{
+				ParticleHandler.SpawnParticle(new StarParticle(
+					target.Center + Main.rand.NextVector2Circular(6, 6),
+					position.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.025f, 0.075f) * (Main.rand.NextBool() ? -1 : 1),
+					Color.White * 0.75f, color, Main.rand.NextFloat(0.3f, 0.6f), 20));
+			}
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

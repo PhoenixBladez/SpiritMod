@@ -4,13 +4,13 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Particles;
+using SpiritMod.Utilities;
 
 namespace SpiritMod.Items.Ammo.Rocket.Warhead
 {
-	class Warhead : ModItem
+	public class Warhead : ModItem
 	{
-
-		public override bool Autoload(ref string name) => false;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Warhead");
@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 			item.CloneDefaults(ItemID.RocketI);
 			item.width = 26;
 			item.height = 14;
-			item.value = Item.buyPrice(0, 0, 1, 0);
+			item.value = Item.buyPrice(0, 0, 0, 30);
 			item.rare = ItemRarityID.White;
 			item.damage = 10;
 			item.shoot = ModContent.ProjectileType<WarheadProj>();
@@ -48,7 +48,7 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 		}
 	}
 
-	abstract class BaseWarheadProj : ModProjectile //uses a base abstract class to cut down on boilerplate, since the vanilla rocket alts for this ammo dont require any unique ai code
+	public abstract class BaseWarheadProj : ModProjectile //uses a base abstract class to cut down on boilerplate, since the vanilla rocket alts for this ammo dont require any unique ai code
 	{
 		public int CopyProj;
 		public bool usesaitype;
@@ -65,66 +65,114 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
+
 		public override void SetDefaults()
 		{
 			projectile.CloneDefaults(CopyProj);
-			projectile.penetrate = -1;
+			projectile.penetrate = 1;
 			if (usesaitype)
 				aiType = CopyProj;
 			else
 				projectile.aiStyle = -1;
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		public override bool PreAI()
 		{
-			//target.immune[projectile.owner] = 30;
-			projectile.Kill();
+			HitNPC = -1;
+			return true;
 		}
 
-		public override void OnHitPvp(Player target, int damage, bool crit) => projectile.Kill();
+		private ref float HitNPC => ref projectile.ai[0];
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			if (HitNPC == -1)
+				HitNPC = target.whoAmI;
+		}
+
+		public override bool? CanHitNPC(NPC target)
+		{
+			if (target.townNPC)
+				return false;
+
+			if (target.whoAmI == HitNPC)
+				return false;
+
+			return base.CanHitNPC(target);
+		}
+
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => damage = NPCUtils.ToActualDamage(damage);
+
+		public override void ModifyHitPvp(Player target, ref int damage, ref bool crit) => damage = NPCUtils.ToActualDamage(damage);
 
 		public override void Kill(int timeLeft)
 		{
-			for (int i = 0; i < 3; i++) {
-				Vector2 spawnoffset = (i == 0) ? projectile.oldVelocity : projectile.oldVelocity.RotatedByRandom(MathHelper.Pi);
-				Projectile.NewProjectile(projectile.Center + spawnoffset * 2, Vector2.Zero, ModContent.ProjectileType<WarheadBoom>(),
-					projectile.damage, projectile.knockBack, projectile.owner, spawnoffset.ToRotation());
-			}
+			projectile.hostile = true;
+			Projectiles.ProjectileExtras.Explode(projectile.whoAmI, 100, 100, delegate
+			{
+				if (!Main.dedServ)
+				{
+					for (int i = 0; i < 10; i++)
+					{
+						Vector2 offset = Main.rand.NextVector2Circular(50, 50);
+						ParticleHandler.SpawnParticle(new WarheadBoom(projectile.Center + offset, Main.rand.NextFloat(1f, 1.4f), offset.ToRotation() + MathHelper.PiOver2));
+					}
 
-			for (int i = 0; i < 4; i++) {
-				Gore gore = Gore.NewGoreDirect(projectile.Center, Main.rand.NextVector2Circular(2, 2), 11 + Main.rand.Next(3), 0.7f);
-				gore.timeLeft = 10;
-			}
+					for (int i = 0; i < 20; i++)
+					{
+						float maxDist = 70;
+						float Dist = Main.rand.NextFloat(maxDist);
+						Vector2 offset = Main.rand.NextVector2Unit();
+						ParticleHandler.SpawnParticle(new SmokeParticle(projectile.Center + (offset * Dist), Main.rand.NextFloat(5f) * offset * (1 - (Dist / maxDist)), new Color(60, 60, 60) * 0.5f, Main.rand.NextFloat(0.4f, 0.6f), 40));
+					}
 
-			for (int i = 0; i < 10; i++)
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, Main.rand.NextFloat(-8, 8), Main.rand.NextFloat(-16, -4), 0, default, 1.3f);
+					for (int i = 0; i < 6; i++)
+						ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, (projectile.velocity / 2) - (Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2 * 3) * Main.rand.NextFloat(6)), 
+							new Color(246, 255, 0), new Color(232, 37, 2), Main.rand.NextFloat(0.5f, 0.7f), 40, delegate (Particle particle)
+							{
+								if (particle.Velocity.Y < 16)
+									particle.Velocity.Y += 0.12f;
+							}));
+				}
+			});
 
 			Main.PlaySound(new LegacySoundStyle(soundId: SoundID.Item, style: 14).WithPitchVariance(0.1f), projectile.Center);
 		}
 	}
-	class WarheadProj : BaseWarheadProj
+	public class WarheadProj : BaseWarheadProj, ITrailProjectile
 	{
 		public WarheadProj() : base(ProjectileID.RocketI) { }
+
+		public override void SetDefaults()
+		{
+			base.SetDefaults();
+			projectile.timeLeft = 240;
+		}
+
 		public override string Texture => mod.Name + "/Items/Ammo/Rocket/Warhead/Warhead";
+
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new GradientTrail(Color.Lerp(Color.Orange, Color.White, 0.7f) * 0.2f, Color.Transparent), new RoundCap(), new DefaultTrailPosition(), 30, 100);
+
+		public override void AI()
+		{
+			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+			if (!Main.dedServ)
+			{
+				ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, -projectile.velocity.RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(),
+							new Color(246, 255, 0), new Color(232, 37, 2), Main.rand.NextFloat(0.35f, 0.5f), 10, delegate (Particle particle)
+							{
+								particle.Velocity *= 0.94f;
+							}));
+
+				if(Main.rand.NextBool(3))
+					ParticleHandler.SpawnParticle(new SmokeParticle(projectile.Center, -projectile.velocity.RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(0.1f), new Color(60, 60, 60) * 0.5f, Main.rand.NextFloat(0.2f, 0.3f), 12));
+			}
+		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			projectile.Kill();
 			return base.OnTileCollide(oldVelocity);
-		}
-
-		public override void AI()
-		{
-			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-			for (int i = 0; i < 3; i++) 
-			{
-				Dust dust = Dust.NewDustPerfect(projectile.Center - projectile.velocity, 6, projectile.velocity, 50, default, Main.rand.NextFloat(1, 1.5f));
-				dust.noGravity = true;
-				dust.velocity /= i;
-			}
-
-			if (projectile.timeLeft % 15 == 0) 
-				DustHelper.DrawCircle(position: projectile.Center, dustType: 6, mainSize: 0.8f, RatioX: 2f, RatioY: 1f, dustSize: 1.4f, rotationAmount: projectile.rotation + MathHelper.TwoPi, nogravity: true);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -139,17 +187,17 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 		}
 	}
 
-	class Warhead_proximity : BaseWarheadProj
+	public class Warhead_proximity : BaseWarheadProj
 	{
 		public Warhead_proximity() : base(ProjectileID.ProximityMineI, true) { }
 	}
 
-	class Warhead_grenade : BaseWarheadProj
+	public class Warhead_grenade : BaseWarheadProj
 	{
 		public Warhead_grenade() : base(ProjectileID.GrenadeI, true) { }
 	}
 
-	class Warhead_snowman : BaseWarheadProj
+	public class Warhead_snowman : BaseWarheadProj
 	{
 		public Warhead_snowman() : base(ProjectileID.RocketSnowmanI, true) { }
 		public override bool OnTileCollide(Vector2 oldVelocity)
@@ -157,39 +205,5 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 			projectile.Kill();
 			return base.OnTileCollide(oldVelocity);
 		}
-	}
-
-	class WarheadBoom : ModProjectile
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Explosion");
-			Main.projFrames[projectile.type] = 10;
-		}
-
-		public override void SetDefaults()
-		{
-			projectile.friendly = true;
-			projectile.Size = new Vector2(40, 40);
-			projectile.ranged = true;
-			projectile.tileCollide = false;
-			projectile.scale = 1.75f;
-			projectile.penetrate = -1;
-		}
-		public override Color? GetAlpha(Color lightColor) => Color.White;
-		public override void AI()
-		{
-			projectile.rotation = projectile.ai[0] + MathHelper.PiOver2;
-			Lighting.AddLight(projectile.position, Color.OrangeRed.ToVector3());
-			projectile.frameCounter++;
-			if(projectile.frameCounter >= 3) {
-				projectile.frameCounter = 0;
-				projectile.frame++;
-				if (projectile.frame >= Main.projFrames[projectile.type])
-					projectile.Kill();
-			}
-		}
-
-		public override bool? CanHitNPC(NPC target) => projectile.frame <= 2;
 	}
 }

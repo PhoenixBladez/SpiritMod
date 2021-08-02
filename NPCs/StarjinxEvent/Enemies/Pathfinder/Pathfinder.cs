@@ -99,27 +99,25 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 
 				Vector2 drawPosition = npc.Center;
 
-				Color color = Color.Lerp(SpiritMod.StarjinxColor(Main.GameUpdateCount / 12f), Color.White, 0.5f);
+				Color color = Color.Lerp(Color.HotPink, Color.White, 0.5f);
 				color.A = 0;
 				float beamOpacity = 1;
 
 				Vector2 dist = Target.Center - drawPosition;
 
-				for (int i = -1; i <= 1; i++)
+				for (int i = -2; i <= 2; i++)
 				{
 					float rot = dist.ToRotation();
-					Vector2 offset = (i == 0) ? Vector2.Zero : Vector2.UnitX.RotatedBy(rot + MathHelper.PiOver4 * i) * 4;
-					float opacity = (i == 0) ? 1f : 0.5f;
+					Vector2 offset = (i == 0) ? Vector2.Zero : Vector2.UnitX.RotatedBy(rot + MathHelper.PiOver4 * i) * 8;
+					float opacity = 1 - (Math.Abs(i / 3f));
+					opacity *= 0.75f;
 					spriteBatch.Draw(beam, drawPosition + offset - Main.screenPosition, null, color * beamOpacity * opacity, rot + MathHelper.PiOver2, new Vector2(beam.Width / 2f, beam.Height * 0.58f), new Vector2(1, dist.Length() / (beam.Height / 2f)), SpriteEffects.None, 0);
 				}
 			}
 			return true;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/StarjinxEvent/Enemies/Pathfinder/Pathfinder_Glow"));
-		}
+		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/StarjinxEvent/Enemies/Pathfinder/Pathfinder_Glow"));
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass.AstralSpellblade
 		internal class StarSword 
 		{
 			private readonly AstralGreatswordHeld parent;
-			private readonly Texture2D Texture = ModContent.GetTexture("SpiritMod/Items/Sets/GreatswordSubclass/AstralSpellblade/StarSword");
+			private readonly Texture2D Texture;
 			private Vector2 Size => Texture.Size();
 			private bool FullyCharged => parent.Charge == 1;
 			private Vector2 Position => parent.projectile.Center + parent.projectile.DirectionFrom(parent.ProjOwner.MountedCenter) * (35 + ((float)Math.Sin(Main.GameUpdateCount / 15f) * 10));
@@ -35,6 +35,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass.AstralSpellblade
 			public StarSword(AstralGreatswordHeld parent)
 			{
 				this.parent = parent;
+				Texture = ModContent.GetTexture("SpiritMod/Items/Sets/GreatswordSubclass/AstralSpellblade/StarSword");
 			}
 
 			public void Update()

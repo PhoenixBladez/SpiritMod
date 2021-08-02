@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.NPCs.AuroraStag;
+using SpiritMod.Particles;
 using System;
 using Terraria;
 using static Terraria.ModLoader.ModContent;
 
-namespace SpiritMod.Particles
+namespace SpiritMod.NPCs.AuroraStag
 {
 	public class AuroraOrbParticle : Particle
 	{

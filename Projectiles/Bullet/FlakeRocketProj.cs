@@ -1,18 +1,19 @@
 ﻿
 using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
+using SpiritMod.Dusts;
+using SpiritMod.Particles;
+using SpiritMod.Utilities;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Bullet
 {
-	public class FlakeRocketProj : ModProjectile
+	public class FlakeRocketProj : ModProjectile, ITrailProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Flake Rocket");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Flake Rocket");
 
 		public override void SetDefaults()
 		{
@@ -23,63 +24,82 @@ namespace SpiritMod.Projectiles.Bullet
 			projectile.penetrate = 1;
 			projectile.ranged = true;
 			aiType = ProjectileID.Bullet;
+			projectile.timeLeft = 240;
 		}
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new GradientTrail(Color.Lerp(Color.Cyan, Color.White, 0.7f) * 0.2f, Color.Transparent), new RoundCap(), new DefaultTrailPosition(), 30, 100);
 
 		public override void AI()
 		{
+			HitNPC = -1;
 			projectile.rotation = projectile.velocity.ToRotation();
-			var offset = new Vector2(projectile.Center.X - 13, projectile.Center.Y).RotatedBy(projectile.rotation, projectile.Center) + new Vector2(-4, -4);
-			int dust = Dust.NewDust(offset, 0, 0, 68, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			int dust2 = Dust.NewDust(offset, 0, 0, 180, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			Main.dust[dust].noGravity = true;
-			Main.dust[dust2].noGravity = true;
-			Main.dust[dust2].velocity *= 0.6f;
-			Main.dust[dust2].velocity *= 0.1f;
-			Main.dust[dust2].scale = 1.2f;
-			Main.dust[dust].scale = .8f;
-			/*for(int i = 0; i < 4; i++) {
-				float x = projectile.Center.X - projectile.velocity.X / 10f * i;
-				float y = projectile.Center.Y - projectile.velocity.Y / 10f * i;
-				int num = Dust.NewDust(new Vector2(x, y), 2, 2, 180);
-				Main.dust[num].velocity = Vector2.Zero;
-				Main.dust[num].noGravity = true;
-			}*/
+			if (!Main.dedServ)
+			{
+				ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, -projectile.velocity.RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(),
+							new Color(135, 253, 255), new Color(0, 21, 255), Main.rand.NextFloat(0.35f, 0.5f), 6, delegate (Particle particle)
+							{
+								particle.Velocity *= 0.94f;
+							}));
+
+				if (Main.rand.NextBool(3))
+					ParticleHandler.SpawnParticle(new SmokeParticle(projectile.Center, -projectile.velocity.RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(0.1f), new Color(30, 30, 90) * 0.5f, Main.rand.NextFloat(0.2f, 0.3f), 12));
+			}
 		}
+
+		private ref float HitNPC => ref projectile.ai[0];
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-			=> target.AddBuff(ModContent.BuffType<CryoCrush>(), 300, true);
-		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			damage /= 2;
+			if(HitNPC == -1)
+				HitNPC = target.whoAmI;
+			target.AddBuff(ModContent.BuffType<CryoCrush>(), 300, true);
 		}
+
 		public override bool? CanHitNPC(NPC target)
 		{
-			if (target.townNPC) {
+			if (target.townNPC)
 				return false;
-			}
+
+			if (target.whoAmI == HitNPC)
+				return false;
+
 			return base.CanHitNPC(target);
 		}
+
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => damage = NPCUtils.ToActualDamage(damage);
+
+		public override void ModifyHitPvp(Player target, ref int damage, ref bool crit) => damage = NPCUtils.ToActualDamage(damage);
+
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
-			Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CryoFire>(), (int)(projectile.damage * 0.75f + 0.5f), projectile.knockBack, projectile.owner);
+			projectile.hostile = true;
+			ProjectileExtras.Explode(projectile.whoAmI, 150, 150, delegate
+			{
+				if (!Main.dedServ)
+				{
+					DustHelper.DrawDustImage(projectile.Center, ModContent.DustType<WinterbornDust>(), 0.3f, "SpiritMod/Effects/Snowflakes/Flake" + Main.rand.Next(3), 0.4f);
+					float rot = Main.rand.NextFloat(MathHelper.TwoPi);
+					for(int i = 0; i < 8; i++)
+						DustHelper.DrawDustImage(projectile.Center + (Vector2.UnitX.RotatedBy(rot + (MathHelper.TwoPi * i/8f)) * 60), ModContent.DustType<WinterbornDust>(), 0.15f, "SpiritMod/Effects/Snowflakes/Flake" + Main.rand.Next(3), 0.25f, rot: Main.rand.NextFloat(MathHelper.TwoPi));
 
-			projectile.position.X = projectile.position.X + (projectile.width / 2);
-			projectile.position.Y = projectile.position.Y + (projectile.height / 2);
-			projectile.width = 30;
-			projectile.height = 30;
-			projectile.position.X = projectile.position.X - (projectile.width / 2);
-			projectile.position.Y = projectile.position.Y - (projectile.height / 2);
+					for (int i = 0; i < 30; i++)
+					{
+						float maxDist = 100;
+						float Dist = Main.rand.NextFloat(maxDist);
+						Vector2 offset = Main.rand.NextVector2Unit();
+						ParticleHandler.SpawnParticle(new SmokeParticle(projectile.Center + (offset * Dist), Main.rand.NextFloat(5f) * offset * (1 - (Dist / maxDist)), new Color(30, 30, 90) * 0.5f, Main.rand.NextFloat(0.4f, 0.6f), 40));
+					}
 
-			for (int num623 = 0; num623 < 40; num623++) {
-				int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height,
-					68, 0f, 0f, 100, default, 1f);
-				Main.dust[num624].noGravity = true;
-				Main.dust[num624].velocity *= 5f;
-				num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height,
-					68, 0f, 0f, 100, default, 1f);
-				Main.dust[num624].velocity *= 2f;
-			}
+					for (int i = 0; i < 8; i++)
+						ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, (projectile.velocity / 4) - (Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2 * 3) * Main.rand.NextFloat(4)),
+							new Color(135, 253, 255), new Color(0, 21, 255), Main.rand.NextFloat(0.5f, 0.7f), 40, delegate (Particle particle)
+							{
+								if (particle.Velocity.Y < 16)
+									particle.Velocity.Y += 0.12f;
+							}));
+				}
+			});
+
+			Main.PlaySound(new LegacySoundStyle(soundId: SoundID.Item, style: 14).WithPitchVariance(0.1f), projectile.Center);
 		}
 	}
 }
