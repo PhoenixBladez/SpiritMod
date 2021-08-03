@@ -5,11 +5,11 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Equipment
 {
-	public class DesertSnowglobe : ModItem
+	public class SandsOfTime : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sandglobe");
+			DisplayName.SetDefault("Sands of Time");
 			Tooltip.SetDefault("Summons or ends a sandstorm\nOnly usable in a desert");
 		}
 

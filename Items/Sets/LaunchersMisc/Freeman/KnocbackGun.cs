@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Sets.GunsMisc.Freeman
+namespace SpiritMod.Items.Sets.LaunchersMisc.Freeman
 {
 	public class KnocbackGun : ModItem
 	{

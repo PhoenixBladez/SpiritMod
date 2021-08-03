@@ -67,8 +67,6 @@ namespace SpiritMod.NPCs.SkeletonBrute
 			}
 		}
 
-		public override void NPCLoot() => Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BloodFire>(), Main.rand.Next(3, 6));
-
 		public override void HitEffect(int hitDirection, double damage)
 		{		
 			for (int k = 0; k < 10; k++)

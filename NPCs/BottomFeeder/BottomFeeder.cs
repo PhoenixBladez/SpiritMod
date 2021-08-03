@@ -90,7 +90,6 @@ namespace SpiritMod.NPCs.BottomFeeder
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Consumable.Food.FishFingers>());
             }
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BloodFire>(), 2 + Main.rand.Next(2, 4));
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{

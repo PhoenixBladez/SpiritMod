@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.SlingHammerSubclass
 {
-	public class ShadowAxe : ModItem
+	public class PossessedHammer : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -18,8 +18,6 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 			Tooltip.SetDefault("Hold down and release to throw the hammer like a boomerang");
 		}
 
-
-		private Vector2 newVect;
 		public override void SetDefaults()
 		{
 			item.useStyle = 100;
@@ -38,11 +36,12 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 			item.value = Item.sellPrice(0, 1, 50, 0);
 			item.rare = ItemRarityID.LightRed;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = ModContent.ProjectileType<ShadowAxeProj>();
+			item.shoot = ModContent.ProjectileType<PossessedHammerProj>();
 		}
-		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0 && player.ownedProjectileCounts[ModContent.ProjectileType<ShadowAxeProjReturning>()] == 0;
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0 && player.ownedProjectileCounts[ModContent.ProjectileType<PossessedHammerProjReturning>()] == 0;
 	}
-	public class ShadowAxeProj : SlingHammerProj
+
+	public class PossessedHammerProj : SlingHammerProj
 	{
 		public override void SetStaticDefaults()
 		{
@@ -54,12 +53,14 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 		protected override int width => 58;
 		protected override int chargeTime => 43;
 		protected override float chargeRate => 0.7f;
-		protected override int thrownProj => ModContent.ProjectileType<ShadowAxeProjReturning>();
+		protected override int thrownProj => ModContent.ProjectileType<PossessedHammerProjReturning>();
 		protected override float damageMult => 1.25f;
 		protected override int throwSpeed => 18;
 	}
-	public class ShadowAxeProjReturning : ModProjectile
+
+	public class PossessedHammerProjReturning : ModProjectile
 	{
+		public override string Texture => "SpiritMod/Items/Sets/SlinghammerSubclass/PossessedHammer";
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Possessed Hammer");
@@ -84,29 +85,31 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 			Player player = Main.player[projectile.owner];
 			if (projectile.tileCollide)
 			{
-				Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowAxeExplosion>(), (int)(projectile.damage * 1.5f), projectile.knockBack * 1.5f, projectile.owner);
 				player.GetModPlayer<MyPlayer>().Shake += 8;
 				Main.PlaySound(SoundID.Item88, projectile.Center);
 			}
 		}
+
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			if (projectile.tileCollide)
 				damage = (int)(damage * 1.25);
 		}
+
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowAxeExplosion>(), (int)(projectile.damage * 1.5f), projectile.knockBack * 1.5f, projectile.owner);
 			Player player = Main.player[projectile.owner];
 			player.GetModPlayer<MyPlayer>().Shake += 8;
 			Main.PlaySound(SoundID.Item88, projectile.Center);
 			return base.OnTileCollide(oldVelocity);
 		}
+
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
 		{
 			width = height /= 2;
 			return true;
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			for (int i = 0; i < ProjectileID.Sets.TrailCacheLength[projectile.type]; i++)
@@ -117,47 +120,6 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 					Main.projectileTexture[projectile.type].Size() / 2, projectile.scale, SpriteEffects.None, 0);
 			}
 			return true;
-		}
-	}
-	public class ShadowAxeExplosion : ModProjectile
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Explosion");
-			Main.projFrames[base.projectile.type] = 9;
-		}
-
-		public override void SetDefaults()
-		{
-			projectile.hostile = false;
-			projectile.width = 144;
-			projectile.height = 144;
-			projectile.tileCollide = false;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-		}
-
-		public override void AI()
-		{
-			Lighting.AddLight(projectile.Center, Color.Purple.ToVector3());
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 3)
-			{
-				projectile.frame++;
-				projectile.frameCounter = 0;
-				if (projectile.frame >= 9)
-					projectile.active = false;
-			}
-		}
-		public override bool? CanHitNPC(NPC target)
-		{
-			if (projectile.frame < 3 || projectile.frame > 5)
-				return false;
-			return base.CanHitNPC(target);
-		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return Color.White;
 		}
 	}
 }

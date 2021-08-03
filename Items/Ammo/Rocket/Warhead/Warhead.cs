@@ -48,7 +48,7 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 		}
 	}
 
-	public abstract class BaseWarheadProj : ModProjectile //uses a base abstract class to cut down on boilerplate, since the vanilla rocket alts for this ammo dont require any unique ai code
+	public abstract class BaseWarheadProj : Projectiles.BaseProj.BaseRocketProj //uses a base abstract class to cut down on boilerplate, since the vanilla rocket alts for this ammo dont require any unique ai code
 	{
 		public int CopyProj;
 		public bool usesaitype;
@@ -76,69 +76,33 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 				projectile.aiStyle = -1;
 		}
 
-		public override bool PreAI()
+		public override void ExplodeEffect()
 		{
-			HitNPC = -1;
-			return true;
-		}
-
-		private ref float HitNPC => ref projectile.ai[0];
-
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			if (HitNPC == -1)
-				HitNPC = target.whoAmI;
-		}
-
-		public override bool? CanHitNPC(NPC target)
-		{
-			if (target.townNPC)
-				return false;
-
-			if (target.whoAmI == HitNPC)
-				return false;
-
-			return base.CanHitNPC(target);
-		}
-
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => damage = NPCUtils.ToActualDamage(damage);
-
-		public override void ModifyHitPvp(Player target, ref int damage, ref bool crit) => damage = NPCUtils.ToActualDamage(damage);
-
-		public override void Kill(int timeLeft)
-		{
-			projectile.hostile = true;
-			Projectiles.ProjectileExtras.Explode(projectile.whoAmI, 100, 100, delegate
-			{
-				if (!Main.dedServ)
-				{
-					for (int i = 0; i < 10; i++)
-					{
-						Vector2 offset = Main.rand.NextVector2Circular(50, 50);
-						ParticleHandler.SpawnParticle(new WarheadBoom(projectile.Center + offset, Main.rand.NextFloat(1f, 1.4f), offset.ToRotation() + MathHelper.PiOver2));
-					}
-
-					for (int i = 0; i < 20; i++)
-					{
-						float maxDist = 70;
-						float Dist = Main.rand.NextFloat(maxDist);
-						Vector2 offset = Main.rand.NextVector2Unit();
-						ParticleHandler.SpawnParticle(new SmokeParticle(projectile.Center + (offset * Dist), Main.rand.NextFloat(5f) * offset * (1 - (Dist / maxDist)), new Color(60, 60, 60) * 0.5f, Main.rand.NextFloat(0.4f, 0.6f), 40));
-					}
-
-					for (int i = 0; i < 6; i++)
-						ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, (projectile.velocity / 2) - (Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2 * 3) * Main.rand.NextFloat(6)), 
-							new Color(246, 255, 0), new Color(232, 37, 2), Main.rand.NextFloat(0.5f, 0.7f), 40, delegate (Particle particle)
-							{
-								if (particle.Velocity.Y < 16)
-									particle.Velocity.Y += 0.12f;
-							}));
-				}
-			});
-
 			Main.PlaySound(new LegacySoundStyle(soundId: SoundID.Item, style: 14).WithPitchVariance(0.1f), projectile.Center);
+			for (int i = 0; i < 10; i++)
+			{
+				Vector2 offset = Main.rand.NextVector2Circular(50, 50);
+				ParticleHandler.SpawnParticle(new WarheadBoom(projectile.Center + offset, Main.rand.NextFloat(1f, 1.4f), offset.ToRotation() + MathHelper.PiOver2));
+			}
+
+			for (int i = 0; i < 20; i++)
+			{
+				float maxDist = 70;
+				float Dist = Main.rand.NextFloat(maxDist);
+				Vector2 offset = Main.rand.NextVector2Unit();
+				ParticleHandler.SpawnParticle(new SmokeParticle(projectile.Center + (offset * Dist), Main.rand.NextFloat(5f) * offset * (1 - (Dist / maxDist)), new Color(60, 60, 60) * 0.5f, Main.rand.NextFloat(0.4f, 0.6f), 40));
+			}
+
+			for (int i = 0; i < 6; i++)
+				ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, (projectile.velocity / 2) - (Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2 * 3) * Main.rand.NextFloat(6)),
+					new Color(246, 255, 0), new Color(232, 37, 2), Main.rand.NextFloat(0.5f, 0.7f), 40, delegate (Particle particle)
+					{
+						if (particle.Velocity.Y < 16)
+							particle.Velocity.Y += 0.12f;
+					}));
 		}
 	}
+
 	public class WarheadProj : BaseWarheadProj, ITrailProjectile
 	{
 		public WarheadProj() : base(ProjectileID.RocketI) { }
