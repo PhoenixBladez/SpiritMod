@@ -33,6 +33,7 @@ namespace SpiritMod.NPCs.BlazingSkull
 			npc.aiStyle = -1;
 			npc.noGravity = true;
 			npc.lavaImmune = true;
+			npc.buffImmune[BuffID.OnFire] = true;
 			//banner = npc.type;
 			//bannerItem = ModContent.ItemType<Items.Banners.GluttonousDevourerBanner>();
 		}

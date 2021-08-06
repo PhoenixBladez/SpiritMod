@@ -53,8 +53,8 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.IronBomber
 			if (projectile.timeLeft < PulseTime)
 				projectile.scale = 1f + (float)Math.Sin(Math.Pow(projectile.timeLeft / PulseTime, 0.5) * MathHelper.Pi * 6)/4;
 
-			if (!Main.dedServ && projectile.timeLeft % 6 == 5)
-				ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center, Color.Cyan * 0.6f, 30, 20));
+			if (!Main.dedServ && projectile.timeLeft % 4 == 3)
+				ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center, Color.Cyan * 0.6f, 20, 15));
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)

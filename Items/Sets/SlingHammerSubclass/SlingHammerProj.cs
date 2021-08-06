@@ -85,7 +85,7 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
             {
                 throwingAngle -= 6.28;
             }
-			if ((!player.channel && Math.Abs(radians - throwingAngle) < 1) || released)
+			if (!player.channel || released)
             {
                 if (projectile.ai[0] < chargeTime || released)
                 {

@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.IronBomber
 
 		public override void SetDefaults()
 		{
-			item.damage = 28;
+			item.damage = 36;
 			item.ranged = true;
 			item.width = 58;
 			item.height = 24;
@@ -26,7 +26,6 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.IronBomber
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.noMelee = true;
 			item.knockBack = 4;
-			item.channel = true;
 			item.value = Item.buyPrice(0, 2, 0, 0);
 			item.rare = ItemRarityID.Orange;
 			item.UseSound = SoundID.Item96;

@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Sets.BloodcourtSet
 			item.width = 24;
 			item.height = 28;
 			item.value = 100;
-			item.rare = ItemRarityID.Green;
+			item.rare = ItemRarityID.Blue;
 
 			item.maxStack = 999;
 		}

@@ -107,10 +107,12 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 	{
 		public WarheadProj() : base(ProjectileID.RocketI) { }
 
+		private const int maxTimeLeft = 240;
+		private int AiTimer => maxTimeLeft - projectile.timeLeft;
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
-			projectile.timeLeft = 240;
+			projectile.timeLeft = maxTimeLeft;
 		}
 
 		public override string Texture => mod.Name + "/Items/Ammo/Rocket/Warhead/Warhead";
@@ -120,16 +122,18 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 		public override void AI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+			if (AiTimer < 30)
+				projectile.velocity *= 1.023f;
 			if (!Main.dedServ)
 			{
-				ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, -projectile.velocity.RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(),
-							new Color(246, 255, 0), new Color(232, 37, 2), Main.rand.NextFloat(0.35f, 0.5f), 10, delegate (Particle particle)
+				ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, -projectile.velocity.RotatedByRandom(MathHelper.Pi / 32) * Main.rand.NextFloat(),
+							new Color(246, 255, 0), new Color(232, 37, 2), Main.rand.NextFloat(0.35f, 0.5f), 7, delegate (Particle particle)
 							{
 								particle.Velocity *= 0.94f;
 							}));
 
-				if(Main.rand.NextBool(3))
-					ParticleHandler.SpawnParticle(new SmokeParticle(projectile.Center, -projectile.velocity.RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(0.1f), new Color(60, 60, 60) * 0.5f, Main.rand.NextFloat(0.2f, 0.3f), 12));
+				for(int i = 0; i < 2; i++)
+					ParticleHandler.SpawnParticle(new SmokeParticle(projectile.Center, -projectile.velocity.RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(0.25f), new Color(60, 60, 60) * 0.5f, Main.rand.NextFloat(0.2f, 0.3f), 20));
 			}
 		}
 
