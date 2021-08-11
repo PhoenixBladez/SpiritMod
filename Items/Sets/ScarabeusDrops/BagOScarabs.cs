@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops
 				player.QuickSpawnItem(ModContent.ItemType<Trophy1>());
 
 			if(Main.rand.NextBool(3))
-				player.QuickSpawnItem(ModContent.ItemType<DesertSnowglobe>());
+				player.QuickSpawnItem(ModContent.ItemType<SandsOfTime>());
 		}
 	}
 }

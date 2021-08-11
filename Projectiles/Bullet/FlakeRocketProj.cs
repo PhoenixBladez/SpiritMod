@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
 using SpiritMod.Dusts;
 using SpiritMod.Particles;
@@ -11,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Bullet
 {
-	public class FlakeRocketProj : ModProjectile, ITrailProjectile
+	public class FlakeRocketProj : BaseProj.BaseRocketProj, ITrailProjectile
 	{
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Flake Rocket");
 
@@ -30,7 +29,6 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void AI()
 		{
-			HitNPC = -1;
 			projectile.rotation = projectile.velocity.ToRotation();
 			if (!Main.dedServ)
 			{
@@ -45,61 +43,32 @@ namespace SpiritMod.Projectiles.Bullet
 			}
 		}
 
-		private ref float HitNPC => ref projectile.ai[0];
+		public override void AbstractHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<CryoCrush>(), 300, true);
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+
+		public override void ExplodeEffect()
 		{
-			if(HitNPC == -1)
-				HitNPC = target.whoAmI;
-			target.AddBuff(ModContent.BuffType<CryoCrush>(), 300, true);
-		}
-
-		public override bool? CanHitNPC(NPC target)
-		{
-			if (target.townNPC)
-				return false;
-
-			if (target.whoAmI == HitNPC)
-				return false;
-
-			return base.CanHitNPC(target);
-		}
-
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => damage = NPCUtils.ToActualDamage(damage);
-
-		public override void ModifyHitPvp(Player target, ref int damage, ref bool crit) => damage = NPCUtils.ToActualDamage(damage);
-
-		public override void Kill(int timeLeft)
-		{
-			projectile.hostile = true;
-			ProjectileExtras.Explode(projectile.whoAmI, 150, 150, delegate
-			{
-				if (!Main.dedServ)
-				{
-					DustHelper.DrawDustImage(projectile.Center, ModContent.DustType<WinterbornDust>(), 0.3f, "SpiritMod/Effects/Snowflakes/Flake" + Main.rand.Next(3), 0.4f);
-					float rot = Main.rand.NextFloat(MathHelper.TwoPi);
-					for(int i = 0; i < 8; i++)
-						DustHelper.DrawDustImage(projectile.Center + (Vector2.UnitX.RotatedBy(rot + (MathHelper.TwoPi * i/8f)) * 60), ModContent.DustType<WinterbornDust>(), 0.15f, "SpiritMod/Effects/Snowflakes/Flake" + Main.rand.Next(3), 0.25f, rot: Main.rand.NextFloat(MathHelper.TwoPi));
-
-					for (int i = 0; i < 30; i++)
-					{
-						float maxDist = 100;
-						float Dist = Main.rand.NextFloat(maxDist);
-						Vector2 offset = Main.rand.NextVector2Unit();
-						ParticleHandler.SpawnParticle(new SmokeParticle(projectile.Center + (offset * Dist), Main.rand.NextFloat(5f) * offset * (1 - (Dist / maxDist)), new Color(30, 30, 90) * 0.5f, Main.rand.NextFloat(0.4f, 0.6f), 40));
-					}
-
-					for (int i = 0; i < 8; i++)
-						ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, (projectile.velocity / 4) - (Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2 * 3) * Main.rand.NextFloat(4)),
-							new Color(135, 253, 255), new Color(0, 21, 255), Main.rand.NextFloat(0.5f, 0.7f), 40, delegate (Particle particle)
-							{
-								if (particle.Velocity.Y < 16)
-									particle.Velocity.Y += 0.12f;
-							}));
-				}
-			});
-
 			Main.PlaySound(new LegacySoundStyle(soundId: SoundID.Item, style: 14).WithPitchVariance(0.1f), projectile.Center);
+			DustHelper.DrawDustImage(projectile.Center, ModContent.DustType<WinterbornDust>(), 0.3f, "SpiritMod/Effects/Snowflakes/Flake" + Main.rand.Next(3), 0.4f);
+			float rot = Main.rand.NextFloat(MathHelper.TwoPi);
+			for (int i = 0; i < 8; i++)
+				DustHelper.DrawDustImage(projectile.Center + (Vector2.UnitX.RotatedBy(rot + (MathHelper.TwoPi * i / 8f)) * 60), ModContent.DustType<WinterbornDust>(), 0.15f, "SpiritMod/Effects/Snowflakes/Flake" + Main.rand.Next(3), 0.25f, rot: Main.rand.NextFloat(MathHelper.TwoPi));
+
+			for (int i = 0; i < 30; i++)
+			{
+				float maxDist = 100;
+				float Dist = Main.rand.NextFloat(maxDist);
+				Vector2 offset = Main.rand.NextVector2Unit();
+				ParticleHandler.SpawnParticle(new SmokeParticle(projectile.Center + (offset * Dist), Main.rand.NextFloat(5f) * offset * (1 - (Dist / maxDist)), new Color(30, 30, 90) * 0.5f, Main.rand.NextFloat(0.4f, 0.6f), 40));
+			}
+
+			for (int i = 0; i < 8; i++)
+				ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, (projectile.velocity / 4) - (Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2 * 3) * Main.rand.NextFloat(4)),
+					new Color(135, 253, 255), new Color(0, 21, 255), Main.rand.NextFloat(0.5f, 0.7f), 40, delegate (Particle particle)
+					{
+						if (particle.Velocity.Y < 16)
+							particle.Velocity.Y += 0.12f;
+					}));
 		}
 	}
 }

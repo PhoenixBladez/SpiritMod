@@ -75,11 +75,10 @@ namespace SpiritMod.Items.Sets.GunsMisc.Scattergun
             }
 			return false;
 		}
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-10, 0);
-		}
-        public override void AddRecipes()
+
+		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
+
+		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Sapphire, 1);

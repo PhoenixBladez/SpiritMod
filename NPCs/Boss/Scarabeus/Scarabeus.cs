@@ -1091,7 +1091,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 			npc.DropItem(ModContent.ItemType<ScarabMask>(), 1f / 7);
 			npc.DropItem(ModContent.ItemType<Trophy1>(), 1f / 10);
-			npc.DropItem(ModContent.ItemType<DesertSnowglobe>(), 1f / 4);
+			npc.DropItem(ModContent.ItemType<SandsOfTime>(), 1f / 4);
 		}
 
 		private void Gores()
@@ -1152,7 +1152,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					ModContent.ItemType<LocustCrook>(),
 					ModContent.ItemType<RoyalKhopesh>(),
 					ModContent.ItemType<RadiantCane>(),
-					ModContent.ItemType<DesertSnowglobe>(),
+					ModContent.ItemType<SandsOfTime>(),
 					ItemID.LesserHealingPotion
 				});
 			spawnInfo =

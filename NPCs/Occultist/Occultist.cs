@@ -14,6 +14,7 @@ using SpiritMod.Mechanics.EventSystem;
 using SpiritMod.Mechanics.EventSystem.Events;
 using Terraria.Localization;
 using SpiritMod.Items.Accessory.SanguineWardTree;
+using SpiritMod.NPCs.Critters;
 
 namespace SpiritMod.NPCs.Occultist
 {
@@ -1011,7 +1012,16 @@ namespace SpiritMod.NPCs.Occultist
 			{
 				npc.DropItem(mod.ItemType(lootTable[loot]));
 			}
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BloodFire>(), 4 + Main.rand.Next(3, 5));
+			for(int i = 0; i < 7; i++)
+			{
+				int n = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<DreamstrideWisp>());
+				if(Main.npc[n].type == ModContent.NPCType<DreamstrideWisp>() && Main.npc[n].active)
+				{
+					Main.npc[n].velocity = Main.rand.NextVector2Circular(5, 5);
+					if (Main.netMode != NetmodeID.SinglePlayer)
+						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, n);
+				}
+			}
 		}
 
 		public override void SafeHitEffect(int hitDirection, double damage)

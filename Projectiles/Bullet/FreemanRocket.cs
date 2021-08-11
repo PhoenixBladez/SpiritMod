@@ -4,10 +4,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
+using SpiritMod.Projectiles.BaseProj;
 
 namespace SpiritMod.Projectiles.Bullet
 {
-	public class FreemanRocket : ModProjectile
+	public class FreemanRocket : BaseRocketProj
 	{
 		public override void SetStaticDefaults()
 		{
@@ -30,7 +31,6 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void AI()
 		{
-			HitNPC = -1;
 			projectile.frameCounter++;
 			if (projectile.frameCounter >= 3) {
 				projectile.frame++;
@@ -161,50 +161,24 @@ namespace SpiritMod.Projectiles.Bullet
 			}
 		}
 
-		private ref float HitNPC => ref projectile.ai[1];
+		public override void AbstractHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.OnFire, 480);
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		public override void ExplodeEffect()
 		{
-			if (HitNPC == -1)
-				HitNPC = target.whoAmI;
-			target.AddBuff(BuffID.OnFire, 480);
-		}
-
-		public override bool? CanHitNPC(NPC target)
-		{
-			if (target.townNPC)
-				return false;
-
-			if (target.whoAmI == HitNPC)
-				return false;
-
-			return base.CanHitNPC(target);
-		}
-
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => damage = NPCUtils.ToActualDamage(damage);
-
-		public override void ModifyHitPvp(Player target, ref int damage, ref bool crit) => damage = NPCUtils.ToActualDamage(damage);
-
-		public override void Kill(int timeLeft)
-		{
-			projectile.hostile = true;
-            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
-			ProjectileExtras.Explode(projectile.whoAmI, 100, 100, delegate
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			for (int i = 0; i < 40; i++)
 			{
-				for (int i = 0; i < 40; i++)
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, -2f, 0, default(Color), 2f);
+				Main.dust[num].noGravity = true;
+				Dust expr_62_cp_0 = Main.dust[num];
+				expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+				Dust expr_92_cp_0 = Main.dust[num];
+				expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+				if (Main.dust[num].position != projectile.Center)
 				{
-					int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, -2f, 0, default(Color), 2f);
-					Main.dust[num].noGravity = true;
-					Dust expr_62_cp_0 = Main.dust[num];
-					expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-					Dust expr_92_cp_0 = Main.dust[num];
-					expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-					if (Main.dust[num].position != projectile.Center)
-					{
-						Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
-					}
+					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 				}
-			});
+			}
 		}
 	}
 }

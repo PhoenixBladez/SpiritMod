@@ -44,6 +44,7 @@ using SpiritMod.Items.Ammo.Rocket.Warhead;
 using SpiritMod.Projectiles.Summon.SacrificialDagger;
 using Terraria.Audio;
 using SpiritMod.Items.Sets.SummonsMisc.PigronStaff;
+using SpiritMod.Items.Sets.LaunchersMisc.Liberty;
 
 namespace SpiritMod.NPCs
 {
@@ -695,7 +696,10 @@ namespace SpiritMod.NPCs
                 shop.item[nextSlot].SetDefaults(ItemType<FloppaPainting>(), false);
                 nextSlot++;
             }
-			else if (type == NPCID.Demolitionist) {
+			else if (type == NPCID.Demolitionist)
+			{
+				shop.item[nextSlot].SetDefaults(ItemType<LibertyItem>(), false);
+				nextSlot++;
 				shop.item[nextSlot].SetDefaults(ItemType<Warhead>(), false);
 				nextSlot++;
 				shop.item[nextSlot].SetDefaults(ItemType<ShortFuse>(), false);
@@ -1078,7 +1082,7 @@ namespace SpiritMod.NPCs
 
 			if (npc.type == NPCID.PossessedArmor) {
 				if (Main.rand.Next(100) <= 1) 
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<ShadowAxe>());
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<PossessedHammer>());
 			}
             if (npc.type == NPCID.GoblinSorcerer)
             {
