@@ -12,17 +12,12 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
         public override void PostUpdate()
         {
-            if (StarjinxActive && !SpawnedStarjinx && !NPC.AnyNPCs(ModContent.NPCType<StarjinxMeteorite>()))
-            {
-                NPC.NewNPC(1500, 1500, ModContent.NPCType<StarjinxMeteorite>());
-                SpawnedStarjinx = true;
-            }
-            if (!StarjinxActive && Main.rand.Next(300) == 0)
+            if (Main.rand.Next(5) == 0 && !NPC.AnyNPCs(ModContent.NPCType<StarjinxMeteorite>()))
             {
                 Main.NewText("An enchanted comet has appeared in the asteroid field!", 252, 150, 255);
-                StarjinxActive = true;
-                SpawnedStarjinx = false;
-            }
+                NPC.NewNPC(1800, 1800, ModContent.NPCType<StarjinxMeteorite>());
+                SpawnedStarjinx = true;
+			}
         }
 
         public override TagCompound Save()
