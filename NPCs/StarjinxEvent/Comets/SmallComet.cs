@@ -9,15 +9,17 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 {
 	public class SmallComet : ModNPC
     {
+		public override sealed bool CloneNewInstances => true;
+
 		protected virtual string Size => "Small";
 		protected virtual float BeamScale => 0.75f;
 
-		ref float ParentWhoAmI => ref npc.ai[0];
+		ref NPC Parent => ref Main.npc[(int)npc.ai[0]];
 		ref float TimerOffset => ref npc.ai[1];
 		ref float SpinMomentum => ref npc.ai[2];
 		ref float RotationOffset => ref npc.ai[3];
 
-		private float initialDistance = 0f;
+		public float initialDistance = 0f;
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Small Starjinx Comet");
 
@@ -75,14 +77,14 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 
             if (RotationOffset == 1000)
 			{
-				RotationOffset = npc.AngleTo(Main.npc[(int)ParentWhoAmI].Center);
-				initialDistance = npc.Distance(Main.npc[(int)ParentWhoAmI].Center);
-				npc.position = Main.npc[(int)ParentWhoAmI].Center + new Vector2(0, initialDistance).RotatedBy(RotationOffset);
+				RotationOffset = npc.AngleTo(Parent.Center);
+				initialDistance = npc.Distance(Parent.Center);
+				npc.position = Parent.Center + new Vector2(0, initialDistance).RotatedBy(RotationOffset);
 			}
 			else
 			{
 				Vector2 pos = new Vector2(0, initialDistance * (float)(1 + Math.Sin(sinCounter) * 0.05f));
-				npc.position = Main.npc[(int)ParentWhoAmI].Center + pos.RotatedBy(RotationOffset);
+				npc.position = Parent.Center + pos.RotatedBy(RotationOffset);
 				npc.rotation = RotationOffset;
 				RotationOffset += SpinMomentum;
 			}
@@ -92,20 +94,19 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 
 			if (!spinPlateau)
 			{
-				SpinMomentum += 0.00025f;
-				if (SpinMomentum > 0.02f && Main.rand.NextBool(10))
+				SpinMomentum += 0.00005f;
+				if (SpinMomentum > 0.005f && Main.rand.NextBool(10))
 					spinPlateau = true;
 			}
 
             sinCounter += sinIncrement;
             npc.TargetClosest(true);
-            NPC parent = Main.npc[(int)ParentWhoAmI];
 
-            if (!parent.active || parent.type != ModContent.NPCType<StarjinxMeteorite>())
+            if (!Parent.active || Parent.type != ModContent.NPCType<StarjinxMeteorite>())
                 npc.active = false;
 
             if (Main.rand.Next(200) == 0)
-                Gore.NewGorePerfect(npc.Center, (parent.Center - npc.Center) / 45, mod.GetGoreSlot("Gores/StarjinxGore"), 1);
+                Gore.NewGorePerfect(npc.Center, (Parent.Center - npc.Center) / 45, mod.GetGoreSlot("Gores/StarjinxGore"), 1);
         }
 
         public static void DrawDustLine(Vector2 pos1, Vector2 pos2)
@@ -178,13 +179,18 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			b.Draw(beam, npc.Center - Main.screenPosition + offset / 2, new Rectangle?(rect), npc.GetAlpha(color), rotation, rect.Size() / 2, scale, SpriteEffects.None, 0);
 		}
 
-		public override bool CheckDead() => false;
+		public override bool CheckDead()
+		{
+			(Parent.modNPC as StarjinxMeteorite).updateCometOrder = true;
+			return true;
+		}
 
 		public override bool CheckActive()
         {
-            NPC parent = Main.npc[(int)ParentWhoAmI];
-            if (parent.active && parent.type == ModContent.NPCType<StarjinxMeteorite>())
-                return false;
+			if (Parent.active && Parent.type == ModContent.NPCType<StarjinxMeteorite>())
+			{
+				return false;
+			}
             return true;
         }
     }

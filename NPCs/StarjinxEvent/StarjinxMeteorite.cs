@@ -3,9 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
-using Terraria.Graphics.Shaders;
 using SpiritMod.NPCs.StarjinxEvent.Comets;
 using System.Linq;
 
@@ -20,6 +18,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
             NPCID.Sets.TrailCacheLength[npc.type] = 20;
             NPCID.Sets.TrailingMode[npc.type] = 0;
         }
+
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
@@ -45,6 +44,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
         bool spawnedComets = false;
         int[] comets = new int[5];
 
+		public bool updateCometOrder = true;
+
         public override void AI()
         {
             npc.velocity.X = 0;
@@ -56,7 +57,47 @@ namespace SpiritMod.NPCs.StarjinxEvent
             else
                 npc.alpha = 0;
 
-            if (!spawnedComets && npc.life < npc.lifeMax) //Spawn meteors below max health (when I take damage) and start the event
+			if (spawnedComets && npc.dontTakeDamage) //Child meteor active checks
+			{
+				for (int i = 0; i < comets.Length; i++)
+				{
+					NPC comet = Main.npc[comets[i]];
+					int[] cometTypes = new int[] { ModContent.NPCType<LargeComet>(), ModContent.NPCType<SmallComet>(), ModContent.NPCType<MediumComet>() };
+					if (comet.active && comet.life > 0 && cometTypes.Contains(comet.type))
+						break;
+					if (i == comets.Length - 1)
+						npc.dontTakeDamage = false;
+				}
+
+				if (updateCometOrder)
+				{
+					NPC furthest = Main.npc[comets[0]];
+					for (int i = 0; i < comets.Length; i++)
+					{
+						NPC comet = Main.npc[comets[i]];
+
+						if (comet.active && comet.modNPC is SmallComet npc)
+						{
+							if (!furthest.active)
+								furthest = comet;
+							var far = furthest.modNPC as SmallComet;
+							if (npc.initialDistance > far.initialDistance)
+								furthest = comet;
+						}
+					}
+
+					for (int i = 0; i < comets.Length; i++)
+					{
+						NPC comet = Main.npc[comets[i]];
+						if (comet.active)
+							comet.dontTakeDamage = comet.whoAmI != furthest.whoAmI;
+					}
+					npc.netUpdate = true;
+					updateCometOrder = false;
+				}
+			}
+
+			if (!spawnedComets && npc.life < npc.lifeMax) //Spawn meteors below max health (when I take damage) and start the event
             {
                 spawnedComets = true;
 				npc.dontTakeDamage = true;
@@ -68,6 +109,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
                     float x = npc.Center.X - 150 * direction;
                     float y = npc.Center.Y + (npc.height / 2) + Main.rand.Next(-300, 100);
                     comets[i] = NPC.NewNPC((int)x, (int)y, ModContent.NPCType<SmallComet>(), 0, npc.whoAmI, Main.rand.NextFloat(10), 0, 1000);
+					Main.npc[comets[i]].dontTakeDamage = true;
                 }
                 for (int i = 0; i < 2; i++)
                 {
@@ -75,26 +117,15 @@ namespace SpiritMod.NPCs.StarjinxEvent
                     float x = npc.Center.X - 300 * direction;
                     float y = npc.Center.Y + (npc.height / 2) + Main.rand.Next(-300, 100);
                     comets[i + 2] = NPC.NewNPC((int)x, (int)y, ModContent.NPCType<MediumComet>(), 0, npc.whoAmI, Main.rand.NextFloat(10), 0, 1000);
-                }
+					Main.npc[comets[i]].dontTakeDamage = true;
+				}
                 for (int i = 0; i < 1; i++)
                 {
                     float x = npc.Center.X - Main.rand.Next(Main.rand.Next(-700, -500), Main.rand.Next(500, 700));
                     float y = npc.Center.Y + (npc.height / 2f) + Main.rand.Next(-300, 100);
                     comets[i + 4] = NPC.NewNPC((int)x, (int)y, ModContent.NPCType<LargeComet>(), 0, npc.whoAmI, Main.rand.NextFloat(10), 0, 1000);
-                }
-            }
-
-            if (spawnedComets && npc.dontTakeDamage) //Child meteor active checks
-            {
-                for (int i = 0; i < comets.Length; i++)
-                {
-                    NPC comet = Main.npc[comets[i]];
-                    int[] cometTypes = new int[] { ModContent.NPCType<LargeComet>(), ModContent.NPCType<SmallComet>(), ModContent.NPCType<MediumComet>() };
-                    if (comet.active && comet.life > 0 && cometTypes.Contains(comet.type))
-                        break;
-                    if (i == comets.Length - 1)
-                        npc.dontTakeDamage = false;
-                }
+					Main.npc[comets[i]].dontTakeDamage = true;
+				}
             }
         }
 
