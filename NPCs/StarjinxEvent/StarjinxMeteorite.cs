@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.NPCs.StarjinxEvent.Comets;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace SpiritMod.NPCs.StarjinxEvent
 {
@@ -42,7 +43,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 		float sinCounter;
         bool spawnedComets = false;
-        int[] comets = new int[5];
+		List<int> comets = new List<int>();
 
 		public bool updateCometOrder = true;
 
@@ -59,38 +60,43 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 			if (spawnedComets && npc.dontTakeDamage) //Child meteor active checks
 			{
-				for (int i = 0; i < comets.Length; i++)
+				for (int i = 0; i < comets.Count; i++)
 				{
 					NPC comet = Main.npc[comets[i]];
 					int[] cometTypes = new int[] { ModContent.NPCType<LargeComet>(), ModContent.NPCType<SmallComet>(), ModContent.NPCType<MediumComet>() };
 					if (comet.active && comet.life > 0 && cometTypes.Contains(comet.type))
 						break;
-					if (i == comets.Length - 1)
+					if (i == comets.Count - 1)
 						npc.dontTakeDamage = false;
 				}
 
 				if (updateCometOrder)
 				{
 					NPC furthest = Main.npc[comets[0]];
-					for (int i = 0; i < comets.Length; i++)
+					for (int i = 0; i < comets.Count; i++)
 					{
 						NPC comet = Main.npc[comets[i]];
 
-						if (comet.active && comet.modNPC is SmallComet npc)
+						if ((!comet.active || comet.modNPC == null || !(comet.modNPC is SmallComet)))
 						{
-							if (!furthest.active)
-								furthest = comet;
-							var far = furthest.modNPC as SmallComet;
+							comets.Remove(comets[i]);
+							continue;
+						}
+
+						if (comet.active && comet.modNPC is SmallComet npc && furthest.modNPC is SmallComet far)
+						{
 							if (npc.initialDistance > far.initialDistance)
 								furthest = comet;
 						}
 					}
 
-					for (int i = 0; i < comets.Length; i++)
+					for (int i = 0; i < comets.Count; i++)
 					{
 						NPC comet = Main.npc[comets[i]];
-						if (comet.active)
+						if (comet.active && comet.modNPC is SmallComet)
 							comet.dontTakeDamage = comet.whoAmI != furthest.whoAmI;
+						if (!comet.dontTakeDamage && comet.modNPC is SmallComet npc)
+							npc.SpawnWave();
 					}
 					npc.netUpdate = true;
 					updateCometOrder = false;
@@ -103,28 +109,33 @@ namespace SpiritMod.NPCs.StarjinxEvent
 				npc.dontTakeDamage = true;
 				StarjinxEventWorld.StarjinxActive = true;
 
-				for (int i = 0; i < 2; i++)
+				for (int i = 0; i < 3; i++)
                 {
                     int direction = i == 1 ? 1 : -1;
-                    float x = npc.Center.X - 150 * direction;
-                    float y = npc.Center.Y + (npc.height / 2) + Main.rand.Next(-300, 100);
-                    comets[i] = NPC.NewNPC((int)x, (int)y, ModContent.NPCType<SmallComet>(), 0, npc.whoAmI, Main.rand.NextFloat(10), 0, 1000);
-					Main.npc[comets[i]].dontTakeDamage = true;
+                    float x = npc.Center.X - Main.rand.Next(150, 250) * direction;
+                    float y = npc.Bottom.Y + (Main.rand.Next(200, 300) * (Main.rand.NextBool(2) ? -1 : 1));
+                    int id = NPC.NewNPC((int)x, (int)y, ModContent.NPCType<SmallComet>(), 0, npc.whoAmI, Main.rand.NextFloat(10), 0, 1000);
+					Main.npc[id].dontTakeDamage = true;
+					comets.Add(id);
                 }
                 for (int i = 0; i < 2; i++)
                 {
                     int direction = i == 1 ? 1 : -1;
-                    float x = npc.Center.X - 300 * direction;
-                    float y = npc.Center.Y + (npc.height / 2) + Main.rand.Next(-300, 100);
-                    comets[i + 2] = NPC.NewNPC((int)x, (int)y, ModContent.NPCType<MediumComet>(), 0, npc.whoAmI, Main.rand.NextFloat(10), 0, 1000);
-					Main.npc[comets[i]].dontTakeDamage = true;
+                    float x = npc.Center.X - Main.rand.Next(100, 150) * direction;
+                    float y = npc.Bottom.Y + (Main.rand.Next(125, 200) * (Main.rand.NextBool(2) ? -1 : 1));
+					int id = NPC.NewNPC((int)x, (int)y, ModContent.NPCType<MediumComet>(), 0, npc.whoAmI, Main.rand.NextFloat(10), 0, 1000);
+					Main.npc[id].dontTakeDamage = true;
+					comets.Add(id);
 				}
-                for (int i = 0; i < 1; i++)
+
+				int maxLargeComets = Main.expertMode ? 3 : 1;
+                for (int i = 0; i < maxLargeComets; i++)
                 {
-                    float x = npc.Center.X - Main.rand.Next(Main.rand.Next(-700, -500), Main.rand.Next(500, 700));
-                    float y = npc.Center.Y + (npc.height / 2f) + Main.rand.Next(-300, 100);
-                    comets[i + 4] = NPC.NewNPC((int)x, (int)y, ModContent.NPCType<LargeComet>(), 0, npc.whoAmI, Main.rand.NextFloat(10), 0, 1000);
-					Main.npc[comets[i]].dontTakeDamage = true;
+                    float x = npc.Center.X + (Main.rand.Next(75, 100) * (Main.rand.NextBool(2) ? -1 : 1));
+					float y = npc.Bottom.Y + (Main.rand.Next(50, 125) * (Main.rand.NextBool(2) ? -1 : 1));
+					int id = NPC.NewNPC((int)x, (int)y, ModContent.NPCType<LargeComet>(), 0, npc.whoAmI, Main.rand.NextFloat(10), 0, 1000);
+					Main.npc[id].dontTakeDamage = true;
+					comets.Add(id);
 				}
             }
         }

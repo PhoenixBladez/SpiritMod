@@ -9,12 +9,9 @@ namespace SpiritMod.Items.Sets.ClubSubclass
     public class BassSlapper : ModItem
     {
 
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Bass Slapper");
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Bass Slapper");
 
-        public override void SetDefaults()
+		public override void SetDefaults()
         {
             item.channel = true;
             item.damage = 16;
@@ -23,7 +20,7 @@ namespace SpiritMod.Items.Sets.ClubSubclass
             item.useTime = 320;
             item.useAnimation = 320;
             item.crit = 4;
-            item.useStyle = 2;
+            item.useStyle = ItemUseStyleID.EatingUsing;
             item.melee = true;
             item.noMelee = true;
             item.knockBack = 12;
@@ -36,9 +33,6 @@ namespace SpiritMod.Items.Sets.ClubSubclass
             item.noUseGraphic = true;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
-    }
+		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
+	}
 }

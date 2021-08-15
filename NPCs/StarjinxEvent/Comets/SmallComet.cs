@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,11 +9,15 @@ using Terraria.ModLoader;
 namespace SpiritMod.NPCs.StarjinxEvent.Comets
 {
 	public class SmallComet : ModNPC
-    {
+	{
 		public override sealed bool CloneNewInstances => true;
 
 		protected virtual string Size => "Small";
 		protected virtual float BeamScale => 0.75f;
+		protected virtual List<int>[] WaveTypes => new[] {
+			new List<int>() { NPCID.JungleBat, NPCID.CaveBat, NPCID.IceBat },
+			new List<int>() { NPCID.Harpy, NPCID.EaterofSouls } };
+		protected virtual int[] WaveSizes => new[] { 4, 6 };
 
 		ref NPC Parent => ref Main.npc[(int)npc.ai[0]];
 		ref float TimerOffset => ref npc.ai[1];
@@ -40,6 +45,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
             npc.HitSound = SoundID.NPCHit7;
             npc.DeathSound = SoundID.Item89;
             npc.alpha = 255;
+
             for (int i = 0; i < BuffLoader.BuffCount; i++)
                 npc.buffImmune[i] = true;
         }
@@ -79,14 +85,18 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			{
 				RotationOffset = npc.AngleTo(Parent.Center);
 				initialDistance = npc.Distance(Parent.Center);
+				if (this is MediumComet)
+					initialDistance *= 0.5f;
+				if (this is LargeComet)
+					initialDistance *= 0.1f;
 				npc.position = Parent.Center + new Vector2(0, initialDistance).RotatedBy(RotationOffset);
 			}
 			else
 			{
-				Vector2 pos = new Vector2(0, initialDistance * (float)(1 + Math.Sin(sinCounter) * 0.05f));
+				var pos = new Vector2(0, initialDistance * (float)(1 + Math.Sin(sinCounter) * 0.05f));
 				npc.position = Parent.Center + pos.RotatedBy(RotationOffset);
 				npc.rotation = RotationOffset;
-				RotationOffset += SpinMomentum;
+				RotationOffset += SpinMomentum * BeamScale;
 			}
 
             if (sinIncrement == 0)
@@ -106,8 +116,24 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
                 npc.active = false;
 
             if (Main.rand.Next(200) == 0)
-                Gore.NewGorePerfect(npc.Center, (Parent.Center - npc.Center) / 45, mod.GetGoreSlot("Gores/StarjinxGore"), 1);
+                Gore.NewGorePerfect(npc.Center, (Parent.Center - npc.Center) / 45f, mod.GetGoreSlot("Gores/StarjinxGore"), 1);
         }
+
+		public void SpawnWave()
+		{
+			int wave = Main.rand.Next(WaveTypes.Length);
+			List<int> types = WaveTypes[wave];
+
+			for (int i = 0; i < WaveSizes[wave]; ++i)
+			{
+				int X = (int)(npc.position.X + Main.rand.Next(-500, 500));
+				int Y = (int)(npc.position.Y + Main.rand.Next(-500, 500));
+				NPC n = Main.npc[NPC.NewNPC(X, Y, Main.rand.Next(types))];
+				n.dontTakeDamage = false;
+
+				//add spawn vfx here
+			}
+		}
 
         public static void DrawDustLine(Vector2 pos1, Vector2 pos2)
         {
@@ -174,7 +200,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			color = Color.Lerp(color, Color.Transparent, fluctuate * 2);
 
 			Rectangle rect = new Rectangle(0, 0, beam.Width, beam.Height);
-			Vector2 scale = new Vector2((1 - fluctuate) * npc.Distance(Main.npc[(int)npc.ai[0]].Center) / beam.Width, 1) * 0.75f;
+			Vector2 scale = new Vector2((1 - fluctuate) * npc.Distance(Main.npc[(int)npc.ai[0]].Center) / beam.Width, 1) * BeamScale;
 			Vector2 offset = new Vector2(100 * scale.X, 0).RotatedBy(rotation);
 			b.Draw(beam, npc.Center - Main.screenPosition + offset / 2, new Rectangle?(rect), npc.GetAlpha(color), rotation, rect.Size() / 2, scale, SpriteEffects.None, 0);
 		}
