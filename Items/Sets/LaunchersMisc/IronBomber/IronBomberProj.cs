@@ -31,7 +31,9 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.IronBomber
 		public void DoTrailCreation(TrailManager tM)
 		{
 			tM.CreateTrail(projectile, new StandardColorTrail(Color.LightCyan * 0.2f), new RoundCap(), new DefaultTrailPosition(), 25, 70);
-			tM.CreateTrail(projectile, new StandardColorTrail(Color.Cyan), new NoCap(), new DefaultTrailPosition(), 10, 70);
+			Color color = Color.Cyan;
+			color.A = 50;
+			tM.CreateTrail(projectile, new StandardColorTrail(color), new NoCap(), new DefaultTrailPosition(), 10, 70);
 		}
 
 		public override void AI()
@@ -69,9 +71,9 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.IronBomber
 		{
 			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BassBoom").WithVolume(0.7f).WithPitchVariance(0.2f), projectile.Center);
 
-			ParticleHandler.SpawnParticle(new GlowParticle(projectile.Center, Vector2.Zero, Color.LightCyan * 0.6f, 1f, 10, 6));
+			//ParticleHandler.SpawnParticle(new GlowParticle(projectile.Center, Vector2.Zero, Color.LightCyan * 0.6f, 1f, 10, 6));
 			for (int i = 1; i <= 3; i++)
-				ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center, Color.Cyan * 0.8f, (ExplosionRange / 3) * i, 10));
+				ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center, Color.Cyan, (ExplosionRange / 3) * i, 12));
 
 			for(int i = 0; i < 10; i++)
 				ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center + Main.rand.NextVector2Circular(ExplosionRange / 3, ExplosionRange / 3), Color.Cyan * 0.8f, (ExplosionRange / 5), 15));

@@ -394,7 +394,7 @@ namespace SpiritMod.NPCs.BloodGazer
 		public override void NPCLoot()
 		{
 			npc.DropItem(ModContent.ItemType<UmbillicalEyeball>());
-			npc.DropItem(ModContent.ItemType<BloodFire>(), 12 + Main.rand.Next(3, 5));
+			npc.DropItem(ModContent.ItemType<DreamstrideEssence>(), 12 + Main.rand.Next(3, 5));
 		}
 
 		public override void FindFrame(int frameHeight)

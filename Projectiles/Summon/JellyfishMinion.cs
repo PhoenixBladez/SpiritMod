@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
+using System.Linq;
+
 namespace SpiritMod.Projectiles.Summon
 {
 	public class JellyfishMinion : ModProjectile
@@ -75,19 +77,10 @@ namespace SpiritMod.Projectiles.Summon
 
 			}
 
-			for (int num526 = 0; num526 < 1000; num526++) {
-				if (num526 != projectile.whoAmI && Main.projectile[num526].active && Main.projectile[num526].owner == projectile.owner && Main.projectile[num526].type == projectile.type && Math.Abs(projectile.position.X - Main.projectile[num526].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num526].position.Y) < (float)projectile.width) {
-					if (projectile.position.X < Main.projectile[num526].position.X)
-						projectile.velocity.X = projectile.velocity.X - 0.05f;
-					else
-						projectile.velocity.X = projectile.velocity.X + 0.05f;
-
-					if (projectile.position.Y < Main.projectile[num526].position.Y)
-						projectile.velocity.Y = projectile.velocity.Y - 0.05f;
-					else
-						projectile.velocity.Y = projectile.velocity.Y + 0.05f;
-
-				}
+			foreach (Projectile p in Main.projectile.Where(x => x.active && x != null && x.type == projectile.type && x.owner == projectile.owner && x != projectile))
+			{
+				if (p.Hitbox.Intersects(projectile.Hitbox))
+					projectile.velocity += projectile.DirectionFrom(p.Center) / 5;
 			}
 
 			float num527 = projectile.position.X;

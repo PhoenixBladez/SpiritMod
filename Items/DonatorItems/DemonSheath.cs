@@ -40,7 +40,7 @@ namespace SpiritMod.Items.DonatorItems
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.Muramasa, 1);
-			recipe.AddIngredient(ModContent.ItemType<BloodFire>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<DreamstrideEssence>(), 5);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();

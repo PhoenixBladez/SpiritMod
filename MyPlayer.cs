@@ -48,6 +48,7 @@ using SpiritMod.Tiles.Walls.Natural;
 using SpiritMod.Items.Accessory.GranitechDrones;
 using SpiritMod.Items.Equipment.AuroraSaddle;
 using SpiritMod.Particles;
+using Terraria.Graphics.Effects;
 
 namespace SpiritMod
 {
@@ -460,6 +461,8 @@ namespace SpiritMod
 			{
                 player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
             }
+
+			ManageAshrainShader();
             //player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
             player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora);
             player.ManageSpecialBiomeVisuals("SpiritMod:SpiritBiomeSky", spirit);
@@ -483,8 +486,41 @@ namespace SpiritMod
 			player.ManageSpecialBiomeVisuals("SpiritMod:BloodMoonSky", Main.bloodMoon && player.ZoneOverworldHeight);
 			player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect", windEffect, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect2", windEffect2, player.Center);
-            player.ManageSpecialBiomeVisuals("SpiritMod:Atlas", NPC.AnyNPCs(ModContent.NPCType<Atlas>()));
+			player.ManageSpecialBiomeVisuals("SpiritMod:Atlas", NPC.AnyNPCs(ModContent.NPCType<Atlas>()));
         }
+
+		private void ManageAshrainShader()
+		{
+			Filter ashrain = Filters.Scene["SpiritMod:AshRain"];
+			float deltaProgress = 0.1f;
+			float maxIntensity = 0.5f;
+			float deltaintensity = 0.02f * maxIntensity;
+			if (!player.ZoneUnderworldHeight || !MyWorld.ashRain)
+			{
+				if (ashrain.IsActive())
+				{
+					ashrain.GetShader().UseIntensity(Math.Max(ashrain.GetShader().Intensity - deltaintensity, 0));
+					ashrain.GetShader().UseProgress(Main.GlobalTime * 10 * deltaProgress);
+					if (ashrain.GetShader().Intensity <= 0)
+						ashrain.Deactivate();
+				}
+
+				return;
+			}
+
+			else if (!ashrain.IsActive())
+				Filters.Scene.Activate("SpiritMod:AshRain", Vector2.Zero).GetShader()
+					.UseColor(0.15f, 0.1f, 0.15f)
+					.UseIntensity(deltaintensity)
+					.UseImage(mod.GetTexture("Textures/noise"))
+					.UseImage(mod.GetTexture("Textures/3dNoise"), 1);
+
+			else
+			{
+				ashrain.GetShader().UseIntensity(Math.Min(ashrain.GetShader().Intensity + deltaintensity, maxIntensity));
+				ashrain.GetShader().UseProgress(Main.GlobalTime * 10 * deltaProgress);
+			}
+		}
 
         public override void UpdateBiomes()
         {

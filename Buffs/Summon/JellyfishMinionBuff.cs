@@ -8,7 +8,7 @@ namespace SpiritMod.Buffs.Summon
 	{
 		public override void SetDefaults()
 		{
-			DisplayName.SetDefault("Jellyfish Minion");
+			DisplayName.SetDefault("Jellyfish");
 			Description.SetDefault("A cute, bouncy Jellyfish fights for you!");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;

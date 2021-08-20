@@ -1067,7 +1067,7 @@ namespace SpiritMod.NPCs.Occultist
 					ModContent.ItemType<Handball>(),
 					ModContent.ItemType<SacrificialDagger>(),
 					ModContent.ItemType<BloodWard>(),
-					ModContent.ItemType<BloodFire>()
+					ModContent.ItemType<DreamstrideEssence>()
 				});
 			spawnInfo =
 				"The Occultist spawns rarely during a Blood Moon after any prehardmode boss has been defeated.";

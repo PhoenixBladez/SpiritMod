@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Sets.AccessoriesMisc.CloakOfHealing
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.HealingPotion, 1);
 			recipe.AddIngredient(ModContent.ItemType<OldLeather>(), 5);
-			recipe.AddIngredient(ModContent.ItemType<BloodFire>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<DreamstrideEssence>(), 5);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
