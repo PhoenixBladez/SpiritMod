@@ -58,7 +58,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
             else
                 npc.alpha = 0;
 
-			if (spawnedComets && npc.dontTakeDamage) //Child meteor active checks
+			if (spawnedComets && npc.dontTakeDamage && comets.Count > 0) //Child meteor active checks
 			{
 				for (int i = 0; i < comets.Count; i++)
 				{
@@ -70,18 +70,26 @@ namespace SpiritMod.NPCs.StarjinxEvent
 						npc.dontTakeDamage = false;
 				}
 
-				if (updateCometOrder)
+				if (updateCometOrder && comets.Count > 0)
 				{
+					for (int i = 0; i < comets.Count; i++) //update list
+					{
+						NPC comet = Main.npc[comets[i]];
+						if (!comet.active || comet.modNPC == null || !(comet.modNPC is SmallComet))
+						{
+							comets.Remove(comets[i]);
+							i--;
+							continue;
+						}
+					}
+
+					if (comets.Count <= 0)
+						return;
+
 					NPC furthest = Main.npc[comets[0]];
 					for (int i = 0; i < comets.Count; i++)
 					{
 						NPC comet = Main.npc[comets[i]];
-
-						if ((!comet.active || comet.modNPC == null || !(comet.modNPC is SmallComet)))
-						{
-							comets.Remove(comets[i]);
-							continue;
-						}
 
 						if (comet.active && comet.modNPC is SmallComet npc && furthest.modNPC is SmallComet far)
 						{
@@ -94,9 +102,10 @@ namespace SpiritMod.NPCs.StarjinxEvent
 					{
 						NPC comet = Main.npc[comets[i]];
 						if (comet.active && comet.modNPC is SmallComet)
-							comet.dontTakeDamage = comet.whoAmI != furthest.whoAmI;
-						if (!comet.dontTakeDamage && comet.modNPC is SmallComet npc)
-							npc.SpawnWave();
+							comet.dontTakeDamage = true;
+						//	comet.dontTakeDamage = comet.whoAmI != furthest.whoAmI;
+						if (comet.whoAmI == furthest.whoAmI)
+							(comet.modNPC as SmallComet).SpawnWave();
 					}
 					npc.netUpdate = true;
 					updateCometOrder = false;
