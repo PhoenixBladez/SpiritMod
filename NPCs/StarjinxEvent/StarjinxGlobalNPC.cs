@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.StarjinxEvent
 {
+	/// <summary>Used exclusively to check if an NPC has been spawned by a Starjinx Comet. May be phased out once the waves proper are added.</summary>
 	class StarjinxGlobalNPC : GlobalNPC
 	{
 		public bool spawnedByComet = false;

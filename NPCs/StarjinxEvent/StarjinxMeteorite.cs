@@ -70,7 +70,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 						npc.dontTakeDamage = false;
 				}
 
-				if (updateCometOrder && comets.Count > 0)
+				if (updateCometOrder)
 				{
 					for (int i = 0; i < comets.Count; i++) //update list
 					{
@@ -83,19 +83,15 @@ namespace SpiritMod.NPCs.StarjinxEvent
 						}
 					}
 
-					if (comets.Count <= 0)
-						return;
+					if (comets.Count <= 0) return;
 
 					NPC furthest = Main.npc[comets[0]];
 					for (int i = 0; i < comets.Count; i++)
 					{
 						NPC comet = Main.npc[comets[i]];
 
-						if (comet.active && comet.modNPC is SmallComet npc && furthest.modNPC is SmallComet far)
-						{
-							if (npc.initialDistance > far.initialDistance)
-								furthest = comet;
-						}
+						if (comet.active && comet.modNPC is SmallComet npc && furthest.modNPC is SmallComet far && npc.initialDistance > far.initialDistance)
+							furthest = comet;
 					}
 
 					for (int i = 0; i < comets.Count; i++)
@@ -103,10 +99,10 @@ namespace SpiritMod.NPCs.StarjinxEvent
 						NPC comet = Main.npc[comets[i]];
 						if (comet.active && comet.modNPC is SmallComet)
 							comet.dontTakeDamage = true;
-						//	comet.dontTakeDamage = comet.whoAmI != furthest.whoAmI;
 						if (comet.whoAmI == furthest.whoAmI)
 							(comet.modNPC as SmallComet).SpawnWave();
 					}
+
 					npc.netUpdate = true;
 					updateCometOrder = false;
 				}
@@ -118,36 +114,40 @@ namespace SpiritMod.NPCs.StarjinxEvent
 				npc.dontTakeDamage = true;
 				StarjinxEventWorld.StarjinxActive = true;
 
-				for (int i = 0; i < 3; i++)
-                {
-                    int direction = i == 1 ? 1 : -1;
-                    float x = npc.Center.X - Main.rand.Next(150, 250) * direction;
-                    float y = npc.Bottom.Y + (Main.rand.Next(200, 300) * (Main.rand.NextBool(2) ? -1 : 1));
-                    int id = NPC.NewNPC((int)x, (int)y, ModContent.NPCType<SmallComet>(), 0, npc.whoAmI, Main.rand.NextFloat(10), 0, 1000);
-					Main.npc[id].dontTakeDamage = true;
-					comets.Add(id);
-                }
-                for (int i = 0; i < 2; i++)
-                {
-                    int direction = i == 1 ? 1 : -1;
-                    float x = npc.Center.X - Main.rand.Next(100, 150) * direction;
-                    float y = npc.Bottom.Y + (Main.rand.Next(125, 200) * (Main.rand.NextBool(2) ? -1 : 1));
-					int id = NPC.NewNPC((int)x, (int)y, ModContent.NPCType<MediumComet>(), 0, npc.whoAmI, Main.rand.NextFloat(10), 0, 1000);
-					Main.npc[id].dontTakeDamage = true;
-					comets.Add(id);
-				}
-
-				int maxLargeComets = Main.expertMode ? 3 : 1;
-                for (int i = 0; i < maxLargeComets; i++)
-                {
-                    float x = npc.Center.X + (Main.rand.Next(75, 100) * (Main.rand.NextBool(2) ? -1 : 1));
-					float y = npc.Bottom.Y + (Main.rand.Next(50, 125) * (Main.rand.NextBool(2) ? -1 : 1));
-					int id = NPC.NewNPC((int)x, (int)y, ModContent.NPCType<LargeComet>(), 0, npc.whoAmI, Main.rand.NextFloat(10), 0, 1000);
-					Main.npc[id].dontTakeDamage = true;
-					comets.Add(id);
-				}
+				SpawnComets();
             }
         }
+
+		private void SpawnComets()
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				float x = npc.Center.X - Main.rand.Next(150, 250) * (i == 1 ? 1 : -1);
+				float y = npc.Bottom.Y + (Main.rand.Next(200, 300) * (Main.rand.NextBool(2) ? -1 : 1));
+				int id = NPC.NewNPC((int)x, (int)y, ModContent.NPCType<SmallComet>(), 0, npc.whoAmI, Main.rand.NextFloat(10), 0, -1);
+				Main.npc[id].dontTakeDamage = true;
+				comets.Add(id);
+			}
+
+			for (int i = 0; i < 2; i++)
+			{
+				float x = npc.Center.X - Main.rand.Next(100, 150) * (i == 1 ? 1 : -1);
+				float y = npc.Bottom.Y + (Main.rand.Next(125, 200) * (Main.rand.NextBool(2) ? -1 : 1));
+				int id = NPC.NewNPC((int)x, (int)y, ModContent.NPCType<MediumComet>(), 0, npc.whoAmI, Main.rand.NextFloat(10), 0, -1);
+				Main.npc[id].dontTakeDamage = true;
+				comets.Add(id);
+			}
+
+			int maxLargeComets = Main.expertMode ? 3 : 1;
+			for (int i = 0; i < maxLargeComets; i++)
+			{
+				float x = npc.Center.X + (Main.rand.Next(75, 100) * (Main.rand.NextBool(2) ? -1 : 1));
+				float y = npc.Bottom.Y + (Main.rand.Next(50, 125) * (Main.rand.NextBool(2) ? -1 : 1));
+				int id = NPC.NewNPC((int)x, (int)y, ModContent.NPCType<LargeComet>(), 0, npc.whoAmI, Main.rand.NextFloat(10), 0, -1);
+				Main.npc[id].dontTakeDamage = true;
+				comets.Add(id);
+			}
+		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) => false;
 
@@ -185,7 +185,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
             Main.spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteorite"), npc.Center - Main.screenPosition, null, Color.White, 0f, center, 1, SpriteEffects.None, 0f);
 
-            float cos = (float)Math.Cos((Main.GlobalTime % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
+            float cos = (float)Math.Cos((Main.GlobalTime % 2.4f / 2.4f * MathHelper.TwoPi)) / 2f + 0.5f;
 
             SpriteEffects spriteEffects3 = (npc.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 			Color baseCol = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.White);
