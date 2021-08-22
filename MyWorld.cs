@@ -1557,14 +1557,14 @@ namespace SpiritMod
                 {
                     calmNight = false;
                 }
-				if (Main.rand.NextBool(8))
-				{
+				//if (Main.rand.NextBool(8))
+				//{
 					ashRain = true;
-				}
-				else
-				{
-					ashRain = false;
-				}
+				//}
+				//else
+				//{
+				//	ashRain = false;
+				//}
                 if (!Main.dayTime && (NPC.downedBoss1 || NPC.downedBoss2 || NPC.downedBoss3 || downedScarabeus || downedReachBoss || downedRaider || downedAncientFlier) && (!downedMoonWizard && Main.rand.Next(4) == 0 || downedMoonWizard && Main.rand.Next(36) == 0))
                 {
                     Main.NewText("Strange jellyfish are coursing through the skies!", 61, 255, 142);

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.BloodcourtSet
 {
-	public class BloodFire : ModItem
+	public class DreamstrideEssence : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -15,6 +15,7 @@ namespace SpiritMod.Items.Sets.BloodcourtSet
 			Tooltip.SetDefault("'The stuff of nightmares'");
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
 			ItemID.Sets.ItemNoGravity[item.type] = true;
+			ItemID.Sets.ItemIconPulse[item.type] = true;
 		}
 
 
@@ -27,13 +28,7 @@ namespace SpiritMod.Items.Sets.BloodcourtSet
 
 			item.maxStack = 999;
 		}
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-		{
-			Lighting.AddLight(item.position, 0.92f, .14f, .24f);
-		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return Color.White;
-		}
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => Lighting.AddLight(item.position, 0.92f, .14f, .24f);
+		public override Color? GetAlpha(Color lightColor) => Color.White;
 	}
 }

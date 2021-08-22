@@ -46,7 +46,9 @@ namespace SpiritMod.Mechanics.QuestSystem
 			{
 				List<string> allQuests = tag.Get<List<string>>("SpiritMod:AllQuests");
 
-				SpiritMod.QuestHUD.Clear();
+				if(!Main.dedServ)
+					SpiritMod.QuestHUD.Clear();
+
 				QuestManager.QuestBookUnlocked = tag.Get<bool>("SpiritMod:QuestBookUnlocked");
 
 				for (int i = 0; i < QuestManager.Quests.Count; i++)

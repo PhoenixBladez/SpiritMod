@@ -26,8 +26,8 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.Liberty
 			item.noMelee = true;
 			item.knockBack = 4;
 			item.channel = true;
-			item.value = Item.buyPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.Orange;
+			item.value = Item.buyPrice(0, 10, 0, 0);
+			item.rare = ItemRarityID.Green;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<LibertyProjHeld>();
 			item.shootSpeed = 12f;

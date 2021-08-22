@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 
@@ -6,20 +7,38 @@ namespace SpiritMod.Particles
 {
 	public class FireParticleForeground : ScreenParticle
 	{
-		private static readonly int MaxTime = 540;
+		private static readonly int MaxTime = 360;
 
+		private readonly Color Yellow = new Color(246, 255, 0);
+		private readonly Color Orange = new Color(232, 37, 2);
 		public override void UpdateOnScreen()
 		{
 			if (TimeActive >= MaxTime)
 				Kill();
 
-			Velocity *= 0.9978f;
-			Color = Color.White * (float)Math.Sin(MathHelper.TwoPi * ((MaxTime - TimeActive) / (float)MaxTime)) * 0.85f;
+			Velocity.X += Main.windSpeed/4;
+			Velocity.X *= 0.97f;
+			Velocity.Y *= 0.998f;
+			if (Main.rand.NextBool(6))
+				Velocity = Velocity.RotatedByRandom(0.1f);
+			Color = Color.Lerp(Yellow, Orange, (float)TimeActive/MaxTime) * (float)Math.Sin(MathHelper.Pi * (TimeActive / (float)MaxTime)) * 0.85f;
 		}
 
 		public override bool ActiveCondition => Main.LocalPlayer.ZoneMeteor || Main.LocalPlayer.ZoneUnderworldHeight;
 
-		public override float ScreenSpawnChance => 0.62f;
+		public override float ScreenSpawnChance => MyWorld.ashRain ? 0.12f : 0.2f;
+
+		public override bool UseCustomScreenDraw => true;
+
+		public override bool UseAdditiveBlend => true;
+
+		public override void CustomScreenDraw(SpriteBatch spriteBatch)
+		{
+			Texture2D tex = ParticleHandler.GetTexture(Type);
+			Texture2D bloom = SpiritMod.instance.GetTexture("Effects/Masks/CircleGradient");
+			spriteBatch.Draw(bloom, GetDrawPosition(), null, Color * 0.6f, 0, bloom.Size() / 2, Scale / 5f, SpriteEffects.None, 0);
+			spriteBatch.Draw(tex, GetDrawPosition(), null, Color, Velocity.ToRotation(), tex.Size() / 2, new Vector2(Scale, Scale * 0.75f), SpriteEffects.None, 0);
+		}
 
 		public override void OnSpawnAttempt()
 		{
@@ -30,10 +49,10 @@ namespace SpiritMod.Particles
 
 			fireParticle.Position = startingPosition;
 			fireParticle.OriginalScreenPosition = Main.screenPosition;
-			fireParticle.Velocity = new Vector2(Main.windSpeed * 2f, Main.rand.NextFloat(-2, -6f));
+			fireParticle.Velocity = new Vector2(0, Main.rand.NextFloat(-3, -6));
 			fireParticle.Rotation = Main.rand.NextFloat(MathHelper.PiOver4);
-			fireParticle.Scale = Main.rand.NextFloat(0.3f, 0.85f);
-			fireParticle.Color = Color.White;
+			fireParticle.Scale = Main.rand.NextFloat(0.4f, 0.5f);
+			fireParticle.ParallaxStrength = (float)Math.Pow(fireParticle.Scale, 3);
 
 			ParticleHandler.SpawnParticle(fireParticle);
 		}

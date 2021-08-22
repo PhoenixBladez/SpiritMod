@@ -31,7 +31,7 @@ namespace SpiritMod.NPCs.Critters
 				npc.DeathSound = SoundID.NPCDeath39.WithVolume(0.5f);
 			}
 			Main.npcCatchable[npc.type] = true;
-			npc.catchItem = (short)ModContent.ItemType<BloodFire>();
+			npc.catchItem = (short)ModContent.ItemType<DreamstrideEssence>();
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 64;
 			npc.npcSlots = 0;
@@ -82,6 +82,6 @@ namespace SpiritMod.NPCs.Critters
 			}
 		}
 
-		public override void NPCLoot() => Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BloodFire>());
+		public override void NPCLoot() => Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DreamstrideEssence>());
 	}
 }

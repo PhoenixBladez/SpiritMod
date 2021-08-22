@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Sets.BloodcourtSet.BloodCourt
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<BloodFire>(), 10);
+			recipe.AddIngredient(ModContent.ItemType<DreamstrideEssence>(), 10);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();

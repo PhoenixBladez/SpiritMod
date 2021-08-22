@@ -693,6 +693,9 @@ namespace SpiritMod
 				Ref<Effect> screenRef2 = new Ref<Effect>(GetEffect("Effects/ShockwaveTwo")); // The path to the compiled shader file.
 				Filters.Scene["ShockwaveTwo"] = new Filter(new ScreenShaderData(screenRef2, "ShockwaveTwo"), EffectPriority.VeryHigh);
 				Filters.Scene["ShockwaveTwo"].Load();
+
+				Filters.Scene["SpiritMod:AshRain"] = new Filter(new ScreenShaderData(new Ref<Effect>(GetEffect("Effects/AshRain")), "AshRain"), EffectPriority.VeryLow);
+				Filters.Scene["SpiritMod:AshRain"].Load();
 			}
 
 			Filters.Scene["SpiritMod:ReachSky"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.05f, 0.05f, .05f).UseOpacity(0.4f), EffectPriority.High);
@@ -702,7 +705,6 @@ namespace SpiritMod
 
 			Filters.Scene["SpiritMod:SpiritUG1"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.2f, 0.2f, .2f).UseOpacity(0.8f), EffectPriority.High);
 			Filters.Scene["SpiritMod:SpiritUG2"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.45f, 0.45f, .45f).UseOpacity(0.9f), EffectPriority.High);
-
 
 			Filters.Scene["SpiritMod:WindEffect"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.149f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
 			Filters.Scene["SpiritMod:WindEffect2"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.549f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
