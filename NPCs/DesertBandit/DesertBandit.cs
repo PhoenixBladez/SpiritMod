@@ -1,6 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -19,6 +17,7 @@ namespace SpiritMod.NPCs.DesertBandit
 			NPCID.Sets.TrailCacheLength[npc.type] = 20;
 			NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = 3;
@@ -32,66 +31,53 @@ namespace SpiritMod.NPCs.DesertBandit
 			npc.damage = 18;
 			npc.lavaImmune = true;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
-			{
 				npc.buffImmune[k] = true;
-			}
 			npc.noTileCollide = false;
 			npc.alpha = 255;
 			npc.dontTakeDamage = false;
 			npc.DeathSound = new Terraria.Audio.LegacySoundStyle(4, 1);
         }
+
 		public override void SendExtraAI(BinaryWriter writer) => writer.Write(npc.localAI[2]);
 		public override void ReceiveExtraAI(BinaryReader reader) => npc.localAI[2] = reader.ReadInt32();
+
 		public override bool PreAI()
 		{
-			Rectangle textPos = new Rectangle((int)npc.position.X, (int)npc.position.Y - 60, npc.width, npc.height);
+			var textPos = new Rectangle((int)npc.position.X, (int)npc.position.Y - 60, npc.width, npc.height);
 
 			if (npc.alpha == 255)
             {
 				for (int i = 0; i < 10; i++)
 				{
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, 258, 0f, -2f, 0, default(Color), 1.1f);
+					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.LavaMoss, 0f, -2f, 0, default, 1.1f);
 					Main.dust[num].noGravity = true;
-					Dust expr_62_cp_0 = Main.dust[num];
-					expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-30, 31) / 20) - 1.5f);
-					Dust expr_92_cp_0 = Main.dust[num];
-					expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-30, 31) / 20) - 1.5f);
-					if (Main.dust[num].position != npc.Center)
-					{
-						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 4f;
-					}
-					Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(13, Main.LocalPlayer);
+					Dust dust = Main.dust[num];
+					dust.position.X += ((Main.rand.Next(-30, 31) / 20) - 1.5f);
+					dust.position.Y += ((Main.rand.Next(-30, 31) / 20) - 1.5f);
+					if (dust.position != npc.Center)
+						dust.velocity = npc.DirectionTo(dust.position) * 4f;
+					dust.shader = GameShaders.Armor.GetSecondaryShader(13, Main.LocalPlayer);
 				}
 			}
 			if (npc.alpha > 0)
-            {
 				npc.alpha -= 3;
-            }
 			Player target = Main.player[npc.target];
 
 			npc.TargetClosest(true);
 			if (npc.localAI[2] == 0f)
 			{
-				if ((double)Vector2.Distance(target.Center, npc.Center) > (double)60f)
-				{
+				if (Vector2.Distance(target.Center, npc.Center) > 60f)
 					npc.aiStyle = 3;
-				}
 				else
-				{
 					npc.velocity.X = 0f;
-				}
+
 				if (npc.velocity.X < 0f)
-				{
 					npc.spriteDirection = 1;
-				}
 				else if (npc.velocity.X > 0f)
-				{
 					npc.spriteDirection = -1;
-				}
+
 				if (npc.velocity.X == 0f && target.dead)
-				{
 					npc.spriteDirection = 1;
-				}
 			}
 			else
             {
@@ -117,7 +103,7 @@ namespace SpiritMod.NPCs.DesertBandit
 				npc.localAI[2] = 1f;
 				npc.netUpdate = true;
             }
-			return base.PreAI();
+			return true;
 		}
 
         public override void NPCLoot()
@@ -125,6 +111,7 @@ namespace SpiritMod.NPCs.DesertBandit
             if (Main.rand.NextBool(24))
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MagicLantern);
         }
+
 		int frame = 0;
 		public override void FindFrame(int frameHeight)
 		{
@@ -132,7 +119,7 @@ namespace SpiritMod.NPCs.DesertBandit
 			npc.frameCounter++;
 			if (npc.localAI[2] == 0f)
 			{
-				if ((double)Vector2.Distance(player.Center, npc.Center) >= (double)60f)
+				if (Vector2.Distance(player.Center, npc.Center) >= 60f)
 				{
 					if (npc.frameCounter >= 7)
 					{
@@ -140,9 +127,7 @@ namespace SpiritMod.NPCs.DesertBandit
 						npc.frameCounter = 0;
 					}
 					if (frame >= 6)
-					{
 						frame = 0;
-					}
 				}
 				else
 				{
@@ -152,37 +137,23 @@ namespace SpiritMod.NPCs.DesertBandit
 						npc.frameCounter = 0;
 					}
 					if (frame >= 11)
-					{
 						frame = 6;
-					}
+
 					if (frame < 6)
-					{
 						frame = 6;
-					}
+
 					if (frame == 9 && npc.frameCounter == 4 && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
-					{
-						player.Hurt(PlayerDeathReason.LegacyDefault(), (int)npc.damage * 2, npc.direction * -1, false, false, false, -1);
-					}
+						player.Hurt(PlayerDeathReason.LegacyDefault(), npc.damage * 2, npc.direction * -1, false, false, false, -1);
 				}
 			}
 			npc.frame.Y = frameHeight * frame;
 		}
-		public virtual bool CanChat()
-		{
-			if (npc.localAI[2] == 0f)
-			{
-				return false;
-			}
-			return true;
-		}
-		public override string GetChat()
-		{
-			return "Please, spare me! Our group only attacked because we need these artifacts to get enough money to feed our families! I know you have no reason to trust me, but if you could open that chest and give me the Royal Crown, I'll give you all I have.";
-		}
-		public override void SetChatButtons(ref string button, ref string button2)
-		{
-			button = "Kill";
-		}
+
+		//also potentially breaking [!] - gabe
+		public override bool CanChat() => npc.localAI[2] != 0f;
+
+		public override string GetChat() => "Please, spare me! Our group only attacked because we need these artifacts to get enough money to feed our families! I know you have no reason to trust me, but if you could open that chest and give me the Royal Crown, I'll give you all I have.";
+		public override void SetChatButtons(ref string button, ref string button2) => button = "Kill";
 
 		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
 		{
@@ -192,11 +163,12 @@ namespace SpiritMod.NPCs.DesertBandit
 				npc.netUpdate = true;
 			}
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 11; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 85, hitDirection, -1f, 1, default(Color), .61f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedBrown, hitDirection, -1f, 1, default, .61f);
 			}
 			if (npc.life <= 0)
 			{
@@ -207,38 +179,39 @@ namespace SpiritMod.NPCs.DesertBandit
 			}
 			for (int k = 0; k < 7; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 8, 2.5f * hitDirection, -2.5f, 0, default(Color), 1.2f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 8, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.5f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 8, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default, 0.5f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
 			}
 		}
+
 		public override void OnHitPlayer (Player target, int damage, bool crit)
 		{
 			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(18, 0));
 			int num1 = 0;
 			for (int index = 0; index < 59; ++index)
 			{
-				if (target.inventory[index].type >= 71 && target.inventory[index].type <= 74)
+				if (target.inventory[index].type >= ItemID.CopperCoin && target.inventory[index].type <= ItemID.PlatinumCoin)
 				{
 					int number = Item.NewItem((int) target.position.X, (int) target.position.Y, target.width, target.height, target.inventory[index].type, 1, false, 0, false, false);
 					int num2 = target.inventory[index].stack / 8;
 					if (Main.expertMode)
-						num2 = (int) ((double) target.inventory[index].stack * 0.2);
+						num2 = (int) (target.inventory[index].stack * 0.2);
 					int num3 = target.inventory[index].stack - num2;
 					target.inventory[index].stack -= num3;
-					if (target.inventory[index].type == 71)
+					if (target.inventory[index].type == ItemID.CopperCoin)
 						num1 += num3;
-					if (target.inventory[index].type == 72)
+					if (target.inventory[index].type == ItemID.SilverCoin)
 						num1 += num3 * 100;
-					if (target.inventory[index].type == 73)
+					if (target.inventory[index].type == ItemID.GoldCoin)
 						num1 += num3 * 10000;
-					if (target.inventory[index].type == 74)
+					if (target.inventory[index].type == ItemID.PlatinumCoin)
 						num1 += num3 * 1000000;
 					if (target.inventory[index].stack <= 0)
 						target.inventory[index] = new Item();
 					Main.item[number].stack = num3;
-					Main.item[number].velocity.Y = (float) Main.rand.Next(-20, 1) * 0.2f;
-					Main.item[number].velocity.X = (float) Main.rand.Next(-20, 21) * 0.2f;
+					Main.item[number].velocity.Y = Main.rand.Next(-20, 1) * 0.2f;
+					Main.item[number].velocity.X = Main.rand.Next(-20, 21) * 0.2f;
 					Main.item[number].noGrabDelay = 100;
 					if (index == 58)
 						Main.mouseItem = target.inventory[index].Clone();

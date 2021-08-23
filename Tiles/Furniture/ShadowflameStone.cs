@@ -33,13 +33,12 @@ namespace SpiritMod.Tiles.Furniture
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Staff in the Stone");
-			this.AddMapEntry(Colors.RarityPurple, name);
-			dustType = 173;
+			AddMapEntry(Colors.RarityPurple, name);
+			dustType = DustID.ShadowbeamStaff;
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
-		{
-			offsetY = 2;
-		}
+
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
 			r = .51f;
@@ -49,11 +48,12 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<ShadowflameStoneStaff>());
-			Main.PlaySound(SoundID.Zombie, (int)i * 16, (int)j * 16, 7);
-			NPC.NewNPC((int)i * 16 + Main.rand.Next(-60, 60), (int)j * 16, 29, 0, 2, 1, 0, 0, Main.myPlayer);
-			NPC.NewNPC((int)i * 16 + Main.rand.Next(-60, 60), (int)j * 16, 29, 0, 2, 1, 0, 0, Main.myPlayer);
+			Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<ShadowflameStoneStaff>());
+			Main.PlaySound(SoundID.Zombie, i * 16, j * 16, 7);
+			NPC.NewNPC(i * 16 + Main.rand.Next(-60, 60), j * 16, 29, 0, 2, 1, 0, 0, Main.myPlayer);
+			NPC.NewNPC(i * 16 + Main.rand.Next(-60, 60), j * 16, 29, 0, 2, 1, 0, 0, Main.myPlayer);
 		}
+
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
 			Tile tile = Main.tile[i, j];

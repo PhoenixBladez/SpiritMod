@@ -16,7 +16,7 @@ namespace SpiritMod.World.Sepulchre
 			Main.tileBlockLight[Type] = true;
 			drop = ModContent.ItemType<Items.Placeable.Tiles.SepulchreBrickTwoItem>();
 			AddMapEntry(new Color(87, 85, 81));
-			dustType = 54;
+			dustType = DustID.Wraith;
 		}
 	}
 }

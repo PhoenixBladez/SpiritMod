@@ -1,10 +1,10 @@
-
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Placeable.Furniture;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Terraria.ID;
 
 namespace SpiritMod.Tiles.Furniture
 {
@@ -30,16 +30,10 @@ namespace SpiritMod.Tiles.Furniture
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Skull Pile");
 			AddMapEntry(new Color(150, 150, 150), name);
-			dustType = 0;
+			dustType = DustID.Dirt;
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
-		{
-			offsetY = 2;
-		}
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<SkullPile>());
 
-		}
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<SkullPile>());
 	}
 }

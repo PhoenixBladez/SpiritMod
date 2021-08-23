@@ -30,20 +30,14 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
 			AddMapEntry(new Color(179, 146, 107));
-			dustType = 0;
+			dustType = DustID.Dirt;
 			drop = ModContent.ItemType<ReachPlatformTile>();
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Platforms };
 		}
 
-		public override void PostSetDefaults()
-		{
-			Main.tileNoSunLight[Type] = false;
-		}
+		public override void PostSetDefaults() => Main.tileNoSunLight[Type] = false;
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
+		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 	}
 }

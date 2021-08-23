@@ -23,7 +23,6 @@ namespace SpiritMod.Items.Sets.CascadeSet
             texture = Main.itemTexture[item.type];
             spriteBatch.Draw
             (
-			
                 mod.GetTexture("Items/Sets/CascadeSet/JellyfishStaff_Glow"),
                 new Vector2
                 (
@@ -45,7 +44,7 @@ namespace SpiritMod.Items.Sets.CascadeSet
 			item.width = 34;
 			item.height = 34;
 			item.value = Item.sellPrice(0, 0, 25, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.mana = 10;
 			item.damage = 11;
 			item.knockBack = 2.5f;
@@ -69,12 +68,9 @@ namespace SpiritMod.Items.Sets.CascadeSet
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
         }
-		
-		public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
-		
+
+		public override bool AltFunctionUse(Player player) => true;
+
 		public override bool UseItem(Player player)
 		{
 			if (player.altFunctionUse == 2) {
@@ -88,8 +84,6 @@ namespace SpiritMod.Items.Sets.CascadeSet
 			player.AddBuff(item.buffType, 2);
 			position = Main.MouseWorld;
 			return player.altFunctionUse != 2;
-			
-			return true;
 		}
 	}
 }

@@ -43,9 +43,12 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 		float sinCounter;
         bool spawnedComets = false;
+
 		List<int> comets = new List<int>();
 
 		public bool updateCometOrder = true;
+		public bool spawnedBoss = false;
+		public int bossWhoAmI = -1;
 
         public override void AI()
         {
@@ -58,6 +61,28 @@ namespace SpiritMod.NPCs.StarjinxEvent
             else
                 npc.alpha = 0;
 
+			if (spawnedComets && comets.Count <= 0) //once all small comets have been defeated
+			{
+				if (spawnedBoss)
+				{
+					if (bossWhoAmI != -1)
+					{
+						NPC boss = Main.npc[bossWhoAmI];
+						if (!boss.active || !boss.boss)
+							bossWhoAmI = -1;
+					}
+					else
+						npc.dontTakeDamage = false;
+				}
+				else
+				{
+					int boss = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 400, NPCID.EyeofCthulhu);
+
+					spawnedBoss = true;
+					bossWhoAmI = boss;
+				}
+			}
+
 			if (spawnedComets && npc.dontTakeDamage && comets.Count > 0) //Child meteor active checks
 			{
 				for (int i = 0; i < comets.Count; i++)
@@ -66,8 +91,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 					int[] cometTypes = new int[] { ModContent.NPCType<LargeComet>(), ModContent.NPCType<SmallComet>(), ModContent.NPCType<MediumComet>() };
 					if (comet.active && comet.life > 0 && cometTypes.Contains(comet.type))
 						break;
-					if (i == comets.Count - 1)
-						npc.dontTakeDamage = false;
+					//if (i == comets.Count - 1)
+					//	npc.dontTakeDamage = false;
 				}
 
 				if (updateCometOrder)

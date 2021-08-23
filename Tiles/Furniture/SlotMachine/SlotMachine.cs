@@ -25,7 +25,7 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 		{
 			DisplayName.SetDefault("Slot Machine");
 
-        }
+		}
 
 
 		public override void SetDefaults()
@@ -76,6 +76,7 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 			name.SetDefault("Slot Machine");
 			AddMapEntry(new Microsoft.Xna.Framework.Color(200, 200, 200), name);
 		}
+
 		public override void AnimateTile(ref int frame, ref int frameCounter)
 		{
 			frameCounter++;
@@ -86,11 +87,12 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 				frame %= 2;
 			}
 		}
-		public override void RightClick(int i, int j)
+
+		public override bool NewRightClick(int i, int j)
 		{
 			float minLength = 9999;
 			Player nearestPlayer = Main.player[Main.myPlayer];
-			foreach(Player player in Main.player)
+			foreach (Player player in Main.player)
 			{
 				Vector2 dist = player.Center - new Vector2(i * 16, j * 16);
 				if (dist.Length() < minLength)
@@ -100,20 +102,17 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 				}
 			}
 			if (Main.player[Main.myPlayer] == nearestPlayer)
-            {
-               if (ModContent.GetInstance<SpiritMod>().SlotUserInterface.CurrentState is UISlotState currentSlotState && currentSlotState != null)
-				{
-				}
+			{
+				if (ModContent.GetInstance<SpiritMod>().SlotUserInterface.CurrentState is UISlotState currentSlotState && currentSlotState != null)
+					return false;
 				else
 				{
 					Main.PlaySound(SoundID.MenuOpen);
-					ModContent.GetInstance<SpiritMod>().SlotUserInterface.SetState(new UISlotState(i,j, nearestPlayer));
+					ModContent.GetInstance<SpiritMod>().SlotUserInterface.SetState(new UISlotState(i, j, nearestPlayer));
 				}
-            }
+			}
+			return true;
 		}
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<SlotMachine>());
-		}
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<SlotMachine>());
 	}
 }

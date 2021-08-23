@@ -182,10 +182,11 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
         {
             for (int k = 0; k < 7; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 159, 2.5f * hitDirection, -2.5f, 0, default, 0.6f);
-                Dust.NewDust(npc.position, npc.width, npc.height, 164, 2.5f * hitDirection, -2.5f, 0, default, 1.25f);
-                Dust.NewDust(npc.position, npc.width, npc.height, 159, 2.5f * hitDirection, -2.5f, 0, default, 0.85f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Teleporter, 2.5f * hitDirection, -2.5f, 0, default, 0.6f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.TeleportationPotion, 2.5f * hitDirection, -2.5f, 0, default, 1.25f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Teleporter, 2.5f * hitDirection, -2.5f, 0, default, 0.85f);
             }
+
             if (npc.life <= 0)
                 Main.PlaySound(SoundID.Item14, npc.position);
         }

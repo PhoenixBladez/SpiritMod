@@ -21,10 +21,10 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			TileObjectData.newTile.Width = 1;
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
 			TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
-			TileObjectData.newTile.AnchorBottom = default(AnchorData);
+			TileObjectData.newTile.AnchorBottom = default;
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
-			dustType = 0;//ModContent.DustType<Pixel>();
+			dustType = DustID.Dirt;//ModContent.DustType<Pixel>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Elderbark Lantern");
 			AddMapEntry(new Color(179, 146, 107), name);
@@ -38,14 +38,8 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			b = 0.4f;
 		}
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
+		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<Items.Placeable.Furniture.Reach.ReachLantern>());
-		}
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<Items.Placeable.Furniture.Reach.ReachLantern>());
 	}
 }

@@ -3,7 +3,6 @@ using SpiritMod.Items.Placeable.Furniture.Reach;
 using Terraria;
 using Terraria.ID;
 using Terraria.Enums;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 

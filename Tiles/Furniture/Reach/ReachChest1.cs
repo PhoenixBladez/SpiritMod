@@ -35,7 +35,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Elderbark Chest");
 			AddMapEntry(new Color(179, 146, 107), name, MapChestName);
-			dustType = 0;
+			dustType = DustID.Dirt;
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Containers };
 			chestDrop = ModContent.ItemType<Items.Placeable.Furniture.Reach.ReachChest>();

@@ -29,6 +29,7 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops.JellynautHelmet
 			item.rare = ItemRarityID.Green;
 			item.defense = 1;
 		}
+
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Lighting.AddLight(item.position, 0.08f, .4f, .28f);
@@ -51,17 +52,17 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops.JellynautHelmet
                 0f
             );
         }
-        public override bool IsArmorSet(Item head, Item body, Item legs)
-        {
-            return (body.type >= 1282 && body.type <= 1287 || body.type == 2279);
-        }
-        public override void UpdateEquip(Player player)
+
+		public override bool IsArmorSet(Item head, Item body, Item legs) => (body.type >= ItemID.AmethystRobe && body.type <= ItemID.DiamondRobe || body.type == ItemID.GypsyRobe);
+
+		public override void UpdateEquip(Player player)
         {
             player.meleeCrit += 4;
             player.rangedCrit += 4;
             player.magicCrit += 4;
             player.statManaMax2 += 20;
         }
+
         public override void UpdateArmorSet(Player player)
         {
             string tapDir = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");

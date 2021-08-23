@@ -40,7 +40,7 @@ namespace SpiritMod.World.Sepulchre
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Sepulchre Chest");
 			AddMapEntry(new Color(120, 82, 49), name);
-			dustType = 0;
+			dustType = DustID.Dirt;
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Containers };
 			chestDrop = ModContent.ItemType<SepulchreChest>();
@@ -56,22 +56,14 @@ namespace SpiritMod.World.Sepulchre
             int top = j;
             Tile tile = Main.tile[i, j];
             if (tile.frameX % 36 != 0)
-            {
                 left--;
-            }
             if (tile.frameY != 0)
-            {
                 top--;
-            }
             int chest = Chest.FindChest(left, top);
             if (Main.chest[chest].name == "")
-            {
                 return name;
-            }
             else
-            {
                 return name + ": " + Main.chest[chest].name;
-            }
         }
 
 		public override void NumDust(int i, int j, bool fail, ref int num) => num = 1;
@@ -80,14 +72,7 @@ namespace SpiritMod.World.Sepulchre
         {
             Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<SepulchreChest>());
             Chest.DestroyChest(i, j);
-            Main.PlaySound(SoundID.NPCKilled, (int)i * 16, (int)j * 16, 6);
-            /*Player player = Main.LocalPlayer;
-            int distance = (int)Vector2.Distance(new Vector2(i * 16, j * 16), player.Center);
-            if (distance < 360)
-            {
-                Main.LocalPlayer.AddBuff(BuffID.Cursed, 300);
-                Main.LocalPlayer.AddBuff(BuffID.Obstructed, 600);
-            }*/
+            Main.PlaySound(SoundID.NPCKilled, i * 16, j * 16, 6);
         }
 
 		public override bool IsLockedChest(int i, int j) => true;
@@ -104,7 +89,6 @@ namespace SpiritMod.World.Sepulchre
 
 						if(Main.netMode != NetmodeID.SinglePlayer)
 							NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, indexX + i, indexY + j);
-
 						anycursedarmor = true;
 					}
 				}
@@ -125,13 +109,9 @@ namespace SpiritMod.World.Sepulchre
             int left = i;
             int top = j;
             if (tile.frameX % 36 != 0)
-            {
                 left--;
-            }
             if (tile.frameY != 0)
-            {
                 top--;
-            }
             if (player.sign >= 0)
             {
                 Main.PlaySound(SoundID.MenuClose);
@@ -189,24 +169,19 @@ namespace SpiritMod.World.Sepulchre
             }
             return true;
         }
-        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
-        {
-            offsetY = 2;
-        }
-        public override void MouseOver(int i, int j)
+
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+
+		public override void MouseOver(int i, int j)
         {
             Player player = Main.LocalPlayer;
             Tile tile = Main.tile[i, j];
             int left = i;
             int top = j;
             if (tile.frameX % 36 != 0)
-            {
                 left--;
-            }
             if (tile.frameY != 0)
-            {
                 top--;
-            }
             int chest = Chest.FindChest(left, top);
             player.showItemIcon2 = -1;
             if (chest < 0)

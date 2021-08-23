@@ -50,7 +50,6 @@ namespace SpiritMod.Items.Weapon.Summon
 			player.AddBuff(item.buffType, 2);
 			position = Main.MouseWorld;
 			return player.altFunctionUse != 2;
-			return true;
 		}
 	}
 }

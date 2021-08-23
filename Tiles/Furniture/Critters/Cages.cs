@@ -62,7 +62,7 @@ namespace SpiritMod.Tiles.Furniture.Critters
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.Table | AnchorType.SolidTile | AnchorType.SolidWithTop, TileObjectData.newTile.Width, 0);
 			TileObjectData.newTile.Origin = new Point16(0, 1);
 			TileObjectData.addTile(Type);
-			dustType = 13;
+			dustType = DustID.Glass;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Critter Cage");
 			AddMapEntry(new Color(200, 200, 200), name);
@@ -95,11 +95,8 @@ namespace SpiritMod.Tiles.Furniture.Critters
     }
     public class BriarmothCage : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Briarmoth in a Jar");
-        }
-        public override void SetDefaults()
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Briarmoth in a Jar");
+		public override void SetDefaults()
         {
             item.width = 22;
             item.height = 22;
@@ -146,7 +143,7 @@ namespace SpiritMod.Tiles.Furniture.Critters
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.Table | AnchorType.SolidTile | AnchorType.SolidWithTop, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.Origin = new Point16(0, 1);
             TileObjectData.addTile(Type);
-            dustType = 13;
+            dustType = DustID.Glass;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Critter Cage");
             AddMapEntry(new Color(200, 200, 200), name);
@@ -173,10 +170,7 @@ namespace SpiritMod.Tiles.Furniture.Critters
     }
     public class CleftCage : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Cleft Hopper Cage");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Cleft Hopper Cage");
 		public override void SetDefaults()
 		{
 			item.width = 22;
@@ -204,7 +198,6 @@ namespace SpiritMod.Tiles.Furniture.Critters
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
-
 		}
 	}
 
@@ -225,7 +218,7 @@ namespace SpiritMod.Tiles.Furniture.Critters
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.Table | AnchorType.SolidTile | AnchorType.SolidWithTop, TileObjectData.newTile.Width, 0);
 			TileObjectData.newTile.Origin = new Point16(0, 1);
 			TileObjectData.addTile(Type);
-			dustType = 13;
+			dustType = DustID.Glass;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Critter Cage");
 			AddMapEntry(new Color(200, 200, 200), name);
@@ -240,22 +233,12 @@ namespace SpiritMod.Tiles.Furniture.Critters
 				frame %= 7;
 			}
 		}
-		public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<CleftCage>());
-		}
+		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<CleftCage>());
 	}
 	public class LuvdiscBowl : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Ardorfish Bowl");
-		}
-
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Ardorfish Bowl");
 
 		public override void SetDefaults()
 		{
@@ -303,7 +286,7 @@ namespace SpiritMod.Tiles.Furniture.Critters
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.Table | AnchorType.SolidTile | AnchorType.SolidWithTop, TileObjectData.newTile.Width, 0);
 			TileObjectData.newTile.Origin = new Point16(0, 1);
 			TileObjectData.addTile(Type);
-			dustType = 13;
+			dustType = DustID.Glass;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Critter Cage");
 			AddMapEntry(new Color(200, 200, 200), name);
@@ -318,22 +301,13 @@ namespace SpiritMod.Tiles.Furniture.Critters
 				frame %= 6;
 			}
 		}
-		public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<LuvdiscBowl>());
-		}
+
+		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<LuvdiscBowl>());
 	}
 	public class GulperBowl : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Gulper Bowl");
-		}
-
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Gulper Bowl");
 
 		public override void SetDefaults()
 		{
@@ -381,11 +355,12 @@ namespace SpiritMod.Tiles.Furniture.Critters
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.Table | AnchorType.SolidTile | AnchorType.SolidWithTop, TileObjectData.newTile.Width, 0);
 			TileObjectData.newTile.Origin = new Point16(0, 1);
 			TileObjectData.addTile(Type);
-			dustType = 13;
+			dustType = DustID.Glass;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Critter Cage");
 			AddMapEntry(new Color(200, 200, 200), name);
 		}
+
 		public override void AnimateTile(ref int frame, ref int frameCounter)
 		{
 			frameCounter++;
@@ -396,21 +371,13 @@ namespace SpiritMod.Tiles.Furniture.Critters
 				frame %= 6;
 			}
 		}
-		public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<GulperBowl>());
-		}
+
+		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<GulperBowl>());
 	}
 	public class VibeshroomJarItem : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Quivershroom Jar");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Quivershroom Jar");
 		public override void SetDefaults()
 		{
 			item.width = 22;
@@ -458,11 +425,12 @@ namespace SpiritMod.Tiles.Furniture.Critters
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.Table | AnchorType.SolidTile | AnchorType.SolidWithTop, TileObjectData.newTile.Width, 0);
 			TileObjectData.newTile.Origin = new Point16(0, 1);
 			TileObjectData.addTile(Type);
-			dustType = 13;
+			dustType = DustID.Glass;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Critter Cage");
 			AddMapEntry(new Color(200, 200, 200), name);
 		}
+
 		public override void AnimateTile(ref int frame, ref int frameCounter)
 		{
 			frameCounter++;
@@ -473,13 +441,8 @@ namespace SpiritMod.Tiles.Furniture.Critters
 				frame %= 14;
 			}
 		}
-		public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<VibeshroomJarItem>());
-		}
+
+		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<VibeshroomJarItem>());
 	}
 }

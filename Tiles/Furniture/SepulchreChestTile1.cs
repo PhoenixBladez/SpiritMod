@@ -36,7 +36,7 @@ namespace SpiritMod.Tiles.Furniture
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Sepulchre Chest");
 			AddMapEntry(new Color(120, 82, 49), name);
-			dustType = 0;
+			dustType = DustID.Dirt;
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Containers };
 			chestDrop = ModContent.ItemType<SepulchreChest>();
@@ -51,22 +51,14 @@ namespace SpiritMod.Tiles.Furniture
             int top = j;
             Tile tile = Main.tile[i, j];
             if (tile.frameX % 36 != 0)
-            {
                 left--;
-            }
             if (tile.frameY != 0)
-            {
                 top--;
-            }
             int chest = Chest.FindChest(left, top);
             if (Main.chest[chest].name == "")
-            {
                 return name;
-            }
             else
-            {
                 return name + ": " + Main.chest[chest].name;
-            }
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -164,19 +156,13 @@ namespace SpiritMod.Tiles.Furniture
             int left = i;
             int top = j;
             if (tile.frameX % 36 != 0)
-            {
                 left--;
-            }
             if (tile.frameY != 0)
-            {
                 top--;
-            }
             int chest = Chest.FindChest(left, top);
             player.showItemIcon2 = -1;
             if (chest < 0)
-            {
                 player.showItemIconText = Lang.chestType[0].Value;
-            }
             else
             {
                 player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Sepulchre Chest";
