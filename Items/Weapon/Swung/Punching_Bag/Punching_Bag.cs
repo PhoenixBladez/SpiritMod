@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Weapon.Swung.Punching_Bag
 			item.knockBack = 6f;
 			item.magic = true;
 			item.mana = 10;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.UseSound = SoundID.Item1;
 			item.useAnimation = 30;
 			item.useTime = 30;
@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Swung.Punching_Bag
 			item.noMelee = true;
 			item.autoReuse = true;
 			item.value = Item.sellPrice(silver: 30);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 		}
 
 		public override void SetStaticDefaults()

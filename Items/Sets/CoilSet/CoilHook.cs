@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Sets.CoilSet
 			*/
 			// Instead of copying these values, we can clone and modify the ones we want to copy
 			item.CloneDefaults(ItemID.AmethystHook);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
 			item.shootSpeed = 18f; // how quickly the hook is shot.
 			item.shoot = ProjectileType<CoilHookProj>();
 		}

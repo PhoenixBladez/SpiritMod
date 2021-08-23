@@ -93,7 +93,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
                 }
                 if (projectileTimer >= 110 && projectileTimer % 12 == 0)
                 {
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 34, 1f, 0f);
+					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 34, 1f, 0f);
 					projectileTimer++;
 					if (projectileTimer >= 150)
 						projectileTimer = 0;
@@ -125,7 +125,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
                 }
 				if (projectileTimer >= 160)
 				{
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 40, 1f, 0f);
+					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 40, 1f, 0f);
 					projectileTimer = 0;
 					float num5 = 9f;
 					Vector2 vector2 = new Vector2(npc.Center.X + 30*-npc.spriteDirection, npc.position.Y + (float)npc.height * 0.5f);

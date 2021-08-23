@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
             item.knockBack = 7;
             item.useTurn = false;
             item.value = Terraria.Item.sellPrice(0, 2, 20, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("GSaberProj");
             item.shootSpeed = 6f;

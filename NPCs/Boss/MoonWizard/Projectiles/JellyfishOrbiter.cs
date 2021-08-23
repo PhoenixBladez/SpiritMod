@@ -108,7 +108,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
             if (index != -1)
             {
                 Player player = Main.player[index];
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 69);
+                Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 69);
                 Vector2 direction = Main.player[index].Center - projectile.Center;
                 direction.Normalize();
                 direction *= 12f;

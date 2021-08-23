@@ -54,7 +54,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies
 				Gore.NewGore(npc.position, npc.velocity, 99);
 				Gore.NewGore(npc.position, npc.velocity, 99);
 				Gore.NewGore(npc.position, npc.velocity, 99);
-				Main.PlaySound(2, npc.Center, 14);
+				Main.PlaySound(SoundID.Item, npc.Center, 14);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pulsar/Pulsar1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pulsar/Pulsar2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pulsar/Pulsar3"), 1f);

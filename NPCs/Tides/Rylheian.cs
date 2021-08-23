@@ -106,7 +106,7 @@ namespace SpiritMod.NPCs.Tides
 
 			#region Phase 1
 			if (npc.ai[0] % 400 == 316 && npc.ai[1] == 1) {
-				Main.PlaySound(2, npc.Center, 109);
+				Main.PlaySound(SoundID.Item, npc.Center, 109);
 				for (npc.ai[2] = 0; npc.ai[2] < 6.29; npc.ai[2] += 0.785f) {
 					Vector2 offset = new Vector2((float)Math.Cos(npc.ai[2]), (float)Math.Sin(npc.ai[2])) * 90f;
 					Vector2 direction = player.Center - (npc.Center + offset);
@@ -123,7 +123,7 @@ namespace SpiritMod.NPCs.Tides
 			}
 			if (npc.ai[1] == 1) {
 				if (npc.ai[0] % 12 == 0 && npc.ai[0] % 400 < 300) {
-					Main.PlaySound(2, npc.Center, 8);
+					Main.PlaySound(SoundID.Item, npc.Center, 8);
 					Vector2 offset = new Vector2((float)Math.Cos(npc.ai[2]), (float)Math.Sin(npc.ai[2])) * 90f;
 					DustHelper.DrawTriangle(npc.Center + offset, 173, 4);
 					npc.ai[2] += 0.785f;

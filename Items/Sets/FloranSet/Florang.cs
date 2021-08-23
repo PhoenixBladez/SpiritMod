@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Sets.FloranSet
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 0;
 			item.value = Terraria.Item.sellPrice(0, 0, 15, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.shootSpeed = 5f;
 			item.shoot = mod.ProjectileType("FloraP");
 			item.UseSound = SoundID.Item1;

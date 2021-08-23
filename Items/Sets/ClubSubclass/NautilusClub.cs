@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Sets.ClubSubclass
             item.knockBack = 11;
             item.useTurn = false;
             item.value = Terraria.Item.buyPrice(0, 5, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.autoReuse = false;
             item.shoot = mod.ProjectileType("NautilusClubProj");
             item.shootSpeed = 6f;

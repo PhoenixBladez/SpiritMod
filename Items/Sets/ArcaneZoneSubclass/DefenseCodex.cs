@@ -48,11 +48,11 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 			item.height = 50;
 			item.useTime = 31;
 			item.useAnimation = 31;
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.noMelee = true;
 			item.knockBack = 0;
 			item.value = 10000;
-			item.rare = 2;
+			item.rare = ItemRarityID.Green;
 			item.UseSound = SoundID.DD2_EtherianPortalSpawnEnemy;
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<DefenseZone>();

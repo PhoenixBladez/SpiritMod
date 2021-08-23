@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Armor.CommandoSet
 			item.width = 30;
 			item.height = 30;
 			item.value = Item.sellPrice(0, 0, 30, 0);
-			item.rare = 2;
+			item.rare = ItemRarityID.Green;
 
 			item.vanity = true;
 		}

@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Armor.OperativeSet
 			item.width = 30;
 			item.height = 20;
 			item.value = Terraria.Item.buyPrice(0, 1, 0, 0);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.vanity = true;
 		}
 	}

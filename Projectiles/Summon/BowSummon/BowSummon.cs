@@ -35,8 +35,6 @@ namespace SpiritMod.Projectiles.Summon.BowSummon
 			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
 		}
-        Color colorVer;
-        float alphaCounter;
 		public override void AI()
         {
             bool flag64 = projectile.type == mod.ProjectileType("BowSummon");
@@ -109,7 +107,6 @@ namespace SpiritMod.Projectiles.Summon.BowSummon
                 {
                     int range = 30;   //How many tiles away the projectile targets NPCs
                     float shootVelocity = 16f; //magnitude of the shoot vector (speed of arrows shot)
-                    int shootSpeed = 20;
 
                     //TARGET NEAREST NPC WITHIN RANGE
                     float lowestDist = float.MaxValue;
@@ -136,11 +133,8 @@ namespace SpiritMod.Projectiles.Summon.BowSummon
                         }
                     }
                     NPC target = (Main.npc[(int)projectile.ai[1]] ?? new NPC());
-                    int dustType;
                     if (target.CanBeChasedBy(projectile, false))
-                    {
                         projectile.rotation = projectile.DirectionTo(target.Center).ToRotation();
-                    }
                     projectile.frameCounter++;
                     if (projectile.frameCounter >= 5)
                     {
@@ -156,85 +150,46 @@ namespace SpiritMod.Projectiles.Summon.BowSummon
                         direction.Y *= shootVelocity;
                         int shootType = 1;
                         if (player.HasItem(ItemID.WoodenArrow))
-                        {
                             shootType = 1;
-                        }
 						if (player.HasItem(ItemID.EndlessQuiver))
-                        {
                             shootType = 1;
-                        }
 						if (player.HasItem(ItemID.BoneArrow))
-                        {
                             shootType = 117;
-                        }
 						if (player.HasItem(ModContent.ItemType<Items.Ammo.Arrow.PoisonArrow>()))
-                        {
                             shootType = ModContent.ProjectileType<Projectiles.Arrow.PoisonArrowProj>();
-                        }
                         if (player.HasItem(ItemID.FlamingArrow))
-                        {
                             shootType = 2;
-                        }
 						if (player.HasItem(ItemID.FrostburnArrow))
-                        {
                             shootType = 172;
-                        }
                         if (player.HasItem(ModContent.ItemType<Items.Ammo.Arrow.SepulchreArrow>()))
-                        {
                             shootType = ModContent.ProjectileType<Projectiles.Arrow.AccursedArrow>();
-                        }
                         if (player.HasItem(ItemID.UnholyArrow))
-                        {
                             shootType = 4;
-                        }
 						if (player.HasItem(ItemID.JestersArrow))
-                        {
                             shootType = 5;
-                        }
                         if (player.HasItem(ItemID.HellfireArrow))
-                        {
                             shootType = 41;
-                        }
 						if (player.HasItem(ItemID.CursedArrow))
-                        {
                             shootType = 103;
-                        }
 						if (player.HasItem(ItemID.IchorArrow))
-                        {
                             shootType = 278;
-                        }
 						if (player.HasItem(ItemID.HolyArrow))
-                        {
                             shootType = 91;
-                        }
 						if (player.HasItem(ItemID.ChlorophyteArrow))
-                        {
                             shootType = 225;
-                        }
 						if (player.HasItem(ItemID.VenomArrow))
-                        {
                             shootType = 282;
-                        }
 						if (player.HasItem(ModContent.ItemType<Items.Ammo.Arrow.ShroomiteArrow>()))
-                        {
                             shootType = ModContent.ProjectileType<Projectiles.Arrow.ShroomiteArrow>();
-                        }
 						if (player.HasItem(ModContent.ItemType<Items.Ammo.Arrow.SpectreArrow>()))
-                        {
                             shootType = ModContent.ProjectileType<Projectiles.Arrow.SpectreArrow>();
-                        }
 						if (player.HasItem(ModContent.ItemType<Items.Ammo.Arrow.BeetleArrow>()))
-                        {
                             shootType = ModContent.ProjectileType<Projectiles.Arrow.BeetleArrow>();
-                        }
 						if (player.HasItem(ModContent.ItemType<Items.Ammo.Arrow.MartianArrow>()))
-                        {
                             shootType = ModContent.ProjectileType<Projectiles.Arrow.ElectricArrow>();
-                        }
 						if (player.HasItem(ItemID.MoonlordArrow))
-                        {
                             shootType = 639;
-                        }
+
                         for (int index = 0; index < 58; ++index)
                         {
                             if (player.inventory[index].ammo == AmmoID.Arrow && player.HasItem(ItemID.EndlessQuiver) == false && player.inventory[index].stack >= 1 && player.inventory[index].consumable)

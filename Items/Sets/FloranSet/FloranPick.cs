@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Sets.FloranSet
 			item.width = 34;
 			item.height = 42;
 			item.value = 1000;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 
 			item.pick = 55;
 

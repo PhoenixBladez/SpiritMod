@@ -118,7 +118,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.MeteoriteSpewer
 			if (!hasCreatedSound)
 			{
 				hasCreatedSound = true;
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 34, 1f, 0f);
+				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 34, 1f, 0f);
 			}
 			
 			if (projectile.wet)

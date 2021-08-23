@@ -202,7 +202,7 @@ namespace SpiritMod.Projectiles.Summon
                         }
                     }
                     NPC target = (Main.npc[(int)projectile.ai[1]] ?? new NPC());
-                    Main.PlaySound(2, projectile.Center, 12);
+                    Main.PlaySound(SoundID.Item, projectile.Center, 12);
                     int dustType;
                     timer = 0;
                     Vector2 ShootArea = new Vector2(projectile.Center.X, projectile.Center.Y - 13);

@@ -1,13 +1,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Armor;
-using SpiritMod.Items.Material;
-using SpiritMod.Projectiles.Summon.Zones;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Items.Material;
 using SpiritMod.Items.Placeable.Tiles;
+using SpiritMod.Projectiles.Summon.Zones;
 
 namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 {
@@ -51,25 +48,21 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 			item.height = 50;
 			item.useTime = 31;
 			item.useAnimation = 31;
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.noMelee = true;
 			item.knockBack = 0;
 			item.value = 10000;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.UseSound = SoundID.DD2_EtherianPortalSpawnEnemy;
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<LowGravZone>();
 			item.shootSpeed = 0f;
 		}
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
-        public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+
+		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
+		public override bool AltFunctionUse(Player player) => true;
+
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Vector2 value18 = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY);
 			position = value18;
@@ -77,6 +70,7 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
             player.UpdateMaxTurrets();
 			return false;
 		}
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

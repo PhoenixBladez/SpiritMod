@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Accessory.UnstableTeslaCoil
 			item.width = 24;
 			item.height = 30;
 			item.value = Item.sellPrice(gold: 1);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.defense = 2;
 			item.accessory = true;
 		}

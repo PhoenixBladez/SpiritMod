@@ -24,7 +24,7 @@ namespace SpiritMod.Tiles.Furniture.NeonLights
 			TileObjectData.newTile.AnchorBottom = default(AnchorData);
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
-			dustType = 0;//ModContent.DustType<Pixel>();
+			dustType = DustID.Dirt;//ModContent.DustType<Pixel>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Fairy Lights");
 			AddMapEntry(new Color(222, 31, 56), name);

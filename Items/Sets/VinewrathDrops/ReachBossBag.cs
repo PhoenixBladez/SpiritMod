@@ -23,10 +23,7 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 			item.expert = true;
 		}
 
-		public override bool CanRightClick()
-		{
-			return true;
-		}
+		public override bool CanRightClick() => true;
 
 		public override void RightClick(Player player)
 		{
@@ -42,9 +39,9 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 			int loot = Main.rand.Next(lootTable.Length);
 			player.QuickSpawnItem(lootTable[loot]);
 
-			if (Main.rand.NextDouble() < 1d / 7)
+			if (Main.rand.NextDouble() < 1 / 7f)
 				player.QuickSpawnItem(ModContent.ItemType<ReachMask>());
-			if (Main.rand.NextDouble() < 1d / 10)
+			if (Main.rand.NextDouble() < 1 / 10f)
 				player.QuickSpawnItem(ModContent.ItemType<Trophy5>());
 		}
 	}

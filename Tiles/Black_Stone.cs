@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Tiles
@@ -15,7 +15,7 @@ namespace SpiritMod.Tiles
 			Main.tileMergeDirt[Type] = true;
 			Main.tileLighted[Type] = true;
 			Main.tileSpelunker[Type] = true;
-			dustType = 180;
+			dustType = DustID.DungeonSpirit;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Blackrock");
 			drop = mod.ItemType("Black_Stone_Item");
@@ -52,10 +52,7 @@ namespace SpiritMod.Tiles
 
 	internal class Black_Stone_Item : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Blackrock");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Blackrock");
 
 		public override void SetDefaults()
 		{
@@ -67,9 +64,9 @@ namespace SpiritMod.Tiles
 			item.autoReuse = true;
 			item.useAnimation = 15;
 			item.useTime = 10;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.consumable = true;
-			item.rare = 0;
+			item.rare = ItemRarityID.White;
 			item.createTile = mod.TileType("Black_Stone");
 		}
 	}

@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Consumable.Food
 		public override void SetDefaults()
 		{
 			item.width = item.height = 22;
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.maxStack = 99;
 			item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.EatingUsing;

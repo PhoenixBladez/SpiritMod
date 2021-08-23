@@ -1,12 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.DonatorItems.FrostTroll;
-using System;
 using System.IO;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,11 +12,6 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 	[AutoloadBossHead]
 	public class FrostSaucer : ModNPC
 	{
-		int timer = 0;
-		int moveSpeed = 0;
-		int moveSpeedY = 0;
-		float HomeY = 150f;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Snow Monger");
@@ -50,45 +41,40 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 			int frame = (int)npc.frameCounter;
 			npc.frame.Y = frame * frameHeight;
 		}
-		private int Counter;
         bool trailBehind;
         bool canHitPlayer;
         public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)
 			{
-                Main.PlaySound(2, npc.Center, 14);
+                Main.PlaySound(SoundID.Item, npc.Center, 14);
                 for (int num625 = 0; num625 < 10; num625++)
                 {
                     float scaleFactor10 = 0.2f;
-                    if (num625 == 1) {
+                    if (num625 == 1)
                         scaleFactor10 = 0.5f;
-                    }
-                    if (num625 == 2) {
+                    if (num625 == 2)
                         scaleFactor10 = 1f;
-                    }
-                    int num626 = Gore.NewGore(new Vector2(npc.Center.X + Main.rand.Next(-100, 100), npc.Center.Y + Main.rand.Next(-100, 100)), default(Vector2), Main.rand.Next(61, 64), 1f);
+                    int num626 = Gore.NewGore(new Vector2(npc.Center.X + Main.rand.Next(-100, 100), npc.Center.Y + Main.rand.Next(-100, 100)), default, Main.rand.Next(61, 64), 1f);
                     Main.gore[num626].velocity *= scaleFactor10;
                     Gore expr_13AB6_cp_0 = Main.gore[num626];
-                    expr_13AB6_cp_0.velocity.X = expr_13AB6_cp_0.velocity.X + 1f;
+                    expr_13AB6_cp_0.velocity.X += 1f;
                     Gore expr_13AD6_cp_0 = Main.gore[num626];
-                    expr_13AD6_cp_0.velocity.Y = expr_13AD6_cp_0.velocity.Y + 1f;
-                    num626 = Gore.NewGore(new Vector2(npc.Center.X + Main.rand.Next(-100, 100), npc.Center.Y + Main.rand.Next(-100, 100)), default(Vector2), Main.rand.Next(61, 64), 1f);
+                    expr_13AD6_cp_0.velocity.Y += 1f;
+                    num626 = Gore.NewGore(new Vector2(npc.Center.X + Main.rand.Next(-100, 100), npc.Center.Y + Main.rand.Next(-100, 100)), default, Main.rand.Next(61, 64), 1f);
                     Main.gore[num626].velocity *= scaleFactor10;
                     Gore expr_13B79_cp_0 = Main.gore[num626];
-                    expr_13B79_cp_0.velocity.X = expr_13B79_cp_0.velocity.X - 1f;
+                    expr_13B79_cp_0.velocity.X -= 1f;
                     Gore expr_13B99_cp_0 = Main.gore[num626];
-                    expr_13B99_cp_0.velocity.Y = expr_13B99_cp_0.velocity.Y + 1f;
+                    expr_13B99_cp_0.velocity.Y += 1f;
                 }
+
                 for (int j = 0; j < 17; j++)
-                {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 226, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.75f);
-                }               
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 2.5f * hitDirection, -2.5f, 0, default, 0.75f);
 			}
+
 			for (int k = 0; k < 7; k++)
-			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 226, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.5f);
-			}
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 2.5f * hitDirection, -2.5f, 0, default, 0.5f);
 		}
 		public override void AI()
         {
@@ -100,13 +86,10 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
             if (npc.ai[0] < 420 || npc.ai[0] > 490)
             {
                 if (player.position.X > npc.position.X)
-                {
                     npc.spriteDirection = 1;
-                }
                 else
-                {
                     npc.spriteDirection = -1;
-                }
+
                 npc.aiStyle = -1;
                 float num1 = 4.7f;
                 float moveSpeed = 0.13f;
@@ -132,14 +115,14 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
                 Vector2 vector2_1 = Main.player[npc.target].Center - npc.Center + new Vector2(0.0f, numYPos);
                 float num2 = vector2_1.Length();
                 Vector2 desiredVelocity;
-                if ((double)num2 < 20.0)
+                if (num2 < 20.0)
                     desiredVelocity = npc.velocity;
-                else if ((double)num2 < 40.0)
+                else if (num2 < 40.0)
                 {
                     vector2_1.Normalize();
                     desiredVelocity = vector2_1 * (num1 * 0.45f);
                 }
-                else if ((double)num2 < 80.0)
+                else if (num2 < 80.0)
                 {
                     vector2_1.Normalize();
                     desiredVelocity = vector2_1 * (num1 * 0.75f);
@@ -155,7 +138,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
             {
                 for (int i = 0; i < 12; i++)
                 {
-                    Dust dust = Dust.NewDustDirect(npc.Center + new Vector2(-80, 70), npc.width, npc.height, 68);
+                    Dust dust = Dust.NewDustDirect(npc.Center + new Vector2(-80, 70), npc.width, npc.height, DustID.BlueCrystalShard);
                     dust.velocity *= -1f;
                     dust.scale *= .8f;
                     dust.noGravity = true;
@@ -167,7 +150,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
                     Vector2 vector2_3 = vector2_2 * 34f;
                     dust.position = npc.Center + new Vector2(-80, 70) - vector2_3;
 
-                    Dust dust1 = Dust.NewDustDirect(npc.Center + new Vector2(80, 70), npc.width, npc.height, 68);
+                    Dust dust1 = Dust.NewDustDirect(npc.Center + new Vector2(80, 70), npc.width, npc.height, DustID.BlueCrystalShard);
                     dust1.velocity *= -1f;
                     dust1.scale *= .8f;
                     dust1.noGravity = true;
@@ -206,7 +189,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Dust dust = Dust.NewDustDirect(new Vector2(npc.Center.X, npc.Center.Y + 120), npc.width, npc.height, 226);
+                    Dust dust = Dust.NewDustDirect(new Vector2(npc.Center.X, npc.Center.Y + 120), npc.width, npc.height, DustID.Electric);
                     dust.velocity *= -1f;
                     dust.scale *= .8f;
                     dust.noGravity = true;
@@ -221,15 +204,13 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
             }
 			if (npc.ai[0] == 445 || npc.ai[0] == 455 || npc.ai[0] == 465)
             {
-                Main.PlaySound(2, npc.Center, 91);
+                Main.PlaySound(SoundID.Item, npc.Center, 91);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 70, 0, 26, ModContent.ProjectileType<SnowMongerBeam>(), 70, 1, Main.myPlayer, 0, 0);                  
-                }
+                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 70, 0, 26, ModContent.ProjectileType<SnowMongerBeam>(), 70, 1, Main.myPlayer, 0, 0);                  
             }
             if (npc.ai[0] == 570)
             {
-                Main.PlaySound(15, npc.Center, 0);
+                Main.PlaySound(SoundID.Roar, npc.Center, 0);
             }
 			if (npc.ai[0] >= 650)
             {
@@ -237,32 +218,22 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
                 npc.netUpdate = true;
             }
 		}
+
         public override bool CanHitPlayer(Player target, ref int cooldownSlot) => canHitPlayer;
-		public override void SendExtraAI(BinaryWriter writer)
-		{
-			writer.Write(trailBehind);
-		}
-		public override void ReceiveExtraAI(BinaryReader reader)
-		{
-			trailBehind = reader.ReadBoolean();
-		}
+		public override void SendExtraAI(BinaryWriter writer) => writer.Write(trailBehind);
+		public override void ReceiveExtraAI(BinaryReader reader) => trailBehind = reader.ReadBoolean();
+
 		public override void NPCLoot()
 		{
             if (Main.invasionType == 2)
             {
                 Main.invasionSize -= 10;
                 if (Main.invasionSize < 0)
-                {
                     Main.invasionSize = 0;
-                }
                 if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
                     Main.ReportInvasionProgress(Main.invasionSizeStart - Main.invasionSize, Main.invasionSizeStart, 1, 0);
-                }
                 if (Main.netMode == NetmodeID.Server)
-                {
                     NetMessage.SendData(MessageID.InvasionProgressReport, -1, -1, null, Main.invasionProgress, (float)Main.invasionProgressMax, (float)Main.invasionProgressIcon, 0f, 0, 0, 0);
-                }
             }
             int[] lootTable = {
 				ModContent.ItemType<Bauble>(),
@@ -275,7 +246,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 
 			for (int i = 0; i < 15; ++i) {
 				if (Main.rand.Next(8) == 0) {
-					int newDust = Dust.NewDust(npc.position, npc.width, npc.height, 76, 0f, 0f, 100, default(Color), 2.5f);
+					int newDust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Snow, 0f, 0f, 100, default, 2.5f);
 					Main.dust[newDust].noGravity = true;
 					Main.dust[newDust].velocity *= 5f;
 				}

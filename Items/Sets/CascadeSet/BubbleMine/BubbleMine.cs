@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.BubbleMine
 			item.knockBack = 1.0f;
 			item.value = Terraria.Item.sellPrice(0, 0, 0, 5);
 			item.crit = 8;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.ranged = true;
 			item.autoReuse = false;
 		}
@@ -143,7 +143,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.BubbleMine
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => projectile.Kill();
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 54);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 54);
 			for (int i = 0; i < 20; i++) {
 				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 165, 0f, -2f, 0, default(Color), 2f);
 				Main.dust[num].noGravity = true;

@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
             item.autoReuse = true;
             item.melee = true;
             item.damage = 50;
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
         }
         int combo;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {

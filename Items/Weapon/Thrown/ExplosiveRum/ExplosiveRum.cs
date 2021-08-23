@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 			item.damage = 43;
 			item.knockBack = 1.5f;
 			item.value = Item.sellPrice(0, 0, 0, 50);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.autoReuse = true;
 			item.maxStack = 999;
 			item.consumable = true;

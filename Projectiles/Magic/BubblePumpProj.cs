@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using SpiritMod.Dusts;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles.Magic
 {
@@ -58,9 +59,8 @@ namespace SpiritMod.Projectiles.Magic
 				projectile.position = player.Center;
 				if (counter < 100) {
 					counter++;
-					if (counter % 20 == 19) {
-						Main.PlaySound(25, (int)projectile.position.X, (int)projectile.position.Y);
-					}
+					if (counter % 20 == 19)
+						Main.PlaySound(SoundID.Item5, (int)projectile.position.X, (int)projectile.position.Y);
 
 					Vector2 dustUnit = direction.RotatedBy(Main.rand.NextFloat(-1,1)) * 0.15f;
 					Vector2 dustOffset = player.Center + (direction * 5.3f) + player.velocity;
@@ -109,7 +109,7 @@ namespace SpiritMod.Projectiles.Magic
 							ModContent.ProjectileType<GunBubble4>(),
 							ModContent.ProjectileType<GunBubble5>()
 						});
-						Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 85);
+						Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 85);
 						Projectile.NewProjectile(player.Center + (direction * 5), direction.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * Main.rand.NextFloat(0.85f, 1.15f), bubbleproj, projectile.damage, projectile.knockBack, projectile.owner);
 					}
 				}

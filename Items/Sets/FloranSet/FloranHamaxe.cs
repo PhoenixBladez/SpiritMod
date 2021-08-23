@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Sets.FloranSet
 			item.width = 44;
 			item.height = 40;
 			item.value = Item.buyPrice(0, 0, 16, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 
 			item.axe = 12;
 			item.hammer = 50;

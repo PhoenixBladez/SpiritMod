@@ -52,12 +52,12 @@ namespace SpiritMod.Items.Sets.MagicMisc.Lightspire
 			item.height = 40;
 			item.useTime = 27;
 			item.mana = 7;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
 			item.useAnimation = 25;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.knockBack = 2;
 			item.value = Terraria.Item.sellPrice(0, 1, 15, 0);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.autoReuse = true;
 			item.shootSpeed = 9;
 			item.UseSound = SoundID.Item110;

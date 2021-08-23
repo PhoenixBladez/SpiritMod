@@ -28,7 +28,7 @@ namespace SpiritMod.NPCs.ExplosiveBarrel
         {
             if (projectile.timeLeft == 29)
             {
-            Main.PlaySound(2, projectile.Center, 14);
+            Main.PlaySound(SoundID.Item, projectile.Center, 14);
             Main.PlaySound(3, projectile.Center, 4);
             for (int num625 = 0; num625 < 2; num625++)
             {

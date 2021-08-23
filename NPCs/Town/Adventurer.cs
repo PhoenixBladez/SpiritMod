@@ -56,10 +56,7 @@ namespace SpiritMod.NPCs.Town
 			animationType = NPCID.Guide;
 		}
 
-		public override bool CanTownNPCSpawn(int numTownNPCs, int money)
-		{
-			return Main.player.Any(x => x.active) && !NPC.AnyNPCs(NPCType<BoundAdventurer>()) && !NPC.AnyNPCs(NPCType<Adventurer>());
-		}
+		public override bool CanTownNPCSpawn(int numTownNPCs, int money) => Main.player.Any(x => x.active) && !NPC.AnyNPCs(NPCType<BoundAdventurer>()) && !NPC.AnyNPCs(NPCType<Adventurer>());
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
@@ -76,10 +73,9 @@ namespace SpiritMod.NPCs.Town
 			string[] names = { "Morgan", "Adam", "Aziz", "Temir", "Evan", "Senzen", "Johanovic", "Adrian", "Christopher" };
 			return Main.rand.Next(names);
 		}
-		public override void NPCLoot()
-		{
-			npc.DropItem(ItemType<AdventurerMap>());
-		}
+
+		public override void NPCLoot() => npc.DropItem(ItemType<AdventurerMap>());
+
 		public override string GetChat()
 		{
 			List<string> dialogue = new List<string>
@@ -93,27 +89,30 @@ namespace SpiritMod.NPCs.Town
 			};
 
 			int merchant = NPC.FindFirstNPC(NPCID.Merchant);
-			if (merchant >= 0) {
+			if (merchant >= 0)
 				dialogue.Add($"I swear I've got more goods for sale than {Main.npc[merchant].GivenName}.");
-			}
 
 			int travellingMerchant = NPC.FindFirstNPC(NPCID.TravellingMerchant);
-			if (travellingMerchant >= 0) {
+			if (travellingMerchant >= 0)
 				dialogue.Add($"Ah! It's {Main.npc[travellingMerchant].GivenName}! We've often met on our journeys. I still haven't found all those exotic jungles he speaks of.");
-			}
 
 			int armsDealer = NPC.FindFirstNPC(NPCID.ArmsDealer);
-			if (armsDealer >= 0) {
+			if (armsDealer >= 0)
 				dialogue.Add($"Got some great prices today! {Main.npc[armsDealer].GivenName}'s wares can't compete! They literally can't. I don't sell guns anymore.");
-			}
 
-			dialogue.AddWithCondition("Like the moon, my merchandise is inconstant.", !Main.dayTime);
+			dialogue.AddWithCondition("Like the moon, my merchandise is inconstent.", !Main.dayTime);
 			dialogue.AddWithCondition("Everyone seems to be so aggressive tonight. With the zombies knocking at our door, I think you should buy stuff and head underground as quick as you can. Can you take me with you?", Main.bloodMoon);
-			dialogue.AddWithCondition("The goblins are more organized than you'd think- I saw their mages build a huge tower over yonder. You should check it out sometime!", MyWorld.gennedTower && !NPC.AnyNPCs(ModContent.NPCType<Rogue>()) && NPC.AnyNPCs(ModContent.NPCType<BoundRogue>()));
-			dialogue.AddWithCondition("My old business partner turned to the bandit life a few years ago. I wonder if he's doing okay. I think his associates have set up a bandit camp somewhere near the seas.", !MyWorld.gennedTower && !NPC.AnyNPCs(ModContent.NPCType<Rogue>()) && NPC.AnyNPCs(ModContent.NPCType<BoundRogue>()));
+			dialogue.AddWithCondition("The goblins are more organized than you'd think- I saw their mages build a huge tower over yonder. You should check it out sometime!", MyWorld.gennedTower && !NPC.AnyNPCs(NPCType<Rogue>()) && NPC.AnyNPCs(NPCType<BoundRogue>()));
+			dialogue.AddWithCondition("My old business partner turned to the bandit life a few years ago. I wonder if he's doing okay. I think his associates have set up a bandit camp somewhere near the seas.", !MyWorld.gennedTower && !NPC.AnyNPCs(NPCType<Rogue>()) && NPC.AnyNPCs(NPCType<BoundRogue>()));
 			dialogue.AddWithCondition("A shimmering blue light's on the horizon. Wonder what that's about, huh?", NPC.downedMechBossAny);
 
 			return Main.rand.Next(dialogue);
+		}
+
+		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+		{
+			if (firstButton)
+				shop = true;
 		}
 
 		public override void SetupShop(Chest shop, ref int nextSlot)
@@ -123,31 +122,13 @@ namespace SpiritMod.NPCs.Town
 			AddItem(ref shop, ref nextSlot, ItemID.WhoopieCushion, 15000, NPC.downedBoss2);
 			AddItem(ref shop, ref nextSlot, ItemID.Book, 20, NPC.downedBoss3);
             AddItem(ref shop, ref nextSlot, ItemType<WWPainting>());
-            AddItem(ref shop, ref nextSlot, ItemType<Items.Placeable.Furniture.SkullStick>(), 1000, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
+            AddItem(ref shop, ref nextSlot, ItemType<SkullStick>(), 1000, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
 			AddItem(ref shop, ref nextSlot, ItemType<AncientBark>(), 200, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
 			AddItem(ref shop, ref nextSlot, ItemType<Items.Sets.GunsMisc.PolymorphGun.PolymorphGun>(), check: NPC.downedMechBossAny);
             AddItem(ref shop, ref nextSlot, ItemType<PinGreen>());
 			AddItem(ref shop, ref nextSlot, ItemType<PinYellow>());
           
-            /*if (MyWorld.sepulchreComplete) {
-				AddItem(ref shop, ref nextSlot, ItemType<SepulchreArrow>());
-				AddItem(ref shop, ref nextSlot, ItemType<SepulchreBannerItem>());
-				AddItem(ref shop, ref nextSlot, ItemType<SepulchreChest>());
-			}
-			if (MyWorld.jadeStaffComplete) {
-				AddItem(ref shop, ref nextSlot, ItemType<PottedSakura>());
-				AddItem(ref shop, ref nextSlot, ItemType<PottedWillow>());
-			}
-			if (MyWorld.vibeShroomComplete) {
-				AddItem(ref shop, ref nextSlot, ItemType<Tiles.Furniture.Critters.VibeshroomJarItem>());
-			}
-			if (MyWorld.drBonesComplete) {
-				AddItem(ref shop, ref nextSlot, ItemType<Items.Consumable.SeedBag>());
-			}
-			if (MyWorld.winterbornComplete) {
-				AddItem(ref shop, ref nextSlot, ItemType<Items.Weapon.Thrown.CryoKnife>());
-			}*/
-            AddItem(ref shop, ref nextSlot, ItemType<Items.Accessory.VitalityStone>(), check: Main.bloodMoon);
+            AddItem(ref shop, ref nextSlot, ItemType<VitalityStone>(), check: Main.bloodMoon);
             int glowStick = Main.moonPhase == 4 && !Main.dayTime ? ItemID.SpelunkerGlowstick : ItemID.StickyGlowstick;
             AddItem(ref shop, ref nextSlot, glowStick);
 
@@ -161,10 +142,6 @@ namespace SpiritMod.NPCs.Town
                     AddItem(ref shop, ref nextSlot, ItemID.UltrabrightTorch);
                     break;
             }
-            /*if (MyWorld.owlComplete)
-            {
-                AddItem(ref shop, ref nextSlot, ItemID.MusicBox);
-            }*/
         }
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)
@@ -191,10 +168,6 @@ namespace SpiritMod.NPCs.Town
 			randomOffset = 2f;
 		}
 
-		public override void SetChatButtons(ref string button, ref string button2)
-		{
-			button = Language.GetTextValue("LegacyInterface.28");
-
-		}
+		public override void SetChatButtons(ref string button, ref string button2) => button = Language.GetTextValue("LegacyInterface.28");
 	}
 }

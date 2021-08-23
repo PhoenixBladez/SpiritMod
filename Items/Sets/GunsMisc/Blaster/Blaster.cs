@@ -23,11 +23,11 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 
 		public override bool CloneNewInstances => true;
 		public int fireType = 1;
+
 		//Stats
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Blaster");
-		}
+
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Blaster");
+
 		public override void SetDefaults()
 		{
 			item.ranged = true;
@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 			item.useTime = 27;
 			item.useAnimation = 27;
 			item.knockBack = 1f;
-			item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
+			item.value = Item.sellPrice(0, 1, 0, 0);
 			item.scale = .85f;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.noMelee = true;
@@ -50,6 +50,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 
 			Generate();
 		}
+
 		public override ModItem Clone(Item itemClone)
 		{
 			var myClone = (Blaster)base.Clone(itemClone);
@@ -62,21 +63,19 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 
 			return myClone;
 		}
+
 		int dustType;
+
 		//Behavior
-		public override bool CanRightClick()
-		{
-			return true;
-		}
-		public override bool ConsumeItem(Player player)
-		{
-			return false;
-		}
+
+		public override bool CanRightClick() => true;
+		public override bool ConsumeItem(Player player) => false;
+
 		public override void HoldItem(Player player)
 		{
 			if (elementPrimary <= 1 && fireType == 1) {
 				SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/GunsMisc/Blaster/Blaster_FireGlow");
-				dustType = 6;
+				dustType = DustID.Fire;
 			}
 			if (elementPrimary >= 2 && fireType == 1) {
 				SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/GunsMisc/Blaster/Blaster_CorrosiveGlow");
@@ -93,34 +92,33 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 		}
 		public override void RightClick(Player player)
 		{
-			if (elementPrimary <= 1) {
+			if (elementPrimary <= 1)
 				elementalType = "Fire";
-			}
-			if (elementPrimary >= 2) {
+			if (elementPrimary >= 2)
 				elementalType = "Poison";
-			}
-			if (elementSecondary <= 4) {
+			if (elementSecondary <= 4)
 				elementalType2 = "Shock";
-			}
-			if (elementSecondary >= 5) {
+			if (elementSecondary >= 5)
 				elementalType2 = "Freeze";
-			}
+
+			if (fireType == 1)
 			{
-				if (fireType == 1) {
-					item.useAnimation = elementPrimary;
-					CombatText.NewText(new Rectangle((int)player.position.X, (int)player.position.Y - 10, player.width, player.height), new Color(255, 255, 255, 100),
-				   elementalType2);
-					fireType++;
-				}
-				else if (fireType == 2) {
-					item.useAnimation = item.useTime;
-					CombatText.NewText(new Rectangle((int)player.position.X, (int)player.position.Y - 10, player.width, player.height), new Color(255, 255, 255, 100),
-				   elementalType);
-					fireType--;
-				}
+				item.useAnimation = elementPrimary;
+				CombatText.NewText(new Rectangle((int)player.position.X, (int)player.position.Y - 10, player.width, player.height), new Color(255, 255, 255, 100),
+			   elementalType2);
+				fireType++;
+			}
+			else if (fireType == 2)
+			{
+				item.useAnimation = item.useTime;
+				CombatText.NewText(new Rectangle((int)player.position.X, (int)player.position.Y - 10, player.width, player.height), new Color(255, 255, 255, 100),
+			   elementalType);
+				fireType--;
 			}
 		}
+
 		int magazine = 1;
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MaliwanShot1"));
@@ -171,9 +169,8 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 		};
 		public override void Load(TagCompound tag)
 		{
-			if (!tag.ContainsKey(nameof(nameIndex))) {
+			if (!tag.ContainsKey(nameof(nameIndex)))
 				return;
-			}
 
 			nameIndex = tag.Get<ushort>(nameof(nameIndex));
 			elementPrimary = tag.Get<int>(nameof(elementPrimary));
@@ -205,10 +202,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 
 			ApplyStats();
 		}
-		public void ApplyStats()
-		{
-			item.SetNameOverride(WeaponName);
-		}
+		public void ApplyStats() => item.SetNameOverride(WeaponName);
 		public string elementalType;
 		public string elementalType2;
 		public override void ModifyTooltips(List<TooltipLine> tooltips)

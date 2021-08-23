@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 			item.useAmmo = AmmoID.Arrow;
 			item.knockBack = 3;
 			item.UseSound = SoundID.Item5;
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.value = Item.sellPrice(gold: 2);
 			item.autoReuse = true;
 			item.shootSpeed = 12f;

@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Sapphire_Bow
 	{
 		public override void SetDefaults()
 		{
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 27;
 			item.useTime = 27;
 			item.width = 12;
@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Sapphire_Bow
 			item.damage = 12;
 			item.shootSpeed = 8f;
 			item.knockBack = 0.5f;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.noMelee = true;
             item.value = Terraria.Item.sellPrice(0, 0, 67, 50);
             item.ranged = true;

@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Sets.ThrownMisc.FlaskofGore
 			item.damage = 15;
 			item.knockBack = 4.5f;
 			item.value = Item.sellPrice(0, 0, 0, 25);
-			item.rare = 2;
+			item.rare = ItemRarityID.Green;
 			item.autoReuse = false;
 			item.consumable = true;
 		}

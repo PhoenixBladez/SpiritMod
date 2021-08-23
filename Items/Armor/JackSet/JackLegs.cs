@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Armor.JackSet
 			item.width = 30;
 			item.height = 30;
 			item.value = Item.sellPrice(0, 0, 20, 0);
-			item.rare = 6;
+			item.rare = ItemRarityID.LightPurple;
 
 			item.vanity = true;
 		}

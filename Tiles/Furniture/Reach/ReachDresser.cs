@@ -134,7 +134,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			int chestIndex = Chest.FindChest(left, top);
 			player.showItemIcon2 = -1;
 			if (chestIndex < 0) {
-				player.showItemIconText = Lang.dresserType[0].Value;
+				player.showItemIconText = Language.GetTextValue("LegacyDresserType.0");
 			}
 			else {
 				if (Main.chest[chestIndex].name != "") {
@@ -169,7 +169,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			int num138 = Chest.FindChest(left, top);
 			player.showItemIcon2 = -1;
 			if (num138 < 0) {
-				player.showItemIconText = Lang.dresserType[0].Value;
+				player.showItemIconText = Language.GetTextValue("LegacyDresserType.0");
 			}
 			else {
 				if (Main.chest[num138].name != "") {

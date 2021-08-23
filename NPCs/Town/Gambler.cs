@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static SpiritMod.NPCUtils;
 using static Terraria.ModLoader.ModContent;
+using Terraria.Localization;
 
 namespace SpiritMod.NPCs.Town
 {
@@ -50,15 +51,13 @@ namespace SpiritMod.NPCs.Town
 			animationType = NPCID.Guide;
 		}
 
-
-
 		public override bool CanTownNPCSpawn(int numTownNPCs, int money)
 		{
 			for (int k = 0; k < 255; k++) {
 				Player player = Main.player[k];
 				if (player.active) {
 					for (int j = 0; j < player.inventory.Length; j++) {
-						if (player.inventory[j].type == ItemID.GoldCoin && !NPC.AnyNPCs(ModContent.NPCType<BoundGambler>())) {
+						if (player.inventory[j].type == ItemID.GoldCoin && !NPC.AnyNPCs(NPCType<BoundGambler>())) {
 							return true;
 						}
 					}
@@ -66,8 +65,6 @@ namespace SpiritMod.NPCs.Town
 			}
 			return false;
 		}
-
-
 
 		public override string TownNPCName()
 		{
@@ -89,22 +86,9 @@ namespace SpiritMod.NPCs.Town
 			}
 		}
 
-		public override void FindFrame(int frameHeight)
-		{
-			/*npc.frame.Width = 40;
-			if (((int)Main.time / 10) % 2 == 0)
-			{
-				npc.frame.X = 40;
-			}
-			else
-			{
-				npc.frame.X = 0;
-			}*/
-		}
-
 		public override string GetChat()
 		{
-			List<string> dialogue = new List<string>
+			var dialogue = new List<string>
 			{
 				"Gambling is the sport of royals. Why don't you take a chance?",
 				"I should warn you, my game isn't for the faint of heart.",
@@ -141,16 +125,12 @@ namespace SpiritMod.NPCs.Town
 		}
 		*/
 
-		public override void SetChatButtons(ref string button, ref string button2)
-		{
-			button = Lang.inter[28].Value;
-		}
+		public override void SetChatButtons(ref string button, ref string button2) => button = Language.GetTextValue("LegacyInterface.28");
 
 		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
 		{
-			if (firstButton) {
+			if (firstButton)
 				shop = true;
-			}
 		}
 
 		public override void SetupShop(Chest shop, ref int nextSlot)
@@ -159,12 +139,9 @@ namespace SpiritMod.NPCs.Town
 			AddItem(ref shop, ref nextSlot, ItemType<SilverChest>());
 			AddItem(ref shop, ref nextSlot, ItemType<GoldChest>());
 			AddItem(ref shop, ref nextSlot, ItemType<PlatinumChest>());
-			nextSlot++;
-			nextSlot++;
-			nextSlot++;
-			nextSlot++;
-			nextSlot++;
-			nextSlot++;
+
+			nextSlot += 6;
+
 			switch (Main.moonPhase) {
 				case 0 when !Main.dayTime:
 					AddItem(ref shop, ref nextSlot, ItemType<AceOfClubs>());

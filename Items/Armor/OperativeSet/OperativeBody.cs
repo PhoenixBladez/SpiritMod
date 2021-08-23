@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Armor.OperativeSet
 			item.width = 30;
 			item.height = 20;
 			item.value = Terraria.Item.buyPrice(0, 1, 50, 0);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.vanity = true;
 		}
 		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)

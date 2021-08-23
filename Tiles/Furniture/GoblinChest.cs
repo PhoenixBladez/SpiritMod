@@ -35,7 +35,7 @@ namespace SpiritMod.Tiles.Furniture
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Dynasty Chest");
 			AddMapEntry(new Color(120, 82, 49), name, MapChestName);
-			dustType = 0;
+			dustType = DustID.Dirt;
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Containers };
 			chestDrop = ItemID.DynastyChest;
@@ -151,7 +151,7 @@ namespace SpiritMod.Tiles.Furniture
 			int chest = Chest.FindChest(left, top);
 			player.showItemIcon2 = -1;
 			if (chest < 0) {
-				player.showItemIconText = Lang.chestType[0].Value;
+				player.showItemIconText = Language.GetTextValue("LegacyChestType.0");
 			}
 			else {
 				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Dynasty Chest";

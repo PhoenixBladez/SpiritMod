@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Sets.HuskstalkSet.ElderbarkArmor
 			item.width = 28;
 			item.height = 24;
 			item.value = 0;
-			item.rare = 0;
+			item.rare = ItemRarityID.White;
 			item.defense = 2;
 		}
 		public override void UpdateEquip(Player player)

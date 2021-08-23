@@ -28,11 +28,7 @@ namespace SpiritMod.Items.Consumable
 			item.autoReuse = false;
 		}
 
-
-		public override bool CanRightClick()
-		{
-			return true;
-		}
+		public override bool CanRightClick() => true;
 
 		public override void RightClick(Player player)
 		{

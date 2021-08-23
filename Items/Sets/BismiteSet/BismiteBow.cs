@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Sets.BismiteSet
 			item.knockBack = 1;
 			item.useTurn = false;
 			item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.UseSound = SoundID.Item5;
 			item.autoReuse = false;
 			item.shootSpeed = 6.5f;

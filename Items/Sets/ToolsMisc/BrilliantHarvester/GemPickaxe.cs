@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Sets.ToolsMisc.BrilliantHarvester
 			item.width = 32;
 			item.height = 32;
 			item.value = 12000;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 
 			item.pick = 55;
 

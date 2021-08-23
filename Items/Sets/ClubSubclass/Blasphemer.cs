@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Sets.ClubSubclass
             item.knockBack = 10;
             item.useTurn = false;
             item.value = Terraria.Item.sellPrice(0, 0, 90, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.autoReuse = false;
             item.shoot = mod.ProjectileType("BlasphemerProj");
             item.shootSpeed = 6f;

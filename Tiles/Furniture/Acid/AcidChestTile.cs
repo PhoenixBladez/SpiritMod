@@ -35,7 +35,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Corrosive Chest");
 			AddMapEntry(new Color(100, 122, 111), name);
-			dustType = 0;
+			dustType = DustID.Dirt;
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Containers };
 			chestDrop = ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidChest>();
@@ -155,7 +155,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			int chest = Chest.FindChest(left, top);
 			player.showItemIcon2 = -1;
 			if (chest < 0) {
-				player.showItemIconText = Lang.chestType[0].Value;
+				player.showItemIconText = Language.GetTextValue("LegacyChestType.0");
 			}
 			else {
 				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Corrosive Chest";

@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Coral_Catcher
             item.CloneDefaults(ItemID.GoldenFishingRod); 
             item.fishingPole = 18;  
             item.value = Item.sellPrice(silver: 25);
-            item.rare = 1;  
+            item.rare = ItemRarityID.Blue;  
             item.shoot = mod.ProjectileType("Coral_Catcher_Hook");
             item.shootSpeed = 14f;
         }

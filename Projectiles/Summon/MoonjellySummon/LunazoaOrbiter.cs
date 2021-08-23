@@ -80,7 +80,7 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
                 float dist = projectile.Distance(mainTarget.Center);
                 if (dist / 16 < 30)
                 {
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 110);
+                    Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 110);
                     Vector2 direction = mainTarget.Center - projectile.Center;
                     direction.Normalize();
                     direction *= 15f;
@@ -106,7 +106,7 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
                         {
                             if (!Main.npc[npcFinder].friendly && !Main.npc[npcFinder].townNPC && Main.npc[npcFinder].active)
                             {
-                                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 110);
+                                Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 110);
                                 Vector2 direction = Main.npc[npcFinder].Center - projectile.Center;
                                 direction.Normalize();
                                 direction *= 15f;

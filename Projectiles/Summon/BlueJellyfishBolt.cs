@@ -28,15 +28,13 @@ namespace SpiritMod.Projectiles.Summon
 			aiType = ProjectileID.Bullet;
 			projectile.extraUpdates = 3;
 		}
-		int timer;
+
         public override void AI()
         {
             for (int i = 0; i < 5; i++)
             {
-                Dust dust;
-                // You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle.
                 Vector2 position = projectile.Center;
-                dust = Main.dust[Terraria.Dust.NewDust(position, 0, 0, 226, 0f, 0f, 0, new Color(255, 255, 255), 0.464947368f)];
+                Dust dust = Main.dust[Dust.NewDust(position, 0, 0, DustID.Electric, 0f, 0f, 0, new Color(255, 255, 255), 0.464947368f)];
                 dust.noLight = true;
                 dust.noGravity = true;
                 dust.velocity = Vector2.Zero;
@@ -44,10 +42,9 @@ namespace SpiritMod.Projectiles.Summon
             }
 			if (Main.rand.NextBool(3))
             {
-                Dust dust;
                 // You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle.
                 Vector2 position = projectile.Center;
-                dust = Main.dust[Terraria.Dust.NewDust(position, (int)projectile.velocity.X, (int)projectile.velocity.Y, 226, 0f, 0f, 0, new Color(255, 255, 255), 0.464947368f)];
+                Dust dust = Main.dust[Dust.NewDust(position, (int)projectile.velocity.X, (int)projectile.velocity.Y, DustID.Electric, 0f, 0f, 0, new Color(255, 255, 255), 0.464947368f)];
                 dust.noLight = true;
                 dust.noGravity = true;
                 dust.velocity *= .6f;
@@ -55,15 +52,12 @@ namespace SpiritMod.Projectiles.Summon
             }
         }
 
-		public override void Kill(int timeLeft)
-		{
-			Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 3);
-		}
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		public override void Kill(int timeLeft) => Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 3);
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             for (int i = 0; i < 10; i++)
             {
-                int num = Dust.NewDust(target.position, target.width, target.height, 226, 0f, -2f, 0, default(Color), 2f);
+                int num = Dust.NewDust(target.position, target.width, target.height, DustID.Electric, 0f, -2f, 0, default, 2f);
                 Main.dust[num].noGravity = true;
                 Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(96, Main.LocalPlayer);
                 Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;

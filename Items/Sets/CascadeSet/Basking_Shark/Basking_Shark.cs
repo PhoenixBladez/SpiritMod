@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Basking_Shark
 
 		public override void SetDefaults()
 		{
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.autoReuse = true;
 			item.useAnimation = 39;
 			item.useTime = 13;
@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Basking_Shark
 			item.knockBack = .25f;
 			item.useAmmo = AmmoID.Bullet;
 			item.ranged = true;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 		}
 
         public override void AddRecipes()

@@ -45,18 +45,19 @@ namespace SpiritMod.Tiles.Furniture
 			player.showItemIconText = "Take a piece of candy";
 		}
 
-		public override void RightClick(int i, int j)
+		public override bool NewRightClick(int i, int j)
 		{
 			if (Main.dayTime)
-				return;
+				return false;
 
 			Player player = Main.player[Main.myPlayer];
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
 			if (modPlayer.candyInBowl <= 0)
-				return;
+				return false;
 
 			ItemUtils.DropCandy(player);
 			modPlayer.candyInBowl--;
+			return true;
 		}
 	}
 }

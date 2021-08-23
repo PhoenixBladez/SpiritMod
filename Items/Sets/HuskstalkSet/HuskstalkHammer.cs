@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Sets.HuskstalkSet
 		{
 			item.width = 38;
 			item.height = 30;
-			item.rare = 0;
+			item.rare = ItemRarityID.White;
 			item.hammer = 40;
 			item.damage = 8;
 			item.knockBack = 5.5f;

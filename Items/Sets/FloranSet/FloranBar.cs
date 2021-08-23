@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Sets.FloranSet
 			item.height = 24;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.value = 550;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.createTile = ModContent.TileType<FloranBarTile>();
 			item.maxStack = 999;
 			item.autoReuse = true;

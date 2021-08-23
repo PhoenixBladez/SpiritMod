@@ -60,7 +60,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.Scattergun
 		}
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-            Main.PlaySound(2, player.Center, 12);
+            Main.PlaySound(SoundID.Item, player.Center, 12);
 			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY - 1)) * 45f;
 			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
 				position += muzzleOffset;

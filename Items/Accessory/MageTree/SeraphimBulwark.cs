@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Accessory.MageTree
 			item.width = 36;
 			item.height = 36;
 			item.value = Item.sellPrice(0, 0, 80, 0);
-			item.rare = 2;
+			item.rare = ItemRarityID.Green;
             item.defense = 4;
 			item.accessory = true;
 		}

@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using SpiritMod.Projectiles.Magic;
 using SpiritMod.NPCs.Boss.MoonWizard.Projectiles;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles.Bullet
 {
@@ -28,7 +29,6 @@ namespace SpiritMod.Projectiles.Bullet
 			projectile.timeLeft = 999999;
 		}
 
-		bool firing = false;
 		Vector2 direction = Vector2.Zero;
         int counter = 0;
         Vector2 holdOffset = new Vector2(0, -15);
@@ -45,16 +45,12 @@ namespace SpiritMod.Projectiles.Bullet
                 }
 				if (counter == 45 || counter == 140)
                 {
-                    Main.PlaySound(25, (int)projectile.position.X, (int)projectile.position.Y);
+                    Main.PlaySound(SoundID.Item5, (int)projectile.position.X, (int)projectile.position.Y);
                 }
 				if (counter == 45)
-                {
                     DustHelper.DrawDustImage(player.Center, 226, 0.11f, "SpiritMod/Effects/DustImages/MoonSigil", 1f);
-                }
 				if (counter == 140)
-                {
                     DustHelper.DrawDustImage(player.Center, 226, 0.18f, "SpiritMod/Effects/DustImages/MoonSigil", 1f);
-                }
                 player.itemTime = 5;
                 player.itemAnimation = 5;
                 projectile.position = player.Center + holdOffset;
@@ -71,7 +67,7 @@ namespace SpiritMod.Projectiles.Bullet
 					player.PickAmmo(player.inventory[player.selectedItem], ref shoot, ref speed, ref canshoot, ref projectile.damage, ref projectile.knockBack, false);
 					if (counter < 45)
 					{
-						Main.PlaySound(2, projectile.Center, 96);
+						Main.PlaySound(SoundID.Item, projectile.Center, 96);
 						direction /= 2f;
 						int proj = Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction * speed, shoot, 12, projectile.knockBack / 4, 0, projectile.owner);
 						Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanShockCommon = true;
@@ -111,7 +107,7 @@ namespace SpiritMod.Projectiles.Bullet
             Vector2 vec = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
             Vector2 vel = vec * Main.rand.NextFloat(minSpeed, maxSpeed);
 
-            int dust = Dust.NewDust(position - vec * distance, 0, 0, 226);
+            int dust = Dust.NewDust(position - vec * distance, 0, 0, DustID.Electric);
             Main.dust[dust].noGravity = true;
             Main.dust[dust].scale *= .3f;
             Main.dust[dust].velocity = vel;

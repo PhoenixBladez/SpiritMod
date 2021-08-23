@@ -67,7 +67,7 @@ namespace SpiritMod.NPCs.GraniteSlime
 						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 				}
 				jump = false;
-				Main.PlaySound(2, npc.Center, 110);
+				Main.PlaySound(SoundID.Item, npc.Center, 110);
 				int damage = expertMode ? 11 : 21;
 				if (distance < 92) {
 					target.AddBuff(BuffID.Confused, 180);

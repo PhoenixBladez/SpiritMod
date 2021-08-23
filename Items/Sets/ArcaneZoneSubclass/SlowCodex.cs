@@ -1,12 +1,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Armor;
-using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Summon.Zones;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Items.Material;
 
 namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 {
@@ -50,11 +47,11 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 			item.height = 50;
 			item.useTime = 31;
 			item.useAnimation = 31;
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.noMelee = true;
 			item.knockBack = 0;
 			item.value = 10000;
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.UseSound = SoundID.DD2_EtherianPortalSpawnEnemy;
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<SlowZone>();

@@ -25,12 +25,9 @@ namespace SpiritMod.Items.Sets.AvianDrops
 			item.expert = true;
 		}
 
-		public override bool CanRightClick()
-		{
-			return true;
-		}
+		public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+		public override void RightClick(Player player)
         {
             player.QuickSpawnItem(ModContent.ItemType<AvianHook>());
             player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(5, 9));

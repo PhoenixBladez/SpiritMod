@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Armor.StarjinxSet
             item.width = 28;
             item.height = 28;
             item.value = Item.sellPrice(gold : 2);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
 			item.vanity = true;
 		}
 		public override void DrawHair(ref bool drawHair, ref bool drawAltHair) => drawHair = drawAltHair = false;

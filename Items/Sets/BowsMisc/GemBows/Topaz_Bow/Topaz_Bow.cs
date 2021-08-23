@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Topaz_Bow
 	{
 		public override void SetDefaults()
 		{
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 28;
 			item.useTime = 28;
 			item.width = 12;
@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Topaz_Bow
 			item.damage = 11;
 			item.shootSpeed = 7f;
 			item.knockBack = 0.5f;
-			item.rare = 0;
+			item.rare = ItemRarityID.White;
 			item.noMelee = true;
             item.value = Terraria.Item.sellPrice(0, 0, 45, 0);
             item.ranged = true;

@@ -56,7 +56,7 @@ namespace SpiritMod.NPCs.Tides
 					projectile.alpha += 10;
 				}
 				if (projectile.ai[1] == 50) {
-					Main.PlaySound(2, projectile.Center, 103);
+					Main.PlaySound(SoundID.Item, projectile.Center, 103);
 				}
 				if (projectile.ai[1] == 55) {
 					projectile.alpha = 0;

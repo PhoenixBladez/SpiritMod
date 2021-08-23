@@ -186,7 +186,6 @@ namespace SpiritMod.Items.Halloween
 			tooltips.Add(line);
 		}
 
-
 		public override TagCompound Save()
 		{
 			TagCompound tag = new TagCompound();

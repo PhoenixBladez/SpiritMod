@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Sets.FloranSet
 			item.shoot = ProjectileID.Shuriken; //Makes the bow shoot arrows
 			item.useAmmo = AmmoID.Arrow; //Makes the bow consume arrows
 			item.knockBack = 1; //The amount of knockback the item has
-			item.rare = 1; //The item's name color
+			item.rare = ItemRarityID.Blue; //The item's name color
 			item.UseSound = SoundID.Item5; //Sound that gets played on use
 			item.autoReuse = true; //if the Bow autoreuses or not
 			item.shootSpeed = 8f; //The arrows speed when shot

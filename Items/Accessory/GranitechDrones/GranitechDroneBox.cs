@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Accessory.GranitechDrones
 			item.width = 24;
 			item.height = 24;
 			item.value = Item.buyPrice(0, 3, 0, 0);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.accessory = true;
 		}
 		public override void UpdateAccessory(Player player, bool hideVisual)

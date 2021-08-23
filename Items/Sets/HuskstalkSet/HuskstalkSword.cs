@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Sets.HuskstalkSet
 			item.useAnimation = 25;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 5;
-			item.rare = 0;
+			item.rare = ItemRarityID.White;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.value = Item.sellPrice(0, 0, 0, 20);

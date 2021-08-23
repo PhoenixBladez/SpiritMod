@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Consumable.Quest
 		public override void SetDefaults()
 		{
 			item.width = item.height = 16;
-			item.rare = 2;
+			item.rare = ItemRarityID.Green;
 			item.maxStack = 99;
 		}
 		public override void ModifyTooltips(List<TooltipLine> tooltips)

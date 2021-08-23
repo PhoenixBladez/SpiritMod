@@ -35,7 +35,7 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Asteroid Chest");
 			AddMapEntry(new Color(125, 116, 115), name);
-			dustType = 0;
+			dustType = DustID.Dirt;
 			adjTiles = new int[] { TileID.Containers };
 			TileID.Sets.BasicChest[Type] = true;
 			chestDrop = ModContent.ItemType<Items.Placeable.Furniture.AsteroidChest>();
@@ -167,7 +167,7 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
             player.showItemIcon2 = -1;
             if (chest < 0)
             {
-                player.showItemIconText = Lang.chestType[0].Value;
+                player.showItemIconText = Language.GetTextValue("LegacyChestType.0");
             }
             else
             {

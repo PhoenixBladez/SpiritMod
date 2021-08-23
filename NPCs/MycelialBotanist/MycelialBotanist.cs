@@ -110,7 +110,7 @@ namespace SpiritMod.NPCs.MycelialBotanist
 					npc.frameCounter = 0;
 				}
 				if (frame == 10 && npc.frameCounter == 6) {
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 1);
+					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 1);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Vector2 direction = Main.player[npc.target].Center - npc.Center;

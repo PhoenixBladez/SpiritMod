@@ -39,15 +39,10 @@ namespace SpiritMod.Tiles.Furniture.JadeDragonStatue
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Jade Dragon Statuette");
 			AddMapEntry(Color.DarkOliveGreen, name);
-			dustType = 128;
+			dustType = DustID.Chlorophyte;
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
-		{
-			offsetY = 2;
-		}
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Terraria.Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Tiles.Furniture.JadeDragonStatue.DragonStatueItem>());
-		}
+
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<DragonStatueItem>());
 	}
 }

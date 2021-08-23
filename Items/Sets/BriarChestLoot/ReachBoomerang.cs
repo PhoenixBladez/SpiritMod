@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Sets.BriarChestLoot
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 3;
 			item.value = Terraria.Item.sellPrice(0, 0, 4, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.shootSpeed = 8f;
 			item.shoot = ModContent.ProjectileType<Projectiles.Returning.ReachBoomerang>();
 			item.UseSound = SoundID.Item1;

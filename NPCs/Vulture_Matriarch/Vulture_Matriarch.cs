@@ -115,7 +115,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 					{
 						if (npc.ai[3] % 55 == 0 && Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 73, 1f, -0.5f);
+							Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 73, 1f, -0.5f);
 							Vector2 vector2_1 = new Vector2((float)player.Center.X, (float)player.Center.Y);
 							Vector2 vector2_2 = Vector2.Normalize(vector2_1 - npc.Center) * 12f;
 							int numberProjectiles = 3 + Main.rand.Next(4);
@@ -132,7 +132,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 					{
 						if (npc.ai[3] % 110 == 0 && Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 73, 1f, -0.5f);
+							Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 73, 1f, -0.5f);
 							Vector2 vector2_1 = new Vector2((float)player.Center.X, (float)player.Center.Y);
 							Vector2 vector2_2 = Vector2.Normalize(vector2_1 - npc.Center) * 12f;
 							int numberProjectiles = 2 + Main.rand.Next(4);
@@ -422,7 +422,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 					else if (npc.frameCounter < animationSpeed * 5)
 					{
 						npc.frame.Y = 4 * frameHeight;
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 32, 1f, 0f);
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 32, 1f, 0f);
 					}
 					else
 					{

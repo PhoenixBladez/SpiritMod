@@ -28,10 +28,8 @@ namespace SpiritMod.Items.Consumable
 			item.consumable = true;
 
 		}
-		public override bool CanRightClick()
-		{
-			return true;
-		}
+
+		public override bool CanRightClick() => true;
 
 		public override void RightClick(Player player)
 		{
@@ -67,15 +65,12 @@ namespace SpiritMod.Items.Consumable
 					player.QuickSpawnItem(potions);
 				}
 			}
-			if (Main.rand.Next(20) == 1) {
+			if (Main.rand.Next(20) == 1)
 				player.QuickSpawnItem(3200);
-			}
-			if (Main.rand.Next(20) == 1) {
+			if (Main.rand.Next(20) == 1)
 				player.QuickSpawnItem(3201);
-			}
-			if (Main.rand.Next(23) == 1) {
+			if (Main.rand.Next(23) == 1)
 				player.QuickSpawnItem(997);
-			}
 			player.QuickSpawnItem(72, Main.rand.Next(7, 16));
 		}
 	}

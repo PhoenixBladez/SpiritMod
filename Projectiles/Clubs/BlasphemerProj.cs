@@ -30,7 +30,7 @@ namespace SpiritMod.Projectiles.Clubs
             }
 			int a = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, -12, ModContent.ProjectileType<Projectiles.Magic.Firespike>(), projectile.damage/3, projectile.knockBack / 2, projectile.owner, 0, player.direction);
             Main.projectile[a].melee = true;
-            Main.PlaySound(2, projectile.Center, 20);
+            Main.PlaySound(SoundID.Item, projectile.Center, 20);
         }
         public override void SafeDraw(SpriteBatch spriteBatch, Color lightColor)
 		{

@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.MeteoriteSpewer
 
 		public override void SetDefaults()
 		{
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 66;
 			item.useTime = 22;
 			item.width = 44;
@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.MeteoriteSpewer
 			item.noMelee = true;
 			item.value = Item.sellPrice(silver: 50);
 			item.knockBack = 3.2f;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.ranged = true;
 		}
 		public override bool ConsumeAmmo(Player player)

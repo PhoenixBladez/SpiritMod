@@ -68,25 +68,25 @@ namespace SpiritMod.NPCs.Undead_Warlock
 				}
 			}
 			else
-				npc.frame.Y = 2*frameHeight;
+				npc.frame.Y = 2 * frameHeight;
 		}
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];
 			npc.TargetClosest(true);
 			npc.spriteDirection = npc.direction;
-			
+
 			spawningCrystalsTimer++;
 			if (spawningCrystalsTimer >= 240)
 				spawningCrystals = true;
 			else
 				spawningCrystals = false;
-			
+
 			if (spawningCrystals)
 			{
-				
+
 				npc.aiStyle = -1;
-				npc.velocity.X = 0f;		
+				npc.velocity.X = 0f;
 				npc.velocity.Y = 4f;
 				if (npc.collideY)
 				{
@@ -95,7 +95,7 @@ namespace SpiritMod.NPCs.Undead_Warlock
 						projectileTimer++;
 					if (crystalTimer == 45 && Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8, 1f, 0f);
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8, 1f, 0f);
 						crystal1 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 90, 0f, 0f, mod.ProjectileType("Undead_Warlock_Crystal"), 10, 3f, 0);
 						crystal2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 90, 0f, 0f, mod.ProjectileType("Undead_Warlock_Crystal"), 10, 3f, 0);
 						crystal3 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 90, 0f, 0f, mod.ProjectileType("Undead_Warlock_Crystal"), 10, 3f, 0);
@@ -106,7 +106,7 @@ namespace SpiritMod.NPCs.Undead_Warlock
 						Main.projectile[crystal2].ai[1] = npc.whoAmI;
 						Main.projectile[crystal3].ai[1] = npc.whoAmI;
 					}
-					
+
 					if (projectileTimer % 60 == 0 && Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						int chosenProjectile = 0;
@@ -128,17 +128,17 @@ namespace SpiritMod.NPCs.Undead_Warlock
 								break;
 						}
 						spawnedProjectiles++;
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 28, 1f, 0f);
-						int chosenDust = Main.rand.Next(2)==0 ? 173 : 157;
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 28, 1f, 0f);
+						int chosenDust = Main.rand.Next(2) == 0 ? 173 : 157;
 						int p = Projectile.NewProjectile(npc.Center.X + 2, npc.Center.Y - 88, 0f, 0f, chosenProjectile, 20, 3f, 0);
 						Main.projectile[p].ai[1] = npc.whoAmI;
 						int num = 10;
 						for (int index1 = 0; index1 < num; ++index1)
 						{
-						  int index2 = Dust.NewDust(new Vector2(npc.Center.X + 2, npc.Center.Y - 88), 0, 0, chosenDust, 0.0f, 0.0f, 0, new Color(), 0.75f);
-						  Main.dust[index2].velocity *= 1.2f;
-						  --Main.dust[index2].velocity.Y;
-						  Main.dust[index2].position = Vector2.Lerp(Main.dust[index2].position, new Vector2(npc.Center.X + 2, npc.Center.Y - 88), 0.75f);
+							int index2 = Dust.NewDust(new Vector2(npc.Center.X + 2, npc.Center.Y - 88), 0, 0, chosenDust, 0.0f, 0.0f, 0, new Color(), 0.75f);
+							Main.dust[index2].velocity *= 1.2f;
+							--Main.dust[index2].velocity.Y;
+							Main.dust[index2].position = Vector2.Lerp(Main.dust[index2].position, new Vector2(npc.Center.X + 2, npc.Center.Y - 88), 0.75f);
 						}
 					}
 					if (spawnedProjectiles >= 2)
@@ -148,23 +148,23 @@ namespace SpiritMod.NPCs.Undead_Warlock
 						Main.projectile[crystal1].Kill();
 						Main.projectile[crystal2].Kill();
 						Main.projectile[crystal3].Kill();
-						crystalTimer = 0;		
-						spawningCrystalsTimer = 0;				
+						crystalTimer = 0;
+						spawningCrystalsTimer = 0;
 						spawnedProjectiles = 0;
 						projectileTimer = 1;
-						resetTimer = 0;	
-						npc.netUpdate = true;	
+						resetTimer = 0;
+						npc.netUpdate = true;
 					}
 					if (Main.projectile[crystal1].active && Main.projectile[crystal2].active && Main.projectile[crystal3].active && crystalTimer > 59)
 					{
-						drawDustBeetweenThisAndThat(Main.projectile[crystal1].Center, Main.projectile[crystal2].Center);
-						drawDustBeetweenThisAndThat(Main.projectile[crystal2].Center, Main.projectile[crystal3].Center);
-						drawDustBeetweenThisAndThat(Main.projectile[crystal3].Center, Main.projectile[crystal1].Center);
-						if (Main.rand.Next(2)==0)
+						DrawDustBeetweenThisAndThat(Main.projectile[crystal1].Center, Main.projectile[crystal2].Center);
+						DrawDustBeetweenThisAndThat(Main.projectile[crystal2].Center, Main.projectile[crystal3].Center);
+						DrawDustBeetweenThisAndThat(Main.projectile[crystal3].Center, Main.projectile[crystal1].Center);
+						if (Main.rand.Next(2) == 0)
 						{
 							for (int i = 0; i < 7; i++)
 							{
-								int chosenDust = Main.rand.Next(2)==0 ? 173 : 157;
+								int chosenDust = Main.rand.Next(2) == 0 ? 173 : 157;
 								Vector2 offset = new Vector2();
 								double angle = Main.rand.NextDouble() * 2d * Math.PI;
 								offset.X += (float)(Math.Sin(angle) * 17f);
@@ -182,14 +182,14 @@ namespace SpiritMod.NPCs.Undead_Warlock
 			else
 				npc.aiStyle = 3;
 		}
-		public static void drawDustBeetweenThisAndThat(Vector2 vector3, Vector2 vector1)
+		public static void DrawDustBeetweenThisAndThat(Vector2 vector3, Vector2 vector1)
 		{
 			Vector2 range = vector3 - vector1;
-			if (Main.rand.Next(12)==0)
+			if (Main.rand.Next(12) == 0)
 			{
 				for (int i = 0; i < 8; i++)
 				{
-					int chosenDust = Main.rand.Next(2)==0 ? 173 : 157;
+					int chosenDust = Main.rand.Next(2) == 0 ? 173 : 157;
 					Dust dust = Main.dust[Dust.NewDust(vector1 + range * Main.rand.NextFloat() + Vector2.Zero, 0, 0, chosenDust)];
 					dust.noGravity = true;
 					dust.noLight = false;
@@ -201,15 +201,12 @@ namespace SpiritMod.NPCs.Undead_Warlock
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(3) == 0)
-			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 216, 1);
-			}
 			if (Main.rand.Next(10) == 0)
-			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1304, 1);
-			}
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Undead_Warlock_Staff"));
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)
@@ -217,21 +214,20 @@ namespace SpiritMod.NPCs.Undead_Warlock
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/UndeadScientist/UndeadScientistGore4"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/UndeadScientist/UndeadScientistGore3"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/UndeadScientist/UndeadScientistGore2"), 1f);
-				Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 22, 1f, -0.9f);
+				Main.PlaySound(SoundID.Item9.SoundId, (int)npc.position.X, (int)npc.position.Y, 22, 1f, -0.9f);
 			}
 			for (int k = 0; k < 7; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, 2.5f * hitDirection, -2.5f, 0, default(Color), 1.2f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.5f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
-			}			
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, 0.5f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
+			}
 		}
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (NPC.AnyNPCs(ModContent.NPCType<Undead_Warlock>()) || spawnInfo.playerSafe)
-			{
 				return 0f;
-			}
 			return SpawnCondition.OverworldNightMonster.Chance * 0.001f;
 		}
 	}

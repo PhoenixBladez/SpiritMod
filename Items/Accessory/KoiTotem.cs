@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Accessory
 			item.width = 34;
 			item.height = 36;
 			item.value = Item.sellPrice(gold: 1);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.accessory = true;
 			item.consumable = true;
 			item.useStyle = ItemUseStyleID.SwingThrow;

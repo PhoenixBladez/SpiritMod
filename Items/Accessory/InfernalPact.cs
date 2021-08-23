@@ -11,8 +11,6 @@ namespace SpiritMod.Items.Accessory
 	public class InfernalPact : ModItem
 	{
 		private int sineTimer = 0; //maybe there's a better way to do this idk
-		private Texture2D glowmask;
-
 
 		public override void SetStaticDefaults()
 		{

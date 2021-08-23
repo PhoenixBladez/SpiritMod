@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Armor
 			item.width = 18;
 			item.height = 22;
 			item.value = 0;
-			item.rare = 0;
+			item.rare = ItemRarityID.White;
 			item.defense = 3;
 		}
 		public override void UpdateEquip(Player player)

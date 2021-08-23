@@ -97,9 +97,7 @@ namespace SpiritMod.Items.Placeable
 			string[] lootTable2123 = { "DiverLegs", "DiverHead", "DiverBody" };
 			if (Main.rand.Next(14) == 0) {
 				int loot443 = Main.rand.Next(lootTable2123.Length);
-				{
-					player.QuickSpawnItem(mod.ItemType(lootTable2123[loot443]));
-				}
+				player.QuickSpawnItem(mod.ItemType(lootTable2123[loot443]));
 			}
 			if (Main.rand.Next(3) == 0) {
 				int[] lootTable2 = {
@@ -109,7 +107,6 @@ namespace SpiritMod.Items.Placeable
 				int loot2 = Main.rand.Next(lootTable2.Length);
 				int Fish1 = Main.rand.Next(9, 12);
 				for (int j = 0; j < Fish1; j++) {
-
 					player.QuickSpawnItem((lootTable2[loot2]));
 				}
 			}
@@ -122,29 +119,23 @@ namespace SpiritMod.Items.Placeable
 				};
 				int loot51 = Main.rand.Next(lootTable51.Length);
 				int Booty = Main.rand.Next(1, 2);
-				for (int j = 0; j < Booty; j++) {
+				for (int j = 0; j < Booty; j++)
 					player.QuickSpawnItem(lootTable51[loot51]);
-				}
-
 			}
 
 			if (Main.rand.Next(3) == 0) {
 				int[] lootTable21 = { ItemID.SilverCoin };
 				int loot21 = Main.rand.Next(lootTable21.Length);
 				int Fish1 = Main.rand.Next(10, 90);
-				for (int j = 0; j < Fish1; j++) {
-
+				for (int j = 0; j < Fish1; j++)
 					player.QuickSpawnItem((lootTable21[loot21]));
-				}
 			}
 			if (Main.rand.Next(7) == 0) {
 				int[] lootTable212 = { ItemID.GoldCoin };
 				int loot212 = Main.rand.Next(lootTable212.Length);
 				int Fish1 = Main.rand.Next(1, 2);
-				for (int j = 0; j < Fish1; j++) {
-
+				for (int j = 0; j < Fish1; j++)
 					player.QuickSpawnItem((lootTable212[loot212]));
-				}
 			}
 		}
 	}

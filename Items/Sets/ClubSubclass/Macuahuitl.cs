@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Sets.ClubSubclass
             item.knockBack = 10;
             item.useTurn = false;
             item.value = Terraria.Item.buyPrice(0, 8, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.autoReuse = false;
             item.shoot = mod.ProjectileType("MacuahuitlProj");
             item.shootSpeed = 6f;

@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Sets.BriarChestLoot
 			item.noMelee = true;
 			item.knockBack = 3;
 			item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<NatureGraspProjectile>();

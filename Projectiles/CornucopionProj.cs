@@ -53,7 +53,7 @@ namespace SpiritMod.Projectiles
 				if (counter % 45 == 0)
                 {
                     chargeStacks++;
-                    Main.PlaySound(25, (int)projectile.position.X, (int)projectile.position.Y);
+                    Main.PlaySound(SoundID.Item5, (int)projectile.position.X, (int)projectile.position.Y);
 					for (int i = 0; i < 14; i++)
                     {
                         DoDustEffect(player.Center, 40f);

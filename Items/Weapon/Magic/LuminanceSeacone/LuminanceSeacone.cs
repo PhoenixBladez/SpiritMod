@@ -20,12 +20,12 @@ namespace SpiritMod.Items.Weapon.Magic.LuminanceSeacone
 			item.height = 40;
 			item.useTime = 31;
 			item.useAnimation = 31;
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = mod.ProjectileType("LuminanceSeaconeProjectile");
 			item.shootSpeed = 9.5f;
 			item.knockBack = 4f;
 			item.autoReuse = false;
-			item.rare = 2;
+			item.rare = ItemRarityID.Green;
 			item.value = Item.sellPrice(silver: 80);
 			item.useTurn = false;
 			item.mana = 12;

@@ -25,10 +25,8 @@ namespace SpiritMod.Items.Sets.AtlasDrops
 			item.expert = true;
 		}
 
-		public override bool CanRightClick()
-		{
-			return true;
-		}
+		public override bool CanRightClick() => true;
+
 		public override void RightClick(Player player)
 		{
 			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(7, 12));
@@ -45,9 +43,9 @@ namespace SpiritMod.Items.Sets.AtlasDrops
 			int loot = Main.rand.Next(lootTable.Length);
 			player.QuickSpawnItem(lootTable[loot]);
 
-			if (Main.rand.NextDouble() < 1d / 7)
+			if (Main.rand.NextDouble() < 1 / 7f)
 				player.QuickSpawnItem(ModContent.ItemType<AtlasMask>());
-			if (Main.rand.NextDouble() < 1d / 10)
+			if (Main.rand.NextDouble() < 1 / 10f)
 				player.QuickSpawnItem(ModContent.ItemType<Trophy8>());
 		}
 	}

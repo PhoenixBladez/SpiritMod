@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 			item.width = item.height = 16;
 			item.maxStack = 999;
 			item.value = 500;
-			item.rare = 2;
+			item.rare = ItemRarityID.Green;
 		}
         public override void AddRecipes()
         {

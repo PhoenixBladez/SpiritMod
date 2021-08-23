@@ -1,8 +1,5 @@
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.ModLoader;
-using System.Collections.Generic;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory.SeaSnailVenom
@@ -19,7 +16,7 @@ namespace SpiritMod.Items.Accessory.SeaSnailVenom
 			item.width = 36;
 			item.height = 42;
 			item.value = Item.sellPrice(gold: 1, silver: 20);
-			item.rare = 2;
+			item.rare = ItemRarityID.Green;
 			item.accessory = true;
 		}
 

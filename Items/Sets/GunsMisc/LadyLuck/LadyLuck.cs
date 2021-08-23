@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.noMelee = true;
 			item.knockBack = 0;
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.UseSound = SoundID.Item41;
 			item.shoot = ModContent.ProjectileType<LadyLuckProj>();
 			item.shootSpeed = 12f;

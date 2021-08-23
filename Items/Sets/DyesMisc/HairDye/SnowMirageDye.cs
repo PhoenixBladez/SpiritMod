@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Sets.DyesMisc.HairDye
 			item.height = 26;
 			item.maxStack = 99;
 			item.value = Item.buyPrice(gold: 7);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.UseSound = SoundID.Item3;
 			item.useStyle = ItemUseStyleID.EatingUsing;
 			item.useTurn = true;

@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -142,7 +143,6 @@ namespace SpiritMod.Tiles.Furniture
 					Recipe.FindRecipes();
 				}
 			}
-
 			return true;
 		}
 
@@ -152,17 +152,14 @@ namespace SpiritMod.Tiles.Furniture
 			Tile tile = Main.tile[i, j];
 			int left = i;
 			int top = j;
-			if (tile.frameX % 36 != 0) {
+			if (tile.frameX % 36 != 0)
 				left--;
-			}
-			if (tile.frameY != 0) {
+			if (tile.frameY != 0)
 				top--;
-			}
 			int chest = Chest.FindChest(left, top);
 			player.showItemIcon2 = -1;
-			if (chest < 0) {
-				player.showItemIconText = Lang.chestType[0].Value;
-			}
+			if (chest < 0)
+				player.showItemIconText = Language.GetTextValue("LegacyChestType.0");
 			else {
 				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Spirit Chest";
 				if (player.showItemIconText == "Spirit Chest") {

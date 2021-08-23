@@ -3,11 +3,12 @@ using Terraria;
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.ID;
+
 namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
 {
 	public class AzureJelly : ModProjectile
 	{
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Azure Jelly");
@@ -30,24 +31,20 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
         {
 			Color color = Color.Pink;
 			color.A = 0;
-            float sineAdd = (float)Math.Sin(alphaCounter) + 3;
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (projectile.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
-            int xpos = (int)((projectile.Center.X + 10) - Main.screenPosition.X) - (int)(Main.projectileTexture[projectile.type].Width / 2);
-            int ypos = (int)((projectile.Center.Y + 10) - Main.screenPosition.Y) - (int)(Main.projectileTexture[projectile.type].Width / 2);
+            int xpos = (int)((projectile.Center.X + 10) - Main.screenPosition.X) - (Main.projectileTexture[projectile.type].Width / 2);
+            int ypos = (int)((projectile.Center.Y + 10) - Main.screenPosition.Y) - (Main.projectileTexture[projectile.type].Width / 2);
             Texture2D ripple = mod.GetTexture("Effects/Masks/Extra_49");
             Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), color, projectile.rotation, ripple.Size() / 2f, .5f, spriteEffects, 0);
             return true;
         }
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return Color.White;
-        }
-        float alphaCounter;
+
+		public override Color? GetAlpha(Color lightColor) => Color.White;
+
 		public override void AI()
         {
-            alphaCounter += 0.04f;
             Lighting.AddLight(new Vector2(projectile.Center.X, projectile.Center.Y), 0.075f, 0.231f, 0.255f);
 			Player player = Main.player[(int)projectile.ai[0]];
 
@@ -57,11 +54,12 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
 
 			projectile.velocity = projectile.velocity.RotatedBy(Math.Sign(rotDifference) * 0.01f);
 		}
+
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 54);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 54);
 			for (int i = 0; i < 20; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 180, 0f, -2f, 0, default(Color), 2f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.DungeonSpirit, 0f, -2f, 0, default, 2f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;

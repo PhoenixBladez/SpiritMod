@@ -29,10 +29,8 @@ namespace SpiritMod.Items.Consumable
 			item.consumable = true;
 
 		}
-		public override bool CanRightClick()
-		{
-			return true;
-		}
+
+		public override bool CanRightClick() => true;
 
 		public override void RightClick(Player player)
 		{

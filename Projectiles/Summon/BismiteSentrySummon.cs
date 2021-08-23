@@ -27,25 +27,19 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.ignoreWater = true;
 			projectile.sentry = true;
 		}
-		float alphaCounter = 0;
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-			return false;
-		}
-        public override void AI()
-		{
 
+		public override bool OnTileCollide(Vector2 oldVelocity) => false;
+
+		public override void AI()
+		{
 			if (projectile.alpha > 0 && projectile.alpha <= 240)
-            {
                 projectile.alpha--;
-            }
             float num395 = Main.mouseTextColor / 200f - 0.35f;
             num395 *= 0.3f;
             projectile.scale = num395 + 0.65f;
             //CONFIG INFO
             int range = 18;   //How many tiles away the projectile targets NPCs
 			float shootVelocity = 6f; //magnitude of the shoot vector (speed of arrows shot)
-			int shootSpeed = 20;
 
 			//TARGET NEAREST NPC WITHIN RANGE
 			float lowestDist = float.MaxValue;
@@ -69,7 +63,7 @@ namespace SpiritMod.Projectiles.Summon
 			}
             if (projectile.alpha == 240)
             {
-                specialAttack();
+                SpecialAttack();
                 projectile.alpha--;
             }
 			NPC mainTarget = projectile.OwnerMinionAttackTargetNPC;
@@ -89,7 +83,7 @@ namespace SpiritMod.Projectiles.Summon
 					{
 						for (int i = 0; i < 10; i++)
 						{
-							int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 167, 0f, -2f, 0, default(Color), 1.5f);
+							int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Plantera_Green, 0f, -2f, 0, default(Color), 1.5f);
 							Main.dust[num].noGravity = true;
 							Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 							Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -119,7 +113,7 @@ namespace SpiritMod.Projectiles.Summon
 					{
 						for (int i = 0; i < 10; i++)
 						{
-							int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 167, 0f, -2f, 0, default(Color), 1.5f);
+							int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Plantera_Green, 0f, -2f, 0, default(Color), 1.5f);
 							Main.dust[num].noGravity = true;
 							Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 							Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -142,12 +136,13 @@ namespace SpiritMod.Projectiles.Summon
 				projectile.netUpdate = true;
 			}
 		}
-		public void specialAttack()
+
+		public void SpecialAttack()
         {
             Main.PlaySound(SoundID.DD2_CrystalCartImpact, projectile.Center);
             for (int i = 0; i < 10; i++)
             {
-                int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 167, 0f, -2f, 0, default(Color), 1.5f);
+                int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Plantera_Green, 0f, -2f, 0, default, 1.5f);
                 Main.dust[num].noGravity = true;
                 Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
                 Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -169,11 +164,12 @@ namespace SpiritMod.Projectiles.Summon
                 Main.projectile[proj].hide = true;
             }
         }
+
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.DD2_WitherBeastHurt, (int)projectile.position.X, (int)projectile.position.Y);
 			for (int i = 0; i < 10; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 167, 0f, -2f, 0, default(Color), 1.5f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Plantera_Green, 0f, -2f, 0, default(Color), 1.5f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;

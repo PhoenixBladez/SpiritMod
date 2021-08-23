@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Weapon.Summon.Undead_Warlock_Staff
 			item.height = 46;
 			item.autoReuse = true;
 			item.holdStyle = 2;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.useTime = 30;
 			item.useAnimation = 30;
 			item.useStyle = 100;

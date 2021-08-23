@@ -13,7 +13,6 @@ namespace SpiritMod.Items.Accessory
 			Tooltip.SetDefault("Summons a holy sword to fight for you\nThis sword does not take up minion slots");
 		}
 
-
 		public override void SetDefaults()
 		{
             item.damage = 32;
@@ -22,15 +21,13 @@ namespace SpiritMod.Items.Accessory
 			item.height = 49;
             item.knockBack = 1.25f;
 			item.value = Item.sellPrice(0, 1, 50, 0);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.defense = 1;
 			item.accessory = true;
 		}
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-            player.GetSpiritPlayer().spellswordCrest = true;
-		}
-        public override void AddRecipes()
+
+		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetSpiritPlayer().spellswordCrest = true;
+		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<RogueCrest>(), 1);

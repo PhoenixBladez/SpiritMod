@@ -39,7 +39,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<AcidBed>());
 		}
 
-		public override void RightClick(int i, int j)
+		public override bool NewRightClick(int i, int j)
 		{
 			Player player = Main.player[Main.myPlayer];
 			Tile tile = Main.tile[i, j];
@@ -58,6 +58,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 				player.ChangeSpawn(spawnX, spawnY);
 				Main.NewText("Spawn point set!", 255, 240, 20, false);
 			}
+			return true;
 		}
 
 		public override void MouseOver(int i, int j)

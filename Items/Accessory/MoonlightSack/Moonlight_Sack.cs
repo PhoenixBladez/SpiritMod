@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Accessory.MoonlightSack
 			item.width = 30;
 			item.height = 34;
 			item.value = Item.sellPrice(gold: 3);
-			item.rare = 2;
+			item.rare = ItemRarityID.Green;
 			item.accessory = true;
 		}
 		public override void ModifyTooltips(List<TooltipLine> tooltips)

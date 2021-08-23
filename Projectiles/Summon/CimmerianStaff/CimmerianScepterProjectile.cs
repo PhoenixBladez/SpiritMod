@@ -162,7 +162,6 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
                 {
                     int range = 100;   //How many tiles away the projectile targets NPCs
                     float shootVelocity = 9.5f; //magnitude of the shoot vector (speed of arrows shot)
-                    int shootSpeed = 20;
 
                     //TARGET NEAREST NPC WITHIN RANGE
                     float lowestDist = float.MaxValue;
@@ -189,18 +188,14 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
                         }
                     }
                     NPC target = (Main.npc[(int)projectile.ai[1]] ?? new NPC());
-                    int dustType;
                     timer = 0;
                     Vector2 ShootArea = new Vector2(projectile.Center.X, projectile.Center.Y - 13);
-                    Vector2 direction = target.Center - ShootArea;
-                    direction.Normalize();
-                    direction.X *= shootVelocity;
-                    direction.Y *= shootVelocity;
+                    Vector2 direction = Vector2.Normalize(target.Center - ShootArea) * shootVelocity;
                     switch (Main.rand.Next(3))
                     {
                         case 0: //star attack
                             colorVer = new Color(126, 61, 255);
-                            Main.PlaySound(2, projectile.Center, 9);
+                            Main.PlaySound(SoundID.Item, projectile.Center, 9);
                             for (int z = 0; z < 4; z++)
                             {
                                 Vector2 pos = new Vector2(projectile.Center.X + Main.rand.Next(-30, 30), projectile.Center.Y + Main.rand.Next(-30, 30));
@@ -218,16 +213,14 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
                             break;
                         case 2: //lightning attack
                             colorVer = new Color(61, 184, 255);
-                            Main.PlaySound(2, projectile.Center, 12);
+                            Main.PlaySound(SoundID.Item, projectile.Center, 12);
                             for (int k = 0; k < 15; k++)
                             {
                                 Dust d = Dust.NewDustPerfect(projectile.Center, 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(3), 0, default, Main.rand.NextFloat(.4f, .8f));
                                 d.noGravity = true;
                             }
                             for (int i = 0; i < 3; i++)
-                            {
                                 DustHelper.DrawElectricity(projectile.Center, target.Center, 226, 0.3f);
-                            }
                             target.StrikeNPC((int)(projectile.damage * 1.5f), 1f, 0, false);
                             for (int k = 0; k < 10; k++)
                             {
@@ -253,9 +246,7 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
                     float num537 = Main.player[projectile.owner].Center.Y - vector38.Y - 60f;
                     float num538 = (float)Math.Sqrt((double)(num536 * num536 + num537 * num537));
                     if (num538 < 100f && projectile.ai[0] == 1f && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
-                    {
                         projectile.ai[0] = 0f;
-                    }
                     if (num538 > 2000f)
                     {
                         projectile.position.X = Main.player[projectile.owner].Center.X - (projectile.width * .5f);
@@ -305,10 +296,7 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
                 }
             }
         }
-        public override bool MinionContactDamage()
-		{
-			return true;
-		}
 
+		public override bool MinionContactDamage() => true;
 	}
 }

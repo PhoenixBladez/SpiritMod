@@ -17,13 +17,13 @@ namespace SpiritMod.Items.Sets.TideDrops.Whirltide
 			item.height = 30;
 			item.useTime = 25;
 			item.useAnimation = 12;
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = mod.ProjectileType("Whirltide_Bullet");
 			item.knockBack = 10f;
 			item.shootSpeed = 7f;
 			Item.staff[item.type] = true;
 			item.autoReuse = true;
-			item.rare = 2;
+			item.rare = ItemRarityID.Green;
 			item.value = Item.sellPrice(silver: 50);
 			item.useTurn = true;
 			item.mana = 5;

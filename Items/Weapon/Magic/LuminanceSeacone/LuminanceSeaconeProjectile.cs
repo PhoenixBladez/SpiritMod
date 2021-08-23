@@ -133,7 +133,7 @@ namespace SpiritMod.Items.Weapon.Magic.LuminanceSeacone
 			if (!hasCreatedSound)
 			{
 				hasCreatedSound = true;
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 21, 1f, 0f);
+				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 21, 1f, 0f);
 			}
 			
 			if (!hasGottenColor)

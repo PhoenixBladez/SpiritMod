@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Sets.FloranSet
 			item.width = 30;
 			item.height = 46;
 			item.value = Item.buyPrice(0, 0, 20, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.damage = 15;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			Item.staff[item.type] = true;

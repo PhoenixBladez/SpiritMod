@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Thrown.PiecesOfEight
 			item.damage = 34;
 			item.knockBack = 1.5f;
 			item.value = Item.sellPrice(0, 1, 90, 0);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.autoReuse = true;
 			item.consumable = false;
 		}

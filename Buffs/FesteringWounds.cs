@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Buffs
 {
@@ -29,7 +30,7 @@ namespace SpiritMod.Buffs
 					npc.lifeRegen -= 3;
 				}
 				if (Main.rand.Next(3) == 0) {
-					int d = Dust.NewDust(npc.position, npc.width, npc.height, 167);
+					int d = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Plantera_Green);
 					Main.dust[d].velocity.X *= 0f;
 					Main.dust[d].velocity.Y *= 0.5f;
 				}
@@ -48,7 +49,7 @@ namespace SpiritMod.Buffs
 				player.lifeRegen -= 3;
 			}
 			if (Main.rand.Next(3) == 0) {
-				int d = Dust.NewDust(player.position, player.width, player.height, 167);
+				int d = Dust.NewDust(player.position, player.width, player.height, DustID.Plantera_Green);
 				Main.dust[d].velocity.X *= 0f;
 				Main.dust[d].velocity.Y *= 0.5f;
 			}

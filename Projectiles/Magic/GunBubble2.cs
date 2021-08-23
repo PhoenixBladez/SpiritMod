@@ -1,19 +1,13 @@
 ﻿using Terraria.ModLoader;
 using Terraria;
-
-using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles.Magic
 {
 	public class GunBubble2 : ModProjectile
 	{
-
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bubble");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Bubble");
 
 		public override void SetDefaults()
 		{
@@ -37,11 +31,12 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.velocity.X *= 0.99f;
 			projectile.velocity.Y -= 0.015f;
 		}
+
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 54);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 54);
 			for (int i = 0; i < 20; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 165, 0f, -2f, 0, default(Color), 2f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.FungiHit, 0f, -2f, 0, default(Color), 2f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;

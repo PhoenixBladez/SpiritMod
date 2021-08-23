@@ -113,7 +113,7 @@ namespace SpiritMod.NPCs.Undead_Warlock
 			}
 			if (projectile.timeLeft == 260)
 			{
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 9, 1f, 0f);
+				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 9, 1f, 0f);
 				Vector2 vector2_1 = projectile.velocity * 0.98f;
 				projectile.velocity = vector2_1;
 				float num3 = 9f;

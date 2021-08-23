@@ -161,6 +161,9 @@ namespace SpiritMod.NPCs.DesertBandit
 			{
 				npc.StrikeNPC(200, 0f, 0);
 				npc.netUpdate = true;
+
+				npc.life = -1;
+				npc.checkDead();
 			}
 		}
 

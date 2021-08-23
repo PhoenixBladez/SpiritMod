@@ -88,7 +88,7 @@ namespace SpiritMod.NPCs.Tides
 				if (Main.netMode != NetmodeID.MultiplayerClient) {
 					npc.ai[3] = 0;
 					Vector2 vel = new Vector2(30f, 0).RotatedBy((float)(Main.rand.Next(90) * Math.PI / 180));
-					Main.PlaySound(2, npc.Center, 91);
+					Main.PlaySound(SoundID.Item, npc.Center, 91);
 					for (int i = 0; i < 4; i++) {
 						int lozar = Projectile.NewProjectile(npc.position + vel.RotatedBy(i * 1.57f) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage / 3, 0, Main.myPlayer);
 						Main.projectile[lozar].netUpdate = true;

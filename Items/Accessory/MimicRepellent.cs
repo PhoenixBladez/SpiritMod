@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Accessory
 			item.width = 18;
 			item.height = 18;
 			item.value = Item.buyPrice(0, 2, 0, 0);
-			item.rare = 2;
+			item.rare = ItemRarityID.Green;
 			item.accessory = true;
 		}
 		public override void UpdateAccessory(Player player, bool hideVisual)

@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Consumable
 		public override void SetDefaults()
 		{
 			item.width = item.height = 16;
-			item.rare = 2;
+			item.rare = ItemRarityID.Green;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.consumable = true;
 			item.maxStack = 99;
@@ -28,11 +28,7 @@ namespace SpiritMod.Items.Consumable
 			item.autoReuse = false;
 		}
 
-
-		public override bool CanRightClick()
-		{
-			return true;
-		}
+		public override bool CanRightClick() => true;
 
 		public override void RightClick(Player player)
 		{

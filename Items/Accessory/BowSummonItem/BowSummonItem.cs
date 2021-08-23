@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Accessory.BowSummonItem
 			item.width = 20;
 			item.height = 40;
 			item.value = Item.sellPrice(0, 0, 55, 0);
-			item.rare = 2;
+			item.rare = ItemRarityID.Green;
 			item.damage = 16;
 			item.knockBack = 2;
 			item.summon = true;

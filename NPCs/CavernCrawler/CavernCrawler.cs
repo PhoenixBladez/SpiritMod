@@ -123,7 +123,7 @@ namespace SpiritMod.NPCs.CavernCrawler
 				}
 			}
 			if (trailbehind && !playsound) {
-				Main.PlaySound(29, npc.Center, 74);
+				Main.PlaySound(SoundID.Item9.SoundId, npc.Center, 74);
 				playsound = true;
 			}
 		}

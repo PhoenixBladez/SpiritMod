@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Sets.TideDrops
 			item.width = 22;
 			item.height = 20;
 			item.value = 10000;
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 
 			item.useStyle = ItemUseStyleID.HoldingUp;
 			item.useTime = 20;

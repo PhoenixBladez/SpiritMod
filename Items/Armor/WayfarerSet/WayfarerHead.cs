@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Armor.WayfarerSet
 			item.width = 22;
 			item.height = 20;
 			item.value = Terraria.Item.sellPrice(0, 0, 60, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.defense = 2;
 		}
 

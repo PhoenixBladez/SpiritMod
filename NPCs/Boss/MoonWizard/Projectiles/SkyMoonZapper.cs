@@ -42,7 +42,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 			}
 			if (projectile.timeLeft == 10)
 			{
-				Main.PlaySound(2, projectile.position, 122);
+				Main.PlaySound(SoundID.Item, projectile.position, 122);
 				int p = Projectile.NewProjectile(projectile.Center + new Vector2(0, 500), Vector2.Zero, mod.ProjectileType("MoonThunder"), projectile.damage, 0);
                 Main.projectile[p].hostile = true;
                 Main.projectile[p].friendly = true;

@@ -19,7 +19,6 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops
 			Tooltip.SetDefault("Consumable\nRight Click to open");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -40,17 +39,17 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops
 			player.QuickSpawnItem(ModContent.ItemType<Chitin>(), Main.rand.Next(24, 37));
 
 			int[] lootTable = {
-				ModContent.ItemType<Items.Sets.ScarabeusDrops.AdornedBow.ScarabBow>(),
-				ModContent.ItemType<Items.Sets.ScarabeusDrops.LocustCrook.LocustCrook>(),
-				ModContent.ItemType<Items.Sets.ScarabeusDrops.Khopesh.RoyalKhopesh>(),
-				ModContent.ItemType<Items.Sets.ScarabeusDrops.RadiantCane.RadiantCane>()
+				ModContent.ItemType<ScarabBow>(),
+				ModContent.ItemType<LocustCrook.LocustCrook>(),
+				ModContent.ItemType<RoyalKhopesh>(),
+				ModContent.ItemType<RadiantCane.RadiantCane>()
 			};
 			int loot = Main.rand.Next(lootTable.Length);
 			player.QuickSpawnItem(lootTable[loot]);
 
-			if (Main.rand.NextDouble() < 1d / 7)
+			if (Main.rand.NextDouble() < 1 / 7f)
 				player.QuickSpawnItem(ModContent.ItemType<ScarabMask>());
-			if (Main.rand.NextDouble() < 1d / 10)
+			if (Main.rand.NextDouble() < 1 / 10f)
 				player.QuickSpawnItem(ModContent.ItemType<Trophy1>());
 
 			if(Main.rand.NextBool(3))

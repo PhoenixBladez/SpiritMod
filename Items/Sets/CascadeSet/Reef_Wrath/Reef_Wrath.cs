@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Reef_Wrath
 			item.shootSpeed = 0f;
 			item.knockBack = 2.5f;
 			item.autoReuse = false;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.UseSound = SoundID.Item109;
 			item.value = Item.sellPrice(silver: 30);
 			item.useTurn = false;

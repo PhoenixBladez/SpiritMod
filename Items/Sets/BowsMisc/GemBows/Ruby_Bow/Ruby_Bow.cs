@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Ruby_Bow
 	{
 		public override void SetDefaults()
 		{
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 26;
 			item.useTime = 26;
 			item.width = 12;
@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Ruby_Bow
 			item.damage = 14;
 			item.shootSpeed = 8f;
 			item.knockBack = 0.5f;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.noMelee = true;
             item.value = Terraria.Item.sellPrice(0, 1, 35, 0);
             item.ranged = true;

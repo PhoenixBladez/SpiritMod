@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Accessory.FlyingFishFin
 			item.width = 26;
 			item.height = 30;
 			item.value = Item.sellPrice(silver: 10);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.accessory = true;
 		}
 		public override void UpdateEquip(Player player)

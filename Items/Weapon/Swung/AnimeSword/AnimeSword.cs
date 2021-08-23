@@ -3,10 +3,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using SpiritMod.Prim;
-using SpiritMod.Utilities;
-using SpiritMod.Prim;
 
 namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 {
@@ -34,26 +30,20 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
             item.knockBack = 1;
             item.useTurn = false;
             item.value = Terraria.Item.sellPrice(0, 0, 90, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("AnimeSwordProj");
             item.shootSpeed = 6f;
             item.noUseGraphic = true;
         }
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
-    }
+		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
+	}
     public class AnimeSwordProj : ModProjectile
     {
         public NPC[] hit = new NPC[12];
-        public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Anime Sword Proj");
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Anime Sword Proj");
 
-        public override void SetDefaults()
+		public override void SetDefaults()
 		{
             projectile.width = projectile.height = 40;
 			projectile.hostile = false;
@@ -64,10 +54,12 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 			projectile.tileCollide = false;
             projectile.alpha = 255;
 		}
+
         public readonly int MAXCHARGE = 69;
         public int charge = 0;
         int index = 0;
         NPC mostrecent;
+
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
@@ -156,14 +148,10 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
                     {
                         mostrecent = closest;
                         if (mostrecent.active)
-                        {
                             SpiritMod.primitives.CreateTrail(new AnimePrimTrailTwo(mostrecent));
-                        }
                     }
                     else if (projectile.timeLeft > 15)
-                    {
                         projectile.timeLeft = 15;
-                    }
                 }
             }
         }
@@ -172,9 +160,7 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
         {
             Player player = Main.player[projectile.owner];
             if (charge > 60 && charge < MAXCHARGE)
-            {
                 return base.Colliding(projHitbox, targetHitbox);
-            }
             if (!player.channel)
                 return true;
             return false;

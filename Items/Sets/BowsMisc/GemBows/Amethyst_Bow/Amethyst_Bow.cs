@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Amethyst_Bow
 	{
 		public override void SetDefaults()
 		{
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 29;
 			item.useTime = 29;
 			item.width = 12;

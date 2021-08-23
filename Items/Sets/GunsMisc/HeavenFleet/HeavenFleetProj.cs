@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using SpiritMod.Projectiles.Bullet;
+using Terraria.ID;
 
 namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 {
@@ -49,7 +50,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 					maxCounter++;
 					counter++;
 					if (counter % 10 == 9) {
-						Main.PlaySound(25, (int)projectile.position.X, (int)projectile.position.Y);
+						Main.PlaySound(SoundID.Item5, (int)projectile.position.X, (int)projectile.position.Y);
 					}
 					Vector2 dustUnit = (direction * 2.5f).RotatedBy(Main.rand.NextFloat(-1,1)) * 0.03f;
 					Vector2 dustOffset = player.Center + (direction * 7f) + player.velocity;
@@ -68,7 +69,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 			else {
 				firing = true;
 				if (counter > 0)
-					Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 11);
+					Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 11);
 				while (counter >= 0) 
 				{
 					counter -= 10;

@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Sets.HuskstalkSet
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 7;
 			item.useAnimation = 15;
-			item.rare = 0;
+			item.rare = ItemRarityID.White;
 			item.useTurn = true;
 			item.autoReuse = true;
 			item.consumable = true;

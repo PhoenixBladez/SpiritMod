@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Sets.RlyehianDrops
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.knockBack = 4;
 			item.value = Terraria.Item.buyPrice(0, 7, 0, 0);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			//	item.UseSound = SoundID.Item103;
 			item.autoReuse = true;
 			item.shootSpeed = 11;
@@ -65,7 +65,7 @@ namespace SpiritMod.Items.Sets.RlyehianDrops
 				direction9 *= item.shootSpeed;
 				speedX = direction9.X;
 				speedY = direction9.Y;
-				Main.PlaySound(2, position, 103);
+				Main.PlaySound(SoundID.Item, position, 103);
 				return true;
 			}
 			return false;

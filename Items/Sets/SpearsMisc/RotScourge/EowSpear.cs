@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Sets.SpearsMisc.RotScourge
 			item.knockBack = 3f;
 			item.damage = 20;
 			item.value = Item.sellPrice(0, 1, 15, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<EoWSpearProj>();
 		}

@@ -1,14 +1,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Linq;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Prim;
-using Terraria.Audio;
 
 namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 {

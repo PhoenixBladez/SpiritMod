@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Accessory.RabbitFoot
 			item.width = 30;
 			item.height = 30;
 			item.value = Item.sellPrice(copper: 1);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.accessory = true;
 		}
 

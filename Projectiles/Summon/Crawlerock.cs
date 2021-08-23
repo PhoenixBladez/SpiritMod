@@ -11,9 +11,9 @@ namespace SpiritMod.Projectiles.Summon
 		{
 			DisplayName.SetDefault("Crawlerock");
 			Main.projPet[projectile.type] = true;
-			Main.projFrames[base.projectile.type] = 4;
-			ProjectileID.Sets.Homing[base.projectile.type] = true;
-			ProjectileID.Sets.MinionSacrificable[base.projectile.type] = true;
+			Main.projFrames[projectile.type] = 4;
+			ProjectileID.Sets.Homing[projectile.type] = true;
+			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
 			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 		}
 
@@ -32,10 +32,8 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.minionSlots = 1;
 			projectile.alpha = 0;
 		}
-		
-		public override bool? CanCutTiles() {
-			return false;
-		}
+
+		public override bool? CanCutTiles() => false;
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
@@ -49,42 +47,25 @@ namespace SpiritMod.Projectiles.Summon
 			bool flag64 = projectile.type == ModContent.ProjectileType<Crawlerock>();
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if (flag64) {
+			if (flag64)
+			{
 				if (player.dead)
-				modPlayer.crawlerockMinion = false;
+					modPlayer.crawlerockMinion = false;
 				if (modPlayer.crawlerockMinion)
-				projectile.timeLeft = 2;
+					projectile.timeLeft = 2;
 			}
-			
+
 			projectile.spriteDirection = -projectile.direction;
 			projectile.frameCounter++;
-			if (projectile.frameCounter > 6) {
+			if (projectile.frameCounter > 6)
+			{
 				projectile.frame++;
 				projectile.frameCounter = 0;
 			}
-			if (projectile.frame > 3) {
+			if (projectile.frame > 3)
 				projectile.frame = 0;
-			}
-			
-			float distanceFromTarget = 700f;
-			Vector2 targetCenter = projectile.position;
-			bool foundTarget = false;
-			
-			if (player.HasMinionAttackTargetNPC) {
-				NPC npc = Main.npc[player.MinionAttackTargetNPC];
-				float between = Vector2.Distance(npc.Center, projectile.Center);
-				if (between < 2000f) {
-					distanceFromTarget = between;
-					targetCenter = npc.Center;
-					foundTarget = true;
-				}
-			}
 		}
 
-		public override bool MinionContactDamage()
-		{
-			return true;
-		}
-
+		public override bool MinionContactDamage() => true;
 	}
 }

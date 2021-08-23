@@ -133,7 +133,7 @@ namespace SpiritMod.NPCs.BlizzardBandit
                 }
                 if ((frame == 11 || frame == 14) && npc.frameCounter == 4)
                 {
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 19, 1f, 0f);
+                    Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 19, 1f, 0f);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 direction = Main.player[npc.target].Center - npc.Center;

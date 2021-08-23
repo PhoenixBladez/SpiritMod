@@ -42,7 +42,7 @@ namespace SpiritMod.Projectiles.Clubs
 				int item = Item.NewItem(projectile.position, projectile.Size, type);
 				Main.item[item].velocity = Vector2.UnitY.RotatedBy(3.14f + Main.rand.NextFloat(3.14f)) * 8f * player.direction;
 			}
-			Main.PlaySound(2, projectile.Center, 20);
+			Main.PlaySound(SoundID.Item, projectile.Center, 20);
 		}
 		public ClubSandwichProj() : base(52, 17, 34, -1, 58, 5, 9, 1.7f, 12f){}
 	}

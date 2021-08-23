@@ -94,15 +94,17 @@ namespace SpiritMod.NPCs.Reach
 			int frame = (int)npc.frameCounter;
 			npc.frame.Y = (frame + 1) * frameHeight;
 		}
+
 		int timer;
 		bool trailbehind = false;
 		float num34616;
+
 		public override void AI()
 		{
 			npc.spriteDirection = npc.direction;
 			timer++;
 			if (timer == 400 && Main.netMode != NetmodeID.MultiplayerClient) {
-				Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 40);
+				Main.PlaySound(SoundID.Item9.SoundId, (int)npc.position.X, (int)npc.position.Y, 40);
 				Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 5);
 				npc.netUpdate = true;
 			}
@@ -110,7 +112,7 @@ namespace SpiritMod.NPCs.Reach
 				num34616 = .35f;
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
-				direction.X = direction.X * Main.rand.Next(8, 12);
+				direction.X *= Main.rand.Next(8, 12);
 				direction.Y = 0 - Main.rand.Next(6, 9);
 				npc.velocity.X = direction.X;
 				npc.velocity.Y = direction.Y;
@@ -119,9 +121,9 @@ namespace SpiritMod.NPCs.Reach
 				trailbehind = true;
 				npc.knockBackResist = 0f;
 			}
-			else {
+			else
 				num34616 = .15f;
-			}
+
 			if (timer >= 551) {
 				timer = 0;
 				npc.netUpdate = true;

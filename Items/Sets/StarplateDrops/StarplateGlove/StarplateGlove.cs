@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 			item.damage = 31;
 			item.knockBack = 3.3f;
 			item.magic = true;
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 7;
 			item.useTime = 7;
 			item.channel = true;

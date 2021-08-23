@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Diamond_Bow
 	{
 		public override void SetDefaults()
 		{
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 25;
 			item.useTime = 25;
 			item.width = 12;
@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Diamond_Bow
 			item.damage = 16;
 			item.shootSpeed = 9f;
 			item.knockBack = 0.5f;
-			item.rare = 2;
+			item.rare = ItemRarityID.Green;
 			item.noMelee = true;
             item.value = Terraria.Item.sellPrice(0, 1, 80, 0);
             item.ranged = true;

@@ -62,7 +62,7 @@ namespace SpiritMod.Tiles.Furniture
 			item.width = 36;
 			item.height = 28;
 			item.value = item.value = Terraria.Item.buyPrice(0, 0, 5, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 
 			item.maxStack = 99;
 

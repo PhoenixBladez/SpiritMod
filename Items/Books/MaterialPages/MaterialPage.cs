@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Books.MaterialPages
 			item.noMelee = true;
 			item.useTurn = true;
 			//item.channel = true; //Channel so that you can held the weapon [Important]
-			item.rare = 2;
+			item.rare = ItemRarityID.Green;
 			item.width = 54;
 			item.height = 50;
 			item.useTime = 20;

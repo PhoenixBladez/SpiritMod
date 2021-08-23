@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Placeable.Furniture
 			item.value = 500;
 
 			item.maxStack = 99;
-			item.rare = 0;
+			item.rare = ItemRarityID.White;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 10;
 			item.useAnimation = 15;

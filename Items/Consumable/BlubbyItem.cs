@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Consumable
 		public override void SetDefaults()
 		{
 			item.width = item.height = 20;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.maxStack = 99;
 			item.value = Item.sellPrice(0, 0, 3, 0);
 			item.noUseGraphic = true;
