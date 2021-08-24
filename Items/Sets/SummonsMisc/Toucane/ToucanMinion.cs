@@ -106,7 +106,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.Toucane
 			bool canstartrest = true; //dont start resting if rest position is too far from the base desired position
 
 			int startX = tilepos.X + ((projectile.direction > 0) ? -1 : 0);
-			while (ExtraUtils.CheckSolidTilesAndPlatforms(new Rectangle(startX, tilepos.Y, 1, 1))) //move up until not inside a tile
+			while (ProjectileExtensions.CheckSolidTilesAndPlatforms(new Rectangle(startX, tilepos.Y, 1, 1))) //move up until not inside a tile
 			{
 				tilepos.Y--;
 				if(++tilesfrombase >= maxtilesfrombase)
@@ -115,7 +115,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.Toucane
 					break;
 				}
 			}
-			while(!ExtraUtils.CheckSolidTilesAndPlatforms(new Rectangle(startX, tilepos.Y + 1, 1, 1))) //move down until just above a tile
+			while(!ProjectileExtensions.CheckSolidTilesAndPlatforms(new Rectangle(startX, tilepos.Y + 1, 1, 1))) //move down until just above a tile
 			{
 				tilepos.Y++;
 				if (++tilesfrombase >= maxtilesfrombase)
@@ -134,7 +134,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.Toucane
 					projectile.tileCollide = false;
 					projectile.AccelFlyingMovement(targetCenter, 0.15f, 0.1f, 15);
 					//check if close enough to and above the rest spot, and not inside a tile, if so, start resting
-					if (projectile.Distance(targetCenter) < 10 && projectile.Center.Y < targetCenter.Y && canstartrest && !ExtraUtils.CheckSolidTilesAndPlatforms(new Rectangle(startX, tilepos.Y, 1, 1)) && AiTimer > 30)
+					if (projectile.Distance(targetCenter) < 10 && projectile.Center.Y < targetCenter.Y && canstartrest && !ProjectileExtensions.CheckSolidTilesAndPlatforms(new Rectangle(startX, tilepos.Y, 1, 1)) && AiTimer > 30)
 					{
 						AiTimer = 0;
 						AiState = STATE_RESTING;

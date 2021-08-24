@@ -26,7 +26,7 @@ namespace SpiritMod.Particles
 
 		public override bool ActiveCondition => Main.LocalPlayer.ZoneMeteor || Main.LocalPlayer.ZoneUnderworldHeight;
 
-		public override float ScreenSpawnChance => MyWorld.ashRain ? 0.12f : 0.2f;
+		public override float ScreenSpawnChance => (MyWorld.ashRain && Main.LocalPlayer.ZoneUnderworldHeight) ? 0.12f : 0.2f;
 
 		public override bool UseCustomScreenDraw => true;
 

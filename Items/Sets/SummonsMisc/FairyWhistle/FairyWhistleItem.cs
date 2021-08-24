@@ -15,13 +15,13 @@ namespace SpiritMod.Items.Sets.SummonsMisc.FairyWhistle
 
 		public override void SetDefaults()
 		{
-			item.damage = 8;
+			item.damage = 12;
 			item.width = 22;
 			item.height = 18;
 			item.value = Item.sellPrice(0, 2, 0, 0);
 			item.rare = ItemRarityID.White;
 			item.mana = 12;
-			item.knockBack = 3f;
+			item.knockBack = 2f;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useTime = 30;
 			item.useAnimation = 30;

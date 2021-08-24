@@ -602,7 +602,7 @@ namespace SpiritMod.NPCs.Occultist
 			int numTries = 0;
 			int maxTries = 1000;
 
-			while (numTries < maxTries && ExtraUtils.CheckSolidTilesAndPlatforms(new Rectangle(desiredPos.X, desiredPos.Y, 1, 3))) //find a random point not within tiles
+			while (numTries < maxTries && ProjectileExtensions.CheckSolidTilesAndPlatforms(new Rectangle(desiredPos.X, desiredPos.Y, 1, 3))) //find a random point not within tiles
 			{
 				numTries++;
 				desiredPos = FindRandomPos();
@@ -610,7 +610,7 @@ namespace SpiritMod.NPCs.Occultist
 					desiredPos = FindRandomPos();
 			}
 
-			while (desiredPos.Y < Main.maxTilesY && !ExtraUtils.CheckSolidTilesAndPlatforms(new Rectangle(desiredPos.X, desiredPos.Y + 4, 1, 0)))
+			while (desiredPos.Y < Main.maxTilesY && !ProjectileExtensions.CheckSolidTilesAndPlatforms(new Rectangle(desiredPos.X, desiredPos.Y + 4, 1, 0)))
 				desiredPos.Y++;
 
 			npc.position = desiredPos.ToWorldCoordinates();
