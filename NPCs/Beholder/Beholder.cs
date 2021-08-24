@@ -131,11 +131,11 @@ namespace SpiritMod.NPCs.Beholder
 			{
 				for (int i = 0; i < 30; i++) {
 					Vector2 vector23 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2(100f, 20f) * npc.scale * 1.85f / 2f;
-					int index1 = Dust.NewDust(npc.Center + vector23, 0, 0, 246, 0.0f, 0.0f, 0, new Color(), 1f);
+					int index1 = Dust.NewDust(npc.Center + vector23, 0, 0, DustID.GoldCoin, 0.0f, 0.0f, 0, new Color(), 1f);
 					Main.dust[index1].position = npc.Center + vector23;
 					Main.dust[index1].velocity = Vector2.Zero;
 					Vector2 vector25 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2(20f, 100f) * npc.scale * 1.85f / 2f;
-					int index3 = Dust.NewDust(npc.Center + vector25, 0, 0, 246, 0.0f, 0.0f, 0, new Color(), 1f);
+					int index3 = Dust.NewDust(npc.Center + vector25, 0, 0, DustID.GoldCoin, 0.0f, 0.0f, 0, new Color(), 1f);
 					Main.dust[index3].position = npc.Center + vector25;
 					Main.dust[index3].velocity = Vector2.Zero;
 				}
@@ -162,7 +162,7 @@ namespace SpiritMod.NPCs.Beholder
 						float B = (float)Main.rand.Next(-50, 50) * 0.02f;
 						int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y + 20, direction.X + A, direction.Y + B, ProjectileID.Fireball, damage, 1, Main.myPlayer, 0, 0);
 						for (int k = 0; k < 11; k++) {
-							Dust.NewDust(npc.position, npc.width, npc.height, 6, direction.X + A, direction.Y + B, 0, default(Color), .61f);
+							Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, direction.X + A, direction.Y + B, 0, default(Color), .61f);
 						}
 						Main.projectile[p].hostile = true;
 					}
@@ -180,7 +180,7 @@ namespace SpiritMod.NPCs.Beholder
 				if (distance < 300 && player.statMana > 0) {
 					player.statMana--;
 					for (int i = 0; i < 2; i++) {
-						int dust = Dust.NewDust(npc.Center, npc.width, npc.height, 20);
+						int dust = Dust.NewDust(npc.Center, npc.width, npc.height, DustID.PurificationPowder);
 						Main.dust[dust].velocity *= -1f;
 						Main.dust[dust].scale *= 1.4f;
 						Main.dust[dust].noGravity = true;

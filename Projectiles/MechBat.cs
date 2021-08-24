@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			for (int k = 0; k < 15; k++) {
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6);
+				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire);
 				Main.dust[dust].scale = 2f;
 				Main.dust[dust].noGravity = true;
 			}
@@ -62,13 +62,11 @@ namespace SpiritMod.Projectiles
 		}
 		public override void AI()
 		{
-
-
 			Vector2 vector207 = new Vector2((float)projectile.width * 2, (float)projectile.height * 2) * projectile.scale * 0.85f;
 			vector207 /= 2f;
 			Vector2 value112 = Vector2.UnitY.RotatedByRandom(6.2831854820251465) * vector207;
 			Vector2 position178 = projectile.Center + value112;
-			int num1442 = Dust.NewDust(position178, 0, 0, 226, 0f, 0f, 0, default(Color), .5f);
+			int num1442 = Dust.NewDust(position178, 0, 0, DustID.Electric, 0f, 0f, 0, default(Color), .5f);
 			Main.dust[num1442].position = projectile.Center + value112;
 			Main.dust[num1442].velocity = Vector2.Zero;
 			Main.dust[num1442].noGravity = true;
@@ -111,17 +109,5 @@ namespace SpiritMod.Projectiles
 				projectile.velocity.Y = 1f;
 			}
 		}
-
-		//public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		//{
-		//    Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-		//    for (int k = 0; k < projectile.oldPos.Length; k++)
-		//    {
-		//        Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-		//        Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-		//        spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
-		//    }
-		//    return true;
-		//}
 	}
 }

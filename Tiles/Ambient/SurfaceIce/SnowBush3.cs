@@ -19,7 +19,7 @@ namespace SpiritMod.Tiles.Ambient.SurfaceIce
 			Main.tileLavaDeath[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
 			TileObjectData.addTile(Type);
-			dustType = 3;
+			dustType = DustID.GrassBlades;
             soundType = SoundID.Grass;
             disableSmartCursor = true;
 		}

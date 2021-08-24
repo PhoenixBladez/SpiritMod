@@ -1,5 +1,4 @@
-﻿
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -7,10 +6,7 @@ namespace SpiritMod.Projectiles
 {
 	class FrostSpine : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Frost Shard");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Frost Shard");
 
 		public override void SetDefaults()
 		{
@@ -29,8 +25,8 @@ namespace SpiritMod.Projectiles
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 68, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 68, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.BlueCrystalShard, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.BlueCrystalShard, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust2].noGravity = true;
 			Main.dust[dust2].velocity *= 0f;
@@ -39,13 +35,7 @@ namespace SpiritMod.Projectiles
 			Main.dust[dust].scale = 0.9f;
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			target.AddBuff(BuffID.Frostburn, 240);
-		}
-		public override void Kill(int timeLeft)
-		{
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
-		}
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.Frostburn, 240);
+		public override void Kill(int timeLeft) => Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
 	}
 }

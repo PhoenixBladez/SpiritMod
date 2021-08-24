@@ -13,8 +13,6 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 			Tooltip.SetDefault("Occasionally launches a frost bolt");
 		}
 
-
-		int charger;
 		public override void SetDefaults()
 		{
 			item.damage = 52;
@@ -35,16 +33,12 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 			item.shoot = ModContent.ProjectileType<FrostBolt>();
 		}
 
-		public override void MeleeEffects(Player player, Rectangle hitbox)
-		{
-			if (Main.rand.Next(1) == 0)
-				Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 187);
-		}
+		public override void MeleeEffects(Player player, Rectangle hitbox) => Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.Flare_Blue);
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			if (Main.rand.Next(5) == 0)
-			Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), ModContent.ProjectileType<FrostBolt>(), damage/3, knockBack/2, player.whoAmI);
+				Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), ModContent.ProjectileType<FrostBolt>(), damage/3, knockBack/2, player.whoAmI);
 			return false;
 		}
 
@@ -53,6 +47,5 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 			if (Main.rand.Next(4) == 0)
 				target.AddBuff(BuffID.Frostburn, 400, true);
 		}
-
 	}
 }

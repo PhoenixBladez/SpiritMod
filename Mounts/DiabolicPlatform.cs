@@ -81,11 +81,11 @@ namespace SpiritMod.Mounts
 				if (player.direction == -1) {
 					vector2.X -= 0f;
 				}
-				int d = Dust.NewDust(vector2, 0, 20, 6, 0f, 0f, 0, default(Color), 1f);
+				int d = Dust.NewDust(vector2, 0, 20, DustID.Fire, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[d].scale *= 1.2f;
-				int d1 = Dust.NewDust(vector2, 0, 20, 6, 0f, 0f, 0, default(Color), 1f);
+				int d1 = Dust.NewDust(vector2, 0, 20, DustID.Fire, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[d1].scale *= 1.2f;
-				int d2 = Dust.NewDust(vector2, 0, 20, 6, 0f, 0f, 0, default(Color), 1f);
+				int d2 = Dust.NewDust(vector2, 0, 20, DustID.Fire, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[d2].scale *= 1.2f;
 			}
 			MyPlayer modPlayer = player.GetSpiritPlayer();

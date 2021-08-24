@@ -64,10 +64,7 @@ namespace SpiritMod.Items.Sets.SlagSet
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-5, 0);
-		}
+		public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			if (player.wet) {
@@ -80,7 +77,7 @@ namespace SpiritMod.Items.Sets.SlagSet
 				position += muzzleOffset;
 			}
 			for (int j = 0; j < 6; j++) {
-				int dust = Dust.NewDust(position, 0, 0, 6);
+				int dust = Dust.NewDust(position, 0, 0, DustID.Fire);
 				Main.dust[dust].velocity = vel.RotatedByRandom(MathHelper.Pi / 12) * Main.rand.NextFloat(1.3f, 2.2f);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].scale = Main.rand.NextFloat(1.6f, 2f);

@@ -24,7 +24,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.extraUpdates = 2;
 			projectile.timeLeft = 60;
 		}
-		int num2475;
+
 		int counter;
 		public override void AI()
 		{
@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Magic
 			if (projectile.ai[0] > 20f || projectile.ai[0] < -20f) {
 				projectile.Kill();
 			}
-			for (int num1438 = 0; num1438 < 2; num1438 = num2475 + 1) {
+			for (int num1438 = 0; num1438 < 2; num1438 = counter + 1) {
 				Vector2 center22 = projectile.Center;
 				projectile.scale = 1f - projectile.localAI[0];
 				projectile.width = (int)(20f * projectile.scale);
@@ -75,8 +75,8 @@ namespace SpiritMod.Projectiles.Magic
 						Main.dust[num1447].fadeIn = (float)(100 + projectile.owner);
 						dust81 = Main.dust[num1447];
 						dust81.scale += projectile.scale * 0.45f;
-						num2475 = num1448;
-						num1448 = num2475 + 1;
+						counter = num1448;
+						num1448 = counter + 1;
 					}
 				}
 			}

@@ -49,7 +49,7 @@ namespace SpiritMod.Projectiles.Magic
 					int width155 = projectile.width;
 					int height155 = projectile.height;
 					Color newColor5 = default(Color);
-					int num1199 = Dust.NewDust(position216, width155, height155, 31, 0f, 0f, 100, newColor5, 1f);
+					int num1199 = Dust.NewDust(position216, width155, height155, DustID.Smoke, 0f, 0f, 100, newColor5, 1f);
 					Main.dust[num1199].scale = 0.1f + (float)Main.rand.Next(5) * 0.1f;
 					Main.dust[num1199].fadeIn = 1.5f + (float)Main.rand.Next(5) * 0.1f;
 					Main.dust[num1199].noGravity = true;
@@ -169,12 +169,12 @@ namespace SpiritMod.Projectiles.Magic
 						int width158 = projectile.width;
 						int height158 = num1186;
 						Color newColor5 = default(Color);
-						int num1179 = Dust.NewDust(position219, width158, height158, 6, 0f, 0f, 90, newColor5, 2.5f);
+						int num1179 = Dust.NewDust(position219, width158, height158, DustID.Fire, 0f, 0f, 90, newColor5, 2.5f);
 						Main.dust[num1179].noGravity = true;
 						Main.dust[num1179].fadeIn = 1f;
 						if (Main.dust[num1179].velocity.Y > 0f) {
 							Dust expr_30385_cp_0 = Main.dust[num1179];
-							expr_30385_cp_0.velocity.Y = expr_30385_cp_0.velocity.Y * -1f;
+							expr_30385_cp_0.velocity.Y *= -1f;
 						}
 						if (Main.rand.Next(6) < 3) {
 							Main.dust[num1179].position.Y = MathHelper.Lerp(Main.dust[num1179].position.Y, vector154.Y, 0.5f);

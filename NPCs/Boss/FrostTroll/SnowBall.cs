@@ -24,9 +24,9 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 
 		public override void Kill(int timeLeft)
 		{
-			for (int i = 0; i < 2; i++) {
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 76);
-			}
+			for (int i = 0; i < 2; i++)
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Snow);
+
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 
 			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 6, -2, ProjectileID.FrostBlastHostile, projectile.damage, projectile.knockBack, Main.myPlayer);
@@ -37,10 +37,9 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 		{
 			projectile.rotation += 0.3f;
 
-
 			for (int i = 1; i <= 3; i++) {
 				if (Main.rand.Next(4) == 0)
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, 76);
+					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Snow);
 			}
 		}
 

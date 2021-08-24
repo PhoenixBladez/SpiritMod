@@ -88,7 +88,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 					if (type == mod.ProjectileType("StargloveChargePurple"))
 					{
 						for (float num2 = 0.0f; (double)num2 < 10; ++num2) {
-							int dustIndex = Dust.NewDust(position - speed2 * 3, 2, 2, 111, 0f, 0f, 0, default(Color), 1.5f);
+							int dustIndex = Dust.NewDust(position - speed2 * 3, 2, 2, DustID.Clentaminator_Cyan, 0f, 0f, 0, default(Color), 1.5f);
 							Main.dust[dustIndex].noGravity = true;
 							Main.dust[dustIndex].velocity = Vector2.Normalize((speed2 * 5).RotatedBy(Main.rand.NextFloat(6.28f))) * 2.5f;
 						}
@@ -98,7 +98,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 					else
 					{
 						for (float num2 = 0.0f; (double)num2 < 10; ++num2) {
-							int dustIndex = Dust.NewDust(position - speed2 * 3, 2, 2, 6, 0f, 0f, 0, default(Color), 2f);
+							int dustIndex = Dust.NewDust(position - speed2 * 3, 2, 2, DustID.Fire, 0f, 0f, 0, default(Color), 2f);
 							Main.dust[dustIndex].noGravity = true;
 							Main.dust[dustIndex].velocity = Vector2.Normalize((speed2 * 8).RotatedBy(Main.rand.NextFloat(6.28f))) * 2.5f;
 						}

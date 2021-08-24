@@ -12,8 +12,6 @@ namespace SpiritMod.Projectiles.Summon.Zones
 {
 	class DefenseZone : ModProjectile, IDrawAdditive
 	{
-		private bool[] _npcAliveLast;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Defense Zone");
@@ -68,7 +66,6 @@ namespace SpiritMod.Projectiles.Summon.Zones
                 Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
                 Color color = projectile.GetAlpha(lightColor) * (float)(((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length) / 2);
                 Color color1 = Color.White * (float)(((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length) / 2);
-                float num341 = 0f;
                 float num340 = projectile.height;
                 float num108 = 4;
                 float num107 = (float)Math.Cos((double)(Main.GlobalTime % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
@@ -77,10 +74,10 @@ namespace SpiritMod.Projectiles.Summon.Zones
                 Vector2 vector15 = new Vector2((float)(Main.projectileTexture[projectile.type].Width / 2), (float)(Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type] / 2));
                 SpriteEffects spriteEffects3 = (projectile.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
                 Vector2 vector33 = new Vector2(projectile.Center.X, projectile.Center.Y - 18) - Main.screenPosition + new Vector2(0, projectile.gfxOffY) - projectile.velocity;
-                Microsoft.Xna.Framework.Color color29 = new Microsoft.Xna.Framework.Color(110 - projectile.alpha, 94 - projectile.alpha, 25 - projectile.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue) * .8f;
+                Microsoft.Xna.Framework.Color color29 = new Color(110 - projectile.alpha, 94 - projectile.alpha, 25 - projectile.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue) * .8f;
                 for (int num103 = 0; num103 < 4; num103++)
                 {
-                    Microsoft.Xna.Framework.Color color28 = color29;
+					Color color28 = color29;
                     color28 = projectile.GetAlpha(color28);
                     color28 *= 1f - num107;
                     Vector2 vector29 = new Vector2(projectile.Center.X - 60, projectile.Center.Y - 60) + drawOrigin + ((float)num103 / (float)num108 * 6.28318548f + projectile.rotation + num106).ToRotationVector2() * (10f * num107 + 2f) - Main.screenPosition + new Vector2(0, projectile.gfxOffY) - projectile.velocity * (float)num103;

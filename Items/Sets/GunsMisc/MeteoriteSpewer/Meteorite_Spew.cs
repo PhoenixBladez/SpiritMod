@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.MeteoriteSpewer
 			projectile.velocity.X = 0f;
 			if (Main.rand.Next(3) == 0 && !projectile.wet)
 			{
-				int index = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0.0f, 0.0f, 100, new Color(), 3f);
+				int index = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0.0f, 0.0f, 100, new Color(), 3f);
 				Main.dust[index].noGravity = true;
 				Main.dust[index].velocity.X = 0f;
 				Main.dust[index].velocity.Y = -2f;
@@ -54,7 +54,6 @@ namespace SpiritMod.Items.Sets.GunsMisc.MeteoriteSpewer
 			if (!projectile.wet)
 			{
 				SpriteEffects spriteEffects = SpriteEffects.None;
-				float addY = 0.0f;
 				float addHeight = -4f;
 				float addWidth = 0f;
 				Vector2 vector2_3 = new Vector2((float) (Main.projectileTexture[projectile.type].Width / 2), (float) (Main.projectileTexture[projectile.type].Height / 1 / 2));
@@ -75,7 +74,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.MeteoriteSpewer
 				for (int index = 5; index >= 0; --index)
 				{
 					Vector2 oldPo = projectile.oldPos[index];
-					Microsoft.Xna.Framework.Color color2 = Microsoft.Xna.Framework.Color.Lerp(Microsoft.Xna.Framework.Color.Gold, Microsoft.Xna.Framework.Color.OrangeRed, amount);
+					var color2 = Microsoft.Xna.Framework.Color.Lerp(Microsoft.Xna.Framework.Color.Gold, Microsoft.Xna.Framework.Color.OrangeRed, amount);
 					color2 = Microsoft.Xna.Framework.Color.Lerp(color2, Microsoft.Xna.Framework.Color.Blue, (float) index / 12f);
 					color2.A = (byte) (64.0 * (double) amount);
 					color2.R = (byte) ((int) color2.R * (10 - index) / 20);
@@ -96,9 +95,9 @@ namespace SpiritMod.Items.Sets.GunsMisc.MeteoriteSpewer
 		{
 			for (int index = 0; index < 5; ++index)
 			{
-				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0.0f, 0.0f, 0, new Color(), 2f);
+				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0.0f, 0.0f, 0, new Color(), 2f);
 			}
-			Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 6, 1f, 0f);
+			Main.PlaySound(SoundID.Trackable, (int)projectile.position.X, (int)projectile.position.Y, 6, 1f, 0f);
 		}
 		public override void AI()
 		{

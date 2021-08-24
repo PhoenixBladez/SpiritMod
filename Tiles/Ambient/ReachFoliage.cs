@@ -17,7 +17,7 @@ namespace SpiritMod.Tiles.Ambient
 			//Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = false;
 
-			dustType = 3;
+			dustType = DustID.GrassBlades;
 			soundType = SoundID.Grass;
 
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);

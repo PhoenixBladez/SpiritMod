@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Sapphire_Bow
 			item.useTime = 27;
 			item.width = 12;
 			item.height = 28;
-			item.shoot = 1;
+			item.shoot = ProjectileID.WoodenArrowFriendly;
 			item.useAmmo = AmmoID.Arrow;
 			item.UseSound = SoundID.Item5;
 			item.damage = 12;

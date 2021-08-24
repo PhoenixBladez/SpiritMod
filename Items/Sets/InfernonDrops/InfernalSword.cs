@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Sets.InfernonDrops
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
 			if (Main.rand.Next(2) == 0)
-				Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 6);
+				Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.Fire);
 		}
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
@@ -48,10 +48,9 @@ namespace SpiritMod.Items.Sets.InfernonDrops
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			for (int I = 0; I < 2; I++) {
-				int projectileFired = Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), ModContent.ProjectileType<CombustionBlaze>(), item.damage / 6 * 5, item.knockBack, player.whoAmI);
+				Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), ModContent.ProjectileType<CombustionBlaze>(), item.damage / 6 * 5, item.knockBack, player.whoAmI);
 			}
 			return false;
 		}
-
 	}
 }

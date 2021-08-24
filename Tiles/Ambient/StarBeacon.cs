@@ -34,10 +34,11 @@ namespace SpiritMod.Tiles.Ambient
 			name.SetDefault("Astralite Beacon");
 			AddMapEntry(new Color(50, 70, 150), name);
 			disableSmartCursor = true;
-			dustType = 226;
+			dustType = DustID.Electric;
 		}
 
 		float alphaCounter = 0;
+
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
 			r = .12f;
@@ -59,7 +60,7 @@ namespace SpiritMod.Tiles.Ambient
 			alphaCounter += 0.04f;
 			float sineAdd = (float)Math.Sin(alphaCounter) + 3;
 			Tile tile = Main.tile[i, j];
-			Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+			var zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
 			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
@@ -67,26 +68,17 @@ namespace SpiritMod.Tiles.Ambient
 			Main.spriteBatch.Draw(mod.GetTexture("Tiles/Ambient/StarBeacon_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), new Vector2(i * 16 - (int)Main.screenPosition.X + 8, j * 16 - (int)Main.screenPosition.Y + 16) + zero, null, new Color((int)(2.5f * sineAdd), (int)(5f * sineAdd), (int)(6f * sineAdd), 0), 0f, new Vector2(50, 50), 0.2f * (sineAdd + 1), SpriteEffects.None, 0f);
 		}
-		public override bool CanKillTile(int i, int j, ref bool blockDamaged)
-		{
-			if (!MyWorld.downedRaider) {
-				return false;
-			}
-			return true;
-		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
-		{
-			offsetY = 2;
-		}
-		public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
+
+		public override bool CanKillTile(int i, int j, ref bool blockDamaged) => MyWorld.downedRaider;
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
+
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<StarBeaconItem>());
 			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
 		}
+
 		public override void MouseOver(int i, int j)
 		{
 			//shows the Cryptic Crystal icon while mousing over this tile
@@ -96,14 +88,11 @@ namespace SpiritMod.Tiles.Ambient
 
 		public override bool NewRightClick(int i, int j)
 		{
-			for (int k = 0; k < Main.npc.Length; k++) {
+			for (int k = 0; k < Main.npc.Length; k++)
 				if (Main.npc[k].active && Main.npc[k].type == ModContent.NPCType<SteamRaiderHead>()) return false;
-			}
 
 			if (Mechanics.EventSystem.EventManager.IsPlaying<Mechanics.EventSystem.Events.StarplateBeaconIntroEvent>())
-			{
 				return false;
-			}
 
 			Player player = Main.player[Main.myPlayer];
 			if (player.HasItem(ModContent.ItemType<StarWormSummon>()))
@@ -117,21 +106,7 @@ namespace SpiritMod.Tiles.Ambient
 
 				Mechanics.EventSystem.EventManager.PlayEvent(new Mechanics.EventSystem.Events.StarplateBeaconIntroEvent(new Vector2(x * 16f + 16f, y * 16f + 12f)));
 			}
-
 			return false;
-		}
-
-		private void DoDustEffect(Vector2 position, float distance, float minSpeed = 2f, float maxSpeed = 3f, object follow = null)
-		{
-			float angle = Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi);
-			Vector2 vec = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
-			Vector2 vel = vec * Main.rand.NextFloat(minSpeed, maxSpeed);
-
-			int dust = Dust.NewDust(position - vec * distance, 0, 0, 226);
-			Main.dust[dust].noGravity = true;
-			Main.dust[dust].scale *= .6f;
-			Main.dust[dust].velocity = vel;
-			Main.dust[dust].customData = follow;
 		}
 	}
 }

@@ -14,14 +14,13 @@ namespace SpiritMod.Items.Consumable
             Tooltip.SetDefault("'It needs help!'\nUse at nighttime to summon the Jelly Deluge");
         }
 
-
         public override void SetDefaults()
         {
             item.width = item.height = 16;
             item.rare = ItemRarityID.Green;
             item.maxStack = 99;
 
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.useTime = item.useAnimation = 20;
 
             item.noMelee = true;
@@ -31,23 +30,15 @@ namespace SpiritMod.Items.Consumable
             item.UseSound = SoundID.Item43;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            if (!MyWorld.jellySky && !Main.dayTime && (player.ZoneSkyHeight || player.ZoneOverworldHeight))
-            {
-            Main.NewText("Strange jellyfish are pouring out of the sky!", 61, 255, 142);
-            }
-            return !MyWorld.jellySky && !Main.dayTime && (player.ZoneSkyHeight || player.ZoneOverworldHeight);
-        }
-
+        public override bool CanUseItem(Player player) => !MyWorld.jellySky && !Main.dayTime && (player.ZoneSkyHeight || player.ZoneOverworldHeight);
 
         public override bool UseItem(Player player)
         {
-            MyWorld.jellySky = true;
+			Main.NewText("Strange jellyfish are pouring out of the sky!", 61, 255, 142);
+			MyWorld.jellySky = true;
     		if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.WorldData);
             return true;
-
         }
     }
 }

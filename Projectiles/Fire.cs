@@ -26,13 +26,13 @@ namespace SpiritMod.Projectiles
 
 		public override void AI()
 		{
-			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.NextBool(3))
-			target.AddBuff(BuffID.OnFire, 180);
+				target.AddBuff(BuffID.OnFire, 180);
 		}
 	}
 }

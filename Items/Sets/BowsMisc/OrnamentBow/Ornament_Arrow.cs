@@ -129,7 +129,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.OrnamentBow
 
 			for (int i = 0; i < 1 + extraArrows; i++) {
 				int arrowType = Main.rand.Next(6);
-				int dustType = 1;
+				int dustType = DustID.Stone;
 				switch (arrowType) {
 					case 0:
 						arrowType = ModContent.ProjectileType<GemBows.Amethyst_Bow.Amethyst_Arrow>();

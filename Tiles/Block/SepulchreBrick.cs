@@ -18,7 +18,7 @@ namespace SpiritMod.Tiles.Block
 			drop = ModContent.ItemType<Items.Placeable.Tiles.SepulchreBrickItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Sepulchre Roofing");
-			dustType = 54;
+			dustType = DustID.Wraith;
 		}
 	}
 }

@@ -24,7 +24,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 			16
 			};
 			TileObjectData.addTile(Type);
-            dustType = 1;
+            dustType = DustID.Stone;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Gravestone");
 			AddMapEntry(new Color(107, 90, 64), name);

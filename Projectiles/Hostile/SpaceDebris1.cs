@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles.Hostile
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			int num = 5;
 			for (int k = 0; k < 3; k++) {
-				int index2 = Dust.NewDust(projectile.position, 1, 1, 6, 0.0f, 0.0f, 0, new Color(), .2f);
+				int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.Fire, 0.0f, 0.0f, 0, new Color(), .2f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].velocity *= 0f;
@@ -48,7 +48,7 @@ namespace SpiritMod.Projectiles.Hostile
 		{
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 			for (int i = 0; i < 4; i++) {
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 3f);
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default(Color), 3f);
 				Main.dust[num624].velocity *= 0f;
 				Main.dust[num624].scale *= 0.3f;
 			}

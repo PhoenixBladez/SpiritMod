@@ -19,17 +19,17 @@ namespace SpiritMod.Tiles.Block
 			AddMapEntry(new Color(70, 130, 180));
 			drop = ModContent.ItemType<SpiritIceItem>();
             soundType = -1;
-            dustType = 51;
+            dustType = DustID.SnowBlock;
 		}
+
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
             Player player = Main.LocalPlayer;
             int distance = (int)Vector2.Distance(new Vector2(i * 16, j * 16), player.Center);
             if (distance < 500)
-            {
                 Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 50));
-            }
         }
+
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
 			if (!Framing.GetTileSafely(i, j - 1).active()) {
@@ -37,11 +37,6 @@ namespace SpiritMod.Tiles.Block
 				g = 0.12f;
 				b = 0.28f;
 			}
-		}
-
-		public override bool CanExplode(int i, int j)
-		{
-			return true;
 		}
 	}
 }

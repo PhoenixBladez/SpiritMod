@@ -71,8 +71,8 @@ namespace SpiritMod.NPCs.SkeletonBrute
 		{		
 			for (int k = 0; k < 10; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 26, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 8, 2.5f * hitDirection, -2.5f, 0, default, 0.5f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Bone, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default, 0.5f);
 			}
 			if (npc.life <= 0)
 				for (int i = 1; i < 6; ++i)
@@ -101,9 +101,7 @@ namespace SpiritMod.NPCs.SkeletonBrute
             npc.frameCounter++;
 
             if (npc.velocity.Y != 0f)
-            {
                 npc.frame.Y = 2 * frameHeight;
-            }
             else if (attacking == 0 && npc.velocity.X == 0f)
             {
                 npc.frame.Y = 2 * frameHeight;

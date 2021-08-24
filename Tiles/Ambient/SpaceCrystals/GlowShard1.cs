@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -70,7 +71,7 @@ namespace SpiritMod.Tiles.Ambient.SpaceCrystals
 				16,
 			};
 			TileObjectData.addTile(Type);
-			dustType = 180;
+			dustType = DustID.DungeonSpirit;
 		}
 		public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
 		{

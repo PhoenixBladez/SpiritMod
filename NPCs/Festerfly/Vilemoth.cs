@@ -61,22 +61,18 @@ namespace SpiritMod.NPCs.Festerfly
 		{
 			if (Main.rand.NextFloat() < 0.431579f) {
 				{
-					Dust dust;
 					Vector2 position = npc.Center;
-					int d = Dust.NewDust(npc.position, npc.width, npc.height + 10, 184, 0, 1f, 0, new Color(), 0.7f);
+					int d = Dust.NewDust(npc.position, npc.width, npc.height + 10, DustID.ScourgeOfTheCorruptor, 0, 1f, 0, new Color(), 0.7f);
 					Main.dust[d].velocity *= .1f;
 				}
 			}
 			Player player = Main.player[npc.target];
 			npc.rotation = npc.velocity.X * 0.1f;
 			if (npc.Center.X >= player.Center.X && moveSpeed >= -60) // flies to players x position
-			{
 				moveSpeed--;
-			}
 
-			if (npc.Center.X <= player.Center.X && moveSpeed <= 60) {
+			if (npc.Center.X <= player.Center.X && moveSpeed <= 60)
 				moveSpeed++;
-			}
 
 			npc.velocity.X = moveSpeed * 0.06f;
 
@@ -86,9 +82,8 @@ namespace SpiritMod.NPCs.Festerfly
 				HomeY = 120f;
 			}
 
-			if (npc.Center.Y <= player.Center.Y - HomeY && moveSpeedY <= 50) {
+			if (npc.Center.Y <= player.Center.Y - HomeY && moveSpeedY <= 50)
 				moveSpeedY++;
-			}
 
 			npc.velocity.Y = moveSpeedY * 0.06f;
 			timer++;
@@ -109,9 +104,9 @@ namespace SpiritMod.NPCs.Festerfly
                         for (int j = 0; j < 10; j++)
                         {
                             Vector2 vector2 = Vector2.UnitX * -npc.width / 2f;
-                            vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
-                            vector2 = Utils.RotatedBy(vector2, (npc.rotation - 1.57079637f), default(Vector2));
-                            int num8 = Dust.NewDust(npc.Center, 0, 0, 184, 0f, 0f, 160, new Color(), 1f);
+                            vector2 += -Utils.RotatedBy(Vector2.UnitY, (j * 3.141591734f / 6f), default) * new Vector2(8f, 16f);
+                            vector2 = Utils.RotatedBy(vector2, (npc.rotation - 1.57079637f), default);
+                            int num8 = Dust.NewDust(npc.Center, 0, 0, DustID.ScourgeOfTheCorruptor, 0f, 0f, 160, new Color(), 1f);
                             Main.dust[num8].scale = 1.3f;
                             Main.dust[num8].noGravity = true;
                             Main.dust[num8].position = npc.Center + vector2;
@@ -126,9 +121,6 @@ namespace SpiritMod.NPCs.Festerfly
 
 			npc.spriteDirection = npc.direction;
 		}
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return spawnInfo.player.ZoneCorrupt && spawnInfo.player.ZoneOverworldHeight && !NPC.AnyNPCs(ModContent.NPCType<Vilemoth>()) ? .05f : 0f;
-		}
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.player.ZoneCorrupt && spawnInfo.player.ZoneOverworldHeight && !NPC.AnyNPCs(ModContent.NPCType<Vilemoth>()) ? .05f : 0f;
 	}
 }

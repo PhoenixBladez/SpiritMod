@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Sets.GraniteSet
 			AddMapEntry(new Color(30, 144, 255), name);
 			soundType = SoundID.Tink;
 			minPick = 65;
-			dustType = 226;
+			dustType = DustID.Electric;
 		}
 		public override bool CanExplode(int i, int j)
 		{

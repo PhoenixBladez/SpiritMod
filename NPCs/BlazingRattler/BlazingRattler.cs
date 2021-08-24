@@ -11,7 +11,6 @@ namespace SpiritMod.NPCs.BlazingRattler
 {
 	public class BlazingRattler : ModNPC
 	{
-		bool attack = false;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blazing Rattler");
@@ -40,26 +39,19 @@ namespace SpiritMod.NPCs.BlazingRattler
 		int hitCounter;
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(153) == 0) {
+			if (Main.rand.Next(153) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GoldenKey);
-			}
-			if (Main.rand.Next(75) == 0) {
+			if (Main.rand.Next(75) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Nazar);
-			}
-			if (Main.rand.Next(100) == 0) {
+			if (Main.rand.Next(100) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TallyCounter);
-			}
             if (Main.rand.Next(250) == 0)
-            {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BoneWand);
-            }
-            if (Main.rand.Next(500) == 0) {
+            if (Main.rand.Next(500) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Skull);
-			}
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.LivingFireBlock, Main.rand.Next(10, 25));
-			if (Main.rand.Next(6) == 0) {
+			if (Main.rand.Next(6) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Placeable.Furniture.SkullPile>());
-			}
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{

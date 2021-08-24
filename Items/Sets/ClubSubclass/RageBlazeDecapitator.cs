@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Sets.ClubSubclass
             item.useTime = 320;
             item.useAnimation = 320;
             item.crit = 8;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.melee = true;
             item.noMelee = true;
             item.knockBack = 10;

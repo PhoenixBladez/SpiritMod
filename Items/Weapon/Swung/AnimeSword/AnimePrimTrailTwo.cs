@@ -30,7 +30,6 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
             Pixellated = true;
         }
         float angle;
-        NPC _npc;
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
             /*if (PointCount <= 1) return; //for easier, but less customizable, drawing
@@ -91,9 +90,7 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
         public override void OnUpdate()
         {
             if (Counter == 1)
-            {
                  Points.Add(Entity.Center + ((angle + 3.14f).ToRotationVector2() * Entity.height * 1.5f));
-            }
             Counter++;
             PointCount = Points.Count() * 6;
             OnDestroy();
@@ -103,9 +100,7 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
             Destroyed = true;
             Width *= 0.85f;
             if (Width < 0.05f)
-            {
                 Dispose();
-            }
         }
     }
 }

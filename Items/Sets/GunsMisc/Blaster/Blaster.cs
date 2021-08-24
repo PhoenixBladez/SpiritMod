@@ -83,11 +83,11 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 			}
 			if (elementSecondary <= 4 && fireType == 2) {
 				SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/GunsMisc/Blaster/Blaster_ShockGlow");
-				dustType = 226;
+				dustType = DustID.Electric;
 			}
 			if (elementSecondary >= 5 && fireType == 2) {
 				SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/GunsMisc/Blaster/Blaster_FreezeGlow");
-				dustType = 180;
+				dustType = DustID.DungeonSpirit;
 			}
 		}
 		public override void RightClick(Player player)
@@ -117,7 +117,6 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 			}
 		}
 
-		int magazine = 1;
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{

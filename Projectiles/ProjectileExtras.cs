@@ -637,14 +637,14 @@ namespace SpiritMod.Projectiles
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 			if (visualAction == null) {
 				for (int i = 0; i < 30; i++) {
-					int num = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 100, default(Color), 1.5f);
+					int num = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Smoke, 0f, 0f, 100, default(Color), 1.5f);
 					Main.dust[num].velocity *= 1.4f;
 				}
 				for (int j = 0; j < 20; j++) {
-					int num2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 3.5f);
+					int num2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default(Color), 3.5f);
 					Main.dust[num2].noGravity = true;
 					Main.dust[num2].velocity *= 7f;
-					num2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 1.5f);
+					num2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default(Color), 1.5f);
 					Main.dust[num2].velocity *= 3f;
 				}
 				for (int k = 0; k < 2; k++) {

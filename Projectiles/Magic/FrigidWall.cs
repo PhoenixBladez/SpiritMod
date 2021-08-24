@@ -51,8 +51,6 @@ namespace SpiritMod.Projectiles.Magic
 		}
 		public override void AI()
 		{
-			int timer = 0;
-
 			projectile.localAI[0] += 1f;
 			if (projectile.localAI[0] >= 10f) {
 				projectile.localAI[0] = 0f;

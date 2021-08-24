@@ -13,8 +13,6 @@ namespace SpiritMod.Items.DonatorItems
 			Tooltip.SetDefault("Launches a beam of electricity ");
 		}
 
-
-		int charger;
 		public override void SetDefaults()
 		{
 			item.damage = 80;
@@ -41,9 +39,6 @@ namespace SpiritMod.Items.DonatorItems
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();
-
-
-
 		}
 	}
 }

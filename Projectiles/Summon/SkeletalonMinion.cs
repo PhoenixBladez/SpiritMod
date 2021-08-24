@@ -62,14 +62,7 @@ namespace SpiritMod.Projectiles.Summon
 			float num528 = projectile.position.Y;
 			float num529 = 900f;
 			bool flag19 = false;
-			int num530 = 500;
-			if (projectile.ai[1] != 0f || projectile.friendly)
-				num530 = 1400;
 
-			//if (Math.Abs(Projectile.Center.X - Main.player[projectile.owner].Center.X) + Math.Abs(Projectile.Center.Y - Main.player[projectile.owner].Center.Y) > (float)num530)
-			//{
-			//	projectile.ai[0] = 1f;
-			//}
 			if (projectile.ai[0] == 0f) {
 				for (int num531 = 0; num531 < 200; num531++) {
 					if (Main.npc[num531].CanBeChasedBy(projectile, false)) {
@@ -184,15 +177,12 @@ namespace SpiritMod.Projectiles.Summon
 			}
 		}
 
-		public override bool MinionContactDamage()
-		{
-			return true;
-		}
+		public override bool MinionContactDamage() => true;
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 10; i++) {
 				Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 2);
-				int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 0, (float)(Main.rand.Next(5) - 2), (float)(Main.rand.Next(5) - 2), 133);
+				Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.Dirt, (Main.rand.Next(5) - 2), (Main.rand.Next(5) - 2), 133);
 			}
 		}
 	}

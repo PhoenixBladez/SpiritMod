@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Magic
@@ -26,13 +27,11 @@ namespace SpiritMod.Projectiles.Magic
 		public override bool PreAI()
 		{
 			projectile.tileCollide = false;
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 60, 0f, 0f);
+			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.RedTorch, 0f, 0f);
 			Main.dust[dust].scale = 1.5f;
 			Main.dust[dust].noGravity = true;
 			return true;
 		}
-
-		int timer = 50;
 
 		public override void AI()
 		{

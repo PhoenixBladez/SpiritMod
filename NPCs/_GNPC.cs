@@ -187,7 +187,6 @@ namespace SpiritMod.NPCs
 					}
 				}
 			}
-
 			return base.PreAI(npc);
 		}
 
@@ -197,7 +196,7 @@ namespace SpiritMod.NPCs
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
 				{
 					for (int i = 0; i < 20; i++) {
-						int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 0, default(Color), 2f);
+						int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 0f, -2f, 0, default(Color), 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -1330,10 +1329,10 @@ namespace SpiritMod.NPCs
 		public override void DrawEffects(NPC npc, ref Color drawColor)
 		{
 			if (sFracture && Main.rand.Next(2) == 0)
-				Dust.NewDust(npc.position, npc.width, npc.height, 133, (float)(Main.rand.Next(8) - 4), (float)(Main.rand.Next(8) - 4), 133);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Firework_Yellow, (float)(Main.rand.Next(8) - 4), (float)(Main.rand.Next(8) - 4), 133);
 
 			if (felBrand && Main.rand.Next(2) == 0)
-				Dust.NewDust(npc.position, npc.width, npc.height, 75, (float)(Main.rand.Next(8) - 4), (float)(Main.rand.Next(8) - 4), 75);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.CursedTorch, (float)(Main.rand.Next(8) - 4), (float)(Main.rand.Next(8) - 4), 75);
 			if (vineTrap) {
 				drawColor = new Color(103, 138, 84);
 			}

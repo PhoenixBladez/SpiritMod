@@ -34,16 +34,13 @@ namespace SpiritMod.Projectiles.DonatorItems
 			projectile.minionSlots = 1;
 			projectile.alpha = 0;
 		}
-		
-		public override bool? CanCutTiles() {
-			return false;
-		}
+
+		public override bool? CanCutTiles() => false;
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			if (projectile.penetrate == 0)
 				projectile.Kill();
-
 			return false;
 		}
 
@@ -70,26 +67,8 @@ namespace SpiritMod.Projectiles.DonatorItems
 			else {
 				projectile.frame = 0;
 			}
-			
-			float distanceFromTarget = 700f;
-			Vector2 targetCenter = projectile.position;
-			bool foundTarget = false;
-			
-			if (player.HasMinionAttackTargetNPC) {
-				NPC npc = Main.npc[player.MinionAttackTargetNPC];
-				float between = Vector2.Distance(npc.Center, projectile.Center);
-				if (between < 2000f) {
-					distanceFromTarget = between;
-					targetCenter = npc.Center;
-					foundTarget = true;
-				}
-			}
-		}
-		
-		public override bool MinionContactDamage()
-		{
-			return true;
 		}
 
+		public override bool MinionContactDamage() => true;
 	}
 }

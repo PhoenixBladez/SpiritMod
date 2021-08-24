@@ -85,7 +85,6 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
 			npc.frame.Y = frame * frameHeight;
 		}
 
-		int rotationCounter;
 		float shakeRotation;
 		public override void AI()
 		{
@@ -144,7 +143,7 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
                 float breakCounter = 1 - (npc.life / 4000f);
 				SpiritMod.CircleNoise.Parameters["breakCounter"].SetValue(breakCounter);
-				SpiritMod.CircleNoise.Parameters["rotation"].SetValue(0 - (rotationCounter / 200f) + shakeRotation);
+				SpiritMod.CircleNoise.Parameters["rotation"].SetValue(0 - (0 / 200f) + shakeRotation);
 				SpiritMod.CircleNoise.Parameters["colorMod"].SetValue(Color.Silver.ToVector4());
 				SpiritMod.CircleNoise.Parameters["noise"].SetValue(mod.GetTexture("Textures/noise"));
 				SpiritMod.CircleNoise.CurrentTechnique.Passes[0].Apply();
@@ -162,7 +161,7 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
 				npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY),
 				new Rectangle(0,0,48,52),
 				Color.White,
-				0 - (rotationCounter / 200f) + shakeRotation,
+				0 - (0 / 200f) + shakeRotation,
 				new Vector2(28,26),
 				npc.scale,
 				SpriteEffects.None, 0
@@ -172,7 +171,7 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
 				npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY),
 				new Rectangle(0,52,48,52),
 				Color.White * breakCounter,
-				0 - (rotationCounter / 200f) + shakeRotation,
+				0 - (0 / 200f) + shakeRotation,
 				new Vector2(28,26),
 				npc.scale,
 				SpriteEffects.None, 0

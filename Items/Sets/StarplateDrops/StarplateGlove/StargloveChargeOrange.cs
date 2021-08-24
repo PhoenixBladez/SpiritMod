@@ -49,8 +49,8 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 			else
 				projectile.spriteDirection = 1;
 			++projectile.ai[1];
-			bool flag2 = (double) Vector2.Distance(projectile.Center, player.Center) > (double) 0f && (double) projectile.Center.Y == (double) player.Center.Y;
-			if ((double) projectile.ai[1] >= (double) 30f && flag2)
+			bool flag2 = Vector2.Distance(projectile.Center, player.Center) > 0f && projectile.Center.Y == player.Center.Y;
+			if ((double) projectile.ai[1] >= 30f && flag2)
 			{
 				projectile.ai[1] = 0.0f;
 			}
@@ -58,8 +58,8 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 			float num = 3f;
 			for (int index1 = 0; (double)index1 < (double)num; ++index1)
 			{
-				int index2 = Dust.NewDust(projectile.position, 1, 1, 6, 0.0f, 0.0f, 0, Color.Purple, 1.8f);
-				Main.dust[index2].position = projectile.Center - projectile.velocity / num * 5f * (float)index1;
+				int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.Fire, 0.0f, 0.0f, 0, Color.Purple, 1.8f);
+				Main.dust[index2].position = projectile.Center - projectile.velocity / num * 5f * index1;
 				Main.dust[index2].velocity *= 0.0f;
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].alpha = 125;

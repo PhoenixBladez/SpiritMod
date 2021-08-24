@@ -65,14 +65,7 @@ namespace SpiritMod.Projectiles.Summon
 			float num528 = projectile.position.Y;
 			float num529 = 900f;
 			bool flag19 = false;
-			int num530 = 500;
-			if (projectile.ai[1] != 0f || projectile.friendly)
-				num530 = 1400;
 
-			//if (Math.Abs(Projectile.Center.X - Main.player[projectile.owner].Center.X) + Math.Abs(Projectile.Center.Y - Main.player[projectile.owner].Center.Y) > (float)num530)
-			//{
-			//	projectile.ai[0] = 1f;
-			//}
 			if (projectile.ai[0] == 0f) {
 				for (int num531 = 0; num531 < 200; num531++) {
 					if (Main.npc[num531].CanBeChasedBy(projectile, false)) {
@@ -98,16 +91,16 @@ namespace SpiritMod.Projectiles.Summon
 				if (projectile.ai[0] == 1f)
 					num535 = 12f;
 
-				Vector2 vector38 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+				Vector2 vector38 = new Vector2(projectile.position.X + projectile.width * 0.5f, projectile.position.Y + projectile.height * 0.5f);
 				float num536 = Main.player[projectile.owner].Center.X - vector38.X;
 				float num537 = Main.player[projectile.owner].Center.Y - vector38.Y - 60f;
-				float num538 = (float)Math.Sqrt((double)(num536 * num536 + num537 * num537));
+				float num538 = (float)Math.Sqrt((num536 * num536 + num537 * num537));
 				if (num538 < 100f && projectile.ai[0] == 1f && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height)) {
 					projectile.ai[0] = 0f;
 				}
 				if (num538 > 2000f) {
-					projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-					projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.width / 2);
+					projectile.position.X = Main.player[projectile.owner].Center.X - (projectile.width / 2f);
+					projectile.position.Y = Main.player[projectile.owner].Center.Y - (projectile.width / 2f);
 				}
 				if (num538 > 70f) {
 					num538 = num535 / num538;

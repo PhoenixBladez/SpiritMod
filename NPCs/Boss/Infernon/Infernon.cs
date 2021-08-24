@@ -210,16 +210,16 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				npc.ai[3]++;
 				if (npc.ai[3] >= 60) {
 					if (npc.ai[3] % 20 == 0) {
-						int dust = Dust.NewDust(npc.position, npc.width, npc.height, 6);
+						int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire);
 						Main.dust[dust].noGravity = true;
 						Main.dust[dust].scale = 1.9f;
-						int dust1 = Dust.NewDust(npc.position, npc.width, npc.height, 6);
+						int dust1 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire);
 						Main.dust[dust1].noGravity = true;
 						Main.dust[dust1].scale = 1.9f;
-						int dust2 = Dust.NewDust(npc.position, npc.width, npc.height, 6);
+						int dust2 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire);
 						Main.dust[dust2].noGravity = true;
 						Main.dust[dust2].scale = 1.9f;
-						int dust3 = Dust.NewDust(npc.position, npc.width, npc.height, 6);
+						int dust3 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire);
 						Main.dust[dust3].noGravity = true;
 						Main.dust[dust3].scale = 1.9f;
 						Vector2 direction = Vector2.One.RotatedByRandom(MathHelper.ToRadians(100));
@@ -250,8 +250,8 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				npc.rotation = npc.velocity.X * 0.03f;
 			}
 
-			int dust4 = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, 6, npc.velocity.X * 1.5f, npc.velocity.Y * 1.5f);
-			int dust5 = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, 6, npc.velocity.X * 1.5f, npc.velocity.Y * 1.5f);
+			int dust4 = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, DustID.Fire, npc.velocity.X * 1.5f, npc.velocity.Y * 1.5f);
+			int dust5 = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, DustID.Fire, npc.velocity.X * 1.5f, npc.velocity.Y * 1.5f);
 			Main.dust[dust4].velocity *= 0f;
 			Main.dust[dust5].velocity *= 0f;
 
@@ -281,7 +281,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, hitDirection, -1f, 0, default(Color), 1f);
 			}
 			if (npc.life <= 0) {
 				if (Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0) {
@@ -299,7 +299,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				npc.position.X = npc.position.X - (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 200; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Fire, 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num622].velocity *= 3f;
 					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
@@ -307,10 +307,10 @@ namespace SpiritMod.NPCs.Boss.Infernon
 					}
 				}
 				for (int num623 = 0; num623 < 400; num623++) {
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Fire, 0f, 0f, 100, default(Color), 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Fire, 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}
@@ -346,7 +346,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 		public override void NPCLoot()
 		{
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				int centerX = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
 				int centerY = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
@@ -362,7 +362,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 						}
 						Main.tile[x, y].lava(false);
 						Main.tile[x, y].liquid = 0;
-						if (Main.netMode == 2)
+						if (Main.netMode == NetmodeID.Server)
 						{
 							NetMessage.SendTileSquare(-1, x, y, 1);
 						}

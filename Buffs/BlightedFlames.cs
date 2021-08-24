@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Buffs
 {
@@ -17,7 +18,7 @@ namespace SpiritMod.Buffs
 			npc.defense -= 3;
 
 			if (Main.rand.NextBool(2)) {
-				int dust = Dust.NewDust(npc.position, npc.width, npc.height, 61);
+				int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.GreenTorch);
 				Main.dust[dust].scale = 3f;
 				Main.dust[dust].noGravity = true;
 			}

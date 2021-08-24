@@ -63,9 +63,8 @@ namespace SpiritMod.Projectiles.Magic
 
 			for (int index1 = 0; index1 < 5; ++index1) {
 				float num1 = projectile.velocity.X * 0.2f * (float)index1;
-				float num2 = (float)-((double)projectile.velocity.Y * 0.200000002980232) * (float)index1;
-				int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height,
-					6, 0.0f, 0.0f, 100, default(Color), 1.3f);
+				float num2 = (float)-((double)projectile.velocity.Y * 0.2) * (float)index1;
+				int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0.0f, 0.0f, 100, default, 1.3f);
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity *= 0.0f;
 				Main.dust[index2].position.X -= num1;

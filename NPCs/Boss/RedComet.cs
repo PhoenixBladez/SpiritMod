@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.NPCs.Boss
 {
@@ -44,14 +45,11 @@ namespace SpiritMod.NPCs.Boss
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 20; i++) {
-				Dust.NewDust(projectile.Center, projectile.width, projectile.height,
-					0, 0, 60, 133);
+				Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.Dirt, 0, 60, 133);
 			}
 		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return Color.White;
-		}
+		public override Color? GetAlpha(Color lightColor) => Color.White;
+
 		public override void AI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f + 3.14f;
@@ -62,7 +60,7 @@ namespace SpiritMod.NPCs.Boss
 					Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
 					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
 					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2));
-					int num8 = Dust.NewDust(projectile.Center, 0, 0, 60, 0f, 0f, 160, new Color(), 1f);
+					int num8 = Dust.NewDust(projectile.Center, 0, 0, DustID.RedTorch, 0f, 0f, 160, new Color(), 1f);
 					Main.dust[num8].scale = 1.3f;
 					Main.dust[num8].noGravity = true;
 					Main.dust[num8].position = projectile.Center + vector2;
@@ -73,7 +71,7 @@ namespace SpiritMod.NPCs.Boss
 			}
 			int num1222 = 5;
 			for (int k = 0; k < 2; k++) {
-				int index2 = Dust.NewDust(projectile.position, 1, 1, 60, 0.0f, 0.0f, 0, new Color(), 1f);
+				int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.RedTorch, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num1222 * (float)k;
 				Main.dust[index2].scale = .95f;
 				Main.dust[index2].velocity *= 0f;

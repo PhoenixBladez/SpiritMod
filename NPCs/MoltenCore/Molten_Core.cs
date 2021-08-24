@@ -44,7 +44,7 @@ namespace SpiritMod.NPCs.MoltenCore
 			
 			if (Main.rand.Next(15) == 0)
 			{
-				int index = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0.0f, 0.0f, 100, new Color(), 1f);
+				int index = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Fire, 0.0f, 0.0f, 100, new Color(), 1f);
 				Main.dust[index].noGravity = true;
 				Main.dust[index].velocity.X = (float) Main.rand.Next(-3,3);
 				Main.dust[index].velocity.Y = 2f;
@@ -220,9 +220,9 @@ namespace SpiritMod.NPCs.MoltenCore
 			}
 			for (int k = 0; k < 7; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 6, 2.5f * hitDirection, -2.5f, 0, default(Color), 1.2f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 6, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.5f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 6, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 2.5f * hitDirection, -2.5f, 0, default(Color), 1.2f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.5f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
 			}
 		}
 		public override void NPCLoot()

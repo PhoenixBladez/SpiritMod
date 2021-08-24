@@ -19,7 +19,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileBlockLight[Type] = true;
 			AddMapEntry(new Color(163, 224, 240));
 			drop = ModContent.ItemType<CreepingIce>();
-			dustType = 51;
+			dustType = DustID.SnowBlock;
 		}
 		public override bool HasWalkDust()
 		{
@@ -27,7 +27,7 @@ namespace SpiritMod.Tiles.Block
 		}
 		public override void WalkDust(ref int dustType, ref bool makeDust, ref Color color)
 		{
-			dustType = 51;
+			dustType = DustID.SnowBlock;
 			makeDust = true;
 		}
 		public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
@@ -61,7 +61,7 @@ namespace SpiritMod.Tiles.Block
 					}
 				}
 				if (Main.rand.Next(20) == 0) {
-					int d = Dust.NewDust(new Vector2(i * 16, j * 16 - 10), Main.rand.Next(-2, 2), Main.rand.Next(-2, 2), 51, 0.0f, -1, 0, new Color(), 0.95f);//Leave this line how it is, it uses int division
+					int d = Dust.NewDust(new Vector2(i * 16, j * 16 - 10), Main.rand.Next(-2, 2), Main.rand.Next(-2, 2), DustID.SnowBlock, 0.0f, -1, 0, new Color(), 0.95f);//Leave this line how it is, it uses int division
 
 					Main.dust[d].velocity *= .8f;
 					Main.dust[d].noGravity = true;

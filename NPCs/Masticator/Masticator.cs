@@ -35,7 +35,6 @@ namespace SpiritMod.NPCs.Masticator
 		}
 		int frame;
 		bool vomitPhase;
-		bool falling;
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(vomitPhase);
@@ -49,7 +48,6 @@ namespace SpiritMod.NPCs.Masticator
 		{
 			if (!vomitPhase) {
 				npc.rotation = npc.velocity.X * .06f;
-				falling = false;
 				++npc.ai[2];
 				if (npc.ai[2] >= 6) {
 					frame++;
@@ -110,9 +108,8 @@ namespace SpiritMod.NPCs.Masticator
 			else {
 				if (Main.rand.NextFloat() < 0.331579f) {
 					{
-						Dust dust;
 						Vector2 position = npc.Center;
-						int d = Dust.NewDust(npc.position, npc.width, npc.height + 10, 167, 0, 1f, 0, Color.Purple, 0.7f);
+						int d = Dust.NewDust(npc.position, npc.width, npc.height + 10, DustID.Plantera_Green, 0, 1f, 0, Color.Purple, 0.7f);
 						Main.dust[d].velocity *= .1f;
 					}
 				}
@@ -137,7 +134,6 @@ namespace SpiritMod.NPCs.Masticator
 						frame = 5;
 					}
 					npc.rotation = 0f;
-					falling = false;
 					float num395 = Main.mouseTextColor / 200f - 0.25f;
 					num395 *= 0.2f;
 					npc.scale = num395 + 0.95f;

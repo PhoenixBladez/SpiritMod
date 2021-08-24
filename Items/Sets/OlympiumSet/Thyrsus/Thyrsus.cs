@@ -152,7 +152,6 @@ namespace SpiritMod.Items.Sets.OlympiumSet.Thyrsus
 
 		public override void AI()
 		{
-			float _speed = 2;
 			if (!Parent.active)
 			{
 				projectile.active = false;

@@ -137,7 +137,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 		public override void AI()
 		{
-			int dust = Dust.NewDust(npc.position, npc.width, npc.height, 6);
+			int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire);
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)

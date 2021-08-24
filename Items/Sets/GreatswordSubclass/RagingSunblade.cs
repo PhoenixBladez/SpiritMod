@@ -192,10 +192,10 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
                 trail.Points.Add(projectile.Center - player.Center);
                 if (Main.rand.Next(4) == 0)
                 {
-                    Dust dust = Dust.NewDustDirect(projectile.Center - new Vector2(projectile.width / 4, projectile.height / 4), projectile.width / 2, projectile.height / 2, 6, ((float)radians + 3.14f).ToRotationVector2().X * growCounter / 6f, ((float)radians + 3.14f).ToRotationVector2().Y * growCounter / 6f);
+                    Dust dust = Dust.NewDustDirect(projectile.Center - new Vector2(projectile.width / 4, projectile.height / 4), projectile.width / 2, projectile.height / 2, DustID.Fire, ((float)radians + 3.14f).ToRotationVector2().X * growCounter / 6f, ((float)radians + 3.14f).ToRotationVector2().Y * growCounter / 6f);
                     dust.scale = 1.5f;
                     dust.noGravity = true;
-                    dust = Dust.NewDustDirect(player.Center - (((float)radians + 3.14f).ToRotationVector2() * 10 * growCounter / 6f) - new Vector2(projectile.width / 4, projectile.height / 4), projectile.width / 2, projectile.height / 2, 6, ((float)radians + 3.14f).ToRotationVector2().X * growCounter / -6f, ((float)radians + 3.14f).ToRotationVector2().Y * growCounter / -2f);
+                    dust = Dust.NewDustDirect(player.Center - (((float)radians + 3.14f).ToRotationVector2() * 10 * growCounter / 6f) - new Vector2(projectile.width / 4, projectile.height / 4), projectile.width / 2, projectile.height / 2, DustID.Fire, ((float)radians + 3.14f).ToRotationVector2().X * growCounter / -6f, ((float)radians + 3.14f).ToRotationVector2().Y * growCounter / -2f);
                     dust.scale = 1.5f;
                     dust.noGravity = true;
                 }

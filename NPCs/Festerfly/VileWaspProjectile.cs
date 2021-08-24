@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.NPCs.Festerfly;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -10,8 +9,6 @@ namespace SpiritMod.NPCs.Festerfly
 {
 	public class VileWaspProjectile : ModProjectile
 	{
-
-		private int DamageAdditive;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pesterfly Hatchling");
@@ -48,11 +45,7 @@ namespace SpiritMod.NPCs.Festerfly
 			float num2 = 120f;
 			float x = 0.85f;
 			float y = 0.35f;
-			int Damage = 0;
-			float num3 = 0.0f;
-			bool flag1 = true;
 			bool flag2 = false;
-			bool flag3 = false;
 			if ((double)projectile.ai[0] < (double)num2) {
 				bool flag4 = true;
 				int index1 = (int)projectile.ai[1];

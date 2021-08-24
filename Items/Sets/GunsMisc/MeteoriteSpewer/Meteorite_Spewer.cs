@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.MeteoriteSpewer
 			item.width = 44;
 			item.reuseDelay = 15;
 			item.height = 14;
-			item.shoot = 10;
+			item.shoot = ProjectileID.PurificationPowder;
 			item.useAmmo = AmmoID.Bullet;
 			item.damage = 13;
 			item.shootSpeed = 6f;
@@ -31,14 +31,8 @@ namespace SpiritMod.Items.Sets.GunsMisc.MeteoriteSpewer
 			item.rare = ItemRarityID.Blue;
 			item.ranged = true;
 		}
-		public override bool ConsumeAmmo(Player player)
-		{
-			return Main.rand.NextFloat() >= .50f;
-		}
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-11, -2);
-		}
+		public override bool ConsumeAmmo(Player player) => Main.rand.NextFloat() >= .50f;
+		public override Vector2? HoldoutOffset() => new Vector2(-11, -2);
 		
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
@@ -52,7 +46,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.MeteoriteSpewer
 			int num2 = Main.rand.Next(10, 30);
             for (int index1 = 0; index1 < num2; ++index1)
             {
-                int index2 = Dust.NewDust(position - muzzleOffset, 0, 0, 6, 0.0f, 0.0f, 100, new Color(), 1.6f);
+                int index2 = Dust.NewDust(position - muzzleOffset, 0, 0, DustID.Fire, 0.0f, 0.0f, 100, new Color(), 1.6f);
                 Main.dust[index2].velocity *= 1.2f;
                 --Main.dust[index2].velocity.Y;
                 Main.dust[index2].velocity += new Vector2(speedX, speedY);

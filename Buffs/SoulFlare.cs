@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Buffs
 {
@@ -16,16 +17,14 @@ namespace SpiritMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			if (player.lifeRegen > 0) {
+			if (player.lifeRegen > 0)
 				player.lifeRegen = 0;
-			}
 
 			player.lifeRegen -= 17;
 			player.statDefense -= 4;
 
-			if (Main.rand.NextBool(4)) {
-				Dust.NewDust(player.position, player.width, player.height, 187);
-			}
+			if (Main.rand.NextBool(4))
+				Dust.NewDust(player.position, player.width, player.height, DustID.Flare_Blue);
 		}
 	}
 }

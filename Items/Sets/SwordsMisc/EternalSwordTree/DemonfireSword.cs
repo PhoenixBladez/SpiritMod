@@ -15,7 +15,6 @@ namespace SpiritMod.Items.Sets.SwordsMisc.EternalSwordTree
 
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.damage = 49;
@@ -26,7 +25,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.EternalSwordTree
 			item.height = 64;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 4;
-			item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
+			item.value = Item.sellPrice(0, 5, 0, 0);
 			item.rare = ItemRarityID.Lime;
 			item.shootSpeed = 6;
 			item.UseSound = SoundID.Item1;
@@ -43,11 +42,8 @@ namespace SpiritMod.Items.Sets.SwordsMisc.EternalSwordTree
 		}
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
-			{
-				if (Main.rand.Next(5) == 0) {
-					int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 6);
-				}
-			}
+			if (Main.rand.Next(5) == 0)
+				Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.Fire);
 		}
 		public override void AddRecipes()
 		{

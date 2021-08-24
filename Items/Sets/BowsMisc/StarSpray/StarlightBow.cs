@@ -46,7 +46,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.StarSpray
 				Vector2 offset = mouse - player.position;
 				offset.Normalize();
 				offset *= 23f;
-				int dust = Dust.NewDust(projectile.Center + offset, projectile.width, projectile.height, 71);
+				int dust = Dust.NewDust(projectile.Center + offset, projectile.width, projectile.height, DustID.UndergroundHallowedEnemies);
 
 				Main.dust[dust].velocity *= -1f;
 				Main.dust[dust].noGravity = true;

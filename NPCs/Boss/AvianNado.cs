@@ -23,7 +23,6 @@ namespace SpiritMod.NPCs.Boss
 			projectile.tileCollide = false;
 			projectile.penetrate = -1;
 		}
-		int target;
 
 		public override void AI()
 		{
@@ -44,16 +43,15 @@ namespace SpiritMod.NPCs.Boss
 			}
 			float num1176 = 15f;
 			float num1175 = 15f;
-			Point point10 = projectile.Center.ToTileCoordinates();
-			int num1851 = default(int);
-			int num1852 = default(int);
-			Collision.ExpandVertically(point10.X, point10.Y, out num1851, out num1852, (int)num1176, (int)num1175);
+			Point center = projectile.Center.ToTileCoordinates();
+
+			Collision.ExpandVertically(center.X, center.Y, out int num1851, out int num1852, (int)num1176, (int)num1175);
 			int num2475 = num1851;
 			num1851 = num2475 + 1;
 			num2475 = num1852;
 			num1852 = num2475 - 1;
-			Vector2 value93 = new Vector2((float)point10.X, (float)num1851) * 16f + new Vector2(8f);
-			Vector2 value92 = new Vector2((float)point10.X, (float)num1852) * 16f + new Vector2(8f);
+			Vector2 value93 = new Vector2(center.X, num1851) * 16f + new Vector2(8f);
+			Vector2 value92 = new Vector2(center.X, num1852) * 16f + new Vector2(8f);
 			Vector2 vector152 = Vector2.Lerp(value93, value92, 0.5f);
 			Vector2 value159 = new Vector2(0f, value92.Y - value93.Y);
 			value159.X = value159.Y * 0.2f;
@@ -80,9 +78,8 @@ namespace SpiritMod.NPCs.Boss
 					dust44.customData = vector152 + value89;
 					dust44.fadeIn = 1f;
 					dust44.scale = 0.3f;
-					if (value160.X > -1.2f) {
+					if (value160.X > -1.2f)
 						dust44.velocity.X = 1f + Main.rand.NextFloat();
-					}
 					dust44.velocity.Y = Main.rand.NextFloat() * -0.5f - 1f;
 					num2475 = num1172;
 				}
@@ -91,25 +88,22 @@ namespace SpiritMod.NPCs.Boss
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			float num391 = 900f;
-			if (projectile.type == 657) {
+			if (projectile.type == 657)
 				num391 = 300f;
-			}
 			float num390 = 15f;
 			float num389 = 15f;
 			float num388 = projectile.ai[0];
 			float scale6 = MathHelper.Clamp(num388 / 30f, 0f, 1f);
-			if (num388 > num391 - 60f) {
+			if (num388 > num391 - 60f)
 				scale6 = MathHelper.Lerp(1f, 0f, (num388 - (num391 - 60f)) / 60f);
-			}
-			Microsoft.Xna.Framework.Point point5 = projectile.Center.ToTileCoordinates();
-			int num571 = default(int);
-			int num572 = default(int);
-			Collision.ExpandVertically(point5.X, point5.Y, out num571, out num572, (int)num390, (int)num389);
+			Point center = projectile.Center.ToTileCoordinates();
+
+			Collision.ExpandVertically(center.X, center.Y, out int num571, out int num572, (int)num390, (int)num389);
 			num571++;
 			num572--;
 			float num387 = 0.2f;
-			Vector2 value13 = new Vector2((float)point5.X, (float)num571) * 16f + new Vector2(8f);
-			Vector2 value12 = new Vector2((float)point5.X, (float)num572) * 16f + new Vector2(8f);
+			Vector2 value13 = new Vector2(center.X, num571) * 16f + new Vector2(8f);
+			Vector2 value12 = new Vector2(center.X, num572) * 16f + new Vector2(8f);
 			Vector2.Lerp(value13, value12, 0.5f);
 			Vector2 vector46 = new Vector2(0f, value12.Y - value13.Y);
 			vector46.X = vector46.Y * num387;

@@ -55,13 +55,13 @@ namespace SpiritMod.NPCs.FallingAsteroid
 				npc.netUpdate = true;
 			}
 			Vector2 vector2 = npc.Center + Vector2.Normalize(npc.velocity) / 2f;
-			Dust dust1 = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 6, 0.0f, 0.0f, 0, new Color(), 1f)];
+			Dust dust1 = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 0.0f, 0.0f, 0, new Color(), 1f)];
 			dust1.position = vector2;
 			dust1.velocity = npc.velocity.RotatedBy(1.57079637050629, new Vector2()) * 0.33f + npc.velocity / 120f;
 			dust1.position += npc.velocity.RotatedBy(1.57079637050629, new Vector2());
 			dust1.fadeIn = 0.5f;
 			dust1.noGravity = true;
-			Dust dust2 = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 6, 0.0f, 0.0f, 0, new Color(), 1f)];
+			Dust dust2 = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 0.0f, 0.0f, 0, new Color(), 1f)];
 			dust2.position = vector2;
 			dust2.velocity = npc.velocity.RotatedBy(-1.57079637050629, new Vector2()) * 0.33f + npc.velocity / 120f;
 			dust2.position += npc.velocity.RotatedBy(-1.57079637050629, new Vector2());
@@ -86,12 +86,12 @@ namespace SpiritMod.NPCs.FallingAsteroid
 			{
 				for (int index = 0; index < 30; ++index)
 				{
-					Dust dust = Main.dust[Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 50), npc.width, npc.height, 240, 0.0f, 0.0f, 0, new Color(), 1.2f)];
+					Dust dust = Main.dust[Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 50), npc.width, npc.height, DustID.Granite, 0.0f, 0.0f, 0, new Color(), 1.2f)];
 					dust.velocity.Y -= (float)(3.0 + (double)2 * 2.5);
 					dust.velocity.Y *= Main.rand.NextFloat();
 					dust.scale += (float)8 * 0.03f;
 				}
-				Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 14, 1f, 0.0f);
+				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 14, 1f, 0.0f);
 				npc.ai[0] = -90;
 				npc.netUpdate = true;
 				for (int k = 0; k < 10; k++)
@@ -100,7 +100,7 @@ namespace SpiritMod.NPCs.FallingAsteroid
 				}
 				for (int k = 0; k < 20; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 6, npc.velocity.X * 2f, -npc.velocity.Y * 2f, 150, new Color(), 1.2f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, npc.velocity.X * 2f, -npc.velocity.Y * 2f, 150, new Color(), 1.2f);
 				}
 				for (int i = 0; i < Main.npc.Length; i++)
 				{
@@ -273,9 +273,9 @@ namespace SpiritMod.NPCs.FallingAsteroid
 			}
 			for (int k = 0; k < 7; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 6, 2.5f * hitDirection, -2.5f, 0, default(Color), 1.2f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 6, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.5f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 6, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 2.5f * hitDirection, -2.5f, 0, default(Color), 1.2f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.5f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
 			}
 		}
 		public override void NPCLoot()
@@ -289,24 +289,6 @@ namespace SpiritMod.NPCs.FallingAsteroid
 		{
 			if (npc.ai[0] > 360)
 			{
-				/*for (int index = 0; index < 5; ++index)
-				{
-					int num20 = 0;
-					int num19 = 0;
-					SpriteEffects effects1 = SpriteEffects.None;
-					if (npc.spriteDirection == -1)
-						effects1 = SpriteEffects.FlipHorizontally;
-					float x5 = (float) ((double) (Main.npcTexture[npc.type].Width - npc.width) * 0.5 + (double) npc.width * 0.5);
-					Microsoft.Xna.Framework.Color color3 = Lighting.GetColor((int) ((double) npc.position.X + (double) npc.width * 0.5) / 16, (int) (((double) npc.position.Y + (double) npc.height * 0.5) / 16.0));
-					Microsoft.Xna.Framework.Color alpha = npc.GetAlpha(color3);
-					float num1 = (float) (9 - index) / 9f;
-					alpha.R = (byte) ((double) alpha.R * (double) num1);
-					alpha.G = (byte) ((double) alpha.G * (double) num1);
-					alpha.B = (byte) ((double) alpha.B * (double) num1);
-					alpha.A = (byte) ((double) alpha.A * (double) num1);
-					float num2 = (float) (9 - index) / 9f;
-					Main.spriteBatch.Draw(Main.npcTexture[npc.type], new Vector2(npc.oldPos[index].X - Main.screenPosition.X + x5 + (float) num20, npc.oldPos[index].Y - Main.screenPosition.Y + (float) (npc.height / 2) + npc.gfxOffY), npc.frame, alpha, npc.rotation, new Vector2(x5, (float) (npc.height / 2 + num19)), num2 * npc.scale, effects1, 0.0f);
-				}*/
 				Player player = Main.player[npc.target];
 				++visualTimer;
 				bool flag2 = (double) Vector2.Distance(npc.Center, player.Center) > (double) 0f && (double) npc.Center.Y == (double) player.Center.Y;
@@ -315,7 +297,6 @@ namespace SpiritMod.NPCs.FallingAsteroid
 					visualTimer = 0;
 				}
 				SpriteEffects spriteEffects = SpriteEffects.None;
-				float addY = 0.0f;
 				float addHeight = -4f;
 				float addWidth = 0f;
 				Vector2 vector2_3 = new Vector2((float) (Main.npcTexture[npc.type].Width / 2), (float) (Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));

@@ -18,7 +18,6 @@ namespace SpiritMod.Projectiles
 
 		}
 
-		int timer = 0;
 		public override void SetDefaults()
 		{
 			projectile.friendly = true;
@@ -36,7 +35,7 @@ namespace SpiritMod.Projectiles
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 20; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 112, 0f, -2f, 0, default(Color), 2f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Clentaminator_Purple, 0f, -2f, 0, default(Color), 2f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -45,6 +44,7 @@ namespace SpiritMod.Projectiles
 				}
 			}
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
@@ -55,24 +55,22 @@ namespace SpiritMod.Projectiles
 			}
 			return true;
 		}
+
 		public override void AI()
 		{
 			Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 0.2f, 0.06f, 0.14f);
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			for (int i = 0; i < 8; i++) {
-				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
-				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-				int num = Dust.NewDust(new Vector2(x, y), 2, 2, 112);
+				float x = projectile.Center.X - projectile.velocity.X / 10f * i;
+				float y = projectile.Center.Y - projectile.velocity.Y / 10f * i;
+				int num = Dust.NewDust(new Vector2(x, y), 2, 2, DustID.Clentaminator_Purple);
 				Main.dust[num].scale *= .8f;
 				Main.dust[num].alpha = projectile.alpha;
 				Main.dust[num].velocity = Vector2.Zero;
 				Main.dust[num].noGravity = true;
 			}
 		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return Color.White;
-		}
 
+		public override Color? GetAlpha(Color lightColor) => Color.White;
 	}
 }

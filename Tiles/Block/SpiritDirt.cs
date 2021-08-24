@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Placeable.Tiles;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Tiles.Block
@@ -17,12 +18,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileLighted[Type] = true;
 			AddMapEntry(new Color(173, 216, 230));
 			drop = ModContent.ItemType<SpiritDirtItem>();
-			dustType = 103;
-		}
-
-		public override bool CanExplode(int i, int j)
-		{
-			return true;
+			dustType = DustID.Water_Space;
 		}
 	}
 }

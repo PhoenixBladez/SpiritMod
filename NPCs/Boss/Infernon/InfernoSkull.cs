@@ -65,7 +65,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 		}
 		public override void NPCLoot()
 		{
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				int centerX = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
 				int centerY = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
@@ -81,7 +81,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 						}
 						Main.tile[x, y].lava(false);
 						Main.tile[x, y].liquid = 0;
-						if (Main.netMode == 2)
+						if (Main.netMode == NetmodeID.Server)
 						{
 							NetMessage.SendTileSquare(-1, x, y, 1);
 						}
@@ -178,7 +178,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default, 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0) {
 				npc.position.X = npc.position.X + (npc.width / 2);
@@ -188,7 +188,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				npc.position.X = npc.position.X - (npc.width / 2);
 				npc.position.Y = npc.position.Y - (npc.height / 2);
 				for (int num621 = 0; num621 < 200; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default, 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Fire, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
 					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
@@ -196,10 +196,10 @@ namespace SpiritMod.NPCs.Boss.Infernon
 					}
 				}
 				for (int num623 = 0; num623 < 400; num623++) {
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default, 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Fire, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default, 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Fire, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}

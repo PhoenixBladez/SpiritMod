@@ -117,17 +117,17 @@ namespace SpiritMod.Mounts
 			if (player.velocity.X != 0f && player.velocity.Y == 0f) {
 				player.mount._abilityCooldown -= (int)Math.Abs(player.velocity.X);
 				if (player.mount._abilityCooldown <= -15) {
-					Vector2 vector = player.Center + new Vector2((float)(26 * -(float)player.direction), 26f * player.gravDir);
-					Terraria.Projectile.NewProjectile(vector.X, vector.Y, 0f, 0f, ModContent.ProjectileType<DrakomireFlame>(), player.statDefense / 2, 0f, player.whoAmI, 0f, 0f);
+					Vector2 vector = player.Center + new Vector2((26 * -(float)player.direction), 26f * player.gravDir);
+					Projectile.NewProjectile(vector.X, vector.Y, 0f, 0f, ModContent.ProjectileType<DrakomireFlame>(), player.statDefense / 2, 0f, player.whoAmI, 0f, 0f);
 					player.mount._abilityCooldown = 0;
 				}
 			}
 			if (Main.rand.Next(10) == 0) {
-				Vector2 vector2 = player.Center + new Vector2((float)(-48 * player.direction), -6f * player.gravDir);
+				Vector2 vector2 = player.Center + new Vector2((-48 * player.direction), -6f * player.gravDir);
 				if (player.direction == -1) {
 					vector2.X -= 20f;
 				}
-				Dust.NewDust(vector2, 16, 16, 6, 0f, 0f, 0, default(Color), 1f);
+				Dust.NewDust(vector2, 16, 16, DustID.Fire, 0f, 0f, 0, default, 1f);
 			}
 		}
 	}

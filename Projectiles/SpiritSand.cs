@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles
             projectile.penetrate = -1;
             //Set the tile type to ExampleSand
             tileType = ModContent.TileType<Tiles.Block.Spiritsand>();
-            dustType = 103;
+            dustType = DustID.Water_Space;
         }
 
         public override void AI()

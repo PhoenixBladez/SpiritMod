@@ -45,11 +45,11 @@ namespace SpiritMod.NPCs.HellEater
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 20; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 6, 2.5f * hitDirection, -2.5f, 117, default(Color), .6f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 2.5f * hitDirection, -2.5f, 117, default(Color), .6f);
 			}
 			if (npc.life <= 0) {
 				for (int i = 0; i < 20; i++) {
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, 6, 0f, -2f, 117, default(Color), .6f);
+					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 0f, -2f, 117, default(Color), .6f);
 					Main.dust[num].noGravity = true;
 					Dust expr_62_cp_0 = Main.dust[num];
 					expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
@@ -62,7 +62,7 @@ namespace SpiritMod.NPCs.HellEater
 				Main.PlaySound(SoundID.Item, npc.Center, 14);
 
 				for(int i = 1; i <= 3; i++) {
-					Gore.NewGore(npc.Center, npc.velocity, mod.GetGoreSlot("Gores/GluttonousDevourer/DevourerGore" + i.ToString()));
+					Gore.NewGore(npc.Center, npc.velocity, mod.GetGoreSlot("Gores/GluttonousDevourer/DevourerGore" + i));
 				}
             }
 		}
@@ -73,7 +73,7 @@ namespace SpiritMod.NPCs.HellEater
 		{
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.1f, 0.04f, 0.02f);
 
-			int dust = Dust.NewDust(npc.position, npc.width, npc.height, 6);
+			int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire);
 			Main.dust[dust].noGravity = true;
 
 			Vector2 direction = Main.player[npc.target].Center - npc.Center;

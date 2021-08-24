@@ -1,6 +1,5 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor.Daybloom
@@ -14,29 +13,19 @@ namespace SpiritMod.Items.Armor.Daybloom
 			Tooltip.SetDefault("Increases maximum mana by 20");
 		}
 
-
-		int timer = 0;
-
 		public override void SetDefaults()
 		{
 			item.width = 28;
 			item.height = 24;
-			item.value = Terraria.Item.sellPrice(0, 0, 10, 0);
+			item.value = Item.sellPrice(0, 0, 10, 0);
 			item.rare = ItemRarityID.White;
 			item.defense = 2;
 		}
-		public override void UpdateEquip(Player player)
-		{
-			player.statManaMax2 += 20;
-		}
 
-		public override bool IsArmorSet(Item head, Item body, Item legs)
-		{
-			return body.type == ModContent.ItemType<DaybloomBody>() && legs.type == ModContent.ItemType<DaybloomLegs>();
-		}
+		public override void UpdateEquip(Player player) => player.statManaMax2 += 20;
+		public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == ModContent.ItemType<DaybloomBody>() && legs.type == ModContent.ItemType<DaybloomLegs>();
 		public override void UpdateArmorSet(Player player)
 		{
-			string tapDir = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
 			player.setBonus = $"Being outside during daytime increases defense, maximum mana,\nand life regeneration slightly";
 			if (Main.dayTime) {
 				player.statDefense += 2;

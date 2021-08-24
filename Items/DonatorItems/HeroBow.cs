@@ -84,7 +84,7 @@ namespace SpiritMod.Items.DonatorItems
 	{
 		public override bool ProjectilePreAI(Projectile projectile)
 		{
-			int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6);
+			int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust].velocity *= 0f;
 			Main.dust[dust].scale = 1.5f;
@@ -109,7 +109,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override bool ProjectilePreAI(Projectile projectile)
 		{
 			if (Main.rand.NextBool()) {
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 135);
+				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.IceTorch);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].velocity *= 0f;
 				Main.dust[dust].scale = 1.5f;

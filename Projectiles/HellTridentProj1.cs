@@ -99,7 +99,7 @@ namespace SpiritMod.Projectiles
 
 			//Spawn the dust
 			if (Main.rand.Next(11) == 0) {
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			}
 			projectile.rotation = projectile.velocity.ToRotation() + (float)(Math.PI / 2);
 		}

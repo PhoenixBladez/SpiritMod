@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 			name.SetDefault("Cosmilite");
 			drop = ModContent.ItemType<CosmiliteShard>();
 			soundType = SoundID.Tink;
-			dustType = 226;
+			dustType = DustID.Electric;
 		}
 		public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
 		{

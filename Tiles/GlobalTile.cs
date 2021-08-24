@@ -19,7 +19,7 @@ namespace SpiritMod.Tiles
 	{
 		public int tremorItem = 0;
 
-		static int[] IceSculptures = new int[] { ModContent.TileType<IceWheezerHostile>(), ModContent.TileType<IceVikingHostile>(), ModContent.TileType<IceFlinxHostile>(), ModContent.TileType<IceBatHostile>(),
+		static readonly int[] IceSculptures = new int[] { ModContent.TileType<IceWheezerHostile>(), ModContent.TileType<IceVikingHostile>(), ModContent.TileType<IceFlinxHostile>(), ModContent.TileType<IceBatHostile>(),
 			ModContent.TileType<IceWheezerPassive>(), ModContent.TileType<IceVikingPassive>(), ModContent.TileType<IceBatPassive>(), ModContent.TileType<IceFlinxPassive>() };
 
 		readonly int[] indestructibletiles = new int[] { ModContent.TileType<StarBeacon>(), ModContent.TileType<AvianEgg>(), ModContent.TileType<Fathomless_Chest>(), ModContent.TileType<BloodBlossom>() };
@@ -30,7 +30,7 @@ namespace SpiritMod.Tiles
 
 			if (indestructibletiles.Contains(tileAbove.type) && type != tileAbove.type)
 				return false;
-			else if (!IceSculptures.Contains(type) && !IceSculptures.Contains(tileAbove.type))
+			else if (IceSculptures.Contains(type) || IceSculptures.Contains(tileAbove.type))
 				return false;
 
 			return true;
@@ -72,7 +72,7 @@ namespace SpiritMod.Tiles
 
 			if (indestructibletiles.Contains(tileAbove.type) && type != tileAbove.type)
 				return false;
-			if (!IceSculptures.Contains(type) && !IceSculptures.Contains(tileAbove.type))
+			if (IceSculptures.Contains(type) || IceSculptures.Contains(tileAbove.type))
 				return false;
 			return base.CanExplode(i, j, type);
 		}

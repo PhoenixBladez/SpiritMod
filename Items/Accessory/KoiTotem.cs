@@ -51,7 +51,7 @@ namespace SpiritMod.Items.Accessory
 			16
 			};
 			TileObjectData.addTile(Type);
-            dustType = 1;
+            dustType = DustID.Stone;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Koi Totem");
 			AddMapEntry(new Color(107, 90, 64), name);

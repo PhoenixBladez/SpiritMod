@@ -2,6 +2,7 @@
 using SpiritMod.Buffs;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles.Sword
 {
@@ -52,7 +53,7 @@ namespace SpiritMod.Projectiles.Sword
 			else {
 				projectile.velocity.Y = -6;
 				for (int i = 0; i < 10; i++) {
-					int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 68);
+					int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.BlueCrystalShard);
 					Main.dust[dust].velocity = Vector2.Zero;
 					Main.dust[dust].noGravity = true;
 				}

@@ -11,8 +11,6 @@ namespace SpiritMod.Projectiles.Summon.Zones
 {
 	class SlowZone : ModProjectile, IDrawAdditive
 	{
-		private bool[] _npcAliveLast;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Slow Zone");
@@ -73,7 +71,6 @@ namespace SpiritMod.Projectiles.Summon.Zones
                 Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
                 Color color = projectile.GetAlpha(lightColor) * (float)(((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length) / 2);
                 Color color1 = Color.White * (float)(((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length) / 2);
-                float num341 = 0f;
                 float num340 = projectile.height;
                 float num108 = 4;
                 float num107 = (float)Math.Cos((double)(Main.GlobalTime % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;

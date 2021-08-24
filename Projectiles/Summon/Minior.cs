@@ -53,27 +53,13 @@ namespace SpiritMod.Projectiles.Summon
 				if (modPlayer.minior)
 				projectile.timeLeft = 2;
 			}
-			
-			float distanceFromTarget = 700f;
-			Vector2 targetCenter = projectile.position;
-			bool foundTarget = false;
-			
-			if (player.HasMinionAttackTargetNPC) {
-				NPC npc = Main.npc[player.MinionAttackTargetNPC];
-				float between = Vector2.Distance(npc.Center, projectile.Center);
-				if (between < 2000f) {
-					distanceFromTarget = between;
-					targetCenter = npc.Center;
-					foundTarget = true;
-				}
-			}
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 50);
 			for (int i = 0; i < 5; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Flare_Blue);
 			}
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

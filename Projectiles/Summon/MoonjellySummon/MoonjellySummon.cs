@@ -40,9 +40,6 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
 			
 
 		}	
-        bool trailing = false;
-        bool flag25 = false;
-        int jim = 1;
         int counter;
         float alphaCounter;
         public override void Behavior()
@@ -88,7 +85,6 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
                 }
             }
             projectile.rotation = projectile.velocity.X * 0.025f;
-            trailing = false;
             projectile.tileCollide = false;
 			float num = projectile.width * 1.1f;
 			for (int i = 0; i < 1000; i++) {
@@ -211,24 +207,12 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
                 Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
                 Color color = projectile.GetAlpha(lightColor) * (float)(((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length) / 2);
                 Color color1 = Color.White * (float)(((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length) / 2);
-                float num341 = 0f;
-                float num340 = projectile.height;
-                float num108 = 4;
                 float num107 = (float)Math.Cos((double)(Main.GlobalTime % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
-                float num106 = 0f;
 
                 Vector2 vector15 = new Vector2((float)(Main.projectileTexture[projectile.type].Width / 2), (float)(Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type] / 2));
                 SpriteEffects spriteEffects3 = (projectile.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
                 Vector2 vector33 = new Vector2(projectile.Center.X, projectile.Center.Y - 18) - Main.screenPosition + new Vector2(0, projectile.gfxOffY) - projectile.velocity;
                 Microsoft.Xna.Framework.Color color29 = new Microsoft.Xna.Framework.Color(127 - projectile.alpha, 127 - projectile.alpha, 127 - projectile.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
-               /* for (int num103 = 0; num103 < 4; num103++)
-                {
-                    Microsoft.Xna.Framework.Color color28 = color29;
-                    color28 = projectile.GetAlpha(color28);
-                    color28 *= 1f - num107;
-                    Vector2 vector29 = new Vector2(projectile.Center.X - 8, projectile.Center.Y - 20) + drawOrigin + ((float)num103 / (float)num108 * 6.28318548f + projectile.rotation + num106).ToRotationVector2() * (4f * num107 + 2f) - Main.screenPosition + new Vector2(0, projectile.gfxOffY) - projectile.velocity * (float)num103;
-                    Main.spriteBatch.Draw(mod.GetTexture("Projectiles/Summon/MoonjellySummon/MoonjellySummon_Glow"), vector29, new Microsoft.Xna.Framework.Rectangle?(Main.projectileTexture[projectile.type].Frame(1, Main.projFrames[projectile.type], 0, projectile.frame)), color28, projectile.rotation, drawOrigin, projectile.scale, spriteEffects3, 0f);
-                }*/
                 spriteBatch.Draw(mod.GetTexture("Projectiles/Summon/MoonjellySummon/MoonjellySummon_Glow"), drawPos, new Microsoft.Xna.Framework.Rectangle?(Main.projectileTexture[projectile.type].Frame(1, Main.projFrames[projectile.type], 0, projectile.frame)), color1, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
 
 

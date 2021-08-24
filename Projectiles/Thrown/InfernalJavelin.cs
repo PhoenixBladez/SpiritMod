@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles.Thrown
 		public override bool PreAI()
 		{
 			if (Main.rand.Next(2) == 0) {
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[dust].scale *= 1.5f;
 				Main.dust[dust].noGravity = true;
 			}
@@ -70,7 +70,7 @@ namespace SpiritMod.Projectiles.Thrown
 			vector9 += value19 * 16f;
 
 			for (int num257 = 0; num257 < 20; num257++) {
-				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, 6, 0f, 0f, 0, default(Color), 1f);
+				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
 				Main.dust[newDust].velocity += value19 * 2f;
 				Main.dust[newDust].velocity *= 0.5f;

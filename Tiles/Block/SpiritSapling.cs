@@ -35,7 +35,7 @@ namespace SpiritMod.Tiles.Block
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Sapling");
 			AddMapEntry(new Color(200, 200, 200), name);
-			dustType = 1;
+			dustType = DustID.Stone;
 			adjTiles = new int[] { TileID.Saplings };
 		}
 

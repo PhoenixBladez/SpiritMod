@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
 			for (int num621 = 0; num621 < 40; num621++) {
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 68, 0f, 0f, 100, default(Color), 2f);
+				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.BlueCrystalShard, 0f, 0f, 100, default, 2f);
 				Main.dust[num622].velocity *= 3f;
 				Main.dust[num622].noGravity = true;
 				Main.dust[num622].scale = 0.5f;
@@ -38,15 +38,13 @@ namespace SpiritMod.Projectiles
 			ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
 			delegate {
 				for (int i = 0; i < 40; i++) {
-					int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 68, 0f, -2f, 0, default(Color), 1.1f);
+					int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.BlueCrystalShard, 0f, -2f, 0, default, 1.1f);
 					Main.dust[num].noGravity = true;
-					Dust expr_62_cp_0 = Main.dust[num];
-					expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-30, 31) / 20) - 1.5f);
-					Dust expr_92_cp_0 = Main.dust[num];
-					expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-30, 31) / 20) - 1.5f);
-					if (Main.dust[num].position != projectile.Center) {
-						Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
-					}
+					Dust dust = Main.dust[num];
+					dust.position.X += (Main.rand.Next(-30, 31) / 20) - 1.5f;
+					dust.position.Y += (Main.rand.Next(-30, 31) / 20) - 1.5f;
+					if (dust.position != projectile.Center)
+						dust.velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 				}
 			});
 		}
@@ -70,7 +68,7 @@ namespace SpiritMod.Projectiles
 				projectile.knockBack = 4f;
 			}
 
-			int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 68);
+			int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.BlueCrystalShard);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust].velocity *= 0f;
 			Main.dust[dust].scale *= Main.rand.NextFloat(.4f, .6f);

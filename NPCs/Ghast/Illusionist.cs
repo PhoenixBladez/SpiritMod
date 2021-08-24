@@ -125,7 +125,6 @@ namespace SpiritMod.NPCs.Ghast
 						if (Main.netMode != NetmodeID.MultiplayerClient) {
 							NPC.NewNPC((int)npc.position.X + npc.width / 2, (int)npc.Center.Y - 16, ModContent.NPCType<IllusionistSpectre>(), 0, 0, 0, 0, 0, 255);
 						}
-						float ScaleMult = 2.33f;
 						switch (Main.rand.Next(3)) {
 							case 0:
 								//DustHelper.DrawStar(new Vector2(npc.Center.X, npc.Center.Y - 30), 180, pointAmount: 5, mainSize: 2.25f * ScaleMult, dustDensity: 2, pointDepthMult: 0.3f, noGravity: true);
@@ -141,9 +140,8 @@ namespace SpiritMod.NPCs.Ghast
 
 					}
 
-					if (npc.ai[0] >= 230 && npc.ai[0] <= 250 || npc.ai[0] >= 470 && npc.ai[0] <= 485 || npc.ai[0] >= 710 && npc.ai[0] <= 725) {
+					if (npc.ai[0] >= 230 && npc.ai[0] <= 250 || npc.ai[0] >= 470 && npc.ai[0] <= 485 || npc.ai[0] >= 710 && npc.ai[0] <= 725)
 						frame = 4;
-					}
 				}
 				if (npc.ai[0] >= 720) {
 					npc.ai[0] = 0;
@@ -152,10 +150,7 @@ namespace SpiritMod.NPCs.Ghast
 
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.122f, .5f, .48f);
 		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return new Color(189, 195, 184);
-		}
+		public override Color? GetAlpha(Color lightColor) => new Color(189, 195, 184);
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
 		{
 			if (!aggroed) {
@@ -163,46 +158,33 @@ namespace SpiritMod.NPCs.Ghast
 			}
 			aggroed = true;
 		}
-		public override void FindFrame(int frameHeight)
-		{
-			npc.frame.Y = frameHeight * frame;
-		}
+		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (NPC.downedPlantBoss)
-			{
 				return spawnInfo.player.ZoneDungeon && NPC.CountNPCS(ModContent.NPCType<Illusionist>()) < 1 ? 0.0015f : 0f;
-			}
 			return spawnInfo.player.ZoneDungeon && NPC.CountNPCS(ModContent.NPCType<Illusionist>()) < 1 ? 0.05f : 0f;
 		}
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(153) == 0) {
+			if (Main.rand.Next(153) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GoldenKey);
-			}
-			if (Main.rand.Next(75) == 0) {
+			if (Main.rand.Next(75) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Nazar);
-			}
-			if (Main.rand.Next(100) == 0) {
+			if (Main.rand.Next(100) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TallyCounter);
-			}
-			if (Main.rand.Next(250) == 0) {
+			if (Main.rand.Next(250) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BoneWand);
-			}
-			if (Main.rand.Next(20) == 0) {
+			if (Main.rand.Next(20) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<IllusionistEye>());
-			}
-			if (Main.rand.Next(25) == 0) {
+			if (Main.rand.Next(25) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ForbiddenKnowledgeTome>());
-			}
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			int d = 37;
-			int d1 = 180;
 			for (int k = 0; k < 30; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
-				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Obsidian, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.DungeonSpirit, 2.5f * hitDirection, -2.5f, 0, default, .34f);
 			}
 			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Illusionist1"), 1f);

@@ -14,8 +14,6 @@ namespace SpiritMod.Items.DonatorItems
 			Tooltip.SetDefault("Melee hits on enemies may emit Shadowflame Embers\nInflicts Shadowflame");
 		}
 
-
-		int charger;
 		public override void SetDefaults()
 		{
 			item.damage = 52;
@@ -33,9 +31,11 @@ namespace SpiritMod.Items.DonatorItems
 			item.autoReuse = true;
 			item.useTurn = true;
 		}
+
+
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
-			int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 173);
+			int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.ShadowbeamStaff);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust].velocity *= 0f;
 		}

@@ -37,10 +37,7 @@ namespace SpiritMod.Projectiles.Magic
 			tM.CreateTrail(projectile, new StandardColorTrail(new Color(107, 211, 255) * 0.5f), new RoundCap(), new DefaultTrailPosition(), 12f, 80f, new DefaultShader());
 		}
 
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return new Color(255, 210, 133, 100);
-		}
+		public override Color? GetAlpha(Color lightColor) => new Color(255, 210, 133, 100);
 		bool noChannel;
 		public override void AI()
 		{
@@ -50,12 +47,12 @@ namespace SpiritMod.Projectiles.Magic
 			}
 			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f);
 			if (Main.rand.Next(8) == 0) {
-				int d = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				int d = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[d].scale *= 1.85f;
 				Main.dust[d].noGravity = true;
 			}
 			if (Main.rand.Next(8) == 0) {
-				int d = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 172, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				int d = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.DungeonWater, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[d].scale *= 1.85f;
 				Main.dust[d].noGravity = true;
 			}
@@ -208,10 +205,10 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 3);
 			for (int k = 0; k < 16; k++) {
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, 0f, 0f);
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Fire, 0f, 0f);
 			}
 			for (int i = 0; i < 16; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, -2f, 117, new Color(0, 255, 142), 1.7f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, -2f, 117, new Color(0, 255, 142), 1.7f);
 				Main.dust[num].noGravity = true;
 				Dust expr_62_cp_0 = Main.dust[num];
 				expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);

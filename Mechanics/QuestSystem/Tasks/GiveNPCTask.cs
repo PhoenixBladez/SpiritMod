@@ -36,7 +36,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 				SpiritMod.Instance.Logger.Error($"A Give NPC Task with an empty _itemIDs or _itemStacks list has been added.\nLengths: _itemID: {giveItem.Length}\t_itemStacks: {stack.Length}.",
 					new Exception("GiveNPCTask with either no itemIDs or stack sizes has been added. Report to mod devs."));
 			if (giveItem.Length != stack.Length)
-				SpiritMod.Instance.Logger.Error($"A Give NPC Task with mismatched _itemIDs and _itemStacks sizes has been added.", 
+				SpiritMod.Instance.Logger.Error($"A Give NPC Task with mismatched _itemIDs and _itemStacks sizes has been added.",
 					new Exception("Mismatched GiveNPCTask quest item list/stack added. Report to mod devs."));
 
 			RequireAllItems = requireAll;
@@ -70,7 +70,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 			// TODO: Make this parsing work for int arrays, not sure how to best do that.
 
-			return new GiveNPCTask(npcID, new int[]{ 1 }, new int[] { 1 }, objective);
+			return new GiveNPCTask(npcID, new int[] { 1 }, new int[] { 1 }, objective);
 		}
 
 		public override bool CheckCompletion()
@@ -85,10 +85,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 						{
 							RemoveItems(Main.LocalPlayer);
 						}
-						if (_optionalReward != null)
-						{
-							Main.LocalPlayer.QuickSpawnItem((int)_optionalReward);
-						}
+						Main.LocalPlayer.QuickSpawnItem((int)_optionalReward);
 						Main.npcChatText = NPCText;
 						return true;
 					}
@@ -106,10 +103,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 							{
 								RemoveItems(Main.player[i]);
 							}
-							if (_optionalReward != null)
-							{
-								Main.player[i].QuickSpawnItem(_optionalReward);
-							}
+							Main.player[i].QuickSpawnItem(_optionalReward);
 							Main.npcChatText = NPCText;
 							return true;
 						}

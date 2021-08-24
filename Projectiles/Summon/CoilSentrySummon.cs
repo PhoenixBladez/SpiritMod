@@ -27,10 +27,7 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.sentry = true;
 		}
 		float alphaCounter = 0;
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-			return false;
-		}
+		public override bool OnTileCollide(Vector2 oldVelocity) => false;
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			float sineAdd = (float)Math.Sin(alphaCounter) + 3;
@@ -111,7 +108,7 @@ namespace SpiritMod.Projectiles.Summon
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			for (int i = 0; i < 40; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, -2f, 0, default(Color), 1.5f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, -2f, 0, default(Color), 1.5f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;

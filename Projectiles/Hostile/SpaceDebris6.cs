@@ -38,7 +38,7 @@ namespace SpiritMod.Projectiles.Hostile
 					Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
 					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
 					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2));
-					int num8 = Dust.NewDust(projectile.Center, 0, 0, 226, 0f, 0f, 160, new Color(), 1f);
+					int num8 = Dust.NewDust(projectile.Center, 0, 0, DustID.Electric, 0f, 0f, 160, new Color(), 1f);
 					Main.dust[num8].scale = .48f;
 					Main.dust[num8].noGravity = true;
 					Main.dust[num8].position = projectile.Center + vector2;
@@ -49,7 +49,7 @@ namespace SpiritMod.Projectiles.Hostile
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			int num = 5;
 			for (int k = 0; k < 4; k++) {
-				int index2 = Dust.NewDust(projectile.position, 1, 1, 6, 0.0f, 0.0f, 0, new Color(), .9f);
+				int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.Fire, 0.0f, 0.0f, 0, new Color(), .9f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].velocity *= 0f;
@@ -83,7 +83,7 @@ namespace SpiritMod.Projectiles.Hostile
 			}
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			for (int i = 0; i < 4; i++) {
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 3f);
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default(Color), 3f);
 				Main.dust[num624].velocity *= 0f;
 				Main.dust[num624].scale *= 0.3f;
 			}

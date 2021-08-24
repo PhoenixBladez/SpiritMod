@@ -6,10 +6,7 @@ namespace SpiritMod.Projectiles.Magic
 {
 	public class SnowFlake : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Snow Crystal");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Snow Crystal");
 
 		public override void SetDefaults()
 		{
@@ -23,9 +20,8 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft)
 		{
-			for (int i = 0; i < 2; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 68);
-			}
+			for (int i = 0; i < 2; i++)
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.BlueCrystalShard);
 
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 
@@ -35,14 +31,12 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void AI()
 		{
-			int timer = 0;
 			projectile.velocity *= 0.95f;
 			projectile.rotation += 0.3f;
 
-
 			for (int i = 1; i <= 3; i++) {
 				if (Main.rand.Next(4) == 0)
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, 68);
+					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.BlueCrystalShard);
 			}
 		}
 
@@ -51,6 +45,5 @@ namespace SpiritMod.Projectiles.Magic
 			if (Main.rand.Next(8) == 0)
 				target.AddBuff(BuffID.Frostburn, 300, true);
 		}
-
 	}
 }

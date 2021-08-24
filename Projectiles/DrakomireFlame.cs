@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles
@@ -46,7 +47,7 @@ namespace SpiritMod.Projectiles
 				}
 			}
 
-			int num = Dust.NewDust(projectile.position, projectile.width * 2, projectile.height, 6, (float)Main.rand.Next(-3, 4), (float)Main.rand.Next(-3, 4), 100, default(Color), 1f);
+			int num = Dust.NewDust(projectile.position, projectile.width * 2, projectile.height, DustID.Fire, (float)Main.rand.Next(-3, 4), (float)Main.rand.Next(-3, 4), 100, default(Color), 1f);
 			Dust dust = Main.dust[num];
 			dust.position.X = dust.position.X - 2f;
 			dust.position.Y = dust.position.Y + 2f;
@@ -55,14 +56,8 @@ namespace SpiritMod.Projectiles
 			return false;
 		}
 
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-			return false;
-		}
+		public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			target.AddBuff(24, 60);
-		}
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(24, 60);
 	}
 }

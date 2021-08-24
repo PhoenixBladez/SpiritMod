@@ -18,7 +18,7 @@ namespace SpiritMod.Tiles.Block
 			drop = ModContent.ItemType<Items.Placeable.Tiles.BlastStoneItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Bedrock");
-			dustType = 54;
+			dustType = DustID.Wraith;
 		}
 	}
 }

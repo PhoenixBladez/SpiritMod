@@ -30,7 +30,7 @@ namespace SpiritMod.Projectiles.Thrown.Charge
 		{
 			if (projectile.owner != Main.myPlayer) return true;
 			int num = 5;
-			int index2 = Dust.NewDust(projectile.position, 1, 1, 68, 0.0f, 0.0f, 0, new Color(), 1.3f);
+			int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.BlueCrystalShard, 0.0f, 0.0f, 0, new Color(), 1.3f);
 			Main.dust[index2].position = projectile.Center - projectile.velocity / num;
 			Main.dust[index2].velocity *= 0f;
 			Main.dust[index2].scale = 0.75f;

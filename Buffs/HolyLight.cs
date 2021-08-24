@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Buffs
 {
@@ -17,7 +18,7 @@ namespace SpiritMod.Buffs
 		{
 			npc.defense = (int)(npc.defense * 0.87f);
 
-			Dust.NewDust(npc.position, npc.width, npc.height, 58);
+			Dust.NewDust(npc.position, npc.width, npc.height, DustID.Enchanted_Pink);
 		}
 	}
 }

@@ -27,7 +27,7 @@ namespace SpiritMod.Tiles.Ambient.SurfaceIce
 				16
 			};
 			TileObjectData.addTile(Type);
-			dustType = 80;
+			dustType = DustID.Ice;
 			disableSmartCursor = true;
 		}
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)

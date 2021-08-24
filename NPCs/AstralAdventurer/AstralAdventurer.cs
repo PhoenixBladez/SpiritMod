@@ -85,7 +85,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
                 {
                     Vector2 Position = new Vector2(npc.Center.X - (37 * npc.spriteDirection), npc.Center.Y);
                     Vector2 vector2 = new Vector2((float)(npc.direction * -6), 12f) * 0.2f + Utils.RandomVector2(Main.rand, -1f, 1f) * 0.2f;
-                    Dust dust = Main.dust[Dust.NewDust(Position, 8, 8, 6, vector2.X, vector2.Y, 100, Color.Transparent, (float)(1.0 + (double)Main.rand.NextFloat() * 1))];
+                    Dust dust = Main.dust[Dust.NewDust(Position, 8, 8, DustID.Fire, vector2.X, vector2.Y, 100, Color.Transparent, (float)(1.0 + (double)Main.rand.NextFloat() * 1))];
                     dust.noGravity = true;
                     dust.velocity = vector2;
                     dust.fadeIn += .1f;
@@ -107,7 +107,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
 					float num15 = num5 / num14;
 					float num16 = num6 * num15;
 					float SpeedY = num8 * num15;
-					int p = Projectile.NewProjectile(vector2.X, vector2.Y, num16, SpeedY, 188, 8, 0.0f, Main.myPlayer, 0.0f, 0.0f);
+					int p = Projectile.NewProjectile(vector2.X, vector2.Y, num16, SpeedY, ProjectileID.FlamesTrap, 8, 0.0f, Main.myPlayer, 0.0f, 0.0f);
 					Main.projectile[p].friendly = false;
 					Main.projectile[p].hostile = true;
 				}
@@ -118,7 +118,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
                 {
                     Vector2 Position = new Vector2(npc.Center.X - (37 * npc.spriteDirection), npc.Center.Y);
                     Vector2 vector2 = new Vector2((float)(npc.direction * -6), 12f) * 0.2f + Utils.RandomVector2(Main.rand, -1f, 1f) * 0.2f;
-                    Dust dust = Main.dust[Dust.NewDust(Position, 8, 8, 6, vector2.X, vector2.Y, 100, Color.Transparent, (float)(1.0 + (double)Main.rand.NextFloat() * 1))];
+                    Dust dust = Main.dust[Dust.NewDust(Position, 8, 8, DustID.Fire, vector2.X, vector2.Y, 100, Color.Transparent, (float)(1.0 + (double)Main.rand.NextFloat() * 1))];
                     dust.noGravity = true;
                     dust.velocity = vector2;
                     dust.customData = (object)npc;
@@ -137,7 +137,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
 					float num15 = num5 / num14;
 					float num16 = num6 * num15;
 					float SpeedY = num8 * num15;
-					int p = Projectile.NewProjectile(vector2.X, vector2.Y, num16, SpeedY, 286, 14, 0.0f, Main.myPlayer, 0.0f, 0.0f);
+					int p = Projectile.NewProjectile(vector2.X, vector2.Y, num16, SpeedY, ProjectileID.ExplosiveBullet, 14, 0.0f, Main.myPlayer, 0.0f, 0.0f);
 					Main.projectile[p].friendly = false;
 					Main.projectile[p].hostile = true;
 				}
@@ -147,7 +147,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
 			{
 				Vector2 Position = new Vector2(npc.Center.X, npc.Center.Y + 20) + new Vector2((float) (npc.direction * -14), -8f) - Vector2.One * 4f;
 				Vector2 vector2 = new Vector2((float) (npc.direction * -6), 12f) * 0.2f + Utils.RandomVector2(Main.rand, -1f, 1f) * 0.2f;
-				Dust dust = Main.dust[Dust.NewDust(Position, 8, 8, 6, vector2.X, vector2.Y, 100, Color.Transparent, (float) (1.0 + (double) Main.rand.NextFloat() * 1))];
+				Dust dust = Main.dust[Dust.NewDust(Position, 8, 8, DustID.Fire, vector2.X, vector2.Y, 100, Color.Transparent, (float) (1.0 + (double) Main.rand.NextFloat() * 1))];
 				dust.noGravity = true;
 				dust.velocity = vector2;
 				dust.customData = (object) npc;
@@ -447,7 +447,6 @@ namespace SpiritMod.NPCs.AstralAdventurer
 				int spriteDirection = npc.spriteDirection;
 				if ((double)npc.velocity.X < 0.0 && spriteDirection == -1 || (double)npc.velocity.X > 0.0 && spriteDirection == 1)
 				{
-					bool flag4 = npc.type == 410 || npc.type == 423;
 					float num8 = 3f;
 					if (Main.tile[index1, index2 - 2].nactive() && Main.tileSolid[(int)Main.tile[index1, index2 - 2].type])
 					{
@@ -472,7 +471,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
 						npc.velocity.Y = -8.5f;
 						npc.netUpdate = true;
 					}
-					else if ((npc.directionY < 0 || (double)Math.Abs(npc.velocity.X) > (double)num8) && (!flag4 || !Main.tile[index1, index2 + 1].nactive() || !Main.tileSolid[(int)Main.tile[index1, index2 + 1].type]) && ((!Main.tile[index1, index2 + 2].nactive() || !Main.tileSolid[(int)Main.tile[index1, index2 + 2].type]) && (!Main.tile[index1 + npc.direction, index2 + 3].nactive() || !Main.tileSolid[(int)Main.tile[index1 + npc.direction, index2 + 3].type])))
+					else if ((npc.directionY < 0 || (double)Math.Abs(npc.velocity.X) > (double)num8) && ((!Main.tile[index1, index2 + 2].nactive() || !Main.tileSolid[(int)Main.tile[index1, index2 + 2].type]) && (!Main.tile[index1 + npc.direction, index2 + 3].nactive() || !Main.tileSolid[(int)Main.tile[index1 + npc.direction, index2 + 3].type])))
 					{
 						npc.velocity.Y = -8.5f;
 						npc.netUpdate = true;
@@ -496,9 +495,9 @@ namespace SpiritMod.NPCs.AstralAdventurer
 		{
 			for (int k = 0; k < 7; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 240, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 240, 2.5f * hitDirection, -2.5f, 0, default, 0.5f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 6, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Granite, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Granite, 2.5f * hitDirection, -2.5f, 0, default, 0.5f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
 			}
 		}
 

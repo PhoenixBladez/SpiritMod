@@ -114,13 +114,13 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 			}
 			if (Main.rand.Next(5) == 0 && onGround)
 			{
-				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6);
+				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire);
 				Main.dust[d].noGravity = true;
 				Main.dust[d].velocity.Y = -1f;
 			}
 			if (Main.rand.Next(12)==0)
 			{
-				int index3 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0.0f, 0f, 150, new Color(), 0.5f);
+				int index3 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Smoke, 0.0f, 0f, 150, new Color(), 0.5f);
 				Main.dust[index3].fadeIn = 1.25f;
 				Main.dust[index3].velocity = new Vector2(0f, (float)Main.rand.Next(-2,-1));
 				Main.dust[index3].noLight = true;

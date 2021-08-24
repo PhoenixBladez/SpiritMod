@@ -21,7 +21,7 @@ namespace SpiritMod.Tiles.Block
 			TileID.Sets.Conversion.Sand[Type] = true;
 			AddMapEntry(new Color(135, 206, 235));
 			drop = ModContent.ItemType<SpiritSandItem>();
-			dustType = 103;
+			dustType = DustID.Water_Space;
 		}
 
 		public override bool CanExplode(int i, int j)

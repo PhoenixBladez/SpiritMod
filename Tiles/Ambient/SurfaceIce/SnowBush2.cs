@@ -28,7 +28,7 @@ namespace SpiritMod.Tiles.Ambient.SurfaceIce
 			};
 			TileObjectData.addTile(Type);
             soundType = SoundID.Grass;
-            dustType = 3;
+            dustType = DustID.GrassBlades;
 			disableSmartCursor = true;
 		}
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)

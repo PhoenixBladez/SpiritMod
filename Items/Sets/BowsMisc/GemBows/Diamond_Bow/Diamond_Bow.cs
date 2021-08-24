@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Diamond_Bow
 			item.useTime = 25;
 			item.width = 12;
 			item.height = 28;
-			item.shoot = 1;
+			item.shoot = ProjectileID.WoodenArrowFriendly;
 			item.useAmmo = AmmoID.Arrow;
 			item.UseSound = SoundID.Item5;
 			item.damage = 16;

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Placeable.Furniture;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -24,19 +25,19 @@ namespace SpiritMod.Tiles.Ambient
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Pot");
-			dustType = 54;
+			dustType = DustID.Wraith;
 			AddMapEntry(new Color(100, 100, 100), name);
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
-		{
-			offsetY = 2;
-		}
+
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
 			r = .05f;
 			g = .120f;
 			b = .061f;
 		}
+
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
 			Tile tile = Main.tile[i, j];
@@ -46,7 +47,6 @@ namespace SpiritMod.Tiles.Ambient
 			}
 			int height = tile.frameY == 36 ? 18 : 16;
 			Main.spriteBatch.Draw(mod.GetTexture("Tiles/Ambient/SepulchrePot2_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-			Tile t = Main.tile[i, j];
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{

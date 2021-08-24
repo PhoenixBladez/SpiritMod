@@ -30,7 +30,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 		private Vector2 dashDirection = Vector2.Zero;
 		private Vector2 teleportLocation = Vector2.Zero;
 		private float dashDistance = 0f;
-		private Projectile currentProjectile;
+		//private Projectile currentProjectile;
 
 		const int NUMBEROFATTACKS = 10;
 		private enum CurrentAttack
@@ -52,30 +52,17 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 		{
 			
 		}
-		private CurrentAttack currentAttack
+		private CurrentAttack NPCCurrentAttack
 		{
-			get
-			{
-				return (CurrentAttack)(int)npc.ai[1];
-			}
-			set
-			{
-				npc.ai[1] = (int)value;
-			}
+			get => (CurrentAttack)(int)npc.ai[1];
+			set => npc.ai[1] = (int)value;
 		}
 
-		private CurrentAttackP2 currentAttackP2
+		private CurrentAttackP2 NPCCurrentAttackP2
 		{
-			get
-			{
-				return (CurrentAttackP2)(int)npc.ai[1];
-			}
-			set
-			{
-				npc.ai[1] = (int)value;
-			}
+			get => (CurrentAttackP2)(int)npc.ai[1];
+			set => npc.ai[1] = (int)value;
 		}
-
 
 		public override void SetStaticDefaults()
 		{
@@ -127,9 +114,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			num395 *= 0.2f;
 			float num366 = num395 + 2.45f;
 			if (npc.velocity != Vector2.Zero || phaseTwo)
-			{
 				DrawAfterImage(Main.spriteBatch, new Vector2(0f, -18f), 0.5f, Color.White * .7f, Color.White * .1f, 0.75f, num366, 1.65f);
-			}
 			return false;
 		}
 
@@ -163,6 +148,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 
 		}
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
+		
 		//0-3: idle
 		//4-9 propelling
 		//10-13 skirt up
@@ -200,7 +186,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 				bool attackStart = false;
 				if (!phaseTwo)
 				{
-					switch (currentAttack)
+					switch (NPCCurrentAttack)
 					{
 						case CurrentAttack.InwardPull:
 							attackStart = DoInwardPull();
@@ -234,13 +220,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 							break;
 					}
 				}
-				else
-				{
-					switch(currentAttackP2)
-					{ 
-					
-					}
-				}
+
 				if (attackStart)
 					attackCounter++;
 				else
@@ -258,13 +238,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 		{
 			trueFrame += speed;
 			if (trueFrame < minFrame) 
-			{
 				trueFrame = minFrame;
-			}
 			if (trueFrame > maxFrame) 
-			{
 				trueFrame = minFrame;
-			}
 		}
 
 		void Teleport(bool dust = true, int distance = -1)
@@ -282,14 +258,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 				npc.position.X = player.Center.X + (int)(distance * anglex);
 				npc.position.Y = player.Center.Y + (int)(distance * angley);
 				if (Main.tile[(int)(npc.position.X / 16), (int)(npc.position.Y / 16)].active() || Main.tile[(int)(npc.Center.X / 16), (int)(npc.Center.Y / 16)].active())
-				{
 					npc.alpha = 255;
-				}
 				else
-				{
 					teleported = true;
 					npc.alpha = 0;
-				}
 
 				npc.netUpdate = true;
 			}
@@ -315,7 +287,6 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 				Dust.NewDustPerfect(npc.Center, 226, new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-6, 0)));
 			}
 		}
-
 
 		#region phase 1 attacks
 
@@ -549,7 +520,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			{
 				for (int k = 0; k < 18; k++)
 					Dust.NewDustPerfect(new Vector2(npc.Center.X + 75 * npc.spriteDirection, npc.Center.Y - 30), 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(5), 0, default, 0.75f).noGravity = true;
-				Main.PlaySound(4, npc.position, 28);
+				Main.PlaySound(SoundID.NPCKilled, npc.position, 28);
 
 				Vector2 startPos = new Vector2(npc.Center.X + 75 * npc.spriteDirection, npc.Center.Y - 30);
 				Vector2 arcVel = ArcVelocityHelper.GetArcVel(startPos, player.Center, 0.3f, 300, 500, 50, 100).RotatedBy(Main.rand.NextFloat(-0.2f,0.2f));
@@ -623,7 +594,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 				{
 					for (int k = 0; k < 18; k++)
 						Dust.NewDustPerfect(new Vector2(npc.Center.X + 75 * npc.spriteDirection, npc.Center.Y - 30), 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(5), 0, default, 0.75f).noGravity = true;
-					Main.PlaySound(4, npc.position, 28);
+					Main.PlaySound(SoundID.NPCKilled, npc.position, 28);
 
 					int Ball = Projectile.NewProjectile(npc.Center.X + 75 * npc.spriteDirection, npc.Center.Y - 30, npc.spriteDirection * 3.5f, -2f, ModContent.ProjectileType<MysticWizardBall>(), NPCUtils.ToActualDamage(100, 1.5f), 3f, 0);
 					Main.projectile[Ball].ai[0] = npc.whoAmI;

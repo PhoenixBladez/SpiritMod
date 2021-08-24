@@ -27,19 +27,12 @@ namespace SpiritMod.Projectiles
 
 		public override bool PreAI()
 		{
-			int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			Main.dust[dust].scale *= 1.6f;
-			Main.dust[dust].noGravity = true;
-			int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			Main.dust[dust1].scale *= 1.6f;
-			Main.dust[dust1].noGravity = true;
-			int dust2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			Main.dust[dust2].scale *= 1.6f;
-			Main.dust[dust2].noGravity = true;
-			int dust12 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			Main.dust[dust12].scale *= 1.6f;
-			Main.dust[dust12].noGravity = true;
-
+			for (int i = 0; i < 4; ++i)
+			{
+				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				Main.dust[dust].scale *= 1.6f;
+				Main.dust[dust].noGravity = true;
+			}
 			return true;
 		}
 
@@ -51,7 +44,7 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 		}
 
 	}

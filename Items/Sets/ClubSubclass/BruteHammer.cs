@@ -18,7 +18,6 @@ namespace SpiritMod.Items.Sets.ClubSubclass
 		}
 
 
-		private Vector2 newVect;
 		public override void SetDefaults()
 		{
 			item.useStyle = 100;
@@ -39,6 +38,7 @@ namespace SpiritMod.Items.Sets.ClubSubclass
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ModContent.ProjectileType<BruteHammerProj>();
 		}
+
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0;
 	}
 }

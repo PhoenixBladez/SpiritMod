@@ -46,51 +46,55 @@ namespace SpiritMod.Items.Weapon.Swung.Punching_Bag
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			SpriteEffects effects1 = SpriteEffects.None;
-			if (projectile.direction == 1)
-				effects1 = SpriteEffects.FlipHorizontally;
-			Microsoft.Xna.Framework.Color color3 = Lighting.GetColor((int) ((double) projectile.position.X + (double) projectile.width * 0.5) / 16, (int) (((double) projectile.position.Y + (double) projectile.height * 0.5) / 16.0));
-			{
-				Texture2D texture = Main.projectileTexture[projectile.type];
-				Texture2D glow = Main.projectileTexture[projectile.type];
-				int height = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-				Microsoft.Xna.Framework.Rectangle r = new Microsoft.Xna.Framework.Rectangle(0, height * projectile.frame, texture.Width, height);
-				Vector2 origin = r.Size() / 2f;
-				int num2 = 10;
-				int num3 = 1;
-				int num4 = 1;
-				float num5 = 1f;
-				float num6 = 0.0f;
-				num3 = 1;
-				num5 = 2f;
-				int index1 = num4;
-				while (num3 > 0 && index1 < num2 || num3 < 0 && index1 > num2)
-				{
-				  Microsoft.Xna.Framework.Color newColor = color3;
-				  newColor = Microsoft.Xna.Framework.Color.Lerp(newColor, Microsoft.Xna.Framework.Color.White, 2.5f);
-				  Microsoft.Xna.Framework.Color color1 = projectile.GetAlpha(newColor);
-				  float num7 = (float) (num2 - index1);
-				  if (num3 < 0)
-					num7 = (float) (num4 - index1);
-				  Microsoft.Xna.Framework.Color color2 = color1 * (num7 / ((float) ProjectileID.Sets.TrailCacheLength[projectile.type] * 1.5f));
-				  Vector2 oldPo = projectile.oldPos[index1];
-				  float rotation = projectile.rotation;
-				  SpriteEffects effects2 = effects1;
-				  if (ProjectileID.Sets.TrailingMode[projectile.type] == 2)
-				  {
-					rotation = projectile.oldRot[index1];
-					effects2 = projectile.oldSpriteDirection[index1] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-				  }
-				  Main.spriteBatch.Draw(glow, oldPo + projectile.Size / 2f - Main.screenPosition + new Vector2(0.0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(r), color2, rotation + projectile.rotation * num6 * (float) (index1 - 1) * (float) -effects1.HasFlag((Enum) SpriteEffects.FlipHorizontally).ToDirectionInt(), origin, MathHelper.Lerp(projectile.scale, num5, (float) index1 / 15f), effects2, 0.0f);
-		label_709:
-				  index1 += num3;
-				}
+			SpriteEffects effect = projectile.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-				Microsoft.Xna.Framework.Color color4 = projectile.GetAlpha(color3);
-				Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0.0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(r), new Color(255-projectile.alpha, 255-projectile.alpha, 255-projectile.alpha, 175), projectile.rotation, origin, projectile.scale, effects1, 0.0f);
+			Color col = Lighting.GetColor((int)(projectile.Center.Y) / 16, (int)(projectile.Center.Y) / 16);
+			var basePos = projectile.Center - Main.screenPosition + new Vector2(0.0f, projectile.gfxOffY);
+
+			Texture2D texture = Main.projectileTexture[projectile.type];
+
+			int height = texture.Height / Main.projFrames[projectile.type];
+			var frame = new Rectangle(0, height * projectile.frame, texture.Width, height);
+			Vector2 origin = frame.Size() / 2f;
+			int reps = 1;
+			while (reps < 5)
+			{
+				col = projectile.GetAlpha(Color.Lerp(col, Color.White, 2.5f));
+				float num7 = 5 - reps;
+				Color drawCol = col * (num7 / (ProjectileID.Sets.TrailCacheLength[projectile.type] * 1.5f));
+				Vector2 oldPo = projectile.oldPos[reps];
+				float rotation = projectile.rotation;
+				SpriteEffects effects2 = effect;
+				if (ProjectileID.Sets.TrailingMode[projectile.type] == 2)
+				{
+					rotation = projectile.oldRot[reps];
+					effects2 = projectile.oldSpriteDirection[reps] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+				}
+				Vector2 drawPos = oldPo + projectile.Size / 2f - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+				Main.spriteBatch.Draw(texture, drawPos, frame, drawCol, rotation + projectile.rotation * (reps - 1) * -effect.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin, MathHelper.Lerp(projectile.scale, 3f, reps / 15f), effects2, 0.0f);
+				reps++;
 			}
+
+			Main.spriteBatch.Draw(texture, basePos, frame, new Color(255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha, 175), projectile.rotation, origin, projectile.scale, effect, 0.0f);
+
+			height = texture.Height / Main.projFrames[projectile.type];
+			frame = new Rectangle(0, height * projectile.frame, texture.Width, height);
+			origin = new Vector2(texture.Width / 2, texture.Height / 2);
+			float num99 = (float)(Math.Cos(Main.GlobalTime % 2.40000009536743 / 2.40000009536743 * MathHelper.TwoPi) / 4.0f + 0.5f);
+
+			Color color2 = new Color(sbyte.MaxValue - projectile.alpha, sbyte.MaxValue - projectile.alpha, sbyte.MaxValue - projectile.alpha, 0).MultiplyRGBA(Color.White);
+			for (int i = 0; i < 4; ++i)
+			{
+				Color drawCol = projectile.GetAlpha(color2) * (1f - num99);
+				Vector2 offset = ((i / 4 * MathHelper.TwoPi) + projectile.rotation).ToRotationVector2();
+				Vector2 position2 = projectile.Center + offset * (8.0f * num99 + 2.0f) - Main.screenPosition - texture.Size() * projectile.scale / 2f + origin * projectile.scale + new Vector2(0.0f, projectile.gfxOffY);
+				Main.spriteBatch.Draw(texture, position2, frame, drawCol, projectile.rotation, origin, projectile.scale, effect, 0.0f);
+			}
+
+			Lighting.AddLight(projectile.Center, Color.Purple.ToVector3() / 2f);
 			return false;
 		}
+
 		public override void AI()
 		{
 			projectile.alpha += 10;

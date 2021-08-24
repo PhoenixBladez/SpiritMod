@@ -38,8 +38,6 @@ namespace SpiritMod.Projectiles.Summon
             projectile.scale = 1f;
 			//CONFIG INFO
 			int range = 22;   //How many tiles away the projectile targets NPCs
-			float shootVelocity = 13.5f; //magnitude of the shoot vector (speed of arrows shot)
-			int shootSpeed = 20;
             //TARGET NEAREST NPC WITHIN RANGE
             float lowestDist = float.MaxValue;
 			NPC target = new NPC();
@@ -103,16 +101,14 @@ namespace SpiritMod.Projectiles.Summon
                 projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
                 projectile.frameCounter = 0;
                 if (projectile.frame >= 3)
-                {
                     projectile.frame = 0;
-                }
             }
 
             for (int index1 = 0; index1 < 3; ++index1)
             {
                 float num1 = projectile.velocity.X * 0.2f * index1;
                 float num2 = -(projectile.velocity.Y * 0.2f) * index1;
-                int index2 = Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), projectile.width, projectile.height, 5, 0.0f, 0.0f, 100, new Color(), 1.3f);
+                int index2 = Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), projectile.width, projectile.height, DustID.Blood, 0.0f, 0.0f, 100, new Color(), 1.3f);
                 Main.dust[index2].noGravity = false;
                 Main.dust[index2].velocity.X *= 0.0f;
                 Main.dust[index2].velocity.Y *= 0.5f;
@@ -129,9 +125,9 @@ namespace SpiritMod.Projectiles.Summon
 		}
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 22);
+			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 22);
 			for (int i = 0; i < 10; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 5, 0f, -2f, 0, default(Color), .85f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Blood, 0f, -2f, 0, default, .85f);
 				Main.dust[num].noGravity = false;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;

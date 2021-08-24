@@ -83,8 +83,8 @@ namespace SpiritMod.Projectiles
 
 		public override void AI()
 		{
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust2].noGravity = true;
 			Main.dust[dust2].velocity *= 0f;
@@ -96,7 +96,7 @@ namespace SpiritMod.Projectiles
 			float num8 = (float)player.miscCounter / 60f;
 			float num7 = 2.09439516f;
 			for (int i = 0; i < 3; i++) {
-				int num6 = Dust.NewDust(center, 0, 0, 6, 0f, 0f, 100, default(Color), 1f);
+				int num6 = Dust.NewDust(center, 0, 0, DustID.Fire, 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num6].noGravity = true;
 				Main.dust[num6].velocity = Vector2.Zero;
 				Main.dust[num6].noLight = true;

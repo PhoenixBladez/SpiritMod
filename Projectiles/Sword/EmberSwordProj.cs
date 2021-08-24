@@ -9,7 +9,6 @@ namespace SpiritMod.Projectiles.Sword
 {
 	class EmberSwordProj : ModProjectile
 	{
-		int timer = 0;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ember Wave");
@@ -33,7 +32,7 @@ namespace SpiritMod.Projectiles.Sword
 		{
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
 			for (int num623 = 0; num623 < 50; num623++) {
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 1f);
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 1.5f;
 			}

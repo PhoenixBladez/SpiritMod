@@ -70,7 +70,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 				if (Main.LocalPlayer.talkNPC != -1 && Main.npc[Main.LocalPlayer.talkNPC].type == _npcType)
 				{
 					Main.npcChatText = NPCText;
-					if (_itemReceived != null && !hasTakenItems)
+					if (!hasTakenItems)
 					{
 						Main.LocalPlayer.QuickSpawnItem(_itemReceived);
 						hasTakenItems = true;
@@ -85,7 +85,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 					if (Main.player[i].active && Main.player[i].talkNPC >= 0 && Main.npc[Main.player[i].talkNPC].netID == _npcType)
 					{
 						Main.npcChatText = NPCText;
-						if (_itemReceived != null && !hasTakenItems)
+						if (!hasTakenItems)
 						{
 							Main.player[i].QuickSpawnItem((int)_itemReceived);
 							hasTakenItems = true;

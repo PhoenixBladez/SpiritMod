@@ -31,8 +31,8 @@ namespace SpiritMod.Projectiles
 		public override void AI()
 		{
 			Lighting.AddLight(projectile.position, 0.4f, .12f, .036f);
-			Dust dust = Dust.NewDustDirect(projectile.position + projectile.velocity, projectile.width, projectile.height, 127, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			Dust dust2 = Dust.NewDustDirect(projectile.position + projectile.velocity, projectile.width, projectile.height, 127, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			Dust dust = Dust.NewDustDirect(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Flare, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			Dust dust2 = Dust.NewDustDirect(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Flare, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			dust.noGravity = true;
 			dust2.noGravity = true;
 			dust2.velocity *= 0.6f;
@@ -57,7 +57,7 @@ namespace SpiritMod.Projectiles
 			ProjectileExtras.Explode(projectile.whoAmI, 80, 80,
 				delegate {
 					for (int i = 0; i < 40; i++) {
-						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, -2f, 0, default(Color), 1.2f);
+						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, -2f, 0, default(Color), 1.2f);
 						Main.dust[num].noGravity = true;
 						Dust expr_62_cp_0 = Main.dust[num];
 						expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);

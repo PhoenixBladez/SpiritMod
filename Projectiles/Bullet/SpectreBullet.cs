@@ -41,7 +41,6 @@ namespace SpiritMod.Projectiles.Bullet
 				projectile.ai[1] = projectile.velocity.Length();
 			}
 
-			bool chasing = true;
 			NPC target = null;
 			if (projectile.ai[0] < 0 || projectile.ai[0] >= Main.maxNPCs) {
 				target = ProjectileExtras.FindCheapestNPC(projectile.Center, projectile.velocity, ACCELERATION, MAX_ANGLE_CHANGE);
@@ -54,7 +53,6 @@ namespace SpiritMod.Projectiles.Bullet
 			}
 
 			if (target == null) {
-				chasing = false;
 				projectile.ai[0] = -1f;
 			}
 			else {
@@ -77,15 +75,14 @@ namespace SpiritMod.Projectiles.Bullet
 		{
 			int max = (int)(projectile.ai[1] * .4f);
 			Vector2 offset = projectile.velocity * ((projectile.extraUpdates + 1f) / max);
-			float deviation = projectile.ai[1] * .125f;
 			float vX = projectile.velocity.X * (projectile.extraUpdates + 1);
 			float vY = projectile.velocity.Y * (projectile.extraUpdates + 1);
 			for (int i = 0; i < max; i++) {
 				Vector2 position = projectile.Center - offset * i;
-				int dust = Dust.NewDust(position, 0, 0, 187, vX * .25f - vY * .08f, vY * .25f + vX * .08f);
+				int dust = Dust.NewDust(position, 0, 0, DustID.Flare_Blue, vX * .25f - vY * .08f, vY * .25f + vX * .08f);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].scale = 0.9f;
-				dust = Dust.NewDust(position, 0, 0, 187, vX * .25f + vY * .08f, vY * .25f - vX * .08f);
+				dust = Dust.NewDust(position, 0, 0, DustID.Flare_Blue, vX * .25f + vY * .08f, vY * .25f - vX * .08f);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].scale = 0.9f;
 			}

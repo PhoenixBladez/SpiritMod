@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles.Bullet
             }
 			if (dustVer == 0)
             {
-                dustType = 226;
+                dustType = DustID.Electric;
             }
 			else
             {

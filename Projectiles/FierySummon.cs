@@ -9,8 +9,6 @@ namespace SpiritMod.Projectiles
 {
 	public class FierySummon : ModProjectile
 	{
-		int timer = 0;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Fiery Minion");
@@ -41,8 +39,8 @@ namespace SpiritMod.Projectiles
 				projectile.ai[0] += .02f;
 				projectile.Center = player.Center + offset.RotatedBy(projectile.ai[0] + projectile.ai[1] * (Math.PI * 10 / 1));
 
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust2].noGravity = true;
 				Main.dust[dust2].velocity *= 0f;
@@ -57,7 +55,7 @@ namespace SpiritMod.Projectiles
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 6);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire);
 			}
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
