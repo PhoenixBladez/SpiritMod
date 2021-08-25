@@ -158,26 +158,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			}
 		}
 
-        public static void DrawDustLine(Vector2 pos1, Vector2 pos2)
-        {
-            Vector2 range = pos1 - pos2;
-            Vector2 cometRange = range;
-            cometRange.Normalize();
-            cometRange *= 40;
-            range -= cometRange;
-            for (int i = 0; i < 5; i++)
-            {
-                float alpha = Main.rand.NextFloat();
-                int chosenDust = Main.rand.Next(2) == 0 ? 159 : 164;
-                Dust dust = Main.dust[Dust.NewDust(pos2 + (range * alpha), 0, 0, chosenDust)];
-                dust.noGravity = true;
-                dust.noLight = false;
-                dust.velocity = range * 0.014f;
-                dust.scale = 1.8f - (alpha * 1.5f);
-                dust.fadeIn += dust.scale / 3 * 2;
-            }
-        }
-
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 7; k++)

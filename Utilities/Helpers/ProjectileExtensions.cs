@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod
 {
-	public static class ExtraUtils
+	public static class ProjectileExtensions
 	{
 		public static void Bounce(this Projectile projectile, Vector2 oldVelocity, float VelocityKeptRatio = 1f) => projectile.velocity = new Vector2((projectile.velocity.X == oldVelocity.X) ? projectile.velocity.X : -oldVelocity.X * VelocityKeptRatio, (projectile.velocity.Y == oldVelocity.Y) ? projectile.velocity.Y : -oldVelocity.Y * VelocityKeptRatio);
 
@@ -71,6 +71,23 @@ namespace SpiritMod
 				float opacity = (ProjectileID.Sets.TrailCacheLength[projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[projectile.type];
 				opacity *= Opacity;
 				spriteBatch.Draw(tex, projectile.oldPos[i] + projectile.Size / 2 - Main.screenPosition, frame, (color ?? Color.White) * opacity, rotation ?? projectile.oldRot[i], frame.Size() / 2, projectile.scale, spriteEffects ?? (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
+			}
+		}
+
+		public static void UpdateFrame(this Projectile projectile, int framespersecond)
+		{
+			if (framespersecond == 0)
+				return;
+
+			projectile.frameCounter++;
+			if (projectile.frameCounter > (60 / framespersecond))
+			{
+				projectile.frameCounter = 0;
+				projectile.frame++;
+				if (projectile.frame > Main.projFrames[projectile.type])
+				{
+					projectile.frame = 0;
+				}
 			}
 		}
 

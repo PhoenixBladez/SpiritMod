@@ -38,7 +38,6 @@ namespace SpiritMod.Items.Sets.SlagSet
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Items.Sets.SummonsMisc.OvergrowthStaff.OvergrowthStaff>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 14);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);

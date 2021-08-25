@@ -7,13 +7,14 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using SpiritMod.Particles;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.SummonsMisc.FairyWhistle
 {
 	[AutoloadMinionBuff("Fairies", "Hey! Watch out!")]
 	public class FairyMinion : BaseMinion, IDrawAdditive
 	{
-		public FairyMinion() : base(300, 500, new Vector2(15, 15)) { }
+		public FairyMinion() : base(300, 500, new Vector2(20, 20)) { }
 
 		public override void AbstractSetStaticDefaults()
 		{
@@ -37,13 +38,11 @@ namespace SpiritMod.Items.Sets.SummonsMisc.FairyWhistle
 		{
 			projectile.rotation = projectile.velocity.X * 0.05f;
 			projectile.alpha = Math.Max(projectile.alpha - 3, 0);
-			if (Main.GameUpdateCount % 40 == 0 && !Main.dedServ)
-				ParticleHandler.SpawnParticle(new PulseCircle(projectile, Color.Lerp(new Color(124, 255, 47), Color.White, 0.66f) * 0.6f * projectile.Opacity, 45, 120, PulseCircle.MovementType.Inwards));
 
 			foreach (Projectile p in Main.projectile.Where(x => x.active && x != null && x.type == projectile.type && x.owner == projectile.owner && x != projectile))
 			{
 				if (p.Hitbox.Intersects(projectile.Hitbox))
-					projectile.velocity += projectile.DirectionFrom(p.Center) / 5;
+					projectile.velocity += projectile.DirectionFrom(p.Center) / 10;
 			}
 
 			return true;
@@ -72,17 +71,21 @@ namespace SpiritMod.Items.Sets.SummonsMisc.FairyWhistle
 			projectile.velocity = Vector2.Lerp(projectile.velocity, Vector2.Lerp(projectile.Center, desiredPosition, 0.15f) - projectile.Center, 0.1f);
 			if (++AiTimer >= SHOOTTIME)
 			{
-				Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(target.Center) * 12, 1, projectile.damage, projectile.knockBack, projectile.owner);
+				Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(target.Center) * 7, ModContent.ProjectileType<FairyProj>(), projectile.damage, projectile.knockBack, projectile.owner);
 				projectile.velocity -= projectile.DirectionTo(target.Center) * 4;
 				AiTimer = 0;
 
-				if(!Main.dedServ)
-					for(int i = 0; i < 10; i++)
-						ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(1f, 2f), 
-							new Color(120, 239, 255), new Color(94, 255, 126), Main.rand.NextFloat(0.5f, 0.6f), 25, delegate (Particle p)
+				if (!Main.dedServ)
+				{
+					Main.PlaySound(SoundID.Item9.WithPitchVariance(0.3f), projectile.Center);
+
+					for (int i = 0; i < 10; i++)
+						ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(1f, 2f),
+							new Color(120, 239, 255) * 0.66f, new Color(94, 255, 126) * 0.66f, Main.rand.NextFloat(0.35f, 0.5f), 25, delegate (Particle p)
 							{
 								p.Velocity = p.Velocity.RotatedByRandom(0.1f) * 0.97f;
 							}));
+				}
 			}
 		}
 
@@ -97,7 +100,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.FairyWhistle
 		{
 			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
 			float bloomOpacity = MathHelper.Clamp(1.5f * AiTimer / SHOOTTIME, 0.33f, 1f); //glow brighter when closer to shot time
-			spriteBatch.Draw(bloom, projectile.Center - Main.screenPosition, null, Color.Lerp(new Color(124, 255, 47) * projectile.Opacity, Color.White, 0.75f) * bloomOpacity, 0, bloom.Size() / 2, 0.2f, SpriteEffects.None, 0);
+			spriteBatch.Draw(bloom, projectile.Center - Main.screenPosition, null, Color.Lerp(new Color(124, 255, 47) * projectile.Opacity, Color.White, 0.75f) * bloomOpacity, 0, bloom.Size() / 2, 0.17f, SpriteEffects.None, 0);
 		}
 	}
 }

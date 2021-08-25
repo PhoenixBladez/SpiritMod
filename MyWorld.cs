@@ -397,12 +397,12 @@ namespace SpiritMod
 				spiritBiome = true;
 			else
 				spiritBiome = false;
-			if (Main.hardMode) {
+
+			if (Main.hardMode) 
 				rockCandy = true;
-			}
-			else {
+			else 
 				rockCandy = false;
-			}
+
 			if (NPC.downedBoss3)
 				starMessage = true;
 			else
@@ -833,9 +833,7 @@ namespace SpiritMod
 				int towerX = WorldGen.genRand.Next(300, Main.maxTilesX / 6); // from 50 since there's a unaccessible area at the world's borders
 																			 // 50% of choosing the last 6th of the world
 																			 // Choose which side of the world to be on randomly
-				if (WorldGen.genRand.NextBool()) {
-					towerX = Main.maxTilesX - towerX;
-				}
+				if (WorldGen.genRand.NextBool()) towerX = Main.maxTilesX - towerX;
 
 				//Start at 200 tiles above the surface instead of 0, to exclude floating islands
 				int towerY = (int)Main.worldSurface - 200;
@@ -1240,9 +1238,7 @@ namespace SpiritMod
 			bool placed = false;
 			while (!placed) {
 				int towerX = WorldGen.genRand.Next(50, Main.maxTilesX / 4);
-				if (WorldGen.genRand.NextBool()) {
-					towerX = Main.maxTilesX - towerX;
-				}
+				if (WorldGen.genRand.NextBool()) towerX = Main.maxTilesX - towerX;
 				int towerY = 0;
 				// We go down until we hit a solid tile or go under the world's surface
 				while (!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface) {
@@ -1336,8 +1332,8 @@ namespace SpiritMod
 				ItemType<CimmerianScepter>() }, 
 				1, 0.33f) , lockedgoldChests, 1);
 			AddToVanillaChest(new ChestInfo(new int[] { 
-				ItemType<Items.Sets.SummonsMisc.OvergrowthStaff.OvergrowthStaff>() }, 
-				1, 0.33f) , livingWoodChests, 1);
+				ItemType<Items.Sets.SummonsMisc.FairyWhistle.FairyWhistleItem>() }, 
+				1, 0.2f) , woodChests, 1);
 			AddToVanillaChest(new ChestInfo(new int[] { ItemType<MetalBand>(), ItemType<ShortFuse>(), ItemType<LongFuse>() }, 1, 0.1f) , goldChests, 1);
 			AddToVanillaChest(new ChestInfo(ItemType<HollowNail>()), spiderChests, 1);
 			AddToVanillaChest(new ChestInfo(new int[] {
@@ -1466,58 +1462,56 @@ namespace SpiritMod
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 
 			if (modPlayer.ZoneSpirit) {
-				if (!aurora) {
+				if (!aurora) 
 					aurora = true;
-				}
+
 				auroraType = 10;
 			}
-			if (Main.bloodMoon) {
-				MyWorld.auroraType = 6;
-			}
-			if (Main.pumpkinMoon) {
-				MyWorld.auroraType = 7;
-			}
-			if (Main.snowMoon) {
+
+			if (Main.bloodMoon) 
+				auroraType = 6;
+
+			if (Main.pumpkinMoon) 
+				auroraType = 7;
+
+			if (Main.snowMoon) 
 				auroraType = 8;
-			}
-            if (BlueMoon)  {
-                MyWorld.auroraType = 9;
-            }
-            if (!Main.bloodMoon && !Main.pumpkinMoon && !Main.snowMoon && !modPlayer.ZoneSpirit) {
+
+            if (BlueMoon)  
+                auroraType = 9;
+
+            if (!Main.bloodMoon && !Main.pumpkinMoon && !Main.snowMoon && !modPlayer.ZoneSpirit) 
 				auroraType = auroraTypeFixed;
-			}
+
 			if (Main.dayTime != dayTimeLast)
 				dayTimeSwitched = true;
 			else
 				dayTimeSwitched = false;
+
 			dayTimeLast = Main.dayTime;
+
 			if (BlueMoon && dayTimeSwitched && !downedBlueMoon)
-            {
-                downedBlueMoon = true;
-            }
+				downedBlueMoon = true;
+
 			if (jellySky && dayTimeSwitched && !downedJellyDeluge)
-            {
-                downedJellyDeluge = true;
-            }
+				downedJellyDeluge = true;
+
 			if (dayTimeSwitched) {
-				if (Main.rand.Next(2) == 0 && !spaceJunkWeather) {
+				if (Main.rand.Next(2) == 0 && !spaceJunkWeather) 
 					stardustWeather = true;
-				}
-				else {
+				else 
 					stardustWeather = false;
-				}
-				if (Main.rand.Next(2) == 0 && !stardustWeather) {
+
+				if (Main.rand.Next(2) == 0 && !stardustWeather) 
 					spaceJunkWeather = true;
-				}
-				else {
+				else 
 					spaceJunkWeather = false;
-				}
-				if (Main.rand.Next(4) == 0) {
+
+				if (Main.rand.Next(4) == 0) 
 					meteorShowerWeather = true;
-				}
-				else {
+				else 
 					meteorShowerWeather = false;
-				}
+
 				if (!Main.dayTime && Main.hardMode) {
 					if (!Main.fastForwardTime && !Main.bloodMoon && WorldGen.spawnHardBoss == 0 && ((Main.rand.Next(20) == 1 && !downedBlueMoon) || (Main.rand.Next(40) == 1 && !downedBlueMoon))) {
 						Main.NewText("A Mystic Moon is rising...", 61, 255, 142);
@@ -1525,64 +1519,52 @@ namespace SpiritMod
 						downedBlueMoon = true;
 					}
 				}
-				else {
+				else 
 					BlueMoon = false;
-				}
+
 				if (!Main.dayTime && Main.rand.Next(6) == 0) {
 					auroraTypeFixed = Main.rand.Next(new int[] { 1, 2, 3, 5 });
 					aurora = true;
 				}
-				else {
+				else 
 					aurora = false;
-				}
-				if (!Main.dayTime && Main.rand.Next(32) == 0) {
+
+				if (!Main.dayTime && Main.rand.Next(32) == 0) 
 					rareStarfallEvent = true;
-				}
+
 				else
-				{
 					rareStarfallEvent = false;
-				}
+
 				if (!Main.dayTime && Main.rand.Next(6) == 0) {
 					luminousType = Main.rand.Next(new int[] { 1, 2, 3 });
 					luminousOcean = true;
 				}
-				else {
 					luminousOcean = false;
-				}
+
                 if (!Main.dayTime && (Main.moonPhase == 2 || Main.moonPhase == 6) && !Main.bloodMoon && Main.rand.Next(2) == 0)
-                {
                     calmNight = true;
-                }
 				else
-                {
                     calmNight = false;
-                }
-				//if (Main.rand.NextBool(8))
-				//{
+
+				if (Main.rand.NextBool(8))
 					ashRain = true;
-				//}
-				//else
-				//{
-				//	ashRain = false;
-				//}
+				else
+					ashRain = false;
+
                 if (!Main.dayTime && (NPC.downedBoss1 || NPC.downedBoss2 || NPC.downedBoss3 || downedScarabeus || downedReachBoss || downedRaider || downedAncientFlier) && (!downedMoonWizard && Main.rand.Next(4) == 0 || downedMoonWizard && Main.rand.Next(36) == 0))
                 {
                     Main.NewText("Strange jellyfish are coursing through the skies!", 61, 255, 142);
                     jellySky = true;
                 }
 				else
-				{
 					jellySky = false;
-				}
             }
 
 			//pagoda enemy spawning
 			if (!spawnedPagodaEnemies && Main.netMode != NetmodeID.MultiplayerClient) {
 				Rectangle pagodaSpawnArea = new Rectangle(pagodaX - 65, pagodaY - 37, 256, 140);
 				bool shouldSpawn = false;
-				if (Main.netMode == NetmodeID.SinglePlayer && pagodaSpawnArea.Contains(player.Center.ToTileCoordinates())) {
-					shouldSpawn = true;
-				}
+				if (Main.netMode == NetmodeID.SinglePlayer && pagodaSpawnArea.Contains(player.Center.ToTileCoordinates())) shouldSpawn = true;
 				else if (Main.netMode == NetmodeID.Server) {
 					for (int i = 0; i < 200; i++) {
 						if (Main.player[i].active) {
@@ -1649,13 +1631,9 @@ namespace SpiritMod
 					Random rand = new Random();
 					int XTILE;
 					if (Terraria.Main.dungeonX > Main.maxTilesX / 2) //rightside dungeon
-					{
-						XTILE = WorldGen.genRand.Next((Main.maxTilesX / 2) + 300, Main.maxTilesX - 500);
-					}
+					XTILE = WorldGen.genRand.Next((Main.maxTilesX / 2) + 300, Main.maxTilesX - 500);
 					else //leftside dungeon
-					{
-						XTILE = WorldGen.genRand.Next(75, (Main.maxTilesX / 2) - 600);
-					}
+					XTILE = WorldGen.genRand.Next(75, (Main.maxTilesX / 2) - 600);
 					int xAxis = XTILE;
 					int xAxisMid = xAxis + 70;
 					int xAxisEdge = xAxis + 380;
