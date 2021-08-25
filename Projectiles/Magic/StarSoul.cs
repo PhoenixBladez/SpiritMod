@@ -3,12 +3,12 @@ using SpiritMod.Buffs;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles
 {
 	public class StarSoul : ModProjectile
 	{
-		int target;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Soul Star");
@@ -50,7 +50,6 @@ namespace SpiritMod.Projectiles
 						flag25 = true;
 						jim = index1;
 					}
-
 				}
 			}
 
@@ -70,7 +69,7 @@ namespace SpiritMod.Projectiles
 
 			int num = 5;
 			for (int k = 0; k < 6; k++) {
-				int index2 = Dust.NewDust(projectile.position, 1, 1, 226, 0.0f, 0.0f, 0, new Color(), 1f);
+				int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.Electric, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
 				Main.dust[index2].scale = .25f;
 				Main.dust[index2].velocity *= 0f;

@@ -27,25 +27,20 @@ namespace SpiritMod.Projectiles.Magic
 			aiType = ProjectileID.Bullet;
 			projectile.extraUpdates = 1;
 		}
-		int timer;
         public override void AI()
         {
             for (int i = 0; i < 5; i++)
             {
-                Dust dust;
-                // You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle.
                 Vector2 position = projectile.Center;
-                dust = Main.dust[Terraria.Dust.NewDust(position, 0, 0, 173, 0f, 0f, 0, new Color(255, 255, 255), 0.64947368f)];
+                Dust dust = Main.dust[Dust.NewDust(position, 0, 0, DustID.ShadowbeamStaff, 0f, 0f, 0, new Color(255, 255, 255), 0.64947368f)];
                 dust.noLight = true;
                 dust.noGravity = true;
                 dust.velocity = projectile.velocity;
             }
 			if (Main.rand.NextBool(3))
             {
-                Dust dust;
-                // You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle.
                 Vector2 position = projectile.Center;
-                dust = Main.dust[Terraria.Dust.NewDust(position, 0, 0, 173, 0f, 0f, 0, new Color(255, 255, 255), 0.64947368f)];
+                Dust dust = Main.dust[Dust.NewDust(position, 0, 0, DustID.ShadowbeamStaff, 0f, 0f, 0, new Color(255, 255, 255), 0.64947368f)];
                 dust.noLight = true;
                 dust.noGravity = true;
                 dust.velocity = projectile.velocity;

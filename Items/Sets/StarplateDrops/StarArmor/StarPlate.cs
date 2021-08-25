@@ -19,13 +19,12 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarArmor
 		{
 			glowMaskColor = Color.White;
 		}
-		int timer = 0;
 
 		public override void SetDefaults()
 		{
 			item.width = 22;
 			item.height = 20;
-			item.value = Terraria.Item.sellPrice(0, 0, 38, 0);
+			item.value = Item.sellPrice(0, 0, 38, 0);
 			item.rare = ItemRarityID.Orange;
 			item.defense = 9;
 		}

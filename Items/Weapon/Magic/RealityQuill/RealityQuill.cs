@@ -12,8 +12,6 @@ namespace SpiritMod.Items.Weapon.Magic.RealityQuill
 {
 	public class RealityQuill : ModItem
 	{
-		Vector2 lastSpawnPos;
-		float lastTimeSpawned;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Void Quill");

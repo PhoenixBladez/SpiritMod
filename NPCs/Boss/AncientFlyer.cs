@@ -53,7 +53,6 @@ namespace SpiritMod.NPCs.Boss
 			npc.scale = 1.1f;
 		}
 		bool displaycircle = false;
-		private int Counter;
 		float framenum = .2f;
 		public override void AI()
 		{

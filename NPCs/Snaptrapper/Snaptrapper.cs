@@ -91,7 +91,6 @@ namespace SpiritMod.NPCs.Snaptrapper
         }
         bool chargePhase;
         int frameTimer;
-        int timer;
 		public override void AI()
 		{
             npc.spriteDirection = npc.direction;
@@ -162,9 +161,7 @@ namespace SpiritMod.NPCs.Snaptrapper
                 }
                 if (npc.localAI[1] == 360)
                 {
-                    {
-                        Main.PlaySound(6, (int)npc.position.X, (int)npc.position.Y, 0);
-                    }
+                    Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y, 0);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int amountOfProjectiles = Main.rand.Next(2, 4);
@@ -180,7 +177,7 @@ namespace SpiritMod.NPCs.Snaptrapper
                 }
                 if (npc.localAI[1] == 400)
                 {
-                    Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 5);
+                    Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 5);
                 }
                 if (npc.localAI[1] >= 400 && npc.localAI[1] <= 530)
                 {
@@ -239,7 +236,7 @@ namespace SpiritMod.NPCs.Snaptrapper
                 if (npc.localAI[1] == 260)
                 {
                     {
-                        Main.PlaySound(6, (int)npc.position.X, (int)npc.position.Y, 0);
+                        Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y, 0);
                     }
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -256,7 +253,7 @@ namespace SpiritMod.NPCs.Snaptrapper
                 }
 				if (npc.localAI[1] == 300)
                 {
-                    Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 5);
+                    Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 5);
                 }
                 if (npc.localAI[1] >= 300 && npc.localAI[1] <= 510)
                 {
@@ -381,7 +378,7 @@ namespace SpiritMod.NPCs.Snaptrapper
                 float num2720 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector416.Y;
                 float num2719 = (float)Math.Sqrt((double)(num2721 * num2721 + num2720 * num2720));
                 float num2718 = 400f / num2719;
-                num2718 = ((npc.type != 177) ? (num2718 * 10f) : (num2718 * 5f));
+                num2718 = ((npc.type != NPCID.Derpling) ? (num2718 * 10f) : (num2718 * 5f));
                 if (num2718 > 30f)
                 {
                     num2718 = 30f;

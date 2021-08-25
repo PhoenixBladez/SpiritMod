@@ -2,13 +2,12 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles
 {
 	public class SadBeam : ModProjectile
 	{
-		int target;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Star Beam");
@@ -35,7 +34,7 @@ namespace SpiritMod.Projectiles
 			for (int i = 0; i < 10; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 180, 0f, 0f, 0, default(Color), 1f);
+				int num = Dust.NewDust(new Vector2(x, y), 26, 26, DustID.DungeonSpirit, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[num].alpha = projectile.alpha;
 				Main.dust[num].position.X = x;
 				Main.dust[num].position.Y = y;
@@ -54,13 +53,10 @@ namespace SpiritMod.Projectiles
 						flag25 = true;
 						jim = index1;
 					}
-
 				}
 			}
 
 			if (flag25) {
-
-
 				float num1 = 10f;
 				Vector2 vector2 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
 				float num2 = Main.npc[jim].Center.X - vector2.X;
@@ -83,7 +79,7 @@ namespace SpiritMod.Projectiles
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 40; i++) {
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Flare_Blue, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[dust].noGravity = true;
 			}
 		}

@@ -24,7 +24,6 @@ namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 
 		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new StandardColorTrail(new Color(255, 214, 99)), new RoundCap(), new DefaultTrailPosition(), 80f, 450f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
 
-		int timer = 1;
 		public override void AI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
@@ -32,7 +31,7 @@ namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 			for (int i = 0; i < 2; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 21, 0f, 0f, 0, default(Color), 1f);
+				int num = Dust.NewDust(new Vector2(x, y), 26, 26, DustID.VilePowder, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[num].alpha = projectile.alpha;
 				Main.dust[num].position.X = x;
 				Main.dust[num].position.Y = y;
@@ -43,15 +42,11 @@ namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 
 		public override void Kill(int timeLeft)
 		{
-			int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 21, 0f, 0f, 100, default(Color), 3f);
+			int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.VilePowder, 0f, 0f, 100, default(Color), 3f);
 			Main.dust[num624].velocity *= 0f;
 			Main.dust[num624].scale *= 0.3f;
 		}
 
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return Color.White;
-		}
-
+		public override Color? GetAlpha(Color lightColor) => Color.White;
 	}
 }

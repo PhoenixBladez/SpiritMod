@@ -1,6 +1,4 @@
-﻿
-using Microsoft.Xna.Framework;
-
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,14 +7,10 @@ namespace SpiritMod.Projectiles.Thrown
 {
 	public class Scapula : ModProjectile
 	{
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Soaring Scapula");
 		}
-		float ai0 = 0;
-		float ai1 = 0;
-		float localai0 = 0;
 		public override void SetDefaults()
 		{
 			projectile.CloneDefaults(ProjectileID.Shuriken);
@@ -29,10 +23,6 @@ namespace SpiritMod.Projectiles.Thrown
 			projectile.hostile = false;
 		}
 		int sync;
-		public override void AI()
-		{
-
-		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (!target.boss && target.velocity != Vector2.Zero && target.knockBackResist != 0) {
@@ -43,9 +33,8 @@ namespace SpiritMod.Projectiles.Thrown
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
-			for (int i = 0; i < 10; i++) {
-				int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 0, (float)(Main.rand.Next(5) - 2), (float)(Main.rand.Next(5) - 2), 133);
-			}
+			for (int i = 0; i < 10; i++) 
+				Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.Dirt, (float)(Main.rand.Next(5) - 2), (float)(Main.rand.Next(5) - 2), 133);
 		}
 	}
 }

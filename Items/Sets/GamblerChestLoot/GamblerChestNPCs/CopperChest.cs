@@ -33,7 +33,6 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
             npc.dontCountMe = true;
         }
         int counter = -1;
-        float alphaCounter = 0;
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -52,13 +51,9 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
         public override void AI()
         {
             if (!rightClicked && npc.velocity.Y == 0 && counter < -70)
-            {
                 rightClicked = true;
-            }
             if (rightClicked && npc.velocity.Y != 0)
-            {
                 npc.rotation += Main.rand.NextFloat(-0.1f,0.1f);
-            }
             counter--;
             if (counter == 0)
             {
@@ -67,13 +62,10 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
                 Gore.NewGore(npc.position, npc.velocity, 13);
 				Main.PlaySound(SoundID.DoubleJump, npc.Center);
 				npc.active = false;
-               // Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/XynonCrateGore_2"), 1f);
-               // Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/XynonCrateGore_3"), 1f);
-               // Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/XynonCrateGore_4"), 1f);
             }
             if (counter % 10 == 0)
             {
-               int dust = Dust.NewDust(npc.position, npc.width, npc.height, 244, 0, 0);
+               int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.CopperCoin, 0, 0);
                Main.dust[dust].velocity = Vector2.Zero;
             }
             if (counter > 0)

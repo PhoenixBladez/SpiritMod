@@ -41,16 +41,12 @@ namespace SpiritMod.Projectiles.Summon
 		
         int colorType;
         Color colorVer;
-        bool showOutline;
         bool chosenColor;
-		
-		public override bool? CanCutTiles() {
-		return false;
-		}
-		
+
+		public override bool? CanCutTiles() => false;
+
 		public override void AI()
 		{
-            showOutline = false;
 			if (!chosenColor)
             {
                 colorType = Main.rand.Next(0, 2);
@@ -175,7 +171,6 @@ namespace SpiritMod.Projectiles.Summon
                 {
                     int range = 100;   //How many tiles away the projectile targets NPCs
                     float shootVelocity = 6.5f; //magnitude of the shoot vector (speed of arrows shot)
-                    int shootSpeed = 20;
 
                     //TARGET NEAREST NPC WITHIN RANGE
                     float lowestDist = float.MaxValue;
@@ -203,7 +198,6 @@ namespace SpiritMod.Projectiles.Summon
                     }
                     NPC target = (Main.npc[(int)projectile.ai[1]] ?? new NPC());
                     Main.PlaySound(SoundID.Item, projectile.Center, 12);
-                    int dustType;
                     timer = 0;
                     Vector2 ShootArea = new Vector2(projectile.Center.X, projectile.Center.Y - 13);
                     Vector2 direction = target.Center - ShootArea;
@@ -212,7 +206,7 @@ namespace SpiritMod.Projectiles.Summon
                     direction.Y *= shootVelocity;
                     for (int i = 0; i < 10; i++)
                     {
-                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 226, 0f, -2f, 0, default(Color), .5f);
+                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, 0f, -2f, 0, default(Color), .5f);
                         Main.dust[num].noGravity = true;
                         Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
                         Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;

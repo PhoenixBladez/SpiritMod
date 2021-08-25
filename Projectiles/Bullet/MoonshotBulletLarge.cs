@@ -10,8 +10,6 @@ namespace SpiritMod.Projectiles.Bullet
 {
 	public class MoonshotBulletLarge : ModProjectile
 	{
-		float distance = 8;
-		int rotationalSpeed = 4;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Focus Ball");
@@ -32,8 +30,7 @@ namespace SpiritMod.Projectiles.Bullet
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 
 		}
-		bool initialized = false;
-        float alphaCounter;
+
 		Vector2 initialSpeed = Vector2.Zero;
 		public override void AI()
         {
@@ -45,7 +42,7 @@ namespace SpiritMod.Projectiles.Bullet
             {
                 for (int j = 0; j < 5; j++)
                 {
-                    int num6 = Dust.NewDust(center, 0, 0, 226, 0f, 0f, 100, default(Color), .75f);
+                    int num6 = Dust.NewDust(center, 0, 0, DustID.Electric, 0f, 0f, 100, default(Color), .75f);
                     Main.dust[num6].noGravity = true;
                     Main.dust[num6].velocity = Vector2.Zero;
                     Main.dust[num6].noLight = true;
@@ -60,7 +57,7 @@ namespace SpiritMod.Projectiles.Bullet
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            float sineAdd = (float)Math.Sin(alphaCounter) + 3;
+            float sineAdd = (float)Math.Sin(0) + 3;
             Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), (projectile.Center - Main.screenPosition), null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + .3f), SpriteEffects.None, 0f);
         }
         public override void Kill(int timeLeft)

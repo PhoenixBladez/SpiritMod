@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Magic
@@ -65,7 +66,7 @@ namespace SpiritMod.Projectiles.Magic
 						float x38 = projectile.velocity.X;
 						float y36 = projectile.velocity.Y;
 						Color newColor5 = default(Color);
-						int num1447 = Dust.NewDust(position177, width138, height138, 5, x38, y36, 100, newColor5, 1.1f);
+						int num1447 = Dust.NewDust(position177, width138, height138, DustID.Blood, x38, y36, 100, newColor5, 1.1f);
 						Main.dust[num1447].position = (Main.dust[num1447].position + projectile.Center) / 2f;
 						Main.dust[num1447].noGravity = true;
 						Dust dust81 = Main.dust[num1447];
@@ -99,7 +100,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 10; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 5);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Blood);
 			}
 		}
 	}

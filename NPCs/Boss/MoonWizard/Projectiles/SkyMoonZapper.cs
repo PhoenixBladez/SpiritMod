@@ -9,8 +9,6 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 {
 	public class SkyMoonZapper : ModProjectile
 	{
-		float distance = 8;
-		int rotationalSpeed = 4;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Moon Zapper");

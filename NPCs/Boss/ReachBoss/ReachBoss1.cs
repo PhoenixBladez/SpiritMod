@@ -54,8 +54,6 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			npc.frame.Y = frame * frameHeight;
 		}
 
-		private int Counter;
-
 		public override void AI()
 		{
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.075f, 0.184f, 0.062f);			
@@ -120,7 +118,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), new Color(0, 200, 80, 100),
 					"The Bramble shall consume you...");
 					Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
-					Main.PlaySound(42, (int)npc.position.X, (int)npc.position.Y, 39);
+					Main.PlaySound(SoundID.Trackable, (int)npc.position.X, (int)npc.position.Y, 39);
                     npc.ai[3]++;
 					npc.netUpdate = true;
                 }
@@ -227,12 +225,12 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		{
 			if (Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0) {
 				for (int num621 = 0; num621 < 20; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 2, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Grass, 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num622].velocity *= 3f;
 					if (Main.rand.Next(2) == 0)
 						Main.dust[num622].scale = 0.5f;
 
-					int num623 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 2, 0f, 0f, 100, default(Color), 2f);
+					int num623 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Grass, 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num623].velocity *= 3f;
 					if (Main.rand.Next(2) == 0)
 						Main.dust[num623].scale = 0.5f;
@@ -260,7 +258,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				Main.gore[a1].velocity = new Vector2(hitDirection * 2.5f, Main.rand.NextFloat(10f, 20f));
 			}
 			for (int k = 0; k < 12; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 167, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Plantera_Green, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
 			}
 		}
 

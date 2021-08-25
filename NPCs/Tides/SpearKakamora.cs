@@ -39,7 +39,6 @@ namespace SpiritMod.NPCs.Tides
 		}
 		int timer = 0;
 		bool charging = false;
-		bool rotating = false;
 		int chargeDirection = -1; //-1 is left, 1 is right
 		bool throwing = false;
 		bool thrownCoconut = false;
@@ -91,7 +90,7 @@ namespace SpiritMod.NPCs.Tides
 			}
 			if (timer == 300) {
 				charging = true;
-				Main.PlaySound(3, npc.Center, 51);
+				Main.PlaySound(SoundID.NPCHit, npc.Center, 51);
 				npc.velocity.X = 0;
 				if (player.position.X > npc.position.X) {
 					chargeDirection = 1;

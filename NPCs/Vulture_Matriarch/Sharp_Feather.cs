@@ -44,9 +44,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 			for (int i = 0; i<1; i++)
 			{
 				int num7 = 4;
-				float num9 = 6f;
 				float num8 = (float) (Math.Cos((double) Main.GlobalTime % 2.40000009536743 / 2.40000009536743 * 6.28318548202515) / 4.0 + 0.5);
-				float amount1 = 0.5f;
 				float num10 = 0.0f;
 				float addY = 0f;
 				float addHeight = -10f;

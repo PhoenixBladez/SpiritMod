@@ -61,7 +61,7 @@ namespace SpiritMod.Tiles
 			ushort flowerType = (ushort)ModContent.TileType<BloodBlossom>();
 			if (type == flowerType || tileAbove.type == flowerType)
 				return false;
-			else if (!IceSculptures.Contains(type) && !IceSculptures.Contains(tileAbove.type))
+			else if (IceSculptures.Contains(type) || IceSculptures.Contains(tileAbove.type))
 				return false;
 			return true;
 		}

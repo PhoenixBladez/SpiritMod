@@ -13,8 +13,6 @@ namespace SpiritMod.Projectiles.DonatorItems
 {
 	class HarpyPet : ModProjectile
 	{
-		public static readonly int _type;
-
 		private const float FOV = (float)System.Math.PI / 2;
 		private const float Max_Range = 16 * 50;
 		private const float Spread = (float)System.Math.PI / 9;
@@ -134,8 +132,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			projectile.aiStyle = -1;
 			aiType = ProjectileID.Bullet;
 		}
-		int timer;
-		int colortimer;
+
 		public override bool PreAI()
 		{
             projectile.velocity *= 1.01f;
@@ -155,7 +152,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
 			vector9 += value19 * 16f;
 			for (int num257 = 0; num257 < 24; num257++) {
-				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, 180, 0f, 0f, 0, default(Color), 1.2f);
+				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, DustID.DungeonSpirit, 0f, 0f, 0, default(Color), 1.2f);
 				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
 				Main.dust[newDust].velocity += value19 * 2f;
 				Main.dust[newDust].velocity *= 0.5f;
@@ -170,7 +167,7 @@ namespace SpiritMod.Projectiles.DonatorItems
                     {
                         for (int i = 0; i < 10; i++)
                         {
-                            int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 180, 0f, -2f, 0, default(Color), 2f);
+                            int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.DungeonSpirit, 0f, -2f, 0, default, 2f);
                             Main.dust[num].noGravity = true;
                             Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
                             Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;

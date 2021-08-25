@@ -61,11 +61,6 @@ namespace SpiritMod.Projectiles.Magic
                 if (++projectile.frame >= 4)
                     projectile.frame = 0;
             }
-            float num4 = 0.5f;
-            if (projectile.timeLeft < 120)
-                num4 = 1.1f;
-            if (projectile.timeLeft < 60)
-                num4 = 1.6f;
 
             ++projectile.ai[1];
             double num5 = (double)projectile.ai[1] / 180.0;
@@ -90,11 +85,8 @@ namespace SpiritMod.Projectiles.Magic
                 projectile.netUpdate = true;
             }
         }
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return Color.White;
-        }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override Color? GetAlpha(Color lightColor) => Color.White;
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             float sineAdd = (float)Math.Sin(alphaCounter) + 3;
             SpriteEffects spriteEffects = SpriteEffects.None;

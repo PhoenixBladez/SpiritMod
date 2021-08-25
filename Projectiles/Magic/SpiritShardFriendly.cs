@@ -8,7 +8,6 @@ namespace SpiritMod.Projectiles.Magic
 {
 	public class SpiritShardFriendly : ModProjectile
 	{
-		int target;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spirit Essence");
@@ -63,7 +62,7 @@ namespace SpiritMod.Projectiles.Magic
 			for (int index1 = 0; index1 < 3; ++index1) {
 				float num1 = projectile.velocity.X * 0.2f * (float)index1;
 				float num2 = (float)-((double)projectile.velocity.Y * 0.200000002980232) * (float)index1;
-				int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 206, 0.0f, 0.0f, 100, new Color(), 1.3f);
+				int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, 0.0f, 0.0f, 100, new Color(), 1.3f);
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity *= 0.0f;
 				Main.dust[index2].scale = 1.6f;
@@ -78,7 +77,7 @@ namespace SpiritMod.Projectiles.Magic
 			ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
 				delegate {
 					for (int i = 0; i < 20; i++) {
-						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, 0f, -2f, 0, default(Color), 2f);
+						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, 0f, -2f, 0, default(Color), 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;

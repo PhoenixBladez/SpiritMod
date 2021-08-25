@@ -64,7 +64,6 @@ namespace SpiritMod.Projectiles.Summon.SacrificialDagger
 			}
 			return true;
 		}
-		int checkNum;
         
         public void AdditiveCall(SpriteBatch spriteBatch)
         {

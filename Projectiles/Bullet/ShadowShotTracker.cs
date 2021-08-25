@@ -27,11 +27,9 @@ namespace SpiritMod.Projectiles.Bullet
 
 			projectile.penetrate = -1;
 		}
-		bool strike = false;
 		public override bool PreAI()
 		{
 			Lighting.AddLight(projectile.Center, 0.230f, .035f, .06f);
-			strike = true;
 			if (projectile.ai[0] == 0)
 				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 			else {
@@ -64,7 +62,7 @@ namespace SpiritMod.Projectiles.Bullet
 			}
 			int num = 5;
 			for (int k = 0; k < 3; k++) {
-				int index2 = Dust.NewDust(projectile.position, 1, 1, 75, 0.0f, 0.0f, 0, new Color(), 1f);
+				int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.CursedTorch, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].velocity *= 0f;
@@ -116,9 +114,8 @@ namespace SpiritMod.Projectiles.Bullet
 		}
 		public override void Kill(int timeLeft)
 		{
-			for (int i = 0; i < 5; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 75);
-			}
+			for (int i = 0; i < 5; i++)
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.CursedTorch);
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 		}
 	}

@@ -27,7 +27,6 @@ namespace SpiritMod.Projectiles
 			projectile.extraUpdates = 1;
 		}
 
-		int timer = 1;
 		public override void AI()
 		{
 			Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 0.3F, 0.06F, 0.05F);
@@ -35,7 +34,7 @@ namespace SpiritMod.Projectiles
 			for (int i = 0; i < 2; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 173, 0f, 0f, 0, default(Color), 1f);
+				int num = Dust.NewDust(new Vector2(x, y), 26, 26, DustID.ShadowbeamStaff, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[num].alpha = projectile.alpha;
 				Main.dust[num].position.X = x;
 				Main.dust[num].position.Y = y;
@@ -46,15 +45,12 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default(Color), 3f);
+			int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.ShadowbeamStaff, 0f, 0f, 100, default, 3f);
 			Main.dust[num624].velocity *= 0f;
 			Main.dust[num624].scale *= 0.3f;
 		}
 
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return Color.White;
-		}
+		public override Color? GetAlpha(Color lightColor) => Color.White;
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{

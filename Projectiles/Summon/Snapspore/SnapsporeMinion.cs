@@ -3,14 +3,12 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using static Terraria.ModLoader.ModContent;
 using Terraria.ModLoader;
-using Terraria.Graphics.Shaders;
+
 namespace SpiritMod.Projectiles.Summon.Snapspore
 {
 	public class SnapsporeMinion : ModProjectile
     {
-        double dist = 80;
         Vector2 direction = Vector2.Zero;
         int counter = 0;
         public override void SetStaticDefaults()
@@ -38,7 +36,6 @@ namespace SpiritMod.Projectiles.Summon.Snapspore
 			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
 		}
-        bool attackCooldown;
         public override void AI()
         {
             projectile.rotation = projectile.velocity.X * .08f;
@@ -172,8 +169,7 @@ namespace SpiritMod.Projectiles.Summon.Snapspore
                 {
                     for (int num621 = 0; num621 < 8; num621++)
                     {
-                        Dust.NewDust(projectile.position, projectile.width, projectile.height,
-                            2, 0f, 0f, 100, default(Color), .7f);
+                        Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Grass, 0f, 0f, 100, default(Color), .7f);
                         Dust dust = Main.dust[Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 2f), projectile.width, projectile.height, ModContent.DustType<Dusts.PoisonGas>(), projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, new Color(), 5f)];
                         dust.noGravity = true;
                         dust.velocity.X = dust.velocity.X * 0.3f;
@@ -182,12 +178,8 @@ namespace SpiritMod.Projectiles.Summon.Snapspore
                     int amountOfProjectiles = Main.rand.Next(2, 4);
                     Main.PlaySound(SoundID.Item, projectile.Center, 95);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
                         for (int i = 0; i < amountOfProjectiles; ++i)
-                        {
-                            int p = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-2, 2), Main.rand.Next(-2, 2), ModContent.ProjectileType<Projectiles.PoisonCloud>(), projectile.damage / 2, 1, Main.myPlayer, 0, 0);
-                        }
-                    }
+                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-2, 2), Main.rand.Next(-2, 2), ModContent.ProjectileType<Projectiles.PoisonCloud>(), projectile.damage / 2, 1, Main.myPlayer, 0, 0);
                 }
 				if (counter > Main.rand.Next(300, 320))
                 {
@@ -235,9 +227,7 @@ namespace SpiritMod.Projectiles.Summon.Snapspore
                 else
                 {
                     if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
-                    {
                         projectile.velocity.X = -0.015f;
-                    }
                     projectile.velocity *= 1.0001f;
                 }
             }

@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.NPCs.Cystal
 {
@@ -86,7 +87,7 @@ namespace SpiritMod.NPCs.Cystal
 			Vector2 vector2_2 = npc.velocity.SafeNormalize(Vector2.Zero);
 			for (int index = 0; index < 1; ++index)
 			{
-				Dust dust1 = Dust.NewDustDirect(npc.Center - npc.Size / 4f, npc.width / 2, npc.height / 2, 70, 0.0f, 0.0f, 0, new Color(), 0.2f);
+				Dust dust1 = Dust.NewDustDirect(npc.Center - npc.Size / 4f, npc.width / 2, npc.height / 2, DustID.PurpleCrystalShard, 0.0f, 0.0f, 0, new Color(), 0.2f);
 				int num1 = 1;
 				dust1.noGravity = num1 != 0;
 				Vector2 vector2_3 = npc.Center + vector2_1;
@@ -95,14 +96,12 @@ namespace SpiritMod.NPCs.Cystal
 				dust1.velocity = vector2_4;
 				double num2 = 0.79999997615814;
 				dust1.fadeIn = (float)num2;
-				double num3 = 1.14999997615814;
 				dust1.scale = (float)0.1f;
-				int num4 = 1;
 				Vector2 vector2_5 = dust1.position + npc.velocity * 1.2f;
 				dust1.position = vector2_5;
 				Vector2 vector2_6 = dust1.velocity + vector2_2 * 2f;
 				dust1.velocity = vector2_6;
-				Dust dust2 = Dust.NewDustDirect((npc.Center - npc.Size / 4f), npc.width / 2, npc.height / 2, 70, 0.0f, 0.0f, 0, new Color(), 0.1f);
+				Dust dust2 = Dust.NewDustDirect((npc.Center - npc.Size / 4f), npc.width / 2, npc.height / 2, DustID.PurpleCrystalShard, 0.0f, 0.0f, 0, new Color(), 0.1f);
 				int num5 = 1;
 				dust2.noGravity = num5 != 0;
 				Vector2 vector2_7 = npc.Center + vector2_1;
@@ -111,9 +110,7 @@ namespace SpiritMod.NPCs.Cystal
 				dust2.velocity = vector2_8;
 				double num6 = 0.89999997615814;
 				dust2.fadeIn = (float)num6;
-				double num7 = 1.14999997615814;
 				dust2.scale = (float)0.05f;
-				int num8 = 1;
 				Vector2 vector2_9 = dust2.position + npc.velocity * 0.5f;
 				dust2.position = vector2_9;
 				Vector2 vector2_10 = dust2.position + npc.velocity * 1.2f;

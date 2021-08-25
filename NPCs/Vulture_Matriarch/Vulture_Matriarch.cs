@@ -83,7 +83,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 				{
 					npc.ai[2] = 1;
 					Main.NewText("The Vulture Matriarch has been disturbed!", 175, 75, 255);
-					Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 28, 1.5f, -0.4f);
+					Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 28, 1.5f, -0.4f);
 					npc.netUpdate = true;
 				}
 				npc.damage = 17;
@@ -96,7 +96,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 				}
 				else
 				{
-					circularGlideMovement();
+					CircularGlideMovement();
 					normalMovement();
 				}
 				
@@ -175,16 +175,16 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 				if (player.direction == -npc.spriteDirection && !player.HasBuff(mod.BuffType("Golden_Curse")) && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
 				{
 					player.AddBuff(mod.BuffType("Golden_Curse"), 60*10);
-					Main.PlaySound(42, (int)npc.position.X, (int)npc.position.Y, 50, 1f, -0.5f);
+					Main.PlaySound(SoundID.Trackable, (int)npc.position.X, (int)npc.position.Y, 50, 1f, -0.5f);
 					for (int bb = 0; bb < 50; ++bb)
 					{
-						int bbb = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 228, 0.0f, 0.0f, 100, new Color(), (float) Main.rand.Next(1, 3));
+						int bbb = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, DustID.GoldFlame, 0.0f, 0.0f, 100, new Color(), (float) Main.rand.Next(1, 3));
 						Main.dust[bbb].velocity *= 3f;
 						if ((double) Main.dust[bbb].scale > 1.0)
 							Main.dust[bbb].noGravity = true;
 					}
 				}
-				Main.PlaySound(42, (int)npc.position.X, (int)npc.position.Y, 41, 1f, 0f);
+				Main.PlaySound(SoundID.Trackable, (int)npc.position.X, (int)npc.position.Y, 41, 1f, 0f);
 			}
 		}
 		public void normalMovement()
@@ -249,7 +249,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 				}
 			}
 		}
-		public void circularGlideMovement()
+		public void CircularGlideMovement()
 		{
 			npc.knockBackResist = 0f;
 			Player player = Main.player[npc.target];
@@ -262,13 +262,13 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 				
 			}
 			if (npc.ai[1] >= 360+80)
-				flyTowardsPlayer();
+				FlyTowardsPlayer();
 		}
 		
-		public void flyTowardsPlayer()
+		public void FlyTowardsPlayer()
 		{
 			if (npc.ai[1] == 361+80)
-				Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 28, 1.5f, -0.4f);
+				Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 28, 1.5f, -0.4f);
 			gliding = true;
 			float num2 = 10f;
 			float num5 = 30f;
@@ -340,9 +340,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 				for (int i = 0; i<1; i++)
 				{
 					int num7 = 4;
-					float num9 = 6f;
 					float num8 = (float) (Math.Cos((double) Main.GlobalTime % 2.40000009536743 / 2.40000009536743 * 6.28318548202515) / 2.0 + 0.5);
-					float amount1 = 0.5f;
 					float num10 = 0.0f;
 					float addY = 0f;
 					float addHeight = -10f;
