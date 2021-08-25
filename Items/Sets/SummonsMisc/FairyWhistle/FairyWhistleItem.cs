@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.FairyWhistle
 
 		public override void SetDefaults()
 		{
-			item.damage = 12;
+			item.damage = 10;
 			item.width = 22;
 			item.height = 18;
 			item.value = Item.sellPrice(0, 2, 0, 0);
@@ -50,7 +50,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.FairyWhistle
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddRecipeGroup(RecipeGroupID.Wood, 25);
-			recipe.AddIngredient(ItemID.FallenStar, 3);
+			recipe.AddIngredient(ItemID.FallenStar, 4);
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

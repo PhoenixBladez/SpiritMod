@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.FairyWhistle
 			projectile.UpdateFrame(6);
 			Lighting.AddLight(projectile.Center, Color.LimeGreen.ToVector3() / 3);
 
-			if(!Main.dedServ && Main.rand.NextBool(4)) //randomly moving subtle particle trail
+			if(!Main.dedServ && Main.rand.NextBool(5)) //randomly moving subtle particle trail
 				ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, (Vector2.Normalize(projectile.velocity)/3) + Main.rand.NextVector2Unit() * Main.rand.NextFloat(2),
 					new Color(120, 239, 255) * 0.66f, new Color(94, 255, 126) * 0.66f, Main.rand.NextFloat(0.2f, 0.3f), 40, delegate (Particle p)
 					{
@@ -57,14 +57,14 @@ namespace SpiritMod.Items.Sets.SummonsMisc.FairyWhistle
 
 				for (int i = 0; i < 3; i++) //weak burst of particles in direction of movement
 					ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, velnormal.RotatedByRandom(MathHelper.Pi / 6) * Main.rand.NextFloat(2f),
-						new Color(120, 239, 255), new Color(94, 255, 126), Main.rand.NextFloat(0.2f, 0.3f), 25, delegate (Particle p)
+						new Color(120, 239, 255), new Color(94, 255, 126), Main.rand.NextFloat(0.3f, 0.4f), 25, delegate (Particle p)
 						{
 							p.Velocity = p.Velocity.RotatedByRandom(0.1f) * 0.97f;
 						}));
 
 				for (int i = 0; i < 4; i++) //wide burst of slower moving particles in opposite direction
 					ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, -velnormal.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(1.5f),
-						new Color(120, 239, 255), new Color(94, 255, 126), Main.rand.NextFloat(0.2f, 0.3f), 25, delegate (Particle p)
+						new Color(120, 239, 255), new Color(94, 255, 126), Main.rand.NextFloat(0.3f, 0.4f), 25, delegate (Particle p)
 						{
 							p.Velocity = p.Velocity.RotatedByRandom(0.1f) * 0.97f;
 						}));
@@ -72,7 +72,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.FairyWhistle
 
 				for (int i = 0; i < 3; i++) //narrow burst of faster, bigger particles
 					ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, -velnormal.RotatedByRandom(MathHelper.Pi / 6) * Main.rand.NextFloat(2.5f),
-						new Color(120, 239, 255), new Color(94, 255, 126), Main.rand.NextFloat(0.2f, 0.3f), 25, delegate (Particle p)
+						new Color(120, 239, 255), new Color(94, 255, 126), Main.rand.NextFloat(0.3f, 0.4f), 25, delegate (Particle p)
 						{
 							p.Velocity = p.Velocity.RotatedByRandom(0.15f) * 0.96f;
 						}));
