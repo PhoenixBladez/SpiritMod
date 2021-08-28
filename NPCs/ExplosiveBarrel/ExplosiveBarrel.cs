@@ -64,7 +64,7 @@ namespace SpiritMod.NPCs.ExplosiveBarrel
                 npc.life--;
                 if (Main.rand.Next(10) == 1)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 0, -5, 0, default(Color), 1.5f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 0, -5, 0, default, 1.5f);
                 }
                 if (npc.life <= 0)
                 {

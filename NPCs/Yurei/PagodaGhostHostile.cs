@@ -72,9 +72,9 @@ namespace SpiritMod.NPCs.Yurei
 				for (int i = 0; i < 40; i++) {
 					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Rainbow, 0f, -2f, 0, new Color(0, 255, 142), .6f);
 					Main.dust[num].noGravity = true;
-					Dust expr_62_cp_0 = Main.dust[num];
-					expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((Main.rand.Next(-50, 51) / 20) - 1.5f);
-					expr_62_cp_0.position.Y = expr_62_cp_0.position.Y + ((Main.rand.Next(-50, 51) / 20) - 1.5f);
+					Dust dust = Main.dust[num];
+					dust.position.X = dust.position.X + ((Main.rand.Next(-50, 51) / 20) - 1.5f);
+					dust.position.Y = dust.position.Y + ((Main.rand.Next(-50, 51) / 20) - 1.5f);
 					if (Main.dust[num].position != npc.Center) {
 						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 					}

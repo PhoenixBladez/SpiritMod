@@ -1,10 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Consumable;
-using SpiritMod.Tiles.Block;
 using SpiritMod.NPCs.Boss.MoonWizard.Projectiles;
 using System;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -73,31 +71,15 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 			int frame = (int)npc.frameCounter;
 			npc.frame.Y = frame * frameHeight;
 		}
-        bool chosen = false;
-        public override void NPCLoot()
+
+		public override void NPCLoot() => npc.DropItem(ItemID.Gel);
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            npc.DropItem(ItemID.Gel);
-        }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-                             drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
             return false;
         }
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            Main.spriteBatch.Draw(
-                mod.GetTexture("NPCs/MoonjellyEvent/TinyLunazoa_Glow"),
-				npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY),
-				npc.frame,
-				Color.White,
-				npc.rotation,
-				npc.frame.Size() / 2,
-				npc.scale,
-				SpriteEffects.None,
-				0
-			);
-            
-        }
-    }
+
+		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => Main.spriteBatch.Draw(mod.GetTexture("NPCs/MoonjellyEvent/TinyLunazoa_Glow"), npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
+	}
 }

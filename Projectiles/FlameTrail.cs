@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles
 
 		public override bool PreAI()
 		{
-			int newDust = Dust.NewDust(projectile.position, projectile.width * 2, projectile.height, DustID.Fire, Main.rand.Next(-3, 4), Main.rand.Next(-3, 4), 100, default(Color), 1f);
+			int newDust = Dust.NewDust(projectile.position, projectile.width * 2, projectile.height, DustID.Fire, Main.rand.Next(-3, 4), Main.rand.Next(-3, 4), 100, default, 1f);
 			Dust dust = Main.dust[newDust];
 			dust.position.X = dust.position.X - 2f;
 			dust.position.Y = dust.position.Y + 2f;

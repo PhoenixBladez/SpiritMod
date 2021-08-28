@@ -74,7 +74,7 @@ namespace SpiritMod.Projectiles.Magic
 			int num812 = 0;
 			while ((float)num812 < num811) {
 				float num813 = (float)num812 / (num811 - 1);
-				Vector2 value38 = value37 + projectile.velocity.RotatedBy(Math.PI / 2, default(Vector2)) * (num813 - 0.5f) * scaleFactor7 * projectile.scale;
+				Vector2 value38 = value37 + projectile.velocity.RotatedBy(Math.PI / 2, default) * (num813 - 0.5f) * scaleFactor7 * projectile.scale;
 				int num814 = (int)value38.X / 16;
 				int num815 = (int)value38.Y / 16;
 				Vector2 vector69 = value38 + projectile.velocity * 16f * 150f;
@@ -109,14 +109,14 @@ namespace SpiritMod.Projectiles.Magic
                 float num827 = projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * 1.57079637f;
                 float num828 = (float)Main.rand.NextDouble() * 2f + 2f;
                 Vector2 vector73 = new Vector2((float)Math.Cos((double)num827) * num828, (float)Math.Sin((double)num827) * num828);
-                int num829 = Dust.NewDust(vector72, 0, 0, 229, vector73.X, vector73.Y, 0, default(Color), 1f);
+                int num829 = Dust.NewDust(vector72, 0, 0, 229, vector73.X, vector73.Y, 0, default, 1f);
                 Main.dust[num829].noGravity = true;
                 Main.dust[num829].scale = 1.7f;
             }
             if (Main.rand.Next(5) == 0)
             {
-                Vector2 value40 = projectile.velocity.RotatedBy(1.5707963705062866, default(Vector2)) * ((float)Main.rand.NextDouble() - 0.5f) * (float)projectile.width;
-                int num830 = Dust.NewDust(vector72 + value40 - Vector2.One * 4f, 8, 8, 31, 0f, 0f, 100, default(Color), 1.5f);
+                Vector2 value40 = projectile.velocity.RotatedBy(1.5707963705062866, default) * ((float)Main.rand.NextDouble() - 0.5f) * (float)projectile.width;
+                int num830 = Dust.NewDust(vector72 + value40 - Vector2.One * 4f, 8, 8, 31, 0f, 0f, 100, default, 1.5f);
                 Main.dust[num830].velocity *= 0.5f;
                 Main.dust[num830].velocity.Y = -Math.Abs(Main.dust[num830].velocity.Y);
             }*/

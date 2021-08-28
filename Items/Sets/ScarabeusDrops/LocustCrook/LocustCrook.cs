@@ -296,7 +296,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.LocustCrook
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 8; i++)
-				Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 167, Scale: Main.rand.NextFloat(0.7f, 1)).noGravity = true;
+				Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.Plantera_Green, Scale: Main.rand.NextFloat(0.7f, 1)).noGravity = true;
 
 			Main.PlaySound(new LegacySoundStyle(SoundID.NPCKilled, 1).WithPitchVariance(0.2f).WithVolume(0.15f), projectile.Center);
 

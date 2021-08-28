@@ -94,62 +94,65 @@ namespace SpiritMod.NPCs.Reach
 				NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, num3203, 0f, 0f, 0f, 0, 0, 0);
 				npc.netUpdate = true;
 			}
-			try {
+			try
+			{
 				int num3202 = (int)npc.position.X / 16;
 				int num3201 = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
 				int num3200 = (int)(npc.position.X + (float)npc.width) / 16;
 				int num3199 = (int)(npc.position.Y + (float)npc.height) / 16;
 				bool flag222 = false;
-				if (Main.tile[num3202, num3199] == null) {
+				if (Main.tile[num3202, num3199] == null)
+				{
 					Tile[,] tile15 = Main.tile;
 					int num3564 = num3202;
 					int num3565 = num3199;
 					Tile tile16 = new Tile();
 					tile15[num3564, num3565] = tile16;
 				}
-				if (Main.tile[num3201, num3199] == null) {
+				if (Main.tile[num3201, num3199] == null)
+				{
 					Tile[,] tile17 = Main.tile;
 					int num3566 = num3202;
 					int num3567 = num3199;
 					Tile tile18 = new Tile();
 					tile17[num3566, num3567] = tile18;
 				}
-				if (Main.tile[num3200, num3199] == null) {
+				if (Main.tile[num3200, num3199] == null)
+				{
 					Tile[,] tile19 = Main.tile;
 					int num3568 = num3202;
 					int num3569 = num3199;
 					Tile tile20 = new Tile();
 					tile19[num3568, num3569] = tile20;
 				}
-				if (Main.tile[num3202, num3199].nactive() && Main.tileSolid[Main.tile[num3202, num3199].type]) {
+				if (Main.tile[num3202, num3199].nactive() && Main.tileSolid[Main.tile[num3202, num3199].type])
 					flag222 = true;
-				}
-				if (Main.tile[num3201, num3199].nactive() && Main.tileSolid[Main.tile[num3201, num3199].type]) {
+				if (Main.tile[num3201, num3199].nactive() && Main.tileSolid[Main.tile[num3201, num3199].type])
 					flag222 = true;
-				}
-				if (Main.tile[num3200, num3199].nactive() && Main.tileSolid[Main.tile[num3200, num3199].type]) {
+				if (Main.tile[num3200, num3199].nactive() && Main.tileSolid[Main.tile[num3200, num3199].type])
 					flag222 = true;
-				}
 
-				if (flag222) {
+				if (flag222)
+				{
 					npc.noGravity = true;
 					npc.noTileCollide = true;
 					npc.velocity.Y = -0.2f;
 				}
-				else {
+				else
+				{
 					npc.noGravity = false;
 					npc.noTileCollide = false;
-					if (Main.rand.Next(2) == 0) {
+					if (Main.rand.Next(2) == 0)
+					{
 						Vector2 position55 = new Vector2(npc.position.X - 4f, npc.position.Y + (float)npc.height - 8f);
 						int width36 = npc.width + 8;
 						float speedY16 = npc.velocity.Y / 2f;
-						Color newColor = default(Color);
-						int num3198 = Dust.NewDust(position55, width36, 24, 32, 0f, speedY16, 0, newColor, 1f);
-						Dust expr_D686_cp_0 = Main.dust[num3198];
-						expr_D686_cp_0.velocity.X = expr_D686_cp_0.velocity.X * 0.4f;
-						Dust expr_D6A6_cp_0 = Main.dust[num3198];
-						expr_D6A6_cp_0.velocity.Y = expr_D6A6_cp_0.velocity.Y * -1f;
-						if (Main.rand.Next(2) == 0) {
+						int num3198 = Dust.NewDust(position55, width36, 24, DustID.Sand, 0f, speedY16, 0, default, 1f);
+						Dust dust = Main.dust[num3198];
+						dust.velocity.X = dust.velocity.X * 0.4f;
+						dust.velocity.Y = dust.velocity.Y * -1f;
+						if (Main.rand.Next(2) == 0)
+						{
 							Main.dust[num3198].noGravity = true;
 							Dust dust46 = Main.dust[num3198];
 							dust46.scale += 0.2f;
@@ -157,8 +160,7 @@ namespace SpiritMod.NPCs.Reach
 					}
 				}
 			}
-			catch {
-			}
+			catch { }
 		}
 
 		public override void FindFrame(int frameHeight)
@@ -194,7 +196,7 @@ namespace SpiritMod.NPCs.Reach
 			int d1 = 3;
 			for (int k = 0; k < 30; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.Purple, 0.3f);
-				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
+				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default, .34f);
 			}
 			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LeafGreen"), 1f);

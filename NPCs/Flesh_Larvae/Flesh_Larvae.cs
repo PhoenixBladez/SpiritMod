@@ -85,7 +85,7 @@ namespace SpiritMod.NPCs.Flesh_Larvae
 								}
 							}
 						}
-						int index2 = Dust.NewDust(npc.position, npc.width, npc.height, 31, 0.0f, 0.0f, 100, Color.Pink, 0.4f);
+						int index2 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Smoke, 0.0f, 0.0f, 100, Color.Pink, 0.4f);
 						Main.dust[index2].alpha += Main.rand.Next(100);
 						Main.dust[index2].velocity *= 0.3f;
 						Main.dust[index2].velocity.X += (float)Main.rand.Next(-10, 11) * 0.025f * npc.velocity.X;
@@ -418,9 +418,9 @@ namespace SpiritMod.NPCs.Flesh_Larvae
 			}
 			for (int k = 0; k < 7; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default(Color), 1.2f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.5f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, 0.5f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
 			}
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

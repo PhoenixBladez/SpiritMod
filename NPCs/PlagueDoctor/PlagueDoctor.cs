@@ -43,7 +43,7 @@ namespace SpiritMod.NPCs.PlagueDoctor
 			int d1 = 75;
 			for (int k = 0; k < 30; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
-				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
+				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default, .34f);
 			}
 			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PDoctor1"), 1f);
@@ -108,7 +108,7 @@ namespace SpiritMod.NPCs.PlagueDoctor
 						float B = (float)Main.rand.Next(-50, 50) * 0.02f;
 						int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y - 10, direction.X + A, direction.Y + B, ModContent.ProjectileType<ToxicFlaskHostile>(), 13, 1, Main.myPlayer, 0, 0);
 						for (int k = 0; k < 11; k++) {
-							Dust.NewDust(npc.position, npc.width, npc.height, DustID.CursedTorch, (float)direction.X + A, (float)direction.Y + B, 0, default(Color), .61f);
+							Dust.NewDust(npc.position, npc.width, npc.height, DustID.CursedTorch, (float)direction.X + A, (float)direction.Y + B, 0, default, .61f);
 						}
 						Main.projectile[p].hostile = true;
 					//  shootTimer = 0;

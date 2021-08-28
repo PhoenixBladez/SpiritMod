@@ -39,9 +39,9 @@ namespace SpiritMod.NPCs.Reach
 		int shootTimer = 0;
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			Main.PlaySound(3, npc.Center, 7);
+			Main.PlaySound(SoundID.NPCHit, npc.Center, 7);
 			for (int k = 0; k < 11; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 167, hitDirection, -1f, 0, Color.Green, .61f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Plantera_Green, hitDirection, -1f, 0, Color.Green, .61f);
 			}
             if (npc.life <= 0) {
                 Main.PlaySound(SoundID.Zombie, npc.Center, 7);

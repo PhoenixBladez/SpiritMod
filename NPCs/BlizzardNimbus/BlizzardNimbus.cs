@@ -96,7 +96,7 @@ namespace SpiritMod.NPCs.BlizzardNimbus
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 3; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 14, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Demonite, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, 13);

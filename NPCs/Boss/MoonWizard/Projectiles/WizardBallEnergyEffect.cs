@@ -55,7 +55,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 				if (projectile.width == 8) {
 					float x1 = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 					float y1 = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-					int num = Dust.NewDust(new Vector2(x1, y1), 2, 2, 180);
+					int num = Dust.NewDust(new Vector2(x1, y1), 2, 2, DustID.DungeonSpirit);
 					Main.dust[num].velocity = projectile.velocity;
 					Main.dust[num].noGravity = true;
                     Main.dust[num].scale = projectile.scale;

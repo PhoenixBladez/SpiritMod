@@ -59,14 +59,14 @@ namespace SpiritMod.Projectiles.Bullet.Crimbine
 			}
 			int d = 5;
 			for (int k = 0; k < 6; k++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default(Color), 0.7f);
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default(Color), 0.7f);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default, 0.7f);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default, 0.7f);
 			}
 
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default(Color), 0.7f);
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default(Color), 0.7f);
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default(Color), 0.7f);
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default(Color), 0.7f);
+			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default, 0.7f);
+			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default, 0.7f);
+			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default, 0.7f);
+			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default, 0.7f);
 			return false;
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

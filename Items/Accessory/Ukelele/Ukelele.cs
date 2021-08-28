@@ -177,11 +177,10 @@ namespace SpiritMod.Items.Accessory.Ukelele
 		private void Trail(Vector2 from, Vector2 to)
 		{
 			float distance = Vector2.Distance(from, to);
-			float step = 1 / distance;
 			for (float w = 0; w < 1; w += 2 / distance) {
 				Vector2 c1 = Vector2.Lerp(from, to, 0.5f) - new Vector2(0, distance / 3);
 				Vector2 point = Helpers.TraverseBezier(from, to, c1, w);
-				int d = Dust.NewDust(point, 7, 7, 226, 0f, 0f, 0, default, .3f * projectile.penetrate);
+				int d = Dust.NewDust(point, 7, 7, DustID.Electric, 0f, 0f, 0, default, .3f * projectile.penetrate);
 				Main.dust[d].noGravity = true;
 				Main.dust[d].velocity = Vector2.Zero;
 				Main.dust[d].scale *= .7f;

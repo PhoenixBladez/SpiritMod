@@ -99,13 +99,12 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Grass, (int)projectile.position.X, (int)projectile.position.Y);
-			Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 3);
+			Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 3);
 			for (int index = 0; index < 8; ++index)
 			{
 				int i = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.AmethystBolt, 0.0f, 0.0f, 0, Color.Purple, 1f);
 				Main.dust[i].noGravity = true;
 			}
-
 		}
 		public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 100);
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)

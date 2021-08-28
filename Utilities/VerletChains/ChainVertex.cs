@@ -58,9 +58,9 @@ namespace SpiritMod.VerletChains
 				LastPosition = new Vector2(LastPosition.X + (delta.Y / speed) * delta.X, Main.WindowSize.Y - Main.GROUND_LEVEL + delta.Y * GroundBounce);
 			}*/
 		}
-		public void Draw(SpriteBatch sB, Color color = default(Color))
+		public void Draw(SpriteBatch sB, Color color = default)
 		{
-			if (color == default(Color))
+			if (color == default)
 			{
 				if (Static)
 				{

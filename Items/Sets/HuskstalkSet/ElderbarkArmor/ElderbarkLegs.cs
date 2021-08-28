@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Sets.HuskstalkSet.ElderbarkArmor
 		public override void UpdateEquip(Player player)
 		{
 			if (player.velocity.X != 0f) {
-				int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 0, 3);
+				int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 0, DustID.GrassBlades);
 				Main.dust[dust].velocity *= 0f;
 				Main.dust[dust].scale *= .6f;
 				Main.dust[dust].noGravity = true;

@@ -71,7 +71,7 @@ namespace SpiritMod.NPCs.Orbitite
 		{
 			Main.PlaySound(SoundID.DD2_WitherBeastHurt, npc.Center);
 			for (int k = 0; k < 11; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 24, hitDirection, -1f, 0, default(Color), .61f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.CorruptionThorns, hitDirection, -1f, 0, default, .61f);
 			}
 			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mineroid/Mineroid1"));
@@ -87,7 +87,7 @@ namespace SpiritMod.NPCs.Orbitite
 				npc.position.X = npc.position.X - (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 20; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 24, 0f, 0f, 100, default(Color), 1f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.CorruptionThorns, 0f, 0f, 100, default, 1f);
 					Main.dust[num622].velocity *= 3f;
 					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;

@@ -38,7 +38,7 @@ namespace SpiritMod.Projectiles.Magic
 
 			for (int i = 1; i <= 3; i++) {
 				int num1 = Dust.NewDust(projectile.position, projectile.width, projectile.height,
-					DustID.Flare_Blue, projectile.velocity.X, projectile.velocity.Y, 0, default(Color), 1f);
+					DustID.Flare_Blue, projectile.velocity.X, projectile.velocity.Y, 0, default, 1f);
 				Main.dust[num1].noGravity = true;
 				Main.dust[num1].velocity *= 0.1f;
 			}

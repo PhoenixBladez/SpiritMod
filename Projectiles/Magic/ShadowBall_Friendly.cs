@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Magic
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			{
 				for (int num621 = 0; num621 < 40; num621++) {
-					int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Shadowflame, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Shadowflame, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
 					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
@@ -120,9 +120,9 @@ namespace SpiritMod.Projectiles.Magic
 				projectile.localAI[0] = 0f;
 				for (int j = 0; j < 12; j++) {
 					Vector2 vector2 = Vector2.UnitX * -(float)projectile.width / 2f;
-					vector2 += -Utils.RotatedBy(Vector2.UnitY, (double)((float)j * 3.14159274f / 6f), default(Vector2)) * new Vector2(8f, 16f);
-					vector2 = Utils.RotatedBy(vector2, (double)(projectile.rotation - 1.57079637f), default(Vector2));
-					int num8 = Dust.NewDust(projectile.Center, 0, 0, DustID.Shadowflame, 0f, 0f, 160, default(Color), 1f);
+					vector2 += -Utils.RotatedBy(Vector2.UnitY, (double)((float)j * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
+					vector2 = Utils.RotatedBy(vector2, (double)(projectile.rotation - 1.57079637f), default);
+					int num8 = Dust.NewDust(projectile.Center, 0, 0, DustID.Shadowflame, 0f, 0f, 160, default, 1f);
 					Main.dust[num8].scale = 1.1f;
 					Main.dust[num8].noGravity = true;
 					Main.dust[num8].position = projectile.Center + vector2;
@@ -133,8 +133,8 @@ namespace SpiritMod.Projectiles.Magic
 
 			if (Main.rand.Next(4) == 0) {
 				for (int k = 0; k < 1; k++) {
-					Vector2 value = -Utils.RotatedBy(Utils.RotatedByRandom(Vector2.UnitX, 0.19634954631328583), (double)Utils.ToRotation(projectile.velocity), default(Vector2));
-					int num9 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Shadowflame, 0f, 0f, 100, default(Color), 1f);
+					Vector2 value = -Utils.RotatedBy(Utils.RotatedByRandom(Vector2.UnitX, 0.19634954631328583), (double)Utils.ToRotation(projectile.velocity), default);
+					int num9 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Shadowflame, 0f, 0f, 100, default, 1f);
 					Main.dust[num9].velocity *= 0.1f;
 					Main.dust[num9].position = projectile.Center + value * (float)projectile.width / 2f;
 					Main.dust[num9].fadeIn = 0.9f;
@@ -143,8 +143,8 @@ namespace SpiritMod.Projectiles.Magic
 
 			if (Main.rand.Next(32) == 0) {
 				for (int l = 0; l < 1; l++) {
-					Vector2 value2 = -Utils.RotatedBy(Utils.RotatedByRandom(Vector2.UnitX, 0.39269909262657166), (double)Utils.ToRotation(projectile.velocity), default(Vector2));
-					int num10 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Shadowflame, 0f, 0f, 155, default(Color), 0.8f);
+					Vector2 value2 = -Utils.RotatedBy(Utils.RotatedByRandom(Vector2.UnitX, 0.39269909262657166), (double)Utils.ToRotation(projectile.velocity), default);
+					int num10 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Shadowflame, 0f, 0f, 155, default, 0.8f);
 					Main.dust[num10].velocity *= 0.3f;
 					Main.dust[num10].position = projectile.Center + value2 * (float)projectile.width / 2f;
 					if (Main.rand.Next(2) == 0) {
@@ -155,8 +155,8 @@ namespace SpiritMod.Projectiles.Magic
 
 			if (Main.rand.Next(2) == 0) {
 				for (int m = 0; m < 2; m++) {
-					Vector2 value3 = -Utils.RotatedBy(Utils.RotatedByRandom(Vector2.UnitX, 0.78539818525314331), (double)Utils.ToRotation(projectile.velocity), default(Vector2));
-					int num11 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Shadowflame, 0f, 0f, 0, default(Color), 1.2f);
+					Vector2 value3 = -Utils.RotatedBy(Utils.RotatedByRandom(Vector2.UnitX, 0.78539818525314331), (double)Utils.ToRotation(projectile.velocity), default);
+					int num11 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Shadowflame, 0f, 0f, 0, default, 1.2f);
 					Main.dust[num11].velocity *= 0.3f;
 					Main.dust[num11].noGravity = true;
 					Main.dust[num11].position = projectile.Center + value3 * (float)projectile.width / 2f;

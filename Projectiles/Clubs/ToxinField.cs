@@ -56,7 +56,7 @@ namespace SpiritMod.Projectiles.Clubs
             for (int num621 = 0; num621 < 16; num621++)
             {
                 Dust.NewDust(projectile.position, projectile.width, projectile.height,
-                    DustID.Grass, 0f, 0f, 100, default(Color), .7f);
+                    DustID.Grass, 0f, 0f, 100, default, .7f);
                 Dust dust = Main.dust[Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 2f), projectile.width, projectile.height, ModContent.DustType<Dusts.PoisonGas>(), projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, new Color(), 8f)];
                 dust.noGravity = true;
                 dust.velocity.X = dust.velocity.X * 0.3f;

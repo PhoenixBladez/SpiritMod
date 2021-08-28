@@ -71,7 +71,7 @@ namespace SpiritMod.Items.Weapon.Summon.ElectricGun
 			proj.netUpdate = true; //sync velocity
             for (int index1 = 0; index1 < 5; ++index1)
             {
-                int index2 = Dust.NewDust(new Vector2(position.X, position.Y), item.width - 60, item.height - 28, 226, speedX, speedY, (int)byte.MaxValue, new Color(), (float)Main.rand.Next(6, 10) * 0.1f);
+                int index2 = Dust.NewDust(new Vector2(position.X, position.Y), item.width - 60, item.height - 28, DustID.Electric, speedX, speedY, (int)byte.MaxValue, new Color(), (float)Main.rand.Next(6, 10) * 0.1f);
                 Main.dust[index2].noGravity = true;
                 Main.dust[index2].velocity *= 0.5f;
                 Main.dust[index2].scale *= .6f;

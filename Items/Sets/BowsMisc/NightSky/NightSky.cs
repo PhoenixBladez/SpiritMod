@@ -53,7 +53,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.NightSky
 					Vector2 offset = mouse - player.position;
 					offset.Normalize();
 					offset *= 20f;
-					int dust = Dust.NewDust(projectile.Center + offset, projectile.width, projectile.height, 242);
+					int dust = Dust.NewDust(projectile.Center + offset, projectile.width, projectile.height, DustID.PinkFlame);
 
 					Main.dust[dust].velocity *= -1f;
 					Main.dust[dust].noGravity = true;

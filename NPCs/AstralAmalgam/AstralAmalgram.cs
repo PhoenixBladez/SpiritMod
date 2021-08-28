@@ -124,7 +124,7 @@ namespace SpiritMod.NPCs.AstralAmalgam
 				npc.velocity.Y *= 0.98f;
 				npc.velocity.X *= 0.995f;
 				for (int i = 0; i < 20; i++) {
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, 180, 0f, -2f, 0, default(Color), .8f);
+					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.DungeonSpirit, 0f, -2f, 0, default, .8f);
 					Main.dust[num].noGravity = true;
 					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -176,11 +176,9 @@ namespace SpiritMod.NPCs.AstralAmalgam
         }
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			int d = 1;
-			int d1 = 180;
 			for (int k = 0; k < 30; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
-				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .74f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Stone, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.DungeonSpirit, 2.5f * hitDirection, -2.5f, 0, default, .74f);
 			}
 			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Amalgam/Amalgam1"));
@@ -192,7 +190,7 @@ namespace SpiritMod.NPCs.AstralAmalgam
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Amalgam/Amalgam7"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Amalgam/Amalgam8"));
 				for (int i = 0; i < 20; i++) {
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, 180, 0f, -2f, 0, default(Color), .8f);
+					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.DungeonSpirit, 0f, -2f, 0, default, .8f);
 					Main.dust[num].noGravity = true;
 					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;

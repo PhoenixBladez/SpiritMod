@@ -45,8 +45,8 @@ namespace SpiritMod.NPCs.CracklingCore
 		{
 			int d = 226;
 			for (int k = 0; k < 20; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.27f);
-				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.87f);
+				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default, 0.27f);
+				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default, 0.87f);
 			}
 		}
 
@@ -59,9 +59,9 @@ namespace SpiritMod.NPCs.CracklingCore
 				npc.localAI[0] = 0f;
 				for (int j = 0; j < 12; j++) {
 					Vector2 vector2 = Vector2.UnitX * -npc.width / 2f;
-					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
-					vector2 = Utils.RotatedBy(vector2, (npc.rotation - 1.57079637f), default(Vector2));
-					int num8 = Dust.NewDust(npc.Center, 0, 0, 226, 0f, 0f, 160, default(Color), 1f);
+					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default) * new Vector2(8f, 16f);
+					vector2 = Utils.RotatedBy(vector2, (npc.rotation - 1.57079637f), default);
+					int num8 = Dust.NewDust(npc.Center, 0, 0, DustID.Electric, 0f, 0f, 160, default, 1f);
 					Main.dust[num8].scale = 0.9f;
 					Main.dust[num8].noGravity = true;
 					Main.dust[num8].position = npc.Center + vector2;
@@ -74,7 +74,7 @@ namespace SpiritMod.NPCs.CracklingCore
 		{
 			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 110));
 			for (int i = 0; i < 20; i++) {
-				int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 0, default(Color), 2f);
+				int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 0f, -2f, 0, default, 2f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;

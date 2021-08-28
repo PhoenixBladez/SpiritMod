@@ -62,7 +62,7 @@ namespace SpiritMod.NPCs.Critters
 				npc.position.X = npc.position.X - (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 20; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.GoldCoin, 0f, 0f, 100, default(Color), 1f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.GoldCoin, 0f, 0f, 100, default, 1f);
 					Main.dust[num622].velocity *= .1f;
 					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.9f;

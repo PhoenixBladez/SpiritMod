@@ -42,7 +42,7 @@ namespace SpiritMod.Projectiles.Bullet
             {
                 for (int j = 0; j < 5; j++)
                 {
-                    int num6 = Dust.NewDust(center, 0, 0, DustID.Electric, 0f, 0f, 100, default(Color), .75f);
+                    int num6 = Dust.NewDust(center, 0, 0, DustID.Electric, 0f, 0f, 100, default, .75f);
                     Main.dust[num6].noGravity = true;
                     Main.dust[num6].velocity = Vector2.Zero;
                     Main.dust[num6].noLight = true;
@@ -69,7 +69,7 @@ namespace SpiritMod.Projectiles.Bullet
                     {
                         for (int i = 0; i < 10; i++)
                         {
-                            int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, 0f, -2f, 0, default(Color), 2f);
+                            int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, 0f, -2f, 0, default, 2f);
                             Main.dust[num].noGravity = true;
                             Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
                             Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;

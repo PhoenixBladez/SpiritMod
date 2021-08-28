@@ -22,16 +22,16 @@ namespace SpiritMod.Projectiles.Held
 		{
 			Vector2 position = projectile.Center + Vector2.Normalize(projectile.velocity) * 2;
 
-			Dust newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.GoldCoin, 0f, 0f, 0, default(Color), 1f)];
+			Dust newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.GoldCoin, 0f, 0f, 0, default, 1f)];
 			newDust.position = position;
-			newDust.velocity = projectile.velocity.RotatedBy(Math.PI / 2, default(Vector2)) * 0.33F + projectile.velocity / 4;
-			newDust.position += projectile.velocity.RotatedBy(Math.PI / 2, default(Vector2));
+			newDust.velocity = projectile.velocity.RotatedBy(Math.PI / 2, default) * 0.33F + projectile.velocity / 4;
+			newDust.position += projectile.velocity.RotatedBy(Math.PI / 2, default);
 			newDust.fadeIn = 0.5f;
 			newDust.noGravity = true;
-			newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.GoldCoin, 0f, 0f, 0, default(Color), 1)];
+			newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.GoldCoin, 0f, 0f, 0, default, 1)];
 			newDust.position = position;
-			newDust.velocity = projectile.velocity.RotatedBy(-Math.PI / 2, default(Vector2)) * 0.33F + projectile.velocity / 4;
-			newDust.position += projectile.velocity.RotatedBy(-Math.PI / 2, default(Vector2));
+			newDust.velocity = projectile.velocity.RotatedBy(-Math.PI / 2, default) * 0.33F + projectile.velocity / 4;
+			newDust.position += projectile.velocity.RotatedBy(-Math.PI / 2, default);
 			newDust.fadeIn = 0.5F;
 			newDust.noGravity = true;
 		}

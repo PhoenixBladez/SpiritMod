@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Accessory.Leather
 				player.moveSpeed += 0.09f;
 				player.runAcceleration += .05f;
 				if (player.velocity.X != 0f) {
-					int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 0, 226);
+					int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 0, DustID.Electric);
 					Main.dust[dust].velocity *= 0f;
 					Main.dust[dust].noGravity = true;
 				}

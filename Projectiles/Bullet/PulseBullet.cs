@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void Kill(int timeLeft)
 		{
-			int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.LifeDrain, 0f, 0f, 100, default(Color), 3f);
+			int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.LifeDrain, 0f, 0f, 100, default, 3f);
 			Main.dust[num624].velocity = Vector2.Zero;
 			Main.dust[num624].scale *= 0.3f;
 			Main.dust[num624].noGravity = true;

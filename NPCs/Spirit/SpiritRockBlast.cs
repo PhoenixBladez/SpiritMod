@@ -24,7 +24,7 @@ namespace SpiritMod.NPCs.Spirit
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 
 			for (int num621 = 0; num621 < 15; num621++) {
-				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 109, 0f, 0f, 100, default(Color), 2f);
+				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Asphalt, 0f, 0f, 100, default, 2f);
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace SpiritMod.NPCs.Spirit
 				projectile.height = 30;
 				projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 				projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-				int lmao = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 207, 0f, 0f, 100, default(Color), 2f);
+				int lmao = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.DynastyWood, 0f, 0f, 100, default, 2f);
 				projectile.knockBack = 4f;
 			}
 		}

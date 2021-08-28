@@ -118,16 +118,11 @@ namespace SpiritMod.Items.Sets.OlympiumSet.Thyrsus
 
 		public float sinMult;
 
-		private float sinCounter;
-
 		private int chainSegments = 10;
 
 		private Projectile Parent => Main.projectile[(int)projectile.ai[0]];
 
 		private float Distance => (Parent.Center - projectile.Center).Length();
-
-		private bool _attacking = false;
-
 
 		public override void SetStaticDefaults()
 		{
@@ -166,7 +161,6 @@ namespace SpiritMod.Items.Sets.OlympiumSet.Thyrsus
 				_chain.Update(Parent.Center, projectile.position);
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => _attacking = false;
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			if (_chain == null)

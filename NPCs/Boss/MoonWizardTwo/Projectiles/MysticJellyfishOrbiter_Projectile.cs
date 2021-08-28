@@ -40,7 +40,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
             Lighting.AddLight(projectile.Center, 0.1f * num, 0.2f * num, 0.4f * num);
             projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
 
-            int num623 = Dust.NewDust(projectile.Center - projectile.velocity / 5, 4, 4, DustID.DungeonSpirit, 0f, 0f, 0, default(Color), 1.8f);
+            int num623 = Dust.NewDust(projectile.Center - projectile.velocity / 5, 4, 4, DustID.DungeonSpirit, 0f, 0f, 0, default, 1.8f);
             Main.dust[num623].velocity = projectile.velocity;
             Main.dust[num623].noGravity = true;
 			if (projectile.timeLeft < 55)
@@ -87,7 +87,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
 					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 3));
 					for (int i = 0; i < 10; i++)
 					{
-						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.DungeonSpirit, 0f, -2f, 0, default(Color), 2f);
+						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.DungeonSpirit, 0f, -2f, 0, default, 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;

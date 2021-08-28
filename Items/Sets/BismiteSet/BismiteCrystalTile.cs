@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Sets.BismiteSet
 			};
 			TileObjectData.addTile(Type);
 			drop = ModContent.ItemType<BismiteCrystal>();
-			dustType = 167;
+			dustType = DustID.Plantera_Green;
 			soundType = SoundID.Tink;
 		}
 

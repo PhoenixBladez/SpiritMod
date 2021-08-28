@@ -36,11 +36,8 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 		}
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
-			{
-				int dust1 = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 226);
-				Main.dust[dust1].scale *= .23f;
-
-			}
+			int dust1 = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.Electric);
+			Main.dust[dust1].scale *= .23f;
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
@@ -65,8 +62,10 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			for (int i = 0; i < 3; ++i) {
-				if (Main.myPlayer == player.whoAmI) {
+			for (int i = 0; i < 3; ++i)
+			{
+				if (Main.myPlayer == player.whoAmI)
+				{
 					Vector2 mouse = Main.MouseWorld;
 					Projectile.NewProjectile(mouse.X + Main.rand.Next(-80, 80), player.Center.Y - 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(11, 23), ModContent.ProjectileType<Projectiles.SpiritStar>(), damage, knockBack, player.whoAmI);
 				}

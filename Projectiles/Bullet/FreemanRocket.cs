@@ -53,8 +53,8 @@ namespace SpiritMod.Projectiles.Bullet
 				projectile.localAI[0] = 0f;
 				for (int j = 0; j < 12; j++) {
 					Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
-					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
-					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2));
+					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default) * new Vector2(8f, 16f);
+					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default);
 					int num8 = Dust.NewDust(projectile.Center, 0, 0, DustID.Electric, 0f, 0f, 160, new Color(), 1f);
 					Main.dust[num8].scale = .48f;
 					Main.dust[num8].noGravity = true;
@@ -168,10 +168,10 @@ namespace SpiritMod.Projectiles.Bullet
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			for (int i = 0; i < 40; i++)
 			{
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, -2f, 0, default(Color), 2f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, -2f, 0, default, 2f);
 				Main.dust[num].noGravity = true;
-				Dust expr_62_cp_0 = Main.dust[num];
-				expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+				Dust dust = Main.dust[num];
+				dust.position.X = dust.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
 				Dust expr_92_cp_0 = Main.dust[num];
 				expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
 				if (Main.dust[num].position != projectile.Center)

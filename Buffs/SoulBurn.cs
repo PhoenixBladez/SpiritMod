@@ -1,6 +1,7 @@
 using SpiritMod.NPCs;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Buffs
 {
@@ -18,7 +19,7 @@ namespace SpiritMod.Buffs
 			npc.GetGlobalNPC<GNPC>().soulBurn = true;
 
 			if (Main.rand.NextBool(2)) {
-				int dust = Dust.NewDust(npc.position, npc.width, npc.height, 187);
+				int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Flare_Blue);
 				Main.dust[dust].scale = .6f;
 				Main.dust[dust].noGravity = true;
 			}

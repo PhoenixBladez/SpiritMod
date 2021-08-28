@@ -80,11 +80,11 @@ namespace SpiritMod.NPCs.Gloop
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 11; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 167, hitDirection, -1f, 0, default(Color), .61f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Plantera_Green, hitDirection, -1f, 0, default, .61f);
 			}
 			if (npc.life <= 0) {
 				for (int k = 0; k < 20; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, 167, hitDirection, -1f, 0, default(Color), .91f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Plantera_Green, hitDirection, -1f, 0, default, .91f);
 				}
 			}
 		}

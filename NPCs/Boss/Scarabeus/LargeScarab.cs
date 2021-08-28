@@ -34,7 +34,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		{
 			Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height); 
 			for (int i = 0; i < 10; i++) {
-				int d = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 167, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
+				int d = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Plantera_Green, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
 				Main.dust[d].noGravity = true;
 				Main.dust[d].scale = 1.2f;
 			}

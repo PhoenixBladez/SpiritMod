@@ -53,7 +53,7 @@ namespace SpiritMod.Projectiles.Magic
 					float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 					float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 
-					int num = Dust.NewDust(projectile.Center, 6, 6, DustID.JungleGrass, 0f, 0f, 0, default(Color), 1f);
+					int num = Dust.NewDust(projectile.Center, 6, 6, DustID.JungleGrass, 0f, 0f, 0, default, 1f);
 					Main.dust[num].velocity *= .1f;
 					Main.dust[num].scale *= .9f;
 					Main.dust[num].noGravity = true;

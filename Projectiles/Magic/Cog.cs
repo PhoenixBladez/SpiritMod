@@ -28,7 +28,7 @@ namespace SpiritMod.Projectiles.Magic
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 
 			for (int num621 = 0; num621 < 40; num621++) {
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default(Color), 2f);
+				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 2f);
 				Main.dust[num622].velocity *= 1.5f;
 				if (Main.rand.Next(2) == 0) {
 					Main.dust[num622].scale = 0.5f;
@@ -36,10 +36,10 @@ namespace SpiritMod.Projectiles.Magic
 				}
 			}
 			for (int num623 = 0; num623 < 70; num623++) {
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default(Color), 3f);
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 3f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 4f;
-				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default(Color), 2f);
+				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 2f);
 				Main.dust[num624].velocity *= 2f;
 			}
 		}

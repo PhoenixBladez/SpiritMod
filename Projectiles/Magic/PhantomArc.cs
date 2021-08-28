@@ -60,7 +60,7 @@ namespace SpiritMod.Projectiles.Magic
 			int num812 = 0;
 			while (num812 < num811) {
 				float num813 = num812 / (num811 - 1f);
-				Vector2 value38 = value37 + projectile.velocity.RotatedBy(Math.PI / 2, default(Vector2)) * (num813 - 0.5f) * scaleFactor7 * projectile.scale;
+				Vector2 value38 = value37 + projectile.velocity.RotatedBy(Math.PI / 2, default) * (num813 - 0.5f) * scaleFactor7 * projectile.scale;
 				int num814 = (int)value38.X >> 4;
 				int num815 = (int)value38.Y >> 4;
 				Vector2 vector69 = value38 + projectile.velocity * 16f * 150f;
@@ -97,8 +97,8 @@ namespace SpiritMod.Projectiles.Magic
 			}
 
 			if (Main.rand.Next(5) == 0) {
-				Vector2 value40 = projectile.velocity.RotatedBy(Math.PI / 2, default(Vector2)) * ((float)Main.rand.NextDouble() - 0.5f) * projectile.width;
-				int num830 = Dust.NewDust(vector72 + value40 - Vector2.One * 4f, 8, 8, DustID.Smoke, 0f, 0f, 100, default(Color), 1.5f);
+				Vector2 value40 = projectile.velocity.RotatedBy(Math.PI / 2, default) * ((float)Main.rand.NextDouble() - 0.5f) * projectile.width;
+				int num830 = Dust.NewDust(vector72 + value40 - Vector2.One * 4f, 8, 8, DustID.Smoke, 0f, 0f, 100, default, 1.5f);
 				Main.dust[num830].velocity *= 0.5f;
 				Main.dust[num830].velocity.Y = -Math.Abs(Main.dust[num830].velocity.Y);
 			}

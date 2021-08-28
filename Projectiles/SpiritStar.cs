@@ -43,8 +43,8 @@ namespace SpiritMod.Projectiles
 				projectile.localAI[0] = 0f;
 				for (int j = 0; j < 12; j++) {
 					Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
-					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
-					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2));
+					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default) * new Vector2(8f, 16f);
+					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default);
 					int num8 = Dust.NewDust(projectile.Center, 0, 0, DustID.Clentaminator_Green, 0f, 0f, 160, new Color(), 1f);
 					Main.dust[num8].scale = .68f;
 					Main.dust[num8].noGravity = true;
@@ -76,7 +76,7 @@ namespace SpiritMod.Projectiles
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 
 			for (int num623 = 0; num623 < 25; num623++) {
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Electric, 0f, 0f, 100, default(Color), .8f);
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Electric, 0f, 0f, 100, default, .8f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 1f;
 			}

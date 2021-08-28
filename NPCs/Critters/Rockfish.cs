@@ -81,7 +81,7 @@ namespace SpiritMod.NPCs.Critters
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/RockfishGore"), 1f);
 			}
 			for (int k = 0; k < 11; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, 1, npc.direction, -1f, 1, Color.Black, .61f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Stone, npc.direction, -1f, 1, Color.Black, .61f);
 				}
 		}
 		public override void NPCLoot()

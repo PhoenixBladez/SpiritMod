@@ -115,11 +115,11 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ToxicBottle
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
 			for (int num424 = 0; num424 < 30; num424++)
 			{
-				int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Glass, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default(Color), 0.75f);
+				int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Glass, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default, 0.75f);
 				Main.dust[dust].scale = .8f;
-				int dust1 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.GreenTorch, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default(Color), 0.75f);
+				int dust1 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.GreenTorch, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default, 0.75f);
 				Main.dust[dust1].scale = .8f;
-				int dust12 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Wraith, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default(Color), 0.75f);
+				int dust12 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Wraith, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default, 0.75f);
 				Main.dust[dust12].scale = .8f;
 
 				if(timeLeft > 0)

@@ -57,7 +57,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.HardmodeOreStaves
 					offset = offset.RotatedBy(0.1f);
 				}
 				offset *= 58f;
-				int dust = Dust.NewDust(player.Center + offset, 1, 1, 242);
+				int dust = Dust.NewDust(player.Center + offset, 1, 1, DustID.PinkFlame);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].scale = 1.5f;
 				float dustSpeed = Main.rand.Next(23) / 5;

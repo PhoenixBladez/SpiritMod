@@ -48,8 +48,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies
 			Main.PlaySound(SoundID.NPCHit, npc.Center, 4);
 			for (int k = 0; k < 10; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default(Color), .934f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, .934f);
 			}
 			if (npc.life <= 0)
 			{

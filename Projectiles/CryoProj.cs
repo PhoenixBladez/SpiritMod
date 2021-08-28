@@ -44,7 +44,7 @@ namespace SpiritMod.Projectiles
 				float num8 = (float)player.miscCounter / 60f;
 				float num7 = 2.09439516f;
 				for (int i = 0; i < 3; i++) {
-					int num6 = Dust.NewDust(center + vector2, 0, 0, DustID.Snow, 0f, 0f, 100, default(Color), 0.7f);
+					int num6 = Dust.NewDust(center + vector2, 0, 0, DustID.Snow, 0f, 0f, 100, default, 0.7f);
 					Main.dust[num6].noGravity = true;
 					Main.dust[num6].velocity = Vector2.Zero;
 					Main.dust[num6].noLight = true;

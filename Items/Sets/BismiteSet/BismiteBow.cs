@@ -57,7 +57,7 @@ namespace SpiritMod.Items.Sets.BismiteSet
 				Vector2 offset = mouse - player.position;
 				offset.Normalize();
 				offset *= 15f;
-				int dust = Dust.NewDust(projectile.Center + offset, projectile.width / 2, projectile.height / 2, 167);
+				int dust = Dust.NewDust(projectile.Center + offset, projectile.width / 2, projectile.height / 2, DustID.Plantera_Green);
 
 				Main.dust[dust].velocity *= -1f;
 				Main.dust[dust].noGravity = true;

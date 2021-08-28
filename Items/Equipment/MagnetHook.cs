@@ -166,7 +166,7 @@ namespace SpiritMod.Items.Equipment
 		{
 			int num = 5;
 			for (int k = 0; k < 1; k++) {
-				int index2 = Dust.NewDust(new Vector2(projectile.Center.X + 15, projectile.Center.Y), 1, 1, 180, 0.0f, 0.0f, 0, new Color(), 1f);
+				int index2 = Dust.NewDust(new Vector2(projectile.Center.X + 15, projectile.Center.Y), 1, 1, DustID.DungeonSpirit, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num * k;
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].velocity *= 0f;
@@ -174,7 +174,7 @@ namespace SpiritMod.Items.Equipment
 				Main.dust[index2].noLight = false;
 			}
 			for (int j = 0; j < 1; j++) {
-				int index2 = Dust.NewDust(new Vector2(projectile.Center.X - 15, projectile.Center.Y), 1, 1, 130, 0.0f, 0.0f, 0, new Color(), 1f);
+				int index2 = Dust.NewDust(new Vector2(projectile.Center.X - 15, projectile.Center.Y), 1, 1, DustID.Firework_Red, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num * j;
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].velocity *= 0f;
@@ -212,19 +212,4 @@ namespace SpiritMod.Items.Equipment
 			}
 		}
 	}
-
-	// Animated hook example
-	// Multiple, 
-	// only 1 connected, spawn mult
-	// Light the path
-	// Gem Hooks: 1 spawn only
-	// Thorn: 4 spawns, 3 connected
-	// Dual: 2/1 
-	// Lunar: 5/4 -- Cycle hooks, more than 1 at once
-	// AntiGravity -- Push player to position
-	// Static -- move player with keys, don't pull to wall
-	// Christmas -- light ends
-	// Web slinger -- 9/8, can shoot more than 1 at once
-	// Bat hook -- Fast reeling
-
 }

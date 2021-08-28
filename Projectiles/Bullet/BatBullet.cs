@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles.Bullet
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			for (int num623 = 0; num623 < 25; num623++) {
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.SpookyWood, 0f, 0f, 100, default(Color), 2f);
+				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.SpookyWood, 0f, 0f, 100, default, 2f);
 				Main.dust[num622].noGravity = true;
 				Main.dust[num622].velocity *= 1.5f;
 				Main.dust[num622].scale = 0.8f;
@@ -38,7 +38,7 @@ namespace SpiritMod.Projectiles.Bullet
 		public override void AI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi;
-			int num622 = Dust.NewDust(new Vector2(projectile.position.X - projectile.velocity.X, projectile.position.Y - projectile.velocity.Y), projectile.width, projectile.height, DustID.SpookyWood, 0f, 0f, 100, default(Color), 2f);
+			int num622 = Dust.NewDust(new Vector2(projectile.position.X - projectile.velocity.X, projectile.position.Y - projectile.velocity.Y), projectile.width, projectile.height, DustID.SpookyWood, 0f, 0f, 100, default, 2f);
 			Main.dust[num622].noGravity = true;
 			Main.dust[num622].scale = 0.5f;
 

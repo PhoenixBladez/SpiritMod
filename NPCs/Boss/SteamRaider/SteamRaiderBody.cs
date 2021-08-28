@@ -116,7 +116,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			if (Main.npc[(int)npc.ai[1]].alpha < 128) {
 				if (npc.alpha != 0) {
 					for (int num934 = 0; num934 < 2; num934++) {
-						int num935 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default, 2f);
+						int num935 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Electric, 0f, 0f, 100, default, 2f);
 						Main.dust[num935].noGravity = true;
 						Main.dust[num935].noLight = true;
 					}
@@ -216,14 +216,14 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		{
 
 			for (int k = 0; k < 5; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 226, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0) {
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 4);
 				// Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starplate/Starplate4"), 1f);
 				// Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starplate/Starplate5"), 1f);
 				for (int num623 = 0; num623 < 20; num623++) {
-					int dust1 = Dust.NewDust(npc.Center, npc.width, npc.height, 226);
+					int dust1 = Dust.NewDust(npc.Center, npc.width, npc.height, DustID.Electric);
 
 					Main.dust[dust1].velocity *= -1f;
 					Main.dust[dust1].noGravity = true;

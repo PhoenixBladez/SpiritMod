@@ -155,7 +155,7 @@ namespace SpiritMod.Projectiles
 				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, ModContent.ProjectileType<Wrath>(), 55, 7, Main.myPlayer);
 
 				for (int num621 = 0; num621 < 40; num621++) {
-					int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.RedTorch, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.RedTorch, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 1.2f;
 					Main.dust[num622].noGravity = true;
 					if (Main.rand.Next(2) == 0) {

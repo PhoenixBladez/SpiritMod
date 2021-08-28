@@ -55,7 +55,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 			mountData.swimFrameCount = 7;
 			mountData.swimFrameDelay = 12;
 			mountData.swimFrameStart = 0;
-			if (Main.netMode != 2)
+			if (Main.netMode != NetmodeID.Server)
 			{
 				mountData.textureWidth = mountData.backTexture.Width;
 				mountData.textureHeight = mountData.backTexture.Height;

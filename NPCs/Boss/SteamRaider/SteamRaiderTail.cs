@@ -104,7 +104,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				npc.position.X = npc.position.X - (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 20; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Electric, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
 					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
@@ -112,17 +112,17 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					}
 				}
 				for (int num623 = 0; num623 < 40; num623++) {
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Electric, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.DungeonSpirit, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}
 			if (Main.npc[(int)npc.ai[1]].alpha < 128) {
 				if (npc.alpha != 0) {
 					for (int num934 = 0; num934 < 2; num934++) {
-						int num935 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 2f);
+						int num935 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Electric, 0f, 0f, 100, default, 2f);
 						Main.dust[num935].noGravity = true;
 						Main.dust[num935].noLight = true;
 					}
@@ -165,7 +165,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 226, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, hitDirection, -1f, 0, default, 1f);
 			}
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

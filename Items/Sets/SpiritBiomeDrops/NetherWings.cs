@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Sets.SpiritBiomeDrops
 			player.wingTimeMax = 190;
 			if (Main.rand.Next(4) == 0) {
 
-				Dust.NewDust(player.position, player.width, player.height, 206);
+				Dust.NewDust(player.position, player.width, player.height, DustID.UnusedWhiteBluePurple);
 			}
 
 		}

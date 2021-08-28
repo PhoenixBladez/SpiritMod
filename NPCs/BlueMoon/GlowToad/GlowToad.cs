@@ -35,13 +35,13 @@ namespace SpiritMod.NPCs.BlueMoon.GlowToad
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 11; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Flare_Blue, hitDirection, -1f, 1, default(Color), .81f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.VenomStaff, hitDirection, -1f, 1, default(Color), .51f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Flare_Blue, hitDirection, -1f, 1, default, .81f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.VenomStaff, hitDirection, -1f, 1, default, .51f);
 			}
 			if (npc.life <= 0) {
 				for (int k = 0; k < 11; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Flare_Blue, hitDirection, -1f, 1, default(Color), .81f);
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.VenomStaff, hitDirection, -1f, 1, default(Color), .71f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Flare_Blue, hitDirection, -1f, 1, default, .81f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.VenomStaff, hitDirection, -1f, 1, default, .71f);
 				}
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GlowToad/GlowToad1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GlowToad/GlowToad2"), 1f);

@@ -45,10 +45,9 @@ namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			int d = 21;
 			for (int k = 0; k < 20; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, d, 1.5f * hitDirection, -1.5f, 0, default(Color), 0.57f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 159, 1.5f * hitDirection, -1.5f, 0, default(Color), 0.52f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.VilePowder, 1.5f * hitDirection, -1.5f, 0, default, 0.57f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Teleporter, 1.5f * hitDirection, -1.5f, 0, default, 0.52f);
 			}
 			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Glitterfly/Glitterfly1"), 1f);
@@ -107,7 +106,7 @@ namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 			float num7 = 1.0471975512f * 2;
 			for (int k = 0; k < 3; k++) {
 				{
-					int num6 = Dust.NewDust(center, 0, 0, DustID.GoldCoin, 0f, 0f, 100, default(Color), 1.3f);
+					int num6 = Dust.NewDust(center, 0, 0, DustID.GoldCoin, 0f, 0f, 100, default, 1.3f);
 					Main.dust[num6].noGravity = true;
 					Main.dust[num6].velocity = Vector2.Zero;
 					Main.dust[num6].noLight = true;

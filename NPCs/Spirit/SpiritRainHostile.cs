@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.NPCs.Spirit
 {
@@ -31,7 +32,7 @@ namespace SpiritMod.NPCs.Spirit
 			for (int i = 0; i < 29; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 2f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 2f * (float)i;
-				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 187, 0f, 0f, 0, default(Color), 1f);
+				int num = Dust.NewDust(new Vector2(x, y), 26, 26, DustID.Flare_Blue, 0f, 0f, 0, default, 1f);
 				Main.dust[num].alpha = projectile.alpha;
 				Main.dust[num].position.X = x;
 				Main.dust[num].position.Y = y;

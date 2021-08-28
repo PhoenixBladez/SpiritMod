@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Sets.FrigidSet.FrigidArmor
 			player.GetSpiritPlayer().frigidSet = true;
 
 			if (Main.rand.Next(6) == 0) {
-				int dust = Dust.NewDust(player.position, player.width, player.height, 187);
+				int dust = Dust.NewDust(player.position, player.width, player.height, DustID.Flare_Blue);
 				Main.dust[dust].noGravity = true;
 			}
 		}

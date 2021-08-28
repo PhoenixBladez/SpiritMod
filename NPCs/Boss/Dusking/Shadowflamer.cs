@@ -38,8 +38,8 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			float length = (float)Math.Sqrt(xDir * xDir + yDir * yDir);
 
 			float num10 = speed / length;
-			xDir = xDir * num10;
-			yDir = yDir * num10;
+			xDir *= num10;
+			yDir *= num10;
 			if (npc.velocity.X < xDir) {
 				npc.velocity.X = npc.velocity.X + acceleration;
 				if (npc.velocity.X < 0 && xDir > 0)
@@ -61,47 +61,45 @@ namespace SpiritMod.NPCs.Boss.Dusking
 				if (npc.velocity.Y > 0 && yDir < 0)
 					npc.velocity.Y = npc.velocity.Y - acceleration;
 			}
-			Player player = Main.player[base.npc.target];
-			int dust = Dust.NewDust(npc.position, npc.width, npc.height, 173);
-			float num5 = base.npc.position.X + (float)(base.npc.width / 2) - player.position.X - (float)(player.width / 2);
-			float num6 = base.npc.position.Y + (float)base.npc.height - 59f - player.position.Y - (float)(player.height / 2);
-			float num7 = (float)Math.Atan2((double)num6, (double)num5) + 1.57f;
-			if (num7 < 0f) {
+			Player player = Main.player[npc.target];
+			Dust.NewDust(npc.position, npc.width, npc.height, DustID.ShadowbeamStaff);
+			float num5 = npc.position.X + (npc.width / 2) - player.position.X - (player.width / 2);
+			float num6 = npc.position.Y + npc.height - 59f - player.position.Y - (player.height / 2);
+			float num7 = (float)Math.Atan2(num6, num5) + 1.57f;
+			if (num7 < 0f)
 				num7 += 6.283f;
-			}
-			else if ((double)num7 > 6.283) {
+			else if ((double)num7 > 6.283)
 				num7 -= 6.283f;
-			}
 			float num8 = 0.1f;
-			if (base.npc.rotation < num7) {
-				if ((double)(num7 - base.npc.rotation) > 3.1415) {
-					base.npc.rotation -= num8;
+			if (npc.rotation < num7) {
+				if ((double)(num7 - npc.rotation) > 3.1415) {
+					npc.rotation -= num8;
 				}
 				else {
-					base.npc.rotation += num8;
+					npc.rotation += num8;
 				}
 			}
-			else if (base.npc.rotation > num7) {
-				if ((double)(base.npc.rotation - num7) > 3.1415) {
-					base.npc.rotation += num8;
+			else if (npc.rotation > num7) {
+				if ((npc.rotation - num7) > 3.1415) {
+					npc.rotation += num8;
 				}
 				else {
-					base.npc.rotation -= num8;
+					npc.rotation -= num8;
 				}
 			}
-			if (base.npc.rotation > num7 - num8 && base.npc.rotation < num7 + num8) {
-				base.npc.rotation = num7;
+			if (npc.rotation > num7 - num8 && npc.rotation < num7 + num8) {
+				npc.rotation = num7;
 			}
-			if (base.npc.rotation < 0f) {
-				base.npc.rotation += 6.283f;
+			if (npc.rotation < 0f) {
+				npc.rotation += 6.283f;
 			}
-			else if ((double)base.npc.rotation > 6.283) {
-				base.npc.rotation -= 6.283f;
+			else if (npc.rotation > 6.283) {
+				npc.rotation -= 6.283f;
 			}
-			if (base.npc.rotation > num7 - num8 && base.npc.rotation < num7 + num8) {
-				base.npc.rotation = num7;
+			if (npc.rotation > num7 - num8 && npc.rotation < num7 + num8) {
+				npc.rotation = num7;
 			}
-			base.npc.spriteDirection = base.npc.direction;
+			npc.spriteDirection = npc.direction;
 			return false;
 		}
 

@@ -48,10 +48,10 @@ namespace SpiritMod.NPCs.Critters
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ReaverSharkGore"), 1f);
 			}
 			for (int k = 0; k < 11; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, npc.direction, -1f, 1, default(Color), .61f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, npc.direction, -1f, 1, default, .61f);
 				}
 			for (int k = 0; k < 5; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, npc.direction, -1f, 1, default(Color), .91f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, npc.direction, -1f, 1, default, .91f);
 				}
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)

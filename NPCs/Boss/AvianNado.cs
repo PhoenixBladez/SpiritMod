@@ -71,7 +71,7 @@ namespace SpiritMod.NPCs.Boss
 					Vector2 position7 = vector152 + value159 * value160 * 0.5f + value89;
 					Dust[] dust122 = Main.dust;
 					Vector2 position221 = position7;
-					Color newColor5 = default(Color);
+					Color newColor5 = default;
 					Dust dust44 = dust122[Dust.NewDust(position221, 0, 0, DustID.SilverCoin, 0f, 0f, 0, newColor5, 1f)];
 					dust44.position = position7;
 					dust44.noLight = true;
@@ -112,7 +112,7 @@ namespace SpiritMod.NPCs.Boss
 			Microsoft.Xna.Framework.Rectangle rectangle5 = texture2D12.Frame(1, 1, 0, 0);
 			Vector2 origin6 = rectangle5.Size() / 2f;
 			float num386 = -0.06283186f * num388;
-			Vector2 spinningpoint2 = Vector2.UnitY.RotatedBy((double)(num388 * 0.1f), default(Vector2));
+			Vector2 spinningpoint2 = Vector2.UnitY.RotatedBy((double)(num388 * 0.1f), default);
 			float num384 = 0f;
 			float num383 = 5.1f;
 			Microsoft.Xna.Framework.Color value11 = new Microsoft.Xna.Framework.Color(214, 201, 176);
@@ -121,7 +121,7 @@ namespace SpiritMod.NPCs.Boss
 				float num381 = num384 / vector46.Y;
 				float num380 = num384 * 6.28318548f / -20f;
 				float num379 = num381 - 0.15f;
-				Vector2 vector47 = spinningpoint2.RotatedBy((double)num380, default(Vector2));
+				Vector2 vector47 = spinningpoint2.RotatedBy((double)num380, default);
 				Vector2 value57 = new Vector2(0f, num381 + 1f);
 				value57.X = value57.Y * num387;
 				Microsoft.Xna.Framework.Color color70 = Microsoft.Xna.Framework.Color.Lerp(Microsoft.Xna.Framework.Color.Transparent, value11, num381 * 2f);

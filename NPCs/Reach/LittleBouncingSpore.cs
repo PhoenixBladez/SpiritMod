@@ -46,10 +46,8 @@ namespace SpiritMod.NPCs.Reach
 		public override void Kill(int timeLeft)
 		{
 			for (int num621 = 0; num621 < 8; num621++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height,
-					2, 0f, 0f, 100, default(Color), .7f);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Grass, 0f, 0f, 100, default, .7f);
 			}
 		}
-
 	}
 }

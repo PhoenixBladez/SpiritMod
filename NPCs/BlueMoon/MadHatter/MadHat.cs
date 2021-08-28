@@ -41,7 +41,7 @@ namespace SpiritMod.NPCs.BlueMoon.MadHatter
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			for (int k = 0; k < 15; k++) {
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206);
+				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple);
 				Main.dust[dust].scale = 2f;
 				Main.dust[dust].noGravity = true;
 			}
@@ -93,7 +93,7 @@ namespace SpiritMod.NPCs.BlueMoon.MadHatter
 			if (timer < 125) {
 				projectile.velocity.Y *= 0.98f;
 				if (timer > 100) {
-					int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 206, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+					int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 					Main.dust[dust].noGravity = true;
 				}
 			}

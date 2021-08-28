@@ -51,8 +51,8 @@ namespace SpiritMod.Projectiles.Magic
 					int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.OrangeTorch, 0f, -2f, 0, Color.White, 2f);
 					Main.dust[num].noLight = true;
 					Main.dust[num].noGravity = true;
-					Dust expr_62_cp_0 = Main.dust[num];
-					expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-10, 11) / 20) - 1.5f);
+					Dust dust = Main.dust[num];
+					dust.position.X = dust.position.X + ((float)(Main.rand.Next(-10, 11) / 20) - 1.5f);
 					Dust expr_92_cp_0 = Main.dust[num];
 					expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-10, 11) / 20) - 1.5f);
 					if (Main.dust[num].position != projectile.Center) {

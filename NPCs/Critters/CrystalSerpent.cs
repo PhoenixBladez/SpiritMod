@@ -62,7 +62,7 @@ namespace SpiritMod.NPCs.Critters
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CrystalSerpentGore"), 1f);
 			}
 			for (int k = 0; k < 11; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, 112, npc.direction, -1f, 1, default(Color), .61f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Clentaminator_Purple, npc.direction, -1f, 1, default, .61f);
 				}		
 		}
 		public override void AI()

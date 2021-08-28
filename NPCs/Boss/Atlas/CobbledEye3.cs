@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.NPCs.Boss.Atlas
 {
@@ -29,9 +30,8 @@ namespace SpiritMod.NPCs.Boss.Atlas
 		{
 			bool expertMode = Main.expertMode;
 			if (start) {
-				for (int num621 = 0; num621 < 15; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 1, 0f, 0f, 100, default(Color), 2f);
-				}
+				for (int num621 = 0; num621 < 15; num621++)
+					Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Stone, 0f, 0f, 100, default, 2f);
 				start = false;
 			}
 
@@ -44,7 +44,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			if (timer > 60) {
 				if (Main.rand.Next(8) == 0) {
 					for (int num621 = 0; num621 < 5; num621++) {
-						int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 2f);
+						int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Electric, 0f, 0f, 100, default, 2f);
 					}
 					int damage = expertMode ? 24 : 35;
 					int proj2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<MiracleBeam>(), damage, 1f, npc.target);
@@ -67,41 +67,36 @@ namespace SpiritMod.NPCs.Boss.Atlas
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 1, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Stone, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0) {
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+				npc.position.X = npc.position.X + (npc.width / 2);
+				npc.position.Y = npc.position.Y + (npc.height / 2);
 				npc.width = 50;
 				npc.height = 50;
-				npc.position.X = npc.position.X - (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+				npc.position.X = npc.position.X - (npc.width / 2);
+				npc.position.Y = npc.position.Y - (npc.height / 2);
 				for (int num621 = 0; num621 < 20; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 1, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Stone, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
 					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
-						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+						Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
 					}
 				}
 				for (int num623 = 0; num623 < 40; num623++) {
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 1, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Stone, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 1, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Stone, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}
 		}
 
-		public override bool CheckActive()
-		{
-			return false;
-		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/Atlas/CobbledEye_Glow"));
-		}
+		public override bool CheckActive() => false;
+		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/Atlas/CobbledEye_Glow"));
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.55f * bossLifeScale);
@@ -116,18 +111,17 @@ namespace SpiritMod.NPCs.Boss.Atlas
 				for (int i = 1; i < npc.oldPos.Length; ++i) {
 					Vector2 vector2_2 = npc.oldPos[i];
 					Microsoft.Xna.Framework.Color color2 = Color.White * npc.Opacity;
-					color2.R = (byte)(0.5 * (double)color2.R * (double)(10 - i) / 20.0);
-					color2.G = (byte)(0.5 * (double)color2.G * (double)(10 - i) / 20.0);
-					color2.B = (byte)(0.5 * (double)color2.B * (double)(10 - i) / 20.0);
-					color2.A = (byte)(0.5 * (double)color2.A * (double)(10 - i) / 20.0);
+					color2.R = (byte)(0.5 * color2.R * (10 - i) / 20.0);
+					color2.G = (byte)(0.5 * color2.G * (10 - i) / 20.0);
+					color2.B = (byte)(0.5 * color2.B * (10 - i) / 20.0);
+					color2.A = (byte)(0.5 * color2.A * (10 - i) / 20.0);
 					Main.spriteBatch.Draw(Main.npcTexture[npc.type], new Vector2(npc.oldPos[i].X - Main.screenPosition.X + (npc.width / 2),
 						npc.oldPos[i].Y - Main.screenPosition.Y + npc.height / 2), new Rectangle?(npc.frame), color2, npc.oldRot[i], origin, npc.scale, SpriteEffects.None, 0.0f);
 				}
 
 			}
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 			return false;
 		}
 	}

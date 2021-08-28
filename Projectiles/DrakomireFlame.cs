@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles
 				}
 			}
 
-			int num = Dust.NewDust(projectile.position, projectile.width * 2, projectile.height, DustID.Fire, (float)Main.rand.Next(-3, 4), (float)Main.rand.Next(-3, 4), 100, default(Color), 1f);
+			int num = Dust.NewDust(projectile.position, projectile.width * 2, projectile.height, DustID.Fire, (float)Main.rand.Next(-3, 4), (float)Main.rand.Next(-3, 4), 100, default, 1f);
 			Dust dust = Main.dust[num];
 			dust.position.X = dust.position.X - 2f;
 			dust.position.Y = dust.position.Y + 2f;

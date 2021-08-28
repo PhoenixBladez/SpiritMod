@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Sets.ClubSubclass.ClubSandwich
             item.useTime = 320;
             item.useAnimation = 320;
             item.crit = 4;
-            item.useStyle = 2;
+            item.useStyle = ItemUseStyleID.EatingUsing;
             item.melee = true;
             item.noMelee = true;
             item.knockBack = 12;

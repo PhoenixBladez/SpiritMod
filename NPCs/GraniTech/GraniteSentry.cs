@@ -280,7 +280,7 @@ namespace SpiritMod.NPCs.GraniTech
 		{
 			for (int i = 0; i < 10; i++)
 			{
-				int dust = Dust.NewDust(projectile.position,projectile.width,projectile.height, 267, 0, 0, 0, color);
+				int dust = Dust.NewDust(projectile.position,projectile.width,projectile.height, DustID.RainbowMk2, 0, 0, 0, color);
 				Main.dust[dust].noGravity = !Main.dust[dust].noGravity;
 			}
 		}

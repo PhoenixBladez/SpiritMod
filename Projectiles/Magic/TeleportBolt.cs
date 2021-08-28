@@ -42,7 +42,7 @@ namespace SpiritMod.Projectiles.Magic
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 8);
 			//Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
 			for (int num424 = 0; num424 < 10; num424++) {
-				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Coralstone, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default(Color), 0.75f);
+				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Coralstone, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default, 0.75f);
 			}
 			Teleport(new Vector2(projectile.position.X, projectile.position.Y - 32), 2, 0);
 		}

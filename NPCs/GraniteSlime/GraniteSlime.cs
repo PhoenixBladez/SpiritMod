@@ -58,7 +58,7 @@ namespace SpiritMod.NPCs.GraniteSlime
 			}
 			if (npc.collideY && jump && Main.rand.Next(3) == 0) {
 				for (int i = 0; i < 20; i++) {
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 0, default(Color), 2f);
+					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 0f, -2f, 0, default, 2f);
 					Main.dust[num].noGravity = true;
 					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -110,15 +110,15 @@ namespace SpiritMod.NPCs.GraniteSlime
 			if (npc.life <= 0) {
 				int d = 226;
 				for (int k = 0; k < 20; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.27f);
-					Dust.NewDust(npc.position, npc.width, npc.height, 240, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.87f);
+					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default, 0.27f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Granite, 2.5f * hitDirection, -2.5f, 0, default, 0.87f);
 				}
 			}
 			if (Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0 && Main.rand.Next(3) == 0) {
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
 				{
 					for (int i = 0; i < 20; i++) {
-						int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 0, default(Color), 2f);
+						int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 0f, -2f, 0, default, 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;

@@ -86,7 +86,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					spinningpoint1 = spinningpoint1.RotatedBy((double)num4 * (double)num3 * 3.0, new Vector2());
 				}
 				float adada = MathHelper.Lerp(1f, 4f, (float)(index1 % num2) / (float)num2);
-				int index2 = Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), 6, 6, 163, 0.0f, 0.0f, 100, new Color(), 1.4f);
+				int index2 = Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), 6, 6, DustID.PoisonStaff, 0.0f, 0.0f, 100, new Color(), 1.4f);
 				Main.dust[index2].velocity *= 0.1f;
 				Main.dust[index2].velocity += spinningpoint1 * adada;
 				if (flag)	

@@ -78,7 +78,7 @@ namespace SpiritMod.NPCs.BloodstainedChest
 			}
 			if (Main.rand.NextBool(10))
 			{
-				int dust = Dust.NewDust(npc.position, npc.width, npc.height, 246, 0, 0);
+				int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.GoldCoin, 0, 0);
 				Main.dust[dust].velocity = Vector2.Zero;
 			}
 			if (npc.velocity.Y != 0)
@@ -155,10 +155,10 @@ namespace SpiritMod.NPCs.BloodstainedChest
 				Gore.NewGore(npc.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, mod.GetGoreSlot("Gores/GamblerChests/GoldChestGore5"), 1f);
 				for (int i = 0; i < 40; i++)
 				{
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, 258, 0f, -2f, 0, default(Color), 1.1f);
+					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.LavaMoss, 0f, -2f, 0, default, 1.1f);
 					Main.dust[num].noGravity = true;
-					Dust expr_62_cp_0 = Main.dust[num];
-					expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-30, 31) / 20) - 1.5f);
+					Dust dust = Main.dust[num];
+					dust.position.X = dust.position.X + ((float)(Main.rand.Next(-30, 31) / 20) - 1.5f);
 					Dust expr_92_cp_0 = Main.dust[num];
 					expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-30, 31) / 20) - 1.5f);
 					if (Main.dust[num].position != npc.Center)
@@ -180,7 +180,7 @@ namespace SpiritMod.NPCs.BloodstainedChest
 			float num4 = 2.094395f;
 			for (int index1 = 0; index1 < 3; ++index1)
 			{
-				int index2 = Dust.NewDust(center, 0, 0, 258, 0.0f, 0f, 100, new Color(), 1f);
+				int index2 = Dust.NewDust(center, 0, 0, DustID.LavaMoss, 0.0f, 0f, 100, new Color(), 1f);
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity = Vector2.Zero;
 				Main.dust[index2].noLight = true;
@@ -189,7 +189,7 @@ namespace SpiritMod.NPCs.BloodstainedChest
 			}
 			for (int index1 = 0; index1 < 3; ++index1)
 			{
-				int index2 = Dust.NewDust(center, 0, 0, 258, 0.0f, 0f, 100, new Color(), 1.5f);
+				int index2 = Dust.NewDust(center, 0, 0, DustID.LavaMoss, 0.0f, 0f, 100, new Color(), 1.5f);
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity = Vector2.Zero;
 				Main.dust[index2].noLight = true;
@@ -198,7 +198,7 @@ namespace SpiritMod.NPCs.BloodstainedChest
 			}
 			for (int index1 = 0; index1 < 3; ++index1)
 			{
-				int index2 = Dust.NewDust(center, 0, 0, 258, 0.0f, 0f, 100, new Color(), 2f);
+				int index2 = Dust.NewDust(center, 0, 0, DustID.LavaMoss, 0.0f, 0f, 100, new Color(), 2f);
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity = Vector2.Zero;
 				Main.dust[index2].noLight = true;

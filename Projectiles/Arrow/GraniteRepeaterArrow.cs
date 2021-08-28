@@ -58,7 +58,7 @@ namespace SpiritMod.Projectiles.Arrow
 					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
 					{
 						for (int i = 0; i < 20; i++) {
-							int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, 0f, -2f, 0, default(Color), 2f);
+							int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, 0f, -2f, 0, default, 2f);
 							Main.dust[dust].noGravity = true;
 							Main.dust[dust].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 							Main.dust[dust].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -129,7 +129,7 @@ namespace SpiritMod.Projectiles.Arrow
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
 				{
 					for (int i = 0; i < 20; i++) {
-						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, 0f, -2f, 0, default(Color), 2f);
+						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, 0f, -2f, 0, default, 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -148,8 +148,8 @@ namespace SpiritMod.Projectiles.Arrow
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 			int d = 226;
 			for (int k = 0; k < 6; k++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default(Color), 0.27f);
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default(Color), 0.37f);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default, 0.27f);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default, 0.37f);
 			}
 		}
 	}

@@ -51,7 +51,7 @@ namespace SpiritMod.Items.Weapon.Magic
 				Vector2 velocity = Vector2.Normalize(Main.MouseWorld - position) * item.shootSpeed;
 				int p = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockBack, 0, 0.0f, 0.0f);
 				for (float num2 = 0.0f; (double)num2 < 10; ++num2) {
-					int dustIndex = Dust.NewDust(position, 2, 2, 173, 0f, 0f, 0, default(Color), .8f);
+					int dustIndex = Dust.NewDust(position, 2, 2, DustID.ShadowbeamStaff, 0f, 0f, 0, default, .8f);
 					Main.dust[dustIndex].noGravity = true;
 					Main.dust[dustIndex].velocity = Vector2.Normalize(spawnPlace.RotatedBy(Main.rand.NextFloat(MathHelper.TwoPi))) * 1.6f;
 				}

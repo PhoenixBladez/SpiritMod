@@ -49,7 +49,7 @@ namespace SpiritMod.Items.Weapon.Magic
 					offset = offset.RotatedBy(0.1f);
 				}
 				offset *= 58f;
-				int dust = Dust.NewDust(player.Center + offset, 1, 1, 39);
+				int dust = Dust.NewDust(player.Center + offset, 1, 1, DustID.JungleGrass);
 				Main.dust[dust].noGravity = true;
 				float dustSpeed = Main.rand.Next(9) / 5;
 				switch (Main.rand.Next(2)) {

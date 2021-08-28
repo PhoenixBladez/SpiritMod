@@ -48,7 +48,7 @@ namespace SpiritMod.NPCs.Reach
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 20; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Plantera_Green, hitDirection * 2.5f, -1f, 0, default(Color), Main.rand.NextFloat(.45f, 1.15f));
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Plantera_Green, hitDirection * 2.5f, -1f, 0, default, Main.rand.NextFloat(.45f, 1.15f));
 			}
             if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/BlossomHound1"), 1f);
@@ -59,7 +59,7 @@ namespace SpiritMod.NPCs.Reach
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/BlossomHound6"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/BlossomHound7"), 1f);
 				for (int k = 0; k < 40; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection * 2.5f, -1f, 0, default(Color), Main.rand.NextFloat(.45f, 1.15f));
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection * 2.5f, -1f, 0, default, Main.rand.NextFloat(.45f, 1.15f));
 				}
 			}
 		}

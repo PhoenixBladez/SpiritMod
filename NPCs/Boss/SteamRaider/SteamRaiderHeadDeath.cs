@@ -37,9 +37,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		float alphaCounter;
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
+			var drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
 			float sineAdd = alphaCounter + 2;
-			Vector2 drawPos1 = npc.Center - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
 			Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), (npc.Center - Main.screenPosition) - new Vector2(-2, 8), null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + .65f), SpriteEffects.None, 0f);
 			return true;
 		}
@@ -59,11 +58,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			timeLeft--;
 			if (timeLeft <= 0) {
                 if (Main.expertMode) {
-					if (Main.netMode != 0) {
-						for (int i = 0; i < 255; i++) {
-							if (Main.player[i].active) {
+					if (Main.netMode != NetmodeID.SinglePlayer) {
+						for (int i = 0; i < Main.maxPlayers; i++) {
+							if (Main.player[i].active)
                                 playersActive++;  
-                            }
                         }
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SteamRaiderBag>(), playersActive);
                     }
@@ -90,7 +88,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				Main.PlaySound(SoundID.DD2_EtherianPortalOpen, (int)npc.position.X, (int)npc.position.Y);
 				//  Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
 				for (int i = 0; i < 90; i++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, 226, Main.rand.Next(-25, 25), Main.rand.Next(-13, 13));
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, Main.rand.Next(-25, 25), Main.rand.Next(-13, 13));
 				}
 				npc.position.X = npc.position.X + (npc.width / 2);
 				npc.position.Y = npc.position.Y + (npc.height / 2);

@@ -45,7 +45,7 @@ namespace SpiritMod.NPCs.AntlionAssassin
 		{
 			for (int k = 0; k < 11; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedBrown, hitDirection, -1f, 1, default(Color), .61f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedBrown, hitDirection, -1f, 1, default, .61f);
 			}
 			if (npc.life <= 0)
 			{
@@ -63,7 +63,7 @@ namespace SpiritMod.NPCs.AntlionAssassin
 				Main.gore[ing2].timeLeft = 30;
 				for (int k = 0; k < 11; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedBrown, hitDirection, -1f, 1, default(Color), .61f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedBrown, hitDirection, -1f, 1, default, .61f);
 				}
 			}
 		}
@@ -84,7 +84,7 @@ namespace SpiritMod.NPCs.AntlionAssassin
 			if (timer >= 500)
 			{
 				for (int k = 0; k < 11; k++)
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedBrown, npc.direction, -1f, 1, default(Color), .61f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedBrown, npc.direction, -1f, 1, default, .61f);
 				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 6);
 				int ing = Gore.NewGore(npc.position, npc.velocity, 825);
 				Main.gore[ing].timeLeft = 130;
@@ -100,7 +100,7 @@ namespace SpiritMod.NPCs.AntlionAssassin
 		public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
 		{
 			for (int k = 0; k < 11; k++)
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedBrown, npc.direction, -1f, 1, default(Color), .61f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedBrown, npc.direction, -1f, 1, default, .61f);
 			if (npc.alpha >= 220)
 				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 6);
 			int ing = Gore.NewGore(npc.position, npc.velocity, 825);
@@ -119,7 +119,7 @@ namespace SpiritMod.NPCs.AntlionAssassin
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
 		{
 			for (int k = 0; k < 11; k++)
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedBrown, npc.direction, -1f, 1, default(Color), .61f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedBrown, npc.direction, -1f, 1, default, .61f);
 			if (npc.alpha >= 220)
 				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 6);
 			int ing = Gore.NewGore(npc.position, npc.velocity, 825);

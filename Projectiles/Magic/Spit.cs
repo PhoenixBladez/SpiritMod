@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles.Magic
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 
-				int num2121 = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter / 4.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, DustID.ScourgeOfTheCorruptor, 0f, 0f, 0, default(Color), 1f);
+				int num2121 = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter / 4.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, DustID.ScourgeOfTheCorruptor, 0f, 0f, 0, default, 1f);
 				Main.dust[num2121].velocity *= 0f;
 				Main.dust[num2121].scale *= .75f;
 				Main.dust[num2121].noGravity = true;
@@ -61,7 +61,7 @@ namespace SpiritMod.Projectiles.Magic
 				int num3 = Main.rand.Next(0, 360);
 				for (int j = 0; j < 1; j++) {
 					float num4 = MathHelper.ToRadians((float)(270 / 1 * j + num3));
-					Vector2 vector = new Vector2(base.projectile.velocity.X, base.projectile.velocity.Y).RotatedBy((double)num4, default(Vector2));
+					Vector2 vector = new Vector2(base.projectile.velocity.X, base.projectile.velocity.Y).RotatedBy((double)num4, default);
 					vector.Normalize();
 					vector.X *= 4.5f;
 					vector.Y *= 4.5f;

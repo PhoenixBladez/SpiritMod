@@ -65,7 +65,7 @@ namespace SpiritMod.Projectiles.Magic
 						int height138 = projectile.height;
 						float x38 = projectile.velocity.X;
 						float y36 = projectile.velocity.Y;
-						Color newColor5 = default(Color);
+						Color newColor5 = default;
 						int num1447 = Dust.NewDust(position177, width138, height138, DustID.Blood, x38, y36, 100, newColor5, 1.1f);
 						Main.dust[num1447].position = (Main.dust[num1447].position + projectile.Center) / 2f;
 						Main.dust[num1447].noGravity = true;

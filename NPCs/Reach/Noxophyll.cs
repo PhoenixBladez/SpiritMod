@@ -50,7 +50,7 @@ namespace SpiritMod.NPCs.Reach
             for (int k = 0; k < 30; k++)
             {
                 Dust.NewDust(npc.position, npc.width, npc.height, d, 1.5f * hitDirection, -1.5f, 0, Color.White, 0.7f);
-                Dust.NewDust(npc.position, npc.width, npc.height, d1, 1.5f * hitDirection, -1.5f, 0, default(Color), .34f);
+                Dust.NewDust(npc.position, npc.width, npc.height, d1, 1.5f * hitDirection, -1.5f, 0, default, .34f);
             }
         }
 		public override void AI()

@@ -30,8 +30,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
             projectile.scale = 1.5f;
 			aiType = ProjectileID.Bullet;
 		}
-		int timer;
-		int colortimer;
+
 		public override bool PreAI()
         {
             float num = 1f - (float)projectile.alpha / 255f;
@@ -41,7 +40,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
             projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
             projectile.velocity = projectile.velocity.RotatedBy(System.Math.PI / 40);
 
-            int num623 = Dust.NewDust(projectile.Center, 4, 4, 180, 0f, 0f, 0, default(Color), 1.8f);
+            int num623 = Dust.NewDust(projectile.Center, 4, 4, DustID.DungeonSpirit, 0f, 0f, 0, default, 1.8f);
             Main.dust[num623].velocity = projectile.velocity;
             Main.dust[num623].noGravity = true;
 
@@ -53,7 +52,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 			Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
 			vector9 += value19 * 16f;
 			for (int num257 = 0; num257 < 24; num257++) {
-				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, 180, 0f, 0f, 0, default(Color), 1.2f);
+				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, DustID.DungeonSpirit, 0f, 0f, 0, default, 1.2f);
 				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
 				Main.dust[newDust].velocity += value19 * 2f;
 				Main.dust[newDust].velocity *= 0.5f;

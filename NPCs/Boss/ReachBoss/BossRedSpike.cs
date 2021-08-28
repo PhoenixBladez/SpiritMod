@@ -43,10 +43,10 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Grass, (int)projectile.position.X, (int)projectile.position.Y);
-			Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 3);
+			Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 3);
 			for (int index = 0; index < 15; ++index)
 			{
-				int i = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 235, 0.0f, 0.0f, 0, default(Color), Main.rand.NextFloat(0.9f, 1.3f));
+				int i = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.LifeDrain, 0.0f, 0.0f, 0, default, Main.rand.NextFloat(0.9f, 1.3f));
 				Main.dust[i].noGravity = true;
 				Main.dust[i].velocity = projectile.velocity.RotatedByRandom(MathHelper.Pi / 6) * 0.5f;
 			}

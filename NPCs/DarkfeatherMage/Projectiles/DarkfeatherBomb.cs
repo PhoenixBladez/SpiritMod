@@ -33,7 +33,7 @@ namespace SpiritMod.NPCs.DarkfeatherMage.Projectiles
             projectile.velocity = currentSpeed.RotatedBy(Main.rand.Next(-1, 2) * (Math.PI / 40));
             projectile.ai[0] += .1135f;
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            int num623 = Dust.NewDust(projectile.Center, 4, 4, DustID.ChlorophyteWeapon, 0f, 0f, 0, default(Color), 1f);
+            int num623 = Dust.NewDust(projectile.Center, 4, 4, DustID.ChlorophyteWeapon, 0f, 0f, 0, default, 1f);
             Main.dust[num623].shader = GameShaders.Armor.GetSecondaryShader(67, Main.LocalPlayer);
             if (projectile.scale > .5f)
                 Main.dust[num623].noGravity = true;

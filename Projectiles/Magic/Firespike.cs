@@ -48,7 +48,7 @@ namespace SpiritMod.Projectiles.Magic
 					Vector2 position216 = projectile.position;
 					int width155 = projectile.width;
 					int height155 = projectile.height;
-					Color newColor5 = default(Color);
+					Color newColor5 = default;
 					int num1199 = Dust.NewDust(position216, width155, height155, DustID.Smoke, 0f, 0f, 100, newColor5, 1f);
 					Main.dust[num1199].scale = 0.1f + (float)Main.rand.Next(5) * 0.1f;
 					Main.dust[num1199].fadeIn = 1.5f + (float)Main.rand.Next(5) * 0.1f;
@@ -57,7 +57,7 @@ namespace SpiritMod.Projectiles.Magic
 					Vector2 center51 = projectile.Center;
 					Vector2 spinningpoint65 = new Vector2(0f, (0f - (float)projectile.height) / 2f);
 					double radians61 = (double)projectile.rotation;
-					vector333 = default(Vector2);
+					vector333 = default;
 					obj11.position = center51 + spinningpoint65.RotatedBy(radians61, vector333) * 1.1f;
 					num2475 = num1200;
 				}
@@ -108,7 +108,7 @@ namespace SpiritMod.Projectiles.Magic
 						int height156 = projectile.height;
 						int num2507 = num1191;
 						float speedY34 = -2.5f * (0f - (float)num1202);
-						Color newColor5 = default(Color);
+						Color newColor5 = default;
 						int num1190 = Dust.NewDust(position217, width156, height156, num2507, 0f, speedY34, 0, newColor5, 1f);
 						Main.dust[num1190].alpha = 200;
 						dust81 = Main.dust[num1190];
@@ -137,7 +137,7 @@ namespace SpiritMod.Projectiles.Magic
 						int height157 = projectile.height;
 						int num2508 = num1188;
 						float speedY35 = -2.5f * (0f - (float)num1202);
-						Color newColor5 = default(Color);
+						Color newColor5 = default;
 						int num1187 = Dust.NewDust(position218, width157, height157, num2508, 0f, speedY35, 0, newColor5, .6f);
 						Main.dust[num1187].alpha = 200;
 						dust81 = Main.dust[num1187];
@@ -168,7 +168,7 @@ namespace SpiritMod.Projectiles.Magic
 						Vector2 position219 = position9;
 						int width158 = projectile.width;
 						int height158 = num1186;
-						Color newColor5 = default(Color);
+						Color newColor5 = default;
 						int num1179 = Dust.NewDust(position219, width158, height158, DustID.Fire, 0f, 0f, 90, newColor5, 2.5f);
 						Main.dust[num1179].noGravity = true;
 						Main.dust[num1179].fadeIn = 1f;
@@ -208,7 +208,7 @@ namespace SpiritMod.Projectiles.Magic
 						int height159 = num1186;
 						int num2509 = num1183;
 						float speedY36 = -2.5f * (0f - (float)num1202);
-						Color newColor5 = default(Color);
+						Color newColor5 = default;
 						int num1182 = Dust.NewDust(position220, width159, height159, num2509, 0f, speedY36, 0, newColor5, .8f);
 						Main.dust[num1182].alpha = 200;
 						dust81 = Main.dust[num1182];

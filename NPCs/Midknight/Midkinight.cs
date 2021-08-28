@@ -91,14 +91,14 @@ namespace SpiritMod.NPCs.Midknight
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 40; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.ShadowbeamStaff, hitDirection * 6f, -1f, 0, default(Color), .45f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.ShadowbeamStaff, hitDirection * 6f, -1f, 0, default, .45f);
 			}
 			if (npc.life <= 0) {
 				for (int k = 0; k < 10; k++) {
 					Gore.NewGore(npc.position, npc.velocity, 99);
 					Gore.NewGore(npc.position, npc.velocity, 99);
 					Gore.NewGore(npc.position, npc.velocity, 99);
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.ShadowbeamStaff, hitDirection * 6f, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.ShadowbeamStaff, hitDirection * 6f, -1f, 0, default, 1f);
 				}
 			}
 		}

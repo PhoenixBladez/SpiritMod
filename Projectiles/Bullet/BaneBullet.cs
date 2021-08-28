@@ -32,8 +32,8 @@ namespace SpiritMod.Projectiles.Bullet
 			if (!summoned) {
 				for (int j = 0; j < 24; j++) {
 					Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
-					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
-					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2)) * 1.3f;
+					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default) * new Vector2(8f, 16f);
+					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default) * 1.3f;
 					int num8 = Dust.NewDust(projectile.Center, 0, 0, DustID.Shadowflame, 0f, 0f, 160, new Color(), 1f);
 					Main.dust[num8].scale = 1.5f;
 					Main.dust[num8].noGravity = true;

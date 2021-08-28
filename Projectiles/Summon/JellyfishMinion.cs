@@ -206,7 +206,7 @@ namespace SpiritMod.Projectiles.Summon
                     direction.Y *= shootVelocity;
                     for (int i = 0; i < 10; i++)
                     {
-                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, 0f, -2f, 0, default(Color), .5f);
+                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, 0f, -2f, 0, default, .5f);
                         Main.dust[num].noGravity = true;
                         Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
                         Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;

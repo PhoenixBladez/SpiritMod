@@ -126,35 +126,35 @@ namespace SpiritMod.Mechanics.EventSystem.Controllers
 		public struct CameraPointData
 		{
 			public Vector2 Position;
-			[Obsolete]
-			public float Rotation;
+			//[Obsolete]
+			//public float Rotation;
 			public Vector2 Zoom;
 
 			public CameraPointData(Vector2 vector)
 			{
 				Position = vector;
-				Rotation = 0f;
+				//Rotation = 0f;
 				Zoom = -Vector2.One;
 			}
 
 			public CameraPointData(Vector2 vector, float rot, float zoom)
 			{
 				Position = vector;
-				Rotation = rot;
+				//Rotation = rot;
 				Zoom = new Vector2(zoom);
 			}
 
 			public CameraPointData(Vector2 vector, float rot, Vector2 zoom)
 			{
 				Position = vector;
-				Rotation = rot;
+				//Rotation = rot;
 				Zoom = zoom;
 			}
 
 			public static CameraPointData Lerp(CameraPointData d1, CameraPointData d2, float amount)
 			{
-				return new CameraPointData(Vector2.Lerp(d1.Position, d2.Position, amount), MathHelper.Lerp(d1.Rotation, d2.Rotation, amount), Vector2.Lerp(d1.Zoom, d2.Zoom, amount));
-			}
+				return new CameraPointData(Vector2.Lerp(d1.Position, d2.Position, amount), MathHelper.Lerp(0f, 0f, amount), Vector2.Lerp(d1.Zoom, d2.Zoom, amount));
+			}                                                                           // MathHelper.Lerp(d1.Rotation, d2.Rotation, amount)
 		}
 
 		#region Grabbers

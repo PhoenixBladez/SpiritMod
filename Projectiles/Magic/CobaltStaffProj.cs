@@ -71,7 +71,7 @@ namespace SpiritMod.Projectiles.Magic
 
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 			for (int num623 = 0; num623 < 15; num623++) {
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Cobalt, 0f, 0f, 100, default(Color), .31f);
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Cobalt, 0f, 0f, 100, default, .31f);
 				Main.dust[num624].velocity *= .5f;
 			}
 		}

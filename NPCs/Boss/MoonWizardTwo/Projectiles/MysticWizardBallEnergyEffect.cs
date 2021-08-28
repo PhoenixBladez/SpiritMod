@@ -46,16 +46,14 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
 				if (flag4 && !flag2) {
                     projectile.velocity += new Vector2((float)Math.Sign(Main.projectile[index1].Center.X - projectile.Center.X), (float)Math.Sign(Main.projectile[index1].Center.Y - projectile.Center.Y)) * new Vector2(x, y);
                     if (projectile.velocity.Length() > 7f)
-                    {
                         projectile.velocity *= 7f / projectile.velocity.Length();
-                    }
                 }
 			}
 			for (int i = 0; i < 5; i++) {
 				if (projectile.width == 8) {
 					float x1 = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 					float y1 = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-					int num = Dust.NewDust(new Vector2(x1, y1), 2, 2, 180);
+					int num = Dust.NewDust(new Vector2(x1, y1), 2, 2, DustID.DungeonSpirit);
 					Main.dust[num].velocity = projectile.velocity;
 					Main.dust[num].noGravity = true;
                     Main.dust[num].scale = projectile.scale;

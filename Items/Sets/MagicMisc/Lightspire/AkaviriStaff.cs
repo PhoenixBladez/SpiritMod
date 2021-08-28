@@ -83,7 +83,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.Lightspire
                     Vector2 offset = mouse - player.position;
                     offset.Normalize();
                     offset *= 23f;
-                    int dust = Dust.NewDust(projectile.Center + offset, projectile.width, projectile.height, 157, 0f, 0f, 0, default(Color), 1f);
+                    int dust = Dust.NewDust(projectile.Center + offset, projectile.width, projectile.height, DustID.ChlorophyteWeapon, 0f, 0f, 0, default, 1f);
                     Main.dust[dust].shader = GameShaders.Armor.GetSecondaryShader(69, Main.LocalPlayer);
                     Main.dust[dust].velocity *= -1f;
                     Main.dust[dust].noGravity = true;

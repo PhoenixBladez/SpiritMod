@@ -78,7 +78,7 @@ namespace SpiritMod.NPCs.ScreechOwl
                     {
                         float angle = Main.rand.NextFloat(MathHelper.PiOver4, -MathHelper.Pi - MathHelper.PiOver4);
                         Vector2 spawnPlace = Vector2.Normalize(new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle))) * 20f;
-                        int dustIndex = Dust.NewDust(new Vector2(npc.Center.X + (10 * npc.spriteDirection), npc.Center.Y - 12), 2, 2, 180, 0f, 0f, 0, default(Color), 1f);
+                        int dustIndex = Dust.NewDust(new Vector2(npc.Center.X + (10 * npc.spriteDirection), npc.Center.Y - 12), 2, 2, DustID.DungeonSpirit, 0f, 0f, 0, default, 1f);
                         Main.dust[dustIndex].noGravity = true;
                         Main.dust[dustIndex].velocity = Vector2.Normalize(spawnPlace.RotatedBy(Main.rand.NextFloat(MathHelper.TwoPi))) * 1.6f;
                     }

@@ -147,7 +147,7 @@ namespace SpiritMod.NPCs.CavernCrawler
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default(Color), .61f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, .61f);
 			}
 			if (npc.life <= 0) {
 				Main.PlaySound(SoundID.DD2_WitherBeastDeath, npc.Center);

@@ -31,17 +31,13 @@ namespace SpiritMod.Items.Sets.AvianDrops
 			item.shoot = ModContent.ProjectileType<SkeletalonMinion>();
 			item.UseSound = SoundID.Item44;
 		}
-		public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
+		public override bool AltFunctionUse(Player player) => true;
 
 		public override bool UseItem(Player player)
 		{
-			if (player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2)
 				player.MinionNPCTargetAim();
-			}
-			return base.UseItem(player);
+			return player.altFunctionUse == 2;
 		}
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
@@ -50,7 +46,7 @@ namespace SpiritMod.Items.Sets.AvianDrops
 				int proj = Terraria.Projectile.NewProjectile(position.X + Main.rand.Next(-30, 30), position.Y, 0f, 0f, type, damage, knockBack, player.whoAmI);
 				Projectile projectile = Main.projectile[proj];
 				for (int j = 0; j < 10; j++) {
-					int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 0, (float)(Main.rand.Next(5) - 2), (float)(Main.rand.Next(5) - 2), 133);
+					int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.Dirt, (float)(Main.rand.Next(5) - 2), (float)(Main.rand.Next(5) - 2), 133);
 					Main.dust[d].scale *= .75f;
 				}
 			}

@@ -57,7 +57,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 					float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 
-					int num = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter / 8.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, 180, 0f, 0f, 0, default(Color), 1f);
+					int num = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter / 8.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, DustID.DungeonSpirit, 0f, 0f, 0, default, 1f);
 					Main.dust[num].velocity *= .1f;
 					Main.dust[num].scale *= .7f;
 					Main.dust[num].noGravity = true;

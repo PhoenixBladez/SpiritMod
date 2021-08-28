@@ -34,10 +34,7 @@ namespace SpiritMod.Items.Sets.BismiteSet.BismiteArmor
 
 		public override void DrawHair(ref bool drawHair, ref bool drawAltHair) => drawAltHair = true;
 
-		public override void UpdateEquip(Player player)
-		{
-			player.moveSpeed += .04f;
-		}
+		public override void UpdateEquip(Player player) => player.moveSpeed += .04f;
 
 		public override void ArmorSetShadows(Player player)
 		{
@@ -66,17 +63,12 @@ namespace SpiritMod.Items.Sets.BismiteSet.BismiteArmor
 
 		public override void PlayerPostUpdate(Player player)
 		{
-			if (player.HasBuff(ModContent.BuffType<VirulenceCooldown>()) || virulence >= 0) {
+			if (player.HasBuff(ModContent.BuffType<VirulenceCooldown>()) || virulence >= 0)
 				virulence--;
-			}
-			if (virulence == 0f) {
+			if (virulence == 0f)
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
-			}
 		}
-		public override void PlayerHurt(Player player, bool pvp, bool quiet, double damage, int hitDirection, bool crit)
-		{
-			virulence = 600f;
-		}
+		public override void PlayerHurt(Player player, bool pvp, bool quiet, double damage, int hitDirection, bool crit) => virulence = 600f;
 
 		public override void PlayerOnHitNPC(Player player, Item item, NPC target, int damage, float knockback, bool crit)
 		{
@@ -101,7 +93,7 @@ namespace SpiritMod.Items.Sets.BismiteSet.BismiteArmor
 			var player = drawInfo.drawPlayer;
 			if (virulence <= 0 && Main.rand.NextBool(2)) {
 				for (int index1 = 0; index1 < 3; ++index1) {
-					int dust = Dust.NewDust(player.position, player.width, player.height, 167, 0, 0, 167, default, Main.rand.NextFloat(.5f, 1.32f));
+					int dust = Dust.NewDust(player.position, player.width, player.height, DustID.Plantera_Green, 0, 0, 167, default, Main.rand.NextFloat(.5f, 1.32f));
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity *= 1.8f;
 					Main.dust[dust].velocity.Y -= 0.5f;

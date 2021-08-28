@@ -49,7 +49,7 @@ namespace SpiritMod.Projectiles.Magic
 
 				projectile.ai[0] += 1f;
 				for (int i = 0; i < 1; i++) {
-					int dustIndex = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default(Color), 1f);
+					int dustIndex = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
 					Dust dust = Main.dust[dustIndex];
 					dust.noGravity = true;
 					dust.scale *= 1.75f;

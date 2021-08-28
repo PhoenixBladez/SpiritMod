@@ -108,7 +108,7 @@ namespace SpiritMod.NPCs.MycelialBotanist
 				float B = (float)Main.rand.Next(-60, -40) * 0.1f;
 				//int p = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, A, B, ModContent.ProjectileType<MyceliumSporeHostile>(), damage, 1);
 				for (int k = 0; k < 11; k++) {
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Harpy, A, B, 0, default(Color), .61f);
+					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Harpy, A, B, 0, default, .61f);
 				}
 				//Main.projectile[p].hostile = true;
 			}

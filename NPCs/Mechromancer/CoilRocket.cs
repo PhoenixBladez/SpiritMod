@@ -47,8 +47,8 @@ namespace SpiritMod.NPCs.Mechromancer
 				projectile.localAI[0] = 0f;
 				for (int j = 0; j < 12; j++) {
 					Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
-					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
-					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2));
+					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default) * new Vector2(8f, 16f);
+					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default);
 					int num8 = Dust.NewDust(projectile.Center, 0, 0, DustID.Electric, 0f, 0f, 160, new Color(), 1f);
 					Main.dust[num8].scale = .48f;
 					Main.dust[num8].noGravity = true;
@@ -117,7 +117,7 @@ namespace SpiritMod.NPCs.Mechromancer
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			for (int i = 0; i < 40; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, -2f, 0, default(Color), 1.5f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, -2f, 0, default, 1.5f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;

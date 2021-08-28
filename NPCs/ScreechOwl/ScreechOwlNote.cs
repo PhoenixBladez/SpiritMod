@@ -39,9 +39,9 @@ namespace SpiritMod.NPCs.ScreechOwl
                 for (int j = 0; j < 30; j++)
                 {
                     Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
-                    vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(16f, 8f);
-                    vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2)) * 1.3f;
-                    int num8 = Dust.NewDust(projectile.Center, 0, 0, 180, 0f, 0f, 0, new Color(), .6f);
+                    vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default) * new Vector2(16f, 8f);
+                    vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default) * 1.3f;
+                    int num8 = Dust.NewDust(projectile.Center, 0, 0, DustID.DungeonSpirit, 0f, 0f, 0, new Color(), .6f);
                     Main.dust[num8].noGravity = true;
                     Main.dust[num8].position = projectile.Center + vector2;
                     Main.dust[num8].velocity = projectile.velocity * 0.1f;
@@ -55,9 +55,9 @@ namespace SpiritMod.NPCs.ScreechOwl
                 for (int j = 0; j < 40; j++)
                 {
                     Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
-                    vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(20f, 8f);
-                    vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2)) * 1.3f;
-                    int num8 = Dust.NewDust(projectile.Center, 0, 0, 180, 0f, 0f, 0, new Color(), .7f);
+                    vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default) * new Vector2(20f, 8f);
+                    vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default) * 1.3f;
+                    int num8 = Dust.NewDust(projectile.Center, 0, 0, DustID.DungeonSpirit, 0f, 0f, 0, new Color(), .7f);
                     Main.dust[num8].noGravity = true;
                     Main.dust[num8].position = projectile.Center + vector2;
                     Main.dust[num8].velocity = projectile.velocity * 0.1f;
@@ -71,9 +71,9 @@ namespace SpiritMod.NPCs.ScreechOwl
                 for (int j = 0; j < 50; j++)
                 {
                     Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
-                    vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(24f, 8f);
-                    vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2)) * 1.3f;
-                    int num8 = Dust.NewDust(projectile.Center, 0, 0, 180, 0f, 0f, 0, new Color(), .8f);
+                    vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default) * new Vector2(24f, 8f);
+                    vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default) * 1.3f;
+                    int num8 = Dust.NewDust(projectile.Center, 0, 0, DustID.DungeonSpirit, 0f, 0f, 0, new Color(), .8f);
                     Main.dust[num8].noGravity = true;
                     Main.dust[num8].position = projectile.Center + vector2;
                     Main.dust[num8].velocity = projectile.velocity * 0.1f;
@@ -87,9 +87,9 @@ namespace SpiritMod.NPCs.ScreechOwl
                 for (int j = 0; j < 60; j++)
                 {
                     Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
-                    vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(30f, 8f);
-                    vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2)) * 1.3f;
-                    int num8 = Dust.NewDust(projectile.Center, 0, 0, 180, 0f, 0f, 0, new Color(), 1.1f);
+                    vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default) * new Vector2(30f, 8f);
+                    vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default) * 1.3f;
+                    int num8 = Dust.NewDust(projectile.Center, 0, 0, DustID.DungeonSpirit, 0f, 0f, 0, new Color(), 1.1f);
                     Main.dust[num8].noGravity = true;
                     Main.dust[num8].position = projectile.Center + vector2;
                     Main.dust[num8].velocity = projectile.velocity * 0.1f;

@@ -45,14 +45,14 @@ namespace SpiritMod.NPCs.HellEater
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 20; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 2.5f * hitDirection, -2.5f, 117, default(Color), .6f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 2.5f * hitDirection, -2.5f, 117, default, .6f);
 			}
 			if (npc.life <= 0) {
 				for (int i = 0; i < 20; i++) {
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 0f, -2f, 117, default(Color), .6f);
+					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 0f, -2f, 117, default, .6f);
 					Main.dust[num].noGravity = true;
-					Dust expr_62_cp_0 = Main.dust[num];
-					expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+					Dust dust = Main.dust[num];
+					dust.position.X = dust.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
 					Dust expr_92_cp_0 = Main.dust[num];
 					expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
 					if (Main.dust[num].position != npc.Center) {

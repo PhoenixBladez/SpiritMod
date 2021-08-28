@@ -58,13 +58,13 @@ namespace SpiritMod.NPCs.DeadeyeMarksman
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 40; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default(Color), .45f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, .45f);
 			}
 			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Archer2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Archer1"), 1f);
 				for (int k = 0; k < 80; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default(Color), .85f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, .85f);
 				}
 			}
 		}

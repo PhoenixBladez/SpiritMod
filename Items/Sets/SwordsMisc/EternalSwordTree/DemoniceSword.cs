@@ -45,7 +45,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.EternalSwordTree
 		{
 			{
 				if (Main.rand.Next(5) == 0) {
-					int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 206);
+					int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.UnusedWhiteBluePurple);
 					Main.dust[dust].noGravity = true;
 				}
 			}

@@ -72,7 +72,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 4);
 
 			for (int num621 = 0; num621 < 20; num621++) {
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 60, default(Color), 2f);
+				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 60, default, 2f);
 				Main.dust[num622].velocity *= 3f;
 				if (Main.rand.Next(2) == 0) {
 					Main.dust[num622].scale = 0.5f;
@@ -88,13 +88,13 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				if (num625 == 2) {
 					scaleFactor10 = 1f;
 				}
-				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
+				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Gore expr_13AB6_cp_0 = Main.gore[num626];
 				expr_13AB6_cp_0.velocity.X = expr_13AB6_cp_0.velocity.X + 1f;
 				Gore expr_13AD6_cp_0 = Main.gore[num626];
 				expr_13AD6_cp_0.velocity.Y = expr_13AD6_cp_0.velocity.Y + 1f;
-				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
+				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Gore expr_13B79_cp_0 = Main.gore[num626];
 				expr_13B79_cp_0.velocity.X = expr_13B79_cp_0.velocity.X - 1f;
@@ -111,7 +111,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
 			for (int num273 = 0; num273 < 3; num273++) {
-				int num274 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 0, default(Color), 1f);
+				int num274 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 0, default, 1f);
 				Main.dust[num274].noGravity = true;
 				Main.dust[num274].noLight = true;
 				Main.dust[num274].scale = 0.7f;

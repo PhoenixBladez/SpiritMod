@@ -52,21 +52,19 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			int d1 = 226;
 			for (int k = 0; k < 20; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 117, new Color(0, 255, 142), .6f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 2.5f * hitDirection, -2.5f, 117, new Color(0, 255, 142), .6f);
 			}
 			if (npc.life <= 0) {
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
 				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 44);
 				Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 4);
 				for (int i = 0; i < 40; i++) {
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, 156, 0f, -2f, 117, new Color(0, 255, 142), .6f);
+					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Ultrabright, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 					Main.dust[num].noGravity = true;
-					Dust expr_62_cp_0 = Main.dust[num];
-					expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-					Dust expr_92_cp_0 = Main.dust[num];
-					expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+					Dust dust = Main.dust[num];
+					dust.position.X += ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+					dust.position.Y += ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
 					if (Main.dust[num].position != npc.Center) {
 						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 					}
@@ -83,12 +81,11 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 44);
 				Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 4);
 				for (int i = 0; i < 40; i++) {
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 117, new Color(0, 255, 142), .6f);
+					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 					Main.dust[num].noGravity = true;
-					Dust expr_62_cp_0 = Main.dust[num];
-					expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-					Dust expr_92_cp_0 = Main.dust[num];
-					expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+					Dust dust = Main.dust[num];
+					dust.position.X += (Main.rand.Next(-50, 51) / 20) - 1.5f;
+					dust.position.Y += (Main.rand.Next(-50, 51) / 20) - 1.5f;
 					if (Main.dust[num].position != npc.Center) {
 						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 					}
@@ -133,9 +130,9 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				npc.localAI[0] = 0f;
 				for (int j = 0; j < 12; j++) {
 					Vector2 vector21 = Vector2.UnitX * -npc.width / 2f;
-					vector21 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
-					vector21 = Utils.RotatedBy(vector21, (npc.rotation - 1.57079637f), default(Vector2));
-					int num8 = Dust.NewDust(npc.Center, 0, 0, 226, 0f, 0f, 160, default(Color), 1f);
+					vector21 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default) * new Vector2(8f, 16f);
+					vector21 = Utils.RotatedBy(vector21, (npc.rotation - 1.57079637f), default);
+					int num8 = Dust.NewDust(npc.Center, 0, 0, DustID.Electric, 0f, 0f, 160, default, 1f);
 					Main.dust[num8].scale = .8f;
 					Main.dust[num8].noGravity = true;
 					Main.dust[num8].position = npc.Center;
@@ -159,10 +156,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 44);
 			Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 4);
 			for (int i = 0; i < 40; i++) {
-				int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 117, new Color(0, 255, 142), .6f);
+				int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 				Main.dust[num].noGravity = true;
-				Dust expr_62_cp_0 = Main.dust[num];
-				expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+				Dust dust = Main.dust[num];
+				dust.position.X = dust.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
 				Dust expr_92_cp_0 = Main.dust[num];
 				expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
 				if (Main.dust[num].position != npc.Center) {

@@ -66,7 +66,7 @@ namespace SpiritMod.Items.Weapon.Thrown.PiecesOfEight
 		public override void AI()
 		{
 			if (Main.rand.Next(10) == 0)
-				Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 244, 0, 0).velocity = Vector2.Zero;
+				Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.CopperCoin, 0, 0).velocity = Vector2.Zero;
 			projectile.frameCounter++;
 			if (projectile.frameCounter > 6)
 			{
@@ -76,7 +76,7 @@ namespace SpiritMod.Items.Weapon.Thrown.PiecesOfEight
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity) {
 
-			Main.PlaySound(0, projectile.Center);
+			Main.PlaySound(SoundID.Dig, projectile.Center);
 			bounces--;
 				if (projectile.velocity.X != oldVelocity.X) {
 					projectile.velocity.X = -oldVelocity.X * 0.7f;
@@ -93,9 +93,9 @@ namespace SpiritMod.Items.Weapon.Thrown.PiecesOfEight
 		}
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(38, projectile.Center, 0);
+			Main.PlaySound(SoundID.CoinPickup, projectile.Center, 0);
 			for (int i = 0; i < 5; i++)
-				Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 244).velocity *= 0.4f;
+				Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.CopperCoin).velocity *= 0.4f;
 		}
 	}
 }

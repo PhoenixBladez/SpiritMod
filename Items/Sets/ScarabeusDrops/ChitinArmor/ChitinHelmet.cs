@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ChitinArmor
 			player.GetSpiritPlayer().chitinSet = true;
 
 			if (player.velocity.X != 0f) {
-				int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 0, 0);
+				int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 0, DustID.Dirt);
 				Main.dust[dust].velocity *= 0f;
 				Main.dust[dust].noGravity = true;
 			}

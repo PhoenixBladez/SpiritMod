@@ -133,13 +133,13 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
-			Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 3);
+			Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 3);
             Vector2 vector9 = projectile.position;
             Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
             vector9 += value19 * 12f;
             for (int num257 = 0; num257 < 18; num257++)
             {
-                int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, 163, 0f, 0f, 0, Color.White, 1f);
+                int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, DustID.PoisonStaff, 0f, 0f, 0, Color.White, 1f);
                 Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
                 Main.dust[newDust].velocity += value19 * 2f;
                 Main.dust[newDust].velocity *= 0.5f;

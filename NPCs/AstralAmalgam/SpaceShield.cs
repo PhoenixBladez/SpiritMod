@@ -55,7 +55,7 @@ namespace SpiritMod.NPCs.AstralAmalgam
 			npc.life = 100;
 			if (!npc.active)
 				for (int i = 0; i < 20; i++) {
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, 206, 0f, -2f, 0, default(Color), 1f);
+					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedWhiteBluePurple, 0f, -2f, 0, default, 1f);
 					Main.dust[num].noGravity = true;
 					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -83,7 +83,7 @@ namespace SpiritMod.NPCs.AstralAmalgam
 			float num8 = (float)player.miscCounter / 60f;
 			float num7 = 1.0471975512f;
 			for (int i = 0; i < 6; i++) {
-				int num6 = Dust.NewDust(center, 0, 0, 180, 0f, 0f, 100, default(Color), 1.3f);
+				int num6 = Dust.NewDust(center, 0, 0, DustID.DungeonSpirit, 0f, 0f, 100, default, 1.3f);
 				Main.dust[num6].noGravity = true;
 				Main.dust[num6].velocity = Vector2.Zero;
 				Main.dust[num6].noLight = true;

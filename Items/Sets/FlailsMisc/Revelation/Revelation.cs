@@ -73,7 +73,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.Revelation
 			float num4 = 2.094395f;
 			for (int index1 = 0; index1 < 2; ++index1)
 			{
-				int index2 = Dust.NewDust(center, 0, 0, 258, 0.0f, 0f, 100, new Color(), .85f);
+				int index2 = Dust.NewDust(center, 0, 0, DustID.LavaMoss, 0.0f, 0f, 100, new Color(), .85f);
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity = projectile.velocity;
 				Main.dust[index2].noLight = true;
@@ -83,7 +83,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.Revelation
 			}
 			for (int index1 = 0; index1 < 2; ++index1)
 			{
-				int index2 = Dust.NewDust(center, 0, 0, 258, 0.0f, 0f, 100, new Color(), .75f);
+				int index2 = Dust.NewDust(center, 0, 0, DustID.LavaMoss, 0.0f, 0f, 100, new Color(), .75f);
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity = projectile.velocity;
 				Main.dust[index2].noLight = true;
@@ -93,7 +93,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.Revelation
 			}
 			for (int index1 = 0; index1 < 2; ++index1)
 			{
-				int index2 = Dust.NewDust(center, 0, 0, 258, 0.0f, 0f, 100, new Color(), 1.3f);
+				int index2 = Dust.NewDust(center, 0, 0, DustID.LavaMoss, 0.0f, 0f, 100, new Color(), 1.3f);
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity = projectile.velocity;
 				Main.dust[index2].noLight = true;
@@ -159,7 +159,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.Revelation
 			vector9 += value19 * 16f;
 			for (int num257 = 0; num257 < 20; num257++)
 			{
-				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, 258, 0f, 0f, 0, default(Color), 1f);
+				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, DustID.LavaMoss, 0f, 0f, 0, default, 1f);
 				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
 				Main.dust[newDust].shader = GameShaders.Armor.GetSecondaryShader(93, Main.LocalPlayer);
 				Main.dust[newDust].velocity += value19 * 2f;

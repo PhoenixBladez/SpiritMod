@@ -36,7 +36,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		{
 			for (int i = 0; i < 2; i++)
 			{
-				int num = Dust.NewDust(projectile.position, 6, 6, DustID.FireworkFountain_Pink, 0f, 0f, 0, default(Color), .35f);
+				int num = Dust.NewDust(projectile.position, 6, 6, DustID.FireworkFountain_Pink, 0f, 0f, 0, default, .35f);
 				Main.dust[num].position = projectile.Center - projectile.velocity / num * (float)i;
 
 				Main.dust[num].velocity = projectile.velocity;

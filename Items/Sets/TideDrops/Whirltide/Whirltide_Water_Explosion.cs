@@ -84,21 +84,16 @@ namespace SpiritMod.Items.Sets.TideDrops.Whirltide
 					vector2 = Vector2.UnitY * 20f;
 					num4 = 0.6f;
 				}
-				int index2 = Dust.NewDust(projectile.Center, 0, 0, 157, 0.0f, 0.0f, 100, new Color(), 1f);
+				int index2 = Dust.NewDust(projectile.Center, 0, 0, DustID.ChlorophyteWeapon, 0.0f, 0.0f, 100, new Color(), 1f);
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].position = projectile.Center + spinningpoint * num4 + vector2;
 				Main.dust[index2].velocity = Vector2.Zero;
 				spinningpoint *= -1f;
-				int index3 = Dust.NewDust(projectile.Center, 0, 0, 157, 0.0f, 0.0f, 100, new Color(), 1f);
+				int index3 = Dust.NewDust(projectile.Center, 0, 0, DustID.ChlorophyteWeapon, 0.0f, 0.0f, 100, new Color(), 1f);
 				Main.dust[index3].noGravity = true;
 				Main.dust[index3].position = projectile.Center + spinningpoint * num4 + vector2;
 				Main.dust[index3].velocity = Vector2.Zero;
 			}
-		}
-
-		public override void Kill(int timeLeft)
-		{
-
 		}
 	}
 }

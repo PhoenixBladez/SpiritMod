@@ -22,17 +22,14 @@ namespace SpiritMod.Items.Sets.AtlasDrops.PrimalstoneArmor
 			item.defense = 14;
 		}
 
-		public override bool IsArmorSet(Item head, Item body, Item legs)
-		{
-			return body.type == ModContent.ItemType<PrimalstoneBreastplate>() && legs.type == ModContent.ItemType<PrimalstoneLeggings>();
-		}
+		public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == ModContent.ItemType<PrimalstoneBreastplate>() && legs.type == ModContent.ItemType<PrimalstoneLeggings>();
 
 		public override void UpdateArmorSet(Player player)
 		{
 			player.setBonus = "Melee and magic attacks inflict Unstable Affliction\n10% reduced movement speed";
 			player.GetSpiritPlayer().primalSet = true;
 			player.moveSpeed -= 0.10F;
-			int dust1 = Dust.NewDust(player.position, player.width, player.height - 38, 206);
+			int dust1 = Dust.NewDust(player.position, player.width, player.height - 38, DustID.UnusedWhiteBluePurple);
 			Main.dust[dust1].scale = 2f;
 		}
 

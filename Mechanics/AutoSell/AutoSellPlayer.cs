@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using System.IO;
 using Terraria.ModLoader.IO;
 using SpiritMod.Utilities;
+using Terraria.ID;
 
 namespace SpiritMod.Mechanics.AutoSell
 {
@@ -22,7 +23,7 @@ namespace SpiritMod.Mechanics.AutoSell
 				{
 					if (sell_Weapons)
 					{
-						if (!player.inventory[index].favorited && SpiritModMechanic && Main.npcShop > 0 && Main.mouseItem.type == 0 && !sell_Lock && player.inventory[index].damage < 1)
+						if (!player.inventory[index].favorited && SpiritModMechanic && Main.npcShop > 0 && Main.mouseItem.type == ItemID.None && !sell_Lock && player.inventory[index].damage < 1)
 						{
 							if (sell_NoValue)
 							{
@@ -41,7 +42,7 @@ namespace SpiritMod.Mechanics.AutoSell
 					}
 					else
 					{
-						if (!player.inventory[index].favorited && SpiritModMechanic && Main.npcShop > 0 && Main.mouseItem.type == 0 && !sell_Lock)
+						if (!player.inventory[index].favorited && SpiritModMechanic && Main.npcShop > 0 && Main.mouseItem.type == ItemID.None && !sell_Lock)
 						{
 							if (sell_NoValue)
 							{

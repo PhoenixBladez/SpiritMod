@@ -106,8 +106,8 @@ namespace SpiritMod.Projectiles.Magic
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 			int d = 236;
 			for (int k = 0; k < 6; k++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default(Color), 0.27f);
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default(Color), 0.37f);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default, 0.27f);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default, 0.37f);
 			}
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

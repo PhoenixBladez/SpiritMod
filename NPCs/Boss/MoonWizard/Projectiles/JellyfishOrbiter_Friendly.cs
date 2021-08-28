@@ -41,7 +41,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
             Lighting.AddLight(projectile.Center, 0.1f * num, 0.2f * num, 0.4f * num);
             projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
 
-            int num623 = Dust.NewDust(projectile.Center - projectile.velocity / 5, 4, 4, DustID.DungeonSpirit, 0f, 0f, 0, default(Color), 1.8f);
+            int num623 = Dust.NewDust(projectile.Center - projectile.velocity / 5, 4, 4, DustID.DungeonSpirit, 0f, 0f, 0, default, 1.8f);
             Main.dust[num623].velocity = projectile.velocity;
             Main.dust[num623].noGravity = true;
 			if (projectile.timeLeft < 55)
@@ -58,7 +58,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
                 {
                     for (int j = 0; j < 2; j++)
                     {
-                        int num6 = Dust.NewDust(center, 0, 0, DustID.DungeonSpirit, 0f, 0f, 100, default(Color), .85f);
+                        int num6 = Dust.NewDust(center, 0, 0, DustID.DungeonSpirit, 0f, 0f, 100, default, .85f);
                         Main.dust[num6].noGravity = true;
                         Main.dust[num6].velocity = Vector2.Zero;
                         Main.dust[num6].noLight = true;

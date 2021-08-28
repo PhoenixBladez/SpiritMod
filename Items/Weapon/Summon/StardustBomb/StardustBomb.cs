@@ -22,8 +22,8 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
 			item.mana = 12;
 			item.width = 40;
 			item.height = 40;
-			item.value = Terraria.Item.sellPrice(0, 8, 0, 0);
-			item.rare = 10;
+			item.value = Item.sellPrice(0, 8, 0, 0);
+			item.rare = ItemRarityID.Red;
 			item.knockBack = 2.5f;
 			item.UseSound = SoundID.Item25;
 			item.summon = true;

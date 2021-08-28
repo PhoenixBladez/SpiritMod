@@ -174,10 +174,10 @@ namespace SpiritMod.Projectiles.Magic
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 10; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.SilverCoin, 0f, -2f, 0, default(Color), .9f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.SilverCoin, 0f, -2f, 0, default, .9f);
 				Main.dust[num].noGravity = true;
-				Dust expr_62_cp_0 = Main.dust[num];
-				expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-10, 11) / 20) - 1.5f);
+				Dust dust = Main.dust[num];
+				dust.position.X = dust.position.X + ((float)(Main.rand.Next(-10, 11) / 20) - 1.5f);
 				Dust expr_92_cp_0 = Main.dust[num];
 				expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-10, 11) / 20) - 1.5f);
 				if (Main.dust[num].position != projectile.Center) {

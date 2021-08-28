@@ -161,7 +161,7 @@ namespace SpiritMod.NPCs.Hookbat
         {
             for (int k = 0; k < 10; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection * 2.5f, -1f, 0, default(Color), Main.rand.NextFloat(.45f, 1.15f));
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection * 2.5f, -1f, 0, default, Main.rand.NextFloat(.45f, 1.15f));
             }
             if (npc.life <= 0)
             {

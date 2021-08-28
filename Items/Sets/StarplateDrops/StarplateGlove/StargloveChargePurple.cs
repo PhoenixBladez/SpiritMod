@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starfall");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 30; 
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 30;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 		public override void SetDefaults()
@@ -30,16 +30,16 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 			projectile.timeLeft = 20;
 			projectile.ignoreWater = true;
 		}
-		
+
 		public override Color? GetAlpha(Color lightColor)
 		{
 			return Color.White;
 		}
-	
+
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Item10, projectile.position);
-			DustHelper.DrawStar(projectile.Center, 111, 5, 1.5f,1,1,1,0.5f,true);
+			DustHelper.DrawStar(projectile.Center, 111, 5, 1.5f, 1, 1, 1, 0.5f, true);
 		}
 		public override void AI()
 		{
@@ -49,17 +49,17 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 			else
 				projectile.spriteDirection = 1;
 			++projectile.ai[1];
-			bool flag2 = (double) Vector2.Distance(projectile.Center, player.Center) > (double) 0f && (double) projectile.Center.Y == (double) player.Center.Y;
-			if ((double) projectile.ai[1] >= (double) 30f && flag2)
+			bool flag2 = Vector2.Distance(projectile.Center, player.Center) > 0f && projectile.Center.Y == player.Center.Y;
+			if (projectile.ai[1] >= 30f && flag2)
 			{
 				projectile.ai[1] = 0.0f;
 			}
-			
+
 			float num = 3f;
-			for (int index1 = 0; (double)index1 < (double)num; ++index1)
+			for (int index1 = 0; index1 < num; ++index1)
 			{
-				int index2 = Dust.NewDust(projectile.position, 1, 1, 111, 0.0f, 0.0f, 0, Color.Purple, 1.8f);
-				Main.dust[index2].position = projectile.Center - projectile.velocity / num * 5f * (float)index1;
+				int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.Clentaminator_Cyan, 0.0f, 0.0f, 0, Color.Purple, 1.8f);
+				Main.dust[index2].position = projectile.Center - projectile.velocity / num * 5f * index1;
 				Main.dust[index2].velocity *= 0.0f;
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].alpha = 125;

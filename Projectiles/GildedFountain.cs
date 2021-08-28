@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles
 				vector267 *= 0.85f + (float)Main.rand.NextDouble() * 0.2f;
 				Vector2 spinningpoint18 = vector267;
 				double radians17 = (Main.rand.NextDouble() - 0.5) * 1.5707963705062866;
-				Vector2 vector333 = default(Vector2);
+				Vector2 vector333 = default;
 				vector267 = spinningpoint18.RotatedBy(radians17, vector333);
 				Vector2 position160 = projectile.position;
 				int width124 = projectile.width;

@@ -32,7 +32,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			for (int i = 0; i < 2; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 244, 0f, 0f, 0, default(Color), 1f);
+				int num = Dust.NewDust(new Vector2(x, y), 26, 26, DustID.CopperCoin, 0f, 0f, 0, default, 1f);
 				Main.dust[num].alpha = projectile.alpha;
 				Main.dust[num].position.X = x;
 				Main.dust[num].position.Y = y;
@@ -53,7 +53,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 
 			for (int num621 = 0; num621 < 20; num621++) {
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default(Color), 2f);
+				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.CopperCoin, 0f, 0f, 100, default, 2f);
 				Main.dust[num622].velocity *= 3f;
 				if (Main.rand.Next(2) == 0) {
 					Main.dust[num622].scale = 0.5f;
@@ -61,10 +61,10 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				}
 			}
 			for (int num623 = 0; num623 < 35; num623++) {
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default(Color), 3f);
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.CopperCoin, 0f, 0f, 100, default, 3f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 5f;
-				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default(Color), 2f);
+				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.CopperCoin, 0f, 0f, 100, default, 2f);
 				Main.dust[num624].velocity *= 2f;
 			}
 
@@ -76,25 +76,25 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				if (num625 == 2) {
 					scaleFactor10 = 1f;
 				}
-				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
+				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Gore expr_13AB6_cp_0 = Main.gore[num626];
 				expr_13AB6_cp_0.velocity.X = expr_13AB6_cp_0.velocity.X + 1f;
 				Gore expr_13AD6_cp_0 = Main.gore[num626];
 				expr_13AD6_cp_0.velocity.Y = expr_13AD6_cp_0.velocity.Y + 1f;
-				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
+				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Gore expr_13B79_cp_0 = Main.gore[num626];
 				expr_13B79_cp_0.velocity.X = expr_13B79_cp_0.velocity.X - 1f;
 				Gore expr_13B99_cp_0 = Main.gore[num626];
 				expr_13B99_cp_0.velocity.Y = expr_13B99_cp_0.velocity.Y + 1f;
-				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
+				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Gore expr_13C3C_cp_0 = Main.gore[num626];
 				expr_13C3C_cp_0.velocity.X = expr_13C3C_cp_0.velocity.X + 1f;
 				Gore expr_13C5C_cp_0 = Main.gore[num626];
 				expr_13C5C_cp_0.velocity.Y = expr_13C5C_cp_0.velocity.Y - 1f;
-				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
+				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Gore expr_13CFF_cp_0 = Main.gore[num626];
 				expr_13CFF_cp_0.velocity.X = expr_13CFF_cp_0.velocity.X - 1f;
@@ -123,7 +123,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 
 			for (int num621 = 0; num621 < 20; num621++) {
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default(Color), 2f);
+				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.CopperCoin, 0f, 0f, 100, default, 2f);
 				Main.dust[num622].velocity *= 3f;
 				if (Main.rand.Next(2) == 0) {
 					Main.dust[num622].scale = 0.5f;
@@ -132,10 +132,10 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			}
 
 			for (int num623 = 0; num623 < 35; num623++) {
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default(Color), 3f);
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.CopperCoin, 0f, 0f, 100, default, 3f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 5f;
-				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default(Color), 2f);
+				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.CopperCoin, 0f, 0f, 100, default, 2f);
 				Main.dust[num624].velocity *= 2f;
 			}
 
@@ -147,25 +147,25 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				if (num625 == 2) {
 					scaleFactor10 = 1f;
 				}
-				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
+				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Gore expr_13AB6_cp_0 = Main.gore[num626];
 				expr_13AB6_cp_0.velocity.X = expr_13AB6_cp_0.velocity.X + 1f;
 				Gore expr_13AD6_cp_0 = Main.gore[num626];
 				expr_13AD6_cp_0.velocity.Y = expr_13AD6_cp_0.velocity.Y + 1f;
-				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
+				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Gore expr_13B79_cp_0 = Main.gore[num626];
 				expr_13B79_cp_0.velocity.X = expr_13B79_cp_0.velocity.X - 1f;
 				Gore expr_13B99_cp_0 = Main.gore[num626];
 				expr_13B99_cp_0.velocity.Y = expr_13B99_cp_0.velocity.Y + 1f;
-				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
+				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Gore expr_13C3C_cp_0 = Main.gore[num626];
 				expr_13C3C_cp_0.velocity.X = expr_13C3C_cp_0.velocity.X + 1f;
 				Gore expr_13C5C_cp_0 = Main.gore[num626];
 				expr_13C5C_cp_0.velocity.Y = expr_13C5C_cp_0.velocity.Y - 1f;
-				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
+				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Gore expr_13CFF_cp_0 = Main.gore[num626];
 				expr_13CFF_cp_0.velocity.X = expr_13CFF_cp_0.velocity.X - 1f;

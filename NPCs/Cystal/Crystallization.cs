@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.NPCs.Cystal
 {
@@ -41,7 +42,7 @@ namespace SpiritMod.NPCs.Cystal
 		{
 			if (drawInfo.drawPlayer.GetModPlayer<CrystalDebuffPlayer>().crystallization) {
 				if (drawInfo.shadow == 0f) {
-					int index = Dust.NewDust(new Vector2(player.getRect().X, player.getRect().Y), player.getRect().Width, player.getRect().Height, 164, 0.0f, 0.0f, 0, new Color(), 1f);
+					int index = Dust.NewDust(new Vector2(player.getRect().X, player.getRect().Y), player.getRect().Width, player.getRect().Height, DustID.TeleportationPotion, 0.0f, 0.0f, 0, new Color(), 1f);
 					Main.dust[index].scale = 1.5f;
 					Main.dust[index].noGravity = true;
 					Main.dust[index].velocity *= 1.1f;

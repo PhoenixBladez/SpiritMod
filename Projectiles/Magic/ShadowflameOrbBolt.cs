@@ -57,7 +57,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 			for (float num2 = 0.0f; (double)num2 < 6; ++num2) {
-				int dustIndex = Dust.NewDust(projectile.position, 2, 2, DustID.ShadowbeamStaff, 0f, 0f, 0, default(Color), .6f);
+				int dustIndex = Dust.NewDust(projectile.position, 2, 2, DustID.ShadowbeamStaff, 0f, 0f, 0, default, .6f);
 				Main.dust[dustIndex].noGravity = true;
 				Main.dust[dustIndex].velocity = Vector2.Normalize(projectile.position.RotatedBy(Main.rand.NextFloat(MathHelper.TwoPi))) * 2.36f;
 			}

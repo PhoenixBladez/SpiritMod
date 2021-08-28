@@ -27,31 +27,23 @@ namespace SpiritMod.Items.Accessory.SeaSnailVenom
 			projectile.friendly = true;
 			projectile.timeLeft = 180;
 		}
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-			return false;
-		}
+		public override bool OnTileCollide(Vector2 oldVelocity) => false;
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
 		{
 			width = 8;
 			height = 8;
 			return true;
 		}
-		
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			target.AddBuff(70,60*4);
-		}
-		public override bool? CanCutTiles() 
-		{
-			return false;
-		}
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(70, 60 * 4);
+		public override bool? CanCutTiles() => false;
+
 		public override void AI()
 		{
 			Player player = Main.player[projectile.owner];
 			for (int index1 = 0; index1 < 2; ++index1)
 			{
-				int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + player.height - 34), player.width, 6, 171, 0.0f, 0.0f, 220, new Color(), 0.4f);
+				int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + player.height - 34), player.width, 6, DustID.Venom, 0.0f, 0.0f, 220, new Color(), 0.4f);
 				Main.dust[index2].fadeIn = 1f;
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity *= 0.2f;

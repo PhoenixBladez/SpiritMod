@@ -34,7 +34,6 @@ namespace SpiritMod.NPCs.DarkfeatherMage
 			npc.DeathSound = SoundID.DD2_GoblinBomberHurt;
 
 		}
-		int counter;
         float degrees = 0;
         float num384 = 0f;
         public override bool PreNPCLoot()
@@ -213,8 +212,8 @@ namespace SpiritMod.NPCs.DarkfeatherMage
                     for (int j = 0; j < 24; j++)
                     {
                         Vector2 vector2 = Vector2.UnitX * -npc.width / 2f;
-                        vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(16f, 16f);
-                        vector2 = Utils.RotatedBy(vector2, (npc.rotation - 1.57079637f), default(Vector2)) * 1.3f;
+                        vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default) * new Vector2(16f, 16f);
+                        vector2 = Utils.RotatedBy(vector2, (npc.rotation - 1.57079637f), default) * 1.3f;
                         int num8 = Dust.NewDust(new Vector2(npc.Center.X + 18 * npc.spriteDirection, npc.Center.Y + 12), 0, 0, DustID.Teleporter, 0f, 0f, 160, new Color(209, 255, 0), 1f);
                         Main.dust[num8].shader = GameShaders.Armor.GetSecondaryShader(67, Main.LocalPlayer);
                         Main.dust[num8].position = npc.Center + vector2;
@@ -276,8 +275,8 @@ namespace SpiritMod.NPCs.DarkfeatherMage
                     for (int j = 0; j < 24; j++)
                     {
                         Vector2 vector2 = Vector2.UnitX * -npc.width / 2f;
-                        vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(16f, 16f);
-                        vector2 = Utils.RotatedBy(vector2, (npc.rotation - 1.57079637f), default(Vector2)) * 1.3f;
+                        vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default) * new Vector2(16f, 16f);
+                        vector2 = Utils.RotatedBy(vector2, (npc.rotation - 1.57079637f), default) * 1.3f;
                         int num8 = Dust.NewDust(new Vector2(npc.Center.X + 21 * npc.spriteDirection, npc.Center.Y + 12), 0, 0, DustID.ChlorophyteWeapon, 0f, 0f, 160, new Color(209, 255, 0), .86f);
                         Main.dust[num8].shader = GameShaders.Armor.GetSecondaryShader(69, Main.LocalPlayer);
                         Main.dust[num8].position = new Vector2(npc.Center.X + 21 * npc.spriteDirection, npc.Center.Y + 12) + vector2;

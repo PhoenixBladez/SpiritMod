@@ -48,7 +48,7 @@ namespace SpiritMod.VerletChains
 			sB.Draw(Main.magicPixel, Vertex2.Position - Main.screenPosition, null, Color.White, rotation, new Vector2(0f, 0.5f), new Vector2(delta.Length(), 2f), SpriteEffects.None, 0);
 		}
 
-		public void Draw(SpriteBatch sB, Texture2D texture, Color color = default(Color))
+		public void Draw(SpriteBatch sB, Texture2D texture, Color color = default)
 		{
 			Vector2 delta = (Vertex1.Position - Vertex2.Position);
 			float rotation = (float)Math.Atan2(delta.Y, delta.X) + 1.57f;

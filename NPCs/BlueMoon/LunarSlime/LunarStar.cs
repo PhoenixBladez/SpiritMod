@@ -34,7 +34,7 @@ namespace SpiritMod.NPCs.BlueMoon.LunarSlime
 				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 				int num = 5;
 				for (int k = 0; k < 5; k++) {
-					int index2 = Dust.NewDust(projectile.position, 1, 1, 206, 0.0f, 0.0f, 0, new Color(), 1f);
+					int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.UnusedWhiteBluePurple, 0.0f, 0.0f, 0, new Color(), 1f);
 					Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
 					Main.dust[index2].scale = 1.6f;
 					Main.dust[index2].velocity *= 0f;
@@ -46,12 +46,12 @@ namespace SpiritMod.NPCs.BlueMoon.LunarSlime
 		}
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 3);
+			Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 3);
 			for (int i = 0; i < 16; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, 0f, -2f, 0, default(Color), .8f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, 0f, -2f, 0, default, .8f);
 				Main.dust[num].noGravity = true;
-				Dust expr_62_cp_0 = Main.dust[num];
-				expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+				Dust dust = Main.dust[num];
+				dust.position.X = dust.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
 				Dust expr_92_cp_0 = Main.dust[num];
 				expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
 				if (Main.dust[num].position != projectile.Center) {

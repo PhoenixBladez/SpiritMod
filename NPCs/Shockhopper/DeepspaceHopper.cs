@@ -78,8 +78,8 @@ namespace SpiritMod.NPCs.Shockhopper
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 12; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 226, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 226, 2.5f * hitDirection, -2.5f, 0, default, .34f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 2.5f * hitDirection, -2.5f, 0, default, .34f);
 			}
 			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hopper/Hopper1"));
@@ -87,7 +87,7 @@ namespace SpiritMod.NPCs.Shockhopper
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hopper/Hopper3"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hopper/Hopper4"));
 				for (int i = 0; i < 15; i++) {
-					Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 226, 0f, -2f, 0, default, 0.4f);
+					Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, DustID.Electric, 0f, -2f, 0, default, 0.4f);
 					dust.noGravity = true;
 					dust.position.X += (Main.rand.Next(-50, 51) / 20) - 1.5f;
 					dust.position.Y += (Main.rand.Next(-50, 51) / 20) - 1.5f;
@@ -159,7 +159,7 @@ namespace SpiritMod.NPCs.Shockhopper
 				if(Main.netMode != NetmodeID.Server) {
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 					for(int i = 0; i < 50; i++) {
-						Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 226, 0f, -2f, 0, default, 0.4f);
+						Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, DustID.Electric, 0f, -2f, 0, default, 0.4f);
 						dust.noGravity = true;
 						dust.position.X += (Main.rand.Next(-50, 51) / 20) - 1.5f;
 						dust.position.Y += (Main.rand.Next(-50, 51) / 20) - 1.5f;
@@ -181,7 +181,7 @@ namespace SpiritMod.NPCs.Shockhopper
 
 			// Spawn dust while waiting to shoot
 			if (Main.netMode != NetmodeID.Server && State == AIState.AIMING) {
-				Dust dust = Dust.NewDustDirect(npc.Center, npc.width, npc.height, 226);
+				Dust dust = Dust.NewDustDirect(npc.Center, npc.width, npc.height, DustID.Electric);
 				dust.velocity *= -1f;
 				dust.scale *= .8f;
 				dust.noGravity = true;

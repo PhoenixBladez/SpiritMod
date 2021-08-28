@@ -371,10 +371,10 @@ namespace SpiritMod.NPCs.Boss.Dusking
 		{
 			MyWorld.downedDusking = true;
 			for (int i = 0; i < 15; ++i) {
-				int newDust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Shadowflame, 0f, 0f, 100, default(Color), 2.5f);
+				int newDust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Shadowflame, 0f, 0f, 100, default, 2.5f);
 				Main.dust[newDust].noGravity = true;
 				Main.dust[newDust].velocity *= 5f;
-				newDust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Shadowflame, 0f, 0f, 100, default(Color), 1.5f);
+				newDust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Shadowflame, 0f, 0f, 100, default, 1.5f);
 				Main.dust[newDust].velocity *= 3f;
 			}
 			return true;

@@ -225,12 +225,12 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		{
 			if (Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0) {
 				for (int num621 = 0; num621 < 20; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Grass, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Grass, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
 					if (Main.rand.Next(2) == 0)
 						Main.dust[num622].scale = 0.5f;
 
-					int num623 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Grass, 0f, 0f, 100, default(Color), 2f);
+					int num623 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Grass, 0f, 0f, 100, default, 2f);
 					Main.dust[num623].velocity *= 3f;
 					if (Main.rand.Next(2) == 0)
 						Main.dust[num623].scale = 0.5f;
@@ -258,7 +258,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				Main.gore[a1].velocity = new Vector2(hitDirection * 2.5f, Main.rand.NextFloat(10f, 20f));
 			}
 			for (int k = 0; k < 12; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Plantera_Green, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Plantera_Green, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
 			}
 		}
 

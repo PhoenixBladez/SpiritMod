@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
             num *= projectile.scale;
             Lighting.AddLight(projectile.Center, 0.1f * num, 0.2f * num, 0.4f * num);
 
-            int num623 = Dust.NewDust(projectile.Center, 4, 4, 180, 0f, 0f, 0, default(Color), 1.8f);
+            int num623 = Dust.NewDust(projectile.Center, 4, 4, DustID.DungeonSpirit, 0f, 0f, 0, default, 1.8f);
             Main.dust[num623].velocity = projectile.velocity;
             Main.dust[num623].noGravity = true;
 
@@ -49,7 +49,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
 			Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
 			vector9 += value19 * 16f;
 			for (int num257 = 0; num257 < 24; num257++) {
-				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, 180, 0f, 0f, 0, default(Color), 1.2f);
+				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, DustID.DungeonSpirit, 0f, 0f, 0, default, 1.2f);
 				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
 				Main.dust[newDust].velocity += value19 * 2f;
 				Main.dust[newDust].velocity *= 0.5f;

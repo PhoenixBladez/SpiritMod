@@ -48,7 +48,7 @@ namespace SpiritMod.NPCs.GladiatorSpirit
 		{
 			int d = 54;
 			for (int k = 0; k < 10; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.27f);
+				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default, 0.27f);
 			}
 			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, 99);
@@ -88,7 +88,7 @@ namespace SpiritMod.NPCs.GladiatorSpirit
 				npc.velocity = Vector2.Zero;
 				npc.defense = 9999;
 				Vector2 vector2 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2((float)npc.height, (float)npc.height) * npc.scale * 1.85f / 2f;
-				int index = Dust.NewDust(npc.Center + vector2, 0, 0, 246, 0.0f, 0.0f, 0, new Color(), 1f);
+				int index = Dust.NewDust(npc.Center + vector2, 0, 0, DustID.GoldCoin, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index].position = npc.Center + vector2;
 				Main.dust[index].velocity = Vector2.Zero;
 			}

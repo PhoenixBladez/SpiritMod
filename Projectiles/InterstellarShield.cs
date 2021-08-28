@@ -66,7 +66,7 @@ namespace SpiritMod.Projectiles
 			float num8 = (float)player.miscCounter / 60f;
 			float num7 = 1.0471975512f * 2;
 			for (int i = 0; i < 3; i++) {
-				int num6 = Dust.NewDust(center, 0, 0, DustID.DungeonSpirit, 0f, 0f, 100, default(Color), 1.3f);
+				int num6 = Dust.NewDust(center, 0, 0, DustID.DungeonSpirit, 0f, 0f, 100, default, 1.3f);
 				Main.dust[num6].noGravity = true;
 				Main.dust[num6].velocity = Vector2.Zero;
 				Main.dust[num6].noLight = true;

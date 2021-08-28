@@ -81,9 +81,9 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 				Lighting.AddLight(projectile.Center, new Vector3(0.6f, 0.2f, 1f) * brightness);
                 for (int i = 0; i < 10; i++)
                 {
-                    float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
-                    float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-                    int num = Dust.NewDust(new Vector2(x, y), 2, 2, 173);
+                    float x = projectile.Center.X - projectile.velocity.X / 10f * i;
+                    float y = projectile.Center.Y - projectile.velocity.Y / 10f * i;
+                    int num = Dust.NewDust(new Vector2(x, y), 2, 2, DustID.ShadowbeamStaff);
                     Main.dust[num].alpha = projectile.alpha;
                     Main.dust[num].velocity = Vector2.Zero;
                     Main.dust[num].noGravity = true;

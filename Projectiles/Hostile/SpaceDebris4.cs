@@ -36,8 +36,8 @@ namespace SpiritMod.Projectiles.Hostile
 				projectile.localAI[0] = 0f;
 				for (int j = 0; j < 12; j++) {
 					Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
-					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
-					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2));
+					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default) * new Vector2(8f, 16f);
+					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default);
 					int num8 = Dust.NewDust(projectile.Center, 0, 0, DustID.Fire, 0f, 0f, 160, new Color(), 1f);
 					Main.dust[num8].scale = .48f;
 					Main.dust[num8].noGravity = true;
@@ -68,13 +68,13 @@ namespace SpiritMod.Projectiles.Hostile
 				if (num625 == 2)
 					scaleFactor10 = 1f;
 
-				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
+				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Gore expr_13AB6_cp_0 = Main.gore[num626];
 				expr_13AB6_cp_0.velocity.X = expr_13AB6_cp_0.velocity.X + 1f;
 				Gore expr_13AD6_cp_0 = Main.gore[num626];
 				expr_13AD6_cp_0.velocity.Y = expr_13AD6_cp_0.velocity.Y + 1f;
-				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
+				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Gore expr_13B79_cp_0 = Main.gore[num626];
 				expr_13B79_cp_0.velocity.X = expr_13B79_cp_0.velocity.X - 1f;
@@ -83,7 +83,7 @@ namespace SpiritMod.Projectiles.Hostile
 			}
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			for (int i = 0; i < 4; i++) {
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default(Color), 3f);
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 3f);
 				Main.dust[num624].velocity *= 0f;
 				Main.dust[num624].scale *= 0.3f;
 			}

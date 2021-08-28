@@ -98,13 +98,12 @@ namespace SpiritMod.NPCs.BlueMoon.Bloomshroom
 		{
 			Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 3);
 			for (int i = 0; i < 5; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 180, 0f, -2f, 0, default, .6f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.DungeonSpirit, 0f, -2f, 0, default, .6f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-				if (Main.dust[num].position != projectile.Center) {
+				if (Main.dust[num].position != projectile.Center)
 					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 5.5f;
-				}
 			}
 		}
 

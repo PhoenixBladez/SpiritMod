@@ -32,9 +32,9 @@ namespace SpiritMod.Projectiles.Magic
 			for (int i = 0; i < 10; i++) {
 				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.ShadowbeamStaff, 0f, -2f, 0, default, .9f);
 				Main.dust[num].noGravity = true;
-				Dust expr_62_cp_0 = Main.dust[num];
-				expr_62_cp_0.position.X += (Main.rand.Next(-10, 11) / 20) - 1.5f;
-				expr_62_cp_0.position.Y += (Main.rand.Next(-10, 11) / 20) - 1.5f;
+				Dust dust = Main.dust[num];
+				dust.position.X += (Main.rand.Next(-10, 11) / 20) - 1.5f;
+				dust.position.Y += (Main.rand.Next(-10, 11) / 20) - 1.5f;
 				if (Main.dust[num].position != projectile.Center) {
 					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 				}

@@ -34,10 +34,8 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 		}
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
-			{
-				int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 180);
-				Main.dust[dust].noGravity = true;
-			}
+			int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.DungeonSpirit);
+			Main.dust[dust].noGravity = true;
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{

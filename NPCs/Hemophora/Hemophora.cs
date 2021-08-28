@@ -75,7 +75,7 @@ namespace SpiritMod.NPCs.Hemophora
                     int p = Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -(npc.position.X - target.position.X) / distance * 4, -(npc.position.Y - target.position.Y) / distance * 4, type, (int)((npc.damage * .5)), 0);
                     for (int k = 0; k < 20; k++)
                     {
-                        int d = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, -(npc.position.X - target.position.X) / distance * 2, -(npc.position.Y - target.position.Y) / distance * 4, 0, default(Color), Main.rand.NextFloat(.65f, .85f));
+                        int d = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, -(npc.position.X - target.position.X) / distance * 2, -(npc.position.Y - target.position.Y) / distance * 4, 0, default, Main.rand.NextFloat(.65f, .85f));
                         Main.dust[d].fadeIn = 1f;
                         Main.dust[d].velocity *= .88f;
                         Main.dust[d].noGravity = true;
@@ -118,7 +118,7 @@ namespace SpiritMod.NPCs.Hemophora
             }
             for (int k = 0; k < 20; k++)
             {
-                int d = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection * 2.5f, -1f, 0, default(Color), Main.rand.NextFloat(.45f, .95f));
+                int d = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection * 2.5f, -1f, 0, default, Main.rand.NextFloat(.45f, .95f));
                 Main.dust[d].fadeIn = 1f;
                 Main.dust[d].noGravity = true;
             }

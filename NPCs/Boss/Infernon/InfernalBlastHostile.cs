@@ -36,7 +36,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			for (int i = 0; i < 16; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-				int num = Dust.NewDust(new Vector2(x, y), 26, 26, DustID.Fire, 0f, 0f, 0, default(Color), 1f);
+				int num = Dust.NewDust(new Vector2(x, y), 26, 26, DustID.Fire, 0f, 0f, 0, default, 1f);
 				Main.dust[num].alpha = projectile.alpha;
 				Main.dust[num].position.X = x;
 				Main.dust[num].position.Y = y;
@@ -78,7 +78,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 					}
 
 					float desiredRot = currentRot.AngleLerp(targetAngle, 0.1f);
-					projectile.velocity = new Vector2(projectile.velocity.Length(), 0f).RotatedBy(desiredRot, default(Vector2));
+					projectile.velocity = new Vector2(projectile.velocity.Length(), 0f).RotatedBy(desiredRot, default);
 				}
 			}
 			return true;
@@ -132,7 +132,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			for (int i = 4; i < 31; i++) {
 				float x = projectile.oldVelocity.X * (30f / i);
 				float y = projectile.oldVelocity.Y * (30f / i);
-				int newDust = Dust.NewDust(new Vector2(projectile.oldPosition.X - x, projectile.oldPosition.Y - y), 8, 8, DustID.Fire, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default(Color), 1.8f);
+				int newDust = Dust.NewDust(new Vector2(projectile.oldPosition.X - x, projectile.oldPosition.Y - y), 8, 8, DustID.Fire, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default, 1.8f);
 				Main.dust[newDust].noGravity = true;
 				Main.dust[newDust].velocity *= 0.5f;
 			}

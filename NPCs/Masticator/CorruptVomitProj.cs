@@ -31,7 +31,7 @@ namespace SpiritMod.NPCs.Masticator
 		{
 			projectile.rotation += 0.1f;
 			for (int i = 0; i < 4; i++) {
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 184, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.ScourgeOfTheCorruptor, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[dust].scale = Main.rand.NextFloat(.4f, .9f);
 				Main.dust[dust].noGravity = true;
 

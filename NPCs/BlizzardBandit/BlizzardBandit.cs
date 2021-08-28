@@ -142,7 +142,7 @@ namespace SpiritMod.NPCs.BlizzardBandit
                         direction.Y *= 8.5f;
                         float A = (float)Main.rand.Next(-50, 50) * 0.02f;
                         float B = (float)Main.rand.Next(-50, 50) * 0.02f;
-                        int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y, direction.X + A, direction.Y + B, 166, npc.damage / 3, 1, Main.myPlayer, 0, 0);
+                        int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y, direction.X + A, direction.Y + B, ProjectileID.SnowBallFriendly, npc.damage / 3, 1, Main.myPlayer, 0, 0);
                         Main.projectile[p].hostile = true;
                         Main.projectile[p].friendly = false;
                     }

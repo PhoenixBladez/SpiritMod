@@ -172,7 +172,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 		{
 			for (int i = 0; i < 10; i++)
 			{
-				int dust = Dust.NewDust(target.position, target.width, target.height, 226);
+				int dust = Dust.NewDust(target.position, target.width, target.height, DustID.Electric);
 				Main.dust[dust].scale = 0.8f;
 			}
 		}

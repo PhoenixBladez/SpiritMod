@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Sets.BismiteSet
 			name.SetDefault("Bismite Crystal");
 			AddMapEntry(new Color(30, 100, 25), name);
 			soundType = SoundID.Tink;
-			dustType = 167;
+			dustType = DustID.Plantera_Green;
 			Main.tileBlendAll[this.Type] = true;
 
 		}

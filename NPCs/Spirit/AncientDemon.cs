@@ -64,31 +64,31 @@ namespace SpiritMod.NPCs.Spirit
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 109, 0f, 0f, 100, default(Color), 1f);
+			Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Asphalt, 0f, 0f, 100, default, 1f);
 
 			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, 13);
 				Gore.NewGore(npc.position, npc.velocity, 12);
 				Gore.NewGore(npc.position, npc.velocity, 11);
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+				npc.position.X = npc.position.X + (npc.width / 2);
+				npc.position.Y = npc.position.Y + (npc.height / 2);
 				npc.width = 30;
 				npc.height = 30;
-				npc.position.X = npc.position.X - (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+				npc.position.X = npc.position.X - (npc.width / 2);
+				npc.position.Y = npc.position.Y - (npc.height / 2);
 				for (int num621 = 0; num621 < 20; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 109, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Asphalt, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
 					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
-						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+						Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
 					}
 				}
 				for (int num623 = 0; num623 < 40; num623++) {
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 109, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Asphalt, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 109, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Asphalt, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}

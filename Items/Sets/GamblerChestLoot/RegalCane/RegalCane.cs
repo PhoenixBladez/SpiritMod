@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.RegalCane
 		{
 			if (Main.rand.Next(20) == 0)
 			{
-				int index3 = Dust.NewDust(new Vector2(item.position.X, item.position.Y), item.width, item.height, 228, 0.0f, 0.0f, 150, new Color(), 0.3f);
+				int index3 = Dust.NewDust(new Vector2(item.position.X, item.position.Y), item.width, item.height, DustID.GoldFlame, 0.0f, 0.0f, 150, new Color(), 0.3f);
 				Main.dust[index3].fadeIn = 0.75f;
 				Dust dust = Main.dust[index3];
 				Vector2 vector2_2 = dust.velocity * 0.1f;

@@ -91,13 +91,13 @@ namespace SpiritMod.NPCs.Spirit
 
 		public override bool PreAI()
 		{
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.05f, 0.05f, 0.4f);
+			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.05f, 0.05f, 0.4f);
 			npc.TargetClosest(true);
 			Vector2 direction = Main.player[npc.target].Center - npc.Center;
 			npc.rotation = direction.ToRotation();
 			direction.Normalize();
 			npc.velocity *= 0.98f;
-			int dust2 = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, 206, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f);
+			int dust2 = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, DustID.UnusedWhiteBluePurple, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f);
 			Main.dust[dust2].noGravity = true;
 
 			if (frame == 0) {

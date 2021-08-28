@@ -105,13 +105,13 @@ namespace SpiritMod.Projectiles
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 			for (int num621 = 0; num621 < 10; num621++) {
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Electric, 0f, 0f, 100, default(Color), 1f);
+				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Electric, 0f, 0f, 100, default, 1f);
 				Main.dust[num622].velocity *= 1f;
 				Main.dust[num622].noGravity = true;
 
 			}
 			for (int num623 = 0; num623 < 15; num623++) {
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Electric, 0f, 0f, 100, default(Color), .31f);
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Electric, 0f, 0f, 100, default, .31f);
 				Main.dust[num624].velocity *= .5f;
 			}
 		}

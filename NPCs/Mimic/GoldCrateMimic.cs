@@ -64,7 +64,7 @@ namespace SpiritMod.NPCs.Mimic
 				if (Main.rand.Next(2) == 0) {
 					jump = false;
 					for (int i = 0; i < 20; i++) {
-						int dust = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, 191, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f);
+						int dust = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, DustID.SpookyWood, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f);
 						Main.dust[dust].noGravity = true;
 					}
 				}

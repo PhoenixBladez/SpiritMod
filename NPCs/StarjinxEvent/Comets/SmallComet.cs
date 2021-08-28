@@ -26,7 +26,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 
 		public float initialDistance = 0f;
 
-		private List<int> enemies = new List<int>();
+		private readonly List<int> enemies = new List<int>();
 		private bool spawnedEnemies = false;
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Small Starjinx Comet");

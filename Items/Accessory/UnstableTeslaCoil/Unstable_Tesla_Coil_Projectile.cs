@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Accessory.UnstableTeslaCoil
 					float PosX = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 					float PosY = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 					
-					int dustIndex = Dust.NewDust(new Vector2(PosX, PosY), 0, 0, DustID.Electric, 0f, 0f, 180, default(Color), 0.5f);
+					int dustIndex = Dust.NewDust(new Vector2(PosX, PosY), 0, 0, DustID.Electric, 0f, 0f, 180, default, 0.5f);
 					
 					Main.dust[dustIndex].position.X = PosX;
 					Main.dust[dustIndex].position.Y = PosY;

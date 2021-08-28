@@ -26,7 +26,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 		{
 			if (Main.rand.Next(1) == 0)
 			{
-				int index2 = Dust.NewDust(projectile.Center, 8, 8, 180, 0.0f, 0.0f, 0, new Color(), 1f);
+				int index2 = Dust.NewDust(projectile.Center, 8, 8, DustID.DungeonSpirit, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].position = projectile.Center;
 				Main.dust[index2].velocity = projectile.velocity;
 				Main.dust[index2].noGravity = true;

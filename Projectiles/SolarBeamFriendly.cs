@@ -80,7 +80,7 @@ namespace SpiritMod.Projectiles
 		public override void Kill(int timeLeft)
 		{
 			for (int num621 = 0; num621 < 5; num621++) {
-				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.CopperCoin, 0f, 0f, 100, default(Color), 2f);
+				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.CopperCoin, 0f, 0f, 100, default, 2f);
 			}
 		}
 	}

@@ -30,7 +30,7 @@ namespace SpiritMod.Projectiles
 			ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
 				delegate {
 					for (int num621 = 0; num621 < 40; num621++) {
-						int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, 0f, 0f, 100, default(Color), 2f);
+						int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, 0f, 0f, 100, default, 2f);
 						Main.dust[num622].velocity *= 3f;
 						if (Main.rand.Next(2) == 0) {
 							Main.dust[num622].scale = 0.5f;
@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles
 						int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.BubbleBlock, 0f, 0f, 100, default, 1f);
 						Main.dust[num624].noGravity = true;
 						Main.dust[num624].velocity *= 1.5f;
-						num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, 0f, 0f, 100, default(Color), 1f);
+						num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, 0f, 0f, 100, default, 1f);
 						Main.dust[num624].velocity *= 2f;
 					}
 				});

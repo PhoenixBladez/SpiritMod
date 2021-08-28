@@ -45,7 +45,7 @@ namespace SpiritMod.Items.Consumable
 				Main.refreshMap = true;
 			}
 			for (int k = 0; k < 10; k++) {
-				int dust = Dust.NewDust(player.Center, player.width, player.height, 263);
+				int dust = Dust.NewDust(player.Center, player.width, player.height, DustID.PortalBolt);
 				Main.dust[dust].velocity *= -1f;
 				Main.dust[dust].noGravity = true;
 				Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));

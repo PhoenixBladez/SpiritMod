@@ -111,9 +111,9 @@ namespace SpiritMod.NPCs.Boss.Atlas
 						direction.Normalize();
 						npc.velocity *= 0.99f;
 						if (Math.Sqrt((npc.velocity.X * npc.velocity.X) + (npc.velocity.Y * npc.velocity.Y)) >= 7f) {
-							int dust = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, 1, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f);
+							int dust = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, DustID.Stone, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f);
 							Main.dust[dust].noGravity = true;
-							dust = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, 1, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f);
+							dust = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, DustID.Stone, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f);
 							Main.dust[dust].noGravity = true;
 						}
 
@@ -186,7 +186,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 						int damageAmount = expertMode ? 54 : 62; //always account for expert damage values
 						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 92);
 						for (int num621 = 0; num621 < 30; num621++) {
-							Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default, 2f);
+							Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Electric, 0f, 0f, 100, default, 2f);
 						}
 						if (Main.netMode != NetmodeID.MultiplayerClient) {
 							for (int i = 0; i < amountOfProjectiles; ++i) {
@@ -241,7 +241,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 						float xnum2 = (npc.Center.X + 2);
 						float y = (npc.Center.Y - 160);
 						if (npc.direction == -1) {
-							int index2 = Dust.NewDust(new Vector2(x, y), 1, 1, 226, 0.0f, 0.0f, 0, new Color(), 1f);
+							int index2 = Dust.NewDust(new Vector2(x, y), 1, 1, DustID.Electric, 0.0f, 0.0f, 0, new Color(), 1f);
 							Main.dust[index2].position.X = x;
 							Main.dust[index2].position.Y = y;
 							Main.dust[index2].scale = .85f;
@@ -250,7 +250,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 							Main.dust[index2].noLight = false;
 						}
 						else if (npc.direction == 1) {
-							int index2 = Dust.NewDust(new Vector2(xnum2, y), 1, 1, 226, 0.0f, 0.0f, 0, new Color(), 1f);
+							int index2 = Dust.NewDust(new Vector2(xnum2, y), 1, 1, DustID.Electric, 0.0f, 0.0f, 0, new Color(), 1f);
 							Main.dust[index2].position.X = xnum2;
 							Main.dust[index2].position.Y = y;
 							Main.dust[index2].scale = .85f;
@@ -290,7 +290,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 1, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Stone, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0) {
 				npc.position = npc.Center;
@@ -298,7 +298,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 				npc.height = 500;
 				npc.position = npc.Center;
 				for (int num621 = 0; num621 < 200; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 1, 0f, 0f, 100, default, 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Stone, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
 					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
@@ -306,10 +306,10 @@ namespace SpiritMod.NPCs.Boss.Atlas
 					}
 				}
 				for (int num623 = 0; num623 < 400; num623++) {
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 1, 0f, 0f, 100, default, 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Stone, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 1, 0f, 0f, 100, default, 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Stone, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}

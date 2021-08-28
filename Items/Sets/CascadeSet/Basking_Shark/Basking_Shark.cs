@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Basking_Shark
 			item.useTime = 13;
 			item.width = 38;
 			item.height = 6;
-			item.shoot = 10;
+			item.shoot = ProjectileID.PurificationPowder;
 			item.damage = 8;
 			item.shootSpeed = 8f;
 			item.noMelee = true;

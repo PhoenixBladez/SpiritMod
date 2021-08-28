@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles.Hostile
 		{
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 			for (int i = 0; i < 4; i++) {
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default(Color), 3f);
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 3f);
 				Main.dust[num624].velocity *= 0f;
 				Main.dust[num624].scale *= 0.3f;
 			}

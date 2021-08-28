@@ -33,7 +33,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			for (int i = 0; i < 2; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-				int num = Dust.NewDust(new Vector2(x, y), 2, 2, 206);
+				int num = Dust.NewDust(new Vector2(x, y), 2, 2, DustID.UnusedWhiteBluePurple);
 				Main.dust[num].alpha = projectile.alpha;
 				Main.dust[num].velocity = Vector2.Zero;
 				Main.dust[num].noGravity = true;
@@ -48,7 +48,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 
 			for (int num621 = 0; num621 < 15; num621++) {
-				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 206, 0f, 0f, 100, default(Color), 2f);
+				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, 0f, 0f, 100, default, 2f);
 			}
 		}
 		public override Color? GetAlpha(Color lightColor)

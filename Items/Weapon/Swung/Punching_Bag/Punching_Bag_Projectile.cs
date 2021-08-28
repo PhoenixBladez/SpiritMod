@@ -103,13 +103,13 @@ namespace SpiritMod.Items.Weapon.Swung.Punching_Bag
 		
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 3);
+			Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 3);
 			Vector2 vector9 = projectile.position;
 			Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
 			vector9 += value19 * 16f;
 			for (int num257 = 0; num257 < 20; num257++)
 			{
-				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, 178, 0f, 0f, 0, default(Color), 1f);
+				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, DustID.BubbleBurst_Green, 0f, 0f, 0, default, 1f);
 				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
 				Main.dust[newDust].velocity += value19 * 2f;
 				Main.dust[newDust].velocity *= 0.5f;
@@ -120,7 +120,7 @@ namespace SpiritMod.Items.Weapon.Swung.Punching_Bag
 			{
 				float num1 = projectile.oldVelocity.X * (10f / (float) index1);
 				float num2 = projectile.oldVelocity.Y * (10f / (float) index1);
-				int index2 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num1, projectile.oldPosition.Y - num2), 8, 8, 178, projectile.oldVelocity.X, projectile.oldVelocity.Y, 200, new Color(), 2f);
+				int index2 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num1, projectile.oldPosition.Y - num2), 8, 8, DustID.BubbleBurst_Green, projectile.oldVelocity.X, projectile.oldVelocity.Y, 200, new Color(), 2f);
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity *= 0.8f;
 			}
@@ -131,17 +131,17 @@ namespace SpiritMod.Items.Weapon.Swung.Punching_Bag
 			{
 				float num1 = projectile.oldVelocity.X * (10f / (float) index1);
 				float num2 = projectile.oldVelocity.Y * (10f / (float) index1);
-				int index2 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num1, projectile.oldPosition.Y - num2), 8, 8, 178, projectile.oldVelocity.X, projectile.oldVelocity.Y, 200, new Color(), 2f);
+				int index2 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num1, projectile.oldPosition.Y - num2), 8, 8, DustID.BubbleBurst_Green, projectile.oldVelocity.X, projectile.oldVelocity.Y, 200, new Color(), 2f);
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity *= 0.8f;
 			}
-			Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 3);
+			Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 3);
 			Vector2 vector9 = projectile.position;
 			Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
 			vector9 += value19 * 16f;
 			for (int num257 = 0; num257 < 20; num257++)
 			{
-				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, 178, 0f, 0f, 0, default(Color), 1f);
+				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, DustID.BubbleBurst_Green, 0f, 0f, 0, default, 1f);
 				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
 				Main.dust[newDust].velocity += value19 * 2f;
 				Main.dust[newDust].velocity *= 0.5f;

@@ -53,17 +53,17 @@ namespace SpiritMod.NPCs.BlueMoon.LunarSlime
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 8; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 206, hitDirection, -1f, 0, default(Color), 1.4f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedWhiteBluePurple, hitDirection, -1f, 0, default, 1.4f);
 			}
 			if (npc.life <= 0) {
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+				npc.position.X = npc.position.X + (npc.width / 2);
+				npc.position.Y = npc.position.Y + (npc.height / 2);
 				npc.width = 30;
 				npc.height = 30;
-				npc.position.X = npc.position.X - (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+				npc.position.X = npc.position.X - (npc.width / 2);
+				npc.position.Y = npc.position.Y - (npc.height / 2);
 				for (int num621 = 0; num621 < 100; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 206, 0f, 0f, 100, default(Color), 1.1f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.UnusedWhiteBluePurple, 0f, 0f, 100, default, 1.1f);
 					Main.dust[num622].velocity *= 3f;
 				}
 				float ScaleMult = 2.33f;

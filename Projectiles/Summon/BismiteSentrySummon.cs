@@ -83,7 +83,7 @@ namespace SpiritMod.Projectiles.Summon
 					{
 						for (int i = 0; i < 10; i++)
 						{
-							int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Plantera_Green, 0f, -2f, 0, default(Color), 1.5f);
+							int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Plantera_Green, 0f, -2f, 0, default, 1.5f);
 							Main.dust[num].noGravity = true;
 							Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 							Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -113,7 +113,7 @@ namespace SpiritMod.Projectiles.Summon
 					{
 						for (int i = 0; i < 10; i++)
 						{
-							int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Plantera_Green, 0f, -2f, 0, default(Color), 1.5f);
+							int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Plantera_Green, 0f, -2f, 0, default, 1.5f);
 							Main.dust[num].noGravity = true;
 							Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 							Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -169,7 +169,7 @@ namespace SpiritMod.Projectiles.Summon
 		{
 			Main.PlaySound(SoundID.DD2_WitherBeastHurt, (int)projectile.position.X, (int)projectile.position.Y);
 			for (int i = 0; i < 10; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Plantera_Green, 0f, -2f, 0, default(Color), 1.5f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Plantera_Green, 0f, -2f, 0, default, 1.5f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;

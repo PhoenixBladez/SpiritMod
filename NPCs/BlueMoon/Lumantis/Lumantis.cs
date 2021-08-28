@@ -43,13 +43,13 @@ namespace SpiritMod.NPCs.BlueMoon.Lumantis
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 11; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 187, hitDirection, -1f, 1, default(Color), .81f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 205, hitDirection, -1f, 1, default(Color), .51f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Flare_Blue, hitDirection, -1f, 1, default, .81f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.VenomStaff, hitDirection, -1f, 1, default, .51f);
 			}
 			if (npc.life <= 0) {
 				for (int k = 0; k < 11; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, 187, hitDirection, -1f, 1, default(Color), .81f);
-					Dust.NewDust(npc.position, npc.width, npc.height, 205, hitDirection, -1f, 1, default(Color), .71f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Flare_Blue, hitDirection, -1f, 1, default, .81f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.VenomStaff, hitDirection, -1f, 1, default, .71f);
 				}
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Lumantis/Lumantis1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Lumantis/Lumantis2"), 1f);
@@ -127,7 +127,7 @@ namespace SpiritMod.NPCs.BlueMoon.Lumantis
 			Vector2 vec = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
 			Vector2 vel = vec * Main.rand.NextFloat(minSpeed, maxSpeed);
 
-			int dust = Dust.NewDust(position - vec * distance, 0, 0, 205);
+			int dust = Dust.NewDust(position - vec * distance, 0, 0, DustID.VenomStaff);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust].scale *= .6f;
 			Main.dust[dust].velocity = vel;

@@ -43,8 +43,8 @@ namespace SpiritMod.NPCs.Tides
 			if (!summoned) {
 				for (int j = 0; j < 12; j++) {
 					Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
-					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
-					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2));
+					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default) * new Vector2(8f, 16f);
+					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default);
 					int num8 = Dust.NewDust(projectile.Center, 0, 0, DustID.WitherLightning, 0f, 0f, 160, new Color(), 1f);
 					// Main.dust[num8].scale = .48f;
 					Main.dust[num8].noGravity = true;

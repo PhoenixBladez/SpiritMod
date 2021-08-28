@@ -162,7 +162,7 @@ namespace SpiritMod.NPCs.Beholder
 						float B = (float)Main.rand.Next(-50, 50) * 0.02f;
 						int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y + 20, direction.X + A, direction.Y + B, ProjectileID.Fireball, damage, 1, Main.myPlayer, 0, 0);
 						for (int k = 0; k < 11; k++) {
-							Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, direction.X + A, direction.Y + B, 0, default(Color), .61f);
+							Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, direction.X + A, direction.Y + B, 0, default, .61f);
 						}
 						Main.projectile[p].hostile = true;
 					}

@@ -74,9 +74,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				Main.gore[a1].velocity = new Vector2(projectile.direction * 2.5f, Main.rand.NextFloat(10f, 20f));
 			}
 			for (int k = 0; k < 12; k++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 167, 2.5f * projectile.direction, -2.5f, 0, default(Color), 0.7f);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Plantera_Green, 2.5f * projectile.direction, -2.5f, 0, default, 0.7f);
 			}
 		}
-
 	}
 }

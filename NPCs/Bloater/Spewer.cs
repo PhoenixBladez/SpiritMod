@@ -176,7 +176,7 @@ namespace SpiritMod.NPCs.Bloater
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 23; k++)
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection * 1.5f, -1f, 0, default(Color), .91f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection * 1.5f, -1f, 0, default, .91f);
 			if (npc.life <= 0) {
 				Main.PlaySound(SoundID.NPCKilled, npc.Center, 30);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Spewer/Spewer1"), 1f);

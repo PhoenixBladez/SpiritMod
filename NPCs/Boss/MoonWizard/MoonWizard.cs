@@ -329,8 +329,8 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		{
             for (int k = 0; k < 20; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.27f);
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Granite, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.87f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 2.5f * hitDirection, -2.5f, 0, default, 0.27f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Granite, 2.5f * hitDirection, -2.5f, 0, default, 0.87f);
             }
 			if (npc.life < 100)
             {

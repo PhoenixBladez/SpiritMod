@@ -66,7 +66,7 @@ namespace SpiritMod.Projectiles
 			vector207 /= 2f;
 			Vector2 value112 = Vector2.UnitY.RotatedByRandom(6.2831854820251465) * vector207;
 			Vector2 position178 = projectile.Center + value112;
-			int num1442 = Dust.NewDust(position178, 0, 0, DustID.Electric, 0f, 0f, 0, default(Color), .5f);
+			int num1442 = Dust.NewDust(position178, 0, 0, DustID.Electric, 0f, 0f, 0, default, .5f);
 			Main.dust[num1442].position = projectile.Center + value112;
 			Main.dust[num1442].velocity = Vector2.Zero;
 			Main.dust[num1442].noGravity = true;

@@ -47,7 +47,7 @@ namespace SpiritMod.NPCs.Critters
 			}
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, npc.direction, -1f, 1, default(Color), .61f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, npc.direction, -1f, 1, default, .61f);
 			}
 		}
 

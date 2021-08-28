@@ -60,9 +60,7 @@ namespace SpiritMod.Items.Weapon.Summon.WyvernStaff
 		readonly int width = 50;
 
 		double radians = 0;
-        int flickerTime = 0;
         float alphaCounter = 0;
-		readonly int chargeTime = 50;
         bool released = false;
 
 		Projectile head;

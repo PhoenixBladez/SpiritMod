@@ -69,10 +69,10 @@ namespace SpiritMod.Projectiles.Hostile
                 Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ItemID.FallenStar, 1, false, 0, false, false);
             }            
             for (int i = 0; i < 20; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.GoldCoin, 0f, -2f, 0, default(Color), 1.13f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.GoldCoin, 0f, -2f, 0, default, 1.13f);
 				Main.dust[num].noGravity = true;
-				Dust expr_62_cp_0 = Main.dust[num];
-				expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-30, 31) / 20) - 1.5f);
+				Dust dust = Main.dust[num];
+				dust.position.X = dust.position.X + ((float)(Main.rand.Next(-30, 31) / 20) - 1.5f);
 				Dust expr_92_cp_0 = Main.dust[num];
 				expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-30, 31) / 20) - 1.5f);
 				if (Main.dust[num].position != projectile.Center) {
@@ -88,13 +88,13 @@ namespace SpiritMod.Projectiles.Hostile
 					scaleFactor10 = 1f;
 				}
 
-				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
+				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Gore expr_13AB6_cp_0 = Main.gore[num626];
 				expr_13AB6_cp_0.velocity.X = expr_13AB6_cp_0.velocity.X + 1f;
 				Gore expr_13AD6_cp_0 = Main.gore[num626];
 				expr_13AD6_cp_0.velocity.Y = expr_13AD6_cp_0.velocity.Y + 1f;
-				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
+				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Gore expr_13B79_cp_0 = Main.gore[num626];
 				expr_13B79_cp_0.velocity.X = expr_13B79_cp_0.velocity.X - 1f;

@@ -84,7 +84,7 @@ namespace SpiritMod.Projectiles
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 
-				int num2121 = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter / 4.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, DustID.Flare_Blue, 0f, 0f, 0, default(Color), 1f);
+				int num2121 = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter / 4.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, DustID.Flare_Blue, 0f, 0f, 0, default, 1f);
 				Main.dust[num2121].velocity *= 0f;
 				Main.dust[num2121].scale *= .75f;
 				Main.dust[num2121].noGravity = true;

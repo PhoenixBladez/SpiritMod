@@ -24,7 +24,7 @@ namespace SpiritMod.Projectiles.Pet
 
 		public override bool PreAI()
 		{
-			int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Clentaminator_Green, 0, -1f, 0, default(Color), 1f);
+			int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Clentaminator_Green, 0, -1f, 0, default, 1f);
 			Main.dust[d].scale *= 0.5f;
 			Main.dust[d].noGravity = true;
 			Lighting.AddLight((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f), 0.75f/2, 1.5f/2, 0.75f/2);

@@ -37,19 +37,17 @@ namespace SpiritMod.Items.Sets.SwordsMisc.EternalSwordTree
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(4) == 0) {
+			if (Main.rand.Next(4) == 0)
 				target.AddBuff(BuffID.CursedInferno, 180);
-			}
 		}
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
+			if (Main.rand.Next(5) == 0)
 			{
-				if (Main.rand.Next(5) == 0) {
-					int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 173);
-					Main.dust[dust].velocity *= 0f;
-					Main.dust[dust].scale = 1.5f;
-					Main.dust[dust].noGravity = true;
-				}
+				int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.ShadowbeamStaff);
+				Main.dust[dust].velocity *= 0f;
+				Main.dust[dust].scale = 1.5f;
+				Main.dust[dust].noGravity = true;
 			}
 		}
 		public override void AddRecipes()
