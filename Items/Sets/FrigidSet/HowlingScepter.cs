@@ -44,7 +44,7 @@ namespace SpiritMod.Items.Sets.FrigidSet
 				Vector2 offset = mouse - player.position;
 				offset.Normalize();
 				offset *= 51f;
-				int dust = Dust.NewDust(projectile.Center + offset, projectile.width, projectile.height, 68);
+				int dust = Dust.NewDust(projectile.Center + offset, projectile.width, projectile.height, DustID.BlueCrystalShard);
 
 				Main.dust[dust].velocity *= -1f;
 				Main.dust[dust].noGravity = true;

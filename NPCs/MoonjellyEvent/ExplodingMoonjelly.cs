@@ -64,19 +64,14 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 			npc.frame.Y = frame * frameHeight;
 		}
         bool aggro = false;
-        int tremorItem;
 		float alphaCounter;
 		public override void AI()
         {
             alphaCounter += .04f;
             if (npc.Distance(Main.player[npc.target].Center) <= 450 || npc.life < npc.lifeMax)
-            {
                 aggro = true;
-            }
 			else
-            {
                 aggro = false;
-            }
             if (!aggro)
             {
                 aiType = NPCID.Firefly;

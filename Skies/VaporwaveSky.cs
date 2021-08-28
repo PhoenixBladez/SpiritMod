@@ -10,7 +10,6 @@ namespace SpiritMod.Skies
 	{
 		private bool isActive = false;
 		private float intensity = 0f;
-		private int AtlasIndex = -1;
 
 		public override void Update(GameTime gameTime)
 		{			
@@ -21,16 +20,9 @@ namespace SpiritMod.Skies
 				intensity -= 0.0035f;
 			}
 		}
-		private float GetIntensity()
-		{
-			return 1f - Utils.SmoothStep(1000f, 6000f, 200f);
-		}
-		public override Color OnTileColor(Color inColor)
-		{
-			return new Color(Vector4.Lerp(new Vector4(0.68f, 0.29f, 1f, 1f), inColor.ToVector4(), 1f - intensity));
-		}
 
-
+		private float GetIntensity() => 1f - Utils.SmoothStep(1000f, 6000f, 200f);
+		public override Color OnTileColor(Color inColor) => new Color(Vector4.Lerp(new Vector4(0.68f, 0.29f, 1f, 1f), inColor.ToVector4(), 1f - intensity));
 
 		public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
 		{
@@ -39,29 +31,10 @@ namespace SpiritMod.Skies
 			}
 		}
 
-		public override float GetCloudAlpha()
-		{
-			return 0f;
-		}
-
-		public override void Activate(Vector2 position, params object[] args)
-		{
-			isActive = true;
-		}
-
-		public override void Deactivate(params object[] args)
-		{
-			isActive = false;
-		}
-
-		public override void Reset()
-		{
-			isActive = false;
-		}
-
-		public override bool IsActive()
-		{
-			return isActive || intensity > 0f;
-		}
+		public override float GetCloudAlpha() => 0f;
+		public override void Activate(Vector2 position, params object[] args) => isActive = true;
+		public override void Deactivate(params object[] args) => isActive = false;
+		public override void Reset() => isActive = false;
+		public override bool IsActive() => isActive || intensity > 0f;
 	}
 }

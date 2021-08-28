@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Bullet
 			for (int i = 0; i < 10; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 60);
+				int num = Dust.NewDust(new Vector2(x, y), 26, 26, DustID.RedTorch);
 				Main.dust[num].position.X = x;
 				Main.dust[num].position.Y = y;
 				Main.dust[num].velocity = Vector2.Zero;

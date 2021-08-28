@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 			Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockBack, 0, 0.0f, 0.0f);
 			for (float num2 = 0.0f; (double)num2 < 10; ++num2)
 			{
-				int dustIndex = Dust.NewDust(position, 2, 2, 54, 0f, 0f, 0, default(Color), 1f);
+				int dustIndex = Dust.NewDust(position, 2, 2, DustID.Wraith, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[dustIndex].noGravity = true;
 				Main.dust[dustIndex].velocity = Vector2.Normalize(spawnPlace.RotatedBy(Main.rand.NextFloat(MathHelper.TwoPi))) * 1.6f;
 			}

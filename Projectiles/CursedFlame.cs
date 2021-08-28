@@ -1,5 +1,6 @@
 using SpiritMod.Buffs;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles
@@ -27,7 +28,7 @@ namespace SpiritMod.Projectiles
 			for (int i = 0; i < 50; ++i) {
 				projectile.tileCollide = false;
 				int dust;
-				dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 61, 0f, 0f);
+				dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.GreenTorch, 0f, 0f);
 				Main.dust[dust].scale = 3f;
 				Main.dust[dust].noGravity = true;
 			}

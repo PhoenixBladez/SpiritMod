@@ -30,7 +30,7 @@ namespace SpiritMod.Projectiles.Arrow
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++) {
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 173);
+				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.ShadowbeamStaff);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].velocity = Vector2.Zero;
 				Main.dust[dust].scale = 1.2f;
@@ -40,7 +40,7 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void AI()
 		{
-			int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 173);
+			int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.ShadowbeamStaff);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust].velocity = Vector2.Zero;
 			Main.dust[dust].scale = 1.9f;

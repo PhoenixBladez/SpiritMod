@@ -9,14 +9,13 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
 {
 	public class MysticSkyMoonZapper : ModProjectile
 	{
-		float distance = 8;
-		int rotationalSpeed = 4;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Moon Zapper");
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
+
 		public override void SetDefaults()
 		{
 			projectile.penetrate = 1;
@@ -30,9 +29,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
 			projectile.width = projectile.height = 32;
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-
 		}
+
         float alphaCounter;
+
 		public override void AI()
         {
             alphaCounter += 0.04f;

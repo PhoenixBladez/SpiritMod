@@ -34,7 +34,7 @@ namespace SpiritMod.Projectiles.Summon
             int num = 5;
             for (int k = 0; k < 6; k++)
             {
-                int index2 = Dust.NewDust(projectile.position, 1, 1, 226, 0.0f, 0.0f, 0, new Color(), .8f);
+                int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.Electric, 0.0f, 0.0f, 0, new Color(), .8f);
                 Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
                 Main.dust[index2].scale = .5f;
                 Main.dust[index2].velocity *= 0f;
@@ -60,7 +60,7 @@ namespace SpiritMod.Projectiles.Summon
         {
             for (int i = 0; i < 10; i++)
             {
-                int num = Dust.NewDust(target.position, target.width, target.height, 226, 0f, -2f, 0, default(Color), 1.952f);
+                int num = Dust.NewDust(target.position, target.width, target.height, DustID.Electric, 0f, -2f, 0, default(Color), 1.952f);
                 Main.dust[num].noGravity = true;
                 Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
                 Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;

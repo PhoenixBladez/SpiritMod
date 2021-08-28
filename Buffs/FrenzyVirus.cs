@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Buffs
 {
@@ -18,7 +19,7 @@ namespace SpiritMod.Buffs
 			npc.defense = npc.defDefense / 100 * 92;
 			npc.lifeRegen -= 14;
 
-			Dust.NewDust(npc.position, npc.width, npc.height, 173);
+			Dust.NewDust(npc.position, npc.width, npc.height, DustID.ShadowbeamStaff);
 		}
 	}
 }

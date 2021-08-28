@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using System;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles.Flail
 {
@@ -55,7 +56,7 @@ namespace SpiritMod.Projectiles.Flail
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			for (int i = 0; i < 20; i++) {
-				int num = Dust.NewDust(target.position, target.width, target.height, 199, 0f, -2f, 0, default(Color), 2f);
+				int num = Dust.NewDust(target.position, target.width, target.height, DustID.Butterfly, 0f, -2f, 0, default(Color), 2f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -67,7 +68,7 @@ namespace SpiritMod.Projectiles.Flail
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			for (int i = 0; i < 20; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 199, 0f, -2f, 0, default(Color), 2f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Butterfly, 0f, -2f, 0, default(Color), 2f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -86,7 +87,7 @@ namespace SpiritMod.Projectiles.Flail
 		}
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(0, projectile.Center);
+			Main.PlaySound(SoundID.Dig, projectile.Center);
 		}
 	}
 }

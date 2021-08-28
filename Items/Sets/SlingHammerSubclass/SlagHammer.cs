@@ -16,8 +16,6 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 			Tooltip.SetDefault("Hold down and release to throw the Hammer like a boomerang");
 		}
 
-
-		private Vector2 newVect;
 		public override void SetDefaults()
 		{
 			item.useStyle = 100;
@@ -38,7 +36,9 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ModContent.ProjectileType<SlagHammerProj>();
 		}
+
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0 && player.ownedProjectileCounts[ModContent.ProjectileType<SlagHammerProjReturning>()] == 0;
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

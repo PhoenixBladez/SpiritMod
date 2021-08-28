@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 6);
 			for (int i = 0; i < 2; i++) {
-				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);
+				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Flare_Blue);
 				Main.dust[d].noGravity = true;
 			}
 
@@ -50,7 +50,7 @@ namespace SpiritMod.Projectiles.Magic
 
 			for (int i = 0; i < 5; i++) {
 				Vector2 vector2 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2((float)projectile.height, (float)projectile.height) * projectile.scale * 1.45f / 2f;
-				int index = Dust.NewDust(projectile.Center + vector2, 0, 0, 187, 0.0f, 0.0f, 0, new Color(), 1f);
+				int index = Dust.NewDust(projectile.Center + vector2, 0, 0, DustID.Flare_Blue, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index].position = projectile.Center + vector2;
 				Main.dust[index].velocity = Vector2.Zero;
 				Main.dust[index].noGravity = true;

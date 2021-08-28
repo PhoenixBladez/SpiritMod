@@ -31,8 +31,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
             projectile.scale = 1.5f;
 			aiType = ProjectileID.Bullet;
 		}
-		int timer;
-		int colortimer;
+
 		public override bool PreAI()
 		{
             projectile.velocity *= 1.01f;
@@ -41,22 +40,11 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
             Lighting.AddLight(projectile.Center, 0.1f * num, 0.2f * num, 0.4f * num);
             projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
 
-            int num623 = Dust.NewDust(projectile.Center - projectile.velocity / 5, 4, 4, 180, 0f, 0f, 0, default(Color), 1.8f);
+            int num623 = Dust.NewDust(projectile.Center - projectile.velocity / 5, 4, 4, DustID.DungeonSpirit, 0f, 0f, 0, default(Color), 1.8f);
             Main.dust[num623].velocity = projectile.velocity;
             Main.dust[num623].noGravity = true;
 			if (projectile.timeLeft < 55)
-            {
                 projectile.tileCollide = true;
-            }
-
-			/*if (projectile.timeLeft == 35)
-			{
-				NPC parent = Main.npc[(int)projectile.ai[0]];
-				Vector2 direction = Main.player[parent.target].Center - projectile.Center;
-				direction.Normalize();
-				direction *= projectile.velocity.Length();
-				projectile.velocity = direction;
-			}*/
 
             Player player = Main.player[projectile.owner];
             Vector2 center = projectile.Center;
@@ -68,11 +56,11 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
                 {
                     for (int j = 0; j < 2; j++)
                     {
-                        int num6 = Dust.NewDust(center, 0, 0, 180, 0f, 0f, 100, default(Color), .85f);
+                        int num6 = Dust.NewDust(center, 0, 0, DustID.DungeonSpirit, 0f, 0f, 100, default, .85f);
                         Main.dust[num6].noGravity = true;
                         Main.dust[num6].velocity = Vector2.Zero;
                         Main.dust[num6].noLight = true;
-                        Main.dust[num6].position = center - projectile.velocity / 5 * (float)j + (num8 * 6.28318548f + num7 * (float)i).ToRotationVector2() * 9f;
+                        Main.dust[num6].position = center - projectile.velocity / 5 * j + (num8 * 6.28318548f + num7 * i).ToRotationVector2() * 9f;
                     }
                 }
             }
@@ -83,35 +71,35 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
 			Vector2 vector9 = projectile.position;
 			Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
 			vector9 += value19 * 16f;
-			for (int num257 = 0; num257 < 24; num257++) {
-				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, 180, 0f, 0f, 0, default(Color), 1.2f);
+			for (int num257 = 0; num257 < 24; num257++)
+			{
+				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, DustID.DungeonSpirit, 0f, 0f, 0, default, 1.2f);
 				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
 				Main.dust[newDust].velocity += value19 * 2f;
 				Main.dust[newDust].velocity *= 0.5f;
 				Main.dust[newDust].noGravity = true;
 				vector9 -= value19 * 8f;
 			}
-            if (projectile.minion)
-            {
-                ProjectileExtras.Explode(projectile.whoAmI, 60, 60, delegate
-                {
-                    Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 3));
-                    {
-                        for (int i = 0; i < 10; i++)
-                        {
-                            int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 180, 0f, -2f, 0, default(Color), 2f);
-                            Main.dust[num].noGravity = true;
-                            Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-                            Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-                            Main.dust[num].scale *= .25f;
-                            if (Main.dust[num].position != projectile.Center)
-                                Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
-                        }
-                    }
-                    DustHelper.DrawDustImage(projectile.Center, 226, 0.15f, "SpiritMod/Effects/DustImages/MoonSigil", 1f);
-                }, true);
-            }
-        }
+			if (projectile.minion)
+			{
+				ProjectileExtras.Explode(projectile.whoAmI, 60, 60, delegate
+				{
+					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 3));
+					for (int i = 0; i < 10; i++)
+					{
+						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.DungeonSpirit, 0f, -2f, 0, default(Color), 2f);
+						Main.dust[num].noGravity = true;
+						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+						Main.dust[num].scale *= .25f;
+						if (Main.dust[num].position != projectile.Center)
+							Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
+					}
+					DustHelper.DrawDustImage(projectile.Center, 226, 0.15f, "SpiritMod/Effects/DustImages/MoonSigil", 1f);
+				}, true);
+			}
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
@@ -122,6 +110,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
 			}
 			return false;
 		}
+
         public void AdditiveCall(SpriteBatch spriteBatch)
         {
             for (int k = 0; k < projectile.oldPos.Length; k++)

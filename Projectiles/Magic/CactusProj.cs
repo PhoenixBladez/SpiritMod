@@ -103,7 +103,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++) {
-				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 39);
+				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.JungleGrass);
 				Main.dust[d].scale *= 0.8f;
 			}
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);

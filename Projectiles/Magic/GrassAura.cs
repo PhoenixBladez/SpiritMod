@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles.Magic
 {
@@ -29,7 +30,7 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			projectile.tileCollide = false;
 			int dust = Dust.NewDust(projectile.position + projectile.velocity,
-				projectile.width, projectile.height, 107);
+				projectile.width, projectile.height, DustID.TerraBlade);
 			Main.dust[dust].scale = 1.5f;
 			Main.dust[dust].noGravity = true;
 			return true;

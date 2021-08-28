@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles.Arrow
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 2; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 93);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Moss_Green);
 			}
 		}
 

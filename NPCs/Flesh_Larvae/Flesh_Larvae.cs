@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.NPCs.Flesh_Larvae
 {
@@ -316,10 +317,6 @@ namespace SpiritMod.NPCs.Flesh_Larvae
 			{
 				int index1 = (int)(((double)npc.position.X + (double)(npc.width / 2) + (double)(15 * npc.direction)) / 16.0);
 				int index2 = (int)(((double)npc.position.Y + (double)npc.height - 15.0) / 16.0);
-				if (npc.type == 109 || npc.type == 163 || (npc.type == 164 || npc.type == 199) || (npc.type == 236 || npc.type == 239 || (npc.type == 257 || npc.type == 258)) || (npc.type == 290 || npc.type == 391 || (npc.type == 425 || npc.type == 427) || (npc.type == 426 || npc.type == 508 || (npc.type == 415 || npc.type == 530))) || npc.type == 532)
-				{
-					index1 = (int)(((double)npc.position.X + (double)(npc.width / 2) + (double)((npc.width / 2 + 16) * npc.direction)) / 16.0);
-				}
 
 				if (Main.tile[index1, index2] == null)
 				{
@@ -363,7 +360,7 @@ namespace SpiritMod.NPCs.Flesh_Larvae
 
 				Main.tile[index1, index2 + 1].halfBrick();
 				int spriteDirection = npc.spriteDirection;
-				if (npc.type == 425)
+				if (npc.type == NPCID.VortexRifleman)
 				{
 					spriteDirection *= -1;
 				}
@@ -393,7 +390,7 @@ namespace SpiritMod.NPCs.Flesh_Larvae
 						npc.velocity.Y = -8f;
 						npc.netUpdate = true;
 					}
-					else if (npc.directionY < 0 && npc.type != 67 && (!Main.tile[index1, index2 + 1].nactive() || !Main.tileSolid[(int)Main.tile[index1, index2 + 1].type]) && (!Main.tile[index1 + npc.direction, index2 + 1].nactive() || !Main.tileSolid[(int)Main.tile[index1 + npc.direction, index2 + 1].type]))
+					else if (npc.directionY < 0 && npc.type != NPCID.Crab && (!Main.tile[index1, index2 + 1].nactive() || !Main.tileSolid[(int)Main.tile[index1, index2 + 1].type]) && (!Main.tile[index1 + npc.direction, index2 + 1].nactive() || !Main.tileSolid[(int)Main.tile[index1 + npc.direction, index2 + 1].type]))
 					{
 						npc.velocity.Y = -8f;
 						npc.velocity.X *= 1.5f;
@@ -421,9 +418,9 @@ namespace SpiritMod.NPCs.Flesh_Larvae
 			}
 			for (int k = 0; k < 7; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, 2.5f * hitDirection, -2.5f, 0, default(Color), 1.2f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.5f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default(Color), 1.2f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.5f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
 			}
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

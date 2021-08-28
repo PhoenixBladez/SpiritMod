@@ -59,7 +59,6 @@ namespace SpiritMod.NPCs.Undead_Warlock
 			if (projectile.timeLeft < 260)
 			{
 				SpriteEffects spriteEffects = SpriteEffects.None;
-				float addY = 0.0f;
 				float addHeight = -4f;
 				float addWidth = 0f;
 				Vector2 vector2_3 = new Vector2((float) (Main.projectileTexture[projectile.type].Width / 2), (float) (Main.projectileTexture[projectile.type].Height / 1 / 2));
@@ -137,7 +136,7 @@ namespace SpiritMod.NPCs.Undead_Warlock
 				Main.gore[index4].velocity.X += (float) Main.rand.Next(-10, 11) * 0.1f;
 				Main.gore[index4].velocity.Y += (float) Main.rand.Next(-10, 11) * 0.1f;			
 			}
-			Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 3, 1f, 0f);
+			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 3, 1f, 0f);
 	
 			Vector2 spinningpoint = new Vector2(0f, -3f).RotatedByRandom(3.14159274101257);
 			float num1 = (float) 14*projectile.scale;
@@ -145,7 +144,7 @@ namespace SpiritMod.NPCs.Undead_Warlock
 			Vector2 vector2 = new Vector2(1.1f, 1f);
 			for (float num2 = 0.0f; (double) num2 < (double) num1; ++num2)
 			{
-				int dustIndex = Dust.NewDust(projectile.Center, 0, 0, 173, 0.0f, 0.0f, 0, new Color(), 1f);
+				int dustIndex = Dust.NewDust(projectile.Center, 0, 0, DustID.ShadowbeamStaff, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[dustIndex].position = projectile.Center;
 				Main.dust[dustIndex].velocity = spinningpoint.RotatedBy(6.28318548202515 * (double) num2 / (double) num1, new Vector2()) * vector2 * (float) (0.800000011920929 + (double) Main.rand.NextFloat() * 0.400000005960464) * 2f;
 				Main.dust[dustIndex].noGravity = true;
@@ -157,7 +156,7 @@ namespace SpiritMod.NPCs.Undead_Warlock
 			}
 			for (float ag = 0.0f; (double) ag < (double) num5; ++ag)
 			{
-				int dustIndex = Dust.NewDust(projectile.Center, 0, 0, 157, 0.0f, 0.0f, 0, new Color(), 1f);
+				int dustIndex = Dust.NewDust(projectile.Center, 0, 0, DustID.ChlorophyteWeapon, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[dustIndex].position = projectile.Center;
 				Main.dust[dustIndex].velocity = spinningpoint.RotatedBy(6.28318548202515 * (double) ag / (double) num5, new Vector2()) * vector2 * (float) (0.800000011920929 + (double) Main.rand.NextFloat() * 0.400000005960464);
 				Main.dust[dustIndex].noGravity = true;

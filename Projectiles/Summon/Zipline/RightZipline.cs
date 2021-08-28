@@ -10,7 +10,7 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 	public class RightZipline : ModProjectile
 	{
 		Vector2 direction9 = Vector2.Zero;
-		int timer = 0;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Right Zipline");
@@ -28,11 +28,13 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 			projectile.alpha = 0;
 			projectile.tileCollide = true;
 		}
+
 		bool chain = false;
 		int leftValue;
 		int distance = 9999;
 		bool stuck = false;
 		float alphaCounter;
+
 		public override bool PreAI()
 		{
 			alphaCounter += 0.04f;
@@ -71,7 +73,7 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 			Vector2 vec = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
 			Vector2 vel = vec * Main.rand.NextFloat(minSpeed, maxSpeed);
 
-			int dust = Dust.NewDust(position - vec * distance, 0, 0, 226);
+			int dust = Dust.NewDust(position - vec * distance, 0, 0, DustID.Electric);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust].scale *= .26f;
 			Main.dust[dust].velocity = vel;

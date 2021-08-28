@@ -32,11 +32,11 @@ namespace SpiritMod.Projectiles.Magic
 		public override bool PreAI()
 		{
 			projectile.tileCollide = true;
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 16, 0f, 0f);
+			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Cloud, 0f, 0f);
 			Main.dust[dust].scale = 1.2f;
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust].velocity *= 0f;
-			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 16, 0f, 0f); //to make some with gravity to fly all over the place :P
+			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Cloud, 0f, 0f); //to make some with gravity to fly all over the place :P
 
 			projectile.velocity.Y += projectile.ai[0];
 			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
@@ -52,7 +52,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			projectile.Kill();
-			Dust.NewDust(projectile.position + projectile.velocity * 0, projectile.width, projectile.height, 16, projectile.oldVelocity.X * 0, projectile.oldVelocity.Y * 0);
+			Dust.NewDust(projectile.position + projectile.velocity * 0, projectile.width, projectile.height, DustID.Cloud, projectile.oldVelocity.X * 0, projectile.oldVelocity.Y * 0);
 			return false;
 		}
 
@@ -61,7 +61,7 @@ namespace SpiritMod.Projectiles.Magic
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 			for (int i = 0; i < 20; i++)
 			{
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 16, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Cloud, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
 			}
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

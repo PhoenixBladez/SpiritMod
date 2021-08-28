@@ -30,8 +30,8 @@ namespace SpiritMod.Projectiles
 		{
 			float rotationSpeed = (float)Math.PI / 15;
 			projectile.rotation += rotationSpeed;
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 109, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 109, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Asphalt, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Asphalt, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust2].noGravity = true;
 			Main.dust[dust].velocity *= 0f;

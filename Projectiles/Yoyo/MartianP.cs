@@ -39,7 +39,7 @@ namespace SpiritMod.Projectiles.Yoyo
 				Main.projectile[proj].friendly = true;
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].velocity *= 7f;
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 226);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric);
 			}
 		}
 

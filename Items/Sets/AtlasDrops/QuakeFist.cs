@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Sets.AtlasDrops
 
 
 		private Vector2 newVect;
-		int charger;
+
 		public override void SetDefaults()
 		{
 			item.damage = 67;
@@ -53,7 +53,6 @@ namespace SpiritMod.Items.Sets.AtlasDrops
 					newVect = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(82, 1800) / 10));
 				}
 				int proj2 = Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, type, damage, knockBack, player.whoAmI);
-				Projectile newProj2 = Main.projectile[proj2];
 			}
 			for (int i = 0; i < 3; ++i) {
 				if (Main.rand.Next(6) == 0) {

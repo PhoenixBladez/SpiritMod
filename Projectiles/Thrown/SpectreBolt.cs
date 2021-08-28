@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles.Thrown
 {
@@ -56,16 +57,14 @@ namespace SpiritMod.Projectiles.Thrown
 			}
 
 			//Spawn the dust
-			if (Main.rand.Next(5) == 0) {
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 206, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			}
+			if (Main.rand.Next(5) == 0)
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			for (int k = 0; k < 19; k++) {
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 206, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-			}
+			for (int k = 0; k < 19; k++)
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

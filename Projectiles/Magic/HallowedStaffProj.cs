@@ -10,7 +10,6 @@ namespace SpiritMod.Projectiles.Magic
 {
 	public class HallowedStaffProj : ModProjectile, ITrailProjectile
 	{
-		readonly int target;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hallowed Mageblade");
@@ -51,7 +50,6 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void AI()
 		{
-
 			timer++;
 			if (timer <= 50) {
 				colortimer++;
@@ -141,13 +139,7 @@ namespace SpiritMod.Projectiles.Magic
 			}
 			return false;
 		}
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-			return true;
-		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return new Color(60 + colortimer, 60 + colortimer, 60 + colortimer, 100);
-		}
+
+		public override Color? GetAlpha(Color lightColor) => new Color(60 + colortimer, 60 + colortimer, 60 + colortimer, 100);
 	}
 }

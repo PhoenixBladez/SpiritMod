@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.NPCs.Undead_Warlock
 {
@@ -85,7 +86,7 @@ namespace SpiritMod.NPCs.Undead_Warlock
 			Vector2 range = vector3 - vector1;
 			for (int i = 0; i < 12; i++)
 			{
-				Dust dust = Main.dust[Dust.NewDust(vector1 + range * Main.rand.NextFloat() + Vector2.Zero, 1, 1, 157)];
+				Dust dust = Main.dust[Dust.NewDust(vector1 + range * Main.rand.NextFloat() + Vector2.Zero, 1, 1, DustID.ChlorophyteWeapon)];
 				dust.noGravity = true;
 				dust.noLight = false;
 				dust.velocity = range * 0.01f;

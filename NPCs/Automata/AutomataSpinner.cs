@@ -53,8 +53,8 @@ namespace SpiritMod.NPCs.Automata
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 20; k++) {
-	            Dust.NewDust(npc.position, npc.width, npc.height, 19, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
-				 Dust.NewDust(npc.position, npc.width, npc.height, 54, 2.5f * hitDirection, -2.5f, 0, default, Main.rand.NextFloat(.45f, .55f));
+	            Dust.NewDust(npc.position, npc.width, npc.height, DustID.Sunflower, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
+				 Dust.NewDust(npc.position, npc.width, npc.height, DustID.Wraith, 2.5f * hitDirection, -2.5f, 0, default, Main.rand.NextFloat(.45f, .55f));
 			}
             if (npc.life <= 0) {
                 Main.PlaySound(new LegacySoundStyle(4, 6).WithPitchVariance(0.2f), npc.Center);
@@ -78,7 +78,7 @@ namespace SpiritMod.NPCs.Automata
 			direction.Normalize();
 
 			if (timer == 300 && Main.netMode != NetmodeID.MultiplayerClient) {
-				Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 4);
+				Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 4);
                 Main.PlaySound(SoundID.DD2_GoblinBomberThrow, (int)npc.position.X, (int)npc.position.Y);
 				npc.netUpdate = true;
 			}

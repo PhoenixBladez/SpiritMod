@@ -38,33 +38,38 @@ namespace SpiritMod.NPCs.Critters
 			npc.frame.Y = frame * frameHeight;
 		}
 
-        public override void AI()
-        {
-            npc.spriteDirection = npc.direction;
-        }
+		public override void AI()
+		{
+			npc.spriteDirection = npc.direction;
+		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0) {
+			if (npc.life <= 0)
+			{
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SawtoothSharkGore"), 1f);
 			}
-			for (int k = 0; k < 11; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, npc.direction, -1f, 1, default(Color), .91f);
-				}
+			for (int k = 0; k < 11; k++)
+			{
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, npc.direction, -1f, 1, default(Color), .91f);
+			}
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if(Main.rand.NextBool(4)) {
+			if (Main.rand.NextBool(4))
+			{
 				target.AddBuff(BuffID.Bleeding, 200);
 			}
 		}
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(2) == 1) {
+			if (Main.rand.Next(2) == 1)
+			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawFish>(), 1);
 			}
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SharkFin, 1);
-			
-			if (Main.rand.Next(2) == 1) {
+
+			if (Main.rand.Next(2) == 1)
+			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SawtoothShark, 1);
 			}
 		}

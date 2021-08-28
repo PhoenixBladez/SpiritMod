@@ -40,9 +40,7 @@ namespace SpiritMod.Projectiles.Arrow
 		}
 
 		float num;
-        bool escaped = false;
-        Color colorField;
-        bool checkColor = false;
+
         public override void AI()
 		{
 			if (projectile.timeLeft >= 199)
@@ -131,13 +129,12 @@ namespace SpiritMod.Projectiles.Arrow
                 }
             }
         }
-        public override Color? GetAlpha(Color lightColor)
-		{
-            return Color.Orange;
-		}
+
+		public override Color? GetAlpha(Color lightColor) => Color.Orange;
+
 		public override void Kill (int timLeft)
         {
-            Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 3);
+            Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 3);
 
             for (int k = 0; k < 18; k++)
             {

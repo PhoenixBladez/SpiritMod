@@ -23,7 +23,7 @@ namespace SpiritMod.Projectiles.Pet
 
 		public override bool PreAI()
 		{
-			int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 226, 0, -1f, 0, default(Color), 1f);
+			int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, 0, -1f, 0, default(Color), 1f);
 			Main.dust[d].scale *= 0.5f;
 
 			Player player = Main.player[projectile.owner];

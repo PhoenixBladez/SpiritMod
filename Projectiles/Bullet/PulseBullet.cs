@@ -28,7 +28,6 @@ namespace SpiritMod.Projectiles.Bullet
 
 		}
 
-		int timer = 1;
 		public override void AI()
 		{
 			Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 0.3F, 0.06F, 0.01F);
@@ -37,7 +36,7 @@ namespace SpiritMod.Projectiles.Bullet
 			for (int i = 0; i < 2; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-				int num = Dust.NewDust(new Vector2(x, y), 2, 2, 235);
+				int num = Dust.NewDust(new Vector2(x, y), 2, 2, DustID.LifeDrain);
 				Main.dust[num].alpha = projectile.alpha;
 				Main.dust[num].velocity = Vector2.Zero;
 				Main.dust[num].noGravity = true;
@@ -46,17 +45,12 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void Kill(int timeLeft)
 		{
-			int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height,
-				235, 0f, 0f, 100, default(Color), 3f);
+			int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.LifeDrain, 0f, 0f, 100, default(Color), 3f);
 			Main.dust[num624].velocity = Vector2.Zero;
 			Main.dust[num624].scale *= 0.3f;
 			Main.dust[num624].noGravity = true;
 		}
 
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return Color.White;
-		}
-
+		public override Color? GetAlpha(Color lightColor) => Color.White;
 	}
 }

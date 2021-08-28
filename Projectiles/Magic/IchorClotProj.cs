@@ -28,9 +28,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void AI()
 		{
-			int dust = Dust.NewDust(projectile.position + projectile.velocity,
-				projectile.width, projectile.height,
-				5, Main.rand.Next(-3, 3), Main.rand.Next(-3, 3));
+			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Blood, Main.rand.Next(-3, 3), Main.rand.Next(-3, 3));
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust].scale = 2f;
 			projectile.frameCounter++;

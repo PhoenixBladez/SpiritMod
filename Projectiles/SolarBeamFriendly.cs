@@ -67,7 +67,7 @@ namespace SpiritMod.Projectiles
 					Vector2 vector33 = projectile.position;
 					vector33 -= projectile.velocity * ((float)num447 * 0.25f);
 					projectile.alpha = 255;
-					int num448 = Dust.NewDust(vector33, 1, 1, 244, 0f, 0f, 0, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.25f);
+					int num448 = Dust.NewDust(vector33, 1, 1, DustID.CopperCoin, 0f, 0f, 0, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.25f);
 					Main.dust[num448].noGravity = true;
 					Main.dust[num448].position = vector33;
 					Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
@@ -80,7 +80,7 @@ namespace SpiritMod.Projectiles
 		public override void Kill(int timeLeft)
 		{
 			for (int num621 = 0; num621 < 5; num621++) {
-				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default(Color), 2f);
+				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.CopperCoin, 0f, 0f, 100, default(Color), 2f);
 			}
 		}
 	}

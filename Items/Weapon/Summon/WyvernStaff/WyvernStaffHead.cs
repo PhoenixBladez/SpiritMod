@@ -34,11 +34,10 @@ namespace SpiritMod.Items.Weapon.Summon.WyvernStaff
 		public int deathCounter;
 		public override void AI()
 		{
-			Player player = Main.player[projectile.owner];
 			deathCounter--;
 			if (deathCounter == 1)
 			{
-				Main.PlaySound(4, projectile.Center, 8);
+				Main.PlaySound(SoundID.NPCKilled, projectile.Center, 8);
 				Gore.NewGore(projectile.Center, projectile.velocity, Main.rand.Next(11, 13), 1f);
 				projectile.active = false;
 			}

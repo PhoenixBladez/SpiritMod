@@ -72,7 +72,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 			
 			for (int i = 0; i < 20; i++)
 			{
-				int dustIndex = Dust.NewDust(usePos, projectile.width, projectile.height, 85, 0f, 0f, 0, default(Color), 1f);
+				int dustIndex = Dust.NewDust(usePos, projectile.width, projectile.height, DustID.UnusedBrown, 0f, 0f, 0, default(Color), 1f);
 				Dust currentDust = Main.dust[dustIndex]; 
 				currentDust.position = (currentDust.position + projectile.Center) / 2f;
 				currentDust.velocity += rotVector * 2f;

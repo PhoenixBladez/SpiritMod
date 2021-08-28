@@ -102,16 +102,13 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 3);
 			for (int index = 0; index < 8; ++index)
 			{
-				int i = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 86, 0.0f, 0.0f, 0, Color.Purple, 1f);
+				int i = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.AmethystBolt, 0.0f, 0.0f, 0, Color.Purple, 1f);
 				Main.dust[i].noGravity = true;
 			}
 
 		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return new Color(200, 200, 200, 100);
-        }        
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 100);
+		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
             Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, (projectile.height / Main.projFrames[projectile.type]) * 0.5f);
 

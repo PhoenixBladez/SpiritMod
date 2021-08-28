@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles
 {
@@ -27,7 +28,7 @@ namespace SpiritMod.Projectiles
 		public override bool PreAI()
 		{
 			projectile.tileCollide = false;
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 109, 0f, 0f);
+			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Asphalt, 0f, 0f);
 			Main.dust[dust].scale = 1.5f;
 			Main.dust[dust].noGravity = true;
 			return true;

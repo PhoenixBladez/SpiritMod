@@ -34,7 +34,7 @@ namespace SpiritMod.Projectiles.Bullet
 					Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
 					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
 					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2)) * 1.3f;
-					int num8 = Dust.NewDust(projectile.Center, 0, 0, 27, 0f, 0f, 160, new Color(), 1f);
+					int num8 = Dust.NewDust(projectile.Center, 0, 0, DustID.Shadowflame, 0f, 0f, 160, new Color(), 1f);
 					Main.dust[num8].scale = 1.5f;
 					Main.dust[num8].noGravity = true;
 					Main.dust[num8].position = projectile.Center + vector2;
@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles.Bullet
             {
                 float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
                 float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-                int num = Dust.NewDust(new Vector2(x, y), 2, 2, 27);
+                int num = Dust.NewDust(new Vector2(x, y), 2, 2, DustID.Shadowflame);
                 Main.dust[num].alpha = projectile.alpha;
                 Main.dust[num].velocity = Vector2.Zero;
                 Main.dust[num].noGravity = true;
@@ -59,7 +59,7 @@ namespace SpiritMod.Projectiles.Bullet
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
 
 			for (int num383 = 0; num383 < 5; num383++) {
-				int num384 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 75);
+				int num384 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.CursedTorch);
 				Main.dust[num384].noGravity = true;
 				Main.dust[num384].velocity *= 1.5f;
 				Main.dust[num384].scale *= 0.9f;

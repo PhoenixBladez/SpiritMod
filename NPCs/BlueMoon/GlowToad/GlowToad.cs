@@ -14,8 +14,6 @@ namespace SpiritMod.NPCs.BlueMoon.GlowToad
 		//TODO:
 		//Get animation
 		//smoother head rotation
-		int timer = 0;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Glow Toad");
@@ -37,32 +35,24 @@ namespace SpiritMod.NPCs.BlueMoon.GlowToad
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 11; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 187, hitDirection, -1f, 1, default(Color), .81f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 205, hitDirection, -1f, 1, default(Color), .51f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Flare_Blue, hitDirection, -1f, 1, default(Color), .81f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.VenomStaff, hitDirection, -1f, 1, default(Color), .51f);
 			}
 			if (npc.life <= 0) {
 				for (int k = 0; k < 11; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, 187, hitDirection, -1f, 1, default(Color), .81f);
-					Dust.NewDust(npc.position, npc.width, npc.height, 205, hitDirection, -1f, 1, default(Color), .71f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Flare_Blue, hitDirection, -1f, 1, default(Color), .81f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.VenomStaff, hitDirection, -1f, 1, default(Color), .71f);
 				}
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GlowToad/GlowToad1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GlowToad/GlowToad2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GlowToad/GlowToad3"), 1f);
 			}
 		}
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return MyWorld.BlueMoon && NPC.CountNPCS(ModContent.NPCType<GlowToad>()) < 4 && spawnInfo.player.ZoneOverworldHeight ? .6f : 0f;
-		}
-		public override void SendExtraAI(BinaryWriter writer)
-		{
-			writer.Write(tongueOut);
-		}
 
-		public override void ReceiveExtraAI(BinaryReader reader)
-		{
-			tongueOut = reader.ReadBoolean();
-		}
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => MyWorld.BlueMoon && NPC.CountNPCS(ModContent.NPCType<GlowToad>()) < 4 && spawnInfo.player.ZoneOverworldHeight ? .6f : 0f;
+		public override void SendExtraAI(BinaryWriter writer) => writer.Write(tongueOut);
+		public override void ReceiveExtraAI(BinaryReader reader) => tongueOut = reader.ReadBoolean();
+
 		bool tongueOut = false;
 		bool mouthOpen = false;
 		float headRotation;
@@ -85,9 +75,7 @@ namespace SpiritMod.NPCs.BlueMoon.GlowToad
 			if (tongueOut)
 			{
 				if (tongueProj == -1)
-				{
 					tongueProj = Projectile.NewProjectile(offset + dir * 5, dir * 30, ModContent.ProjectileType<GlowToadTongue>(), 100, 0, player.whoAmI, npc.whoAmI, offset.Y);
-				}
 				else if (!Main.projectile[tongueProj].active)
 				{
 					tongueProj = -1;
@@ -122,14 +110,10 @@ namespace SpiritMod.NPCs.BlueMoon.GlowToad
 				direction = npc.direction;
 				headRotation = dir.ToRotation();
 				if (npc.direction == -1)
-				{
 					headRotation += 3.14f;
-				}
 			}
 			else
-			{
 				npc.direction = direction;
-			}
 
 			tongueStuff(player, dir);
 		}

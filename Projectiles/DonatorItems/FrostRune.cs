@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		public override bool PreAI()
 		{
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Flare_Blue, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			Main.dust[dust].scale = 1f;
 			Main.dust[dust].noGravity = true;
 
@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 20; i++) {
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Flare_Blue, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			}
 		}
 

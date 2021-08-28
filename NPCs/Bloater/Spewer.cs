@@ -65,7 +65,7 @@ namespace SpiritMod.NPCs.Bloater
 				}
 			}
 			if (Main.rand.NextFloat() < 0.131579f) {
-				int d = Dust.NewDust(npc.position, npc.width, npc.height + 10, 5, 0, 1f, 0, new Color(), 0.7f);
+				int d = Dust.NewDust(npc.position, npc.width, npc.height + 10, DustID.Blood, 0, 1f, 0, new Color(), 0.7f);
 				Main.dust[d].velocity *= .1f;
 			}
 			if (npc.ai[1] == 80 && distance < 240) {
@@ -176,7 +176,7 @@ namespace SpiritMod.NPCs.Bloater
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 23; k++)
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection * 1.5f, -1f, 0, default(Color), .91f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection * 1.5f, -1f, 0, default(Color), .91f);
 			if (npc.life <= 0) {
 				Main.PlaySound(SoundID.NPCKilled, npc.Center, 30);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Spewer/Spewer1"), 1f);

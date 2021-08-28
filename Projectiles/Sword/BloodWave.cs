@@ -49,7 +49,7 @@ namespace SpiritMod.Projectiles.Sword
 			Lighting.AddLight(projectile.Center, 0.3f * num, 0.2f * num, 0.1f * num);
 			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
 
-			int num12 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 235, 0f, -2f, 0, default(Color), 2f);
+			int num12 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.LifeDrain, 0f, -2f, 0, default(Color), 2f);
 			Main.dust[num12].noGravity = true;
 			Main.dust[num12].velocity *= 0f;
 			Main.dust[num12].scale *= 0.5f;
@@ -65,7 +65,7 @@ namespace SpiritMod.Projectiles.Sword
 			Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
 			vector9 += value19 * 16f;
 			for (int num257 = 0; num257 < 20; num257++) {
-				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, 235, 0f, 0f, 0, default(Color), 1f);
+				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, DustID.LifeDrain, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
 				Main.dust[newDust].velocity += value19 * 2f;
 				Main.dust[newDust].velocity *= 0.5f;

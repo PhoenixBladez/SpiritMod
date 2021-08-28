@@ -30,7 +30,7 @@ namespace SpiritMod.Projectiles.Bullet
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 
 			projectile.tileCollide = true;
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 172);
+			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.DungeonWater);
 			Main.dust[dust].scale = 1.5f;
 			Main.dust[dust].velocity = Vector2.Zero;
 			Main.dust[dust].noGravity = true;
@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles.Bullet
 				delegate {
 					for (int i = 0; i < 40; i++) {
 						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height,
-							172, 0f, -2f, 0, default(Color), 2f);
+							DustID.DungeonWater, 0f, -2f, 0, default(Color), 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;

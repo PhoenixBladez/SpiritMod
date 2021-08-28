@@ -35,8 +35,7 @@ namespace SpiritMod.NPCs.Hemophora
             {
                 float x = projectile.Center.X - projectile.velocity.X / 10f;
                 float y = projectile.Center.Y - projectile.velocity.Y / 10f;
-                int num623 = Dust.NewDust(new Vector2(x, y), 4, 4,
-                    5, 0f, 0f, 0, default(Color), .7f);
+                int num623 = Dust.NewDust(new Vector2(x, y), 4, 4, DustID.Blood, 0f, 0f, 0, default(Color), .7f);
                 Main.dust[num623].velocity *= .12f;
                 Main.dust[num623].noGravity = true;
                 Main.dust[num623].fadeIn = .8f;
@@ -64,7 +63,7 @@ namespace SpiritMod.NPCs.Hemophora
         {
             for (int i = 0; i < 20; i++)
             {
-                int d = Dust.NewDust(projectile.Center, 20, 20, 5, projectile.velocity.X * 1.15f, projectile.velocity.Y * 1f, 0, default(Color), Main.rand.NextFloat(.45f, 1.15f));
+                int d = Dust.NewDust(projectile.Center, 20, 20, DustID.Blood, projectile.velocity.X * 1.15f, projectile.velocity.Y * 1f, 0, default(Color), Main.rand.NextFloat(.45f, 1.15f));
                 Main.dust[d].noGravity = true;
             }
         }

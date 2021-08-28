@@ -37,7 +37,7 @@ namespace SpiritMod.Projectiles.Arrow
 		public override void AI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, 206);
+			Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple);
 		}
 
 		public override void Kill(int timeLeft)
@@ -45,10 +45,10 @@ namespace SpiritMod.Projectiles.Arrow
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 
 			for (int num623 = 0; num623 < 20; num623++) {
-				int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206);
+				int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 1.5f;
-				num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206);
+				num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple);
 				Main.dust[num624].velocity *= 2f;
 			}
 		}

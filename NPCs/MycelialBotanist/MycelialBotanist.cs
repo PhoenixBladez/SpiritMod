@@ -70,10 +70,9 @@ namespace SpiritMod.NPCs.MycelialBotanist
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			int d1 = 129;
 			for (int k = 0; k < 30; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.3f, 1.1f));
-				Dust.NewDust(npc.position, npc.width, npc.height, 42, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.3f, 1.1f));
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Rope, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.3f, 1.1f));
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Harpy, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.3f, 1.1f));
 			}
 			//Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 45, 1f, 0f);
 			if (npc.life <= 0) {

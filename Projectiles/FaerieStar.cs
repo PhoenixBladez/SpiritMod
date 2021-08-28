@@ -18,7 +18,6 @@ namespace SpiritMod.Projectiles
 
 		}
 
-		int timer = 0;
 		public override void SetDefaults()
 		{
 			projectile.friendly = true;
@@ -58,15 +57,12 @@ namespace SpiritMod.Projectiles
                 }
             }
         }
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return Color.White;
-		}
+		public override Color? GetAlpha(Color lightColor) => Color.White;
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 10);
 			for (int i = 0; i < 16; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 68, 0f, -2f, 0, default(Color), .8f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.BlueCrystalShard, 0f, -2f, 0, default(Color), .8f);
 				Main.dust[num].noGravity = true;
 				Dust expr_62_cp_0 = Main.dust[num];
 				expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);

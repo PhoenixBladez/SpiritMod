@@ -33,7 +33,7 @@ namespace SpiritMod.NPCs.Tides
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.KakamoraGliderBanner>();
 		}
-		bool teleportedup = false;
+
 		public override void AI()
 		{
 			if (npc.ai[3] == 1 && npc.velocity.Y == 0) {

@@ -31,7 +31,7 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			int num = 5;
 			for (int k = 0; k < 3; k++) {
-				int index2 = Dust.NewDust(projectile.position, 1, 1, 222, 0.0f, 0.0f, 0, new Color(), 1f);
+				int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.FireworkFountain_Yellow, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].velocity *= 0f;

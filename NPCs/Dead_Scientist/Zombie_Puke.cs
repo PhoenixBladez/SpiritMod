@@ -28,7 +28,7 @@ namespace SpiritMod.NPCs.Dead_Scientist
 			float scale = Main.rand.Next(10)== 0 ? 2f : 0.8f;
             for (int index1 = 0; index1 < 2; ++index1)
             {
-                int index2 = Dust.NewDust(projectile.Center, 0, 0, 5, 0.0f, 0.0f, 0, new Color(), scale);
+                int index2 = Dust.NewDust(projectile.Center, 0, 0, DustID.Blood, 0.0f, 0.0f, 0, new Color(), scale);
                 Main.dust[index2].velocity *= 1.2f;
                 Main.dust[index2].fadeIn = 0.72f;
                 --Main.dust[index2].velocity.Y;

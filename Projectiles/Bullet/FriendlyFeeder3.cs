@@ -8,11 +8,7 @@ namespace SpiritMod.Projectiles.Bullet
 	public class FriendlyFeeder3 : ModProjectile
 	{
 
-		private int DamageAdditive;
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Rotten Meat");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Rotten Meat");
 
 		public override void SetDefaults()
 		{
@@ -61,7 +57,7 @@ namespace SpiritMod.Projectiles.Bullet
 			}
 			int num = 5;
 			for (int k = 0; k < 2; k++) {
-				int index2 = Dust.NewDust(projectile.position, 1, 1, 5, 0.0f, 0.0f, 0, new Color(), 1f);
+				int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.Blood, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].velocity *= 0f;

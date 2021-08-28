@@ -118,7 +118,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
         }
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(4, projectile.Center, 28);
+            Main.PlaySound(SoundID.NPCKilled, projectile.Center, 28);
             for (int i = 0; i < 12; i++)
             {
                 Dust d = Dust.NewDustPerfect(projectile.Center, 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(3), 0, default, 0.65f);

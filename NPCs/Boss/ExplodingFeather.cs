@@ -43,7 +43,7 @@ namespace SpiritMod.NPCs.Boss
 		{
 			int num = 5;
 			for (int k = 0; k < 3; k++) {
-				int index2 = Dust.NewDust(projectile.position, 1, 1, 60, 0.0f, 0.0f, 0, new Color(), 1f);
+				int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.RedTorch, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].velocity *= 0f;
@@ -92,12 +92,12 @@ namespace SpiritMod.NPCs.Boss
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 4);
 
 			for (int num273 = 0; num273 < 3; num273++) {
-				int num274 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 187, 0f, 0f, 0, default(Color), 1f);
+				int num274 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Flare_Blue, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[num274].noGravity = true;
 				Main.dust[num274].noLight = true;
 				Main.dust[num274].scale = 0.7f;
 
-				int num278 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 65, 0f, 0f, 0, default(Color), 1f);
+				int num278 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.DemonTorch, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[num278].noGravity = true;
 				Main.dust[num278].noLight = true;
 				Main.dust[num278].scale = 0.7f;

@@ -95,21 +95,21 @@ namespace SpiritMod.NPCs.Reach
 			int frame = (int)npc.frameCounter;
 			npc.frame.Y = frame * frameHeight;
 		}
+
 		public override void AI()
 		{
 			npc.spriteDirection = npc.direction;
+			if (Main.rand.NextFloat() < 0.131579f)
 			{
-				if (Main.rand.NextFloat() < 0.131579f) {
-					{
-						Dust dust;
-						Vector2 position = npc.Center;
-						int d = Dust.NewDust(npc.position, npc.width, npc.height + 10, 193, 0, 1f, 0, new Color(43, 54, 38, 80), 0.7f);
-						Main.dust[d].velocity *= .1f;
-					}
+				{
+					Vector2 position = npc.Center;
+					int d = Dust.NewDust(npc.position, npc.width, npc.height + 10, DustID.SlimeBunny, 0, 1f, 0, new Color(43, 54, 38, 80), 0.7f);
+					Main.dust[d].velocity *= .1f;
 				}
-				npc.rotation = npc.velocity.X * 0.1f;
 			}
+			npc.rotation = npc.velocity.X * 0.1f;
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, npc.height * 0.5f);

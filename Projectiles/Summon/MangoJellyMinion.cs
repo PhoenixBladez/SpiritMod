@@ -51,7 +51,7 @@ namespace SpiritMod.Projectiles.Summon
 			if (projectile.Distance(player.Center) > 1500) {
 				projectile.position = player.position + new Vector2(Main.rand.Next(-125, 126), Main.rand.Next(-125, 126));
 				for (int i = 0; i < 25; i++) {
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, 272);
+					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.WitherLightning);
 				}
 			}
 			MyPlayer modPlayer = player.GetSpiritPlayer();

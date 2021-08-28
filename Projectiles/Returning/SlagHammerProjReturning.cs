@@ -87,7 +87,7 @@ namespace SpiritMod.Projectiles.Returning
 		public override void AI()
 		{
 			alphaCounter += 0.08f;
-			int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 127);
+			int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Flare);
 			Main.dust[d].noGravity = true;
 		}
 

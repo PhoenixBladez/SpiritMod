@@ -16,7 +16,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 			Main.tileNoFail[Type] = true;
 			Main.tileLighted[Type] = true;
 
-			dustType = 173;
+			dustType = DustID.ShadowbeamStaff;
 			soundType = SoundID.Grass;
 
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
@@ -25,19 +25,14 @@ namespace SpiritMod.Tiles.Ambient.Briar
 			AddMapEntry(new Color(201, 110, 226));
 		}
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = 2;
-		}
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+		public override void NumDust(int i, int j, bool fail, ref int num) => num = 2;
+		public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Placeable.Furniture.BriarFlowerItem>());
             Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Sets.BriarDrops.EnchantedLeaf>(), Main.rand.Next(1, 3));
         }
-        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
-		{
-			offsetY = 2;
-		}
+
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{

@@ -40,7 +40,7 @@ namespace SpiritMod.Projectiles.Magic
             {
                 for (int j = 0; j < 5; j++)
                 {
-                    int num6 = Dust.NewDust(center, 0, 0, 173, 0f, 0f, 100, default(Color), 1f);
+                    int num6 = Dust.NewDust(center, 0, 0, DustID.ShadowbeamStaff, 0f, 0f, 100, default(Color), 1f);
                     Main.dust[num6].noGravity = true;
                     Main.dust[num6].velocity = Vector2.Zero;
                     Main.dust[num6].noLight = true;
@@ -70,7 +70,7 @@ namespace SpiritMod.Projectiles.Magic
                 int p = Projectile.NewProjectile(pos.X, pos.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Magic.ShadowflameOrbBolt>(), projectile.damage, projectile.knockBack, 0, 0.0f, 0.0f);
                 for (float num2 = 0.0f; (double)num2 < 10; ++num2)
                 {
-                    int dustIndex = Dust.NewDust(pos, 2, 2, 173, 0f, 0f, 0, default(Color), 1f);
+                    int dustIndex = Dust.NewDust(pos, 2, 2, DustID.ShadowbeamStaff, 0f, 0f, 0, default(Color), 1f);
                     Main.dust[dustIndex].noGravity = true;
                     Main.dust[dustIndex].velocity = Vector2.Normalize(spawnPlace.RotatedBy(Main.rand.NextFloat(MathHelper.TwoPi))) * 2.1f;
                 }

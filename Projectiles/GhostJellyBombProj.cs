@@ -28,7 +28,7 @@ namespace SpiritMod.Projectiles
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			int proj = Projectile.NewProjectile(projectile.Center.X - 10, projectile.Center.Y - 10, 0, 0, ModContent.ProjectileType<SpiritBoom>(), (int)(projectile.damage), 0, Main.myPlayer);
 			for (int i = 0; i < 5; i++) {
-				int dust = Dust.NewDust(projectile.position, projectile.width + 40, projectile.height + 40, 187);
+				int dust = Dust.NewDust(projectile.position, projectile.width + 40, projectile.height + 40, DustID.Flare_Blue);
 				Main.dust[dust].scale = 1.9f;
 			}
 			Main.projectile[proj].friendly = true;

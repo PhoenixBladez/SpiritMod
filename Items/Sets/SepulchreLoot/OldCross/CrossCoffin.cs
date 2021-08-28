@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 {
@@ -142,7 +143,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 		{
 			for(int i = 0; i < 40; i++)
 			{
-				Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 46, Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-0.25f, 0.5f));
+				Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.Poisoned, Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-0.25f, 0.5f));
 				dust.scale *= 0.66f;
 			}
 		}

@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles
 
 			projectile.velocity *= 0.95f;
 			if (Main.rand.NextBool(3)) {
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 75, 0f, 0f);
+				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.CursedTorch, 0f, 0f);
 				Main.dust[dust].noGravity = true;
 				dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Dusts.Pestilence>(), 0f, 0f);
 				Main.dust[dust].noGravity = true;

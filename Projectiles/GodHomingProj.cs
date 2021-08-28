@@ -2,13 +2,12 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles
 {
 	public class GodHomingProj : ModProjectile
 	{
-		int target;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Celestial Flare");
@@ -35,7 +34,7 @@ namespace SpiritMod.Projectiles
 			for (int i = 0; i < 4; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 244, 0f, 0f, 0, default(Color), 1f);
+				int num = Dust.NewDust(new Vector2(x, y), 26, 26, DustID.CopperCoin, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[num].alpha = projectile.alpha;
 				Main.dust[num].position.X = x;
 				Main.dust[num].position.Y = y;
@@ -105,11 +104,6 @@ namespace SpiritMod.Projectiles
 					}
 				}
 			}
-		}
-
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-			return true;
 		}
 	}
 }

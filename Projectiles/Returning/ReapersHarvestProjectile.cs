@@ -28,7 +28,7 @@ namespace SpiritMod.Projectiles.Returning
 
 		public override void AI()
 		{
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, 75);
+			Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.CursedTorch);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

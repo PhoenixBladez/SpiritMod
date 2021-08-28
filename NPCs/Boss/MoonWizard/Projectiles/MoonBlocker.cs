@@ -9,9 +9,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 {
 	public class MoonBlocker : ModProjectile
 	{
-		float distance = 8;
-		int rotationalSpeed = 4;
-		public override void SetStaticDefaults()
+        public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Moon Blocker");
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
@@ -61,14 +59,11 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 				if (projectile.timeLeft % 4 == 0) 
 				{
 					DustHelper.DrawElectricity(projectile.Center, initialPos, 226, 0.6f, 30, default, 0.3f);
-					int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)distance.X * 30, (float)distance.Y * 30, mod.ProjectileType("MoonLightning"), 30, 0);
+					int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, distance.X * 30, distance.Y * 30, mod.ProjectileType("MoonLightning"), 30, 0);
 					Main.projectile[proj].timeLeft = (int)(electricDist / 30);
 				}
 			}
 		}
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return Color.White;
-        }
+        public override Color? GetAlpha(Color lightColor) => Color.White;
     }
 }

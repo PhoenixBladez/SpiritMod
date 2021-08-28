@@ -31,8 +31,8 @@ namespace SpiritMod.Projectiles.DonatorItems
 		public override bool PreAI()
 		{
 			projectile.rotation += .3f;
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 206, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			int dust1 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 68, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			int dust1 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.BlueCrystalShard, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust1].noGravity = true;
 			Main.dust[dust1].scale = .85f;
@@ -56,7 +56,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 		{
 			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
 			for (int num257 = 0; num257 < 20; num257++) {
-				int newDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, 0f, 0f, 0, default(Color), 1f);
+				int newDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
 				Main.dust[newDust].velocity *= 0.5f;
 				Main.dust[newDust].noGravity = true;

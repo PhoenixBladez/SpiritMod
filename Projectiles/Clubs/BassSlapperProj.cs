@@ -22,7 +22,7 @@ namespace SpiritMod.Projectiles.Clubs
 			for (int k = 0; k <= 100; k++) {
 				Dust.NewDustPerfect(projectile.oldPosition + new Vector2(projectile.width / 2, projectile.height / 2), DustType<Dusts.EarthDust>(), new Vector2(0, 1).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1) * projectile.ai[0] / 10f);
 			}
-            Main.PlaySound(3, projectile.position, 1);
+            Main.PlaySound(SoundID.NPCHit, projectile.position, 1);
 		}
 		public BassSlapperProj() : base(66, 13, 26, -1, 58, 13, 27, 1.7f, 12f){}
 	}

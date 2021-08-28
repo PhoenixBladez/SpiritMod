@@ -43,7 +43,7 @@ namespace SpiritMod.Projectiles.Clubs
                 {
                     for (int i = 0; i < 20; i++)
                     {
-                        int num = Dust.NewDust(target.position, target.width, target.height, 226, 0f, -2f, 0, default(Color), 2f);
+                        int num = Dust.NewDust(target.position, target.width, target.height, DustID.Electric, 0f, -2f, 0, default(Color), 2f);
                         Main.dust[num].noGravity = true;
                         Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
                         Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;

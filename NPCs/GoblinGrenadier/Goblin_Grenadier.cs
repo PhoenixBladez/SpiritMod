@@ -71,9 +71,9 @@ namespace SpiritMod.NPCs.GoblinGrenadier
 		{
 			for (int k = 0; k < 7; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, 2.5f * hitDirection, -2.5f, 0, default, 0.5f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, 0.5f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
 			}
 			if (npc.life <= 0) //Kill gores
 				for (int i = 1; i < 5; ++i)
@@ -137,7 +137,7 @@ namespace SpiritMod.NPCs.GoblinGrenadier
 						float num15 = num5 / num14;
 						float num16 = num6 * num15;
 						float SpeedY = num8 * num15;
-						int p = Projectile.NewProjectile(vector2.X, vector2.Y, num16, SpeedY, 30, 20, 0.0f, Main.myPlayer, 0.0f, 0.0f);
+						int p = Projectile.NewProjectile(vector2.X, vector2.Y, num16, SpeedY, ProjectileID.Grenade, 20, 0.0f, Main.myPlayer, 0.0f, 0.0f);
 						Main.projectile[p].friendly = false;
 						Main.projectile[p].hostile = true;
 						Main.projectile[p].timeLeft = 45;

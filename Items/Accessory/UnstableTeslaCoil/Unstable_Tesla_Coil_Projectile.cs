@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Items.Accessory.UnstableTeslaCoil
 {
@@ -38,7 +39,7 @@ namespace SpiritMod.Items.Accessory.UnstableTeslaCoil
 					float PosX = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 					float PosY = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 					
-					int dustIndex = Dust.NewDust(new Vector2(PosX, PosY), 0, 0, 226, 0f, 0f, 180, default(Color), 0.5f);
+					int dustIndex = Dust.NewDust(new Vector2(PosX, PosY), 0, 0, DustID.Electric, 0f, 0f, 180, default(Color), 0.5f);
 					
 					Main.dust[dustIndex].position.X = PosX;
 					Main.dust[dustIndex].position.Y = PosY;
@@ -69,12 +70,12 @@ namespace SpiritMod.Items.Accessory.UnstableTeslaCoil
 			int num = 22;
 			for (int index1 = 0; index1 < num; ++index1)
 			{
-				int index2 = Dust.NewDust(projectile.Center, 0, 0, 222, 0.0f, 0.0f, 0, new Color(), 0.75f);
+				int index2 = Dust.NewDust(projectile.Center, 0, 0, DustID.FireworkFountain_Yellow, 0.0f, 0.0f, 0, new Color(), 0.75f);
 				Main.dust[index2].velocity *= 0.3f;
 				--Main.dust[index2].velocity.Y;
 				Main.dust[index2].position = Vector2.Lerp(Main.dust[index2].position, projectile.Center, 0.75f);
 			}
-			Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 141, 1f, 0f);
+			Main.PlaySound(SoundID.Trackable, (int)projectile.position.X, (int)projectile.position.Y, 141, 1f, 0f);
 		}
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{

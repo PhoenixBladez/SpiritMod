@@ -37,7 +37,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void AI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + (float)(Math.PI / 2);
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, 133);
+			Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Firework_Yellow);
 		}
 
 		public override void Kill(int timeLeft)
@@ -46,10 +46,10 @@ namespace SpiritMod.Projectiles.Magic
 
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			for (int num623 = 0; num623 < 70; num623++) {
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 133, 0f, 0f, 100, default(Color), 1f);
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Firework_Yellow, 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 1.5f;
-				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 133, 0f, 0f, 100, default(Color), 1f);
+				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Firework_Yellow, 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num624].velocity *= 2f;
 			}
 		}

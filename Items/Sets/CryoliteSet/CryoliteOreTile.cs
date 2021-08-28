@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 			AddMapEntry(new Color(40, 0, 205), name);
 			soundType = SoundID.Tink;
 			minPick = 65;
-			dustType = 68;
+			dustType = DustID.BlueCrystalShard;
 
 		}
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -39,9 +39,6 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 			}
 			return true;
 		}
-		public override bool CanExplode(int i, int j)
-		{
-			return false;
-		}
+		public override bool CanExplode(int i, int j) => false;
 	}
 }

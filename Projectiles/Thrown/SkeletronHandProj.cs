@@ -40,7 +40,7 @@ namespace SpiritMod.Projectiles.Thrown
 				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<SkeletronHand>(), 1, false, 0, false, false);
 
 			for (int i = 0; i < 5; i++) {
-				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 37);
+				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Obsidian);
 				Main.dust[d].scale *= .5f;
 			}
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);

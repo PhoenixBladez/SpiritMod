@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles
 		public override bool PreAI()
 		{
 			projectile.tileCollide = false;
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, 0f, 0f);
+			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.ShadowbeamStaff, 0f, 0f);
 			Main.dust[dust].scale = 0.8f;
 			Main.dust[dust].noGravity = true;
 			return true;

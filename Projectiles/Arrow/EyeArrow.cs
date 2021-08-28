@@ -23,14 +23,14 @@ namespace SpiritMod.Projectiles.Arrow
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 5);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Blood);
 			}
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 		}
         int num = 3;
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            int d = 5;
+            const int d = DustID.Blood;
             for (int k = 0; k < 6; k++)
             {
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);

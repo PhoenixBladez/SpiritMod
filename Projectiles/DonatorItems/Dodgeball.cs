@@ -30,7 +30,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++) {
-				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 147);
+				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.t_Honey);
 				Main.dust[d].scale = .5f;
 			}
 			int g = Gore.NewGore(projectile.position, projectile.velocity, mod.GetGoreSlot("Gores/Dodgeball"), 1f);

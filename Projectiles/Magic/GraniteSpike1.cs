@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles.Magic
 {
@@ -27,7 +28,7 @@ namespace SpiritMod.Projectiles.Magic
 			for (int index1 = 0; index1 < 9; ++index1) {
 				float num1 = projectile.velocity.X * 0.2f * (float)index1;
 				float num2 = projectile.velocity.Y * -0.200000002980232f * index1;
-				int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, 0.0f, 0.0f, 100, new Color(), 1.3f);
+				int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Electric, 0.0f, 0.0f, 100, new Color(), 1.3f);
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity *= 0.0f;
 				Main.dust[index2].scale = .425f;
@@ -48,14 +49,14 @@ namespace SpiritMod.Projectiles.Magic
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			projectile.Kill();
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);
+			Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Flare_Blue);
 			return false;
 		}
 		public override void Kill(int timeLeft)
 		{
 			Dust.NewDust(projectile.position + projectile.velocity,
 				projectile.width, projectile.height,
-				187, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
+				DustID.Flare_Blue, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
 
 			for (int i = 0; i < 4; i++) {
 				float rotation = (float)(Main.rand.Next(180, 361) * (Math.PI / 180));

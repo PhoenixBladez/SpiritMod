@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles.Flail
 			}
 			else {
 				Player player = Main.player[projectile.owner];
-					int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 226);
+					int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.Electric);
 					Main.dust[dust].velocity *= -1f;
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].scale *= .6f;

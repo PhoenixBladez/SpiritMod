@@ -68,7 +68,7 @@ namespace SpiritMod.Projectiles.Bullet
 			projectile.tileCollide = (Math.Abs(projectile.localAI[0]) >= 20);
 			switch(projectile.ai[0]) {
 				case 0: projectile.velocity = initialvel;
-					int num623 = Dust.NewDust(projectile.Center, 4, 4, 180, 0f, 0f, 0, default, 1.2f);
+					int num623 = Dust.NewDust(projectile.Center, 4, 4, DustID.DungeonSpirit, 0f, 0f, 0, default, 1.2f);
 					Main.dust[num623].velocity = projectile.velocity;
 					Main.dust[num623].noGravity = true;
 					break;
@@ -85,7 +85,7 @@ namespace SpiritMod.Projectiles.Bullet
 			Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
 			vector9 += value19 * 16f;
 			for (int num257 = 0; num257 < 12; num257++) {
-				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, 180, 0f, 0f, 0, default(Color), 1.2f);
+				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, DustID.DungeonSpirit, 0f, 0f, 0, default(Color), 1.2f);
 				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
 				Main.dust[newDust].velocity += value19 * 2f;
 				Main.dust[newDust].velocity *= 0.5f;

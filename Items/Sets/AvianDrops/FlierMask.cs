@@ -13,7 +13,6 @@ namespace SpiritMod.Items.Sets.AvianDrops
 		}
 
 
-		int timer = 0;
 		public override void SetDefaults()
 		{
 			item.width = 22;

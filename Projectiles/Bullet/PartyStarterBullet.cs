@@ -28,11 +28,8 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new RainbowTrail(8f, 0.002f, 1f, .65f), new RoundCap(), new DefaultTrailPosition(), 9f, 150f);
 
-		int timer = 1;
 		public override void AI()
 		{
-
-
 			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
 			projectile.ai[1] += 1f;
 			if (projectile.ai[1] >= 7200f) {
@@ -70,7 +67,7 @@ namespace SpiritMod.Projectiles.Bullet
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			for (int i = 0; i < 10; i++) {
-				int num = Dust.NewDust(target.position, target.width, target.height, 226, 0f, -2f, 0, default(Color), 2f);
+				int num = Dust.NewDust(target.position, target.width, target.height, DustID.Electric, 0f, -2f, 0, default, 2f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(77, Main.LocalPlayer);
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -97,7 +94,7 @@ namespace SpiritMod.Projectiles.Bullet
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 10);
 
 			for (int i = 0; i < 10; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 226, 0f, -2f, 0, default(Color), 2f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, 0f, -2f, 0, default, 2f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(77, Main.LocalPlayer);
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -106,8 +103,6 @@ namespace SpiritMod.Projectiles.Bullet
 				if (Main.dust[num].position != projectile.Center)
 					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 			}
-
-
 		}
 	}
 }

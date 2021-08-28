@@ -13,9 +13,6 @@ namespace SpiritMod.Items.Sets.HuskstalkSet.ElderbarkArmor
 			DisplayName.SetDefault("Elderbark Helmet");
 		}
 
-
-		int timer = 0;
-
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -24,10 +21,7 @@ namespace SpiritMod.Items.Sets.HuskstalkSet.ElderbarkArmor
 			item.rare = ItemRarityID.White;
 			item.defense = 1;
 		}
-		public override bool IsArmorSet(Item head, Item body, Item legs)
-		{
-			return body.type == ModContent.ItemType<ElderbarkChest>() && legs.type == ModContent.ItemType<ElderbarkLegs>();
-		}
+		public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == ModContent.ItemType<ElderbarkChest>() && legs.type == ModContent.ItemType<ElderbarkLegs>();
 		public override void UpdateArmorSet(Player player)
 		{
 			player.setBonus = $"Increases all item damage by 1";

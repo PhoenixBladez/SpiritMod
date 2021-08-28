@@ -16,8 +16,6 @@ namespace SpiritMod.Items.Sets.AvianDrops
 		}
 
 
-		int charger;
-		private Vector2 newVect;
 		public override void SetDefaults()
 		{
 			item.damage = 25;

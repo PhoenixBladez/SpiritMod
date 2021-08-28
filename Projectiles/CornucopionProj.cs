@@ -29,7 +29,6 @@ namespace SpiritMod.Projectiles
 			projectile.timeLeft = 999999;
 		}
 
-		bool firing = false;
 		Vector2 direction = Vector2.Zero;
         int counter = 0;
         Vector2 holdOffset = new Vector2(0, -15);
@@ -101,7 +100,7 @@ namespace SpiritMod.Projectiles
             Vector2 vec = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
             Vector2 vel = vec * Main.rand.NextFloat(minSpeed, maxSpeed);
 
-            int dust = Dust.NewDust(position - vec * distance, 0, 0, 226);
+            int dust = Dust.NewDust(position - vec * distance, 0, 0, DustID.Electric);
             Main.dust[dust].noGravity = true;
             Main.dust[dust].scale *= .3f;
             Main.dust[dust].velocity = vel;

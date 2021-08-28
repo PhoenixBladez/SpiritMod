@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
 			for (int k = 0; k < 15; k++) {
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 180, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.DungeonSpirit, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
 			}
 		}
 		public override void AI()
@@ -66,7 +66,7 @@ namespace SpiritMod.Projectiles
 			float num8 = (float)player.miscCounter / 60f;
 			float num7 = 1.0471975512f * 2;
 			for (int i = 0; i < 3; i++) {
-				int num6 = Dust.NewDust(center, 0, 0, 180, 0f, 0f, 100, default(Color), 1.3f);
+				int num6 = Dust.NewDust(center, 0, 0, DustID.DungeonSpirit, 0f, 0f, 100, default(Color), 1.3f);
 				Main.dust[num6].noGravity = true;
 				Main.dust[num6].velocity = Vector2.Zero;
 				Main.dust[num6].noLight = true;

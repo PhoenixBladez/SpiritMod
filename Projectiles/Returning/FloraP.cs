@@ -39,7 +39,7 @@ namespace SpiritMod.Projectiles.Returning
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 40; i++) {
-				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 39, (float)(Main.rand.Next(8) - 4), (float)(Main.rand.Next(8) - 4), 133);
+				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.JungleGrass, (float)(Main.rand.Next(8) - 4), (float)(Main.rand.Next(8) - 4), 133);
 			}
 		}
 		int direction = 0; //0 is left, 1 is right

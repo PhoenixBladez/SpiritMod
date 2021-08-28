@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles.Thrown
 		public override void AI()
 		{
 			if (Main.rand.Next(2) == 0)
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Flare_Blue, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

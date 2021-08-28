@@ -68,7 +68,7 @@ namespace SpiritMod.NPCs.Phantom
 				HomeY = -60f;
 				trailbehind = true;
 				npc.velocity.Y = moveSpeedY * 0.16f;
-				Dust.NewDust(npc.position, npc.width, npc.height, 173, 0f, -2.5f, 0, default, 0.6f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.ShadowbeamStaff, 0f, -2.5f, 0, default, 0.6f);
 				if (!noise) {
 					Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 7);
 					noise = true;
@@ -123,19 +123,19 @@ namespace SpiritMod.NPCs.Phantom
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 20; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection * 2, -1f, 0, default, 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection * 2, -1f, 0, default, 1f);
 			}
 			if (trailbehind) {
 				for (int k = 0; k < 20; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection * 2, -1f, 0, default, 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.ShadowbeamStaff, hitDirection * 2, -1f, 0, default, 1f);
 				}
 			}
 			if (npc.life <= 0) {
 				for (int k = 0; k < 20; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection * 2, -1f, 0, default, 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.ShadowbeamStaff, hitDirection * 2, -1f, 0, default, 1f);
 				}
 				for (int k = 0; k < 20; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection * 2, -1f, 0, default, 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection * 2, -1f, 0, default, 1f);
 				}
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Phantom/Phantom1"), .5f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Phantom/Phantom2"), .5f);

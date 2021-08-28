@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles
 
 		public override void AI()
 		{
-			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.CopperCoin, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

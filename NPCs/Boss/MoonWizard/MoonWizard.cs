@@ -327,15 +327,14 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 
         public override void HitEffect(int hitDirection, double damage)
 		{
-            int d = 226;
             for (int k = 0; k < 20; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.27f);
-                Dust.NewDust(npc.position, npc.width, npc.height, 240, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.87f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.27f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Granite, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.87f);
             }
 			if (npc.life < 100)
             {
-                Main.PlaySound(3, npc.Center, 27);
+                Main.PlaySound(SoundID.NPCHit, npc.Center, 27);
                 for (int i = 0; i < Main.rand.Next(1, 3); i++)
                 {
                     int p = Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(2.2f)), mod.ProjectileType("MoonBubble"), 0, 3);
@@ -344,11 +343,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
             }
 			if (npc.life <= 0)
             {
-                int a = Gore.NewGore(new Vector2(npc.Center.X, npc.Center.Y - 50), new Vector2(0, 3), mod.GetGoreSlot("Gores/WizardHat_Gore"));
+                Gore.NewGore(new Vector2(npc.Center.X, npc.Center.Y - 50), new Vector2(0, 3), mod.GetGoreSlot("Gores/WizardHat_Gore"));
                 for (int i = 0; i < Main.rand.Next(9, 15); i++)
-                {
-                    int p = Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(2.2f)), mod.ProjectileType("MoonBubble"), 0, 3);
-                }
+                    Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(2.2f)), mod.ProjectileType("MoonBubble"), 0, 3);
             }
         }
 
@@ -701,7 +698,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
                     Dust d = Dust.NewDustPerfect(new Vector2(npc.Center.X + 75 * npc.spriteDirection, npc.Center.Y - 30), 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(5), 0, default, 0.75f);
                     d.noGravity = true;
                 }
-                Main.PlaySound(4, npc.position, 28);
+                Main.PlaySound(SoundID.NPCKilled, npc.position, 28);
 
                 int Ball = Projectile.NewProjectile(npc.Center.X + 75 * npc.spriteDirection, npc.Center.Y - 30, npc.spriteDirection * 3.5f, -2f, mod.ProjectileType("WizardBall"), NPCUtils.ToActualDamage(50, 1.5f), 3f, 0);
                 Main.projectile[Ball].ai[0] = npc.whoAmI;

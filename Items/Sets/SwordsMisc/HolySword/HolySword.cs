@@ -49,14 +49,14 @@ namespace SpiritMod.Items.Sets.SwordsMisc.HolySword
 			for (int i = 0; i < 1; i++)
 			{
 				float length = (hitbox.Width * 1.2f - i * hitbox.Width / 18) * item.scale - 40;
-				int dust = Dust.NewDust(new Vector2((float)(player.itemLocation.X + length * cosRot * player.direction), (float)(player.itemLocation.Y + length * sinRot * player.direction)), 0, 0, 70, player.velocity.X * 0.9f, player.velocity.Y * 0.9f, 0, new Color(), 0.7f);
+				int dust = Dust.NewDust(new Vector2((float)(player.itemLocation.X + length * cosRot * player.direction), (float)(player.itemLocation.Y + length * sinRot * player.direction)), 0, 0, DustID.PurpleCrystalShard, player.velocity.X * 0.9f, player.velocity.Y * 0.9f, 0, new Color(), 0.7f);
 				Main.dust[dust].velocity *= 0f;
 				Main.dust[dust].noGravity = true;
 			}
 			for (int i = 0; i < 1; i++)
 			{
 				float length = (item.width * 1.2f - i * item.width / 18) * item.scale;
-				int dust = Dust.NewDust(new Vector2((float)(player.itemLocation.X + length * cosRot * player.direction), (float)(player.itemLocation.Y + length * sinRot * player.direction)), 0, 0, 70, player.velocity.X * 0.9f, player.velocity.Y * 0.9f, 0, new Color(), 0.7f);
+				int dust = Dust.NewDust(new Vector2((float)(player.itemLocation.X + length * cosRot * player.direction), (float)(player.itemLocation.Y + length * sinRot * player.direction)), 0, 0, DustID.PurpleCrystalShard, player.velocity.X * 0.9f, player.velocity.Y * 0.9f, 0, new Color(), 0.7f);
 				Main.dust[dust].velocity *= 0f;
 				Main.dust[dust].noGravity = true;
 			}

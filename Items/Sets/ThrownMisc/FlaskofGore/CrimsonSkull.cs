@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Sets.ThrownMisc.FlaskofGore
 		public override bool OnPickup(Player player)
 		{
 			player.AddBuff(mod.BuffType("CrimsonSkullBuff"), 240);
-			Main.PlaySound(42, (int)player.position.X, (int)player.position.Y, 139, 1f, -0.9f);
+			Main.PlaySound(SoundID.Trackable, (int)player.position.X, (int)player.position.Y, 139, 1f, -0.9f);
 			return false;
 		}
 	}

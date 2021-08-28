@@ -30,10 +30,10 @@ namespace SpiritMod.Items.Sets.CascadeSet.Basking_Shark
 			if ((double)projectile.ai[0] == 0.0)
 			{
 				projectile.ai[0] = 1f;
-				Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0.4f);
+				Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0.4f);
 				for (int index = 0; index < 8; ++index)
 				{
-					Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 5, 0.0f, 0.0f, 0, Color.Pink, 1f);
+					Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.Blood, 0.0f, 0.0f, 0, Color.Pink, 1f);
 					dust.velocity *= 1f;
 					dust.velocity += projectile.velocity * 0.65f;
 					dust.scale = 0.8f;
@@ -46,7 +46,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Basking_Shark
 
 			for (int index1 = 0; index1 < 4; ++index1)
 			{
-				int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 16, 16, 5, projectile.velocity.X, projectile.velocity.Y, 50, Color.Pink, 0.7f);
+				int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 16, 16, DustID.Blood, projectile.velocity.X, projectile.velocity.Y, 50, Color.Pink, 0.7f);
 				Main.dust[index2].position = (Main.dust[index2].position + projectile.Center) / 2f;
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity *= 0.3f;
@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Basking_Shark
 			}
 			for (int index1 = 0; index1 < 2; ++index1)
 			{
-				int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 16, 16, 5, projectile.velocity.X, projectile.velocity.Y, 50, Color.Pink, 0.4f);
+				int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 16, 16, DustID.Blood, projectile.velocity.X, projectile.velocity.Y, 50, Color.Pink, 0.4f);
 				Main.dust[index2].position = (Main.dust[index2].position + projectile.Center * 5f) / 6f;
 				Main.dust[index2].velocity *= 0.1f;
 				Main.dust[index2].noGravity = true;

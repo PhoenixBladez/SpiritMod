@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.NPCs.Tides
 {
@@ -40,7 +41,7 @@ namespace SpiritMod.NPCs.Tides
 					Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
 					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
 					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2));
-					int num8 = Dust.NewDust(projectile.Center, 0, 0, 173, 0f, 0f, 160, new Color(), 1f);
+					int num8 = Dust.NewDust(projectile.Center, 0, 0, DustID.ShadowbeamStaff, 0f, 0f, 160, new Color(), 1f);
 					// Main.dust[num8].scale = .48f;
 					Main.dust[num8].noGravity = true;
 					Main.dust[num8].position = projectile.Center + vector2;
@@ -56,7 +57,7 @@ namespace SpiritMod.NPCs.Tides
 					Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
 					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
 					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2));
-					int num8 = Dust.NewDust(projectile.Center, 0, 0, 173, 0f, 0f, 160, new Color(), 1f);
+					int num8 = Dust.NewDust(projectile.Center, 0, 0, DustID.ShadowbeamStaff, 0f, 0f, 160, new Color(), 1f);
 					// Main.dust[num8].scale = .48f;
 					Main.dust[num8].noGravity = true;
 					Main.dust[num8].position = projectile.Center + vector2;

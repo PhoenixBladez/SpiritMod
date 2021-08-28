@@ -7,8 +7,6 @@ namespace SpiritMod.NPCs.Putroma
 {
 	public class Teratoma1 : ModProjectile
 	{
-
-		private int DamageAdditive;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cancerous Chunk");
@@ -28,7 +26,7 @@ namespace SpiritMod.NPCs.Putroma
 		{
 			int num = 5;
 			for (int k = 0; k < 2; k++) {
-				int index2 = Dust.NewDust(projectile.position, 1, 1, 184, 0.0f, 0.0f, 0, new Color(), 1f);
+				int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.ScourgeOfTheCorruptor, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].velocity *= 0f;

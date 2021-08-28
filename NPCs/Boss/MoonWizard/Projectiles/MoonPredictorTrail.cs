@@ -9,8 +9,6 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 {
 	public class MoonPredictorTrail : ModProjectile
 	{
-		float distance = 8;
-		int rotationalSpeed = 4;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Moon Blocker");
@@ -31,7 +29,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
-		bool initialized = false;
+
 		Vector2 initialSpeed = Vector2.Zero;
 		public override void AI()
 		{

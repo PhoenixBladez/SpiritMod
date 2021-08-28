@@ -2,6 +2,7 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles.Bullet
 {
@@ -33,7 +34,7 @@ namespace SpiritMod.Projectiles.Bullet
 				for (int i = 0; i < 10; i++) {
 					float x = projectile.position.X - 3 - projectile.velocity.X / 10f * i;
 					float y = projectile.position.Y - 3 - projectile.velocity.Y / 10f * i;
-					int num = Dust.NewDust(new Vector2(x, y), 2, 2, 68);
+					int num = Dust.NewDust(new Vector2(x, y), 2, 2, DustID.BlueCrystalShard);
 					Main.dust[num].alpha = projectile.alpha;
 					Main.dust[num].velocity = Vector2.Zero;
 					Main.dust[num].noGravity = true;

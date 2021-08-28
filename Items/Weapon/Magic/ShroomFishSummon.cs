@@ -95,7 +95,7 @@ namespace SpiritMod.Items.Weapon.Magic
 					offset = offset.RotatedBy(0.2f);
 				}
 				offset *= 58f;
-				int dust = Dust.NewDust(player.Center + offset, player.width / 2, player.height / 2, 42);
+				int dust = Dust.NewDust(player.Center + offset, player.width / 2, player.height / 2, DustID.Harpy);
 
 				Main.dust[dust].velocity *= -1f;
 				Main.dust[dust].noGravity = true;

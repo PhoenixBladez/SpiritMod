@@ -46,7 +46,7 @@ namespace SpiritMod.Projectiles.Held
 			Vector2 vector9 = projectile.velocity.SafeNormalize(Vector2.UnitY);
 			float num25 = 2f;
 			for (int num26 = 0; (float)num26 < num25; num26++) {
-				Dust dust4 = Dust.NewDustDirect(projectile.Center, 14, 14, 173, 0f, 0f, 110, default(Color), 1f);
+				Dust dust4 = Dust.NewDustDirect(projectile.Center, 14, 14, DustID.ShadowbeamStaff, 0f, 0f, 110, default(Color), 1f);
 				dust4.velocity = player.DirectionTo(dust4.position) * 2f;
 				dust4.position = projectile.Center + vector9.RotatedBy((double)(num16 * 6.28318548f * 2f + (float)num26 / num25 * 6.28318548f), default(Vector2)) * 10f;
 				dust4.scale = 1f + 0.6f * Main.rand.NextFloat();
@@ -56,7 +56,7 @@ namespace SpiritMod.Projectiles.Held
 			}
 			for (int j = 0; j < 1; j++) {
 				if (Main.rand.Next(3) == 0) {
-					Dust dust5 = Dust.NewDustDirect(projectile.Center, 20, 20, 173, 0f, 0f, 110, default(Color), 1f);
+					Dust dust5 = Dust.NewDustDirect(projectile.Center, 20, 20, DustID.ShadowbeamStaff, 0f, 0f, 110, default(Color), 1f);
 					dust5.velocity = player.DirectionTo(dust5.position) * 2f;
 					dust5.position = projectile.Center + value2 * -110f;
 					dust5.scale = 0.45f + 0.4f * Main.rand.NextFloat();

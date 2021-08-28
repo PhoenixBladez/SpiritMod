@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles.Flail
 {
@@ -26,13 +27,13 @@ namespace SpiritMod.Projectiles.Flail
 		{
 			Vector2 position = projectile.Center + Vector2.Normalize(projectile.velocity) * 10;
 
-			Dust newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 226, 0f, 0f, 0, default(Color), .31f)];
+			Dust newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, 0f, 0f, 0, default(Color), .31f)];
 			newDust.position = position;
 			newDust.velocity = projectile.velocity.RotatedBy(Math.PI / 2, default(Vector2)) * 0.33F + projectile.velocity / 4;
 			newDust.position += projectile.velocity.RotatedBy(Math.PI / 2, default(Vector2));
 			newDust.fadeIn = 0.5f;
 			newDust.noGravity = true;
-			newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 226, 0f, 0f, 0, default(Color), .31f)];
+			newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, 0f, 0f, 0, default(Color), .31f)];
 			newDust.position = position;
 			newDust.velocity = projectile.velocity.RotatedBy(-Math.PI / 2, default(Vector2)) * 0.33F + projectile.velocity / 4;
 			newDust.position += projectile.velocity.RotatedBy(-Math.PI / 2, default(Vector2));
@@ -99,7 +100,7 @@ namespace SpiritMod.Projectiles.Flail
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
 				{
 					for (int i = 0; i < 20; i++) {
-						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 226, 0f, -2f, 0, default(Color), 2f);
+						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, 0f, -2f, 0, default(Color), 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;

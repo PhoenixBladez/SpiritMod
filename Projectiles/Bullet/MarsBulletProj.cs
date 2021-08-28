@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Bullet
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 226);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric);
 			}
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

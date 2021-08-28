@@ -68,7 +68,7 @@ namespace SpiritMod.NPCs.Valkyrie
 				trailing = false;
 			}
 			if (aiTimer >= 120 && aiTimer <= 300) {
-				int dust = Dust.NewDust(npc.Center, npc.width, npc.height, 263);
+				int dust = Dust.NewDust(npc.Center, npc.width, npc.height, DustID.PortalBolt);
 				Main.dust[dust].velocity *= -1f;
 				Main.dust[dust].noGravity = true;
 				Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));

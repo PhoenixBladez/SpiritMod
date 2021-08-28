@@ -24,16 +24,10 @@ namespace SpiritMod.Tiles.Ambient.SpiritGrass
 				16
 			};
 			TileObjectData.addTile(Type);
-			dustType = 206;
+			dustType = DustID.UnusedWhiteBluePurple;
 			soundType = SoundID.Grass;
 		}
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = 10;
-		}
-
-
-
+		public override void NumDust(int i, int j, bool fail, ref int num) => num = 10;
 	}
 }

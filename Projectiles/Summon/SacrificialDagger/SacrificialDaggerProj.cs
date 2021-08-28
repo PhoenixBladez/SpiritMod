@@ -143,7 +143,7 @@ namespace SpiritMod.Projectiles.Summon.SacrificialDagger
             vector9 += value19 * 12f;
             for (int num257 = 0; num257 < 18; num257++)
             {
-                int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, 173, 0f, 0f, 0, Color.White, 1f);
+                int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, DustID.ShadowbeamStaff, 0f, 0f, 0, Color.White, 1f);
                 Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
                 Main.dust[newDust].velocity += value19 * 2f;
                 Main.dust[newDust].velocity *= 0.5f;

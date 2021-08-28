@@ -37,9 +37,9 @@ namespace SpiritMod.Projectiles.Magic
 			}
 			//Create particles
 			for (int k = 0; k < 4; k++) {
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				int dust1 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Flare_Blue, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				int dust1 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Flare_Blue, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Flare_Blue, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust1].noGravity = true;
 				Main.dust[dust2].noGravity = true;
@@ -76,9 +76,6 @@ namespace SpiritMod.Projectiles.Magic
 			}
 
 			++projectile.localAI[1];
-			int minRadius = 1;
-			int minSpeed = 1;
-
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

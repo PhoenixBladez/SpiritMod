@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using SpiritMod.Dusts;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles
 {
@@ -38,7 +39,7 @@ namespace SpiritMod.Projectiles
 			for (int index3 = 0; index3 < 4; ++index3) {
 				Vector2 vector2 = new Vector2(0.0f, -num1);
 				vector2 = (vector2 * (float)(0.850000023841858 + Main.rand.NextDouble() * 0.200000002980232)).RotatedBy((Main.rand.NextDouble() - 0.5) * 0.785398185253143, new Vector2());
-				int index4 = Dust.NewDust(projectile.position, 4, projectile.height + 10, 33, 0.0f, 0.0f, 100, new Color(), 1f);
+				int index4 = Dust.NewDust(projectile.position, 4, projectile.height + 10, DustID.Water, 0.0f, 0.0f, 100, new Color(), 1f);
 				Dust dust1 = Main.dust[index4];
 				dust1.scale = (float)(1.0 + Main.rand.NextDouble() * 0.600000011920929);
 				dust1.alpha = 0;
@@ -55,7 +56,7 @@ namespace SpiritMod.Projectiles
 				float num3 = (float)(0.850000023841858 + Main.rand.NextDouble() * 0.200000002980232);
 				for (int index3 = 0; index3 < 9; ++index3) {
 					Vector2 vector2 = new Vector2((float)(index3 - 4) / 5f, -num1 * num3);
-					int index4 = Dust.NewDust(projectile.position, 4, projectile.height + 10, 33, 0.0f, 0.0f, 100, new Color(), 1f);
+					int index4 = Dust.NewDust(projectile.position, 4, projectile.height + 10, DustID.Water, 0.0f, 0.0f, 100, new Color(), 1f);
 					Dust dust1 = Main.dust[index4];
 					dust1.scale = (float)(0.699999988079071 + Main.rand.NextDouble() * 0.300000011920929);
 					dust1.alpha = 0;
@@ -77,9 +78,7 @@ namespace SpiritMod.Projectiles
 		}
 		public override void Kill(int timeLeft)
 		{
-			Dust.NewDust(projectile.position + projectile.velocity,
-				projectile.width, projectile.height,
-				33, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
+			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Water, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
 		}
 	}
 }

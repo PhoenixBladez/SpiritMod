@@ -48,7 +48,7 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			{
 				for (int i = 0; i < 10; i++) {
-					int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 158, 0f, -2f, 0, Color.White, 2f);
+					int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.OrangeTorch, 0f, -2f, 0, Color.White, 2f);
 					Main.dust[num].noLight = true;
 					Main.dust[num].noGravity = true;
 					Dust expr_62_cp_0 = Main.dust[num];

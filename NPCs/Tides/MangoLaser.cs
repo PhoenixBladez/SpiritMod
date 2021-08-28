@@ -50,10 +50,8 @@ namespace SpiritMod.NPCs.Tides
 			}
 
 			for (int i = 0; i < 6; i++) {
-				Dust dust;
-				// You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle.
 				Vector2 position = projectile.Center;
-				dust = Main.dust[Terraria.Dust.NewDust(position, 0, 0, 272, 0f, 0f, 0, new Color(255, 255, 255), 0.3947368f)];
+				Dust dust = Main.dust[Terraria.Dust.NewDust(position, 0, 0, DustID.WitherLightning, 0f, 0f, 0, new Color(255, 255, 255), 0.3947368f)];
 				dust.noLight = true;
 				dust.velocity = Vector2.Zero;
 			}

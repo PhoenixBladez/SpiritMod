@@ -41,18 +41,20 @@ namespace SpiritMod.NPCs.Critters
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0) {
+			if (npc.life <= 0)
+			{
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SwordfishGore"));
 			}
-			for (int k = 0; k < 5; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, npc.direction, -1f, 1, default(Color), .61f);
-				}
+			for (int k = 0; k < 5; k++)
+			{
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, npc.direction, -1f, 1, default(Color), .61f);
+			}
 		}
-		private int Counter;
-		
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe) {
+			if (spawnInfo.playerSafe)
+			{
 				return 0f;
 			}
 			return SpawnCondition.OceanMonster.Chance * 0.0131f;
@@ -63,10 +65,12 @@ namespace SpiritMod.NPCs.Critters
 		}
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(2) == 1) {
+			if (Main.rand.Next(2) == 1)
+			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawFish>(), 1);
 			}
-			if (Main.rand.Next(2) == 1) {
+			if (Main.rand.Next(2) == 1)
+			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Swordfish, 1);
 			}
 		}

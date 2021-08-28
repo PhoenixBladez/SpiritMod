@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles.Magic
 {
@@ -72,7 +73,7 @@ namespace SpiritMod.Projectiles.Magic
 			Vector2 vec = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
 			Vector2 vel = vec * Main.rand.NextFloat(minSpeed, maxSpeed);
 
-			int dust = Dust.NewDust(position - vec * distance, 0, 0, 226);
+			int dust = Dust.NewDust(position - vec * distance, 0, 0, DustID.Electric);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust].scale *= .3f;
 			Main.dust[dust].velocity = vel;

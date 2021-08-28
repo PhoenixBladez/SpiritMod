@@ -2,6 +2,7 @@
 using SpiritMod.Buffs;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles
 {
@@ -29,7 +30,7 @@ namespace SpiritMod.Projectiles
 			for (int i = 0; i < 10; i++) {
 				int num = 5;
 				for (int k = 0; k < 6; k++) {
-					int index2 = Dust.NewDust(projectile.position, 4, 4, 110, 0.0f, 0.0f, 0, new Color(), 1f);
+					int index2 = Dust.NewDust(projectile.position, 4, 4, DustID.Clentaminator_Green, 0.0f, 0.0f, 0, new Color(), 1f);
 					Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
 					Main.dust[index2].scale = .48f;
 					Main.dust[index2].velocity *= 0f;
@@ -44,7 +45,7 @@ namespace SpiritMod.Projectiles
 					Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
 					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
 					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2));
-					int num8 = Dust.NewDust(projectile.Center, 0, 0, 110, 0f, 0f, 160, new Color(), 1f);
+					int num8 = Dust.NewDust(projectile.Center, 0, 0, DustID.Clentaminator_Green, 0f, 0f, 160, new Color(), 1f);
 					Main.dust[num8].scale = .68f;
 					Main.dust[num8].noGravity = true;
 					Main.dust[num8].position = projectile.Center + vector2;
@@ -75,7 +76,7 @@ namespace SpiritMod.Projectiles
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 
 			for (int num623 = 0; num623 < 25; num623++) {
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, 0f, 0f, 100, default(Color), .8f);
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Electric, 0f, 0f, 100, default(Color), .8f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 1f;
 			}

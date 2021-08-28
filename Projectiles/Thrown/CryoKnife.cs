@@ -34,7 +34,7 @@ namespace SpiritMod.Projectiles.Thrown
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, ModContent.ProjectileType<CryoExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);
 			for (int i = 0; i < 5; i++) {
-				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 180);
+				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.DungeonSpirit);
 				Main.dust[d].scale = .5f;
 			}
 		}

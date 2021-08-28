@@ -81,7 +81,7 @@ namespace SpiritMod.Projectiles.Bullet
 			ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
 				delegate {
 					for (int i = 0; i < 10; i++) {
-						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 226, 0f, -2f, 0, default(Color), 2f);
+						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, 0f, -2f, 0, default(Color), 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(77, Main.LocalPlayer);
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;

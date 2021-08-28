@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles.Thrown
 
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 107);
 			for (int i = 0; i < 30; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 75, 0f, -2f, 0, default(Color), 1.2f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.CursedTorch, 0f, -2f, 0, default(Color), 1.2f);
 				Main.dust[num].noGravity = true;
 				Dust expr_62_cp_0 = Main.dust[num];
 				expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-30, 31) / 20) - 1.5f);

@@ -108,7 +108,6 @@ namespace SpiritMod.NPCs.Tides
 				npc.knockBackResist = 0;
 				npc.velocity = Vector2.Zero;
 				bloomCounter += 0.02f;
-				jump = false;
 				npc.rotation = 0f;
 			}
 			else {
@@ -159,7 +158,7 @@ namespace SpiritMod.NPCs.Tides
 			}
 			return true;
 		}
-		bool jump = false;
+
 		public override void FindFrame(int frameHeight)
 		{
 			Player player = Main.player[npc.target];

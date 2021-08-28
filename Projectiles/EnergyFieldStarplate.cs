@@ -3,6 +3,7 @@ using SpiritMod.Buffs;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles
 {
@@ -34,7 +35,7 @@ namespace SpiritMod.Projectiles
 				}
 			}
 			for (int k = 0; k < 4; k++) {
-				int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 226);
+				int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.Electric);
 				Main.dust[dust].velocity *= -1f;
 				Main.dust[dust].noGravity = true;
 				Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));

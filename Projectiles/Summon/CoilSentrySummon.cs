@@ -83,7 +83,7 @@ namespace SpiritMod.Projectiles.Summon
 			Vector2 globePos = new Vector2(projectile.Center.X + 2, projectile.position.Y + 6);
 			if (Main.rand.Next(11) == 1) {
 				Vector2 vector2 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2(8f, 8f) * projectile.scale * 1.45f / 2f;
-				int index = Dust.NewDust(globePos + vector2, 0, 0, 226, 0.0f, 0.0f, 0, new Color(), .8f);
+				int index = Dust.NewDust(globePos + vector2, 0, 0, DustID.Electric, 0.0f, 0.0f, 0, new Color(), .8f);
 				Main.dust[index].position = globePos + vector2;
 				Main.dust[index].velocity = new Vector2(0, -1);
 				Main.dust[index].noGravity = true;

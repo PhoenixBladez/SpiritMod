@@ -1,6 +1,7 @@
 ﻿using SpiritMod.NPCs;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Buffs
 {
@@ -30,7 +31,7 @@ namespace SpiritMod.Buffs
 			}
 
 			for (int i = 0; i < info.GhostJellyStacks; ++i) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 206);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedWhiteBluePurple);
 			}
 		}
 	}

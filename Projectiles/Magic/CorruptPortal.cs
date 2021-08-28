@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			projectile.tileCollide = false;
 			{
-				int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 70, 0.0f, 0.0f, 200, new Color(), 0.5f);
+				int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.PurpleCrystalShard, 0.0f, 0.0f, 200, new Color(), 0.5f);
 				Main.dust[index].noGravity = true;
 				Main.dust[index].velocity *= 0.75f;
 				Main.dust[index].fadeIn = 1.3f;
@@ -103,7 +103,7 @@ namespace SpiritMod.Projectiles.Magic
 				ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
 					delegate {
 						for (int i = 0; i < 40; i++) {
-							int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 173, 0f, -2f, 0, default(Color), 1.3f);
+							int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.ShadowbeamStaff, 0f, -2f, 0, default(Color), 1.3f);
 							Main.dust[num].noGravity = true;
 							Dust expr_62_cp_0 = Main.dust[num];
 							expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 10) - 1.5f);

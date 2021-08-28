@@ -10,10 +10,6 @@ namespace SpiritMod.NPCs.Hornetfish
 {
 	public class Hornetfish : ModNPC
 	{
-		int moveSpeed = 0;
-		int moveSpeedY = 0;
-		float HomeY = 150f;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hornetfish");

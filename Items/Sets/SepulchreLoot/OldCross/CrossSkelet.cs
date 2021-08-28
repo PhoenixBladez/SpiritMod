@@ -131,9 +131,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++)
-			{
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 46);
-			}
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Poisoned);
 			for(int i = 1; i <= Main.rand.Next(2, 5); i++)
 			{
 				Gore gore = Gore.NewGoreDirect(projectile.position, projectile.velocity / 2, mod.GetGoreSlot("Gores/Skelet/skeler" + i));

@@ -121,7 +121,7 @@ namespace SpiritMod.Projectiles.Summon
 		private void SpawnDust(Player player)
 		{
 			for (int k = 0; k < 3; k++) {
-				int index2 = Dust.NewDust(new Vector2(projectile.Center.X - 6, projectile.Center.Y + 3), 1, 1, 127, 0.0f, 0.0f, 0, new Color(), 1f);
+				int index2 = Dust.NewDust(new Vector2(projectile.Center.X - 6, projectile.Center.Y + 3), 1, 1, DustID.Flare, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].noGravity = false;
 				Main.dust[index2].velocity.X = player.velocity.X;
@@ -129,7 +129,7 @@ namespace SpiritMod.Projectiles.Summon
 				Main.dust[index2].noLight = false;
 			}
 			for (int j = 0; j < 3; j++) {
-				int index2 = Dust.NewDust(new Vector2(projectile.Center.X - 12, projectile.Center.Y + 3), 1, 1, 127, 0.0f, 0.0f, 0, new Color(), 1f);
+				int index2 = Dust.NewDust(new Vector2(projectile.Center.X - 12, projectile.Center.Y + 3), 1, 1, DustID.Flare, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].noGravity = false;
 				Main.dust[index2].velocity.X = player.velocity.X;

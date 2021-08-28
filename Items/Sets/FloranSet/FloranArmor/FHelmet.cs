@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Sets.FloranSet.FloranArmor
 			timer++;
 
 			if (timer == 20) {
-				int d = Dust.NewDust(player.position, player.width, player.height, 39);
+				int d = Dust.NewDust(player.position, player.width, player.height, DustID.JungleGrass);
 				Main.dust[d].velocity *= 0f;
 				timer = 0;
 			}

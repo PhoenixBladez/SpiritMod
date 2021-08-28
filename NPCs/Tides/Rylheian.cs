@@ -63,7 +63,7 @@ namespace SpiritMod.NPCs.Tides
 			npc.TargetClosest();
 			Player player = Main.player[npc.target];
 			npc.ai[0]++;
-			int dust = Dust.NewDust(npc.position, npc.width, npc.height, 173);
+			int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.ShadowbeamStaff);
 			npc.spriteDirection = npc.direction;
 			if (npc.ai[0] % 400 == 100 && Main.netMode != NetmodeID.MultiplayerClient) {
 				int distance = 500;

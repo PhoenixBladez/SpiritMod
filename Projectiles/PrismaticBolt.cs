@@ -30,7 +30,7 @@ namespace SpiritMod.Projectiles
 			ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
 				delegate {
 					for (int num621 = 0; num621 < 40; num621++) {
-						int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 206, 0f, 0f, 100, default(Color), 2f);
+						int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, 0f, 0f, 100, default(Color), 2f);
 						Main.dust[num622].velocity *= 3f;
 						if (Main.rand.Next(2) == 0) {
 							Main.dust[num622].scale = 0.5f;
@@ -38,10 +38,10 @@ namespace SpiritMod.Projectiles
 						}
 					}
 					for (int num623 = 0; num623 < 70; num623++) {
-						int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 257, 0f, 0f, 100, default(Color), 1f);
+						int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.BubbleBlock, 0f, 0f, 100, default, 1f);
 						Main.dust[num624].noGravity = true;
 						Main.dust[num624].velocity *= 1.5f;
-						num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 206, 0f, 0f, 100, default(Color), 1f);
+						num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, 0f, 0f, 100, default(Color), 1f);
 						Main.dust[num624].velocity *= 2f;
 					}
 				});
@@ -63,8 +63,8 @@ namespace SpiritMod.Projectiles
 				projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 				projectile.knockBack = 4f;
 			}
-			int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 257);
-			int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206);
+			int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.BubbleBlock);
+			int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple);
 			Main.dust[dust].noGravity = true;
 		}
 

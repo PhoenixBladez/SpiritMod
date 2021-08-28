@@ -1,6 +1,7 @@
 using SpiritMod.Buffs;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles.Magic
 {
@@ -26,18 +27,14 @@ namespace SpiritMod.Projectiles.Magic
 		public override bool PreAI()
 		{
 			projectile.rotation += 0.1f;
-			if (projectile.ai[0]++ >= 60) {
+			if (projectile.ai[0]++ >= 60)
 				projectile.velocity *= 1.2f;
-			}
 
 			if (Main.rand.Next(5) == 0) {
-				int dust = Dust.NewDust(projectile.position + projectile.velocity,
-					projectile.width, projectile.height,
-					61, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.GreenTorch, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[dust].scale = 3f;
 				Main.dust[dust].noGravity = true;
 			}
-
 			return false;
 		}
 

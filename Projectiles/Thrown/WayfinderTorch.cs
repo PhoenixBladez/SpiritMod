@@ -28,7 +28,7 @@ namespace SpiritMod.Projectiles.Thrown
 		public override bool PreAI()
 		{
 			for (int i = 0; i < 5; i++) {
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206);
+				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple);
 				Main.dust[dust].noGravity = true;
 			}
 			return true;
@@ -46,7 +46,7 @@ namespace SpiritMod.Projectiles.Thrown
 				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<Items.Sets.SeraphSet.WayfinderTorch>(), 1, false, 0, false, false);
 
 			for (int i = 0; i < 5; i++) {
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);
+				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Flare_Blue);
 				Main.dust[dust].noGravity = true;
 			}
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);

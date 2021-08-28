@@ -83,12 +83,11 @@ namespace SpiritMod.Projectiles
 			ProjectileExtras.Explode(projectile.whoAmI, 40, 40,
 				delegate {
 					for (int i = 0; i < 40; i++) {
-						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 156, 0f, -2f, 117, new Color(0, 255, 142), .6f);
+						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Ultrabright, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 						Main.dust[num].noGravity = true;
 						Dust expr_62_cp_0 = Main.dust[num];
-						expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-						Dust expr_92_cp_0 = Main.dust[num];
-						expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+						expr_62_cp_0.position.X += ((Main.rand.Next(-50, 51) / 20) - 1.5f);
+						expr_62_cp_0.position.Y += ((Main.rand.Next(-50, 51) / 20) - 1.5f);
 						if (Main.dust[num].position != projectile.Center) {
 							Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 						}

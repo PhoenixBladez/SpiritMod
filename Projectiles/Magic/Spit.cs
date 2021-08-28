@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles.Magic
 {
@@ -29,7 +30,7 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			int num = 5;
 			for (int k = 0; k < 6; k++) {
-				int index2 = Dust.NewDust(projectile.position, 1, 1, 184, 0.0f, 0.0f, 0, new Color(), 1f);
+				int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.ScourgeOfTheCorruptor, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
 				Main.dust[index2].scale = .75f;
 				Main.dust[index2].velocity *= 0f;
@@ -44,7 +45,7 @@ namespace SpiritMod.Projectiles.Magic
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 
-				int num2121 = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter / 4.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, 184, 0f, 0f, 0, default(Color), 1f);
+				int num2121 = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter / 4.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, DustID.ScourgeOfTheCorruptor, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[num2121].velocity *= 0f;
 				Main.dust[num2121].scale *= .75f;
 				Main.dust[num2121].noGravity = true;

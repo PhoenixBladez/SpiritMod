@@ -100,7 +100,7 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 20));
 				{
 					for (int i = 0; i < 7; i++) {
-						int num = Dust.NewDust(player.position, player.width, player.height, 68, 0f, -2f, 0, default(Color), 2f);
+						int num = Dust.NewDust(player.position, player.width, player.height, DustID.BlueCrystalShard, 0f, -2f, 0, default(Color), 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -115,7 +115,7 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
 			if (Main.rand.Next(5) == 0) {
-				int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 180);
+				int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.DungeonSpirit);
 				Main.dust[dust].noGravity = true;
 			}
 		}

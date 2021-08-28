@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles.Magic
          }
 		public override void AI()
 		{
-			const int dustType = 206;
+			const int dustType = DustID.UnusedWhiteBluePurple;
 
 			if (projectile.owner == Main.myPlayer)
 				Convert((int)(projectile.position.X + projectile.width / 2f) / 16, (int)(projectile.position.Y + projectile.height / 2f) / 16, 2);

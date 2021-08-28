@@ -79,21 +79,19 @@ namespace SpiritMod.NPCs.SamuraiGhost
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			int d1 = 54;
 			for (int k = 0; k < 20; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 54, new Color(0, 255, 142), .6f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Wraith, 2.5f * hitDirection, -2.5f, 54, new Color(0, 255, 142), .6f);
 			}
 			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, 99);
 				Gore.NewGore(npc.position, npc.velocity, 99);
 				Gore.NewGore(npc.position, npc.velocity, 99);
 				for (int i = 0; i < 40; i++) {
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, 54, 0f, -2f, 117, new Color(0, 255, 142), .6f);
+					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Wraith, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 					Main.dust[num].noGravity = true;
 					Dust expr_62_cp_0 = Main.dust[num];
-					expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-					Dust expr_92_cp_0 = Main.dust[num];
-					expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+					expr_62_cp_0.position.X += ((Main.rand.Next(-50, 51) / 20) - 1.5f);
+					expr_62_cp_0.position.Y += ((Main.rand.Next(-50, 51) / 20) - 1.5f);
 					if (Main.dust[num].position != npc.Center) {
 						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 					}
@@ -220,7 +218,7 @@ namespace SpiritMod.NPCs.SamuraiGhost
 				Main.PlaySound(SoundID.DD2_WyvernDiveDown, npc.Center);
 
 				for (int i = 0; i < 20; i++) {
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, 14, 0f, -2f, 0, default(Color), .8f);
+					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Demonite, 0f, -2f, 0, default(Color), .8f);
 					Main.dust[num].noGravity = true;
 					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;

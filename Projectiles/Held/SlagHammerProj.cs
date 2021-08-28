@@ -40,7 +40,7 @@ namespace SpiritMod.Projectiles.Held
 
 		public override void AI()
 		{
-			int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 127);
+			int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.Flare);
 			Main.dust[dust].velocity *= -1f;
 			Main.dust[dust].noGravity = true;
 			Vector2 vector2_1 = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));

@@ -42,12 +42,12 @@ namespace SpiritMod.NPCs.Tides
 		}
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 1);
+			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 1);
 			Vector2 vector9 = projectile.position;
 			Vector2 value19 = (projectile.rotation - 3.14f).ToRotationVector2();
 			vector9 += value19 * 16f;
 			for (int num257 = 0; num257 < 20; num257++) {
-				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, 199, 0f, 0f, 0, default(Color), 1.6f);
+				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, DustID.Butterfly, 0f, 0f, 0, default(Color), 1.6f);
 				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
 				Main.dust[newDust].velocity += value19 * 2f;
 				Main.dust[newDust].velocity *= 0.5f;

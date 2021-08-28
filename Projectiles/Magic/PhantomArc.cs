@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles.Magic
 {
@@ -90,14 +91,14 @@ namespace SpiritMod.Projectiles.Magic
 				float num827 = projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * 1.57079637f;
 				float num828 = (float)Main.rand.NextDouble() * 2f + 2f;
 				Vector2 vector73 = new Vector2((float)Math.Cos((double)num827) * num828, (float)Math.Sin((double)num827) * num828);
-				int num829 = Dust.NewDust(vector72, 0, 0, 206, vector73.X, vector73.Y, 0, default(Color), 1f);
+				int num829 = Dust.NewDust(vector72, 0, 0, DustID.UnusedWhiteBluePurple, vector73.X, vector73.Y, 0, default, 1f);
 				Main.dust[num829].noGravity = true;
 				Main.dust[num829].scale = 1.7f;
 			}
 
 			if (Main.rand.Next(5) == 0) {
 				Vector2 value40 = projectile.velocity.RotatedBy(Math.PI / 2, default(Vector2)) * ((float)Main.rand.NextDouble() - 0.5f) * projectile.width;
-				int num830 = Dust.NewDust(vector72 + value40 - Vector2.One * 4f, 8, 8, 31, 0f, 0f, 100, default(Color), 1.5f);
+				int num830 = Dust.NewDust(vector72 + value40 - Vector2.One * 4f, 8, 8, DustID.Smoke, 0f, 0f, 100, default(Color), 1.5f);
 				Main.dust[num830].velocity *= 0.5f;
 				Main.dust[num830].velocity.Y = -Math.Abs(Main.dust[num830].velocity.Y);
 			}

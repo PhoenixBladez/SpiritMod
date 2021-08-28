@@ -28,7 +28,7 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			projectile.tileCollide = false;
 			int dust = Dust.NewDust(projectile.position + projectile.velocity,
-				projectile.width, projectile.height, 107, 0f, 0f);
+				projectile.width, projectile.height, DustID.TerraBlade, 0f, 0f);
 			Main.dust[dust].scale = 1.5f;
 			Main.dust[dust].noGravity = true;
 			return true;

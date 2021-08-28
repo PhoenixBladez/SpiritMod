@@ -57,16 +57,11 @@ namespace SpiritMod.NPCs.Valkyrie
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
-			// Vector2 vector9 = projectile.position;
-			//Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
-			// vector9 += value19 * 16f;
+
 			for (int num257 = 0; num257 < 20; num257++) {
-				int newDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 87, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 0, default(Color), 1f);
+				int newDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.TopazBolt, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 0, default(Color), 1f);
 				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
-				// Main.dust[newDust].velocity += value19 * 2f;
-				//  Main.dust[newDust].velocity *= 0.5f;
 				Main.dust[newDust].noGravity = true;
-				//  vector9 -= value19 * 8f;
 			}
 		}
 	}

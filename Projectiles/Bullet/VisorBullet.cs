@@ -1,13 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Bullet
 {
 	public class VisorBullet : ModProjectile
 	{
-		int target;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Tactical Bolt");
@@ -34,7 +34,7 @@ namespace SpiritMod.Projectiles.Bullet
 			for (int i = 0; i < 16; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 68);
+				int num = Dust.NewDust(new Vector2(x, y), 26, 26, DustID.BlueCrystalShard);
 				Main.dust[num].alpha = projectile.alpha;
 				Main.dust[num].position.X = x;
 				Main.dust[num].position.Y = y;

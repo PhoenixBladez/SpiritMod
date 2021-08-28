@@ -63,7 +63,7 @@ namespace SpiritMod.Projectiles.Hostile
 		}
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(3, projectile.Center, 3);
+            Main.PlaySound(SoundID.NPCHit, projectile.Center, 3);
             if (Main.rand.NextBool(4))
             {
                 Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ItemID.FallenStar, 1, false, 0, false, false);

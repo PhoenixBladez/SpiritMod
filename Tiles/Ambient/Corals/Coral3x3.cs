@@ -28,7 +28,7 @@ namespace SpiritMod.Tiles.Ambient.Corals
 			TileObjectData.addTile(Type);
 
 			disableSmartCursor = true;
-			dustType = 225;// DustID.Coralstone;
+			dustType = DustID.Coralstone;
 
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Coral");

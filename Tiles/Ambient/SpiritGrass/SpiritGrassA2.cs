@@ -24,7 +24,7 @@ namespace SpiritMod.Tiles.Ambient.SpiritGrass
 				16
 			};
 			TileObjectData.addTile(Type);
-			dustType = 206;
+			dustType = DustID.UnusedWhiteBluePurple;
 			soundType = SoundID.Grass;
 		}
 

@@ -28,7 +28,7 @@ namespace SpiritMod.NPCs.WinterbornHerald
 		{
 			projectile.tileCollide = false;
 			{
-				int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 68, 0.0f, 0.0f, 200, new Color(), 0.5f);
+				int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.BlueCrystalShard, 0.0f, 0.0f, 200, new Color(), 0.5f);
 				Main.dust[index].noGravity = true;
 				Main.dust[index].velocity *= 0.75f;
 				Main.dust[index].fadeIn = 1.3f;

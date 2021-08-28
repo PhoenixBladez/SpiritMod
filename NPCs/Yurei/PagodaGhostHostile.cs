@@ -70,12 +70,11 @@ namespace SpiritMod.NPCs.Yurei
 				Gore.NewGore(npc.position, npc.velocity, 99);
 				Gore.NewGore(npc.position, npc.velocity, 99);
 				for (int i = 0; i < 40; i++) {
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, 66, 0f, -2f, 0, new Color(0, 255, 142), .6f);
+					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Rainbow, 0f, -2f, 0, new Color(0, 255, 142), .6f);
 					Main.dust[num].noGravity = true;
 					Dust expr_62_cp_0 = Main.dust[num];
-					expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-					Dust expr_92_cp_0 = Main.dust[num];
-					expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+					expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((Main.rand.Next(-50, 51) / 20) - 1.5f);
+					expr_62_cp_0.position.Y = expr_62_cp_0.position.Y + ((Main.rand.Next(-50, 51) / 20) - 1.5f);
 					if (Main.dust[num].position != npc.Center) {
 						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 					}
@@ -85,13 +84,9 @@ namespace SpiritMod.NPCs.Yurei
         public override void NPCLoot()
         {
             if (Main.rand.NextBool(16))
-            {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Ramen>());
-            }
             if (Main.rand.NextBool(16))
-            {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Sushi>());
-            }
         }
         public override void AI()
 		{
@@ -112,10 +107,7 @@ namespace SpiritMod.NPCs.Yurei
 			}
 			npc.spriteDirection = npc.direction;
 		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return new Color(100 + npc.alpha, 100 + npc.alpha, 100 + npc.alpha, 100 + npc.alpha);
-		}
+		public override Color? GetAlpha(Color lightColor) => new Color(100 + npc.alpha, 100 + npc.alpha, 100 + npc.alpha, 100 + npc.alpha);
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));

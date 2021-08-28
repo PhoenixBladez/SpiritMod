@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.ID;
 
 namespace SpiritMod.NPCs.Vulture_Matriarch
 {
@@ -37,7 +38,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 					num4 = 0.9f;
 				}
 				spinningpoint *= -1f;
-				int index3 = Dust.NewDust(player.Center, 0, 0, 228, 0.0f, 0.0f, 100, new Color(), 0.9f);
+				int index3 = Dust.NewDust(player.Center, 0, 0, DustID.GoldFlame, 0.0f, 0.0f, 100, new Color(), 0.9f);
 				Main.dust[index3].noGravity = true;
 				Main.dust[index3].fadeIn = 0.4f;
 				Main.dust[index3].position = new Vector2(player.Center.X, player.Center.Y - 30) + spinningpoint * num4 + vector2;
@@ -53,7 +54,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 					num4 = 0.9f;
 				}
 				spinningpoint *= -1f;
-				int index3 = Dust.NewDust(player.Center, 0, 0, 228, 0.0f, 0.0f, 100, new Color(), 0.9f);
+				int index3 = Dust.NewDust(player.Center, 0, 0, DustID.GoldFlame, 0.0f, 0.0f, 100, new Color(), 0.9f);
 				Main.dust[index3].noGravity = true;
 				Main.dust[index3].fadeIn = 0.4f;
 				Main.dust[index3].position = new Vector2(player.Center.X, player.Center.Y + 30) + spinningpoint * num4 + vector2;
@@ -69,7 +70,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 					num4 = 0.9f;
 				}
 				spinningpoint *= -1f;
-				int index3 = Dust.NewDust(player.Center, 0, 0, 228, 0.0f, 0.0f, 100, new Color(), 0.9f);
+				int index3 = Dust.NewDust(player.Center, 0, 0, DustID.GoldFlame, 0.0f, 0.0f, 100, new Color(), 0.9f);
 				Main.dust[index3].noGravity = true;
 				Main.dust[index3].fadeIn = 0.4f;
 				Main.dust[index3].position = new Vector2(player.Center.X - 30, player.Center.Y) + spinningpoint * num4 + vector2;
@@ -85,7 +86,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 					num4 = 0.9f;
 				}
 				spinningpoint *= -1f;
-				int index3 = Dust.NewDust(player.Center, 0, 0, 228, 0.0f, 0.0f, 100, new Color(), 0.9f);
+				int index3 = Dust.NewDust(player.Center, 0, 0, DustID.GoldFlame, 0.0f, 0.0f, 100, new Color(), 0.9f);
 				Main.dust[index3].noGravity = true;
 				Main.dust[index3].fadeIn = 0.4f;
 				Main.dust[index3].position = new Vector2(player.Center.X + 30, player.Center.Y) + spinningpoint * num4 + vector2;

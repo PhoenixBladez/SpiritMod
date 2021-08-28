@@ -83,7 +83,7 @@ namespace SpiritMod.NPCs.CavernBandit
         }
         public override void HitEffect(int hitDirection, double damage)
 		{
-			Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 4, 1f, 0f);
+			Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 4, 1f, 0f);
 			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CavernBanditGore1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CavernBanditGore2"), 1f);
@@ -91,9 +91,9 @@ namespace SpiritMod.NPCs.CavernBandit
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CavernBanditGore4"), 1f);
 			}
 			for (int k = 0; k < 7; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 8, 2.5f * hitDirection, -2.5f, 0, default(Color), 1.2f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 8, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.5f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 8, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default(Color), 1.2f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.5f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
 			}
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

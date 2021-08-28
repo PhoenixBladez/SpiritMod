@@ -49,7 +49,7 @@ namespace SpiritMod.Projectiles.Bullet
                     float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
                     float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 
-                    int num = Dust.NewDust(projectile.position, 6, 6, 272, 0f, 0f, 0, default(Color), .65f);
+                    int num = Dust.NewDust(projectile.position, 6, 6, DustID.WitherLightning, 0f, 0f, 0, default(Color), .65f);
                     Main.dust[num].position = projectile.Center - projectile.velocity / num * (float)i;
 
                     //Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(18, Main.LocalPlayer);
@@ -66,7 +66,7 @@ namespace SpiritMod.Projectiles.Bullet
                         float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
                         float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 
-                        int num = Dust.NewDust(projectile.position, 6, 6, 272, 0f, 0f, 0, default(Color), .65f);
+                        int num = Dust.NewDust(projectile.position, 6, 6, DustID.WitherLightning, 0f, 0f, 0, default(Color), .65f);
                         Main.dust[num].position = projectile.Center - projectile.velocity / num * (float)i;
     
                         //Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(18, Main.LocalPlayer);
@@ -83,7 +83,7 @@ namespace SpiritMod.Projectiles.Bullet
                 {
                     float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
                     float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-                    int num = Dust.NewDust(new Vector2(x, y), 2, 2, 272);
+                    int num = Dust.NewDust(new Vector2(x, y), 2, 2, DustID.WitherLightning);
 
                     Main.dust[num].position = projectile.Center - projectile.velocity / num * (float)i;
                     Main.dust[num].alpha = projectile.alpha;
@@ -126,7 +126,7 @@ namespace SpiritMod.Projectiles.Bullet
         {
             for (float numBounce = 0.0f; (double)numBounce < 10; ++numBounce)
             {
-                int dustIndex = Dust.NewDust(projectile.Center, 2, 2, 272, 0f, 0f, 0, default, .56f);
+                int dustIndex = Dust.NewDust(projectile.Center, 2, 2, DustID.WitherLightning, 0f, 0f, 0, default, .56f);
                 Main.dust[dustIndex].noGravity = true;
                 Main.dust[dustIndex].velocity = Vector2.Normalize(projectile.Center.RotatedBy(Main.rand.NextFloat(MathHelper.TwoPi))) * 1.6f;
             }

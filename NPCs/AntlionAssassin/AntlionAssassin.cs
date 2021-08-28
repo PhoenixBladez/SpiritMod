@@ -43,10 +43,12 @@ namespace SpiritMod.NPCs.AntlionAssassin
 		int timer;
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for (int k = 0; k < 11; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 85, hitDirection, -1f, 1, default(Color), .61f);
+			for (int k = 0; k < 11; k++)
+			{
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedBrown, hitDirection, -1f, 1, default(Color), .61f);
 			}
-			if (npc.life <= 0) {
+			if (npc.life <= 0)
+			{
 				{
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AntlionAssassin/Assassin1"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AntlionAssassin/Assassin2"), 1f);
@@ -59,8 +61,9 @@ namespace SpiritMod.NPCs.AntlionAssassin
 				Main.gore[ing1].timeLeft = 30;
 				int ing2 = Gore.NewGore(npc.position, npc.velocity, 827);
 				Main.gore[ing2].timeLeft = 30;
-				for (int k = 0; k < 11; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, 85, hitDirection, -1f, 1, default(Color), .61f);
+				for (int k = 0; k < 11; k++)
+				{
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedBrown, hitDirection, -1f, 1, default(Color), .61f);
 				}
 			}
 		}
@@ -78,10 +81,10 @@ namespace SpiritMod.NPCs.AntlionAssassin
 			npc.spriteDirection = npc.direction;
 			npc.alpha++;
 			timer++;
-			if (timer >= 500) {
-				for (int k = 0; k < 11; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, 85, npc.direction, -1f, 1, default(Color), .61f);
-				}
+			if (timer >= 500)
+			{
+				for (int k = 0; k < 11; k++)
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedBrown, npc.direction, -1f, 1, default(Color), .61f);
 				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 6);
 				int ing = Gore.NewGore(npc.position, npc.velocity, 825);
 				Main.gore[ing].timeLeft = 130;
@@ -96,13 +99,10 @@ namespace SpiritMod.NPCs.AntlionAssassin
 
 		public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
 		{
-			for (int k = 0; k < 11; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 85, npc.direction, -1f, 1, default(Color), .61f);
-			}
+			for (int k = 0; k < 11; k++)
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedBrown, npc.direction, -1f, 1, default(Color), .61f);
 			if (npc.alpha >= 220)
-			{
 				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 6);
-			}
 			int ing = Gore.NewGore(npc.position, npc.velocity, 825);
 			Main.gore[ing].timeLeft = 50;
 			Main.gore[ing].scale = Main.rand.NextFloat(.5f, .9f);
@@ -118,13 +118,10 @@ namespace SpiritMod.NPCs.AntlionAssassin
 		}
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
 		{
-			for (int k = 0; k < 11; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 85, npc.direction, -1f, 1, default(Color), .61f);
-			}
+			for (int k = 0; k < 11; k++)
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedBrown, npc.direction, -1f, 1, default(Color), .61f);
 			if (npc.alpha >= 220)
-			{
 				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 6);
-			}
 			int ing = Gore.NewGore(npc.position, npc.velocity, 825);
 			Main.gore[ing].timeLeft = 130;
 			int ing1 = Gore.NewGore(npc.position, npc.velocity, 826);
@@ -137,28 +134,29 @@ namespace SpiritMod.NPCs.AntlionAssassin
 		}
 		public override void NPCLoot()
 		{
-			if (Main.rand.NextBool(53)) {
+			if (Main.rand.NextBool(53))
+			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 857);
-            }
-            if (Main.rand.NextBool(16))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Hummus>());
-            }
-        }
+			}
+			if (Main.rand.NextBool(16))
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Hummus>());
+			}
+		}
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (npc.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
-			Vector2 vector2_3 = new Vector2((float) (Main.npcTexture[npc.type].Width / 2), (float) (Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
-			Microsoft.Xna.Framework.Color color12 = Lighting.GetColor((int) ((double) npc.position.X + (double) npc.width * 0.5) / 16, (int) (((double) npc.position.Y + (double) npc.height * 0.5) / 16.0));
-			Main.spriteBatch.Draw(mod.GetTexture("NPCs/AntlionAssassin/AntlionAssassin_Glow"), new Vector2((float) ((double) npc.position.X - (double) Main.screenPosition.X + (double) (npc.width / 2) - (double) Main.npcTexture[npc.type].Width * (double) npc.scale / 2.0 + (double) vector2_3.X * (double) npc.scale), (float) ((double) npc.position.Y - (double) Main.screenPosition.Y + (double) npc.height - (double) Main.npcTexture[npc.type].Height * (double) npc.scale / (double) Main.npcFrameCount[npc.type] + 4.0 + (double) vector2_3.Y * (double) npc.scale) ), new Microsoft.Xna.Framework.Rectangle?(npc.frame), Microsoft.Xna.Framework.Color.White * .85f, npc.rotation, vector2_3, npc.scale, spriteEffects, 0.0f);
+			Vector2 vector2_3 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+			Microsoft.Xna.Framework.Color color12 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
+			Main.spriteBatch.Draw(mod.GetTexture("NPCs/AntlionAssassin/AntlionAssassin_Glow"), new Vector2((float)((double)npc.position.X - (double)Main.screenPosition.X + (double)(npc.width / 2) - (double)Main.npcTexture[npc.type].Width * (double)npc.scale / 2.0 + (double)vector2_3.X * (double)npc.scale), (float)((double)npc.position.Y - (double)Main.screenPosition.Y + (double)npc.height - (double)Main.npcTexture[npc.type].Height * (double)npc.scale / (double)Main.npcFrameCount[npc.type] + 4.0 + (double)vector2_3.Y * (double)npc.scale)), new Microsoft.Xna.Framework.Rectangle?(npc.frame), Microsoft.Xna.Framework.Color.White * .85f, npc.rotation, vector2_3, npc.scale, spriteEffects, 0.0f);
 			if (npc.velocity.Y != 0f)
 			{
 				for (int index = 1; index < 10; ++index)
 				{
 					Microsoft.Xna.Framework.Color color2 = new Microsoft.Xna.Framework.Color(255 - index * 10, 110 - index * 10, 110 - index * 10, 110 - index * 10);
-					Main.spriteBatch.Draw(mod.GetTexture("NPCs/AntlionAssassin/AntlionAssassin_Glow"), new Vector2((float) ((double) npc.position.X - (double) Main.screenPosition.X + (double) (npc.width / 2) - (double) Main.npcTexture[npc.type].Width * (double) npc.scale / 2.0 + (double) vector2_3.X * (double) npc.scale), (float) ((double) npc.position.Y - (double) Main.screenPosition.Y + (double) npc.height - (double) Main.npcTexture[npc.type].Height * (double) npc.scale / (double) Main.npcFrameCount[npc.type] + 4.0 + (double) vector2_3.Y * (double) npc.scale) ) - npc.velocity * (float) index * 0.5f, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color2, npc.rotation, vector2_3, npc.scale, spriteEffects, 0.0f);
+					Main.spriteBatch.Draw(mod.GetTexture("NPCs/AntlionAssassin/AntlionAssassin_Glow"), new Vector2((float)((double)npc.position.X - (double)Main.screenPosition.X + (double)(npc.width / 2) - (double)Main.npcTexture[npc.type].Width * (double)npc.scale / 2.0 + (double)vector2_3.X * (double)npc.scale), (float)((double)npc.position.Y - (double)Main.screenPosition.Y + (double)npc.height - (double)Main.npcTexture[npc.type].Height * (double)npc.scale / (double)Main.npcFrameCount[npc.type] + 4.0 + (double)vector2_3.Y * (double)npc.scale)) - npc.velocity * (float)index * 0.5f, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color2, npc.rotation, vector2_3, npc.scale, spriteEffects, 0.0f);
 				}
 			}
 		}

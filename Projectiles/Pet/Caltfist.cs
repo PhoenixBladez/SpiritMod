@@ -66,7 +66,7 @@ namespace SpiritMod.Projectiles.Pet
 										flag3 = true;
 									}
 									if (flag3 || Main.tileSpelunker[(int)Main.tile[num174, num175].type] || (Main.tileAlch[(int)Main.tile[num174, num175].type] && Main.tile[num174, num175].type != 82)) {
-										int num176 = Dust.NewDust(new Vector2((float)(num174 * 16), (float)(num175 * 16)), 16, 16, 204, 0f, 0f, 150, default(Color), 0.3f);
+										int num176 = Dust.NewDust(new Vector2((float)(num174 * 16), (float)(num175 * 16)), 16, 16, DustID.TreasureSparkle, 0f, 0f, 150, default(Color), 0.3f);
 										Main.dust[num176].fadeIn = 0.75f;
 										Dust dust3 = Main.dust[num176];
 										dust3.velocity *= 0.1f;

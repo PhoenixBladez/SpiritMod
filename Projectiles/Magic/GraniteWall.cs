@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles.Magic
 {
@@ -29,10 +30,10 @@ namespace SpiritMod.Projectiles.Magic
 			//Create particles
 			int dust = Dust.NewDust(projectile.position + projectile.velocity,
 				projectile.width, projectile.height,
-				240, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				DustID.Granite, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			int dust1 = Dust.NewDust(projectile.position + projectile.velocity,
 				projectile.width, projectile.height,
-				229, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				DustID.Vortex, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			Main.dust[dust].scale = 2f;
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust1].scale = 2f;

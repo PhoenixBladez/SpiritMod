@@ -146,7 +146,7 @@ namespace SpiritMod.NPCs.AuroraStag
 
 					if (!Main.dedServ)
 					{
-						Main.PlaySound(4, npc.Center, 8);
+						Main.PlaySound(SoundID.NPCKilled, npc.Center, 8);
 						Main.PlaySound(new LegacySoundStyle(SoundID.Item, 9).WithPitchVariance(0.2f), npc.Center);
 						Main.PlaySound(SoundID.DD2_WitherBeastAuraPulse, npc.Center);
 						Main.PlaySound(SoundID.DD2_BookStaffCast, npc.Center);
@@ -213,7 +213,7 @@ namespace SpiritMod.NPCs.AuroraStag
 				if(Main.rand.NextBool() && !Main.dedServ)
 				{
 					MakeStar(Main.rand.NextFloat(0.1f, 0.2f));
-					Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 66, npc.velocity.X/2, 0, 100, AuroraColor, Main.rand.NextFloat(0.9f, 1.3f));
+					Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, DustID.Rainbow, npc.velocity.X/2, 0, 100, AuroraColor, Main.rand.NextFloat(0.9f, 1.3f));
 					dust.fadeIn = 0.4f;
 					dust.noGravity = true;
 				}

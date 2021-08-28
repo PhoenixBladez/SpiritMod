@@ -38,11 +38,11 @@ namespace SpiritMod.Projectiles.Magic
 			Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
 			Main.PlaySound(SoundID.Dig, projectile.Center);
 			for (int num623 = 0; num623 < 15; num623++) {
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 49, 0f, 0f, 100, default(Color), .31f);
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Mythril, 0f, 0f, 100, default(Color), .31f);
 				Main.dust[num624].velocity *= .5f;
 			}
 		}
-		int counter;
+
 		public override bool PreAI()
 		{
 			bool chasing = false;
@@ -51,7 +51,7 @@ namespace SpiritMod.Projectiles.Magic
 				chasing = true;
 
 				projectile.friendly = true;
-				NPC target = null;
+				NPC target;
 				if (projectile.ai[0] == -1f) {
 					target = ProjectileExtras.FindRandomNPC(projectile.Center, 960f, false);
 				}
@@ -66,7 +66,7 @@ namespace SpiritMod.Projectiles.Magic
 					projectile.ai[0] = -1f;
 				}
 				else {
-					projectile.ai[0] = (float)target.whoAmI;
+					projectile.ai[0] = target.whoAmI;
 					ProjectileExtras.HomingAI(this, target, 10f, 5f);
 				}
 			}
@@ -88,7 +88,6 @@ namespace SpiritMod.Projectiles.Magic
 			}
 
 			//Create particles
-
 			return true;
 		}
 		public override void AI()
@@ -97,10 +96,9 @@ namespace SpiritMod.Projectiles.Magic
 			num395 *= 0.3f;
 			projectile.scale = num395 + 0.95f;
 			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
-			int num = 5;
 			for (int k = 0; k < 3; k++) {
-				int index2 = Dust.NewDust(projectile.position, 1, 1, 83, 0.0f, 0.0f, 0, new Color(), 1f);
-				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+				int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.Tungsten, 0.0f, 0.0f, 0, new Color(), 1f);
+				Main.dust[index2].position = projectile.Center - projectile.velocity / 5 * k;
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].velocity *= 0f;
 				Main.dust[index2].noGravity = true;
@@ -109,13 +107,12 @@ namespace SpiritMod.Projectiles.Magic
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
+			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+			for (int k = 0; k < projectile.oldPos.Length; k++)
 			{
-				Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-				for (int k = 0; k < projectile.oldPos.Length; k++) {
-					Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-					Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-					spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
-				}
+				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
+				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / projectile.oldPos.Length);
+				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
 		}

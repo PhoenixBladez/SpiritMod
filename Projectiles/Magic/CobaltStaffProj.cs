@@ -58,7 +58,7 @@ namespace SpiritMod.Projectiles.Magic
 			}
 			int num = 3;
 			for (int k = 0; k < 3; k++) {
-				int index2 = Dust.NewDust(projectile.position, 1, 1, 48, 0.0f, 0.0f, 0, new Color(), .5f);
+				int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.Cobalt, 0.0f, 0.0f, 0, new Color(), .5f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
 				Main.dust[index2].scale = .6f;
 				Main.dust[index2].velocity *= 0f;
@@ -71,7 +71,7 @@ namespace SpiritMod.Projectiles.Magic
 
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 			for (int num623 = 0; num623 < 15; num623++) {
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 48, 0f, 0f, 100, default(Color), .31f);
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Cobalt, 0f, 0f, 100, default(Color), .31f);
 				Main.dust[num624].velocity *= .5f;
 			}
 		}

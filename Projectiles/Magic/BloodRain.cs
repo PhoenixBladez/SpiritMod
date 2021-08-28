@@ -28,10 +28,9 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 6);
 			for (int I = 0; I < 8; I++)
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 5, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Blood, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
 			for (int i = 0; i < 3; ++i) {
-				int randFire = Main.rand.Next(3);
-				int newProj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
 					Main.rand.Next(-400, 400) / 100, Main.rand.Next(-4, 4),
 					ModContent.ProjectileType<Terrorflame>(), projectile.damage, 0, projectile.owner);
 			}
@@ -40,7 +39,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override bool PreAI()
 		{
 			if (Main.rand.Next(4) == 1)
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 5, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Blood, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 
 			return true;
 		}

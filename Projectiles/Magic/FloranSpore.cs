@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles.Magic
 {
@@ -45,14 +46,14 @@ namespace SpiritMod.Projectiles.Magic
 			}
 			if (!stopped) {
 				if (Main.rand.Next(5) == 0) {
-					int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 39);
+					int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.JungleGrass);
 					Main.dust[d].scale *= 0.42f;
 				}
 				for (int i = 0; i < 6; i++) {
 					float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 					float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 
-					int num = Dust.NewDust(projectile.Center, 6, 6, 39, 0f, 0f, 0, default(Color), 1f);
+					int num = Dust.NewDust(projectile.Center, 6, 6, DustID.JungleGrass, 0f, 0f, 0, default(Color), 1f);
 					Main.dust[num].velocity *= .1f;
 					Main.dust[num].scale *= .9f;
 					Main.dust[num].noGravity = true;
@@ -68,7 +69,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 20; i++) {
-				int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 39, (float)(Main.rand.Next(8) - 4), (float)(Main.rand.Next(8) - 4), 133);
+				int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.JungleGrass, (float)(Main.rand.Next(8) - 4), (float)(Main.rand.Next(8) - 4), 133);
 				Main.dust[d].scale *= 0.42f;
 			}
 		}

@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Buffs
 {
@@ -22,7 +23,7 @@ namespace SpiritMod.Buffs
 				}
 
 				if (Main.rand.NextBool(5)) {
-					int dust = Dust.NewDust(npc.position, npc.width, npc.height, 172);
+					int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.DungeonWater);
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity *= 0f;
 					Main.dust[dust].scale *= 1.1f;

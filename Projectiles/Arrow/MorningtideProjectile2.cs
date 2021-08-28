@@ -11,8 +11,6 @@ namespace SpiritMod.Projectiles.Arrow
 {
 	public class MorningtideProjectile2 : ModProjectile, IDrawAdditive, ITrailProjectile
     {
-		private int lastFrame = 0;
-		int mode = 0; //1 = loops and changes, 2 = slower default change
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sunbeam Bolt");
@@ -40,7 +38,7 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void Kill(int timLeft)
         {
-            Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 3);
+            Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 3);
 
             for (int k = 0; k < 10; k++)
             {
@@ -52,10 +50,7 @@ namespace SpiritMod.Projectiles.Arrow
                 d1.shader = GameShaders.Armor.GetSecondaryShader(100, Main.LocalPlayer);
             }
         }
-        bool looping = false;
-		int loopCounter = 0;
-		bool dustSpawn = true;
-		int loopSize = 9;
+
 		public override void AI()
 		{
 			Lighting.AddLight((int)(projectile.position.X / 16f), (int)(projectile.position.Y / 16f), 0.396f, 0.170588235f, 0.564705882f);
@@ -63,26 +58,25 @@ namespace SpiritMod.Projectiles.Arrow
             Vector2 currentSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y);
             projectile.velocity = currentSpeed.RotatedBy(Main.rand.Next(-1, 1) * (Math.PI / 50));
         }
-        public void AdditiveCall(SpriteBatch spriteBatch)
-        {
-            {
-                for (int k = 0; k < projectile.oldPos.Length; k++)
-                {
-                    Color color = new Color(255, 255, 200) * 0.75f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+		public void AdditiveCall(SpriteBatch spriteBatch)
+		{
+			for (int k = 0; k < projectile.oldPos.Length; k++)
+			{
+				Color color = new Color(255, 255, 200) * 0.75f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
 
-                    float scale = projectile.scale;
-                    Texture2D tex = ModContent.GetTexture("SpiritMod/Projectiles/Arrow/MorningtideProjectile2");
+				float scale = projectile.scale;
+				Texture2D tex = ModContent.GetTexture("SpiritMod/Projectiles/Arrow/MorningtideProjectile2");
 
-                    spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, projectile.rotation, tex.Size() / 2, scale, default, default);
+				spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, projectile.rotation, tex.Size() / 2, scale, default, default);
 
-                    Color color1 = new Color(255, 186, 252) * 0.45475f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-                    for (int j = 0; j < 2; j++)
-                    {
-                        spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition + new Vector2(Main.rand.Next(-3, 3), Main.rand.Next(-3, 3)), null, color1, projectile.rotation, tex.Size() / 2, scale, default, default);
-                    }
-                }
-            }
-        }
+				Color color1 = new Color(255, 186, 252) * 0.45475f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+				for (int j = 0; j < 2; j++)
+				{
+					spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition + new Vector2(Main.rand.Next(-3, 3), Main.rand.Next(-3, 3)), null, color1, projectile.rotation, tex.Size() / 2, scale, default, default);
+				}
+			}
+		}
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
@@ -93,9 +87,7 @@ namespace SpiritMod.Projectiles.Arrow
 			}
 			return false;
 		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return Color.Orange;
-		}
+
+		public override Color? GetAlpha(Color lightColor) => Color.Orange;
 	}
 }

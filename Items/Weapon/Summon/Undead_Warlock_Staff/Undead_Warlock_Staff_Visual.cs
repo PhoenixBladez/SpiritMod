@@ -47,7 +47,7 @@ namespace SpiritMod.Items.Weapon.Summon.Undead_Warlock_Staff
 										Vector2 center = projectile.Center;
 										center.X += (float) Main.rand.Next(-300, 300) * 0.05f;
 										center.Y += (float) Main.rand.Next(-300, 300) * 0.05f;
-										int index2 = Dust.NewDust(center + projectile.velocity, 20, 20, 235, 0.0f, 0.0f, 0, new Color(), 1f);
+										int index2 = Dust.NewDust(center + projectile.velocity, 20, 20, DustID.LifeDrain, 0.0f, 0.0f, 0, new Color(), 1f);
 										Main.dust[index2].velocity *= 0.0f;
 										Main.dust[index2].scale = (float) Main.rand.Next(70, 85) * 0.01f;
 										Main.dust[index2].fadeIn = (float) (index1 + 1);
@@ -86,13 +86,12 @@ namespace SpiritMod.Items.Weapon.Summon.Undead_Warlock_Staff
 				if (coolDown > 0 && flag)
 				{		
 					if (coolDown == 10*60-1)
-						Main.PlaySound(42, (int)player.position.X, (int)player.position.Y, 61, 1f, 0.0f);
+						Main.PlaySound(SoundID.Trackable, (int)player.position.X, (int)player.position.Y, 61, 1f, 0.0f);
 					player.minionDamage += 0.25f;
 					float num5 = player.direction == 1 ? 0.0f : 3.141593f;
 					for (int index = 0; index < 4; ++index)
 					{
-						Vector2 vector2_4 = Vector2.Zero;
-						vector2_4 = Main.rand.Next(2) == 0 ? Vector2.UnitX.RotatedByRandom(6.28318548202515) * new Vector2(200f, 50f) * (float) ((double) Main.rand.NextFloat() * 0.699999988079071 + 0.300000011920929) : Vector2.UnitX.RotatedByRandom(3.14159274101257).RotatedBy((double) num5, new Vector2()) * new Vector2(200f, 50f) * (float) ((double) Main.rand.NextFloat() * 0.699999988079071 + 0.300000011920929);
+						var vector2_4 = Main.rand.Next(2) == 0 ? Vector2.UnitX.RotatedByRandom(6.28318548202515) * new Vector2(200f, 50f) * (float) (Main.rand.NextFloat() * 0.699999988079071 + 0.300000011920929) : Vector2.UnitX.RotatedByRandom(3.14159274101257).RotatedBy((double) num5, new Vector2()) * new Vector2(200f, 50f) * (float) ((double) Main.rand.NextFloat() * 0.699999988079071 + 0.300000011920929);
 						if (Main.rand.Next(2)==0)
 						{
 							int p = Projectile.NewProjectile(player.Center.X, player.Center.Y - 90, vector2_4.X, vector2_4.Y, mod.ProjectileType("Necromancer_Ray"), 10, player.whoAmI, player.whoAmI, 0.0f, 0.0f);
@@ -120,32 +119,19 @@ namespace SpiritMod.Items.Weapon.Summon.Undead_Warlock_Staff
 				}
 			
 				SpriteEffects spriteEffects;
-				SpriteEffects effect;
 				if ((double) drawPlayer.gravDir == 1.0)
 				{
 					if (drawPlayer.direction == 1)
-					{
 						spriteEffects = SpriteEffects.None;
-						effect = SpriteEffects.None;
-					}
 					else
-					{
 						spriteEffects = SpriteEffects.FlipHorizontally;
-						effect = SpriteEffects.FlipHorizontally;
-					}
 				}
 				else
 				{
 					if (drawPlayer.direction == 1)
-					{
 						spriteEffects = SpriteEffects.FlipVertically;
-						effect = SpriteEffects.FlipVertically;
-					}
 					else
-					{
 						spriteEffects = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
-						effect = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
-					}
 				}
 				DrawData drawData = new DrawData();
 				Vector2 Position = drawInfo.position;
@@ -176,32 +162,19 @@ namespace SpiritMod.Items.Weapon.Summon.Undead_Warlock_Staff
 				}
 			
 				SpriteEffects spriteEffects;
-				SpriteEffects effect;
 				if ((double) drawPlayer.gravDir == 1.0)
 				{
 					if (drawPlayer.direction == 1)
-					{
 						spriteEffects = SpriteEffects.None;
-						effect = SpriteEffects.None;
-					}
 					else
-					{
 						spriteEffects = SpriteEffects.FlipHorizontally;
-						effect = SpriteEffects.FlipHorizontally;
-					}
 				}
 				else
 				{
 					if (drawPlayer.direction == 1)
-					{
 						spriteEffects = SpriteEffects.FlipVertically;
-						effect = SpriteEffects.FlipVertically;
-					}
 					else
-					{
 						spriteEffects = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
-						effect = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
-					}
 				}
 				DrawData drawData = new DrawData();
 				Vector2 Position = drawInfo.position;

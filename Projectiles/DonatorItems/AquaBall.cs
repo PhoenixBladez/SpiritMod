@@ -53,7 +53,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			for (int i = 0; i < 10; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-				int num = Dust.NewDust(new Vector2(x, y), 2, 2, 172);
+				int num = Dust.NewDust(new Vector2(x, y), 2, 2, DustID.DungeonWater);
 				Main.dust[num].velocity = Vector2.Zero;
 				Main.dust[num].noGravity = true;
 			}
@@ -75,7 +75,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 10);
 
 			for (int num623 = 0; num623 < 35; num623++) {
-				int dust = Dust.NewDust(projectile.position - projectile.velocity, projectile.width, projectile.height, 172, 0, 0);
+				int dust = Dust.NewDust(projectile.position - projectile.velocity, projectile.width, projectile.height, DustID.DungeonWater, 0, 0);
 				Main.dust[dust].noGravity = true;
 			}
 		}

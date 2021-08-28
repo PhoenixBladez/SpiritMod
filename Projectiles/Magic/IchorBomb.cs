@@ -27,9 +27,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override bool PreAI()
 		{
-			int dust = Dust.NewDust(projectile.position + projectile.velocity,
-				projectile.width, projectile.height,
-				5, projectile.velocity.X * .5f, projectile.velocity.Y * .5f);
+			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Blood, projectile.velocity.X * .5f, projectile.velocity.Y * .5f);
 			Main.dust[dust].scale = 2f;
 			Main.dust[dust].noGravity = true;
 
@@ -39,9 +37,7 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
 			for (int k = 0; k < 5; k++) {
-				Dust.NewDust(projectile.position + projectile.velocity,
-					projectile.width, projectile.height,
-					5, projectile.oldVelocity.X * .5f, projectile.oldVelocity.Y * .5f);
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Blood, projectile.oldVelocity.X * .5f, projectile.oldVelocity.Y * .5f);
 			}
 
 			for (int h = 0; h < 4; h++) {

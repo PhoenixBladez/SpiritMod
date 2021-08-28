@@ -30,14 +30,14 @@ namespace SpiritMod.Projectiles
 		public override void AI()
 		{
 			for (int i = 0; i < 2; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 107);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.TerraBlade);
 			}
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 2; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 107);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.TerraBlade);
 			}
 		}
 

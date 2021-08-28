@@ -11,7 +11,6 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
 {
 	public class LadyLuckProj : ModProjectile
 	{
-        bool shot = false;
         int cooldown = -1;
 
         public override void SetStaticDefaults()
@@ -39,7 +38,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
                 projectile.frameCounter = 0;
             }
             if (Main.rand.Next(10) == 0)
-                Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 246, 0, 0).velocity = Vector2.Zero;
+                Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.GoldCoin, 0, 0).velocity = Vector2.Zero;
             Lighting.AddLight(projectile.Center, Color.Gold.R * 0.007f, Color.Gold.G * 0.007f, Color.Gold.B * 0.007f);
             cooldown--;
             Rectangle Hitbox = new Rectangle((int)projectile.Center.X - 30, (int)projectile.Center.Y - 30, 60, 60);
@@ -49,7 +48,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
                 if (proj.ranged && proj.active && proj.friendly && !proj.hostile && proj.GetGlobalProjectile<LLProj>().shotFromGun && cooldown < 0)
                 {
                     for (int i = 0; i < 5; i++)
-                        Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 246).velocity *= 0.4f;
+                        Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.GoldCoin).velocity *= 0.4f;
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/coinhit"), projectile.Center);
                     projectile.velocity = proj.velocity / 2;
                     float attackRange = 800;
@@ -68,13 +67,12 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
                         proj.velocity = proj.velocity.RotatedBy(Main.rand.NextFloat(6.28f));
                     projectile.penetrate--;
                     if (projectile.penetrate == 0)
-                    {
                         for (int i = 1; i < 3; ++i)
                             Gore.NewGore(projectile.Center, Vector2.Zero, mod.GetGoreSlot("Gores/CoinGores/CoinHalf" + i), 1f);
-                    }
                     cooldown = 5;
                 }
             }
+
             if (Math.Abs(projectile.velocity.Y) < 2f)
                 projectile.velocity.Y *= 0.98f;
             projectile.velocity *= .996f;
@@ -82,10 +80,10 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(38, projectile.Center, 0);
-			Main.PlaySound(0, projectile.Center, 0);
+			Main.PlaySound(SoundID.CoinPickup, projectile.Center, 0);
+			Main.PlaySound(SoundID.Dig, projectile.Center, 0);
 			for (int i = 0; i < 5; i++)
-				Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 246).velocity *= 0.4f;
+				Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.GoldCoin).velocity *= 0.4f;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

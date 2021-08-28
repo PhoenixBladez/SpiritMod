@@ -98,7 +98,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				npc.ai[0] = 0;
 			    DustHelper.DrawStar(npc.Center, 235, pointAmount: 7, mainSize: 2.7425f, dustDensity: 6, dustSize: .65f, pointDepthMult: 3.6f, noGravity: true);
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 55).WithPitchVariance(0.2f), npc.Center);
-				Main.PlaySound(42, (int)npc.position.X, (int)npc.position.Y, 180, 1f, -0.9f);
+				Main.PlaySound(SoundID.Trackable, (int)npc.position.X, (int)npc.position.Y, 180, 1f, -0.9f);
 				npc.netUpdate = true;
 				npc.ai[3]++;
 			}
@@ -207,7 +207,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			if (npc.ai[0] == 561 || npc.ai[0] == 690)
 			{
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
-				Main.PlaySound(42, (int)npc.Center.X, (int)npc.Center.Y, 139, 1f, 0.4f);
+				Main.PlaySound(SoundID.Trackable, (int)npc.Center.X, (int)npc.Center.Y, 139, 1f, 0.4f);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Vector2 direction = Main.player[npc.target].Center - npc.Center;
@@ -430,7 +430,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ReachBoss1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ReachBoss1"), 1f);
 				for (int num621 = 0; num621 < 20; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 2, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Grass, 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num622].velocity *= 3f;
 					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
@@ -452,8 +452,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				Main.gore[a1].velocity = new Vector2(hitDirection * 2.5f, Main.rand.NextFloat(10f, 20f));
 			}
 			for (int k = 0; k < 12; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 167, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 258, 2.5f * hitDirection, -2.5f, 0,  default(Color), 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Plantera_Green, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.LavaMoss, 2.5f * hitDirection, -2.5f, 0,  default(Color), 0.7f);
 			}
 		}
 		public override bool PreNPCLoot() => false;

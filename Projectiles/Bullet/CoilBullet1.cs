@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles.Bullet
 {
@@ -65,7 +66,7 @@ namespace SpiritMod.Projectiles.Bullet
 			float distance = Vector2.Distance(from, to);
 			float step = 1 / distance;
 			for (float w = 0; w < distance; w += 2) {
-				int d = Dust.NewDust(Vector2.Lerp(from, to, w * step), projectile.width, projectile.height, 226, 0f, 0f, 0, default, .3f * projectile.penetrate);
+				int d = Dust.NewDust(Vector2.Lerp(from, to, w * step), projectile.width, projectile.height, DustID.Electric, 0f, 0f, 0, default, .3f * projectile.penetrate);
 				Main.dust[d].noGravity = true;
 				Main.dust[d].velocity = Vector2.Zero;
 				Main.dust[d].scale *= .7f;

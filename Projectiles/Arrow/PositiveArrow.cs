@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.Arrow
 			if (timeLeft <= 0)
 				Main.PlaySound(SoundID.Dig, projectile.Center);
 			for (int i = 0; i < 3; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 226);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric);
 			}
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
@@ -91,7 +91,7 @@ namespace SpiritMod.Projectiles.Arrow
 
 				Main.PlaySound(SoundID.Item93, projectile.position);
 				for (int num621 = 0; num621 < 40; num621++) {
-					int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, 0f, 0f, 100, default, 2f);
+					int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Electric, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
 					Main.dust[num622].noGravity = true;
 					Main.dust[num622].scale = 0.5f;

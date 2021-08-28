@@ -40,7 +40,7 @@ namespace SpiritMod.NPCs.PlagueDoctor
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 107);
 			for (int i = 0; i < 30; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 75, 0f, -2f, 0, default, 1.2f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.CursedTorch, 0f, -2f, 0, default, 1.2f);
 				Main.dust[num].noGravity = true;
 				Dust dust = Main.dust[num];
 				dust.position.X += (Main.rand.Next(-30, 31) / 20 - 1.5f);

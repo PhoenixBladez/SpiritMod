@@ -14,7 +14,6 @@ namespace SpiritMod.Items.Sets.GunsMisc.PolymorphGun
 		}
 
 
-		private Vector2 newVect;
 		public override void SetDefaults()
 		{
 			item.magic = true;
@@ -34,9 +33,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.PolymorphGun
 			item.shootSpeed = 15f;
 			item.shoot = ModContent.ProjectileType<Polyshot>();
 		}
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-10, 0);
-		}
+
+		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 	}
 }

@@ -57,19 +57,16 @@ namespace SpiritMod.Projectiles.Hostile
                 projectile.velocity.Y += 0.1F;                
             }
         }
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return Color.White;
-		}
-        public override void Kill(int timeLeft)
+		public override Color? GetAlpha(Color lightColor) => Color.White;
+		public override void Kill(int timeLeft)
         {
-            Main.PlaySound(3, projectile.Center, 3);
+            Main.PlaySound(SoundID.NPCHit, projectile.Center, 3);
             if (Main.rand.NextBool(4))
             {
                 Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ItemID.FallenStar, 1, false, 0, false, false);
             }
             for (int i = 0; i < 20; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 226, 0f, -2f, 0, default(Color), .9f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, 0f, -2f, 0, default, .9f);
 				Main.dust[num].noGravity = true;
 				Dust expr_62_cp_0 = Main.dust[num];
 				expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-30, 31) / 20) - 1.5f);

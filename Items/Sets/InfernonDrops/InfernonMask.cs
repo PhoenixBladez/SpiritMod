@@ -6,14 +6,9 @@ namespace SpiritMod.Items.Sets.InfernonDrops
 	[AutoloadEquip(EquipType.Head)]
 	public class InfernonMask : ModItem
 	{
-
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Infernon Mask");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Infernon Mask");
 
 
-		int timer = 0;
 		public override void SetDefaults()
 		{
 			item.width = 22;

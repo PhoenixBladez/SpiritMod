@@ -98,7 +98,7 @@ namespace SpiritMod.Projectiles.Bullet.Crimbine
 			}
 			//int num = 5;
 			for (int k = 0; k < Main.rand.Next(6, 11); k++) {
-				int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 5, 0.0f, 0.0f, 0, new Color(), 1f);
+				int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Blood, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].scale = Main.rand.NextFloat(.85f, 1.1f);
 				Main.dust[index2].velocity *= 0f;
 				Main.dust[index2].alpha = 100;
@@ -137,7 +137,7 @@ namespace SpiritMod.Projectiles.Bullet.Crimbine
 		public override void Kill(int timeLeft)
 		{
 			for (int k = 0; k < 26; k++) {
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 5, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Blood, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
 			}
 
 		}

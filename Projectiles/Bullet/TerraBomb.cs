@@ -35,15 +35,15 @@ namespace SpiritMod.Projectiles.Bullet
 				for (int i = 0; i < 10; i++) {
 					float x = projectile.Center.X - 1 - projectile.velocity.X / 10f * i;
 					float y = projectile.Center.Y - 1 - projectile.velocity.Y / 10f * i;
-					int num = Dust.NewDust(new Vector2(x, y), 2, 2, 107);
+					int num = Dust.NewDust(new Vector2(x, y), 2, 2, DustID.TerraBlade);
 					Main.dust[num].alpha = projectile.alpha;
 					Main.dust[num].velocity = Vector2.Zero;
 					Main.dust[num].noGravity = true;
 				}
 
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 107);
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 107);
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 107);
+				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.TerraBlade);
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.TerraBlade);
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.TerraBlade);
 				Main.dust[dust].scale = 1.5f;
 				Main.dust[dust].noGravity = true;
 			}
@@ -62,7 +62,7 @@ namespace SpiritMod.Projectiles.Bullet
 			projectile.position.Y = projectile.position.Y - (projectile.height / 2);
 
 			for (int num621 = 0; num621 < 20; num621++) {
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 107, 0f, 0f, 100, default, 2f);
+				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.TerraBlade, 0f, 0f, 100, default, 2f);
 				Main.dust[num622].velocity *= 3f;
 				if (Main.rand.Next(2) == 0) {
 					Main.dust[num622].scale = 0.5f;
@@ -70,10 +70,10 @@ namespace SpiritMod.Projectiles.Bullet
 				}
 			}
 			for (int num623 = 0; num623 < 35; num623++) {
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 107, 0f, 0f, 100, default, 3f);
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.TerraBlade, 0f, 0f, 100, default, 3f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 5f;
-				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 107, 0f, 0f, 100, default, 2f);
+				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.TerraBlade, 0f, 0f, 100, default, 2f);
 				Main.dust[num624].velocity *= 2f;
 			}
 
@@ -113,7 +113,7 @@ namespace SpiritMod.Projectiles.Bullet
 			ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
 				delegate {
 					for (int i = 0; i < 40; i++) {
-						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 107, 0f, -2f, 0, default, 2f);
+						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.TerraBlade, 0f, -2f, 0, default, 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;

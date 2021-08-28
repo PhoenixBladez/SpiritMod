@@ -68,7 +68,7 @@ namespace SpiritMod.Projectiles
 					Vector2 vector33 = projectile.position;
 					vector33 -= projectile.velocity * ((float)num447 * 0.25f);
 					projectile.alpha = 255;
-					int num448 = Dust.NewDust(vector33, 1, 1, 187, 0f, 0f, 0, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.25f);
+					int num448 = Dust.NewDust(vector33, 1, 1, DustID.Flare_Blue, 0f, 0f, 0, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.25f);
 					Main.dust[num448].noGravity = true;
 					Main.dust[num448].position = vector33;
 					Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
@@ -84,7 +84,7 @@ namespace SpiritMod.Projectiles
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 
-				int num2121 = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter / 4.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, 187, 0f, 0f, 0, default(Color), 1f);
+				int num2121 = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter / 4.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, DustID.Flare_Blue, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[num2121].velocity *= 0f;
 				Main.dust[num2121].scale *= .75f;
 				Main.dust[num2121].noGravity = true;

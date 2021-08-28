@@ -50,7 +50,7 @@ namespace SpiritMod.NPCs.CrystalDrifter
 				if (projectile.width == 8) {
 					float x1 = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 					float y1 = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-					int num = Dust.NewDust(new Vector2(x1, y1), 2, 2, 76);
+					int num = Dust.NewDust(new Vector2(x1, y1), 2, 2, DustID.Snow);
 					Main.dust[num].velocity = Vector2.Zero;
 					Main.dust[num].noGravity = true;
 				}
@@ -61,14 +61,15 @@ namespace SpiritMod.NPCs.CrystalDrifter
 			=> target.AddBuff(BuffID.Frostburn, 120);
 		public override void Kill(int timeLeft)
 		{
-			int d = 51;
+			const int DustType = 51;
+
 			for (int k = 0; k < 6; k++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustType, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustType, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
 			}
 
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
+			Dust.NewDust(projectile.position, projectile.width, projectile.height, DustType, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
+			Dust.NewDust(projectile.position, projectile.width, projectile.height, DustType, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
 			projectile.velocity *= 0f;
 			projectile.width = 40;
 			projectile.knockBack = 0;

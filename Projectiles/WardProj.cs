@@ -2,6 +2,7 @@
 using SpiritMod.Buffs;
 using System.Linq;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles
@@ -53,7 +54,7 @@ namespace SpiritMod.Projectiles
 			}
 			for (int i = 0; i < 4; i++) {
 				Vector2 vector2 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2((float)projectile.height, (float)projectile.height) * projectile.scale * 1.45f / 2f;
-				int index = Dust.NewDust(projectile.Center + vector2, 0, 0, 5, 0.0f, 0.0f, 0, new Color(), 1f);
+				int index = Dust.NewDust(projectile.Center + vector2, 0, 0, DustID.Blood, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index].position = projectile.Center + vector2;
 				Main.dust[index].velocity = Vector2.Zero;
 				Main.dust[index].noGravity = true;

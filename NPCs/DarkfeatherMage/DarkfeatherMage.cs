@@ -1,22 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Consumable;
-using SpiritMod.Items.Material;
-using SpiritMod.NPCs.Boss;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using SpiritMod.NPCs.DarkfeatherMage.Projectiles;
 using System;
-using SpiritMod.Mechanics.Fathomless_Chest;
 
 namespace SpiritMod.NPCs.DarkfeatherMage
 {
 	public class DarkfeatherMage : ModNPC
 	{
-		int moveSpeed = 0;
-		int moveSpeedY = 0;
         Vector2 pos;
 		public override void SetStaticDefaults()
 		{
@@ -221,7 +215,7 @@ namespace SpiritMod.NPCs.DarkfeatherMage
                         Vector2 vector2 = Vector2.UnitX * -npc.width / 2f;
                         vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(16f, 16f);
                         vector2 = Utils.RotatedBy(vector2, (npc.rotation - 1.57079637f), default(Vector2)) * 1.3f;
-                        int num8 = Dust.NewDust(new Vector2(npc.Center.X + 18 * npc.spriteDirection, npc.Center.Y + 12), 0, 0, 159, 0f, 0f, 160, new Color(209, 255, 0), 1f);
+                        int num8 = Dust.NewDust(new Vector2(npc.Center.X + 18 * npc.spriteDirection, npc.Center.Y + 12), 0, 0, DustID.Teleporter, 0f, 0f, 160, new Color(209, 255, 0), 1f);
                         Main.dust[num8].shader = GameShaders.Armor.GetSecondaryShader(67, Main.LocalPlayer);
                         Main.dust[num8].position = npc.Center + vector2;
                         Main.dust[num8].velocity = npc.velocity * 0.1f;
@@ -284,7 +278,7 @@ namespace SpiritMod.NPCs.DarkfeatherMage
                         Vector2 vector2 = Vector2.UnitX * -npc.width / 2f;
                         vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(16f, 16f);
                         vector2 = Utils.RotatedBy(vector2, (npc.rotation - 1.57079637f), default(Vector2)) * 1.3f;
-                        int num8 = Dust.NewDust(new Vector2(npc.Center.X + 21 * npc.spriteDirection, npc.Center.Y + 12), 0, 0, 157, 0f, 0f, 160, new Color(209, 255, 0), .86f);
+                        int num8 = Dust.NewDust(new Vector2(npc.Center.X + 21 * npc.spriteDirection, npc.Center.Y + 12), 0, 0, DustID.ChlorophyteWeapon, 0f, 0f, 160, new Color(209, 255, 0), .86f);
                         Main.dust[num8].shader = GameShaders.Armor.GetSecondaryShader(69, Main.LocalPlayer);
                         Main.dust[num8].position = new Vector2(npc.Center.X + 21 * npc.spriteDirection, npc.Center.Y + 12) + vector2;
                         Main.dust[num8].velocity = npc.velocity * 0.1f;
@@ -381,13 +375,13 @@ namespace SpiritMod.NPCs.DarkfeatherMage
                 Vector2 westPosFar = npc.Center - new Vector2(Closeness * (float)Math.Sin(radians), Closeness * (float)Math.Cos(radians));
                 Vector2 northPosFar = npc.Center + new Vector2(Closeness * (float)Math.Sin(radians + 1.57), Closeness * (float)Math.Cos(radians + 1.57));
                 Vector2 southPosFar = npc.Center - new Vector2(Closeness * (float)Math.Sin(radians + 1.57), Closeness * (float)Math.Cos(radians + 1.57));
-                int d4 = Dust.NewDust(eastPosFar, 2, 2, 159, 0f, 0f, 0, new Color(209, 255, 0), 1f);
+                int d4 = Dust.NewDust(eastPosFar, 2, 2, DustID.Teleporter, 0f, 0f, 0, new Color(209, 255, 0), 1f);
                 Main.dust[d4].shader = GameShaders.Armor.GetSecondaryShader(67, Main.LocalPlayer);
-                int d5 = Dust.NewDust(westPosFar, 2, 2, 159, 0f, 0f, 0, new Color(209, 255, 0), 1f);
+                int d5 = Dust.NewDust(westPosFar, 2, 2, DustID.Teleporter, 0f, 0f, 0, new Color(209, 255, 0), 1f);
                 Main.dust[d5].shader = GameShaders.Armor.GetSecondaryShader(67, Main.LocalPlayer);
-                int d6 = Dust.NewDust(northPosFar, 2, 2, 159, 0f, 0f, 0, new Color(209, 255, 0), 1f);
+                int d6 = Dust.NewDust(northPosFar, 2, 2, DustID.Teleporter, 0f, 0f, 0, new Color(209, 255, 0), 1f);
                 Main.dust[d6].shader = GameShaders.Armor.GetSecondaryShader(67, Main.LocalPlayer);
-                int d7 = Dust.NewDust(southPosFar, 2, 2, 159, 0f, 0f, 0, new Color(209, 255, 0), 1f);
+                int d7 = Dust.NewDust(southPosFar, 2, 2, DustID.Teleporter, 0f, 0f, 0, new Color(209, 255, 0), 1f);
                 Main.dust[d7].shader = GameShaders.Armor.GetSecondaryShader(67, Main.LocalPlayer);
 
 
@@ -395,13 +389,13 @@ namespace SpiritMod.NPCs.DarkfeatherMage
                 Vector2 westPosClose = npc.Center - new Vector2((Closeness - 30f) * (float)Math.Sin(radians), (Closeness - 30f) * (float)Math.Cos(radians));
                 Vector2 northPosClose = npc.Center + new Vector2((Closeness - 30f) * (float)Math.Sin(radians + 1.57), (Closeness - 30f) * (float)Math.Cos(radians + 1.57));
                 Vector2 southPosClose = npc.Center - new Vector2((Closeness - 30f) * (float)Math.Sin(radians + 1.57), (Closeness - 30f) * (float)Math.Cos(radians + 1.57));
-                int d = Dust.NewDust(eastPosClose, 2, 2, 159, 0f, 0f, 0, new Color(209, 255, 0), 1f);
+                int d = Dust.NewDust(eastPosClose, 2, 2, DustID.Teleporter, 0f, 0f, 0, new Color(209, 255, 0), 1f);
                 Main.dust[d].shader = GameShaders.Armor.GetSecondaryShader(67, Main.LocalPlayer);
-                int d1 = Dust.NewDust(westPosClose, 2, 2, 159, 0f, 0f, 0, new Color(209, 255, 0), 1f);
+                int d1 = Dust.NewDust(westPosClose, 2, 2, DustID.Teleporter, 0f, 0f, 0, new Color(209, 255, 0), 1f);
                 Main.dust[d1].shader = GameShaders.Armor.GetSecondaryShader(67, Main.LocalPlayer);
-                int d2 = Dust.NewDust(northPosClose, 2, 2, 159, 0f, 0f, 0, new Color(209, 255, 0), 1f);
+                int d2 = Dust.NewDust(northPosClose, 2, 2, DustID.Teleporter, 0f, 0f, 0, new Color(209, 255, 0), 1f);
                 Main.dust[d2].shader = GameShaders.Armor.GetSecondaryShader(67, Main.LocalPlayer);
-                int d3 = Dust.NewDust(southPosClose, 2, 2, 159, 0f, 0f, 0, new Color(209, 255, 0), 1f);
+                int d3 = Dust.NewDust(southPosClose, 2, 2, DustID.Teleporter, 0f, 0f, 0, new Color(209, 255, 0), 1f);
                 Main.dust[d3].shader = GameShaders.Armor.GetSecondaryShader(67, Main.LocalPlayer);
             }
         }

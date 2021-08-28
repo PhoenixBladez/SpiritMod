@@ -44,7 +44,7 @@ namespace SpiritMod.NPCs.SporeWheezer
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 11; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 42, hitDirection, -1f, 0, default(Color), .61f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Harpy, hitDirection, -1f, 0, default, .61f);
 			}
 			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SporeWheezer1"), 1f);
@@ -133,7 +133,7 @@ namespace SpiritMod.NPCs.SporeWheezer
 						float B = (float)Main.rand.Next(-60, -40) * 0.1f;
 						int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y - 10, direction.X + A, direction.Y + B, ModContent.ProjectileType<WheezerSporeHostile>(), damage, 1, Main.myPlayer, 0, 0);
 						for (int k = 0; k < 11; k++) {
-							Dust.NewDust(npc.position, npc.width, npc.height, 42, direction.X + A, direction.Y + B, 0, default(Color), .61f);
+							Dust.NewDust(npc.position, npc.width, npc.height, DustID.Harpy, direction.X + A, direction.Y + B, 0, default(Color), .61f);
 						}
 						Main.projectile[p].hostile = true;
 					}

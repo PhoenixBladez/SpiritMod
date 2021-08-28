@@ -87,7 +87,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 			if (player.channel && !firing) {
 				projectile.position = player.position + holdOffset;
 				if (Main.rand.Next(3) == 0)
-					Dust.NewDust(projectile.Center, 2, 2, 133);
+					Dust.NewDust(projectile.Center, 2, 2, DustID.Firework_Yellow);
 				if (counter < 15) {
 					counter += 0.15f;
 					manaCounter++;
@@ -99,9 +99,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 							player.manaRegenDelay = 60;
 						}
 						else
-						{
 							firing = true;
-						}
 					}
 				}
 				else if (!charged)
@@ -255,26 +253,14 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 
         Vector2 initialVelocity = Vector2.Zero;
 
-        private float lerp;
         public Vector2 DrawPos;
         public int boost;
         public override void AI()
         {
             if (initialVelocity == Vector2.Zero)
-            {
                 initialVelocity = projectile.velocity;
-            }
             if (projectile.timeLeft % 10 == 0)
-            {
                 projectile.velocity = initialVelocity.RotatedBy(Main.rand.NextFloat(-1, 1));
-            }
-            /* if (projectile.timeLeft % 2 == 0)
-             {
-                 Dust dust = Dust.NewDustPerfect(projectile.Center, 226);
-                 dust.noGravity = true;
-                 dust.scale = (float)Math.Sqrt(projectile.timeLeft) / 4;
-                 dust.velocity = Vector2.Zero;
-             }*/
             DrawPos = projectile.position;
         }
     }

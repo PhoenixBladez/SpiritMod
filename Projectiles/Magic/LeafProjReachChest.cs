@@ -51,7 +51,7 @@ namespace SpiritMod.Projectiles.Magic
 			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.025f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f);
 			projectile.velocity.Y += projectile.ai[0];
 			if (Main.rand.Next(8) == 0) {
-				int d = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 3, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				int d = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.GrassBlades, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[d].scale *= .5f;
 			}
 			if (Main.myPlayer == projectile.owner && projectile.ai[0] <= 0f) {
@@ -167,9 +167,9 @@ namespace SpiritMod.Projectiles.Magic
 		}
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(3, projectile.Center, 3);
+			Main.PlaySound(SoundID.NPCHit, projectile.Center, 3);
 			for (int k = 0; k < 3; k++) {
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 3, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.GrassBlades, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
 			}
 		}
 	}

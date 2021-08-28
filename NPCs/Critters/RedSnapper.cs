@@ -83,7 +83,7 @@ namespace SpiritMod.NPCs.Critters
 			if (npc.life <= 0) {
 
 				for (int num621 = 0; num621 < 40; num621++) {
-					int dust = Dust.NewDust(npc.position, npc.width, npc.height, 5);
+					int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood);
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity *= 0.5f;
 					Main.dust[dust].scale *= .6f;

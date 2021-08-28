@@ -65,7 +65,7 @@ namespace SpiritMod.NPCs.WinterbornHerald
 				// Teleport effects: away.
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 				for (int index1 = 0; index1 < 50; ++index1) {
-					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 187, 0.0f, 0.0f, 100, new Color(), 1.5f);
+					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Flare_Blue, 0.0f, 0.0f, 100, new Color(), 1.5f);
 					Main.dust[newDust].velocity *= 3f;
 					Main.dust[newDust].noGravity = true;
 				}
@@ -78,7 +78,7 @@ namespace SpiritMod.NPCs.WinterbornHerald
 				// Teleport effects: arrived.
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 				for (int index1 = 0; index1 < 50; ++index1) {
-					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 187, 0.0f, 0.0f, 100, new Color(), 1.5f);
+					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Flare_Blue, 0.0f, 0.0f, 100, new Color(), 1.5f);
 					Main.dust[newDust].velocity *= 3f;
 					Main.dust[newDust].noGravity = true;
 				}
@@ -136,7 +136,7 @@ namespace SpiritMod.NPCs.WinterbornHerald
 
 			if (Main.rand.Next(3) == 0)
 				return false;
-			Dust dust = Main.dust[Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 2f), npc.width, npc.height, 187, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, new Color(), 0.9f)];
+			Dust dust = Main.dust[Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 2f), npc.width, npc.height, DustID.Flare_Blue, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, new Color(), 0.9f)];
 			dust.noGravity = true;
 			dust.velocity.X = dust.velocity.X * 0.3f;
 			dust.velocity.Y = (dust.velocity.Y * 0.2f) - 1;
@@ -237,13 +237,13 @@ namespace SpiritMod.NPCs.WinterbornHerald
 				npc.position.X = npc.position.X - (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 20; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 187, 0f, 0f, 100, default(Color), .8f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Flare_Blue, 0f, 0f, 100, default(Color), .8f);
 					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.35f;
 					}
 				}
 				for (int num623 = 0; num623 < 40; num623++) {
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 68, 0f, 0f, 100, default(Color), .43f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.BlueCrystalShard, 0f, 0f, 100, default(Color), .43f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 3f;
 				}

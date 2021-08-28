@@ -9,7 +9,6 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 	public class HolyBurst : ModItem
 
 	{
-		private Vector2 newVect;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Maelstrom");
@@ -36,6 +35,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 			item.shootSpeed = .02f;
 			item.useAmmo = AmmoID.Bullet;
 		}
+
 		public override Vector2? HoldoutOffset()
 		{
 			return new Vector2(-10, 0);

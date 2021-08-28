@@ -108,7 +108,7 @@ namespace SpiritMod.NPCs.PlagueDoctor
 						float B = (float)Main.rand.Next(-50, 50) * 0.02f;
 						int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y - 10, direction.X + A, direction.Y + B, ModContent.ProjectileType<ToxicFlaskHostile>(), 13, 1, Main.myPlayer, 0, 0);
 						for (int k = 0; k < 11; k++) {
-							Dust.NewDust(npc.position, npc.width, npc.height, 75, (float)direction.X + A, (float)direction.Y + B, 0, default(Color), .61f);
+							Dust.NewDust(npc.position, npc.width, npc.height, DustID.CursedTorch, (float)direction.X + A, (float)direction.Y + B, 0, default(Color), .61f);
 						}
 						Main.projectile[p].hostile = true;
 					//  shootTimer = 0;

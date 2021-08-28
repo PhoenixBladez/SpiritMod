@@ -1,6 +1,7 @@
 using SpiritMod.Buffs;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles.Returning
 {
@@ -31,7 +32,7 @@ namespace SpiritMod.Projectiles.Returning
 
 		public override void AI()
 		{
-			int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);
+			int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Flare_Blue);
 			Main.dust[dust].noGravity = true;
 		}
 

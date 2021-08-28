@@ -35,7 +35,7 @@ namespace SpiritMod.NPCs.SporeWheezer
 		{
 			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 1);
 			for (int k = 0; k < 15; k++) {
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 42);
+				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Harpy);
 				Main.dust[dust].scale = .61f;
 				Main.dust[dust].noGravity = true;
 			}

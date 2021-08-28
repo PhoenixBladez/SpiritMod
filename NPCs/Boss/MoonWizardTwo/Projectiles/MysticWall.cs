@@ -13,8 +13,8 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
 	{
 		public int InitialDistance;
 		public NPC Parent;
-		private int distance = 800;
 		private float alphaCounter;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Focus Ball");
@@ -45,9 +45,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
 				projectile.active = false;
 				Parent.ai[1] += 0.5f;
 				if (Parent.modNPC is MoonWizardTwo modNPC)
-				{
 					modNPC.cooldownCounter = 30;
-				}
 			}
 			Vector2 direction = player.Center - Parent.Center;
 			direction.Normalize();

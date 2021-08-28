@@ -28,8 +28,6 @@ namespace SpiritMod.Projectiles.Magic
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 		int counter = 0;
-		int counter2 = 0;
-		static int closeSpeed = 10;
 		public override void AI()
 		{
 			counter++;
@@ -38,7 +36,7 @@ namespace SpiritMod.Projectiles.Magic
 			}
 			if (counter == 33) {
 				for (int i = 0; i < 10; i++) {
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, 95, Main.rand.Next(-2, 3), -2);
+					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Moss_Red, Main.rand.Next(-2, 3), -2);
 				}
 			}
 		}

@@ -30,9 +30,9 @@ namespace SpiritMod.Projectiles.Magic
 		public override bool PreAI()
 		{
 			projectile.tileCollide = true;
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 5, 0f, 0f);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 5, 0f, 0f);
-			int dus3 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 5, 0f, 0f);
+			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Blood, 0f, 0f);
+			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Blood, 0f, 0f);
+			int dus3 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Blood, 0f, 0f);
 
 			if (projectile.localAI[0] == 0f) {
 				AdjustMagnitude(ref projectile.velocity);
@@ -66,7 +66,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			projectile.Kill();
-			Dust.NewDust(projectile.position + projectile.velocity * 0, projectile.width, projectile.height, 173, projectile.oldVelocity.X * 0, projectile.oldVelocity.Y * 0);
+			Dust.NewDust(projectile.position + projectile.velocity * 0, projectile.width, projectile.height, DustID.ShadowbeamStaff, projectile.oldVelocity.X * 0, projectile.oldVelocity.Y * 0);
 			return false;
 		}
 

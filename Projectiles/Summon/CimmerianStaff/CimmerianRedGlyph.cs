@@ -75,7 +75,7 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
             Vector2 vec = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
             Vector2 vel = vec * Main.rand.NextFloat(minSpeed, maxSpeed);
 
-            int dust = Dust.NewDust(position - vec * distance, 0, 0, 130);
+            int dust = Dust.NewDust(position - vec * distance, 0, 0, DustID.Firework_Red);
             Main.dust[dust].noGravity = true;
             Main.dust[dust].scale *= .5f;
             Main.dust[dust].velocity = vel;

@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Reef_Wrath
 			int num2 = Main.rand.Next(20, 40);
 			for (int index1 = 0; index1 < num2; ++index1)
 			{
-				int index2 = Dust.NewDust(projectile.Center, 0, 0, 5, 0.0f, 0.0f, 100, new Color(), 1.5f);
+				int index2 = Dust.NewDust(projectile.Center, 0, 0, DustID.Blood, 0.0f, 0.0f, 100, new Color(), 1.5f);
 				Main.dust[index2].velocity *= 1.2f;
 				--Main.dust[index2].velocity.Y;
 				Main.dust[index2].velocity += projectile.velocity;

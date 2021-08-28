@@ -78,7 +78,7 @@ namespace SpiritMod.NPCs.MycelialBotanist
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			for (int i = 0; i < 20; i++) {
-				int num = Dust.NewDust(target.position, target.width, target.height, 199, 0f, -2f, 0, default(Color), 2f);
+				int num = Dust.NewDust(target.position, target.width, target.height, DustID.Butterfly, 0f, -2f, 0, default, 2f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -108,15 +108,13 @@ namespace SpiritMod.NPCs.MycelialBotanist
 				float B = (float)Main.rand.Next(-60, -40) * 0.1f;
 				//int p = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, A, B, ModContent.ProjectileType<MyceliumSporeHostile>(), damage, 1);
 				for (int k = 0; k < 11; k++) {
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, 42, A, B, 0, default(Color), .61f);
+					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Harpy, A, B, 0, default(Color), .61f);
 				}
 				//Main.projectile[p].hostile = true;
 			}
 			return true;
 		}
-		public override void Kill(int timeLeft)
-		{
-			Main.PlaySound(0, projectile.Center);
-		}
+
+		public override void Kill(int timeLeft) => Main.PlaySound(SoundID.Dig, projectile.Center);
 	}
 }

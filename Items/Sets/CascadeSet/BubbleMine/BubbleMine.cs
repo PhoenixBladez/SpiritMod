@@ -65,12 +65,10 @@ namespace SpiritMod.Items.Sets.CascadeSet.BubbleMine
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			for (float i = 0; i <= 6.28f; i+= Main.rand.NextFloat(0.5f,2))
-			{
 				Projectile.NewProjectile(projectile.Center, i.ToRotationVector2() * Main.rand.NextFloat(), ModContent.ProjectileType<BubbleMineBubble>(), (int)(projectile.damage * 0.5f), projectile.knockBack, projectile.owner);
-			}
 
 			for (int i = 0; i < 8; i++)
-				Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 54, Scale: Main.rand.NextFloat(1f, 1.5f)).noGravity = true;
+				Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.Wraith, Scale: Main.rand.NextFloat(1f, 1.5f)).noGravity = true;
 		}
 
 
@@ -145,7 +143,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.BubbleMine
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 54);
 			for (int i = 0; i < 20; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 165, 0f, -2f, 0, default(Color), 2f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.FungiHit, 0f, -2f, 0, default(Color), 2f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;

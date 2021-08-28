@@ -33,7 +33,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 			{
 				if (Main.rand.Next(5) == 0 && drawInfo.shadow == 0f)
 				{
-					int index = Dust.NewDust(new Vector2((float)player.getRect().X, (float)player.getRect().Y), player.getRect().Width, player.getRect().Height, 228, 0.0f, 0.0f, 0, new Color(), 1f);
+					int index = Dust.NewDust(new Vector2((float)player.getRect().X, (float)player.getRect().Y), player.getRect().Width, player.getRect().Height, DustID.GoldFlame, 0.0f, 0.0f, 0, new Color(), 1f);
 					Main.dust[index].scale = 1.5f;
 					Main.dust[index].noGravity = true;
 					Main.dust[index].velocity *= 1.1f;

@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles.Yoyo
 		public override void AI()
 		{
 			for (int i = 0; i < 2; i++) {
-				int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 20);
+				int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.PurificationPowder);
 				Main.dust[dust].velocity *= -1f;
 				Main.dust[dust].scale *= .6f;
 				Main.dust[dust].noGravity = true;

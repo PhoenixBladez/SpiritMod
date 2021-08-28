@@ -6,7 +6,6 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.NPCs.Tides.Tide;
 using SpiritMod.Items.Sets.TideDrops;

@@ -25,9 +25,7 @@ namespace SpiritMod.NPCs.DarkfeatherMage.Projectiles
             projectile.penetrate = 2;
             projectile.timeLeft = 90;
 		}
-        float alphaCounter;
-        float sineAdd;
-        bool chooseFrame;
+
 		public override void AI()
 		{
             projectile.velocity.Y += .185f;
@@ -35,17 +33,12 @@ namespace SpiritMod.NPCs.DarkfeatherMage.Projectiles
             projectile.velocity = currentSpeed.RotatedBy(Main.rand.Next(-1, 2) * (Math.PI / 40));
             projectile.ai[0] += .1135f;
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            int num623 = Dust.NewDust(projectile.Center, 4, 4,
-                157, 0f, 0f, 0, default(Color), 1f);
+            int num623 = Dust.NewDust(projectile.Center, 4, 4, DustID.ChlorophyteWeapon, 0f, 0f, 0, default(Color), 1f);
             Main.dust[num623].shader = GameShaders.Armor.GetSecondaryShader(67, Main.LocalPlayer);
             if (projectile.scale > .5f)
-            {
                 Main.dust[num623].noGravity = true;
-            }
             else
-            {
                 Main.dust[num623].noGravity = false;
-            }
             Main.dust[num623].velocity = projectile.velocity;
             Main.dust[num623].scale = MathHelper.Clamp(1.6f, .9f, 10 / projectile.ai[0]);
         }
@@ -53,24 +46,16 @@ namespace SpiritMod.NPCs.DarkfeatherMage.Projectiles
         {
             int num = 0;
 			if (projectile.friendly)
-            {
                 num = 120;
-            }
 			else
-            {
                 num = 80;
-            }
             ProjectileExtras.Explode(projectile.whoAmI, num, num,
             delegate
             {
                 if (projectile.friendly)
-                {
-                    Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 3);
-                }
+                    Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 3);
                 else
-                {
                     Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 74);
-                }
 
                 for (int k = 0; k < 35; k++)
                 {

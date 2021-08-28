@@ -48,10 +48,7 @@ namespace SpiritMod.NPCs.Midknight
 							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 			return false;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Midknight/Midknight_Glow"));
-		}
+		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Midknight/Midknight_Glow"));
 		public override void AI()
 		{
 			npc.localAI[1] += 0.03F;
@@ -69,7 +66,7 @@ namespace SpiritMod.NPCs.Midknight
 					npc.position.Y = target.position.Y - Main.rand.Next(30, 60);
 					npc.netUpdate = true;
 					for (int num73 = 0; num73 < 20; num73++) {
-						int index = Dust.NewDust(npc.position, 128, 128, 70, 0.0f, 0.0f, 200, new Color(), 0.5f);
+						int index = Dust.NewDust(npc.position, 128, 128, DustID.PurpleCrystalShard, 0.0f, 0.0f, 200, new Color(), 0.5f);
 						Main.dust[index].noGravity = true;
 						Main.dust[index].velocity *= 0.75f;
 						Main.dust[index].fadeIn = 1.3f;
@@ -94,14 +91,14 @@ namespace SpiritMod.NPCs.Midknight
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 40; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection * 6f, -1f, 0, default(Color), .45f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.ShadowbeamStaff, hitDirection * 6f, -1f, 0, default(Color), .45f);
 			}
 			if (npc.life <= 0) {
 				for (int k = 0; k < 10; k++) {
 					Gore.NewGore(npc.position, npc.velocity, 99);
 					Gore.NewGore(npc.position, npc.velocity, 99);
 					Gore.NewGore(npc.position, npc.velocity, 99);
-					Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection * 6f, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.ShadowbeamStaff, hitDirection * 6f, -1f, 0, default(Color), 1f);
 				}
 			}
 		}

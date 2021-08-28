@@ -48,7 +48,7 @@ namespace SpiritMod.NPCs.Reach
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 20; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 167, hitDirection * 2.5f, -1f, 0, default(Color), Main.rand.NextFloat(.45f, 1.15f));
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Plantera_Green, hitDirection * 2.5f, -1f, 0, default(Color), Main.rand.NextFloat(.45f, 1.15f));
 			}
             if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/BlossomHound1"), 1f);
@@ -59,7 +59,7 @@ namespace SpiritMod.NPCs.Reach
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/BlossomHound6"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/BlossomHound7"), 1f);
 				for (int k = 0; k < 40; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection * 2.5f, -1f, 0, default(Color), Main.rand.NextFloat(.45f, 1.15f));
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection * 2.5f, -1f, 0, default(Color), Main.rand.NextFloat(.45f, 1.15f));
 				}
 			}
 		}
@@ -105,7 +105,7 @@ namespace SpiritMod.NPCs.Reach
 			timer++;
 			if (timer == 400 && Main.netMode != NetmodeID.MultiplayerClient) {
 				Main.PlaySound(SoundID.Item9.SoundId, (int)npc.position.X, (int)npc.position.Y, 40);
-				Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 5);
+				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 5);
 				npc.netUpdate = true;
 			}
 			if (timer == 400 && Main.netMode != NetmodeID.MultiplayerClient) {

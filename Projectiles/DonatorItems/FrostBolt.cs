@@ -59,7 +59,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			if (Main.rand.Next(11) == 0)
 				Dust.NewDust(projectile.position + projectile.velocity,
 					projectile.width, projectile.height,
-					187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+					DustID.Flare_Blue, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 
 			projectile.rotation = projectile.velocity.ToRotation() + (float)(Math.PI / 2);
 		}
@@ -67,7 +67,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Flare_Blue);
 			}
 		}
 

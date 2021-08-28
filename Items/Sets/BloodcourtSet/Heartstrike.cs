@@ -59,7 +59,7 @@ namespace SpiritMod.Items.Sets.BloodcourtSet
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 20));
 				{
 					for (int i = 0; i < 7; i++) {
-						int num = Dust.NewDust(player.position, player.width, player.height, 5, 0f, -2f, 0, default(Color), 2f);
+						int num = Dust.NewDust(player.position, player.width, player.height, DustID.Blood, 0f, -2f, 0, default(Color), 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;

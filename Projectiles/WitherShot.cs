@@ -72,8 +72,8 @@ namespace SpiritMod.Projectiles
 					projectile.velocity.X += Main.rand.Next(2) == 0 ? 0.1f : -0.1f;
 				}
 			}
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 60, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			int dust1 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 5, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.RedTorch, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			int dust1 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Blood, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust1].noGravity = true;
 			Main.dust[dust].velocity *= 0f;

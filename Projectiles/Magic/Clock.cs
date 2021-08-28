@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Magic
 			float distance = Vector2.Distance(from, to);
 			float step = 1 / distance;
 			for (float w = 0; w < distance; w += 8) {
-				int dust = Dust.NewDust(Vector2.Lerp(from, to, w * step) - new Vector2(5, 5), 10, 10, 206, 0, 0);
+				int dust = Dust.NewDust(Vector2.Lerp(from, to, w * step) - new Vector2(5, 5), 10, 10, DustID.UnusedWhiteBluePurple, 0, 0);
 				Main.dust[dust].scale = 1.25f;
 				Main.dust[dust].velocity = Vector2.Zero;
 			}

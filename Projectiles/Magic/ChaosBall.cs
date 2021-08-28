@@ -25,9 +25,9 @@ namespace SpiritMod.Projectiles.Magic
 		public override bool PreAI()
 		{
 			projectile.tileCollide = true;
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 27, 0f, 0f);
-			int moredust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 27, 0f, 0f);
-			int evenmoredust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 27, 0f, 0f);
+			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Shadowflame, 0f, 0f);
+			int moredust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Shadowflame, 0f, 0f);
+			int evenmoredust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Shadowflame, 0f, 0f);
 			projectile.rotation += 0.4f;
 
 			return false;
@@ -36,14 +36,14 @@ namespace SpiritMod.Projectiles.Magic
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			projectile.Kill();
-			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 27, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
+			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Shadowflame, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
 			return false;
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 10);
-			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 27, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
+			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Shadowflame, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
 		}
 
 	}

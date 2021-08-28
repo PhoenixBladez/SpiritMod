@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Spirit
@@ -66,7 +67,7 @@ namespace SpiritMod.NPCs.Spirit
 			for (float num6 = 0.0f; (double)num6 < 3.0; ++num6) {
 				if (Main.rand.Next(3) != 0)
 					return;
-				Dust dust = Main.dust[Dust.NewDust(projectile.Center, 0, 0, 187, 0.0f, -2f)];
+				Dust dust = Main.dust[Dust.NewDust(projectile.Center, 0, 0, DustID.Flare_Blue, 0.0f, -2f)];
 				dust.position = projectile.Center + Vector2.UnitY.RotatedBy((double)num6 * (Math.PI / 1.5) + (double)projectile.ai[1]) * 10f;
 				dust.noGravity = true;
 				dust.velocity = projectile.DirectionFrom(dust.position);
@@ -97,7 +98,7 @@ namespace SpiritMod.NPCs.Spirit
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 40; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 68, 0f, -2f, 0, default(Color), 2f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.BlueCrystalShard, 0f, -2f, 0, default(Color), 2f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;

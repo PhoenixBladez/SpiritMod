@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Projectiles
 {
@@ -39,7 +40,7 @@ namespace SpiritMod.Projectiles
 				Vector2 position160 = projectile.position;
 				int width124 = projectile.width;
 				int height124 = projectile.height;
-				int num1624 = Dust.NewDust(position160, width124, height124, 222, 0f, 0f, 100, new Color(), 1f);
+				int num1624 = Dust.NewDust(position160, width124, height124, DustID.FireworkFountain_Yellow, 0f, 0f, 100, new Color(), 1f);
 				Dust dust77 = Main.dust[num1624];
 				dust77.scale = 1f + (float)Main.rand.NextDouble() * 0.3f;
 				Dust dust81 = dust77;
@@ -97,7 +98,7 @@ namespace SpiritMod.Projectiles
 		{
 			Dust.NewDust(projectile.position + projectile.velocity,
 				projectile.width, projectile.height,
-				222, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
+				DustID.FireworkFountain_Yellow, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
 		}
 	}
 }

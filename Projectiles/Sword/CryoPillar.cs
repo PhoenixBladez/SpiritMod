@@ -28,7 +28,6 @@ namespace SpiritMod.Projectiles.Sword
 			projectile.extraUpdates = 1;
 		}
 
-		int counter = 0;
 		private void Trail(Vector2 from, Vector2 to)
 		{
 			float distance = Vector2.Distance(from, to);

@@ -66,7 +66,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 			int frame = (int)npc.frameCounter;
 			npc.frame.Y = frame * frameHeight;
 		}
-        bool chosen = false;
+
         public override void NPCLoot()
         {
             npc.DropItem(ItemID.Gel);

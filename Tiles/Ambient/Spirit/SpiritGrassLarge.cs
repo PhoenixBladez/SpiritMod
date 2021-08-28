@@ -18,7 +18,7 @@ namespace SpiritMod.Tiles.Ambient.Spirit
 			Main.tileNoFail[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 
-			dustType = 167;
+			dustType = DustID.Plantera_Green;
 			soundType = SoundID.Grass;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1xX);
             TileObjectData.newTile.Height = 2;

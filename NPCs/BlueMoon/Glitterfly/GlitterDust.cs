@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,15 +23,13 @@ namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 			projectile.width = 8;
 		}
 
-		int timer = 1;
 		public override void AI()
 		{
 			Player player = Main.LocalPlayer;
 			int distance1 = (int)Vector2.Distance(projectile.Center, player.Center);
-			if (distance1 < 26) {
-				{
-					player.AddBuff(BuffID.Confused, 180);
-				}
+			if (distance1 < 26)
+			{
+				player.AddBuff(BuffID.Confused, 180);
 			}
 		}
 	}

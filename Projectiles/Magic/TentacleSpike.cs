@@ -49,10 +49,10 @@ namespace SpiritMod.Projectiles.Magic
 			}
 			if (projectile.velocity != Vector2.Zero) {
 				for (int i = 0; i < 4; i++) {
-					int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height * 2, 199, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+					int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height * 2, DustID.Butterfly, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 					Main.dust[dust].scale = Main.rand.NextFloat(.9f, 1.75f);
 					Main.dust[dust].noGravity = true;
-					int dust1 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height * 2, 173, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+					int dust1 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height * 2, DustID.ShadowbeamStaff, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 					Main.dust[dust1].scale = Main.rand.NextFloat(.9f, 1.75f);
 					Main.dust[dust1].noGravity = true;
 					Main.dust[dust1].noLight = true;
