@@ -84,7 +84,7 @@ namespace SpiritMod
 			{
 				projectile.frameCounter = 0;
 				projectile.frame++;
-				if (projectile.frame > Main.projFrames[projectile.type])
+				if (projectile.frame >= Main.projFrames[projectile.type])
 				{
 					projectile.frame = 0;
 				}

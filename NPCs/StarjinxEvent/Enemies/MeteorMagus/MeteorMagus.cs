@@ -36,7 +36,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			npc.knockBackResist = .55f;
 			npc.HitSound = new LegacySoundStyle(SoundID.NPCHit, 55).WithPitchVariance(0.2f);
 			npc.DeathSound = SoundID.NPCDeath51;
-			npc.visualOffset = new Vector2(84, 0);
 		}
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = (int)(npc.lifeMax * 0.66f * bossLifeScale);
@@ -219,6 +218,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
+			if (npc.frame.Width > 168)
+			{
+				frame = new Point(0, 0);
+				npc.FindFrame();
+			}
+
 			if (AiTimer > IdleTime)
 			{
 				float num395 = Main.mouseTextColor / 200f - 0.35f;
