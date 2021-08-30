@@ -106,7 +106,7 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 
 			_particles = new List<Particle>();
 
-			// add a screen shake event to the queue
+			// add a sound to the queue
 			AddToQueue(new ExpressionController(0, (int frame) =>
 			{
 				if(Main.netMode != NetmodeID.Server)

@@ -185,7 +185,7 @@ namespace SpiritMod.NPCs.Occultist
 
 				AiTimer = 0;
 				frame.X = 3;
-				UpdateYFrame(8, 0, 6, delegate (int frameY) 
+				UpdateYFrame(10, 0, 6, delegate (int frameY) 
 				{
 					if(frameY == 6) //when anim is complete, increase counter and reset frame
 					{
@@ -218,13 +218,13 @@ namespace SpiritMod.NPCs.Occultist
 				_pulseGlowmask = _ritualCircle = 0;
 
 				npc.velocity.Y = 0;
-				UpdateYFrame(10, 0, 7, delegate (int frameY)
+				UpdateYFrame(10, 0, 8, delegate (int frameY)
 				{
-					if (frameY == 7)
+					if (frameY == 8)
 					{
 						UpdateAIState(AISTATE_PHASE1);
 						Teleport(target);
-						frameY = 7;
+						frameY = 8;
 					}
 				});
 			}
@@ -276,6 +276,7 @@ namespace SpiritMod.NPCs.Occultist
 					_runeCircle = new RuneCircle(80, 50, 10, 8);
 
 					EventManager.PlayEvent(new ScreenShake(30f, 0.33f));
+					EventManager.PlayEvent(new ScreenFlash(new Color(255, 99, 161), 0.1f, 0.23f, 0.3f));
 				}
 			}
 
@@ -324,7 +325,7 @@ namespace SpiritMod.NPCs.Occultist
 
 		private void DeathAnim()
 		{
-			int ChargeTime = 200;
+			int ChargeTime = 140;
 			int FallTime = 60;
 
 			if(AiTimer < ChargeTime)
@@ -343,14 +344,13 @@ namespace SpiritMod.NPCs.Occultist
 					VisualSoul(2f);
 
 				if (AiTimer % (int)(30 * speedMod) == 0 && !Main.dedServ)
+				{
 					ParticleHandler.SpawnParticle(new PulseCircle(npc.Center, new Color(252, 3, 148, 100) * 0.5f, 120, 12));
-
-				if(Main.rand.NextBool((int)(50 * Math.Pow(speedMod, 2))) && !Main.dedServ)
 					ParticleHandler.SpawnParticle(new OccultistDeathBoom(npc.Center + Main.rand.NextVector2Circular(50, 60), Main.rand.NextFloat(0.2f, 0.3f), Main.rand.NextFloat(-0.1f, 0.1f)));
+				}
 
 				_whiteGlow = 0.33f * AiTimer / ChargeTime;
-				frame.X = 0;
-				UpdateYFrame(4, 0, 2);
+				frame = new Point(4, 1);
 			}
 			else if(AiTimer == ChargeTime)
 			{
@@ -382,6 +382,7 @@ namespace SpiritMod.NPCs.Occultist
 						ParticleHandler.SpawnParticle(new PulseCircle(npc.Center, new Color(99, 23, 51), 150 * i, 20));
 
 					EventManager.PlayEvent(new ScreenShake(30f, 0.33f));
+					EventManager.PlayEvent(new ScreenFlash(new Color(255, 99, 161), 0.1f, 0.23f, 0.3f));
 				}
 
 				if (Main.netMode != NetmodeID.Server)

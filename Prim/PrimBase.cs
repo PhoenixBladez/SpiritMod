@@ -16,7 +16,20 @@ namespace SpiritMod.Prim
 
 		public RenderTarget2D primTargetNPC;
 		public RenderTarget2D primTargetProjectile;
+
+		public BasicEffect pixelEffect;
+		public BasicEffect galaxyEffect;
 		public void LoadContent(GraphicsDevice GD)
+		{
+			InitializeTargets(GD);
+			pixelEffect = (BasicEffect)SpiritMod.basicEffect.Clone();
+			galaxyEffect = (BasicEffect)SpiritMod.basicEffect.Clone();
+
+			Helpers.UpdateBasicEffect(ref pixelEffect, Main.GameViewMatrix.Zoom);
+			Helpers.UpdateBasicEffect(ref galaxyEffect, new Vector2(1));
+		}
+
+		public void InitializeTargets(GraphicsDevice GD)
 		{
 			primTargetNPC = new RenderTarget2D(GD, Main.screenWidth / 2, Main.screenHeight / 2);
 			primTargetProjectile = new RenderTarget2D(GD, Main.screenWidth / 2, Main.screenHeight / 2);

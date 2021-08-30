@@ -1,11 +1,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Particles;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Sets.StarjinxSet.NovaGun
+namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 {
     public class StellanovaCannon : ModItem
     {
@@ -25,8 +26,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.NovaGun
             item.width = 38;
             item.height = 6;
             item.damage = 53;
-            item.shoot = ModContent.ProjectileType<NovaGunProjectile>();
-            item.shootSpeed = 12f;
+            item.shoot = ModContent.ProjectileType<StellanovaStarfire>();
+            item.shootSpeed = 16f;
             item.noMelee = true;
             item.useAmmo = AmmoID.FallenStar;
             item.value = Item.sellPrice(silver: 55);
@@ -44,6 +45,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.NovaGun
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, item, ModContent.GetTexture(Texture + "_glow"), rotation, scale);
 
 		public override bool ConsumeAmmo(Player player) => Main.rand.NextBool();
+
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse == 2)
@@ -60,10 +62,11 @@ namespace SpiritMod.Items.Sets.StarjinxSet.NovaGun
 			}
             return true;
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 direction = new Vector2(speedX, speedY);
-            if (player.altFunctionUse == 2)
+            if (player.altFunctionUse == 2) //big stellanova
 			{
 				position += direction * 5;
 				Projectile.NewProjectile(position, direction * 1.2f, ModContent.ProjectileType<NovaGunStar>(), damage * 2, knockBack, player.whoAmI);
@@ -72,13 +75,23 @@ namespace SpiritMod.Items.Sets.StarjinxSet.NovaGun
 						ParticleHandler.SpawnParticle(new StarParticle(position, player.velocity + direction.RotatedByRandom(MathHelper.Pi / 3) * Main.rand.NextFloat(0.33f, 0.8f),
 							Color.White * 0.66f, SpiritMod.StarjinxColor(Main.GlobalTime + i), Main.rand.NextFloat(0.2f, 0.3f), 20));
 			}
-            else
+            else //starfire
             {
-                float shootRotation = Main.rand.NextFloat(-0.1f, 0.1f);
+                float shootRotation = Main.rand.NextFloat(-0.5f, 0.5f);
+				shootRotation = Math.Sign(shootRotation) * (float)Math.Pow(shootRotation, 2); //square the rotation offset to "weigh" it more towards 0
+
                 direction = direction.RotatedBy(shootRotation);
                 position += direction * 5;
                 player.itemRotation += shootRotation;
-                Projectile.NewProjectile(position, direction, type, damage, knockBack, player.whoAmI);
+                Projectile proj = Projectile.NewProjectileDirect(position, direction, type, damage, knockBack, player.whoAmI);
+				if(proj.modProjectile is StellanovaStarfire starfire)
+				{
+					starfire.TargetVelocity = new Vector2(speedX, speedY) * 1.1f;
+					starfire.InitialVelocity = direction;
+					starfire.Amplitude = Main.rand.NextFloat(-MathHelper.Pi / 20, MathHelper.Pi / 20);
+				}
+				if (Main.netMode != NetmodeID.SinglePlayer)
+					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
 
 				if (!Main.dedServ)
 					for (int i = 0; i < 3; i++)
@@ -92,7 +105,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.NovaGun
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod, "Starjinx", 6);
-            recipe.AddIngredient(ItemID.StarCannon, 4);
+            recipe.AddIngredient(ItemID.StarCannon, 1);
             recipe.AddIngredient(ItemID.IllegalGunParts, 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
