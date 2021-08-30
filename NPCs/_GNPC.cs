@@ -14,10 +14,8 @@ using SpiritMod.Items.Pets;
 using SpiritMod.Items.Placeable.Furniture;
 using SpiritMod.Items.Placeable.IceSculpture;
 using SpiritMod.Items.Sets.FrigidSet;
-using SpiritMod.Items.Weapon;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Summon;
-using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Items.Weapon.Yoyo;
 using SpiritMod.Items.Sets.MoonWizardDrops;
 using SpiritMod.NPCs.Boss;
@@ -30,21 +28,19 @@ using SpiritMod.NPCs.Boss.SteamRaider;
 using SpiritMod.NPCs.Critters.Algae;
 using SpiritMod.Items.Sets.SlingHammerSubclass;
 using SpiritMod.NPCs.Town;
-using SpiritMod.NPCs.Tides;
 using SpiritMod.Projectiles.Arrow;
-using SpiritMod.NPCs.Tides.Tide;
 using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 using System.Linq;
 using SpiritMod.Items.Ammo.Rocket.Warhead;
 using SpiritMod.Projectiles.Summon.SacrificialDagger;
 using Terraria.Audio;
 using SpiritMod.Items.Sets.SummonsMisc.PigronStaff;
 using SpiritMod.Items.Sets.LaunchersMisc.Liberty;
+using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod.NPCs
 {
@@ -74,7 +70,7 @@ namespace SpiritMod.NPCs
 		public bool stormBurst;
 
 		public int summonTag;
-        public bool sacrificialDaggerBuff;
+		public bool sacrificialDaggerBuff;
 
 		public bool felBrand = false;
 		public bool spectre = false;
@@ -100,21 +96,10 @@ namespace SpiritMod.NPCs
 		public bool blaze = false;
 		public bool blaze1 = false;
 
-		private static int[] martianMobs =
-				new int[]
-		{
-			NPCID.MartianDrone,
-			NPCID.MartianEngineer,
-			NPCID.MartianOfficer,
-			NPCID.MartianProbe,
-			NPCID.MartianSaucer,
-			NPCID.MartianTurret,
-			NPCID.MartianWalker
-		};
-
 		public override void ResetEffects(NPC npc)
 		{
-			if (!voidInfluence) {
+			if (!voidInfluence)
+			{
 				if (voidStacks > VoidGlyph.DECAY)
 					voidStacks -= VoidGlyph.DECAY;
 				else
@@ -148,9 +133,9 @@ namespace SpiritMod.NPCs
 			blaze1 = false;
 
 			summonTag = 0;
-            sacrificialDaggerBuff = false;
+			sacrificialDaggerBuff = false;
 
-            felBrand = false;
+			felBrand = false;
 			spectre = false;
 			holyBurn = false;
 			pestilence = false;
@@ -159,8 +144,10 @@ namespace SpiritMod.NPCs
 
 		public override bool PreAI(NPC npc)
 		{
-			if (Main.netMode != NetmodeID.Server) {
-				if (bloodInfusion > 150) {
+			if (Main.netMode != NetmodeID.Server)
+			{
+				if (bloodInfusion > 150)
+				{
 					bloodInfusion = 0;
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
 				}
@@ -168,34 +155,38 @@ namespace SpiritMod.NPCs
 			Player player = Main.player[Main.myPlayer];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			Vector2 dist = npc.position - player.position;
-			if (Main.netMode != NetmodeID.Server) {
-				if (player.GetModPlayer<MyPlayer>().HellGaze == true && Math.Sqrt((dist.X * dist.X) + (dist.Y * dist.Y)) < 160 && Main.rand.Next(80) == 1 && !npc.friendly) {
+			if (Main.netMode != NetmodeID.Server)
+			{
+				if (player.GetModPlayer<MyPlayer>().HellGaze == true && Math.Sqrt((dist.X * dist.X) + (dist.Y * dist.Y)) < 160 && Main.rand.Next(80) == 1 && !npc.friendly)
 					npc.AddBuff(24, 130, false);
-				}
 				dist = npc.Center - new Vector2(modPlayer.clockX, modPlayer.clockY);
-				if (player.GetModPlayer<MyPlayer>().clockActive == true && Math.Sqrt((dist.X * dist.X) + (dist.Y * dist.Y)) < 175 && !npc.friendly) {
+				if (player.GetModPlayer<MyPlayer>().clockActive == true && Math.Sqrt((dist.X * dist.X) + (dist.Y * dist.Y)) < 175 && !npc.friendly)
 					npc.AddBuff(ModContent.BuffType<Stopped>(), 3);
-				}
 			}
-			if (Main.netMode != NetmodeID.Server) {
 
-				if (Stopped) {
-					if (!npc.boss) {
+			if (Main.netMode != NetmodeID.Server)
+			{
+				if (Stopped)
+				{
+					if (!npc.boss)
+					{
 						npc.velocity *= 0;
 						npc.frame.Y = 0;
 						return false;
 					}
 				}
 			}
-			return base.PreAI(npc);
+			return true;
 		}
 
 		public override void HitEffect(NPC npc, int hitDirection, double damage)
 		{
-			if ((npc.type == NPCID.GraniteFlyer || npc.type == NPCID.GraniteGolem) && NPC.downedBoss2 && Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0 && Main.rand.Next(3) == 0) {
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
+			if ((npc.type == NPCID.GraniteFlyer || npc.type == NPCID.GraniteGolem) && NPC.downedBoss2 && Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0 && Main.rand.Next(3) == 0)
+			{
+				Main.PlaySound(new LegacySoundStyle(2, 109));
 				{
-					for (int i = 0; i < 20; i++) {
+					for (int i = 0; i < 20; i++)
+					{
 						int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 0f, -2f, 0, default, 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -204,11 +195,11 @@ namespace SpiritMod.NPCs
 						if (Main.dust[num].position != npc.Center)
 							Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 					}
-					Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
-					NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<NPCs.CracklingCore.GraniteCore>());
+					Vector2 spawnAt = npc.Center + new Vector2(0f, npc.height / 2f);
+					NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y,NPCType<NPCs.CracklingCore.GraniteCore>());
 				}
 			}
-			if (npc.life <= 0 && npc.FindBuffIndex(ModContent.BuffType<WanderingPlague>()) >= 0)
+			if (npc.life <= 0 && npc.FindBuffIndex(BuffType<WanderingPlague>()) >= 0)
 				UnholyGlyph.ReleasePoisonClouds(npc, 0);
 		}
 
@@ -218,21 +209,28 @@ namespace SpiritMod.NPCs
 			bool drain = false;
 			bool noDamage = damage <= 1;
 			int damageBefore = damage;
-			if (angelLightStacks > 0) {
-				if (npc.FindBuffIndex(ModContent.BuffType<AngelLight>()) < 0) {
+			if (angelLightStacks > 0)
+			{
+				if (npc.FindBuffIndex(BuffType<AngelLight>()) < 0)
+				{
 					angelLightStacks = 0;
 					return;
 				}
 			}
-			if (angelWrathStacks > 0) {
-				if (npc.FindBuffIndex(ModContent.BuffType<AngelWrath>()) < 0) {
+			if (angelWrathStacks > 0)
+			{
+				if (npc.FindBuffIndex(BuffType<AngelWrath>()) < 0)
+				{
 					angelWrathStacks = 0;
 					return;
 				}
 			}
+
 			#region Iriazul
-			if (fireStacks > 0) {
-				if (npc.FindBuffIndex(ModContent.BuffType<StackingFireBuff>()) < 0) {
+			if (fireStacks > 0)
+			{
+				if (npc.FindBuffIndex(ModContent.BuffType<StackingFireBuff>()) < 0)
+				{
 					fireStacks = 0;
 					return;
 				}
@@ -241,8 +239,10 @@ namespace SpiritMod.NPCs
 				npc.lifeRegen -= 16;
 				damage = Math.Max(damage, fireStacks * 5);
 			}
-			if (acidBurnStacks > 0) {
-				if (npc.FindBuffIndex(ModContent.BuffType<AcidBurn>()) < 0) {
+			if (acidBurnStacks > 0)
+			{
+				if (npc.FindBuffIndex(ModContent.BuffType<AcidBurn>()) < 0)
+				{
 					acidBurnStacks = 0;
 					return;
 				}
@@ -251,8 +251,10 @@ namespace SpiritMod.NPCs
 				npc.lifeRegen -= 3 * acidBurnStacks;
 				damage = Math.Max(damage, acidBurnStacks * 2);
 			}
-			if (nebulaFlameStacks > 0) {
-				if (npc.FindBuffIndex(ModContent.BuffType<NebulaFlame>()) < 0) {
+			if (nebulaFlameStacks > 0)
+			{
+				if (npc.FindBuffIndex(ModContent.BuffType<NebulaFlame>()) < 0)
+				{
 					nebulaFlameStacks = 0;
 					return;
 				}
@@ -263,126 +265,165 @@ namespace SpiritMod.NPCs
 			}
 			#endregion
 
-			if (voidStacks > 0) {
+			if (voidStacks > 0)
+			{
 				damage += 5 + 5 * (voidStacks / VoidGlyph.DELAY);
 				npc.lifeRegen -= 20 + 20 * voidStacks / VoidGlyph.DELAY;
 			}
-			if (sanguineBleed) {
+
+			if (sanguineBleed)
+			{
 				damage += 4;
 				npc.lifeRegen -= 16;
 			}
-			if (unholyPlague) {
+
+			if (unholyPlague)
+			{
 				damage += 5;
 				npc.lifeRegen -= 20;
 			}
 
-			if (DoomDestiny) {
+			if (DoomDestiny)
+			{
 				drain = true;
 				npc.lifeRegen -= 16;
-				if (damage < 10) {
+				if (damage < 10)
 					damage = 10;
-				}
 			}
-			if (starDestiny) {
+
+			if (starDestiny)
+			{
 				drain = true;
 				npc.lifeRegen -= 150;
 				damage = 75;
 			}
-			if (sFracture) {
+
+			if (sFracture)
+			{
 				drain = true;
 				npc.lifeRegen -= 9;
 				damage = 3;
 			}
-			if (soulBurn) {
+
+			if (soulBurn)
+			{
 				drain = true;
 				npc.lifeRegen -= 15;
 				damage = 5;
 			}
-			if (afflicted) {
+
+			if (afflicted)
+			{
 				drain = true;
 				npc.lifeRegen -= 20;
 				damage = 20;
 			}
-			if (iceCrush) {
-				if (!npc.boss) {
+
+			if (iceCrush)
+			{
+				if (!npc.boss)
+				{
 					drain = true;
 					float def = 2 + (npc.lifeMax / (npc.life * 1.5f));
 					npc.lifeRegen -= (int)def;
 					damage = (int)def;
 				}
-				else if (npc.boss || npc.type == NPCID.DungeonGuardian) {
+				else if (npc.boss || npc.type == NPCID.DungeonGuardian)
+				{
 					drain = true;
 					npc.lifeRegen -= 6;
 					damage = 3;
 				}
 			}
-			if (Death) {
+
+			if (Death)
+			{
 				drain = true;
 				npc.lifeRegen -= 10000;
 				damage = 10000;
 			}
-			if (SoulFlare) {
+
+			if (SoulFlare)
+			{
 				drain = true;
 				npc.lifeRegen -= 9;
 
 			}
-			if (felBrand) {
+
+			if (felBrand)
+			{
 				drain = true;
 				npc.lifeRegen -= 30;
 				damage = 10;
 			}
-			if (spectre) {
+
+			if (spectre)
+			{
 				drain = true;
 				npc.lifeRegen -= 20;
 				damage = 5;
 			}
-			if (moonBurn) {
+
+			if (moonBurn)
+			{
 				drain = true;
 				npc.lifeRegen -= 10;
 				damage = 6;
 			}
-			if (sunBurn) {
+
+			if (sunBurn)
+			{
 				drain = true;
 				npc.lifeRegen -= 6;
 				damage = 3;
 			}
-			if (necrosis) {
+
+			if (necrosis)
+			{
 				MyPlayer mp = Main.player[npc.target].GetSpiritPlayer();
-				if (mp.KingSlayerFlask) {
-					drain = true;
+				drain = true;
+
+				if (mp.KingSlayerFlask)
+				{
 					npc.lifeRegen -= 36;
 					damage = 12;
 				}
-				else {
-					drain = true;
+				else
+				{
 					npc.lifeRegen -= 30;
 					damage = 10;
 				}
 			}
-			if (holyBurn) {
+			if (holyBurn)
+			{
 				drain = true;
 				npc.lifeRegen -= 25;
 				damage = 3;
 			}
-			if (pestilence) {
+			if (pestilence)
+			{
 				MyPlayer mp = Main.player[npc.target].GetSpiritPlayer();
-				if (mp.KingSlayerFlask) {
-					drain = true;
+				drain = true;
+
+				if (mp.KingSlayerFlask)
+				{
 					npc.lifeRegen -= 5;
 					damage = 3;
 				}
-				else {
-					drain = true;
+				else
+				{
 					npc.lifeRegen -= 3;
 					damage = 3;
 				}
 			}
-			if (blaze) {
+			if (blaze)
+			{
 				drain = true;
 				npc.lifeRegen -= 4;
 				damage = 2;
 			}
-			if (blaze1) {
+			if (blaze1)
+			{
 				drain = true;
 				npc.lifeRegen -= 20;
 				damage = 2;
@@ -398,31 +439,31 @@ namespace SpiritMod.NPCs
 		public override void GetChat(NPC npc, ref string chat)
 		{
 			Player player = Main.LocalPlayer;
-			MyPlayer modPlayer = Main.LocalPlayer.GetModPlayer<MyPlayer>();
-			if (Main.halloween && !Main.dayTime && AllowTrickOrTreat(npc) && modPlayer.CanTrickOrTreat(npc)) {
-				if (npc.type == NPCID.Guide && !player.HasItem(ItemType<CandyBag>())) {
+			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
+
+			if (Main.halloween && !Main.dayTime && AllowTrickOrTreat(npc) && modPlayer.CanTrickOrTreat(npc))
+			{
+				if (npc.type == NPCID.Guide && !player.HasItem(ItemType<CandyBag>()))
+				{
 					chat = "Take this bag; you can use it to store your Candy. \"How do I get candy?\", you ask? Try talking to the other villagers.";
 					player.QuickSpawnItem(ItemType<CandyBag>());
 				}
-				else {
-					chat = TrickOrTeat(modPlayer, npc);
+				else
+				{
+					chat = TrickOrTreat(modPlayer, npc);
 					ItemUtils.DropCandy(player);
 				}
 			}
 		}
 
-		internal bool AllowTrickOrTreat(NPC npc)
-		{
-			if (npc.type == NPCID.OldMan)
-				return false;
-			return true;
-		}
+		internal bool AllowTrickOrTreat(NPC npc) => npc.type != NPCID.OldMan && !ModContent.GetInstance<SpiritMod>().NPCCandyBlacklist.Contains(npc.type);
 
-		internal string TrickOrTeat(MyPlayer player, NPC npc)
+		internal string TrickOrTreat(MyPlayer player, NPC npc)
 		{
 			string name;
 			int dialogue = Main.rand.Next(2);
-			switch (npc.type) {
+			switch (npc.type)
+			{
 				case NPCID.Merchant:
 					if (dialogue == 0)
 						return "Oh, here's some candy. You have no idea how hard it was to get this.";
@@ -570,141 +611,122 @@ namespace SpiritMod.NPCs
 					else
 						return "Wiping a counter all day has made me appreciate the little things in life, like candy. Care for a piece?";
 			}
-			if (npc.type == NPCType<Adventurer>()) {
+			if (npc.type == NPCType<Adventurer>())
+			{
 				if (dialogue == 0)
 					return "You wouldn't believe me if I told you I got this from a faraway kingdom made of CANDY! I promise it has an exquisite taste.";
 				else
 					return "I hear you can get more candy from the goodie bags that monsters hold. As if I needed an excuse to slay some zombies!";
 			}
-			else if (npc.type == NPCType<Rogue>()) {
+			else if (npc.type == NPCType<Rogue>())
+			{
 				if (dialogue == 0)
 					return "You want some candy? Here, catch!";
 				else
 					return "Hiyah! Candy attack! Oh, it's you. sorry.";
 			}
-			else if (npc.type == NPCType<RuneWizard>()) {
+			else if (npc.type == NPCType<RuneWizard>())
+			{
 				if (dialogue == 0)
 					return "Behold! Enchanted candy! Enchantingly tasty, that is!";
 				else
 					return "Watch closely, for I shall channel the power of the spirits to summon... Candy!";
 
 			}
-			else if (npc.type == mod.NPCType("Gambler")) {
+			else if (npc.type == NPCType<Gambler>())
+			{
 				if (dialogue == 0)
 					return "Reach into the bowl. You never know what you'll pull out";
 				else
 					return "I'll trade you any piece of candy for a random pie- no? Ok";
 			}
+
 			if (dialogue == 0)
 				return "Hello, " + player.player.name + ". Take some candy!";
 			else
-				return "Here. I have some candy for you.";
+				return "Here, I have some candy for you.";
 		}
+
 		public override Color? GetAlpha(NPC npc, Color drawColor)
 		{
-			if(npc.HasBuff(BuffType<TopazMarked>())) {
+			if (npc.HasBuff(BuffType<TopazMarked>()))
 				return Color.Lerp(base.GetAlpha(npc, drawColor) ?? Color.Transparent, new Color(158, 255, 253), 0.75f);
-			}
-			return base.GetAlpha(npc, drawColor);
+			return null;
 		}
 
 		public override void SetupShop(int type, Chest shop, ref int nextSlot)
 		{
-			if (type == NPCID.Merchant) {
-				if (Main.halloween && Main.halloween) {
-					shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Halloween.CandyBowl>(), false);
-					nextSlot++;
-				}
+			if (type == NPCID.Merchant)
+			{
+				if (Main.halloween && Main.halloween)
+					shop.item[nextSlot++].SetDefaults(ItemType<CandyBowl>(), false);
 			}
-			else if (type == NPCID.ArmsDealer) {
+			else if (type == NPCID.ArmsDealer)
+			{
 				shop.item[nextSlot].SetDefaults(ItemType<Items.Ammo.Bullet.RubberBullet>(), false);
 				shop.item[nextSlot].SetDefaults(ItemType<Warhead>(), false);
 				if (Main.player.Where(x => x.HasItem(ItemType<Moonshot>())).Any())
-					shop.item[nextSlot].SetDefaults(ItemType<TinyLunazoaItem>(), false);
-				nextSlot++;
+					shop.item[nextSlot++].SetDefaults(ItemType<TinyLunazoaItem>(), false);
 			}
-            else if (type == NPCID.Cyborg)
-            {
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Armor.FreemanSet.FreemanHead>(), false);
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Armor.FreemanSet.FreemanBody>(), false);
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Armor.FreemanSet.FreemanLegs>(), false);
-                nextSlot++;
-            }
-            else if (type == NPCID.Clothier)
-            {
-				shop.item[nextSlot].SetDefaults(ItemType<TheCouch>(), false);
-				nextSlot++;
+			else if (type == NPCID.Cyborg)
+			{
+				shop.item[nextSlot++].SetDefaults(ItemType<Items.Armor.FreemanSet.FreemanHead>(), false);
+				shop.item[nextSlot++].SetDefaults(ItemType<Items.Armor.FreemanSet.FreemanBody>(), false);
+				shop.item[nextSlot++].SetDefaults(ItemType<Items.Armor.FreemanSet.FreemanLegs>(), false);
+			}
+			else if (type == NPCID.Clothier)
+			{
+				shop.item[nextSlot++].SetDefaults(ItemType<TheCouch>(), false);
 				shop.item[nextSlot].SetDefaults(410, false);
-				shop.item[nextSlot].shopCustomPrice = 200000;
-				nextSlot++;
+				shop.item[nextSlot++].shopCustomPrice = 200000;
 				shop.item[nextSlot].SetDefaults(411, false);
-				shop.item[nextSlot].shopCustomPrice = 200000;
-				nextSlot++;
+				shop.item[nextSlot++].shopCustomPrice = 200000;
 
 				if (MyWorld.downedRaider)
-                {
-                    shop.item[nextSlot].SetDefaults(ItemType<Items.Armor.CommandoSet.CommandoHead>(), false);
-                    nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ItemType<Items.Armor.CommandoSet.CommandoBody>(), false);
-                    nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ItemType<Items.Armor.CommandoSet.CommandoLegs>(), false);
-                    nextSlot++;
-                }
-            }
-            else if (type == NPCID.Dryad) {
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Placeable.MusicBox.TranquilWindsBox>(), false);
-                nextSlot++;
-                if (NPC.downedMoonlord && Main.halloween) {
-					shop.item[nextSlot].SetDefaults(ItemType<Items.Placeable.Tiles.HalloweenGrass>(), false);
-					nextSlot++;
-				}
-				
-				if (Main.LocalPlayer.GetSpiritPlayer().ZoneReach) {
-					shop.item[nextSlot].SetDefaults(ItemType<Items.Placeable.Tiles.BriarGrassSeeds>(), false);
-					nextSlot++;
+				{
+					shop.item[nextSlot++].SetDefaults(ItemType<Items.Armor.CommandoSet.CommandoHead>(), false);
+					shop.item[nextSlot++].SetDefaults(ItemType<Items.Armor.CommandoSet.CommandoBody>(), false);
+					shop.item[nextSlot++].SetDefaults(ItemType<Items.Armor.CommandoSet.CommandoLegs>(), false);
 				}
 			}
-			else if (type == NPCID.Steampunker) {
-				shop.item[nextSlot].SetDefaults(ItemType<Items.Ammo.SpiritSolution>());
-				nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Ammo.OliveSolution>());
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Ammo.SoullessSolution>());
-				nextSlot++;
+			else if (type == NPCID.Dryad)
+			{
+				shop.item[nextSlot++].SetDefaults(ItemType<Items.Placeable.MusicBox.TranquilWindsBox>(), false);
+				if (NPC.downedMoonlord && Main.halloween)
+					shop.item[nextSlot++].SetDefaults(ItemType<Items.Placeable.Tiles.HalloweenGrass>(), false);
+
+				if (Main.LocalPlayer.GetSpiritPlayer().ZoneReach)
+					shop.item[nextSlot++].SetDefaults(ItemType<Items.Placeable.Tiles.BriarGrassSeeds>(), false);
 			}
-			else if (type == NPCID.PartyGirl) {
-				if (NPC.downedMechBossAny) {
-					shop.item[nextSlot].SetDefaults(ItemType<Items.Sets.GunsMisc.Partystarter.PartyStarter>(), false);
-					nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ItemType<Items.Placeable.MusicBox.NeonMusicBox>(), false);
-                    shop.item[nextSlot].shopCustomPrice = 50000;
-                    nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ItemType<SpiritPainting>(), false);
-					nextSlot++;
+			else if (type == NPCID.Steampunker)
+			{
+				shop.item[nextSlot++].SetDefaults(ItemType<Items.Ammo.SpiritSolution>());
+				shop.item[nextSlot++].SetDefaults(ItemType<Items.Ammo.OliveSolution>());
+				shop.item[nextSlot++].SetDefaults(ItemType<Items.Ammo.SoullessSolution>());
+			}
+			else if (type == NPCID.PartyGirl)
+			{
+				if (NPC.downedMechBossAny)
+				{
+					shop.item[nextSlot++].SetDefaults(ItemType<Items.Sets.GunsMisc.Partystarter.PartyStarter>(), false);
+					shop.item[nextSlot].SetDefaults(ItemType<Items.Placeable.MusicBox.NeonMusicBox>(), false);
+					shop.item[nextSlot++].shopCustomPrice = 50000;
+					shop.item[nextSlot++].SetDefaults(ItemType<SpiritPainting>(), false);
 				}
 			}
-			else if (type == NPCID.WitchDoctor) {
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Sets.ClubSubclass.Macuahuitl>());
-                nextSlot++;
-            }
-            else if (type == NPCID.Painter) {
-				shop.item[nextSlot].SetDefaults(ItemType<Canvas>(), false);
-				nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemType<FloppaPainting>(), false);
-                nextSlot++;
-            }
+			else if (type == NPCID.WitchDoctor)
+				shop.item[nextSlot++].SetDefaults(ItemType<Items.Sets.ClubSubclass.Macuahuitl>());
+			else if (type == NPCID.Painter)
+			{
+				shop.item[nextSlot++].SetDefaults(ItemType<Canvas>(), false);
+				shop.item[nextSlot++].SetDefaults(ItemType<FloppaPainting>(), false);
+			}
 			else if (type == NPCID.Demolitionist)
 			{
-				shop.item[nextSlot].SetDefaults(ItemType<LibertyItem>(), false);
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(ItemType<Warhead>(), false);
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(ItemType<ShortFuse>(), false);
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(ItemType<LongFuse>(), false);
-				nextSlot++;
+				shop.item[nextSlot++].SetDefaults(ItemType<LibertyItem>(), false);
+				shop.item[nextSlot++].SetDefaults(ItemType<Warhead>(), false);
+				shop.item[nextSlot++].SetDefaults(ItemType<ShortFuse>(), false);
+				shop.item[nextSlot++].SetDefaults(ItemType<LongFuse>(), false);
 			}
 		}
 
@@ -712,79 +734,92 @@ namespace SpiritMod.NPCs
 		{
 			bool surface = player.position.Y <= Main.worldSurface * 16 + NPC.sHeight;
 			int activePlayers = 0;
-			for (int i = 0; i < 255; i++) {
+
+			for (int i = 0; i < Main.maxPlayers; i++)
+			{
 				if (Main.player[i].active)
 					activePlayers++;
 			}
-			if (player.GetSpiritPlayer().ZoneSpirit) {
+
+			if (player.GetSpiritPlayer().ZoneSpirit)
+			{
 				spawnRate = (int)(spawnRate * 0.73f);
 				maxSpawns = (int)(maxSpawns * 1.1f);
 			}
-			if (MyWorld.BlueMoon && surface) {
+
+			if (MyWorld.BlueMoon && surface)
+			{
 				maxSpawns = (int)(maxSpawns * 1.1f);
 				spawnRate = (int)(spawnRate * 0.4f);
 			}
-            if (MyWorld.jellySky && player.ZoneSkyHeight)
-            {
-                maxSpawns = (int)(maxSpawns * 1.18f);
-                spawnRate = 2;
-            }
+
+			if (MyWorld.jellySky && player.ZoneSkyHeight)
+			{
+				maxSpawns = (int)(maxSpawns * 1.18f);
+				spawnRate = 2;
+			}
 		}
 
 		public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
 		{
-            Player player = spawnInfo.player;
+			Player player = spawnInfo.player;
+
 			if (MyWorld.calmNight)
 			{
 				if (spawnInfo.invasion || spawnInfo.sky || MyWorld.BlueMoon) return; //if invasion or in sky
-            	if (Main.eclipse || Main.bloodMoon) return; //if eclipse or blood moon
-            	if (!player.ZoneOverworldHeight) return; //if not in overworld
-            	if (player.ZoneMeteor || player.ZoneRockLayerHeight || player.ZoneDungeon || player.ZoneBeach || player.ZoneCorrupt || player.ZoneCrimson || player.ZoneJungle || player.ZoneHoly || spawnInfo.player.GetSpiritPlayer().ZoneReach || spawnInfo.player.GetSpiritPlayer().ZoneSpirit) return; //if in wrong biome
+				if (Main.eclipse || Main.bloodMoon) return; //if eclipse or blood moon
+				if (!player.ZoneOverworldHeight) return; //if not in overworld
+				if (player.ZoneMeteor || player.ZoneRockLayerHeight || player.ZoneDungeon || player.ZoneBeach || player.ZoneCorrupt || player.ZoneCrimson || player.ZoneJungle || player.ZoneHoly || spawnInfo.player.GetSpiritPlayer().ZoneReach || spawnInfo.player.GetSpiritPlayer().ZoneSpirit) return; //if in wrong biome
 
-            	pool.Clear();
-
+				pool.Clear();
 			}
-			if (spawnInfo.spawnTileY <= Main.worldSurface) {
+
+			if (spawnInfo.spawnTileY <= Main.worldSurface)
+			{
 				if (MyWorld.BlueMoon && !Main.dayTime)
 					pool.Remove(0);
 			}
-			if (spawnInfo.player.GetSpiritPlayer().ZoneAsteroid) {
+
+			if (spawnInfo.player.GetSpiritPlayer().ZoneAsteroid)
+			{
 				if (!spawnInfo.playerSafe)
 				{
 					pool.Clear();
 					pool.Add(NPCType<Shockhopper.DeepspaceHopper>(), .35f);
 					pool.Add(NPCType<AstralAmalgam.AstralAmalgram>(), 0.16f);
 
-					if(NPC.downedBoss2)
+					if (NPC.downedBoss2)
 						pool.Add(NPCType<Orbitite.Mineroid>(), 0.3f);
 				}
 				pool.Add(NPCType<Gloop.GloopGloop>(), 0.24f);
-				if (NPC.downedBoss3) {
+				if (NPC.downedBoss3)
 					pool.Add(NPCType<Starfarer.CogTrapperHead>(), 0.45f);
+				if (NPC.downedBoss1 || NPC.downedBoss3 || NPC.downedBoss3)
+				{
+					if (!NPC.AnyNPCs(NPCType<MoonjellyEvent.DistressJelly>()))
+						pool.Add(NPCType<MoonjellyEvent.DistressJelly>(), .055f);
 				}
-                if (NPC.downedBoss1 || NPC.downedBoss3 || NPC.downedBoss3)
-                {
-                    if (!NPC.AnyNPCs(NPCType<MoonjellyEvent.DistressJelly>()))
-                    {
-                        pool.Add(NPCType<MoonjellyEvent.DistressJelly>(), .055f);
-                    }
-                }
 			}
+
 			if (MyWorld.jellySky && spawnInfo.player.ZoneSkyHeight)
 			{
 				pool.Add(NPCType<MoonjellyEvent.TinyLunazoa>(), 9.35f);
 				pool.Add(NPCType<MoonjellyEvent.ExplodingMoonjelly>(), 8.35f);
 				pool.Add(NPCType<MoonjellyEvent.MoonlightPreserver>(), 3.25f);
-				if (!NPC.AnyNPCs(NPCType<NPCs.MoonjellyEvent.MoonjellyGiant>()))
-					pool.Add(NPCType<NPCs.MoonjellyEvent.MoonjellyGiant>(), .85f);
-				if (!NPC.AnyNPCs(NPCType<NPCs.MoonjellyEvent.DreamlightJelly>()))
+				if (!NPC.AnyNPCs(NPCType<MoonjellyEvent.MoonjellyGiant>()))
+					pool.Add(NPCType<MoonjellyEvent.MoonjellyGiant>(), .85f);
+				if (!NPC.AnyNPCs(NPCType<MoonjellyEvent.DreamlightJelly>()))
 					pool.Add(NPCType<MoonjellyEvent.DreamlightJelly>(), .85f);
 			}
-			for (int k = 0; k < 255; k++) {
+
+			for (int k = 0; k < Main.maxPlayers; k++)
+			{
 				Player player1 = Main.player[k];
-				if (player1.ZoneBeach && MyWorld.luminousOcean && !Main.dayTime) {
+				if (player1.active && player1.ZoneBeach && MyWorld.luminousOcean && !Main.dayTime)
+				{
 					pool.Clear();
-					if (spawnInfo.water) {
+					if (spawnInfo.water)
+					{
 						if (MyWorld.luminousType == 1)
 							pool.Add(NPCType<GreenAlgae2>(), 3f);
 						if (MyWorld.luminousType == 2)
@@ -800,7 +835,8 @@ namespace SpiritMod.NPCs
 
 		public override void ModifyHitByItem(NPC npc, Player player, Item item, ref int damage, ref float knockback, ref bool crit)
 		{
-			if (stormBurst) {
+			if (stormBurst)
+			{
 				knockback = 0;
 				float before = knockback;
 				knockback *= 2f;
@@ -813,17 +849,20 @@ namespace SpiritMod.NPCs
 
 		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
 		{
-			if (stormBurst && npc.knockBackResist > 0 && npc.velocity.LengthSquared() > 1) {
-				for (int i = 0; i < 8; i++) {
-					Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, DustType<Wind>());
-					dust.customData = new Dusts.WindAnchor(npc.Center, npc.velocity, dust.position);
+			if (stormBurst && npc.knockBackResist > 0 && npc.velocity.LengthSquared() > 1)
+			{
+				for (int i = 0; i < 8; i++)
+				{
+					var dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, DustType<Wind>());
+					dust.customData = new WindAnchor(npc.Center, npc.velocity, dust.position);
 				}
 			}
 		}
 
 		public override void ModifyHitByProjectile(NPC target, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			if (stormBurst) {
+			if (stormBurst)
+			{
 				knockback = 0;
 				float before = knockback;
 				knockback *= 2f;
@@ -832,74 +871,56 @@ namespace SpiritMod.NPCs
 				else if (knockback > 8f)
 					knockback = before > 8 ? before : 8;
 			}
+
 			bool summon = (projectile.minion || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type] || projectile.sentry);
 			if (summon)
-                damage += summonTag;
+				damage += summonTag;
 
-            if (sacrificialDaggerBuff && summon && projectile.type != ProjectileType<SacrificialDaggerProj>() && projectile.type != ProjectileType<SacrificialDaggerProjectile>())
-            {
-                if (Main.rand.NextBool(4))
+			if (sacrificialDaggerBuff && summon && projectile.type != ProjectileType<SacrificialDaggerProj>() && projectile.type != ProjectileType<SacrificialDaggerProjectile>())
+			{
+				if (Main.rand.NextBool(4))
 				{
-					if(Main.netMode != NetmodeID.Server)
+					if (Main.netMode != NetmodeID.Server)
 						Main.PlaySound(new LegacySoundStyle(SoundID.Item, 71).WithPitchVariance(0.2f).WithVolume(0.5f), target.Center);
 
 					int direction = target.position.X > Main.player[projectile.owner].position.X ? 1 : -1;
 
 					Vector2 randPos = target.Center + new Vector2(direction, 0).RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(70, 121);
-					Vector2 dir = target.Center - randPos;
-					dir.Normalize();
-					dir *= 6;
-					if(Main.netMode != NetmodeID.MultiplayerClient)
+					var dir = Vector2.Normalize(target.Center - randPos) * 6;
+
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 						Projectile.NewProjectile(randPos.X, randPos.Y, dir.X, dir.Y, mod.ProjectileType("SacrificialDaggerProjectile"), (int)(damage * 0.75f), 0, projectile.owner);
 
-                    DustHelper.DrawTriangle(target.Center, 173, 5, 1.5f, 1f);
-                }
-            }
-        }
+					DustHelper.DrawTriangle(target.Center, 173, 5, 1.5f, 1f);
+				}
+			}
+		}
 
 		public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
 		{
-			if (stormBurst && npc.knockBackResist > 0 && npc.velocity.LengthSquared() > 1) {
-				for (int i = 0; i < 8; i++) {
-					Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, DustType<Wind>());
+			if (stormBurst && npc.knockBackResist > 0 && npc.velocity.LengthSquared() > 1)
+			{
+				for (int i = 0; i < 8; i++)
+				{
+					var dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, DustType<Wind>());
 					dust.customData = new WindAnchor(npc.Center, npc.velocity, dust.position);
-
-                }
+				}
 			}
 		}
 
 		private int GlyphsHeldBy(NPC boss)
 		{
-			if (boss.type == NPCID.KingSlime
-				|| boss.type == NPCType<Scarabeus>() ||
-                boss.type == NPCID.EyeofCthulhu)
+			if (boss.type == NPCID.KingSlime || boss.type == NPCType<Scarabeus>() || boss.type == NPCID.EyeofCthulhu)
 				return 2;
-
-			if (boss.type == NPCType<ReachBoss1>() ||
-				boss.type == NPCID.QueenBee
-				|| boss.type == NPCID.SkeletronHead
-				|| boss.type == NPCType<AncientFlyer>()
-				|| boss.type == NPCType<SteamRaiderHead>())
+			else if (boss.type == NPCType<ReachBoss1>() || boss.type == NPCID.QueenBee || boss.type == NPCID.SkeletronHead || boss.type == NPCType<AncientFlyer>() || boss.type == NPCType<SteamRaiderHead>())
 				return 3;
-
-			if (boss.type == NPCID.WallofFlesh)
+			else if (boss.type == NPCID.WallofFlesh)
 				return 5;
-
-			if (boss.type == NPCID.TheDestroyer
-				|| boss.type == NPCType<Infernon>()
-				|| boss.type == NPCType<InfernoSkull>()
-				|| boss.type == NPCID.SkeletronPrime
-				|| boss.type == NPCType<Dusking>())
+			else if (boss.type == NPCID.TheDestroyer || boss.type == NPCType<Infernon>() || boss.type == NPCType<InfernoSkull>() || boss.type == NPCID.SkeletronPrime || boss.type == NPCType<Dusking>())
 				return 4;
-
-			if (boss.type == NPCID.Plantera
-				|| boss.type == NPCID.Golem
-				|| boss.type == NPCID.DukeFishron
-				|| boss.type == NPCID.CultistBoss
-				|| boss.type == NPCType<Atlas>())
+			else if (boss.type == NPCID.Plantera || boss.type == NPCID.Golem || boss.type == NPCID.DukeFishron || boss.type == NPCID.CultistBoss || boss.type == NPCType<Atlas>())
 				return 5;
-
-			if (boss.type == NPCID.MoonLordCore)
+			else if (boss.type == NPCID.MoonLordCore)
 				return 8;
 
 			return 2;
@@ -908,440 +929,174 @@ namespace SpiritMod.NPCs
 		public override void NPCLoot(NPC npc)
 		{
 			Player closest = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)];
-            Player player = Main.LocalPlayer;
-            int num160 = Item.NPCtoBanner(npc.BannerID());
-			if (NPC.killCount[num160] == 50)
-                Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/BannerSfx"));
+			Player player = Main.LocalPlayer;
+
+			if (NPC.killCount[Item.NPCtoBanner(npc.BannerID())] == 50)
+				Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/BannerSfx"));
 
 			if (bloodInfused)
 				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
-			
+
 			if (player.GetSpiritPlayer().wayfarerSet)
-                player.AddBuff(ModContent.BuffType<Buffs.Armor.ExplorerFight>(), 240);
+				player.AddBuff(BuffType<Buffs.Armor.ExplorerFight>(), 240);
 
 			#region Glyph
-			if (npc.boss && (npc.modNPC == null || npc.modNPC.bossBag > 0)) {
-				string name;
-				if (npc.modNPC != null)
-					name = npc.modNPC.mod.Name + ":" + npc.modNPC.GetType().Name;
-				else
-					name = "Terraria:" + npc.TypeName;
+			if (npc.boss && (npc.modNPC == null || npc.modNPC.bossBag > 0))
+			{
+				string name = npc.modNPC != null ? npc.modNPC.mod.Name + ":" + npc.modNPC.GetType().Name : "Terraria:" + npc.TypeName;
 
 				MyWorld.droppedGlyphs.TryGetValue(name, out bool droppedGlyphs);
-				if (!droppedGlyphs) {
+				if (!droppedGlyphs)
+				{
 					int glyphs = GlyphsHeldBy(npc);
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Glyph>(), glyphs * Main.ActivePlayersCount);
 					MyWorld.droppedGlyphs[name] = true;
 				}
 			}
-			else if (!npc.SpawnedFromStatue && npc.CanDamage() && Main.rand.Next(750) == 0 && npc.type != ModContent.NPCType<NPCs.Boss.ReachBoss.ExplodingSpore>()) {
+			else if (!npc.SpawnedFromStatue && npc.CanDamage() && Main.rand.Next(750) == 0 && npc.type != ModContent.NPCType<NPCs.Boss.ReachBoss.ExplodingSpore>())
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Glyph>());
-			}
-			if (npc.type == NPCID.Tim || npc.type == NPCID.RuneWizard)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Glyph>());
-			}
-			if (npc.type == NPCID.Mimic)
-			{
-				if (Main.rand.NextBool(5))
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Consumable.Potion.BottomlessHealingPotion>());
-			}
-			if (npc.type == NPCID.Pixie)
-			{
-				if (Main.rand.NextBool(100))
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Consumable.Potion.BottomlessAle>());
-			}
 			#endregion
-			/* 
-			if (Main.rand.Next(40) == 1 && !npc.SpawnedFromStatue)
-			{
-				npc.DropItem(ModContent.ItemType<PrimordialMagic>());
-			}
-			if (npc.type == ModContent.NPCType<Reachman>() || npc.type == ModContent.NPCType<ReachObserver>() || npc.type == ModContent.NPCType<GrassVine>() || npc.type == ModContent.NPCType<ReachShaman>())
-			{
-				if (Main.rand.Next(Main.expertMode ? 140 : 190) < 2)
-					npc.DropItem(ModContent.ItemType<RootPod>());
-				if (Main.hardMode && Main.rand.Next(Main.expertMode ? 250 : 350) < 2)
-					npc.DropItem(ModContent.ItemType<RootPod>());
-				if (NPC.downedMechBossAny && Main.rand.Next(Main.expertMode ? 400 : 550) < 2)
-					npc.DropItem(ModContent.ItemType<RootPod>());
-			}
-			if (npc.type == NPCID.EyeofCthulhu)
-			{
-				if (Main.rand.Next(Main.expertMode ? 73 : 90) < 10)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DemonLens>());
-				}
-			}
-			if (npc.type == NPCID.IceSlime || npc.type == NPCID.IceBat || npc.type == NPCID.UndeadViking)
-			{
-				if (Main.rand.Next(Main.expertMode ? 200 : 250) < 3)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<FrostLotus>());
-				}
-			}
-			if (npc.type == NPCID.GoblinSorcerer)
-			{
-				if (Main.rand.Next(Main.expertMode ? 80 : 100) < 7)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ChaosEmber>());
-				}
-			}
-			if (npc.type == NPCID.Tim)
-			{
-				if (Main.rand.Next(Main.expertMode ? 80 : 90) < 10)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ChaosEmber>());
-				}
-			}
-			if (npc.type == NPCID.FireImp || npc.type == NPCID.Demon)
-			{
-				if (Main.rand.Next(Main.expertMode ? 175 : 225) < 3)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<FireLamp>());
-				}
-			}
-			if (npc.type == NPCID.AngryBones || npc.type == NPCID.AngryBonesBig || npc.type == NPCID.AngryBonesBigMuscle)
-			{
-				if (Main.rand.Next(Main.expertMode ? 200 : 250) < 2)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<NecroticSkull>());
-				}
-				if (Main.hardMode && Main.rand.Next(Main.expertMode ? 225 : 275) < 3)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<NecroticSkull>());
-				}
-			}
-			if (npc.type == ModContent.NPCType<Clamper>() || npc.type == ModContent.NPCType<GreenFinTrapper>() || npc.type == ModContent.NPCType<MindFlayer>() || npc.type == ModContent.NPCType<MurkTerror>())
-			{
-				if (Main.rand.Next(Main.expertMode ? 175 : 225) < 2)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TideStone>());
-				}
-				if (Main.hardMode && Main.rand.Next(Main.expertMode ? 225 : 275) < 2)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TideStone>());
-				}
-			}
-			if (npc.type == NPCID.PirateCorsair || npc.type == NPCID.PirateDeadeye || npc.type == NPCID.PirateCrossbower)
-			{
-				if (Main.rand.Next(Main.expertMode ? 175 : 225) < 3)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CursedMedallion>());
-				}
-				if (NPC.downedMechBoss1 && Main.rand.Next(Main.expertMode ? 150 : 200) < 2)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CursedMedallion>());
-				}
-			}
-			if (npc.type == NPCID.SkeletronPrime && NPC.downedMechBoss1 && NPC.downedMechBoss2)
-			{
-				if (Main.rand.Next(Main.expertMode ? 95 : 105) < 15)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BatteryCore>());
-				}
-			}
-			if (npc.type == NPCID.Plantera)
-			{
-				if (Main.rand.Next(Main.expertMode ? 95 : 105) < 11)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PlanteraBloom>());
-				}
-			}
-			if (npc.type == NPCID.Mothron && NPC.downedPlantBoss)
-			{
-				if (Main.rand.Next(Main.expertMode ? 95 : 105) < 12)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ApexFeather>());
-				}
-			}
-			#endregion
-			*/
-			if (npc.type == NPCID.AngryNimbus)
-			{
-				if (Main.rand.Next(Main.expertMode ? 200 : 250) < 2)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.Ukelele.Ukelele>());
-				}
-			}
-			if (npc.type == NPCID.GoblinArcher)
-			{
-				if (Main.rand.Next(Main.expertMode ? 95 : 100) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.BowSummonItem.BowSummonItem>());
-			}
 
-			if (npc.type == NPCID.FlyingFish && Main.rand.Next(100)==0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Flying_Fish_Fin"));
-
-			if (npc.type == NPCID.SeaSnail && Main.rand.Next(3)==0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Sea_Snail_Poison"));
+			DropLoot(1, 1, ItemType<Glyph>(), npc, NPCID.Tim, NPCID.RuneWizard);
+			DropLoot(5, 5, ItemType<Items.Consumable.Potion.BottomlessHealingPotion>(), npc, NPCID.Mimic);
+			DropLoot(100, 100, ItemType<Items.Consumable.Potion.BottomlessAle>(), npc, NPCID.Pixie);
+			DropLoot(250, 200, ItemType<Items.Accessory.Ukelele.Ukelele>(), npc, NPCID.AngryNimbus);
+			DropLoot(100, 95, ItemType<Items.Accessory.BowSummonItem.BowSummonItem>(), npc, NPCID.GoblinArcher);
+			DropLoot(100, 100, ItemType<Items.Accessory.FlyingFishFin.Flying_Fish_Fin>(), npc, NPCID.FlyingFish);
+			DropLoot(3, 3, ItemType<Items.Accessory.SeaSnailVenom.Sea_Snail_Poison>(), npc, NPCID.SeaSnail);
 
 			if (player.GetSpiritPlayer().arcaneNecklace && Main.rand.Next(5) == 0 && !npc.friendly && player.HeldItem.magic && player.statMana < player.statManaMax2)
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 184);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Star);
 
-			if (npc.type == NPCID.PossessedArmor) {
-				if (Main.rand.Next(100) <= 1) 
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<PossessedHammer>());
+			DropLoot(100, 100, ItemType<PossessedHammer>(), npc, NPCID.PossessedArmor);
+			DropLoot(90, 75, ItemType<GoblinSorcererStaff>(), npc, NPCID.GoblinSorcerer);
+
+			if (!npc.SpawnedFromStatue)
+			{
+				DropLoot(150, 150, ItemType<IceVikingSculpture>(), npc, NPCID.UndeadViking);
+				DropLoot(150, 150, ItemType<IceFlinxSculpture>(), npc, NPCID.SnowFlinx);
+				DropLoot(150, 150, ItemType<IceBatSculpture>(), npc, NPCID.IceBat);
+				DropLoot(150, 150, ItemType<Items.Accessory.RabbitFoot.Rabbit_Foot>(), npc, NPCID.Bunny);
+				DropLoot(150, 150, ItemType<WinterbornSculpture>(), npc, NPCType<Winterborn.WinterbornMelee>(), NPCType<WinterbornHerald.WinterbornMagic>());
+
+				if (closest.ZoneSnow)
+					DropLoot(100, 100, ItemType<IceWheezerSculpture>(), npc, NPCType<Wheezer.Wheezer>());
 			}
-            if (npc.type == NPCID.GoblinSorcerer)
-            {
-                if (Main.rand.Next(Main.expertMode ? 75 : 90) < 1)
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Weapon.Magic.GoblinSorcererStaff>());
-            }
-			//IceSculptures
-			if (npc.type == NPCID.UndeadViking) {
-				if (Main.rand.Next(150) == 1 && !npc.SpawnedFromStatue) {
-					npc.DropItem(ItemType<IceVikingSculpture>());
-				}
-			}
-			if (npc.type == NPCID.SnowFlinx) {
-				if (Main.rand.Next(150) == 1 && !npc.SpawnedFromStatue) {
-					npc.DropItem(ItemType<IceFlinxSculpture>());
-				}
-			}
-			if (npc.type == NPCID.IceBat) {
-				if (Main.rand.Next(150) == 1 && !npc.SpawnedFromStatue) {
-					npc.DropItem(ItemType<IceBatSculpture>());
-				}
-			}
-			if (npc.type == NPCID.Bunny) {
-				if (Main.rand.Next(150) == 1 && !npc.SpawnedFromStatue) {
-					npc.DropItem(ItemType<Items.Accessory.RabbitFoot.Rabbit_Foot>());
-				}
-			}
-			if (npc.type == NPCType<NPCs.Winterborn.WinterbornMelee>() || npc.type == NPCType<NPCs.WinterbornHerald.WinterbornMagic>()) {
-				if (Main.rand.Next(150) == 1 && !npc.SpawnedFromStatue) {
-					npc.DropItem(ItemType<WinterbornSculpture>());
-				}
-			}
-			if (npc.type == NPCType<NPCs.Wheezer.Wheezer>() && closest.ZoneSnow) {
-				if (Main.rand.Next(100) == 1 && !npc.SpawnedFromStatue) {
-					npc.DropItem(ItemType<IceWheezerSculpture>());
-				}
-			}
-            if (npc.type == NPCID.AngryBones || npc.type == NPCID.AngryBonesBig || npc.type == NPCID.AngryBonesBigMuscle)
-            {
-                if (Main.rand.Next(Main.expertMode ? 95 : 110) < 1)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.ClubSubclass.BoneClub>());
-                }
-            }
-            if (closest.GetSpiritPlayer().ZoneAsteroid && Main.rand.Next(50) == 0) {
+
+			DropLoot(110, 95, ItemType<Items.Sets.ClubSubclass.BoneClub>(), npc, NPCID.AngryBones, NPCID.AngryBonesBig, NPCID.AngryBonesBigMuscle);
+
+			if (closest.GetSpiritPlayer().ZoneAsteroid && Main.rand.Next(50) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.GunsMisc.Blaster.Blaster>());
-			}
-			if (npc.type == NPCID.Harpy && Main.rand.Next(45) == 0) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.BowsMisc.StarSpray.StarlightBow>());
-			}
-			if (npc.type == NPCID.Harpy && Main.rand.Next(45) == 0) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.MagicMisc.ZephyrBreath.BreathOfTheZephyr>());
-			}
-			if (npc.type == NPCID.Tim) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<TimScroll>());
-			}
-			if (npc.type == NPCID.IcyMerman && Main.rand.Next(30) == 0) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SnowGlobe);
-			}
-			if (npc.type == NPCID.SkeletronPrime) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<PrintPrime>(), Main.rand.Next(2) + 1);
-			}
-			if (npc.type == NPCID.Retinazer || npc.type == NPCID.Spazmatism) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<BlueprintTwins>(), Main.rand.Next(2) + 1);
-			}
-			if (npc.type == NPCID.TheDestroyer) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<PrintProbe>(), Main.rand.Next(2) + 1);
-			}
-			if (npc.type == NPCID.ChaosElemental && Main.rand.Next(50) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<ChaosCrystal>());
-			}
 
-			if (npc.type == NPCID.PirateShip || npc.type == NPCID.PirateCaptain) {
-				if (Main.rand.Next(50) <= 2) {
+			DropLoot(45, 45, ItemType<Items.Sets.BowsMisc.StarSpray.StarlightBow>(), npc, NPCID.Harpy);
+			DropLoot(45, 45, ItemType<Items.Sets.MagicMisc.ZephyrBreath.BreathOfTheZephyr>(), npc, NPCID.Harpy);
+			DropLoot(1, 1, ItemType<TimScroll>(), npc, NPCID.Tim);
+			DropLoot(30, 30, ItemID.SnowGlobe, npc, NPCID.IcyMerman);
+			DropLoot(1, 1, ItemType<PrintPrime>(), Main.rand.Next(2) + 1, npc, NPCID.SkeletronPrime);
+			DropLoot(1, 1, ItemType<BlueprintTwins>(), Main.rand.Next(2) + 1, npc, NPCID.Retinazer, NPCID.Spazmatism);
+			DropLoot(1, 1, ItemType<PrintProbe>(), Main.rand.Next(2) + 1, npc, NPCID.TheDestroyer);
+			DropLoot(50, 50, ItemType<ChaosCrystal>(), npc, NPCID.ChaosElemental);
+
+			if (npc.type == NPCID.PirateShip || npc.type == NPCID.PirateCaptain)
+			{
+				if (Main.rand.Next(50) <= 2)
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.GunsMisc.CaptainsRegards.CaptainsRegards>());
-				}
-				if (npc.type == NPCID.PirateShip)
-				{
-					if (Main.rand.NextBool(3))
-					{			
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Consumable.PirateCrate>());
-					}
-				}
+				if (npc.type == NPCID.PirateShip && Main.rand.NextBool(3))
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<PirateCrate>());
 				if (npc.type == NPCID.PirateCaptain)
-				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Weapon.Thrown.ExplosiveRum.ExplosiveRum>(), Main.rand.Next(38, 77));
-				}
 			}
-			if (npc.type == NPCID.PirateDeadeye)
+
+			DropLoot(225, 175, ItemType<Items.Sets.GunsMisc.LadyLuck.LadyLuck>(), npc, NPCID.PirateDeadeye);
+			DropLoot(120, 92, ItemType<Items.Weapon.Thrown.PiecesOfEight.PiecesOfEight>(), npc, NPCID.PirateDeckhand);
+			DropLoot(23, 23, ItemType<SaucerBeacon>(), npc, NPCID.MartianOfficer);
+
+			if (MyWorld.downedScarabeus)
+				DropLoot(40, 40, ItemType<DesertSlab>(), npc, NPCID.TombCrawlerHead);
+
+			DropLoot(35, 35, ItemType<SnapperHat>(), npc, NPCID.Crawdad, NPCID.Crawdad2);
+			DropLoot(50, 50, ItemType<TrapperGlove>(), npc, NPCID.ManEater);
+			DropLoot(500, 500, ItemType<SnakeStaff>(), npc, NPCID.Lihzahrd, NPCID.LihzahrdCrawler);
+			DropLoot(42, 42, ItemType<Items.Sets.MagicMisc.TerraStaffTree.DungeonStaff>(), npc, NPCID.DarkCaster);
+			DropLoot(200, 200, ItemType<Items.Sets.GunsMisc.Swordsplosion.Swordsplosion>(), npc, NPCID.RustyArmoredBonesAxe, NPCID.RustyArmoredBonesFlail, NPCID.RustyArmoredBonesSword, NPCID.RustyArmoredBonesSwordNoArmor, NPCID.BlueArmoredBones, NPCID.BlueArmoredBonesMace,
+				NPCID.BlueArmoredBonesNoPants, NPCID.BlueArmoredBonesSword, NPCID.HellArmoredBones, NPCID.HellArmoredBonesSpikeShield, NPCID.HellArmoredBonesMace, NPCID.HellArmoredBonesSword);
+			DropLoot(175, 175, ItemType<Items.Sets.BowsMisc.Morningtide.Morningtide>(), npc, NPCID.HellArmoredBones, NPCID.HellArmoredBonesSpikeShield, NPCID.HellArmoredBonesMace, NPCID.HellArmoredBonesSword);
+			DropLoot(3, 3, ItemType<FrigidFragment>(), Main.rand.Next(1, 3), npc, NPCID.ZombieEskimo, NPCID.IceSlime, NPCID.IceBat, NPCID.ArmoredViking);
+			DropLoot(1, 1, ItemType<FrigidFragment>(), Main.rand.Next(1, 3), npc, NPCID.SpikedIceSlime, NPCID.ArmedZombieEskimo);
+
+			if (closest.GetSpiritPlayer().vitaStone)
 			{
-				if (Main.rand.Next(Main.expertMode ? 175 : 225) < 3)
+				if (!npc.friendly && npc.lifeMax > 5 && Main.rand.Next(9) == 1 && closest.statLife < closest.statLifeMax)
 				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.GunsMisc.LadyLuck.LadyLuck>());
-				}
-			}
-			if (npc.type == NPCID.PirateDeckhand)
-			{
-				if (Main.rand.Next(Main.expertMode ? 185 : 240) < 2)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Thrown.PiecesOfEight.PiecesOfEight>());
-				}
-			}
-			if (npc.type == NPCID.MartianOfficer && Main.rand.Next(23) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<SaucerBeacon>());
-			}
-			if ((npc.type == NPCID.TombCrawlerHead /*|| npc.type == ModContent.NPCType<Chompasaur>()*/) && Main.rand.Next(40) == 1 && MyWorld.downedScarabeus) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<DesertSlab>());
-			}
-			if ((npc.type == NPCID.Crawdad || npc.type == NPCID.Crawdad2) && Main.rand.Next(35) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<SnapperHat>());
-			}
-			if ((npc.type == NPCID.ManEater || npc.type == NPCID.Snatcher) && Main.rand.Next(50) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<TrapperGlove>());
-			}
-			if (npc.type == NPCID.LihzahrdCrawler && Main.rand.Next(500) == 1 || npc.type == NPCID.Lihzahrd && Main.rand.Next(500) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<SnakeStaff>());
-			}
-			if (npc.type == NPCID.DarkCaster && Main.rand.Next(42) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.MagicMisc.TerraStaffTree.DungeonStaff>());
-			}
-			if (Main.rand.NextBool(200) &&
-				(npc.type == NPCID.RustyArmoredBonesAxe
-				|| npc.type == NPCID.RustyArmoredBonesFlail
-				|| npc.type == NPCID.RustyArmoredBonesSword
-				|| npc.type == NPCID.RustyArmoredBonesSwordNoArmor
-				|| npc.type == NPCID.BlueArmoredBones
-				|| npc.type == NPCID.BlueArmoredBonesMace
-				|| npc.type == NPCID.BlueArmoredBonesNoPants
-				|| npc.type == NPCID.BlueArmoredBonesSword
-				|| npc.type == NPCID.HellArmoredBones
-				|| npc.type == NPCID.HellArmoredBonesSpikeShield
-				|| npc.type == NPCID.HellArmoredBonesMace
-				|| npc.type == NPCID.HellArmoredBonesSword)) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.GunsMisc.Swordsplosion.Swordsplosion>());
-			}
-            if (Main.rand.NextBool(175) &&
-                ( npc.type == NPCID.HellArmoredBones
-                || npc.type == NPCID.HellArmoredBonesSpikeShield
-                || npc.type == NPCID.HellArmoredBonesMace
-                || npc.type == NPCID.HellArmoredBonesSword))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.BowsMisc.Morningtide.Morningtide>());
-            }
-            if (npc.type == NPCID.ZombieEskimo
-				|| npc.type == NPCID.IceSlime
-				|| npc.type == NPCID.IceBat
-				|| npc.type == NPCID.ArmoredViking) {
-				if (Main.rand.Next(3) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<FrigidFragment>(), Main.rand.Next(1, 3));
-			}
-			if (npc.type == NPCID.SpikedIceSlime || npc.type == NPCID.ArmedZombieEskimo) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<FrigidFragment>(), Main.rand.Next(1, 3));
-			}
-			if (closest.GetSpiritPlayer().vitaStone) {
-				if (!npc.friendly && npc.lifeMax > 5 && Main.rand.Next(9) == 1 && closest.statLife < closest.statLifeMax) {
-					if (Main.halloween) {
+					if (Main.halloween)
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1734);
-					}
-					else {
+					else
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58);
-					}
 				}
 			}
 
-			if (npc.type == NPCID.QueenBee && Main.rand.Next(Main.expertMode ? 10 : 20) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<SweetThrow>());
-
-			if (npc.type == NPCID.Zombie || npc.type == NPCID.BaldZombie || npc.type == NPCID.SlimedZombie || npc.type == NPCID.SwampZombie || npc.type == NPCID.TwiggyZombie || npc.type == NPCID.ZombieRaincoat || npc.type == NPCID.PincushionZombie) {
-				if (Main.rand.Next(2) == 0) {
-					int amount = Main.rand.Next(1, 3);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<OldLeather>(), amount);
-				}
-			}
-			if (npc.type == NPCID.SolarDrakomire || npc.type == NPCID.SolarDrakomireRider) {
-				if (Main.rand.Next(50) == 0) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<SolarRattle>());
-				}
-			}
-			if (npc.type == NPCID.GrayGrunt || npc.type == NPCID.RayGunner || npc.type == NPCID.BrainScrambler) {
-				if (Main.rand.Next(50) == 0) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<EngineeringRod>());
-				}
-			}
-			if (npc.type == NPCID.EyeofCthulhu && Main.rand.Next(5) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.BowsMisc.Eyeshot.Eyeshot>());
-
-			if (npc.type == NPCID.MartianSaucer && Main.rand.Next(2) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Weapon.Yoyo.Martian>());
-
-			if (npc.type == NPCID.ChaosElemental && Main.rand.Next(24) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Accessory.Crystal>());
-
-			if (npc.type == NPCID.CultistBoss) {
-				int item = 0;
-				switch (Main.rand.Next(2)) {
-					case 0:
-						item = ItemType<Ancient>();
-						break;
-					case 1:
-						item = ItemType<CultistScarf>();
-						break;
-				}
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, item);
-			}
-
-			if (npc.type == NPCID.IchorSticker && Main.rand.Next(50) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<IchorPendant>());
-
-			if (npc.type == NPCID.DukeFishron)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Weapon.Yoyo.Typhoon>());
+			DropLoot(20, 10, ItemType<SweetThrow>(), npc, NPCID.QueenBee);
+			DropLoot(2, 2, ItemType<OldLeather>(), Main.rand.Next(1, 3), npc, NPCID.Zombie, NPCID.BaldZombie, NPCID.SlimedZombie, NPCID.SwampZombie, NPCID.TwiggyZombie, NPCID.ZombieRaincoat, NPCID.PincushionZombie);
+			DropLoot(50, 50, ItemType<SolarRattle>(), npc, NPCID.SolarDrakomire, NPCID.SolarDrakomireRider);
+			DropLoot(50, 50, ItemType<EngineeringRod>(), npc, NPCID.GrayGrunt, NPCID.RayGunner, NPCID.BrainScrambler);
+			DropLoot(5, 5, ItemType<Items.Sets.BowsMisc.Eyeshot.Eyeshot>(), npc, NPCID.EyeofCthulhu);
+			DropLoot(2, 2, ItemType<Martian>(), npc, NPCID.MartianSaucer);
+			DropLoot(24, 24, ItemType<Items.Accessory.Crystal>(), npc, NPCID.ChaosElemental);
+			DropLoot(1, 1, Main.rand.NextBool(2) ? ItemType<Ancient>() : ItemType<CultistScarf>(), npc, NPCID.CultistBoss);
+			DropLoot(50, 50, ItemType<IchorPendant>(), npc, NPCID.IchorSticker);
+			DropLoot(1, 1, ItemType<Typhoon>(), npc, NPCID.DukeFishron);
 
 			if (npc.type == NPCID.Demon && NPC.downedBoss3 && Main.rand.Next(4) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.SlagSet.CarvedRock>(), Main.rand.Next(1) + 2);
 
-			if (npc.type == NPCID.PigronCorruption || npc.type == NPCID.PigronHallow || npc.type == NPCID.PigronCrimson) {
-				if (Main.rand.Next(12) == 0) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<PigronStaffItem>());
-				}
-			}
+			DropLoot(12, 12, ItemType<PigronStaffItem>(), npc, NPCID.PigronCorruption, NPCID.PigronHallow, NPCID.PigronCrimson);
+			DropLoot(18, 18, ItemType<TheFireball>(), npc, NPCID.FireImp);
+			DropLoot(50, 50, ItemType<CursedPendant>(), npc, NPCID.Clinger);
+			DropLoot(50, 50, ItemType<MagnifyingGlass>(), npc, NPCID.DemonEye, NPCID.DemonEye2, NPCID.DemonEyeOwl, NPCID.DemonEyeSpaceship);
 
-			if (npc.type == NPCID.FireImp && Main.rand.Next(18) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<TheFireball>());
+			if (closest.GetSpiritPlayer().floranSet && Main.rand.Next(9) == 1)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<RawMeat>(), 1);
 
-			if (npc.type == NPCID.Clinger && Main.rand.Next(50) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<CursedPendant>());
+			if (npc.type == NPCID.EaterofWorldsTail && !NPC.AnyNPCs(NPCID.EaterofWorldsHead) && !NPC.AnyNPCs(NPCID.EaterofWorldsBody) && Main.rand.Next(3) == 1)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.SpearsMisc.RotScourge.EoWSpear>(), 1);
+		}
 
-			if (npc.type == NPCID.DemonEye || npc.type == NPCID.DemonEye2 || npc.type == NPCID.DemonEyeOwl || npc.type == NPCID.DemonEyeSpaceship) {
-				if (Main.rand.Next(50) == 1) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<MagnifyingGlass>(), 1);
-				}
-			}
-			if (closest.GetSpiritPlayer().floranSet) {
-				if (Main.rand.Next(9) == 1) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<RawMeat>(), 1);
-				}
-			}
+		/// <summary>Drops an item given the specific conditions.</summary>
+		/// <param name="npc">NPC to check against.</param>
+		/// <param name="chance">Chance in not-expert mode (1/x).</param>
+		/// <param name="expertChance">Chance in expert mode (1/x).</param>
+		/// <param name="itemID">The item to drop.</param>
+		/// <param name="types">The NPC IDs to drop from.</param>
+		public void DropLoot(int chance, int expertChance, int itemID, NPC npc, params int[] types) => DropLoot(chance, expertChance, itemID, 1, npc, types);
 
-			if (npc.type == NPCID.EaterofWorldsTail && !NPC.AnyNPCs(NPCID.EaterofWorldsHead) && !NPC.AnyNPCs(NPCID.EaterofWorldsBody)) {
-				if (Main.rand.Next(3) == 1) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.SpearsMisc.RotScourge.EoWSpear>(), 1);
-				}
-			}
+		/// <summary>Drops an item given the specific conditions.</summary>
+		/// <param name="npc">NPC to check against.</param>
+		/// <param name="chance">Chance in not-expert mode (1/x).</param>
+		/// <param name="expertChance">Chance in expert mode (1/x).</param>
+		/// <param name="itemID">The item to drop.</param>
+		/// <param name="stack">The stack size of the dropped item.</param>
+		/// <param name="types">The NPC IDs to drop from.</param>
+		public void DropLoot(int chance, int expertChance, int itemID, int stack, NPC npc, params int[] types)
+		{
+			int r = Main.expertMode ? expertChance : chance;
+			if (types.Contains(npc.type) && Main.rand.NextBool(r))
+				Item.NewItem(npc.getRect(), itemID, stack);
 		}
 
 		public override void DrawEffects(NPC npc, ref Color drawColor)
 		{
 			if (sFracture && Main.rand.Next(2) == 0)
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Firework_Yellow, (float)(Main.rand.Next(8) - 4), (float)(Main.rand.Next(8) - 4), 133);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Firework_Yellow, (Main.rand.Next(8) - 4), (Main.rand.Next(8) - 4), 133);
 
 			if (felBrand && Main.rand.Next(2) == 0)
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.CursedTorch, (float)(Main.rand.Next(8) - 4), (float)(Main.rand.Next(8) - 4), 75);
-			if (vineTrap) {
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.CursedTorch, (Main.rand.Next(8) - 4), (Main.rand.Next(8) - 4), 75);
+
+			if (vineTrap)
 				drawColor = new Color(103, 138, 84);
-			}
-			if (clatterPierce) {
+			if (clatterPierce)
 				drawColor = new Color(115, 80, 57);
-			}
-			if (tracked) {
+			if (tracked)
 				drawColor = new Color(135, 245, 76);
-			}
 		}
 	}
 }

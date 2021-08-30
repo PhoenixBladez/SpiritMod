@@ -134,6 +134,9 @@ namespace SpiritMod
 		private Vector2 _lastScreenSize;
 		private Vector2 _lastViewSize;
 
+		/// <summary>Automatically returns false for every NPC ID inside of this list in <seealso cref="AllowTrickOrTreat"/>.</summary>
+		public readonly List<int> NPCCandyBlacklist = new List<int>();
+
 		public SpiritMod()
 		{
 			Instance = this;
