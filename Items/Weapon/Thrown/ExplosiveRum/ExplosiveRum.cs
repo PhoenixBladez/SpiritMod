@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
-{ 
+{
 	public class ExplosiveRum : ModItem
 	{
 		public override void SetStaticDefaults()
@@ -61,21 +61,22 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 		{
 			Dust dust = Dust.NewDustPerfect(projectile.Center + (15 * ((projectile.rotation - 1.57f).ToRotationVector2())), 6);
 			dust.noGravity = true;
-			dust.scale = Main.rand.NextFloat(0.6f,.9f);
+			dust.scale = Main.rand.NextFloat(0.6f, .9f);
 			dust.fadeIn = .75f;
 		}
+
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/rumboom"), projectile.Center);
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
 
-            for (int i = 1; i < 5; ++i)
-			    Gore.NewGore(projectile.Center, Vector2.Zero, mod.GetGoreSlot("Gores/Rum/RumGore" + i), 1f);
+			for (int i = 1; i < 5; ++i)
+				Gore.NewGore(projectile.Center, Vector2.Zero, mod.GetGoreSlot("Gores/Rum/RumGore" + i), 1f);
 
 			Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<RumExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);
 
-            Projectile.NewProjectileDirect(projectile.Center - new Vector2(0, 15), new Vector2(0.25f, 15), ModContent.ProjectileType<RumFire>(), projectile.damage/3, projectile.knockBack, projectile.owner, 1, 12).timeLeft = 60;
-            Projectile.NewProjectileDirect(projectile.Center - new Vector2(0, 15), new Vector2(-0.25f, 15), ModContent.ProjectileType<RumFire>(), projectile.damage/3, projectile.knockBack, projectile.owner, -1, 12).timeLeft = 60;
+			Projectile.NewProjectileDirect(projectile.Center - new Vector2(0, 15), new Vector2(0.25f, 15), ModContent.ProjectileType<RumFire>(), (int)(projectile.damage * 0.75f), projectile.knockBack, projectile.owner, 1, 12).timeLeft = 60;
+			Projectile.NewProjectileDirect(projectile.Center - new Vector2(0, 15), new Vector2(-0.25f, 15), ModContent.ProjectileType<RumFire>(), (int)(projectile.damage * 0.75f), projectile.knockBack, projectile.owner, -1, 12).timeLeft = 60;
 		}
 	}
 
@@ -88,20 +89,20 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 		}
 
 		public override void SetDefaults()
-        {
-            projectile.hostile = false;
-            projectile.width = 20;
-            projectile.height = 34;
-            projectile.aiStyle = -1;
-            projectile.friendly = false;
-            projectile.damage = 1;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 26;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
+		{
+			projectile.hostile = false;
+			projectile.width = 20;
+			projectile.height = 34;
+			projectile.aiStyle = -1;
+			projectile.friendly = false;
+			projectile.damage = 1;
+			projectile.penetrate = 3;
+			projectile.timeLeft = 26;
+			projectile.tileCollide = true;
+			projectile.ignoreWater = true;
 			projectile.scale = .85f;
 			flipSprite = Main.rand.NextBool();
-        }
+		}
 
 		bool onGround = false;
 		bool lightUp = false;
@@ -109,55 +110,52 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 		public override void AI()
 		{
 			if (projectile.scale <= 1f)
-			{
 				projectile.scale += .02f;
-			}
+
 			if (Main.rand.Next(5) == 0 && onGround)
 			{
 				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire);
 				Main.dust[d].noGravity = true;
 				Main.dust[d].velocity.Y = -1f;
 			}
-			if (Main.rand.Next(12)==0)
+			if (Main.rand.Next(12) == 0)
 			{
 				int index3 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Smoke, 0.0f, 0f, 150, new Color(), 0.5f);
 				Main.dust[index3].fadeIn = 1.25f;
-				Main.dust[index3].velocity = new Vector2(0f, (float)Main.rand.Next(-2,-1));
+				Main.dust[index3].velocity = new Vector2(0f, (float)Main.rand.Next(-2, -1));
 				Main.dust[index3].noLight = true;
 			}
 			//projectile.scale = (float)Math.Sin((12 - projectile.timeLeft) / 4f);
-			
-			if (++projectile.frameCounter > 4) {
+
+			if (++projectile.frameCounter > 4)
+			{
 				projectile.frameCounter = 0;
 				projectile.frame++;
-				if (projectile.frame >= Main.projFrames[projectile.type]) {
+				if (projectile.frame >= Main.projFrames[projectile.type])
 					projectile.Kill();
-				}
 			}
 
 			if (projectile.timeLeft == 23 && onGround && projectile.ai[1] > 0)
 			{
 				lightUp = true;
-                Vector2 pos = projectile.Center + new Vector2(projectile.ai[0] * 20, 0);
-                Projectile.NewProjectile(pos, new Vector2(projectile.ai[0] * 0.25f, 15), ModContent.ProjectileType<RumFire>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0], projectile.ai[1] - 1);
+				Vector2 pos = projectile.Center + new Vector2(projectile.ai[0] * 20, 0);
+				Projectile.NewProjectile(pos, new Vector2(projectile.ai[0] * 0.25f, 15), ModContent.ProjectileType<RumFire>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0], projectile.ai[1] - 1);
 			}
 			if (lightUp)
-			{
 				Lighting.AddLight(projectile.Center, 245 * 0.00361f, 99 * 0.00361f, 66 * 0.00361f);
-			}
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            Tile tile = Framing.GetTileSafely(projectile.position + (Vector2.UnitY * projectile.height));
-            Tile above = Framing.GetTileSafely(projectile.position);
+		{
+			Tile tile = Framing.GetTileSafely(projectile.position + (Vector2.UnitY * projectile.height));
+			Tile above = Framing.GetTileSafely(projectile.position);
 
-            if (tile.active() && Main.tileSolid[tile.type] && (!above.active() || !Main.tileSolid[above.type])) //Below 1 block; move me
-                projectile.position.Y -= 16;
-            else if (tile.active() && Main.tileSolid[tile.type] && above.active() && Main.tileSolid[above.type]) //Inside of blocks; kill me
-                projectile.active = false;
+			if (tile.active() && Main.tileSolid[tile.type] && (!above.active() || !Main.tileSolid[above.type])) //Below 1 block; move me
+				projectile.position.Y -= 16;
+			else if (tile.active() && Main.tileSolid[tile.type] && above.active() && Main.tileSolid[above.type]) //Inside of blocks; kill me
+				projectile.active = false;
 
-            if (oldVelocity.X != projectile.velocity.X) //Stopped moving; kill me
+			if (oldVelocity.X != projectile.velocity.X) //Stopped moving; kill me
 				projectile.active = false;
 
 			projectile.velocity.Y = 0;
@@ -169,10 +167,10 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 		}
 
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
-        {
-            fallThrough = false;
-            return true;
-        }
+		{
+			fallThrough = false;
+			return true;
+		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
@@ -182,25 +180,25 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 			if (onGround || projectile.timeLeft > 26)
 			{
 				SpriteEffects effect = flipSprite ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-                Vector2 pos = (projectile.Center - Main.screenPosition + new Vector2(0, projectile.gfxOffY)) + new Vector2(0, (frameHeight / 2) + 12);
-                spriteBatch.Draw(tex, pos, frame, Color.White, projectile.rotation, new Vector2(tex.Width - (projectile.width / 2), frameHeight), projectile.scale, effect, 0);
+				Vector2 pos = (projectile.Center - Main.screenPosition + new Vector2(0, projectile.gfxOffY)) + new Vector2(0, (frameHeight / 2) + 12);
+				spriteBatch.Draw(tex, pos, frame, Color.White, projectile.rotation, new Vector2(tex.Width - (projectile.width / 2), frameHeight), projectile.scale, effect, 0);
 			}
 			return false;
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) 
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(3) == 0)
 				target.AddBuff(BuffID.OnFire, 180);
-        }
+		}
 
-        public override bool? CanHitNPC(NPC target)
+		public override bool? CanHitNPC(NPC target)
 		{
 			if (projectile.penetrate == 1)
 				return false;
-			return base.CanHitNPC(target);
+			return null;
 		}
-    }
+	}
 
 	public class RumExplosion : ModProjectile
 	{
@@ -225,12 +223,12 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 		{
 			Lighting.AddLight(projectile.Center, 245 * 0.0061f, 99 * 0.0061f, 66 * 0.0061f);
 			projectile.frameCounter++;
-			if (projectile.frameCounter > 3) {
+			if (projectile.frameCounter > 3)
+			{
 				projectile.frameCounter = 0;
 				projectile.frame++;
-				if (projectile.frame >= Main.projFrames[projectile.type]) {
+				if (projectile.frame >= Main.projFrames[projectile.type])
 					projectile.Kill();
-				}
 			}
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -1122,7 +1122,7 @@ namespace SpiritMod
 			RecipeGroup butterflyGrp = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Butterflies"]];
 			butterflyGrp.ValidItems.Add(ModContent.ItemType<BriarmothItem>());
 
-			RecipeGroup basegroup(object GroupName, int[] Items)
+			RecipeGroup BaseGroup(object GroupName, int[] Items)
 			{
 				string Name = "";
 				switch(GroupName) 
@@ -1141,55 +1141,55 @@ namespace SpiritMod
 				return new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + Name, Items);
 			}
 
-			RecipeGroup.RegisterGroup("SpiritMod:GoldBars", basegroup(ItemID.GoldBar, new int[]
+			RecipeGroup.RegisterGroup("SpiritMod:GoldBars", BaseGroup(ItemID.GoldBar, new int[]
 			{
 				ItemID.GoldBar,
 				ItemID.PlatinumBar
 			}));
 
-			RecipeGroup.RegisterGroup("SpiritMod:EvilMaterial", basegroup(ItemID.CursedFlame, new int[]
+			RecipeGroup.RegisterGroup("SpiritMod:EvilMaterial", BaseGroup(ItemID.CursedFlame, new int[]
 			{
 				ItemID.CursedFlame,
 				ItemID.Ichor
 			}));
 
-			RecipeGroup.RegisterGroup("SpiritMod:EvilMaterial1", basegroup(ItemID.ShadowScale, new int[]
+			RecipeGroup.RegisterGroup("SpiritMod:PHMEvilMaterial", BaseGroup(ItemID.ShadowScale, new int[]
 			{
 				ItemID.ShadowScale,
 				ItemID.TissueSample
 			}));
 
-			RecipeGroup.RegisterGroup("SpiritMod:SilverBars", basegroup(ItemID.SilverBar, new int[]
+			RecipeGroup.RegisterGroup("SpiritMod:SilverBars", BaseGroup(ItemID.SilverBar, new int[]
 			{
 				ItemID.SilverBar,
 				ItemID.TungstenBar
 			}));
 
-			RecipeGroup.RegisterGroup("SpiritMod:EmeraldBows", basegroup("Emerald or Ruby Bow", new int[]
+			RecipeGroup.RegisterGroup("SpiritMod:EmeraldBows", BaseGroup("Emerald or Ruby Bow", new int[]
 			{
 				ModContent.ItemType<Emerald_Bow>(),
 				ModContent.ItemType<Ruby_Bow>()
 			}));
 
-			RecipeGroup.RegisterGroup("SpiritMod:TopazBows", basegroup("Sapphire or Topaz Bow", new int[]
+			RecipeGroup.RegisterGroup("SpiritMod:TopazBows", BaseGroup("Sapphire or Topaz Bow", new int[]
 			{
 				ModContent.ItemType<Sapphire_Bow>(),
 				ModContent.ItemType<Topaz_Bow>()
 			}));
 
-			RecipeGroup.RegisterGroup("SpiritMod:AmethystStaffs", basegroup("Amethyst or Topaz Staff", new int[]
+			RecipeGroup.RegisterGroup("SpiritMod:AmethystStaffs", BaseGroup("Amethyst or Topaz Staff", new int[]
 			{
 				ItemID.AmethystStaff,
 				ItemID.TopazStaff
 			}));
 
-			RecipeGroup.RegisterGroup("SpiritMod:SapphireStaffs", basegroup("Sapphire or Emerald Staff", new int[]
+			RecipeGroup.RegisterGroup("SpiritMod:SapphireStaffs", BaseGroup("Sapphire or Emerald Staff", new int[]
 			{
 				ItemID.SapphireStaff,
 				ItemID.EmeraldStaff
 			})); 
 			
-			RecipeGroup.RegisterGroup("SpiritMod:RubyStaffs", basegroup("Ruby or Diamond Staff", new int[]
+			RecipeGroup.RegisterGroup("SpiritMod:RubyStaffs", BaseGroup("Ruby or Diamond Staff", new int[]
 			{
 				ItemID.RubyStaff,
 				ItemID.DiamondStaff

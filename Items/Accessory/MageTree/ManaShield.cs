@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Accessory.MageTree
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<LeatherShield>());
 			recipe.AddIngredient(ItemID.FallenStar, 3);
-            recipe.AddRecipeGroup("SpiritMod:EvilMaterial1", 2);
+            recipe.AddRecipeGroup("SpiritMod:PHMEvilMaterial", 2);
             recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

@@ -53,6 +53,7 @@ namespace SpiritMod.NPCs.Town
 			npc.knockBackResist = 0.4f;
 			animationType = NPCID.Guide;
 		}
+
 		public override void AI()
 		{
 			if (Mechanics.QuestSystem.QuestManager.GetQuest<Mechanics.QuestSystem.Quests.FirstAdventure>().IsActive)
@@ -70,13 +71,13 @@ namespace SpiritMod.NPCs.Town
 					}
 					npc.life = -1;
 					npc.active = false;
+					npc.netUpdate = true;
 				}
 			}
 		}
-		public override bool CanChat()
-		{
-			return true;
-		}
+
+		public override bool CanChat() => true;
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0) {
@@ -86,25 +87,25 @@ namespace SpiritMod.NPCs.Town
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Adventurer/Adventurer4"));
 			}
 		}
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (NPC.AnyNPCs(ModContent.NPCType<WanderingAdventurer>()) || NPC.AnyNPCs(ModContent.NPCType<Adventurer>()) || Mechanics.QuestSystem.QuestManager.GetQuest<Mechanics.QuestSystem.Quests.FirstAdventure>().IsUnlocked)
+			if (NPC.AnyNPCs(NPCType<WanderingAdventurer>()) || NPC.AnyNPCs(NPCType<Adventurer>()) || Mechanics.QuestSystem.QuestManager.GetQuest<Mechanics.QuestSystem.Quests.FirstAdventure>().IsUnlocked)
                 return 0f;
-            
 			return SpawnCondition.OverworldDay.Chance * 0.2f;
 		}
+
 		public override string TownNPCName()
 		{
-			string[] names = { "Wandering Adventurer" };
+			string[] names = { "Indie", "Guy", "Nathan" };
 			return Main.rand.Next(names);
 		}
-		public override void NPCLoot()
-		{
-			npc.DropItem(ItemType<AdventurerMap>());
-		}
+
+		public override void NPCLoot() => npc.DropItem(ItemType<AdventurerMap>());
+
 		public override string GetChat()
 		{
-			List<string> dialogue = new List<string>
+			var dialogue = new List<string>
 			{
 				"Hey there! I see you're explorin' the world, too. Care to become an adventurer like me? I've got a lot of quests for you to get started with! Happy adventuring!",
 				"I'm actually headin' on an expedition to the dangerous Briar later. Would you be able to do these quests for me in the meantime?",
@@ -113,9 +114,9 @@ namespace SpiritMod.NPCs.Town
 
 			return Main.rand.Next(dialogue);
 		}
+
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) 
 		{
-			bool valid = ModContent.GetInstance<SpiritClientConfig>().ShowNPCQuestNotice && npc.CanTalk; 
 			if (!Mechanics.QuestSystem.QuestManager.GetQuest<Mechanics.QuestSystem.Quests.FirstAdventure>().IsUnlocked)
 			{
 				Texture2D tex = mod.GetTexture("UI/QuestUI/Textures/ExclamationMark");
@@ -123,6 +124,7 @@ namespace SpiritMod.NPCs.Town
 				spriteBatch.Draw(tex, new Vector2(npc.Center.X - 2, npc.Center.Y - 40) - Main.screenPosition, new Rectangle(0, 0, 6, 24), Color.White, 0f, new Vector2(3, 12), 1f + scale, SpriteEffects.None, 0f);
 			}
 		}
+
 		public override void SetupShop(Chest shop, ref int nextSlot)
 		{
 			AddItem(ref shop, ref nextSlot, ItemID.TrapsightPotion, 2000);
@@ -130,30 +132,12 @@ namespace SpiritMod.NPCs.Town
 			AddItem(ref shop, ref nextSlot, ItemID.WhoopieCushion, 15000, NPC.downedBoss2);
 			AddItem(ref shop, ref nextSlot, ItemID.Book, 20, NPC.downedBoss3);
             AddItem(ref shop, ref nextSlot, ItemType<WWPainting>());
-            AddItem(ref shop, ref nextSlot, ItemType<Items.Placeable.Furniture.SkullStick>(), 1000, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
+            AddItem(ref shop, ref nextSlot, ItemType<SkullStick>(), 1000, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
 			AddItem(ref shop, ref nextSlot, ItemType<AncientBark>(), 200, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
 			AddItem(ref shop, ref nextSlot, ItemType<Items.Sets.GunsMisc.PolymorphGun.PolymorphGun>(), check: NPC.downedMechBossAny);
 			AddItem(ref shop, ref nextSlot, ItemType<PinGreen>());
 			AddItem(ref shop, ref nextSlot, ItemType<PinYellow>());
           
-            /*if (MyWorld.sepulchreComplete) {
-				AddItem(ref shop, ref nextSlot, ItemType<SepulchreArrow>());
-				AddItem(ref shop, ref nextSlot, ItemType<SepulchreBannerItem>());
-				AddItem(ref shop, ref nextSlot, ItemType<SepulchreChest>());
-			}
-			if (MyWorld.jadeStaffComplete) {
-				AddItem(ref shop, ref nextSlot, ItemType<PottedSakura>());
-				AddItem(ref shop, ref nextSlot, ItemType<PottedWillow>());
-			}
-			if (MyWorld.vibeShroomComplete) {
-				AddItem(ref shop, ref nextSlot, ItemType<Tiles.Furniture.Critters.VibeshroomJarItem>());
-			}
-			if (MyWorld.drBonesComplete) {
-				AddItem(ref shop, ref nextSlot, ItemType<Items.Consumable.SeedBag>());
-			}
-			if (MyWorld.winterbornComplete) {
-				AddItem(ref shop, ref nextSlot, ItemType<Items.Weapon.Thrown.CryoKnife>());
-			}*/
             AddItem(ref shop, ref nextSlot, ItemType<Items.Accessory.VitalityStone>(), check: Main.bloodMoon);
             int glowStick = Main.moonPhase == 4 && !Main.dayTime ? ItemID.SpelunkerGlowstick : ItemID.StickyGlowstick;
             AddItem(ref shop, ref nextSlot, glowStick);
@@ -168,10 +152,6 @@ namespace SpiritMod.NPCs.Town
                     AddItem(ref shop, ref nextSlot, ItemID.UltrabrightTorch);
                     break;
             }
-            /*if (MyWorld.owlComplete)
-            {
-                AddItem(ref shop, ref nextSlot, ItemID.MusicBox);
-            }*/
         }
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)
@@ -209,9 +189,7 @@ namespace SpiritMod.NPCs.Town
 		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
 		{
 			if (firstButton) 
-			{
 				shop = true;
-			}
 			else
 			{
 				Mechanics.QuestSystem.QuestManager.QuestBookUnlocked = true;

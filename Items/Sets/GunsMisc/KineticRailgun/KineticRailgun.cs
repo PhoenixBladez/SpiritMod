@@ -37,10 +37,9 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 			item.useAmmo = AmmoID.Gel;
 			item.UseSound = SoundID.DD2_SkyDragonsFuryShot;
 		}
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-15, 0);
-		}
+
+		public override bool ConsumeAmmo(Player player) => false;
+		public override Vector2? HoldoutOffset() => new Vector2(-15, 0);
 
 		public override void AddRecipes()
 		{
@@ -51,15 +50,13 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 			recipe.AddRecipe();
 		}
 	}
+
 	public class KineticRailgunProj : ModProjectile
 	{
 		const int RANGE = 600;
-
 		const float CONE = 0.7f;
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Tesla Cannon");
-		}
+
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Tesla Cannon");
 
 		public override void SetDefaults()
 		{
@@ -76,9 +73,11 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 			projectile.alpha = 255;
 			Main.projFrames[projectile.type] = 4;
 		}
+
 		public Vector2 direction = Vector2.Zero;
 		int counter;
 		public List<NPC> targets = new List<NPC>();
+
 		public override void AI()
 		{
 			Player player = Main.player[projectile.owner];
@@ -93,20 +92,29 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 			projectile.velocity = Vector2.Zero;
 			player.itemRotation = direction.ToRotation();
 			player.heldProj = projectile.whoAmI;
+
 			if (player.direction != 1)
-			{
 				player.itemRotation -= 3.14f;
-			}
 
 			if (player.channel)
 			{
-				if (projectile.soundDelay <= 0)
+				if (projectile.soundDelay <= 0) //Create sound & use ammo
 				{
-					projectile.soundDelay = 10;
-					projectile.soundDelay *= 2;
+					projectile.soundDelay = 20;
 					Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 15);
 
+					for (int i = 0; i < player.inventory.Length; ++i)
+					{
+						if (player.inventory[i].ammo == AmmoID.Gel)
+						{
+							player.inventory[i].stack--;
+							if (player.inventory[i].stack <= 0)
+								player.inventory[i].TurnToAir();
+							break;
+						}
+					}
 				}
+
 				projectile.timeLeft = 2;
 				counter++;
 				projectile.frame = (counter / 5) % 4;
@@ -146,28 +154,26 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 				}
 			}
 			else
-			{
 				projectile.active = false;
-			}
 		}
+
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
 			Player player = Main.player[projectile.owner];
 			Vector2 toNPC = targetHitbox.Center.ToVector2() - player.Center;
 			return toNPC.Length() < RANGE && AnglesWithinCone(toNPC.ToRotation(), direction.ToRotation());
 		}
+
 		public override bool? CanHitNPC(NPC target)
 		{
 			foreach (var npc2 in targets)
 			{
-				if (npc2.active)
-				{
-					if (npc2 == target && npc2.GetGlobalNPC<TeslaCannonGNPC>().charge > 5)
-						return base.CanHitNPC(target);
-				}
+				if (npc2.active && npc2 == target && npc2.GetGlobalNPC<TeslaCannonGNPC>().charge > 5)
+					return null;
 			}
 			return false;
 		}
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			for (int i = 0; i < 10; i++)
@@ -193,6 +199,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 				return true;
 			return false;
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Player player = Main.player[projectile.owner];
@@ -219,9 +226,11 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 			return false;
 		}
 	}
+
 	public class TeslaCannonGNPC : GlobalNPC
 	{
 		public override bool InstancePerEntity => true;
+
 		public int charge;
 		public bool charging;
 

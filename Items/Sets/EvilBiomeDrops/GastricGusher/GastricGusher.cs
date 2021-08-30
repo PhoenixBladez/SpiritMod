@@ -26,7 +26,6 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAmmo = AmmoID.Gel;
 			item.rare = ItemRarityID.Blue;
-			//item.UseSound = SoundID.None;
 			item.shoot = ModContent.ProjectileType<GastricGusherProjectile>();
 			item.value = Item.sellPrice(0, 0, 20, 0);
 			item.channel = true;
@@ -37,7 +36,7 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 			item.ranged = true;
 		}
 
-		public override bool ConsumeAmmo(Player player) => false;
+		public override bool ConsumeAmmo(Player player) => false; //So the ammo counter shoots but we don't use double ammo on spam click
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0;
 	}
 }
