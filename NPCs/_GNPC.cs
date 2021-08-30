@@ -456,7 +456,7 @@ namespace SpiritMod.NPCs
 			}
 		}
 
-		internal bool AllowTrickOrTreat(NPC npc) => npc.type != NPCID.OldMan && !ModContent.GetInstance<SpiritMod>().NPCCandyBlacklist.Contains(npc.type);
+		internal bool AllowTrickOrTreat(NPC npc) => npc.type != NPCID.OldMan && npc.homeTileX != -1 && npc.homeTileY != -1 && !GetInstance<SpiritMod>().NPCCandyBlacklist.Contains(npc.type);
 
 		internal string TrickOrTreat(MyPlayer player, NPC npc)
 		{

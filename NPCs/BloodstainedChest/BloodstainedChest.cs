@@ -16,7 +16,7 @@ namespace SpiritMod.NPCs.BloodstainedChest
 			DisplayName.SetDefault("Bloodstained Chest");
             Main.npcFrameCount[npc.type] = 1;
 
-			ModContent.GetInstance<SpiritMod>().NPCCandyBlacklist.Add(npc.type);
+			//ModContent.GetInstance<SpiritMod>().NPCCandyBlacklist.Add(npc.type);
         }
 
         public override void SetDefaults()
@@ -64,7 +64,7 @@ namespace SpiritMod.NPCs.BloodstainedChest
 		public override void AI()
 		{
 			npc.ai[2] += 0.03f;
-			npc.homeless = true;
+			//npc.homeless = true;
 			Player player = Main.player[npc.target];
 
 			if (rightClicked)

@@ -17,7 +17,7 @@ namespace SpiritMod.NPCs.DesertBandit
 			NPCID.Sets.TrailCacheLength[npc.type] = 20;
 			NPCID.Sets.TrailingMode[npc.type] = 0;
 
-			ModContent.GetInstance<SpiritMod>().NPCCandyBlacklist.Add(npc.type);
+			//ModContent.GetInstance<SpiritMod>().NPCCandyBlacklist.Add(npc.type);
 		}
 
 		public override void SetDefaults()

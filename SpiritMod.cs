@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Material;
 using SpiritMod.Items.Sets.HuskstalkSet;
 using SpiritMod.Items.Pins;
 using SpiritMod.NPCs.Boss.Atlas;
@@ -50,10 +49,10 @@ using SpiritMod.Mechanics.Boids;
 using SpiritMod.Mechanics.AutoSell;
 using SpiritMod.Buffs.Summon;
 using System.Linq;
-using static Terraria.ModLoader.Core.TmodFile;
 using SpiritMod.Items.Weapon.Magic.Rhythm;
 using SpiritMod.Items.Weapon.Magic.Rhythm.Anthem;
 using SpiritMod.Mechanics.EventSystem;
+using static Terraria.ModLoader.Core.TmodFile;
 
 namespace SpiritMod
 {
@@ -98,7 +97,7 @@ namespace SpiritMod
 		public static GlitchScreenShader glitchScreenShader;
 		public static Texture2D noise;
 
-		public Mechanics.AutoSell.AutoSellUI AutoSellUI_SHORTCUT;
+		public AutoSellUI AutoSellUI_SHORTCUT;
 		public Mechanics.AutoSell.Sell_NoValue.Sell_NoValue SellNoValue_SHORTCUT;
 		public Mechanics.AutoSell.Sell_Lock.Sell_Lock SellLock_SHORTCUT;
 		public Mechanics.AutoSell.Sell_Weapons.Sell_Weapons SellWeapons_SHORTCUT;
@@ -136,7 +135,8 @@ namespace SpiritMod
 		private Vector2 _lastViewSize;
 		private Viewport _lastViewPort;
 
-		/// <summary>Automatically returns false for every NPC ID inside of this list in <seealso cref="AllowTrickOrTreat"/>.</summary>
+		/// <summary>Automatically returns false for every NPC ID inside of this list in <seealso cref="NPCs.GNPC.AllowTrickOrTreat(NPC)"/>.
+		/// Note that this should only be used in edge cases where an NPC is neither homeless nor has homeTileX/Y set.</summary>
 		public readonly List<int> NPCCandyBlacklist = new List<int>();
 
 		public SpiritMod()
