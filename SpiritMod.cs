@@ -908,7 +908,8 @@ namespace SpiritMod
 				if(_lastViewSize != Main.ViewSize && Metaballs != null)
 					Metaballs.Initialize(Main.graphics.GraphicsDevice);
 
-				if((_lastViewPort.Bounds != Main.graphics.GraphicsDevice.Viewport.Bounds || _lastScreenSize != new Vector2(Main.screenWidth, Main.screenHeight)) && basicEffect != null)
+				if((_lastViewPort.Bounds != Main.graphics.GraphicsDevice.Viewport.Bounds || _lastScreenSize != new Vector2(Main.screenWidth, Main.screenHeight) || _lastViewSize != Main.ViewSize) 
+					&& basicEffect != null)
 				{
 					Helpers.UpdateBasicEffect(ref basicEffect, Main.GameViewMatrix.Zoom);
 					Helpers.UpdateBasicEffect(ref primitives.pixelEffect, Main.GameViewMatrix.Zoom);
