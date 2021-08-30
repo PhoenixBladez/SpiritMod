@@ -38,8 +38,6 @@ namespace SpiritMod.Prim
 
 		public Effect Effect { get; protected set; }
 
-		public BasicEffect BasicEffect { get; protected set; }
-
 		public VertexPositionColorTexture[] Vertices { get; protected set; }
 
 		public int CurrentIndex { get; protected set; }
@@ -48,7 +46,6 @@ namespace SpiritMod.Prim
 		{
 			TrailShader = new DefaultShader();
 			GraphicsDevice = Main.graphics.GraphicsDevice;
-			BasicEffect = new BasicEffect(GraphicsDevice) { VertexColorEnabled = true };
 			// ReSharper disable once VirtualMemberCallInConstructor
 			SetDefaults();
 			Vertices = new VertexPositionColorTexture[Cap];

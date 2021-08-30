@@ -14,6 +14,8 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Sets.StarjinxSet.Sagittarius;
+
 namespace SpiritMod.Utilities
 {
 	public class TrailManager
@@ -43,6 +45,13 @@ namespace SpiritMod.Utilities
 			if (projectile.type == ModContent.ProjectileType<Starshock1>()) {
 				SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(1f, projectile.velocity.Length() * .6f));
 			}
+
+			if(projectile.type == ModContent.ProjectileType<SagittariusConstellationArrow>())
+				SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(1f, projectile.velocity.Length() * 6));
+
+			if (projectile.type == ModContent.ProjectileType<SagittariusArrow>())
+				SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(1f, projectile.velocity.Length() * 10));
+
 			//This is where it tries to kill a trail (assuming said projectile is linked to a trail)
 			//here you can specify dissolve speed. however, I recommend you just keep using the same case
 			//like so:

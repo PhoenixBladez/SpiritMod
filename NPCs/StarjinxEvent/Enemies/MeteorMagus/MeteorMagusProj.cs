@@ -6,6 +6,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Particles;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 {
@@ -34,22 +35,16 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 		public override bool PreAI()
 		{
-			for (int i = 0; i < 2; i++)
-			{
-				int num = Dust.NewDust(projectile.position, 6, 6, DustID.FireworkFountain_Pink, 0f, 0f, 0, default, .35f);
-				Main.dust[num].position = projectile.Center - projectile.velocity / num * (float)i;
+			if (!Main.dedServ)
+				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center + Main.rand.NextVector2Circular(3, 3), projectile.velocity * 0.1f, new Color(241, 153, 255) * projectile.Opacity, 
+					new Color(228, 31, 156) * projectile.Opacity, Main.rand.NextFloat(0.12f, 0.18f), 25));
 
-				Main.dust[num].velocity = projectile.velocity;
-				Main.dust[num].scale = MathHelper.Clamp(projectile.ai[0], .015f, 1.25f);
-				Main.dust[num].noGravity = true;
-				Main.dust[num].fadeIn = (float)(100 + projectile.owner);
-			}
 			return true;
 		}
 
 		public override void AI()
 		{
-			projectile.alpha = Math.Max(projectile.alpha - 15, 0);
+			projectile.alpha = Math.Max(projectile.alpha - 10, 0);
 			if (projectile.localAI[1] == 0)
 				projectile.localAI[1] = Main.rand.NextBool() ? -0.2f : 0.2f;
 
@@ -74,7 +69,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 		public void DoTrailCreation(TrailManager tM)
 		{
-			tM.CreateTrail(projectile, new GradientTrail(new Color(228, 31, 156), new Color(180, 88, 237)), new RoundCap(), new ArrowGlowPosition(), 100f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
+			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(228, 31, 156), new Color(180, 88, 237)), new RoundCap(), new ArrowGlowPosition(), 100f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
 			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(241, 153, 255) * .25f, new Color(241, 153, 255) * .125f), new RoundCap(), new ArrowGlowPosition(), 42f, 200f, new DefaultShader());
 			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(228, 31, 156, 150), new Color(228, 31, 156, 150) * 0.5f), new RoundCap(), new DefaultTrailPosition(), 20f, 80f, new DefaultShader());
 			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(228, 31, 156, 150), new Color(228, 31, 156, 150) * 0.5f), new RoundCap(), new DefaultTrailPosition(), 20f, 80f, new DefaultShader());
@@ -85,9 +80,18 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 		public override void Kill(int timeLeft)
 		{
-			DustHelper.DrawStar(projectile.Center, 223, pointAmount: 5, mainSize: .9425f, dustDensity: 2, dustSize: .5f, pointDepthMult: 0.3f, noGravity: true);
 			if (Main.netMode != NetmodeID.Server)
-				Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/starHit").WithVolume(0.65f).WithPitchVariance(0.3f), projectile.Center);
+			{
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithVolume(0.65f).WithPitchVariance(0.3f), projectile.Center);
+
+				for (int i = 0; i < 5; i++)
+					ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, -projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.75f), new Color(241, 153, 255), 
+						new Color(228, 31, 156), Main.rand.NextFloat(0.2f, 0.3f), 25));
+
+				for (int i = 0; i < 3; i++)
+					ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.66f), new Color(241, 153, 255), 
+						new Color(228, 31, 156), Main.rand.NextFloat(0.2f, 0.3f), 25));
+			}
 		}
 	}
 
@@ -111,7 +115,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 		public override void AI()
 		{
-			projectile.alpha = Math.Max(projectile.alpha - 15, 0);
+			projectile.alpha = Math.Max(projectile.alpha - 5, 0);
+
 			if (!Parent.active || !Target.active || Target.dead)
 			{
 				projectile.Kill();
@@ -135,6 +140,18 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 				if (projectile.Distance(homeCenter) < 10)
 					projectile.Kill();
+			}
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			if (!Main.dedServ)
+			{
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithVolume(0.65f).WithPitchVariance(0.3f), projectile.Center);
+
+				for (int i = 0; i < 6; i++)
+					ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, Main.rand.NextVector2Circular(6, 6), new Color(241, 153, 255),
+						new Color(228, 31, 156), Main.rand.NextFloat(0.1f, 0.2f), 25));
 			}
 		}
 

@@ -64,10 +64,10 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 				{
 					int type = ModContent.ProjectileType<SagittariusArrow>();
 					Vector2 shootDir = Vector2.UnitX.RotatedBy(player.AngleTo(Main.MouseWorld));
-					Projectile constellation = Projectile.NewProjectileDirect(player.MountedCenter - shootDir.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(70, 150),
+					Projectile constellation = Projectile.NewProjectileDirect(player.MountedCenter - shootDir.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(70, 100),
 						Vector2.Zero, ModContent.ProjectileType<SagittariusConstellation>(), (int)(item.damage * 0.75f), item.knockBack, player.whoAmI, 4, -1);
 
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starCast"), player.Center);
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/StarCast"), player.Center);
 					Projectile arrow = Projectile.NewProjectileDirect(player.MountedCenter + (shootDir * 20), shootDir * item.shootSpeed, type, item.damage, item.knockBack, player.whoAmI);
 
 					if(Main.netMode != NetmodeID.SinglePlayer)

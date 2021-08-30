@@ -1,12 +1,8 @@
-﻿using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Terraria;
-using System.Collections.Generic;
 using System.Linq;
 using System;
-using static Terraria.ModLoader.ModContent;
-using System.Reflection;
 using SpiritMod.Effects.Stargoop;
 using SpiritMod.Prim;
 
@@ -20,17 +16,19 @@ namespace SpiritMod.Items.Weapon.Magic.RealityQuill
 			EntityType = projectile.type;
 			DrawType = PrimTrailManager.DrawProjectile;
 		}
+
         public override void SetDefaults()
         {
             Width = 14;
             AlphaValue = 1f;
             Cap= 100;
-            Pixellated = true;
+            Pixellated = false;
             Disabled = true;
             Color = new Color(0,255,0);
 
             SpiritMod.Metaballs.NebulaLayer.Sprites.Add(this);
         }
+
         public bool _addPoints = true;
         public override void PrimStructure(SpriteBatch spriteBatch)
         {

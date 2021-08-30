@@ -11,7 +11,7 @@ using System.Runtime.Remoting.Messaging;
 using System.IO;
 using SpiritMod.Prim;
 
-namespace SpiritMod.Items.Sets.StarjinxSet.NovaGun
+namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 {
     public class NovaGunStar : ModProjectile, IBasicPrimDraw
     {

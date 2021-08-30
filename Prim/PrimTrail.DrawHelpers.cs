@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Effects.Stargoop;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -88,31 +89,34 @@ namespace SpiritMod.Prim
 
 		protected void PrepareBasicShader()
 		{
-			int width = GraphicsDevice.Viewport.Width;
-			int height = GraphicsDevice.Viewport.Height;
+			BasicEffect basicEffect;
+			if (Pixellated)
+			{
+				Helpers.UpdateBasicEffect(ref SpiritMod.primitives.pixelEffect, Main.GameViewMatrix.Zoom);
+				basicEffect = SpiritMod.primitives.pixelEffect;
+			}
+			else if (this is IGalaxySprite)
+			{
+				Helpers.UpdateBasicEffect(ref SpiritMod.primitives.galaxyEffect, new Vector2(1));
+				basicEffect = SpiritMod.primitives.galaxyEffect;
+			}
+			else
+				basicEffect = SpiritMod.basicEffect;
 
-			Vector2 zoom = Main.GameViewMatrix.Zoom;
-
-			Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) *
-			              Matrix.CreateTranslation(width / 2f, height / -2f, 0) * Matrix.CreateRotationZ(MathHelper.Pi) *
-			              Matrix.CreateScale(zoom.X, zoom.Y, 1f);
-
-			Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
-
-			BasicEffect.View = view;
-			BasicEffect.Projection = projection;
-
-			foreach (EffectPass pass in BasicEffect.CurrentTechnique.Passes)
+			foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
+			{
 				pass.Apply();
+			}
 		}
 
 		protected void AddVertex(Vector2 position, Color color, Vector2 uv)
 		{
 			if (CurrentIndex < Vertices.Length) 
 			{
-				if (Pixellated)
+				if (Pixellated || this is IGalaxySprite)
 					Vertices[CurrentIndex++] =
 						new VertexPositionColorTexture(new Vector3((position - Main.screenPosition) / 2, 0f), color, uv);
+
 				else
 					Vertices[CurrentIndex++] =
 						new VertexPositionColorTexture(new Vector3(position - Main.screenPosition, 0f), color, uv);

@@ -4,12 +4,13 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Particles;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 {
-	public class SagittariusConstellation : ModProjectile, IDrawAdditive
+	public class SagittariusConstellation : ModProjectile, IDrawAdditive, IBasicPrimDraw
 	{
-		public override string Texture => "SpiritMod/Effects/Masks/Star";
+		public override string Texture => "Terraria/Projectile_1";
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Constellation");
 
 		public override void SetDefaults()
@@ -18,7 +19,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 			projectile.height = 8;
 			projectile.friendly = true;
 			projectile.timeLeft = 600;
-			projectile.scale = Main.rand.NextFloat(0.12f, 0.2f);
+			projectile.scale = Main.rand.NextFloat(0.18f, 0.28f);
 			projectile.alpha = 255;
 			projectile.rotation = Main.rand.NextFloat(MathHelper.TwoPi);
 			projectile.hide = true;
@@ -38,6 +39,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 
 		private ref float Timer => ref projectile.localAI[1];
 
+		private Color BloomColor => (StarsLeft % 2 == 1) ? new Color(0, 242, 255) : new Color(255, 92, 211);
+
 		public override bool PreAI()
 		{
 			if (projectile.localAI[0] == 0)
@@ -53,36 +56,42 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 
 		public override void AI()
 		{
-			projectile.rotation += 0.05f * Owner.direction * ((StarsLeft % 2 == 0) ? 1 : -1);
+			projectile.rotation += 0.08f * Owner.direction * ((StarsLeft % 2 == 0) ? 1 : -1);
 			if (++Timer < 20)
 			{
 				projectile.scale *= 1.05f;
 				projectile.alpha = Math.Max(projectile.alpha - 10, 0);
 			}
 
-			if(Timer == 30 && !Main.dedServ)
+			if (Timer == 30 && !Main.dedServ) //particle effects on arrow shot time
 			{
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithPitchVariance(0.2f).WithVolume(0.5f), projectile.Center);
-				for (int i = 0; i < 3; i++)
-					Particles.ParticleHandler.SpawnParticle(new Particles.StarParticle(projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.5f, 1.5f), Color.White * 0.7f, Main.rand.NextFloat(0.2f, 0.3f), 20));
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starCast").WithPitchVariance(0.2f).WithVolume(0.8f), projectile.Center);
+				Color color = Color.Lerp(BloomColor, Color.White, 0.5f);
+				for (int i = 0; i < 7; i++)
+					ParticleHandler.SpawnParticle(new ImpactLine(projectile.Center, Main.rand.NextVector2Unit(), color * 0.7f, new Vector2(0.2f, Main.rand.NextFloat(0.3f, 0.4f)), 10, projectile));
+
+				ParticleHandler.SpawnParticle(new PulseCircle(projectile, color, projectile.scale * 120, 15, PulseCircle.MovementType.OutwardsQuadratic));
 			}
 
 			if (Owner == Main.LocalPlayer)
 			{
-				if (Timer == 10 && StarsLeft > 1)
+				if (Timer == 10 && StarsLeft > 1) //spawn next constellation star
 				{
-					Projectile.NewProjectileDirect(Owner.MountedCenter - Owner.DirectionTo(Main.MouseWorld).RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(70, 150),
+					Projectile.NewProjectileDirect(Owner.MountedCenter - Owner.DirectionTo(Main.MouseWorld).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(70, 100),
 						Vector2.Zero, ModContent.ProjectileType<SagittariusConstellation>(), projectile.damage, projectile.knockBack, projectile.owner, StarsLeft - 1, projectile.whoAmI).netUpdate = true;
 					projectile.netUpdate = true;
 				}
 
-				if (Timer == 30)
+				if (Timer == 30) //fire the arrow
 				{
-					Projectile proj = Projectile.NewProjectileDirect(projectile.Center, projectile.DirectionTo(Main.MouseWorld).RotatedByRandom(MathHelper.PiOver2) * 18, 
+					float baseAngle = Owner.AngleTo(Main.MouseWorld);
+					float starAngle = projectile.AngleTo(Main.MouseWorld);
+					float angletoshoot = (MathHelper.WrapAngle(baseAngle - starAngle) > 0) ? MathHelper.PiOver2 : -MathHelper.PiOver2;
+					Projectile proj = Projectile.NewProjectileDirect(projectile.Center, projectile.DirectionTo(Main.MouseWorld).RotatedBy(angletoshoot) * 16,
 						ModContent.ProjectileType<SagittariusConstellationArrow>(), projectile.damage, projectile.knockBack, projectile.owner, StarsLeft % 2);
 
 					if (proj.modProjectile is SagittariusConstellationArrow)
-						(proj.modProjectile as SagittariusConstellationArrow).TargetPos = Main.MouseWorld; 
+						(proj.modProjectile as SagittariusConstellationArrow).TargetPos = Main.MouseWorld;
 
 					if (Main.netMode != NetmodeID.SinglePlayer)
 						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
@@ -100,18 +109,18 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 			}
 		}
 
+		float ScaleProgress() => (float)Math.Pow(1 - Math.Abs(30 - Timer) / 15, 3);
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
-			Texture2D MainTex = Main.projectileTexture[projectile.type];
 			Texture2D Bloom = mod.GetTexture("Effects/Masks/CircleGradient");
-			Color color = (StarsLeft % 2 == 1) ? new Color(101, 255, 245) : new Color(255, 176, 244);
+			Color color = BloomColor;
 			float bloomopacity = 0.75f;
-			float bloomscale = 0.75f;
+			float bloomscale = 0.4f;
 			if (Timer > 15 && Timer < 45)
 			{
-				color = Color.Lerp(color, Color.White, 1 - Math.Abs(30 - Timer) / 15);
-				bloomopacity = MathHelper.Lerp(bloomopacity, 2f, 1 - Math.Abs(30 - Timer) / 15);
-				bloomscale = MathHelper.Lerp(bloomscale, 0.25f, 1 - Math.Abs(30 - Timer) / 15);
+				color = Color.Lerp(color, Color.White, 0.75f * ScaleProgress());
+				bloomopacity = MathHelper.Lerp(bloomopacity, 2f, ScaleProgress());
+				bloomscale = MathHelper.Lerp(bloomscale, 0.25f, ScaleProgress());
 			}
 
 			if (LastStar >= 0)
@@ -120,24 +129,29 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 				if (laststar.active && laststar.type == projectile.type && laststar.ai[0] == projectile.ai[0] + 1 && laststar.owner == projectile.owner)
 				{
 					Texture2D Beam = mod.GetTexture("Textures/Trails/Trail_4");
-					Vector2 scale = new Vector2(projectile.Distance(laststar.Center) / Beam.Width, projectile.scale * 20 / Beam.Height);
+					Vector2 scale = new Vector2(projectile.Distance(laststar.Center) / Beam.Width, projectile.scale * 30 / Beam.Height);
 					float opacity = 0.8f * projectile.Opacity * laststar.Opacity;
 					Vector2 origin = new Vector2(0, Beam.Height / 2);
-					spriteBatch.Draw(Beam, projectile.Center - Main.screenPosition, null, Color.Lerp(Color.White, color, 0.5f) * opacity, projectile.AngleTo(laststar.Center), origin, scale, SpriteEffects.None, 0);
+					spriteBatch.Draw(Beam, projectile.Center - Main.screenPosition, null, Color.Lerp(Color.White, color, 0.75f) * opacity, projectile.AngleTo(laststar.Center), origin, scale, SpriteEffects.None, 0);
 				}
 			}
-			spriteBatch.Draw(Bloom, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(color * bloomopacity), 0, Bloom.Size() / 2, projectile.scale * bloomscale, SpriteEffects.None, 0);
 
-			spriteBatch.Draw(MainTex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(Color.White * 0.5f), projectile.rotation * 1.5f, MainTex.Size() / 2, projectile.scale * 0.75f, SpriteEffects.None, 0);
-			spriteBatch.Draw(MainTex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(Color.White * 0.5f), -projectile.rotation * 1.5f, MainTex.Size() / 2, projectile.scale * 0.75f, SpriteEffects.None, 0);
-
-			spriteBatch.Draw(MainTex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(Color.White), projectile.rotation, MainTex.Size() / 2, projectile.scale, SpriteEffects.None, 0);
-
-			if (Timer > 30 && Timer < 50)
+			int bloomstodraw = 3;
+			for(int i = 0; i < bloomstodraw; i++)
 			{
-				float scale = 1 - Math.Abs(40 - Timer) / 10;
-				spriteBatch.Draw(MainTex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(Color.White), -projectile.rotation * 2, MainTex.Size() / 2, projectile.scale * scale, SpriteEffects.None, 0);
+				float progress = i / (float)bloomstodraw;
+				spriteBatch.Draw(Bloom, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(color * bloomopacity) * MathHelper.Lerp(1f, 0.5f, 1 - progress), 0,
+					Bloom.Size() / 2, projectile.scale * bloomscale * MathHelper.Lerp(0.75f, 1.2f, progress), SpriteEffects.None, 0);
 			}
+		}
+
+		public void DrawPrimShape(BasicEffect effect)
+		{
+			float scale = 20f;
+			if (Timer > 15 && Timer < 45)
+				scale = MathHelper.Lerp(scale, 10f, ScaleProgress());
+
+			StarDraw.DrawStarBasic(effect, projectile.Center, projectile.rotation, projectile.scale * scale, Color.White * projectile.Opacity);
 		}
 	}
 }

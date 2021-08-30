@@ -53,7 +53,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 		public const int STATE_TELEPORT = 1;
 		public const int STATE_STARBURST = 2;
 
-		public const float TELEPORT_DISTANCE = 500;
+		public const float TELEPORT_DISTANCE = 400;
 		public const int TELEPORT_STARTTIME = 30;
 		public const int TELEPORT_ENDTIME = 30;
 
@@ -75,7 +75,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			{
 				case STATE_IDLE:
 					frame.X = 0;
-					npc.AccelFlyingMovement(player.Center, 0.03f, 0.02f, 1);
+					npc.AccelFlyingMovement(player.Center, 0.02f, 0.1f, 0.33f);
+					npc.position.Y += 0.66f * (float)Math.Sin(Main.GameUpdateCount / 12f);
 					if (AiTimer > IDLETIME)
 					{
 						bool teleport = !Collision.CanHit(npc.Center, 0, 0, player.Center, 0, 0) || npc.Distance(player.Center) > TELEPORT_DISTANCE;

@@ -27,39 +27,72 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 			projectile.arrow = true;
 		}
 
+		private ref float _hitvisualtimer => ref projectile.localAI[0];
+
 		public void DoTrailCreation(TrailManager tM)
 		{
 			tM.CreateTrail(projectile, new GradientTrail(Color.White * 0.2f, Color.Transparent), new RoundCap(), new DefaultTrailPosition(), 60, 800);
 			tM.CreateTrail(projectile, new StandardColorTrail(Color.White), new NoCap(), new DefaultTrailPosition(), 10, 600);
 			tM.CreateTrail(projectile, new StandardColorTrail(new Color(101, 255, 245)), new NoCap(), new DefaultTrailPosition(), 120, 500, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1));
 		}
-		public override void Kill(int timeLeft)
+
+		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			if (Main.dedServ)
+				return true;
+
+			for (int i = 0; i < 8; i++)
+				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, -oldVelocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.75f), Color.White, Color.Cyan, Main.rand.NextFloat(0.2f, 0.3f), 25));
+
+			for (int i = 0; i < 4; i++)
+				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, oldVelocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.66f), Color.White, Color.Cyan, Main.rand.NextFloat(0.2f, 0.3f), 25));
+
+			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithPitchVariance(0.2f).WithVolume(0.33f), projectile.Center);
+
+			return true;
+		}
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => OnHitEffects();
+
+		public override void OnHitPvp(Player target, int damage, bool crit) => OnHitEffects();
+
+		public override void AI()
+		{
+			_hitvisualtimer = Math.Max(_hitvisualtimer - 1, 0); 
+
+			if (Main.rand.NextBool(5) && !Main.dedServ)
+				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.Pi / 8) * Main.rand.NextFloat(0.2f), 
+					Color.White, Color.Cyan, Main.rand.NextFloat(0.12f, 0.18f), 25));
+		}
+
+		private void OnHitEffects()
+		{
+			if (Main.dedServ || _hitvisualtimer > 0)
 				return;
 
-			for (int i = 0; i < 3; i++)
-				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(0.25f), new Color(101, 255, 245) * 2, new Color(101, 255, 245), Main.rand.NextFloat(0.3f, 0.4f), 35));
+			_hitvisualtimer = 3;
+			for (int i = -1; i <= 1; i += 2)
+			{
+				for (int j = 0; j < 2; j++) //smaller lines
+				{
+					ParticleHandler.SpawnParticle(new ImpactLine(projectile.Center,
+						projectile.velocity.RotatedBy(MathHelper.PiOver2 * i).RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(0.1f, 0.2f),
+						Color.White, new Vector2(0.25f, Main.rand.NextFloat(1f, 1.5f)), 15));
+				}
+
+				//larger blueish lines with less randomization
+				ParticleHandler.SpawnParticle(new ImpactLine(projectile.Center,
+					projectile.velocity.RotatedBy(MathHelper.PiOver2 * i).RotatedByRandom(MathHelper.Pi / 8) * Main.rand.NextFloat(0.15f, 0.2f),
+					Color.Lerp(Color.White, Color.Cyan, 0.5f), new Vector2(0.25f, Main.rand.NextFloat(3f, 4f)), 15));
+			}
+
+			//impact star particles
+			ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, Vector2.Zero, Color.Lerp(Color.White, Color.Cyan, 0.5f), Main.rand.NextFloat(0.5f, 0.6f), 12));
+
+			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithPitchVariance(0.2f).WithVolume(0.33f), projectile.Center);
 
 			for (int i = 0; i < 5; i++)
-				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.5f), Color.White, Main.rand.NextFloat(0.3f, 0.4f), 15));
-		}
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			if (Main.dedServ)
-				return;
-
-			Vector2 position = Main.rand.NextVector2CircularEdge(60, 60);
-			Color color = new Color(101, 255, 245);
-			color.A = (byte)(color.A * 2);
-			ParticleHandler.SpawnParticle(new ImpactLine(target.Center + position, -position / 6, color, Main.rand.NextFloat(0.8f, 1f) * new Vector2(1, 3), 12));
-			for (int i = 0; i < 4; i++)
-			{
-				ParticleHandler.SpawnParticle(new StarParticle(
-					target.Center + Main.rand.NextVector2Circular(6, 6),
-					position.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.025f, 0.075f) * (Main.rand.NextBool() ? -1 : 1),
-					Color.White * 0.75f, color, Main.rand.NextFloat(0.3f, 0.6f), 20));
-			}
+				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.Pi / 8) * Main.rand.NextFloat(), Color.White, Color.Cyan, Main.rand.NextFloat(0.15f, 0.25f), 20));
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

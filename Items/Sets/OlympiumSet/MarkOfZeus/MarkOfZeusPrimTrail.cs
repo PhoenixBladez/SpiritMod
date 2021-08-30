@@ -89,7 +89,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
         }
         public override void OnUpdate()
         {
-Counter++;
+			Counter++;
             PointCount = Points.Count() * 6;
             if (Cap < PointCount / 6)
             {

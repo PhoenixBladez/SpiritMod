@@ -71,6 +71,7 @@ namespace SpiritMod
 		public static SpiritMod Instance;
 		public UnifiedRandom spiritRNG;
 		public static Effect auroraEffect;
+		public static BasicEffect basicEffect;
 		public static Effect GSaber;
 		public static TrailManager TrailManager;
 		public static PrimTrailManager primitives;
@@ -133,6 +134,7 @@ namespace SpiritMod
 
 		private Vector2 _lastScreenSize;
 		private Vector2 _lastViewSize;
+		private Viewport _lastViewPort;
 
 		/// <summary>Automatically returns false for every NPC ID inside of this list in <seealso cref="AllowTrickOrTreat"/>.</summary>
 		public readonly List<int> NPCCandyBlacklist = new List<int>();
@@ -669,6 +671,7 @@ namespace SpiritMod
 				Mechanics.EventSystem.EventManager.Load();
 				_lastScreenSize = new Vector2(Main.screenWidth, Main.screenHeight);
 				_lastViewSize = Main.ViewSize;
+				_lastViewPort = Main.graphics.GraphicsDevice.Viewport;
 			}
 			QuestManager.Load();
 
@@ -721,6 +724,20 @@ namespace SpiritMod
 				AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Sets/AvianDrops/ApostleArmor/TalonGarb_Legs");
 				EmptyTexture = GetTexture("Empty");
 				auroraEffect = GetEffect("Effects/aurora");
+
+
+				int width = Main.graphics.GraphicsDevice.Viewport.Width;
+				int height = Main.graphics.GraphicsDevice.Viewport.Height;
+				Vector2 zoom = Main.GameViewMatrix.Zoom;
+				Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
+				Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
+				basicEffect = new BasicEffect(Main.graphics.GraphicsDevice)
+				{
+					VertexColorEnabled = true,
+					View = view,
+					Projection = projection
+				};
+
 				noise = GetTexture("Textures/noise");
 
 				SpiritModAutoSellTextures.Load();
@@ -889,13 +906,22 @@ namespace SpiritMod
 			if (!Main.dedServ)
 			{
 				if (_lastScreenSize != new Vector2(Main.screenWidth, Main.screenHeight) && primitives != null)
-					primitives.LoadContent(Main.graphics.GraphicsDevice);
+					primitives.InitializeTargets(Main.graphics.GraphicsDevice);
 
 				if(_lastViewSize != Main.ViewSize && Metaballs != null)
 					Metaballs.Initialize(Main.graphics.GraphicsDevice);
 
+				if((_lastViewPort.Bounds != Main.graphics.GraphicsDevice.Viewport.Bounds || _lastScreenSize != new Vector2(Main.screenWidth, Main.screenHeight) || _lastViewSize != Main.ViewSize) 
+					&& basicEffect != null)
+				{
+					Helpers.UpdateBasicEffect(ref basicEffect, Main.GameViewMatrix.Zoom);
+					Helpers.UpdateBasicEffect(ref primitives.pixelEffect, Main.GameViewMatrix.Zoom);
+					Helpers.UpdateBasicEffect(ref primitives.pixelEffect, new Vector2(1));
+				}
+
 				_lastScreenSize = new Vector2(Main.screenWidth, Main.screenHeight);
 				_lastViewSize = Main.ViewSize;
+				_lastViewPort = Main.graphics.GraphicsDevice.Viewport;
 			}
 		}
 

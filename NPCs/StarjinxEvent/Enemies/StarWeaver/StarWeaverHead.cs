@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 
 		private ref float TrailProgress => ref projectile.localAI[1];
 
-		private const float RETURNTHRESHOLD = 400;
+		private const float RETURNTHRESHOLD = 200;
 		private const float HOVERTHRESHOLD = 40;
 		private const int ANTICIPATIONTIME = 30;
 
@@ -63,6 +63,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			projectile.timeLeft = 2;
 			Vector2 TargetPos = Parent.Top - new Vector2(0, 20);
 			projectile.rotation = projectile.velocity.X * 0.05f;
+			projectile.scale = MathHelper.Lerp(1, 1.2f, TrailProgress);
 
 			switch (AiState)
 			{
