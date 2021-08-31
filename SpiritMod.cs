@@ -629,8 +629,7 @@ namespace SpiritMod
 				throw new ArgumentException("Missing argument: Item");
 			else if (args.Length < 3)
 				throw new ArgumentException("Missing argument: Glyph");
-			Item item = args[1] as Item;
-			if (item == null)
+			if (!(args[1] is Item item))
 				throw new ArgumentException("First argument must be of type Item");
 			int? glyphID = args[2] as int?;
 			if (!glyphID.HasValue)
@@ -646,8 +645,7 @@ namespace SpiritMod
 		{
 			if (args.Length < 2)
 				throw new ArgumentException("Missing argument: Item");
-			Item item = args[1] as Item;
-			if (item == null)
+			if (!(args[1] is Item item))
 				throw new ArgumentException("First argument must be of type Item");
 			return (int)item.GetGlobalItem<Items.GItem>().Glyph;
 		}

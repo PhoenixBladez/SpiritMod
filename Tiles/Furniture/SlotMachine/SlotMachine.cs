@@ -24,9 +24,7 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Slot Machine");
-
 		}
-
 
 		public override void SetDefaults()
 		{
@@ -47,6 +45,7 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 			item.createTile = ModContent.TileType<SlotMachineTile>();
 		}
 	}
+
 	public class SlotMachineTile : ModTile
 	{
 		public override void SetDefaults()
@@ -64,12 +63,12 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 			TileObjectData.newTile.Origin = new Point16(0, 1);
 			TileObjectData.newTile.Direction = TileObjectDirection.PlaceLeft;
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.Table | AnchorType.SolidTile | AnchorType.SolidWithTop, TileObjectData.newTile.Width, 0);
-			TileObjectData.newTile.StyleWrapLimit = 2; //not really necessary but allows me to add more subtypes of chairs below the example chair texture
-			TileObjectData.newTile.StyleMultiplier = 2; //same as above
+			TileObjectData.newTile.StyleWrapLimit = 2;
+			TileObjectData.newTile.StyleMultiplier = 2;
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
-			TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight; //allows me to place example chairs facing the same way as the player
-			TileObjectData.addAlternate(1); //facing right will use the second texture style
+			TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
+			TileObjectData.addAlternate(1);
 			TileObjectData.addTile(Type);
 			dustType = -1;
 			ModTranslation name = CreateMapEntryName();
@@ -113,6 +112,7 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 			}
 			return true;
 		}
+
 		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<SlotMachine>());
 	}
 }

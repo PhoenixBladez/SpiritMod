@@ -95,11 +95,7 @@ namespace SpiritMod.NPCs.Town
 			return SpawnCondition.OverworldDay.Chance * 0.2f;
 		}
 
-		public override string TownNPCName()
-		{
-			string[] names = { "Indie", "Guy", "Nathan" };
-			return Main.rand.Next(names);
-		}
+		public override string TownNPCName() => Main.rand.Next(new string[] { "Indie", "Guy", "Nathan" });
 
 		public override void NPCLoot() => npc.DropItem(ItemType<AdventurerMap>());
 
@@ -111,7 +107,6 @@ namespace SpiritMod.NPCs.Town
 				"I'm actually headin' on an expedition to the dangerous Briar later. Would you be able to do these quests for me in the meantime?",
 				"What's that? No, I'm not lookin' for lodging right now. But I've got an offer for you, if you're interested. Want to explore the world and take on some excitin' quests?",
 			};
-
 			return Main.rand.Next(dialogue);
 		}
 

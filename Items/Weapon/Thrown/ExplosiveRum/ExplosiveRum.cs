@@ -59,7 +59,7 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 
 		public override void AI()
 		{
-			Dust dust = Dust.NewDustPerfect(projectile.Center + (15 * ((projectile.rotation - 1.57f).ToRotationVector2())), 6);
+			var dust = Dust.NewDustPerfect(projectile.Center + (15 * ((projectile.rotation - 1.57f).ToRotationVector2())), 6);
 			dust.noGravity = true;
 			dust.scale = Main.rand.NextFloat(0.6f, .9f);
 			dust.fadeIn = .75f;

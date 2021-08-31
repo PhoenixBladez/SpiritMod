@@ -1,4 +1,3 @@
-
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.Utilities;
 using Terraria;
@@ -14,7 +13,6 @@ namespace SpiritMod.Items.Consumable
 			DisplayName.SetDefault("Stone Fist");
 			Tooltip.SetDefault("Use anywhere to summon Atlas");
 		}
-
 
 		public override void SetDefaults()
 		{
@@ -45,7 +43,7 @@ namespace SpiritMod.Items.Consumable
 			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 600, ModContent.NPCType<Atlas>());
 
 			BossTitles.SyncNPCType(ModContent.NPCType<Atlas>());
-			Main.NewText("The earth is trembling", 255, 60, 255);
+			Main.NewText("The earth is trembling!", 255, 60, 255);
 			return true;
 		}
 
