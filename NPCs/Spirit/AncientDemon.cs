@@ -1,7 +1,5 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Sets.SpiritSet;
-using SpiritMod.Items.Weapon.Swung;
-using SpiritMod.Projectiles.Hostile;
 using Terraria;
 using Terraria.ID;
 using SpiritMod.Tiles.Block;
@@ -14,10 +12,7 @@ namespace SpiritMod.NPCs.Spirit
 	{
 		int timer = 0;
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Ancient Specter");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Ancient Specter");
 
 		public override void SetDefaults()
 		{
@@ -40,11 +35,14 @@ namespace SpiritMod.NPCs.Spirit
 		{
 			timer++;
 
-			if (timer == 20) {
+			if (timer == 20)
+			{
 				npc.noTileCollide = true;
 				timer = 0;
 			}
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.0675f, 0.250f);
+
+			Lighting.AddLight((int)((npc.position.X + (npc.width / 2f)) / 16f), (int)((npc.position.Y + (npc.height / 2f)) / 16f), 0f, 0.0675f, 0.250f);
+
 			if (Main.rand.Next(150) == 5) //Fires desert feathers like a shotgun
 			{
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
@@ -53,9 +51,10 @@ namespace SpiritMod.NPCs.Spirit
 				direction.Y *= 6f;
 
 				int amountOfProjectiles = Main.rand.Next(1, 2);
-				for (int i = 0; i < amountOfProjectiles; ++i) {
-					float A = (float)Main.rand.Next(-1, 1) * 0.01f;
-					float B = (float)Main.rand.Next(-1, 1) * 0.01f;
+				for (int i = 0; i < amountOfProjectiles; ++i)
+				{
+					float A = Main.rand.Next(-1, 1) * 0.01f;
+					float B = Main.rand.Next(-1, 1) * 0.01f;
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<SpiritScythe>(), 30, 1, Main.myPlayer, 0, 0);
 				}
 			}
@@ -66,7 +65,8 @@ namespace SpiritMod.NPCs.Spirit
 		{
 			Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Asphalt, 0f, 0f, 100, default, 1f);
 
-			if (npc.life <= 0) {
+			if (npc.life <= 0)
+			{
 				Gore.NewGore(npc.position, npc.velocity, 13);
 				Gore.NewGore(npc.position, npc.velocity, 12);
 				Gore.NewGore(npc.position, npc.velocity, 11);
@@ -76,15 +76,18 @@ namespace SpiritMod.NPCs.Spirit
 				npc.height = 30;
 				npc.position.X = npc.position.X - (npc.width / 2);
 				npc.position.Y = npc.position.Y - (npc.height / 2);
-				for (int num621 = 0; num621 < 20; num621++) {
+				for (int num621 = 0; num621 < 20; num621++)
+				{
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Asphalt, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0) {
+					if (Main.rand.Next(2) == 0)
+					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
 					}
 				}
-				for (int num623 = 0; num623 < 40; num623++) {
+				for (int num623 = 0; num623 < 40; num623++)
+				{
 					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Asphalt, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
@@ -93,27 +96,24 @@ namespace SpiritMod.NPCs.Spirit
 				}
 			}
 		}
-        private static int[] SpawnTiles = { };
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		private static int[] SpawnTiles = { };
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			Player player = spawnInfo.player;
-            if (!player.GetSpiritPlayer().ZoneSpirit)
-            {
-                return 0f;
-            }
-            if (SpawnTiles.Length == 0)
-            {
-                int[] Tiles = { ModContent.TileType<SpiritDirt>(), ModContent.TileType<SpiritStone>(), ModContent.TileType<SpiritGrass>(), ModContent.TileType<SpiritIce>() };
-                SpawnTiles = Tiles;
-            }
-            return SpawnTiles.Contains(Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].type) && player.position.Y / 16 >= Main.maxTilesY - 330 && player.GetSpiritPlayer().ZoneSpirit && !spawnInfo.playerSafe ? 2f : 0f;
+			if (!player.GetSpiritPlayer().ZoneSpirit)
+				return 0f;
+			if (SpawnTiles.Length == 0)
+			{
+				int[] Tiles = { ModContent.TileType<SpiritDirt>(), ModContent.TileType<SpiritStone>(), ModContent.TileType<SpiritGrass>(), ModContent.TileType<SpiritIce>() };
+				SpawnTiles = Tiles;
+			}
+			return SpawnTiles.Contains(Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].type) && player.position.Y / 16 >= Main.maxTilesY - 330 && player.GetSpiritPlayer().ZoneSpirit && !spawnInfo.playerSafe ? 2f : 0f;
 		}
 
 		public override void NPCLoot()
 		{
-            if (Main.rand.Next(3) == 1)
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SoulShred>(), Main.rand.Next(1) + 1);
-        }
-
+			if (Main.rand.Next(3) == 1)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SoulShred>(), Main.rand.Next(1) + 1);
+		}
 	}
 }

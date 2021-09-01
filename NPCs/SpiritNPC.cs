@@ -5,10 +5,7 @@ using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,7 +14,6 @@ namespace SpiritMod.NPCs
 	//Currently used to cut down on boilerplate for animation and platform logic, might add more later
 	public abstract class SpiritNPC : ModNPC 
 	{
-
 		public Point frame = new Point(0, 0);
 
 		public bool ignorePlatforms = false;

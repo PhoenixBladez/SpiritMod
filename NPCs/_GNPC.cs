@@ -41,6 +41,9 @@ using Terraria.Audio;
 using SpiritMod.Items.Sets.SummonsMisc.PigronStaff;
 using SpiritMod.Items.Sets.LaunchersMisc.Liberty;
 using static Terraria.ModLoader.ModContent;
+using Terraria.Localization;
+using SpiritMod.Tiles.Block;
+using SpiritMod.Tiles.Walls.Natural;
 
 namespace SpiritMod.NPCs
 {
@@ -48,6 +51,7 @@ namespace SpiritMod.NPCs
 	{
 		public override bool InstancePerEntity => true;
 
+		#region Fields
 		public int fireStacks;
 		public int nebulaFlameStacks;
 		public int GhostJellyStacks;
@@ -95,6 +99,7 @@ namespace SpiritMod.NPCs
 		public bool necrosis = false;
 		public bool blaze = false;
 		public bool blaze1 = false;
+		#endregion
 
 		public override void ResetEffects(NPC npc)
 		{
@@ -1059,6 +1064,10 @@ namespace SpiritMod.NPCs
 
 			if (npc.type == NPCID.EaterofWorldsTail && !NPC.AnyNPCs(NPCID.EaterofWorldsHead) && !NPC.AnyNPCs(NPCID.EaterofWorldsBody) && Main.rand.Next(3) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.SpearsMisc.RotScourge.EoWSpear>(), 1);
+
+			bool lastTwin = (npc.type == NPCID.Retinazer && !NPC.AnyNPCs(NPCID.Spazmatism)) || (npc.type == NPCID.Spazmatism && !NPC.AnyNPCs(NPCID.Retinazer));
+			if ((npc.type == NPCID.SkeletronPrime || npc.type == NPCID.TheDestroyer || lastTwin) && !MyWorld.spiritBiome)
+				SpawnSpiritBiome();
 		}
 
 		/// <summary>Drops an item given the specific conditions.</summary>
@@ -1081,6 +1090,77 @@ namespace SpiritMod.NPCs
 			int r = Main.expertMode ? expertChance : chance;
 			if (types.Contains(npc.type) && Main.rand.NextBool(r))
 				Item.NewItem(npc.getRect(), itemID, stack);
+		}
+
+		private void SpawnSpiritBiome()
+		{
+			int firstX = WorldGen.genRand.Next(100, (Main.maxTilesX / 2) - 500);
+			if (Main.dungeonX > Main.maxTilesX / 2) //rightside dungeon
+				firstX = WorldGen.genRand.Next((Main.maxTilesX / 2) + 300, Main.maxTilesX - 500);
+
+			int xAxis = firstX;
+			int xAxisMid = xAxis + 70;
+			int xAxisEdge = xAxis + 380;
+			int yAxis = 0;
+
+			int distanceFromCenter = 0;
+
+			int[] Grasses = { TileID.Grass, TileID.CorruptGrass, TileID.HallowedGrass, TileID.FleshGrass };
+			int[] IceTypes = { TileID.IceBlock, TileID.CorruptIce, TileID.HallowedIce, TileID.FleshIce };
+			int[] StoneTypes = { TileID.Stone, TileID.Ebonstone, TileID.Pearlstone, TileID.Crimstone, TileID.GreenMoss, TileID.BrownMoss, TileID.RedMoss, TileID.BlueMoss, TileID.PurpleMoss };
+			int[] SandArray = { TileID.Sand, TileID.Ebonsand, TileID.Pearlsand, TileID.Crimsand };
+			int[] DecorTypes = { TileID.Plants, TileID.CorruptPlants, TileID.CorruptThorns, TileID.Vines, TileID.JungleVines, TileID.HallowedPlants, TileID.HallowedPlants2, TileID.HallowedVines, TileID.Stalactite, TileID.SmallPiles, TileID.LargePiles, TileID.LargePiles2, TileID.FleshWeeds, TileID.CrimsonVines };
+
+			for (int y = 0; y < Main.maxTilesY; y++)
+			{
+				yAxis++;
+				xAxis = firstX;
+				for (int i = 0; i < 450; i++)
+				{
+					xAxis++;
+					if (Framing.GetTileSafely(xAxis, yAxis).active())
+					{
+						int nullRandom = Main.tile[xAxis, yAxis + 1] == null ? 50 : 1;
+						int type = TileType<SpiritDirt>();
+
+						if (Grasses.Contains(Main.tile[xAxis, yAxis].type))
+							type = TileType<SpiritGrass>();
+						else if (IceTypes.Contains(Main.tile[xAxis, yAxis].type))
+							type = TileType<SpiritIce>();
+						else if (StoneTypes.Contains(Main.tile[xAxis, yAxis].type))
+							type = TileType<SpiritStone>();
+						else if (SandArray.Contains(Main.tile[xAxis, yAxis].type))
+							type = TileType<Spiritsand>();
+
+						if (xAxis < xAxisMid - 1)
+							distanceFromCenter = xAxisMid - xAxis;
+						else if (xAxis > xAxisEdge + 1)
+							distanceFromCenter = xAxis - xAxisEdge;
+
+						if (Main.rand.NextBool(nullRandom) && Main.rand.Next(distanceFromCenter) < 10)
+							Main.tile[xAxis, yAxis].type = (ushort)type; //Converts tiles
+
+						if (WallID.Sets.Conversion.Grass[Main.tile[xAxis, yAxis].wall] && Main.tile[xAxis, yAxis + 1] == null && Main.rand.NextBool(50) && Main.rand.Next(distanceFromCenter) < 18)
+							Main.tile[xAxis, yAxis].wall = (ushort)WallType<SpiritWall>(); //Converts walls
+
+						if (DecorTypes.Contains(Main.tile[xAxis, yAxis].type) && Main.rand.NextBool(nullRandom) && Main.rand.Next(distanceFromCenter) < 18)
+							Main.tile[xAxis, yAxis].active(false); //Removes decor
+
+						if (Main.tile[xAxis, yAxis].type == TileType<SpiritStone>() && yAxis > (int)((Main.rockLayer + Main.maxTilesY - 500) / 2f) && Main.rand.NextBool(300))
+							WorldGen.TileRunner(xAxis, yAxis, WorldGen.genRand.Next(5, 7), 1, TileType<Items.Sets.SpiritSet.SpiritOreTile>(), false, 0f, 0f, true, true); //Adds ore
+					}
+				}
+			}
+
+			MyWorld.spiritBiome = true;
+
+			if (Main.netMode == NetmodeID.SinglePlayer)
+				Main.NewText("The Spirits spread through the Land...", Color.Orange);
+			else if (Main.netMode == NetmodeID.Server)
+			{
+				NetMessage.SendData(MessageID.WorldData);
+				NetMessage.BroadcastChatMessage(NetworkText.FromLiteral("The Spirits spread through the Land..."), Color.Orange, -1);
+			}
 		}
 
 		public override void DrawEffects(NPC npc, ref Color drawColor)

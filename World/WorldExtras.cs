@@ -250,40 +250,12 @@ namespace SpiritMod.World
 			return 0;
 		}
 
-		public static bool ValidTile(float x, float y)
-		{
-			return x >= 0f && x < Main.maxTilesX * 16f + 16f && y >= 0f && y < Main.maxTilesY * 16f + 16f;
-		}
-
-		public static bool ValidTile(int x, int y)
-		{
-			return x >= 0 && x <= Main.maxTilesX && y >= 0 && y <= Main.maxTilesY;
-		}
-
-		public static bool ValidTileX(int x)
-		{
-			return x >= 0 && x <= Main.maxTilesX;
-		}
-
-		public static bool ValidTileY(int y)
-		{
-			return y >= 0 && y <= Main.maxTilesY;
-		}
-
-		public static bool InvalidTile(int x, int y)
-		{
-			return x < 0 || x > Main.maxTilesX || y < 0 || y > Main.maxTilesY;
-		}
-
-		public static bool InvalidTileX(int x)
-		{
-			return x < 0 || x > Main.maxTilesX;
-		}
-
-		public static bool InvalidTileY(int y)
-		{
-			return y < 0 || y > Main.maxTilesY;
-		}
-
+		public static bool ValidTile(float x, float y) => x >= 0f && x < Main.maxTilesX * 16f + 16f && y >= 0f && y < Main.maxTilesY * 16f + 16f;
+		public static bool ValidTile(int x, int y) => x >= 0 && x <= Main.maxTilesX && y >= 0 && y <= Main.maxTilesY;
+		public static bool ValidTileX(int x) => x >= 0 && x <= Main.maxTilesX;
+		public static bool ValidTileY(int y) => y >= 0 && y <= Main.maxTilesY;
+		public static bool InvalidTile(int x, int y) => x < 0 || x > Main.maxTilesX || y < 0 || y > Main.maxTilesY;
+		public static bool InvalidTileX(int x) => x < 0 || x > Main.maxTilesX;
+		public static bool InvalidTileY(int y) => y < 0 || y > Main.maxTilesY;
 	}
 }

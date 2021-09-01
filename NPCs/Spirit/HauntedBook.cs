@@ -1,7 +1,5 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Sets.SpiritBiomeDrops;
-using SpiritMod.Projectiles.Hostile;
 using SpiritMod.Tiles.Block;
 using System.Linq;
 using Terraria;
@@ -82,10 +80,9 @@ namespace SpiritMod.NPCs.Spirit
 				}
 			}
 			npc.spriteDirection = npc.direction;
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.675f, 2.50f);
+			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0f, 0.675f, 2.50f);
 			timer++;
 			npc.TargetClosest(true);
-			Player player = Main.player[npc.target];
 			if (timer == 25) {
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
@@ -109,6 +106,5 @@ namespace SpiritMod.NPCs.Spirit
 			if (Main.rand.Next(20) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PossessedBook>());
 		}
-
 	}
 }

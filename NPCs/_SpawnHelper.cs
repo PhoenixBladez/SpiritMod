@@ -97,11 +97,11 @@ namespace SpiritMod.NPCs
 		public static float LayerCavernStart
 			=> LayerDirtEnd;
 		public static float LayerCavernEnd
-			=> (float)(Main.bottomWorld - 4800f - (Main.maxTilesX > 7400 ? -24f : Main.maxTilesX > 5300 ? 40f : 8f));
+			=> (Main.bottomWorld - 4800f - (Main.maxTilesX > 7400 ? -24f : Main.maxTilesX > 5300 ? 40f : 8f));
 		public static float LayerPreUnderworldStart
 			=> LayerCavernEnd;
 		public static float LayerPreUnderworldEnd
-			=> (float)(Main.bottomWorld - 3152f - (Main.maxTilesX > 7400 ? -24f : Main.maxTilesX > 5300 ? 40f : 8f));
+			=> (Main.bottomWorld - 3152f - (Main.maxTilesX > 7400 ? -24f : Main.maxTilesX > 5300 ? 40f : 8f));
 		public static float LayerUnderworldStart
 			=> LayerPreUnderworldEnd;
 		public static float LayerLavaStart //I have no idea if this is correct
@@ -154,7 +154,5 @@ namespace SpiritMod.NPCs
 
 		//Best ore
 		//Lang.mapLegend.FromType(Main.player[Main.myPlayer].bestOre)
-
-
 	}
 }

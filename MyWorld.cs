@@ -1,66 +1,48 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Accessory;
-using SpiritMod.Items.Ammo;
 using SpiritMod.Items.Ammo.Arrow;
-using SpiritMod.Items.Ammo.Bullet;
 using SpiritMod.Items.Consumable;
-using SpiritMod.Items.Consumable.Food;
 using SpiritMod.Items.Equipment;
 using SpiritMod.Items.Glyphs;
 using SpiritMod.Items.Material;
-using SpiritMod.Items.Pets;
 using SpiritMod.Items.Placeable;
 using SpiritMod.Items.Placeable.Tiles;
 using SpiritMod.Items.Sets.StarplateDrops;
 using SpiritMod.Items.Sets.BriarChestLoot;
-using SpiritMod.Items.Sets.BriarDrops;
-using SpiritMod.Items.Sets.HuskstalkSet;
 using SpiritMod.Items.Sets.ToolsMisc.Evergreen;
-using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Items.Books;
 using SpiritMod.Items.Books.MaterialPages;
 using SpiritMod.Items.Weapon.Thrown;
-using SpiritMod.NPCs;
 using SpiritMod.NPCs.Town;
 using SpiritMod.Tiles.Ambient;
-using SpiritMod.Tiles.Ambient.IceSculpture;
-using SpiritMod.Tiles.Ambient.IceSculpture.Hostile;
-using SpiritMod.Tiles.Ambient.SurfaceIce;
 using SpiritMod.Tiles.Ambient.SpaceCrystals;
 using SpiritMod.Tiles.Block;
 using SpiritMod.Tiles.Furniture;
 using SpiritMod.Tiles.Furniture.SpaceJunk;
-using SpiritMod.Tiles.Piles;
-using SpiritMod.Tiles.Walls.Natural;
 using SpiritMod.World;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;
-using Terraria.GameContent.Biomes;
 using Terraria.GameContent.Generation;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.World.Generation;
-using Terraria.Utilities;
-using Terraria.Localization;
-using static Terraria.ModLoader.ModContent;
 using SpiritMod.World.Sepulchre;
-using System.Diagnostics.Contracts;
-using static SpiritMod.Utilities.ChestPoolUtils;
 using SpiritMod.Tiles;
 using Terraria.DataStructures;
 using SpiritMod.Utilities;
-using SpiritMod.Mechanics.PortraitSystem;
 using SpiritMod.Items.Sets.SepulchreLoot.ToxicBottle;
 using SpiritMod.Items.Sets.SepulchreLoot.AccursedBlade;
 using SpiritMod.Items.Sets.SepulchreLoot.OldCross;
 using SpiritMod.Mechanics.BackgroundSystem;
 using SpiritMod.Items.Sets.SummonsMisc.Toucane;
+using static Terraria.ModLoader.ModContent;
+using static SpiritMod.Utilities.ChestPoolUtils;
 
 namespace SpiritMod
 {
@@ -143,27 +125,23 @@ namespace SpiritMod
 		//bool night = false;
 		public bool txt = false;
 
-		private int WillGenn = 0;
-		private int Meme;
-
 		public override void TileCountsAvailable(int[] tileCounts)
 		{
-			SpiritTiles = tileCounts[ModContent.TileType<SpiritDirt>()] + tileCounts[ModContent.TileType<SpiritStone>()]
-			+ tileCounts[ModContent.TileType<Spiritsand>()] + tileCounts[ModContent.TileType<SpiritIce>()] + tileCounts[ModContent.TileType<SpiritGrass>()];
+			SpiritTiles = tileCounts[TileType<SpiritDirt>()] + tileCounts[TileType<SpiritStone>()]
+			+ tileCounts[TileType<Spiritsand>()] + tileCounts[TileType<SpiritIce>()] + tileCounts[TileType<SpiritGrass>()];
 			//now you don't gotta have 6 separate things for tilecount
-			ReachTiles = tileCounts[ModContent.TileType<BriarGrass>()];
-			AsteroidTiles = tileCounts[ModContent.TileType<Asteroid>()] + tileCounts[ModContent.TileType<BigAsteroid>()] + tileCounts[ModContent.TileType<SpaceJunkTile>()] + tileCounts[ModContent.TileType<Glowstone>()];
-			CorruptHazards = tileCounts[ModContent.TileType<Corpsebloom>()] + tileCounts[ModContent.TileType<Corpsebloom1>()] + tileCounts[ModContent.TileType<Corpsebloom2>()];
+			ReachTiles = tileCounts[TileType<BriarGrass>()];
+			AsteroidTiles = tileCounts[TileType<Asteroid>()] + tileCounts[TileType<BigAsteroid>()] + tileCounts[TileType<SpaceJunkTile>()] + tileCounts[TileType<Glowstone>()];
+			CorruptHazards = tileCounts[TileType<Corpsebloom>()] + tileCounts[TileType<Corpsebloom1>()] + tileCounts[TileType<Corpsebloom2>()];
 			CrimHazards = tileCounts[TileType<CrimsonPustuleTile>()];
 			MarbleTiles = tileCounts[TileID.Marble];
 			GraniteTiles = tileCounts[TileID.Granite];
 			HiveTiles = tileCounts[TileID.Hive];
 		}
 
-
 		public override TagCompound Save()
 		{
-			TagCompound data = new TagCompound();
+			var data = new TagCompound();
 			var downed = new List<string>();
 			if (downedScarabeus)
 				downed.Add("scarabeus");
@@ -205,7 +183,8 @@ namespace SpiritMod
 			data.Add("downed", downed);
 
 			TagCompound droppedGlyphTag = new TagCompound();
-			foreach (KeyValuePair<string, bool> entry in droppedGlyphs) {
+			foreach (KeyValuePair<string, bool> entry in droppedGlyphs)
+			{
 				droppedGlyphTag.Add(entry.Key, entry.Value);
 			}
 			data.Add("droppedGlyphs", droppedGlyphTag);
@@ -214,7 +193,7 @@ namespace SpiritMod
 			data.Add("jellySky", jellySky);
 
 			data.Add("gennedBandits", gennedBandits);
-			data.Add("gennedTower", gennedTower);;
+			data.Add("gennedTower", gennedTower); ;
 
 			data.Add("pagodaX", pagodaX);
 			data.Add("pagodaY", pagodaY);
@@ -256,7 +235,8 @@ namespace SpiritMod
 			//LoadSpecialNPCs(tag);
 			TagCompound droppedGlyphTag = tag.GetCompound("droppedGlyphs");
 			droppedGlyphs.Clear();
-			foreach (KeyValuePair<string, object> entry in droppedGlyphTag) {
+			foreach (KeyValuePair<string, object> entry in droppedGlyphTag)
+			{
 				droppedGlyphs.Add(entry.Key, entry.Value is byte ? (byte)entry.Value != 0 : entry.Value as bool? ?? false);
 			}
 
@@ -283,7 +263,8 @@ namespace SpiritMod
 		public override void LoadLegacy(BinaryReader reader)
 		{
 			int loadVersion = reader.ReadInt32();
-			if (loadVersion == 0) {
+			if (loadVersion == 0)
+			{
 				BitsByte flags = reader.ReadByte();
 				BitsByte flags1 = reader.ReadByte();
 				BitsByte flags2 = reader.ReadByte();
@@ -312,7 +293,8 @@ namespace SpiritMod
 				gennedTower = flags2[1];
 
 			}
-			else {
+			else
+			{
 				mod.Logger.Error("Unknown loadVersion: " + loadVersion);
 			}
 		}
@@ -380,7 +362,7 @@ namespace SpiritMod
 			if (!Main.dedServ)
 				AdditiveCallManager.Load();
 
-			if(SpiritMod.TrailManager != null)
+			if (SpiritMod.TrailManager != null)
 				SpiritMod.TrailManager.ClearAllTrails(); //trails break on world unload and reload(their projectile is still counted as being active???), so this just clears them all on reload
 
 			if (NPC.downedBoss2 == true)
@@ -398,9 +380,9 @@ namespace SpiritMod
 			else
 				spiritBiome = false;
 
-			if (Main.hardMode) 
+			if (Main.hardMode)
 				rockCandy = true;
-			else 
+			else
 				rockCandy = false;
 
 			if (NPC.downedBoss3)
@@ -452,11 +434,13 @@ namespace SpiritMod
 			if (!WorldGen.SolidTile(startX + width, startY)) return false;
 
 			float totalVariance = 0;
-			for (int i = 0; i < width; i++) {
+			for (int i = 0; i < width; i++)
+			{
 				if (startX + i >= Main.maxTilesX) return false;
 
 				// Fail if there is a tile very closely above the check area
-				for (int k = startY - 1; k > startY - 100; k--) {
+				for (int k = startY - 1; k > startY - 100; k--)
+				{
 					if (WorldGen.SolidTile(startX + i, k)) return false;
 				}
 
@@ -466,7 +450,8 @@ namespace SpiritMod
 				bool goingUp = WorldGen.SolidTile(startX + i, startY);
 				offset += goingUp ? goingUpWeight : goingDownWeight;
 				while ((goingUp && WorldGen.SolidTile(startX + i, startY - offset))
-					|| (!goingUp && !WorldGen.SolidTile(startX + i, startY + offset))) {
+					|| (!goingUp && !WorldGen.SolidTile(startX + i, startY + offset)))
+				{
 					offset++;
 				}
 				if (goingUp) offset--; // account for going up counting the first tile
@@ -478,13 +463,17 @@ namespace SpiritMod
 		#region MageTower
 		private void PlaceTower(int i, int j, int[,] ShrineArray, int[,] HammerArray, int[,] WallsArray, int[,] LootArray)
 		{
-			for (int y = 0; y < WallsArray.GetLength(0); y++) { // This Loop Places Furnitures.(So that they have blocks to spawn on).
-				for (int x = 0; x < WallsArray.GetLength(1); x++) {
+			for (int y = 0; y < WallsArray.GetLength(0); y++)
+			{ // This Loop Places Furnitures.(So that they have blocks to spawn on).
+				for (int x = 0; x < WallsArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
 						Tile tile = Framing.GetTileSafely(k, l);
-						switch (WallsArray[y, x]) {
+						switch (WallsArray[y, x])
+						{
 							case 1:
 								Framing.GetTileSafely(k, l).ClearTile();
 								WorldGen.PlaceWall(k, l, WallID.GrassUnsafe, mute: true); // Stone Slab
@@ -510,13 +499,17 @@ namespace SpiritMod
 					}
 				}
 			}
-			for (int y = 0; y < ShrineArray.GetLength(0); y++) { // This loops clears the area (makes the proper hemicircle) and placed dirt in the bottom if there are no blocks (so that the chest and fireplace can be placed).
-				for (int x = 0; x < ShrineArray.GetLength(1); x++) {
+			for (int y = 0; y < ShrineArray.GetLength(0); y++)
+			{ // This loops clears the area (makes the proper hemicircle) and placed dirt in the bottom if there are no blocks (so that the chest and fireplace can be placed).
+				for (int x = 0; x < ShrineArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
 						Tile tile = Framing.GetTileSafely(k, l);
-						switch (ShrineArray[y, x]) {
+						switch (ShrineArray[y, x])
+						{
 							case 0:
 								break; // no changes
 							case 1:
@@ -547,13 +540,17 @@ namespace SpiritMod
 			}
 
 			int shingleColor = WorldGen.genRand.NextBool() ? TileID.RedDynastyShingles : TileID.BlueDynastyShingles;
-			for (int y = 0; y < ShrineArray.GetLength(0); y++) { // This Loop Placzs Furnitures.(So that they have blocks to spawn on).
-				for (int x = 0; x < ShrineArray.GetLength(1); x++) {
+			for (int y = 0; y < ShrineArray.GetLength(0); y++)
+			{ // This Loop Placzs Furnitures.(So that they have blocks to spawn on).
+				for (int x = 0; x < ShrineArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
 						Tile tile = Framing.GetTileSafely(k, l);
-						switch (ShrineArray[y, x]) {
+						switch (ShrineArray[y, x])
+						{
 							case 1:
 								WorldGen.PlaceTile(k, l, TileID.StoneSlab, mute: true); // Stone Slab
 								tile.active(true);
@@ -574,13 +571,17 @@ namespace SpiritMod
 					}
 				}
 			}
-			for (int y = 0; y < LootArray.GetLength(0); y++) { // This Loop Placzs Furnitures.(So that they have blocks to spawn on).
-				for (int x = 0; x < LootArray.GetLength(1); x++) {
+			for (int y = 0; y < LootArray.GetLength(0); y++)
+			{ // This Loop Placzs Furnitures.(So that they have blocks to spawn on).
+				for (int x = 0; x < LootArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
 						Tile tile = Framing.GetTileSafely(k, l);
-						switch (LootArray[y, x]) {
+						switch (LootArray[y, x])
+						{
 							case 1:
 								WorldGen.PlaceTile(k, l, TileID.Pots, mute: true);  // Pot
 								tile.active(true);
@@ -610,13 +611,17 @@ namespace SpiritMod
 					}
 				}
 			}
-			for (int y = 0; y < HammerArray.GetLength(0); y++) {
-				for (int x = 0; x < HammerArray.GetLength(1); x++) {
+			for (int y = 0; y < HammerArray.GetLength(0); y++)
+			{
+				for (int x = 0; x < HammerArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
 						WorldGen.SlopeTile(k, l, HammerArray[y, x]);
-						if (TileID.Sets.Platforms[Main.tile[k, l].type]) {
+						if (TileID.Sets.Platforms[Main.tile[k, l].type])
+						{
 							WorldGen.SquareTileFrame(k, l);
 						}
 					}
@@ -828,7 +833,8 @@ namespace SpiritMod
 			};
 			bool placed = false;
 			int attempts = 0;
-			while (!placed && attempts++ < 100000) {
+			while (!placed && attempts++ < 100000)
+			{
 				// Select a place in the first 6th of the world, avoiding the oceans
 				int towerX = WorldGen.genRand.Next(300, Main.maxTilesX / 6); // from 50 since there's a unaccessible area at the world's borders
 																			 // 50% of choosing the last 6th of the world
@@ -839,12 +845,14 @@ namespace SpiritMod
 				int towerY = (int)Main.worldSurface - 200;
 
 				// We go down until we hit a solid tile or go under the world's surface
-				while (!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface) {
+				while (!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface)
+				{
 					towerY++;
 				}
 
 				// If we went under the world's surface, try again
-				if (towerY > Main.worldSurface) {
+				if (towerY > Main.worldSurface)
+				{
 					continue;
 				}
 				Tile tile = Main.tile[towerX, towerY];
@@ -858,7 +866,8 @@ namespace SpiritMod
 					|| tile.type == TileID.JungleGrass
 					|| tile.type == TileID.Sand
 					|| tile.type == TileID.Crimsand
-					|| tile.type == TileID.Ebonsand)) {
+					|| tile.type == TileID.Ebonsand))
+				{
 					continue;
 				}
 
@@ -869,8 +878,10 @@ namespace SpiritMod
 				// place the tower
 				PlaceTower(towerX, towerY - 37, TowerShape, TowerHammered, TowerWallsShape, TowerLoot);
 				// extend the base a bit
-				for (int i = towerX - 2; i < towerX + TowerShape.GetLength(1) - 4; i++) {
-					for (int k = towerY + 3; k < towerY + 12; k++) {
+				for (int i = towerX - 2; i < towerX + TowerShape.GetLength(1) - 4; i++)
+				{
+					for (int k = towerY + 3; k < towerY + 12; k++)
+					{
 						WorldGen.PlaceTile(i, k, TileID.StoneSlab, mute: true, forced: true);
 						WorldGen.SlopeTile(i, k);
 					}
@@ -891,13 +902,17 @@ namespace SpiritMod
 		#region BanditHideout
 		private void PlaceBanditHideout(int i, int j, int[,] BlocksArray, int[,] WallsArray, int[,] LootArray)
 		{
-			for (int y = 0; y < WallsArray.GetLength(0); y++) {
-				for (int x = 0; x < WallsArray.GetLength(1); x++) {
+			for (int y = 0; y < WallsArray.GetLength(0); y++)
+			{
+				for (int x = 0; x < WallsArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
 						Tile tile = Framing.GetTileSafely(k, l);
-						switch (WallsArray[y, x]) {
+						switch (WallsArray[y, x])
+						{
 							case 0:
 								break;
 							case 1:
@@ -920,13 +935,17 @@ namespace SpiritMod
 					}
 				}
 			}
-			for (int y = 0; y < LootArray.GetLength(0); y++) {
-				for (int x = 0; x < LootArray.GetLength(1); x++) {
+			for (int y = 0; y < LootArray.GetLength(0); y++)
+			{
+				for (int x = 0; x < LootArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
 						Tile tile = Framing.GetTileSafely(k, l);
-						switch (LootArray[y, x]) {
+						switch (LootArray[y, x])
+						{
 							case 4:
 								WorldGen.KillWall(k, l);
 								Framing.GetTileSafely(k, l).ClearTile();
@@ -983,13 +1002,17 @@ namespace SpiritMod
 					}
 				}
 			}
-			for (int y = 0; y < BlocksArray.GetLength(0); y++) {
-				for (int x = 0; x < BlocksArray.GetLength(1); x++) {
+			for (int y = 0; y < BlocksArray.GetLength(0); y++)
+			{
+				for (int x = 0; x < BlocksArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
 						Tile tile = Framing.GetTileSafely(k, l);
-						switch (BlocksArray[y, x]) {
+						switch (BlocksArray[y, x])
+						{
 							case 0:
 								break;
 							case 1:
@@ -1024,13 +1047,17 @@ namespace SpiritMod
 					}
 				}
 			}
-			for (int y = 0; y < WallsArray.GetLength(0); y++) {
-				for (int x = 0; x < WallsArray.GetLength(1); x++) {
+			for (int y = 0; y < WallsArray.GetLength(0); y++)
+			{
+				for (int x = 0; x < WallsArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
 						Tile tile = Framing.GetTileSafely(k, l);
-						switch (WallsArray[y, x]) {
+						switch (WallsArray[y, x])
+						{
 							case 0:
 								break;
 							case 4:
@@ -1040,13 +1067,17 @@ namespace SpiritMod
 					}
 				}
 			}
-			for (int y = 0; y < BlocksArray.GetLength(0); y++) {
-				for (int x = 0; x < BlocksArray.GetLength(1); x++) {
+			for (int y = 0; y < BlocksArray.GetLength(0); y++)
+			{
+				for (int x = 0; x < BlocksArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
 						Tile tile = Framing.GetTileSafely(k, l);
-						switch (BlocksArray[y, x]) {
+						switch (BlocksArray[y, x])
+						{
 							case 0:
 								break;
 							case 1:
@@ -1081,13 +1112,17 @@ namespace SpiritMod
 					}
 				}
 			}
-			for (int y = 0; y < LootArray.GetLength(0); y++) {
-				for (int x = 0; x < LootArray.GetLength(1); x++) {
+			for (int y = 0; y < LootArray.GetLength(0); y++)
+			{
+				for (int x = 0; x < LootArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
 						Tile tile = Framing.GetTileSafely(k, l);
-						switch (LootArray[y, x]) {
+						switch (LootArray[y, x])
+						{
 							case 4:
 								WorldGen.PlaceObject(k, l, 17, true, 0);
 								break;
@@ -1236,21 +1271,25 @@ namespace SpiritMod
 			};
 
 			bool placed = false;
-			while (!placed) {
+			while (!placed)
+			{
 				int towerX = WorldGen.genRand.Next(50, Main.maxTilesX / 4);
 				if (WorldGen.genRand.NextBool()) towerX = Main.maxTilesX - towerX;
 				int towerY = 0;
 				// We go down until we hit a solid tile or go under the world's surface
-				while (!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface) {
+				while (!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface)
+				{
 					towerY++;
 				}
 				// If we went under the world's surface, try again
-				if (towerY > Main.worldSurface) {
+				if (towerY > Main.worldSurface)
+				{
 					continue;
 				}
 				Tile tile = Main.tile[towerX, towerY];
 				// If the type of the tile we are placing the tower on doesn't match what we want, try again
-				if (tile.type != TileID.Dirt && tile.type != TileID.Grass && tile.type != TileID.Stone && tile.type != TileID.SnowBlock) {
+				if (tile.type != TileID.Dirt && tile.type != TileID.Grass && tile.type != TileID.Stone && tile.type != TileID.SnowBlock)
+				{
 					continue;
 				}
 				PlaceBanditHideout(towerX, towerY - 22, BanditTiles, BanditWalls, BanditLoot);
@@ -1275,24 +1314,20 @@ namespace SpiritMod
 		#endregion
 		public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
 		{
-			int GuideIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Sunflowers"));
-			if (GuideIndex == -1) {
-				// Guide pass removed by some other mod.
+			int Sunflowers = tasks.FindIndex(genpass => genpass.Name.Equals("Sunflowers"));
+			if (Sunflowers == -1) // Guide pass removed by some other mod.
 				return;
-			}
 
-			tasks.Insert(GuideIndex, new PassLegacy("SpiritMicros", SpiritGenPasses.MicrosPass));
+			tasks.Insert(Sunflowers, new PassLegacy("SpiritMicros", SpiritGenPasses.MicrosPass));
 
-			int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Final Cleanup"));
-			if (ShiniesIndex == -1) {
-				// Shinies pass removed by some other mod.
+			int FinalCleanup = tasks.FindIndex(genpass => genpass.Name.Equals("Final Cleanup"));
+			if (FinalCleanup == -1) // Shinies pass removed by some other mod.
 				return;
-			}
+
+			tasks.Insert(FinalCleanup + 1, new PassLegacy("Piles", SpiritGenPasses.PilesPass));
 
 			int TrapsIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Traps"));
 			tasks.Insert(TrapsIndex + 2, new PassLegacy("Asteroids", SpiritGenPasses.AsteroidsPass));
-
-			tasks.Insert(ShiniesIndex + 1, new PassLegacy("Piles", SpiritGenPasses.PilesPass));
 		}
 
 		public override void PostWorldGen()
@@ -1300,41 +1335,37 @@ namespace SpiritMod
 			int[] commonItems1 = new int[] { ItemID.CopperBar, ItemID.IronBar, ItemID.TinBar, ItemID.LeadBar };
 			int[] ammo1 = new int[] { ItemID.WoodenArrow, ItemID.Shuriken };
 			int[] potions = new int[] { ItemID.SwiftnessPotion, ItemID.IronskinPotion, ItemID.ShinePotion, ItemID.NightOwlPotion, ItemID.ArcheryPotion, ItemID.HunterPotion };
-			int[] recall = new int[] { ItemID.RecallPotion };
 			int[] potionscorrupt = new int[] { ItemID.WrathPotion };
 			int[] potionscrim = new int[] { ItemID.RagePotion, ItemID.HeartreachPotion };
 			int[] other1 = new int[] { ItemID.HerbBag, ItemID.Grenade };
 			int[] other2 = new int[] { ItemID.Bottle, ItemID.Torch };
 			int[] moddedMaterials = new int[] { ItemType<Items.Sets.BismiteSet.BismiteCrystal>(), ItemType<OldLeather>() };
 
-			//Tile tile;
-			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY) * 15E-05); k++) {
+			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY) * 15E-05); k++)
+			{
 				int x = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
 				int y = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 300);
 				Tile t = Framing.GetTileSafely(x, y);
-				if (t.active()) {
-					if (t.type == TileID.IceBlock || t.type == TileID.CorruptIce || t.type == TileID.HallowedIce || t.type == TileID.FleshIce)
-						WorldGen.OreRunner(x, y, WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)TileType<Items.Sets.CryoliteSet.CryoliteOreTile>());
-				}
+				if (t.active() && t.type == TileID.IceBlock || t.type == TileID.CorruptIce || t.type == TileID.HallowedIce || t.type == TileID.FleshIce)
+					WorldGen.OreRunner(x, y, WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)TileType<Items.Sets.CryoliteSet.CryoliteOreTile>());
 			}
-			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * 5.5f) * 15E-05); k++) {
+			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * 5.5f) * 15E-05); k++)
+			{
 				int x = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
 				int y = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 300);
 				Tile t = Framing.GetTileSafely(x, y);
-				if (t.active()) {
-					if (t.type == TileID.IceBlock || t.type == TileID.CorruptIce || t.type == TileID.HallowedIce || t.type == TileID.FleshIce)
-						WorldGen.OreRunner(x, y, WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)TileType<CreepingIceTile>());
-				}
+				if (t.active() && t.type == TileID.IceBlock || t.type == TileID.CorruptIce || t.type == TileID.HallowedIce || t.type == TileID.FleshIce)
+					WorldGen.OreRunner(x, y, WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)TileType<CreepingIceTile>());
 			}
 
 			AddToVanillaChest(new ChestInfo(ItemType<ChaosPearl>(), Main.rand.Next(20, 30)), skyChests, 4);
-			AddToVanillaChest(new ChestInfo(new int[] { 
-				ItemType<CimmerianScepter>() }, 
-				1, 0.33f) , lockedgoldChests, 1);
-			AddToVanillaChest(new ChestInfo(new int[] { 
-				ItemType<Items.Sets.SummonsMisc.FairyWhistle.FairyWhistleItem>() }, 
-				1, 0.2f) , woodChests, 1);
-			AddToVanillaChest(new ChestInfo(new int[] { ItemType<MetalBand>(), ItemType<ShortFuse>(), ItemType<LongFuse>() }, 1, 0.1f) , goldChests, 1);
+			AddToVanillaChest(new ChestInfo(new int[] {
+				ItemType<CimmerianScepter>() },
+				1, 0.33f), lockedgoldChests, 1);
+			AddToVanillaChest(new ChestInfo(new int[] {
+				ItemType<Items.Sets.SummonsMisc.FairyWhistle.FairyWhistleItem>() },
+				1, 0.2f), woodChests, 1);
+			AddToVanillaChest(new ChestInfo(new int[] { ItemType<MetalBand>(), ItemType<ShortFuse>(), ItemType<LongFuse>() }, 1, 0.1f), goldChests, 1);
 			AddToVanillaChest(new ChestInfo(ItemType<HollowNail>()), spiderChests, 1);
 			AddToVanillaChest(new ChestInfo(new int[] {
 				ItemType<Book_AccessoryGuide>(),
@@ -1355,14 +1386,14 @@ namespace SpiritMod
 				ItemType<GlowrootPage>(),
 				ItemType<Book_Soulbloom>(),
 				ItemType<Book_Blossmoon>(),
-				ItemType<FrigidFragmentPage>(), 
-				ItemType<Book_Amea>(), 
-				ItemType<Book_Slime>(), 
-				ItemType<Book_Lava>(), 
-				ItemType<Book_MJW>(), 
-				ItemType<Book_Yeremy>(), 
-				ItemType<Book_Mushroom>(), 
-				ItemType<Book_Jellyfish>(), 
+				ItemType<FrigidFragmentPage>(),
+				ItemType<Book_Amea>(),
+				ItemType<Book_Slime>(),
+				ItemType<Book_Lava>(),
+				ItemType<Book_MJW>(),
+				ItemType<Book_Yeremy>(),
+				ItemType<Book_Mushroom>(),
+				ItemType<Book_Jellyfish>(),
 				ItemType<Book_Gunslinger>()},
 				1, 0.33f), goldChests, 2);
 			AddToVanillaChest(new ChestInfo(ItemType<Book_LuminousArt>(), 1, 0.33f), waterChests, 2);
@@ -1461,26 +1492,26 @@ namespace SpiritMod
 			Player player = Main.LocalPlayer;
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 
-			if (modPlayer.ZoneSpirit) {
-				if (!aurora) 
+			if (modPlayer.ZoneSpirit)
+			{
+				if (!aurora)
 					aurora = true;
-
 				auroraType = 10;
 			}
 
-			if (Main.bloodMoon) 
+			if (Main.bloodMoon)
 				auroraType = 6;
 
-			if (Main.pumpkinMoon) 
+			if (Main.pumpkinMoon)
 				auroraType = 7;
 
-			if (Main.snowMoon) 
+			if (Main.snowMoon)
 				auroraType = 8;
 
-            if (BlueMoon)  
-                auroraType = 9;
+			if (BlueMoon)
+				auroraType = 9;
 
-            if (!Main.bloodMoon && !Main.pumpkinMoon && !Main.snowMoon && !modPlayer.ZoneSpirit) 
+			if (!Main.bloodMoon && !Main.pumpkinMoon && !Main.snowMoon && !modPlayer.ZoneSpirit)
 				auroraType = auroraTypeFixed;
 
 			if (Main.dayTime != dayTimeLast)
@@ -1496,388 +1527,134 @@ namespace SpiritMod
 			if (jellySky && dayTimeSwitched && !downedJellyDeluge)
 				downedJellyDeluge = true;
 
-			if (dayTimeSwitched) {
-				if (Main.rand.Next(2) == 0 && !spaceJunkWeather) 
+			if (dayTimeSwitched)
+			{
+				if (Main.rand.Next(2) == 0 && !spaceJunkWeather)
 					stardustWeather = true;
-				else 
+				else
 					stardustWeather = false;
 
-				if (Main.rand.Next(2) == 0 && !stardustWeather) 
+				if (Main.rand.Next(2) == 0 && !stardustWeather)
 					spaceJunkWeather = true;
-				else 
+				else
 					spaceJunkWeather = false;
 
-				if (Main.rand.Next(4) == 0) 
+				if (Main.rand.Next(4) == 0)
 					meteorShowerWeather = true;
-				else 
+				else
 					meteorShowerWeather = false;
 
-				if (!Main.dayTime && Main.hardMode) {
-					if (!Main.fastForwardTime && !Main.bloodMoon && WorldGen.spawnHardBoss == 0 && ((Main.rand.Next(20) == 1 && !downedBlueMoon) || (Main.rand.Next(40) == 1 && !downedBlueMoon))) {
+				if (!Main.dayTime && Main.hardMode)
+				{
+					if (!Main.fastForwardTime && !Main.bloodMoon && WorldGen.spawnHardBoss == 0 && ((Main.rand.Next(20) == 1 && !downedBlueMoon) || (Main.rand.Next(40) == 1 && !downedBlueMoon)))
+					{
 						Main.NewText("A Mystic Moon is rising...", 61, 255, 142);
 						BlueMoon = true;
 						downedBlueMoon = true;
 					}
 				}
-				else 
+				else
 					BlueMoon = false;
 
-				if (!Main.dayTime && Main.rand.Next(6) == 0) {
+				if (!Main.dayTime && Main.rand.Next(6) == 0)
+				{
 					auroraTypeFixed = Main.rand.Next(new int[] { 1, 2, 3, 5 });
 					aurora = true;
 				}
-				else 
+				else
 					aurora = false;
 
-				if (!Main.dayTime && Main.rand.Next(32) == 0) 
+				if (!Main.dayTime && Main.rand.Next(32) == 0)
 					rareStarfallEvent = true;
 
 				else
 					rareStarfallEvent = false;
 
-				if (!Main.dayTime && Main.rand.Next(6) == 0) {
+				if (!Main.dayTime && Main.rand.Next(6) == 0)
+				{
 					luminousType = Main.rand.Next(new int[] { 1, 2, 3 });
 					luminousOcean = true;
 				}
-					luminousOcean = false;
+				luminousOcean = false;
 
-                if (!Main.dayTime && (Main.moonPhase == 2 || Main.moonPhase == 6) && !Main.bloodMoon && Main.rand.Next(2) == 0)
-                    calmNight = true;
+				if (!Main.dayTime && (Main.moonPhase == 2 || Main.moonPhase == 6) && !Main.bloodMoon && Main.rand.Next(2) == 0)
+					calmNight = true;
 				else
-                    calmNight = false;
+					calmNight = false;
 
 				if (Main.rand.NextBool(8))
 					ashRain = true;
 				else
 					ashRain = false;
 
-                if (!Main.dayTime && (NPC.downedBoss1 || NPC.downedBoss2 || NPC.downedBoss3 || downedScarabeus || downedReachBoss || downedRaider || downedAncientFlier) && (!downedMoonWizard && Main.rand.Next(4) == 0 || downedMoonWizard && Main.rand.Next(36) == 0))
-                {
-                    Main.NewText("Strange jellyfish are coursing through the skies!", 61, 255, 142);
-                    jellySky = true;
-                }
+				if (!Main.dayTime && (NPC.downedBoss1 || NPC.downedBoss2 || NPC.downedBoss3 || downedScarabeus || downedReachBoss || downedRaider || downedAncientFlier) && (!downedMoonWizard && Main.rand.Next(4) == 0 || downedMoonWizard && Main.rand.Next(36) == 0))
+				{
+					Main.NewText("Strange jellyfish are coursing through the skies!", 61, 255, 142);
+					jellySky = true;
+				}
 				else
 					jellySky = false;
-            }
+			}
 
 			//pagoda enemy spawning
-			if (!spawnedPagodaEnemies && Main.netMode != NetmodeID.MultiplayerClient) {
+			if (!spawnedPagodaEnemies && Main.netMode != NetmodeID.MultiplayerClient)
+			{
 				Rectangle pagodaSpawnArea = new Rectangle(pagodaX - 65, pagodaY - 37, 256, 140);
 				bool shouldSpawn = false;
 				if (Main.netMode == NetmodeID.SinglePlayer && pagodaSpawnArea.Contains(player.Center.ToTileCoordinates())) shouldSpawn = true;
-				else if (Main.netMode == NetmodeID.Server) {
-					for (int i = 0; i < 200; i++) {
-						if (Main.player[i].active) {
-							if (pagodaSpawnArea.Contains(Main.player[i].Center.ToTileCoordinates())) {
-								shouldSpawn = true;
-								break;
-							}
+				else if (Main.netMode == NetmodeID.Server)
+				{
+					for (int i = 0; i < Main.maxPlayers; i++)
+					{
+						if (Main.player[i].active && pagodaSpawnArea.Contains(Main.player[i].Center.ToTileCoordinates()))
+						{
+							shouldSpawn = true;
+							break;
 						}
 					}
 				}
-				if (shouldSpawn) {
+				if (shouldSpawn)
+				{
 					spawnedPagodaEnemies = true;
-					for (int i = 0; i < Main.rand.Next(8, 10); i++) {
-						NPC.NewNPC((pagodaX + Main.rand.Next(0, 126)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, ModContent.NPCType<NPCs.Yurei.PagodaGhostPassive>());
-					}
-					for (int i = 0; i < 3; i++) {
-						NPC.NewNPC((pagodaX + Main.rand.Next(0, 126)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, ModContent.NPCType<NPCs.SamuraiGhost.SamuraiPassive>());
-					}
+					for (int i = 0; i < Main.rand.Next(8, 10); i++)
+						NPC.NewNPC((pagodaX + Main.rand.Next(0, 126)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, NPCType<NPCs.Yurei.PagodaGhostPassive>());
+					for (int i = 0; i < 3; i++)
+						NPC.NewNPC((pagodaX + Main.rand.Next(0, 126)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, NPCType<NPCs.SamuraiGhost.SamuraiPassive>());
 				}
 			}
-			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3) {
-				if (!essenceMessage) {
+			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
+			{
+				if (!essenceMessage)
+				{
 					Main.NewText("The Essences are bursting!", 61, 255, 142);
-
 					essenceMessage = true;
 				}
 			}
 
-			if (Main.hardMode && !rockCandy) {
+			if (Main.hardMode && !rockCandy)
+			{
 				rockCandy = true;
-				for (int C = 0; C < Main.maxTilesX * 9; C++) {
+				for (int C = 0; C < Main.maxTilesX * 9; C++)
+				{
+					int X = WorldGen.genRand.Next(300, Main.maxTilesX - 300);
+					int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
+					if (Main.tile[X, Y].type == TileID.Stone)
 					{
-						int X = WorldGen.genRand.Next(300, Main.maxTilesX - 300);
-						int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-						if (Main.tile[X, Y].type == TileID.Stone) {
-							WorldGen.PlaceObject(X, Y, ModContent.TileType<GreenShardBig>());
-							NetMessage.SendObjectPlacment(-1, X, Y, ModContent.TileType<GreenShardBig>(), 0, 0, -1, -1);
-						}
+						WorldGen.PlaceObject(X, Y, TileType<GreenShardBig>());
+						NetMessage.SendObjectPlacment(-1, X, Y, TileType<GreenShardBig>(), 0, 0, -1, -1);
 					}
 				}
-				for (int C = 0; C < Main.maxTilesX * 9; C++) {
+				for (int C = 0; C < Main.maxTilesX * 9; C++)
+				{
+					int X = WorldGen.genRand.Next(300, Main.maxTilesX - 300);
+					int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
+					if (Main.tile[X, Y].type == TileID.Stone)
 					{
-						int X = WorldGen.genRand.Next(300, Main.maxTilesX - 300);
-						int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-						if (Main.tile[X, Y].type == TileID.Stone) {
-							WorldGen.PlaceObject(X, Y, ModContent.TileType<PurpleShardBig>());
-							NetMessage.SendObjectPlacment(-1, X, Y, ModContent.TileType<PurpleShardBig>(), 0, 0, -1, -1);
-						}
-					}
-				}
-			}
-			if (NPC.downedMechBoss3 || NPC.downedMechBoss2 || NPC.downedMechBoss1) {
-				if (!spiritBiome) {
-					spiritBiome = true;
-					if (Main.netMode == NetmodeID.Server) {
-						NetMessage.SendData(MessageID.WorldData);
-					}
-					if (Main.netMode == NetmodeID.SinglePlayer) {
-						Main.NewText("The Spirits spread through the Land...", Color.Orange.R, Color.Orange.G, Color.Orange.B);
-					}
-					else if (Main.netMode == NetmodeID.Server) {
-						NetMessage.BroadcastChatMessage(NetworkText.FromLiteral("The Spirits spread through the Land..."), Color.Orange, -1);
-					}
-					Random rand = new Random();
-					int XTILE;
-					if (Terraria.Main.dungeonX > Main.maxTilesX / 2) //rightside dungeon
-					XTILE = WorldGen.genRand.Next((Main.maxTilesX / 2) + 300, Main.maxTilesX - 500);
-					else //leftside dungeon
-					XTILE = WorldGen.genRand.Next(75, (Main.maxTilesX / 2) - 600);
-					int xAxis = XTILE;
-					int xAxisMid = xAxis + 70;
-					int xAxisEdge = xAxis + 380;
-					int yAxis = 0;
-					for (int y = 0; y < Main.maxTilesY; y++) {
-						yAxis++;
-						xAxis = XTILE;
-						for (int i = 0; i < 450; i++) {
-							xAxis++;
-							if (Main.tile[xAxis, yAxis] != null) {
-								if (Main.tile[xAxis, yAxis].active()) {
-									int[] TileArray = { 0 };
-									if (TileArray.Contains(Main.tile[xAxis, yAxis].type)) {
-										if (Main.tile[xAxis, yAxis + 1] == null) {
-											if (Main.rand.Next(0, 50) == 1) {
-												WillGenn = 0;
-												if (xAxis < xAxisMid - 1) {
-													Meme = xAxisMid - xAxis;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (xAxis > xAxisEdge + 1) {
-													Meme = xAxis - xAxisEdge;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (WillGenn < 10) {
-													Main.tile[xAxis, yAxis].type = (ushort)ModContent.TileType<SpiritDirt>();
-												}
-											}
-										}
-										else {
-											WillGenn = 0;
-											if (xAxis < xAxisMid - 1) {
-												Meme = xAxisMid - xAxis;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (xAxis > xAxisEdge + 1) {
-												Meme = xAxis - xAxisEdge;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (WillGenn < 10) {
-												Main.tile[xAxis, yAxis].type = (ushort)ModContent.TileType<SpiritDirt>();
-											}
-										}
-									}
-									int[] TileArray84 = { 2, 23, 109, 199 };
-									if (TileArray84.Contains(Main.tile[xAxis, yAxis].type)) {
-										if (Main.tile[xAxis, yAxis + 1] == null) {
-											if (rand.Next(0, 50) == 1) {
-												WillGenn = 0;
-												if (xAxis < xAxisMid - 1) {
-													Meme = xAxisMid - xAxis;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (xAxis > xAxisEdge + 1) {
-													Meme = xAxis - xAxisEdge;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (WillGenn < 18) {
-													Main.tile[xAxis, yAxis].type = (ushort)ModContent.TileType<SpiritGrass>();
-												}
-											}
-										}
-										else {
-											WillGenn = 0;
-											if (xAxis < xAxisMid - 1) {
-												Meme = xAxisMid - xAxis;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (xAxis > xAxisEdge + 1) {
-												Meme = xAxis - xAxisEdge;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (WillGenn < 18) {
-												Main.tile[xAxis, yAxis].type = (ushort)ModContent.TileType<SpiritGrass>();
-											}
-										}
-									}
-									int[] TileArray1 = { 161, 163, 164, 200 };
-									if (TileArray1.Contains(Main.tile[xAxis, yAxis].type)) {
-										if (Main.tile[xAxis, yAxis + 1] == null) {
-											if (rand.Next(0, 50) == 1) {
-												WillGenn = 0;
-												if (xAxis < xAxisMid - 1) {
-													Meme = xAxisMid - xAxis;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (xAxis > xAxisEdge + 1) {
-													Meme = xAxis - xAxisEdge;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (WillGenn < 18) {
-													Main.tile[xAxis, yAxis].type = (ushort)ModContent.TileType<SpiritIce>();
-												}
-											}
-										}
-										else {
-											WillGenn = 0;
-											if (xAxis < xAxisMid - 1) {
-												Meme = xAxisMid - xAxis;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (xAxis > xAxisEdge + 1) {
-												Meme = xAxis - xAxisEdge;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (WillGenn < 18) {
-												Main.tile[xAxis, yAxis].type = (ushort)ModContent.TileType<SpiritIce>();
-											}
-										}
-									}
-									int[] TileArray2 = { 1, 25, 117, 203, 179, 180, 181, 182, 183 };
-									if (TileArray2.Contains(Main.tile[xAxis, yAxis].type)) {
-										if (Main.tile[xAxis, yAxis + 1] == null) {
-											if (rand.Next(0, 50) == 1) {
-												WillGenn = 0;
-												if (xAxis < xAxisMid - 1) {
-													Meme = xAxisMid - xAxis;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (xAxis > xAxisEdge + 1) {
-													Meme = xAxis - xAxisEdge;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (WillGenn < 18) {
-													Main.tile[xAxis, yAxis].type = (ushort)ModContent.TileType<SpiritStone>();
-												}
-											}
-										}
-										else {
-											WillGenn = 0;
-											if (xAxis < xAxisMid - 1) {
-												Meme = xAxisMid - xAxis;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (xAxis > xAxisEdge + 1) {
-												Meme = xAxis - xAxisEdge;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (WillGenn < 18) {
-												Main.tile[xAxis, yAxis].type = (ushort)ModContent.TileType<SpiritStone>();
-											}
-										}
-									}
-									if (WallID.Sets.Conversion.Grass[Main.tile[xAxis, yAxis].wall]) {
-										if (Main.tile[xAxis, yAxis + 1] == null) {
-											if (rand.Next(0, 50) == 1) {
-												WillGenn = 0;
-												if (xAxis < xAxisMid - 1) {
-													Meme = xAxisMid - xAxis;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (xAxis > xAxisEdge + 1) {
-													Meme = xAxis - xAxisEdge;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (WillGenn < 18) {
-													Main.tile[xAxis, yAxis].wall = (ushort)ModContent.WallType<SpiritWall>();
-												}
-											}
-										}
-									}							
-
-									int[] TileArray89 = { 2, 3, 23, 24, 110, 113, 115, 201, 205, 52, 62, 32, 165, 109, 199, 185, 186, 187 };
-									if (TileArray89.Contains(Main.tile[xAxis, yAxis].type)) {
-										if (Main.tile[xAxis, yAxis + 1] == null) {
-											if (rand.Next(0, 50) == 1) {
-												WillGenn = 0;
-												if (xAxis < xAxisMid - 1) {
-													Meme = xAxisMid - xAxis;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (xAxis > xAxisEdge + 1) {
-													Meme = xAxis - xAxisEdge;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (WillGenn < 18) {
-													Main.tile[xAxis, yAxis].active(false);
-												}
-											}
-										}
-										else {
-											WillGenn = 0;
-											if (xAxis < xAxisMid - 1) {
-												Meme = xAxisMid - xAxis;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (xAxis > xAxisEdge + 1) {
-												Meme = xAxis - xAxisEdge;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (WillGenn < 18) {
-												Main.tile[xAxis, yAxis].active(false);
-											}
-										}
-									}
-
-									int[] TileArray3 = { 53, 116, 112, 234 };
-									if (TileArray3.Contains(Main.tile[xAxis, yAxis].type)) {
-										if (Main.tile[xAxis, yAxis + 1] == null) {
-											if (rand.Next(0, 50) == 1) {
-												WillGenn = 0;
-												if (xAxis < xAxisMid - 1) {
-													Meme = xAxisMid - xAxis;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (xAxis > xAxisEdge + 1) {
-													Meme = xAxis - xAxisEdge;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (WillGenn < 18) {
-													Main.tile[xAxis, yAxis].type = (ushort)ModContent.TileType<Spiritsand>();
-												}
-											}
-										}
-										else {
-											WillGenn = 0;
-											if (xAxis < xAxisMid - 1) {
-												Meme = xAxisMid - xAxis;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (xAxis > xAxisEdge + 1) {
-												Meme = xAxis - xAxisEdge;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (WillGenn < 18) {
-												Main.tile[xAxis, yAxis].type = (ushort)ModContent.TileType<Spiritsand>();
-											}
-										}
-									}
-								}
-								if (Main.tile[xAxis, yAxis].type == mod.TileType("SpiritStone") && yAxis > (int)((Main.rockLayer + Main.maxTilesY - 500) / 2f) && Main.rand.Next(1500) == 5) {
-									WorldGen.TileRunner(xAxis, yAxis, (double)WorldGen.genRand.Next(5, 7), 1, mod.TileType("SpiritOreTile"), false, 0f, 0f, true, true);
-								}
-							}
-						}
+						WorldGen.PlaceObject(X, Y, TileType<PurpleShardBig>());
+						NetMessage.SendObjectPlacment(-1, X, Y, TileType<PurpleShardBig>(), 0, 0, -1, -1);
 					}
 				}
 			}
 		}
-
-		#region Gray's stupid shenanagins with boffins godlike code
-
-
-
-		#endregion
 	}
 }
