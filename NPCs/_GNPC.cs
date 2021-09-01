@@ -1121,8 +1121,10 @@ namespace SpiritMod.NPCs
 					if (Framing.GetTileSafely(xAxis, yAxis).active())
 					{
 						int nullRandom = Main.tile[xAxis, yAxis + 1] == null ? 50 : 1;
-						int type = TileType<SpiritDirt>();
+						int type = -1;
 
+						if (Main.tile[xAxis, yAxis].type == TileID.Dirt)
+							type = TileType<SpiritDirt>();
 						if (Grasses.Contains(Main.tile[xAxis, yAxis].type))
 							type = TileType<SpiritGrass>();
 						else if (IceTypes.Contains(Main.tile[xAxis, yAxis].type))
@@ -1137,10 +1139,10 @@ namespace SpiritMod.NPCs
 						else if (xAxis > xAxisEdge + 1)
 							distanceFromCenter = xAxis - xAxisEdge;
 
-						if (Main.rand.NextBool(nullRandom) && Main.rand.Next(distanceFromCenter) < 10)
+						if (type != -1 && Main.rand.NextBool(nullRandom) && Main.rand.Next(distanceFromCenter) < 10)
 							Main.tile[xAxis, yAxis].type = (ushort)type; //Converts tiles
 
-						if (WallID.Sets.Conversion.Grass[Main.tile[xAxis, yAxis].wall] && Main.tile[xAxis, yAxis + 1] == null && Main.rand.NextBool(50) && Main.rand.Next(distanceFromCenter) < 18)
+						if (WallID.Sets.Conversion.Grass[Main.tile[xAxis, yAxis].wall] && /*Main.tile[xAxis, yAxis + 1] == null &&*/ Main.rand.NextBool(50) && Main.rand.Next(distanceFromCenter) < 18)
 							Main.tile[xAxis, yAxis].wall = (ushort)WallType<SpiritWall>(); //Converts walls
 
 						if (DecorTypes.Contains(Main.tile[xAxis, yAxis].type) && Main.rand.NextBool(nullRandom) && Main.rand.Next(distanceFromCenter) < 18)
