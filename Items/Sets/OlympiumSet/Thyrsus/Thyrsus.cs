@@ -143,7 +143,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.Thyrsus
 			projectile.timeLeft = 750;
 			projectile.ignoreWater = true;
 		}
-		public void InitializeChain(Vector2 position) => _chain = new Chain(ModContent.GetTexture(Texture + "_chain"), 8, chainSegments, position, new ChainPhysics(0.9f, 0.5f, 0f), true, true, 2);
+		public void InitializeChain(Vector2 position) => _chain = new Chain(8, chainSegments, position, new ChainPhysics(0.9f, 0.5f, 0f), true, true, 2);
 
 		public override void AI()
 		{
@@ -166,7 +166,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.Thyrsus
 			if (_chain == null)
 				return false;
 
-			_chain.Draw(spriteBatch, out float endrot, out Vector2 endpos);
+			_chain.Draw(spriteBatch, ModContent.GetTexture(Texture + "_chain"));
 			return false;
 		}
 	}

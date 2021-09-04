@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Dusts;
 using SpiritMod.Items;
 using SpiritMod.Items.Equipment.AuroraSaddle;
+using SpiritMod.Mechanics.EventSystem;
+using SpiritMod.Mechanics.EventSystem.Events;
 using SpiritMod.Particles;
 using System;
 using System.Collections.Generic;
@@ -14,19 +16,19 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.AuroraStag
 {
-	public class AuroraStag : ModNPC, IDrawAdditive
+	public class AuroraStag : ModNPC//, IDrawAdditive
 	{
 		private float WalkSpeed => 2f;
 
 		private float RunSpeed => 8f;
 
-		public static float TameAnimationLength => 300;
+		public static float TameAnimationLength => 200;
 
-		public static float ParticleAnticipationTime => TameAnimationLength * 0.175f;
+		public static float ParticleAnticipationTime => TameAnimationLength * 0.2f;
 
 		public static float ParticleReturnTime => TameAnimationLength * 0.1f;
 
-		private float Brightness => (float)Math.Pow((TameAnimationLength - TameAnimationTimer) / TameAnimationLength, 12);
+		private float Brightness => (float)Math.Pow((TameAnimationLength - TameAnimationTimer) / TameAnimationLength, 30);
 
 		// the time left before the stag starts moving again if it is standing still, or the time left until it stops if it is moving
 		// ignored if the stag is alerted or scared
@@ -98,7 +100,7 @@ namespace SpiritMod.NPCs.AuroraStag
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.player.ZoneSnow && MyWorld.aurora && Main.hardMode)
+			if (spawnInfo.player.ZoneSnow && MyWorld.aurora && Main.hardMode && !NPC.AnyNPCs(npc.type))
 				return 0.0015f;
 
 			return 0f;
@@ -118,25 +120,37 @@ namespace SpiritMod.NPCs.AuroraStag
 
 				TameAnimationTimer--;
 
-				if (!Main.dedServ) {
-					if ((TameAnimationTimer % 12 == 0) && TameAnimationTimer > ParticleReturnTime)
+				if (!Main.dedServ) 
+				{
+					if (!EventManager.IsPlaying<FollowNPCThenReturn>() && !Main.dedServ)
+						EventManager.PlayEvent(new FollowNPCThenReturn(npc, 1.5f, 1 + (int)(TameAnimationLength) / 60, 1.5f));
+
+					void SpawnParticle()
 					{
-						if (TameAnimationTimer % 36 == 0)
-						{
-							Main.PlaySound(new LegacySoundStyle(SoundID.Item, 8).WithPitchVariance(0.2f), npc.Center);
-													}
-							AuroraOrbParticle particle = new AuroraOrbParticle(
-							npc,
-							npc.Center + Main.rand.NextVector2Circular(30, 30),
-							Main.rand.NextVector2Unit() * Main.rand.NextFloat(4f, 5f),
-							AuroraColor,
-							Main.rand.NextFloat(0.05f, 0.1f));
+						AuroraOrbParticle particle = new AuroraOrbParticle(
+						npc,
+						npc.Center + Main.rand.NextVector2Circular(30, 30),
+						Main.rand.NextVector2Unit() * Main.rand.NextFloat(4f, 5f),
+						AuroraColor,
+						Main.rand.NextFloat(0.05f, 0.1f));
 
 						ParticleHandler.SpawnParticle(particle);
 					}
 
-					if(Main.rand.NextBool(30))
-						MakeStar(Main.rand.NextFloat(0.1f, 0.2f));
+					if (TameAnimationTimer == TameAnimationLength - 1) //initial burst
+					{
+						Main.PlaySound(new LegacySoundStyle(SoundID.Item, 8).WithPitchVariance(0.2f), npc.Center);
+
+						for (int i = 0; i <= 8; i++)
+							SpawnParticle();
+					}
+					//continue to spawn particles afterwards
+					float particlespawnendtime = MathHelper.Lerp(TameAnimationLength, ParticleAnticipationTime, 0.66f);
+					if (TameAnimationTimer % 36 == 0 && TameAnimationTimer > particlespawnendtime)
+						Main.PlaySound(new LegacySoundStyle(SoundID.Item, 8).WithPitchVariance(0.2f), npc.Center);
+
+					if (TameAnimationTimer % 12 == 0 && TameAnimationTimer > particlespawnendtime)
+						SpawnParticle();
 				}
 
 				Lighting.AddLight(npc.Center, Brightness, Brightness, Brightness);
@@ -153,9 +167,18 @@ namespace SpiritMod.NPCs.AuroraStag
 						for (int i = 0; i < 25; i++) {
 							MakeStar(Main.rand.NextFloat(0.2f, 0.6f));
 						}
+
+						EventManager.PlayEvent(new ScreenFlash(Color.White, 0.05f, 0.2f, 0.8f));
+						EventManager.PlayEvent(new ScreenShake(30f, 0.33f));
 					}
 					if (Main.netMode != NetmodeID.MultiplayerClient)
-						Item.NewItem(npc.Center, ModContent.ItemType<AuroraSaddle>());
+					{
+						int i = Item.NewItem(npc.Center, ModContent.ItemType<AuroraSaddle>());
+						Main.item[i].noGrabDelay = 120;
+						Main.item[i].velocity = new Vector2(0, -3);
+						if (Main.netMode != NetmodeID.SinglePlayer)
+							NetMessage.SendData(MessageID.SyncItem, -1, -1, null, i);
+					}
 				}
 					
 				return;
@@ -281,7 +304,7 @@ namespace SpiritMod.NPCs.AuroraStag
 
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit) => Scared = true;
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		/*public void AdditiveCall(SpriteBatch spriteBatch)
 		{
 			Texture2D orbTexture = mod.GetTexture("NPCs/AuroraStag/AuroraOrbParticle");
 			Vector2 orbOrigin = new Vector2(orbTexture.Width / 2, orbTexture.Height / 2);
@@ -289,7 +312,7 @@ namespace SpiritMod.NPCs.AuroraStag
 			float scale = ((float)(Math.Sin(TameAnimationTimer / 30) / 4) + 1f) * ((TameAnimationTimer - TameAnimationLength) / TameAnimationLength);
 			if (TameAnimationTimer > 0)
 				spriteBatch.Draw(orbTexture, npc.Center - Main.screenPosition, null, new Color(184, 244, 255) * opacity, 0f, orbOrigin, scale, SpriteEffects.None, 0f);
-		}
+		}*/
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{

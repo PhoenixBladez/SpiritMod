@@ -147,14 +147,12 @@ namespace SpiritMod.Utilities
 			}
 
 			//draw the underline between the name and head icon
-			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.UIScaleMatrix);
 			Vector2 UnderlineDrawPos = NameDrawPos + namesize/2;
 			UnderlineDrawPos.Y += subtitlesize.Y + namesize.Y / 3;
 			Texture2D Underline = SpiritMod.instance.GetTexture("Textures/TitleUnderline");
 			Vector2 underlinescale = new Vector2((namesize.X / Underline.Width) * 0.75f, 0.33f);
 
 			spriteBatch.Draw(Underline, UnderlineDrawPos, null, Color.White * Opacity, 0, Underline.Size() / 2, underlinescale, SpriteEffects.None, 0);
-			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.UIScaleMatrix);
 
 			//draw the head icon
 			Texture2D headIcon = GetHeadIcon();

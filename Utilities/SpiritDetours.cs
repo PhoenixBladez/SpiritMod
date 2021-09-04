@@ -93,6 +93,8 @@ namespace SpiritMod.Utilities
 				BackgroundItemManager.Update();
 
 			SpiritMod.deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+			if(SpiritMod.instance != null)
+				SpiritMod.instance.CheckScreenSize();
 
 			orig(self, gameTime);
 		}

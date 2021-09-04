@@ -5,10 +5,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Particles;
+using SpiritMod.Prim;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 {
-	public class SagittariusConstellation : ModProjectile, IDrawAdditive, IBasicPrimDraw
+	public class SagittariusConstellation : ModProjectile, IDrawAdditive
 	{
 		public override string Texture => "Terraria/Projectile_1";
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Constellation");
@@ -116,11 +117,13 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 			Color color = BloomColor;
 			float bloomopacity = 0.75f;
 			float bloomscale = 0.4f;
+			float starScale = 15f;
 			if (Timer > 15 && Timer < 45)
 			{
 				color = Color.Lerp(color, Color.White, 0.75f * ScaleProgress());
 				bloomopacity = MathHelper.Lerp(bloomopacity, 2f, ScaleProgress());
 				bloomscale = MathHelper.Lerp(bloomscale, 0.25f, ScaleProgress());
+				starScale = MathHelper.Lerp(starScale, 7f, ScaleProgress());
 			}
 
 			if (LastStar >= 0)
@@ -143,15 +146,17 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 				spriteBatch.Draw(Bloom, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(color * bloomopacity) * MathHelper.Lerp(1f, 0.5f, 1 - progress), 0,
 					Bloom.Size() / 2, projectile.scale * bloomscale * MathHelper.Lerp(0.75f, 1.2f, progress), SpriteEffects.None, 0);
 			}
-		}
 
-		public void DrawPrimShape(BasicEffect effect)
-		{
-			float scale = 20f;
-			if (Timer > 15 && Timer < 45)
-				scale = MathHelper.Lerp(scale, 10f, ScaleProgress());
 
-			StarDraw.DrawStarBasic(effect, projectile.Center, projectile.rotation, projectile.scale * scale, Color.White * projectile.Opacity);
+			StarPrimitive star = new StarPrimitive
+			{
+				Color = Color.White * projectile.Opacity,
+				TriangleHeight = starScale * projectile.scale,
+				TriangleWidth = starScale * projectile.scale * 0.3f,
+				Position = projectile.Center - Main.screenPosition,
+				Rotation = projectile.rotation
+			};
+			PrimitiveRenderer.DrawPrimitiveShape(star);
 		}
 	}
 }

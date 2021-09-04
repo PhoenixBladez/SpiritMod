@@ -10,7 +10,12 @@ namespace SpiritMod.NPCs.Occultist
 {
 	public class OccultistHand : ModProjectile, ITrailProjectile
 	{
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Dark Grasp");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Dark Grasp");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+		}
 
 		public int maxTimeLeft = 180;
 		public override void SetDefaults()
@@ -27,13 +32,12 @@ namespace SpiritMod.NPCs.Occultist
 
 		public void DoTrailCreation(TrailManager tM)
 		{
-			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(99, 23, 51, 150) * 0.1f), new RoundCap(), new ArrowGlowPosition(), 200 * projectile.scale, 100);
-			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(99, 23, 51, 150), new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 150 * projectile.scale, 60, new ImageShader(mod.GetTexture("Textures/Trails/Trail_3"), 0.2f, 1f, 1f));
-			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(99, 23, 51, 150), new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 150 * projectile.scale, 60, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.2f, 1f, 1f));
+			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(99, 23, 51) * 0.2f), new RoundCap(), new ArrowGlowPosition(), 200 * projectile.scale, 100);
+			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(99, 23, 51), new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 150 * projectile.scale, 60, new ImageShader(mod.GetTexture("Textures/Trails/Trail_3"), 0.2f, 1f, 1f));
+			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(99, 23, 51), new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 150 * projectile.scale, 60, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.2f, 1f, 1f));
 		}
 
 		public float period = 80;
-		private readonly float twinkleTime = 15;
 		public ref float Amplitude => ref projectile.ai[0];
 		private ref float PeriodOffset => ref projectile.ai[1];
 
@@ -41,38 +45,45 @@ namespace SpiritMod.NPCs.Occultist
 		public bool DoAcceleration = true;
 		public bool TileCollideCheck = true;
 
-		private readonly float acceleration = 1.015f;
+		private readonly float acceleration = 1.01f;
 
 		public override void AI()
 		{
 			projectile.position -= projectile.velocity;
 			projectile.Size = Vector2.One * 20 * projectile.scale;
-			if(AiTimer > twinkleTime)
+
+			Vector2 cosVel = projectile.velocity.RotatedBy(MathHelper.ToRadians(Amplitude) * (float)Math.Cos((AiTimer + PeriodOffset) / period * MathHelper.TwoPi));
+			projectile.position += cosVel;
+			projectile.rotation = cosVel.ToRotation() + MathHelper.PiOver2;
+
+			if(AiTimer == 0 && !Main.dedServ)
 			{
-				Vector2 cosVel = projectile.velocity.RotatedBy(MathHelper.ToRadians(Amplitude) * (float)Math.Cos(((AiTimer - (twinkleTime + 1) + PeriodOffset) / period) * MathHelper.TwoPi));
-				projectile.position += cosVel;
-				projectile.rotation = cosVel.ToRotation() + MathHelper.PiOver2;
+				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, cosVel * 0.4f, new Color(99, 23, 51), 0.4f, 15, 3));
+				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, cosVel * 0.4f, new Color(99, 23, 51), 0.4f, 15, 4)); 
 
-				if(Main.rand.NextBool(10) && !Main.dedServ)
-					ParticleHandler.SpawnParticle(new GlowParticle(projectile.Center, projectile.velocity * Main.rand.NextFloat(), Color.Magenta, Main.rand.NextFloat(0.02f, 0.04f), 30));
+				for (int i = 0; i < 4; i++)
+					ParticleHandler.SpawnParticle(new GlowParticle(projectile.Center, cosVel.RotatedByRandom(MathHelper.Pi / 20) * Main.rand.NextFloat(), Color.Magenta, Main.rand.NextFloat(0.02f, 0.04f), 30));
+			}
 
-				if (projectile.alpha > 0)
-				{
-					projectile.alpha -= 25;
-					projectile.scale *= 1.15f;
-					projectile.velocity *= 1.15f;
-				}
-				else
-					projectile.alpha = 0;
+			if (Main.rand.NextBool(10) && !Main.dedServ)
+				ParticleHandler.SpawnParticle(new GlowParticle(projectile.Center, projectile.velocity * Main.rand.NextFloat(), Color.Magenta, Main.rand.NextFloat(0.02f, 0.04f), 30));
 
-				if (AiTimer > maxTimeLeft / 3f)
-				{
-					if(TileCollideCheck)
-						projectile.tileCollide = true;
+			if (projectile.alpha > 0)
+			{
+				projectile.alpha -= 25;
+				projectile.scale *= 1.15f;
+				projectile.velocity *= 1.15f;
+			}
+			else
+				projectile.alpha = 0;
 
-					if(projectile.velocity.Length() < 20 && DoAcceleration)
-						projectile.velocity *= acceleration;
-				}
+			if (AiTimer > maxTimeLeft / 3f)
+			{
+				if(TileCollideCheck)
+					projectile.tileCollide = true;
+
+				if(projectile.velocity.Length() < 20 && DoAcceleration)
+					projectile.velocity *= acceleration;
 			}
 		}
 
@@ -94,33 +105,15 @@ namespace SpiritMod.NPCs.Occultist
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
+			projectile.QuickDrawTrail(spriteBatch, 0.2f, drawColor: new Color(99, 23, 51));
 			projectile.QuickDraw(spriteBatch);
 			return false;
 		}
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			if(AiTimer < twinkleTime)
-			{
-				Texture2D twinkle = Main.extraTexture[89];
-
-				float halftwinkletime = twinkleTime / 2f;
-				float opacity = 0.7f * (halftwinkletime - Math.Abs(halftwinkletime - AiTimer)) / halftwinkletime;
-				float rotation = (AiTimer / twinkleTime) * projectile.spriteDirection * MathHelper.TwoPi;
-
-				void DrawTex(float AdditionalRotation, float ScaleMod, Color BaseColor)
-				{
-					spriteBatch.Draw(twinkle, projectile.Center - Main.screenPosition, null, BaseColor * opacity, rotation + AdditionalRotation, twinkle.Size() / 2, opacity * ScaleMod, SpriteEffects.None, 0);
-				}
-				DrawTex(0f, 0.75f, new Color(252, 68, 166, 100));
-				DrawTex(MathHelper.PiOver2, 0.75f, new Color(252, 68, 166, 100));
-
-				DrawTex(MathHelper.PiOver4, 0.33f, Color.White * 0.5f);
-				DrawTex(3 * MathHelper.PiOver4, 0.33f, Color.White * 0.5f);
-			}
-
 			Texture2D maskTex = ModContent.GetTexture(Texture + "_mask");
-			spriteBatch.Draw(maskTex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(new Color(99, 23, 51) * Math.Max(1 - ((AiTimer - twinkleTime) / 60f), 0)), projectile.rotation, 
+			spriteBatch.Draw(maskTex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(new Color(99, 23, 51)) * Math.Max(1 - (AiTimer / 60f), 0), projectile.rotation, 
 				maskTex.Size() / 2, projectile.scale, (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
 		}
 	}

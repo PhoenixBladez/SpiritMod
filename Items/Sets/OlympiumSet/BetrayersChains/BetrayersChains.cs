@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using SpiritMod.Projectiles;
 using SpiritMod.Prim;
 using SpiritMod.VerletChains;
+using System.Collections.Generic;
 
 namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 {
@@ -119,7 +120,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
             projectile.ownerHitCheck = true;
         }
 
-		public void InitializeChain(Vector2 position) => chain = new Chain(mod.GetTexture("Items/Sets/OlympiumSet/BetrayersChains/BetrayersChainsProj_Chain"), mod.GetTexture("Items/Sets/OlympiumSet/BetrayersChains/BetrayersChainsProj"), 8, 16, position, new ChainPhysics(0.95f, 0.5f, 0.4f));
+		public void InitializeChain(Vector2 position) => chain = new Chain(8, 16, position, new ChainPhysics(0.95f, 0.5f, 0.4f));
 
 		// This projectile uses advanced calculation for its motion.
 		bool primsCreated = false;
@@ -231,71 +232,8 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 		
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            Color color = lightColor;
+            chain.Draw(spriteBatch, ModContent.GetTexture(Texture + "_Chain"), Main.projectileTexture[projectile.type]);
 
-            Rectangle chainHandle = new Rectangle(0, 2, texture.Width, 40);
-            Rectangle chainLinkEnd = new Rectangle(0, 68, texture.Width, 18);
-            Rectangle chainLink = new Rectangle(0, 46, texture.Width, 18);
-            Rectangle chainHead = new Rectangle(0, 90, texture.Width, 48);
-
-            // If the chain isn't moving, stop drawing all of its components.
-            if (projectile.velocity == Vector2.Zero) {
-                return false;
-            }
-
-			// These fields / pre-draw logic have been taken from the vanilla source code for the Solar Eruption.
-			// They setup distances, directions, offsets, and rotations all so the chain faces correctly.
-            float chainDistance = projectile.velocity.Length() + 16f;
-            bool distanceCheck = chainDistance < 100f;
-            Vector2 direction = Vector2.Normalize(projectile.velocity);
-            Rectangle rectangle = chainHandle;
-            Vector2 yOffset = new Vector2(0f, Main.player[projectile.owner].gfxOffY);
-            float rotation =  direction.ToRotation() + MathHelper.ToRadians(-90f);
-			// Draw the chain handle. This is the first piece in the sprite.
-            //spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + yOffset, rectangle, color, rotation, rectangle.Size() / 2f - Vector2.UnitY * 4f, projectile.scale, SpriteEffects.None, 0f);
-
-            chainDistance -= 40f * projectile.scale;
-            Vector2 position = projectile.Center;
-            position += direction * projectile.scale * 24f;
-            rectangle = chainLinkEnd;
-            if (chainDistance > 0f) {
-                float chains = 0f;
-                while (chains + 1f < chainDistance) {
-                    if (chainDistance - chains < rectangle.Height) {
-                        rectangle.Height = (int)(chainDistance - chains);
-                    }
-					// Draws the chain links between the handle and the head. This is the "line," or the third piece in the sprite.
-                    //spriteBatch.Draw(texture, position - Main.screenPosition + yOffset, rectangle, Lighting.GetColor((int)position.X / 16, (int)position.Y / 16), rotation, new Vector2(rectangle.Width / 2, 0f), projectile.scale, SpriteEffects.None, 0f);
-                    chains += rectangle.Height * projectile.scale;
-                    position += direction * rectangle.Height * projectile.scale;
-                }
-            }
-            Vector2 chainEnd = position;
-            position = projectile.Center;
-            position += direction * projectile.scale * 24f;
-            rectangle = chainLink;
-            int offset = distanceCheck ? 9 : 18;
-            float chainLinkDistance = chainDistance;
-            if (chainDistance > 0f) {
-                float chains = 0f;
-                float increment = chainLinkDistance / offset;
-                chains += increment * 0.25f;
-                position += direction * increment * 0.25f;
-                for (int i = 0; i < offset; i++) {
-                    float spacing = increment;
-                    if (i == 0) {
-                        spacing *= 0.75f;
-                    }
-					// Draws the actual chain link spikes between the handle and the head. These are the "spikes," or the second piece in the sprite.
-                    //spriteBatch.Draw(texture, position - Main.screenPosition + yOffset, rectangle, Lighting.GetColor((int)position.X / 16, (int)position.Y / 16), rotation, new Vector2(rectangle.Width / 2, 0f), projectile.scale, SpriteEffects.None, 0f);
-                    chains += spacing;
-                    position += direction * spacing;
-                }
-            }
-			chainHeadPosition = chainEnd;
-
-            chain.Draw(spriteBatch);
 			return false;
 		}
 	}

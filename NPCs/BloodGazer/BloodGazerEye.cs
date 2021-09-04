@@ -46,7 +46,7 @@ namespace SpiritMod.NPCs.BloodGazer
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.damage = (int)(npc.damage * bossLifeScale * 0.66f);
 
 		private const int chainSegments = 16;
-		public void InitializeChain(Vector2 position) => _chain = new Chain(ModContent.GetTexture(Texture + "_chain"), 8, chainSegments, position, new ChainPhysics(0.9f, 0.5f, 0f));
+		public void InitializeChain(Vector2 position) => _chain = new Chain(8, chainSegments, position, new ChainPhysics(0.9f, 0.5f, 0f));
 
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => false;
 
@@ -258,10 +258,11 @@ namespace SpiritMod.NPCs.BloodGazer
 			if (_chain == null)
 				return false;
 
-			_chain.Draw(spriteBatch, out float endrot, out Vector2 endpos);
+			Texture2D chaintex = ModContent.GetTexture(Texture + "_chain");
+			_chain.Draw(spriteBatch, chaintex);
 			Texture2D tex = Main.npcTexture[npc.type];
 
-			spriteBatch.Draw(tex, endpos - new Vector2(_chain.Texture.Height / 2, -_chain.Texture.Width / 2).RotatedBy(endrot) - Main.screenPosition, tex.Bounds, drawColor, endrot, tex.Bounds.Size() / 2, npc.scale, SpriteEffects.None, 0);
+			spriteBatch.Draw(tex, _chain.EndPosition - new Vector2(chaintex.Height / 2, -chaintex.Width / 2).RotatedBy(_chain.EndRotation) - Main.screenPosition, tex.Bounds, drawColor, _chain.EndRotation, tex.Bounds.Size() / 2, npc.scale, SpriteEffects.None, 0);
 			return false;
 		}
 

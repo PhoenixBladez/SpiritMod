@@ -25,32 +25,20 @@ namespace SpiritMod.VerletChains
 
 	public class Chain
 	{
-		private int Stiffness = 6;
+		private readonly int Stiffness = 6;
 		public List<ChainSegment> Segments { get; set; }
 		public List<ChainVertex> Vertices { get; set; }
-
-		public Texture2D Texture { get; set; }
-		public Texture2D HeadTexture { get; set; }
 
 		public ChainVertex FirstVertex { get; set; }
 		public ChainVertex LastVertex { get; set; }
 
 		public ChainPhysics Coefficients { get; set; }
 
-		public Chain(Texture2D texture, float segmentLength, int segmentCount, Vector2 startPosition, ChainPhysics? physicsCoefficients = null, bool staticFirst = true, bool staticLast = true, int stiffness = 6)
+
+		public Chain(float segmentLength, int segmentCount, Vector2 startPosition, ChainPhysics? physicsCoefficients = null, bool staticFirst = true, bool staticLast = true, int stiffness = 6)
 		{
 			Stiffness = stiffness;
-			Texture = texture;
-			HeadTexture = texture;
 			Coefficients = physicsCoefficients ?? new ChainPhysics();
-			PopulateLists(segmentLength, segmentCount, startPosition, staticFirst, staticLast);
-		}
-
-		public Chain(Texture2D texture, Texture2D textureHead, float segmentLength, int segmentCount, Vector2 startPosition, ChainPhysics? physicsCoefficients = null, bool staticFirst = true, bool staticLast = true)
-		{
-			Texture = texture;
-			HeadTexture = textureHead;
-			Coefficients = new ChainPhysics();
 			PopulateLists(segmentLength, segmentCount, startPosition, staticFirst, staticLast);
 		}
 
@@ -97,26 +85,30 @@ namespace SpiritMod.VerletChains
 			}
 		}
 
-		public void Draw(SpriteBatch sB)
+		public float StartRotation => Segments[0].Rotation();
+		public float EndRotation => Segments[Segments.Count - 1].Rotation();
+		public Vector2 StartPosition => Segments[0].Vertex1.Position;
+		public Vector2 EndPosition => Segments[Segments.Count - 1].Vertex2.Position;
+
+		public Vector2[] VerticesArray()
+		{
+			List<Vector2> verticeslist = new List<Vector2>();
+			foreach (ChainVertex vertex in Vertices)
+				verticeslist.Add(vertex.Position);
+
+			return verticeslist.ToArray();
+		}
+
+		public void Draw(SpriteBatch sB, Texture2D texture, Texture2D headTexture = null, Texture2D tailTexture = null)
 		{
 			foreach (var segment in Segments)
 			{
-				if (segment == Segments.Last())
-					segment.Draw(sB, HeadTexture);
+				if (segment == Segments.Last() && headTexture != null)
+					segment.Draw(sB, headTexture);
+				else if (segment == Segments.First() && tailTexture != null)
+					segment.Draw(sB, tailTexture);
 				else
-					segment.Draw(sB, Texture);
-			}
-		}
-
-		public void Draw(SpriteBatch sB, out float endRotation, out Vector2 endPosition)
-		{
-			endRotation = 0;
-			endPosition = Vector2.Zero;
-			foreach (var segment in Segments) {
-				segment.Draw(sB, Texture);
-				endPosition = segment.Vertex2.Position;
-				Vector2 delta = segment.Vertex1.Position - segment.Vertex2.Position;
-				endRotation = (float)Math.Atan2(delta.Y, delta.X);
+					segment.Draw(sB, texture);
 			}
 		}
 	}

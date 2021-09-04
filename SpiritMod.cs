@@ -899,7 +899,7 @@ namespace SpiritMod
 			ChatManager.Register<UI.Chat.QuestTagHandler>(new string[] { "sq", "spiritQuest" });
 		}
 
-		public override void PreUpdateEntities()
+		public void CheckScreenSize()
 		{
 			if (!Main.dedServ)
 			{
@@ -910,11 +910,11 @@ namespace SpiritMod
 					Metaballs.Initialize(Main.graphics.GraphicsDevice);
 
 				if((_lastViewPort.Bounds != Main.graphics.GraphicsDevice.Viewport.Bounds || _lastScreenSize != new Vector2(Main.screenWidth, Main.screenHeight) || _lastViewSize != Main.ViewSize) 
-					&& basicEffect != null)
+					&& basicEffect != null && primitives != null)
 				{
-					Helpers.UpdateBasicEffect(ref basicEffect, Main.GameViewMatrix.Zoom);
-					Helpers.UpdateBasicEffect(ref primitives.pixelEffect, Main.GameViewMatrix.Zoom);
-					Helpers.UpdateBasicEffect(ref primitives.pixelEffect, new Vector2(1));
+					Helpers.SetBasicEffectMatrices(ref basicEffect, Main.GameViewMatrix.Zoom);
+					Helpers.SetBasicEffectMatrices(ref primitives.pixelEffect, Main.GameViewMatrix.Zoom);
+					Helpers.SetBasicEffectMatrices(ref primitives.pixelEffect, new Vector2(1));
 				}
 
 				_lastScreenSize = new Vector2(Main.screenWidth, Main.screenHeight);

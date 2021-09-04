@@ -10,16 +10,11 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 {
     public class ManajinxStar : ModProjectile
     {
-		private static BasicEffect effect;
-
 		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starlight Energy");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-
-			if (Main.netMode != NetmodeID.Server)
-				effect = new BasicEffect(Main.instance.GraphicsDevice);
 		}
         public override void SetDefaults()
         {
@@ -92,7 +87,6 @@ namespace SpiritMod.Items.Armor.StarjinxSet
         private float Timer => Main.GlobalTime * 4 + projectile.ai[1];
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            effect.VertexColorEnabled = true;
             for (int i = 1; i < ProjectileID.Sets.TrailCacheLength[projectile.type]; i++)
             {
                 Vector2 newCenter = projectile.oldPos[i] + projectile.Size / 2;
@@ -116,8 +110,6 @@ namespace SpiritMod.Items.Armor.StarjinxSet
                 SpriteEffects.None,
                 0);
 
-            StarDraw.DrawStarBasic(effect, projectile.Center, projectile.rotation, projectile.scale * 30, Color.Lerp(SpiritMod.StarjinxColor(Timer), Color.Black, 0.15f) * projectile.Opacity);
-            StarDraw.DrawStarBasic(effect, projectile.Center, projectile.rotation, projectile.scale * 20, Color.Lerp(SpiritMod.StarjinxColor(Timer), Color.White, 0.75f) * projectile.Opacity);
             return false;
         }
     }

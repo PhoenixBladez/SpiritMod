@@ -45,7 +45,7 @@ namespace SpiritMod.NPCs.AuroraStag
 
 			if (anticipation)
 			{
-				Velocity = Parent.DirectionTo(Position) / 2;
+				Velocity = Parent.DirectionTo(Position) * 1.25f;
 				return;
 			}
 			if (!returning && TimeActive > 26)

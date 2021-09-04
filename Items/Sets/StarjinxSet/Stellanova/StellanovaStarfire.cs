@@ -10,17 +10,18 @@ using SpiritMod.Projectiles;
 using SpiritMod;
 using SpiritMod.Particles;
 using System.IO;
+using SpiritMod.Prim;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 {
-	public class StellanovaStarfire : ModProjectile, ITrailProjectile, IBasicPrimDraw, IDrawAdditive
+	public class StellanovaStarfire : ModProjectile, ITrailProjectile, IDrawAdditive
     {
 		public override string Texture => "Terraria/Projectile_1";
 
 		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starfire");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }
 
@@ -94,6 +95,17 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 
 		public void AdditiveCall(SpriteBatch sB)
 		{
+			//star
+			StarPrimitive star = new StarPrimitive
+			{
+				Color = Color.White * projectile.Opacity,
+				TriangleHeight = 12 * projectile.scale,
+				TriangleWidth = 4 * projectile.scale,
+				Position = projectile.Center - Main.screenPosition,
+				Rotation = projectile.rotation
+			};
+			PrimitiveRenderer.DrawPrimitiveShape(star);
+
 			//flame trail
 			Texture2D extraTex = Main.extraTexture[55];
 			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
@@ -117,17 +129,11 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			//blur
 			Texture2D tex = Main.extraTexture[89];
 			float Timer = (float)(Math.Abs(Math.Sin(Main.GlobalTime * 8f)) / 12f) + 0.7f;
-			Vector2 scaleVerticalGlow = new Vector2(0.8f, 2.5f) * Timer;
-			Vector2 scaleHorizontalGlow = new Vector2(1f, 5f) * Timer;
+			Vector2 scaleVerticalGlow = new Vector2(0.3f, 2.5f) * Timer;
+			Vector2 scaleHorizontalGlow = new Vector2(0.3f, 5f) * Timer;
 			Color blurcolor = Color.Lerp(SpiritMod.StarjinxColor(Main.GlobalTime), Color.White, 0.2f) * 0.8f * projectile.Opacity;
 			sB.Draw(tex, projectile.Center - Main.screenPosition, null, blurcolor * Timer, 0, tex.Size() / 2, scaleVerticalGlow, SpriteEffects.None, 0);
 			sB.Draw(tex, projectile.Center - Main.screenPosition, null, blurcolor * Timer, MathHelper.PiOver2, tex.Size() / 2, scaleHorizontalGlow, SpriteEffects.None, 0);
-		}
-
-		public void DrawPrimShape(BasicEffect effect)
-		{
-			float rotation = projectile.timeLeft * 0.1f * Math.Sign(projectile.velocity.X);
-			StarDraw.DrawStarBasic(effect, projectile.Center, rotation, projectile.scale * 15, Color.White * projectile.Opacity);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) => false;
