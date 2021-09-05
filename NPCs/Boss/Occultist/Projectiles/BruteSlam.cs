@@ -1,13 +1,14 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ID;
+using SpiritMod.Particles;
 using Terraria.ModLoader;
-namespace SpiritMod.NPCs.Occultist
+
+namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 {
 	public class BruteSlam : ModProjectile
 	{
@@ -39,14 +40,23 @@ namespace SpiritMod.NPCs.Occultist
 		public override void AI()
 		{
 			projectile.velocity.Y += 0.2f;
-			projectile.alpha = Math.Max(projectile.alpha - (255 / FADEINTIME), 0);
-			var temp = projectile.frame;
+			projectile.alpha = Math.Max(projectile.alpha - 255 / FADEINTIME, 0);
+			int temp = projectile.frame;
 			projectile.UpdateFrame((int)(10 * 60f / TOTALTIME));
 			projectile.spriteDirection = projectile.direction = -Parent.direction;
 			if (projectile.frame != temp)
 			{
-				if(projectile.frame == DAMAGEFRAME)
+				if (projectile.frame == DAMAGEFRAME)
+				{
 					BruteShockwave.MakeShockwave(projectile.Center, -projectile.direction, (int)(projectile.damage * 0.75f), 20);
+
+					if (!Main.dedServ)
+					{
+						for (int i = 0; i < 4; i++)
+							ParticleHandler.SpawnParticle(new ImpactLine(projectile.Bottom + new Vector2(Main.rand.NextFloat(45, 55) * -projectile.direction, 0),
+								-Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 3) * Main.rand.NextFloat(1, 2.5f), Color.White, new Vector2(0.33f, Main.rand.NextFloat(1f, 1.5f)), 15));
+					}
+				}
 
 				projectile.netUpdate = true;
 			}
@@ -58,7 +68,6 @@ namespace SpiritMod.NPCs.Occultist
 		{
 			if (!Main.dedServ)
 			{
-				Main.PlaySound(SoundID.NPCDeath2, projectile.Center);
 				Main.PlaySound(SoundID.DD2_SkeletonHurt.WithPitchVariance(0.3f).WithVolume(0.5f), projectile.Center);
 
 				for (int i = 1; i < 6; ++i)
@@ -68,14 +77,12 @@ namespace SpiritMod.NPCs.Occultist
 
 		public override bool CanDamage() => projectile.frame == DAMAGEFRAME;
 
-		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
-		{
-			drawCacheProjsBehindNPCs.Add(index);
-		}
+		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI) => drawCacheProjsBehindNPCs.Add(index);
 
 		public override void SendExtraAI(BinaryWriter writer) => writer.Write(projectile.frame);
 
 		public override void ReceiveExtraAI(BinaryReader reader) => projectile.frame = reader.ReadInt32();
+
 		public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
@@ -87,7 +94,7 @@ namespace SpiritMod.NPCs.Occultist
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			projectile.QuickDraw(spriteBatch);
-			projectile.QuickDrawGlow(spriteBatch, projectile.GetAlpha(new Color(252, 3, 148)) * Math.Max(1 - (AiTimer / FADEINTIME), 0));
+			projectile.QuickDrawGlow(spriteBatch, projectile.GetAlpha(new Color(252, 3, 148)) * Math.Max(1 - AiTimer / FADEINTIME, 0));
 			return false;
 		}
 	}

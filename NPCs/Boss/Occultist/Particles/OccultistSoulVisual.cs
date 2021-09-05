@@ -5,11 +5,9 @@ using SpiritMod.Prim;
 using SpiritMod.Utilities;
 using SpiritMod.VerletChains;
 using System;
-using System.IO;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-namespace SpiritMod.NPCs.Occultist
+
+namespace SpiritMod.NPCs.Boss.Occultist.Particles
 {
 	public class OccultistSoulVisual : Particle
 	{
@@ -46,13 +44,13 @@ namespace SpiritMod.NPCs.Occultist
 		public override void CustomDraw(SpriteBatch spriteBatch)
 		{
 			Texture2D texture = ParticleHandler.GetTexture(Type);
-			Rectangle drawFrame = new Rectangle(0, _frame * texture.Height / 2, texture.Width, texture.Height / 2);
+			var drawFrame = new Rectangle(0, _frame * texture.Height / 2, texture.Width, texture.Height / 2);
 
 			Effect effect = SpiritMod.ShaderDict["PrimitiveTextureMap"];
-			effect.Parameters["uTexture"].SetValue(SpiritMod.instance.GetTexture("NPCs/Occultist/SoulTrail"));
+			effect.Parameters["uTexture"].SetValue(SpiritMod.instance.GetTexture("NPCs/Boss/Occultist/SoulTrail"));
 			Vector2[] vertices = _chain.VerticesArray();
-			IterateVerticesSine(ref vertices);
-			PrimitiveStrip strip = new PrimitiveStrip
+			vertices.IterateArray(delegate (ref Vector2 vertex, int index, float progress) { IterateVerticesSine(ref vertex, progress); });
+			var strip = new PrimitiveStrip
 			{
 				Color = Color.White * _opacity,
 				Width = 13 * Scale,
@@ -61,25 +59,24 @@ namespace SpiritMod.NPCs.Occultist
 			};
 			PrimitiveRenderer.DrawPrimitiveShape(strip, effect);
 
-			Vector2 origin = new Vector2(drawFrame.Width / 2, drawFrame.Height);
+			var origin = new Vector2(drawFrame.Width / 2, drawFrame.Height);
 			spriteBatch.Draw(texture, _chain.StartPosition - Main.screenPosition, drawFrame, Color.White * _opacity, Rotation, origin, Scale, SpriteEffects.None, 0);
 
 			Texture2D bloom = SpiritMod.instance.GetTexture("Effects/Ripple");
 			spriteBatch.Draw(bloom, _chain.StartPosition - Main.screenPosition, null, Color.Red * _opacity, 0, bloom.Size() / 2, 0.75f, SpriteEffects.None, 0);
 		}
 
-		private void IterateVerticesSine(ref Vector2[] vertices)
+		private void IterateVerticesSine(ref Vector2 vertex, float progress)
 		{
-			for (int i = 1; i < vertices.Length; i++)
-			{
-				Vector2 DirectionUnit = Vector2.Normalize(Position - vertices[i]);
-				DirectionUnit = DirectionUnit.RotatedBy(MathHelper.PiOver2);
-				float amplitude = 4f;
-				float speed = 1.2f;
-				float numwaves = 0.5f;
-				float progress = i / (float)vertices.Length;
-				vertices[i] += DirectionUnit * (float)Math.Sin((speed * Main.GameUpdateCount / 10f) + (progress * MathHelper.TwoPi * numwaves)) * progress * amplitude;
-			}
+			if (progress == 0)
+				return;
+
+			var DirectionUnit = Vector2.Normalize(Position - vertex);
+			DirectionUnit = DirectionUnit.RotatedBy(MathHelper.PiOver2);
+			float amplitude = 4f;
+			float speed = 1.2f;
+			float numwaves = 0.5f;
+			vertex += DirectionUnit * (float)Math.Sin(speed * (Main.GameUpdateCount / 10f) + progress * MathHelper.TwoPi * numwaves) * progress * amplitude;
 		}
 	}
 }

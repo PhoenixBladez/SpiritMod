@@ -6,7 +6,8 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace SpiritMod.NPCs.Occultist
+
+namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 {
 	public class OccultistHand : ModProjectile, ITrailProjectile
 	{
@@ -56,10 +57,10 @@ namespace SpiritMod.NPCs.Occultist
 			projectile.position += cosVel;
 			projectile.rotation = cosVel.ToRotation() + MathHelper.PiOver2;
 
-			if(AiTimer == 0 && !Main.dedServ)
+			if (AiTimer == 0 && !Main.dedServ)
 			{
 				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, cosVel * 0.4f, new Color(99, 23, 51), 0.4f, 15, 3));
-				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, cosVel * 0.4f, new Color(99, 23, 51), 0.4f, 15, 4)); 
+				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, cosVel * 0.4f, new Color(99, 23, 51), 0.4f, 15, 4));
 
 				for (int i = 0; i < 4; i++)
 					ParticleHandler.SpawnParticle(new GlowParticle(projectile.Center, cosVel.RotatedByRandom(MathHelper.Pi / 20) * Main.rand.NextFloat(), Color.Magenta, Main.rand.NextFloat(0.02f, 0.04f), 30));
@@ -79,15 +80,13 @@ namespace SpiritMod.NPCs.Occultist
 
 			if (AiTimer > maxTimeLeft / 3f)
 			{
-				if(TileCollideCheck)
+				if (TileCollideCheck)
 					projectile.tileCollide = true;
 
-				if(projectile.velocity.Length() < 20 && DoAcceleration)
+				if (projectile.velocity.Length() < 20 && DoAcceleration)
 					projectile.velocity *= acceleration;
 			}
 		}
-
-		//public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.Obstructed, 40, true);
 
 		public override void Kill(int timeLeft)
 		{
@@ -113,8 +112,8 @@ namespace SpiritMod.NPCs.Occultist
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Texture2D maskTex = ModContent.GetTexture(Texture + "_mask");
-			spriteBatch.Draw(maskTex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(new Color(99, 23, 51)) * Math.Max(1 - (AiTimer / 60f), 0), projectile.rotation, 
-				maskTex.Size() / 2, projectile.scale, (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
+			spriteBatch.Draw(maskTex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(new Color(252, 68, 166)) * Math.Max(1 - AiTimer / 20f, 0), projectile.rotation,
+				maskTex.Size() / 2, projectile.scale, projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 		}
 	}
 }

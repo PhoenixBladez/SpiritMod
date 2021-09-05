@@ -4,7 +4,7 @@ using SpiritMod.Particles;
 using System;
 using Terraria;
 
-namespace SpiritMod.NPCs.Occultist
+namespace SpiritMod.NPCs.Boss.Occultist.Particles
 {
 	public class OccultistTelegraphBeam : Particle
 	{
@@ -43,9 +43,9 @@ namespace SpiritMod.NPCs.Occultist
 		public override void CustomDraw(SpriteBatch spriteBatch)
 		{
 			Texture2D tex = ParticleHandler.GetTexture(Type);
-			Vector2 scale = new Vector2(1, _length / tex.Height);
+			var scale = new Vector2(1, _length / tex.Height);
 			float rotation = _angle - MathHelper.PiOver2;
-			Vector2 origin = new Vector2(tex.Width / 2f, 0);
+			var origin = new Vector2(tex.Width / 2f, 0);
 
 			spriteBatch.Draw(tex, Position - Main.screenPosition, null, drawColor * _opacity, rotation, origin, scale, SpriteEffects.None, 0);
 		}

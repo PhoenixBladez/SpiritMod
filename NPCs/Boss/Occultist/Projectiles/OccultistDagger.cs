@@ -1,12 +1,14 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Utilities;
+using SpiritMod;
+using SpiritMod.Particles;
 using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace SpiritMod.NPCs.Occultist
+
+namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 {
 	public class OccultistDagger : ModProjectile, IDrawAdditive
 	{
@@ -43,7 +45,7 @@ namespace SpiritMod.NPCs.Occultist
 
 		private ref float AiTimer => ref projectile.localAI[0];
 
-		float alphaCounter;
+		private float alphaCounter;
 		public override void AI()
 		{
 			alphaCounter += 0.08f;
@@ -51,38 +53,40 @@ namespace SpiritMod.NPCs.Occultist
 			switch (AiState)
 			{
 				case STATE_FADEIN:
-					projectile.alpha = Math.Max(projectile.alpha - (255 / FADEINTIME), 0);
-					if(AiTimer > FADEINTIME)
+					projectile.alpha = Math.Max(projectile.alpha - 255 / FADEINTIME, 0);
+					if (AiTimer > FADEINTIME)
 					{
 						AiState = STATE_DRAWBACK;
 						AiTimer = 0;
 						projectile.netUpdate = true;
 					}
 					break;
+
 				case STATE_DRAWBACK:
 					projectile.velocity = Vector2.Lerp(projectile.velocity, -Angle.ToRotationVector2() * 3, 0.1f);
-					if(AiTimer > DRAWBACKTIME)
+					if (AiTimer > DRAWBACKTIME)
 					{
 						AiState = STATE_FLYING;
 						projectile.velocity = (projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 10;
 						if (!Main.dedServ)
 						{
-							for(int i = -1; i <= 1; i += 2)
+							for (int i = -1; i <= 1; i += 2)
 							{
-								Vector2 velocity = projectile.velocity.RotatedBy(MathHelper.Pi + (i * MathHelper.Pi / 8)).RotatedByRandom(MathHelper.Pi / 16) * 0.5f;
-								Particles.ParticleHandler.SpawnParticle(new Particles.ImpactLine(projectile.Center + projectile.velocity * 2, velocity, Color.LightPink, new Vector2(0.33f, 0.75f), 10));
+								Vector2 velocity = projectile.velocity.RotatedBy(MathHelper.Pi + i * MathHelper.Pi / 8).RotatedByRandom(MathHelper.Pi / 16) * 0.5f;
+								ParticleHandler.SpawnParticle(new ImpactLine(projectile.Center + projectile.velocity * 2, velocity, Color.LightPink, new Vector2(0.33f, 0.75f), 10));
 							}
 						}
 						AiTimer = 0;
 						projectile.netUpdate = true;
 					}
 					break;
+
 				case STATE_FLYING:
 					projectile.tileCollide = true;
 					if (projectile.velocity.Length() < 20)
 						projectile.velocity *= 1.03f;
 
-					if(AiTimer > FLYINGTIME)
+					if (AiTimer > FLYINGTIME)
 					{
 						AiTimer = 0;
 						AiState = STATE_FADEOUT;
@@ -92,7 +96,7 @@ namespace SpiritMod.NPCs.Occultist
 
 				case STATE_FADEOUT:
 					projectile.tileCollide = false;
-					projectile.alpha += (255 / FADEOUTTIME);
+					projectile.alpha += 255 / FADEOUTTIME;
 					projectile.velocity *= 0.95f;
 					if (projectile.alpha >= 255)
 						projectile.Kill();
@@ -134,7 +138,7 @@ namespace SpiritMod.NPCs.Occultist
 
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
-			float sineAdd = (float)Math.Sin(alphaCounter)/4f + 0.75f;
+			float sineAdd = (float)Math.Sin(alphaCounter) / 4f + 0.75f;
 			{
 				for (int k = 0; k < projectile.oldPos.Length; k++)
 				{

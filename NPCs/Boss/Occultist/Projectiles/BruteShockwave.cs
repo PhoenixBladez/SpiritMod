@@ -1,14 +1,12 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace SpiritMod.NPCs.Occultist
+
+namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 {
 	public class BruteShockwave : ModProjectile
 	{
@@ -46,7 +44,7 @@ namespace SpiritMod.NPCs.Occultist
 
 		public static void MakeShockwave(Vector2 center, int direction, int damage, int projsLeft)
 		{
-			Projectile proj = Projectile.NewProjectileDirect(center + new Vector2(direction * 100, 0), direction * Vector2.UnitX, 
+			Projectile proj = Projectile.NewProjectileDirect(center + new Vector2(direction * 100, 0), direction * Vector2.UnitX,
 				ModContent.ProjectileType<BruteShockwave>(), damage, 1, Main.myPlayer, projsLeft - 1);
 			if (proj.modProjectile is BruteShockwave shockwave)
 			{
@@ -57,7 +55,7 @@ namespace SpiritMod.NPCs.Occultist
 			if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
 
-			if(!Main.dedServ)
+			if (!Main.dedServ)
 				Main.PlaySound(new LegacySoundStyle(SoundID.Item, 14).WithVolume(0.5f).WithPitchVariance(0.2f), center);
 		}
 
@@ -68,7 +66,7 @@ namespace SpiritMod.NPCs.Occultist
 			int tilesMoved = 0;
 			int maxTilesToMove = 15;
 
-			while(tilePos.Y < 0 && ProjectileExtensions.CheckSolidTilesAndPlatforms(new Rectangle(tilePos.X, tilePos.Y, 0, 0)) && tilesMoved < maxTilesToMove)
+			while (tilePos.Y < 0 && ProjectileExtensions.CheckSolidTilesAndPlatforms(new Rectangle(tilePos.X, tilePos.Y, 0, 0)) && tilesMoved < maxTilesToMove)
 			{
 				tilesMoved++;
 				tilePos.Y--;
@@ -82,7 +80,7 @@ namespace SpiritMod.NPCs.Occultist
 			if (tilesMoved >= maxTilesToMove)
 				return false;
 
-			tilePos.Y --;
+			tilePos.Y--;
 			projectile.position.Y = tilePos.ToWorldCoordinates().Y - 8;
 			return true;
 		}

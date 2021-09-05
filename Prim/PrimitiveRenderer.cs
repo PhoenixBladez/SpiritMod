@@ -22,18 +22,6 @@ namespace SpiritMod.Prim
 		{
 			if (vertices.Length == 0 || indeces.Length == 0)
 				return;
-			//Converts the given inputs to buffers to input to the Graphics device
-			DynamicVertexBuffer vertexBuffer = new DynamicVertexBuffer(Graphics, typeof(VertexPositionColorTexture), vertices.Length, BufferUsage.WriteOnly);
-			vertexBuffer.SetData(vertices);
-			DynamicIndexBuffer indexBuffer = new DynamicIndexBuffer(Graphics, typeof(short), indeces.Length, BufferUsage.WriteOnly);
-			indexBuffer.SetData(indeces);
-
-			Graphics.SetVertexBuffer(vertexBuffer);
-			Graphics.Indices = indexBuffer;
-
-			/*//Set the rasterizer state of the Graphics device to have no culling, as to prevent triangles facing away from the screen not being drawn
-			RasterizerState rasterizerState = RasterizerState.CullNone;
-			Graphics.RasterizerState = rasterizerState;*/
 
 			//If the inputted effect is null, use the static BasicEffect
 			if(effect == null)
@@ -72,7 +60,7 @@ namespace SpiritMod.Prim
 			}
 
 			//Finally, draw the primitives
-			Graphics.DrawIndexedPrimitives(primitiveType, 0, 0, vertices.Length, 0, primitiveCount);
+			Graphics.DrawUserIndexedPrimitives(primitiveType, vertices, 0, vertices.Length, indeces, 0, primitiveCount);
 		}
 
 		/// <summary>

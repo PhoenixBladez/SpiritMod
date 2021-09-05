@@ -1,16 +1,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Particles;
-using SpiritMod.Utilities;
-using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
-namespace SpiritMod.NPCs.Occultist
+
+namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 {
-	public class OccultistHand2 : OccultistHand, IDrawAdditive
+	public class OccultistHandFiery : OccultistHand, IDrawAdditive
 	{
-		public override string Texture => "SpiritMod/NPCs/Occultist/OccultistHand";
+		public override string Texture => "SpiritMod/NPCs/Boss/Occultist/Projectiles/OccultistHand";
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dark Grasp");
@@ -44,7 +41,7 @@ namespace SpiritMod.NPCs.Occultist
 			Color color = new Color(252, 68, 166, 100) * projectile.Opacity * 0.33f;
 			for (int j = 0; j < ProjectileID.Sets.TrailCacheLength[projectile.type]; j++)
 			{
-				Vector2 drawPos = projectile.oldPos[j] + projectile.Size/2;
+				Vector2 drawPos = projectile.oldPos[j] + projectile.Size / 2;
 				float Opacity = (ProjectileID.Sets.TrailCacheLength[projectile.type] - j) / (float)ProjectileID.Sets.TrailCacheLength[projectile.type];
 				Opacity = (Opacity / 2) + 0.5f;
 				float trailScale = scale * Opacity;
