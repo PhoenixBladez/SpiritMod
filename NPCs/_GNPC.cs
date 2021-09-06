@@ -1157,7 +1157,7 @@ namespace SpiritMod.NPCs
 			MyWorld.spiritBiome = true;
 
 			if (Main.netMode == NetmodeID.SinglePlayer)
-				Main.NewText("The Spirits spread through the Land...", Color.Orange);
+				Main.NewText("The spirits spread through the land...", Color.Orange);
 			else if (Main.netMode == NetmodeID.Server)
 			{
 				NetMessage.SendData(MessageID.WorldData);
