@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
-    public class SlayerQuestOccultist : Quest
+	public class SlayerQuestOccultist : Quest
     {
         public override string QuestName => "Spectral Scourge";
 		public override string QuestClient => "The Adventurer";
@@ -29,7 +29,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		private SlayerQuestOccultist()
         {
-            _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.Occultist.Occultist>(), 1));
+            _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.Boss.Occultist.OccultistBoss>(), 1));
         }
     }
 }

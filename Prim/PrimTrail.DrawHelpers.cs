@@ -92,12 +92,12 @@ namespace SpiritMod.Prim
 			BasicEffect basicEffect;
 			if (Pixellated)
 			{
-				Helpers.UpdateBasicEffect(ref SpiritMod.primitives.pixelEffect, Main.GameViewMatrix.Zoom);
+				Helpers.SetBasicEffectMatrices(ref SpiritMod.primitives.pixelEffect, Main.GameViewMatrix.Zoom);
 				basicEffect = SpiritMod.primitives.pixelEffect;
 			}
 			else if (this is IGalaxySprite)
 			{
-				Helpers.UpdateBasicEffect(ref SpiritMod.primitives.galaxyEffect, new Vector2(1));
+				Helpers.SetBasicEffectMatrices(ref SpiritMod.primitives.galaxyEffect, new Vector2(1));
 				basicEffect = SpiritMod.primitives.galaxyEffect;
 			}
 			else

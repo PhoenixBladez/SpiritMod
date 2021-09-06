@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
-namespace SpiritMod.NPCs.Occultist
+namespace SpiritMod.NPCs.Boss.Occultist
 {
 	public class RotatingObjectManager
 	{

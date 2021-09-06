@@ -7,10 +7,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Particles;
+using SpiritMod.Prim;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 {
-	public class MortarStar : ModProjectile, ITrailProjectile, IBasicPrimDraw
+	public class MortarStar : ModProjectile, ITrailProjectile, IDrawAdditive
 	{
 		public override string Texture => "Terraria/Projectile_1";
 
@@ -76,7 +77,18 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(241, 153, 255) * .5f, new Color(241, 153, 255) * .25f), new RoundCap(), new ArrowGlowPosition(), 42f, 40f, new DefaultShader());
 		}
 
-		public void DrawPrimShape(BasicEffect effect) => StarDraw.DrawStarBasic(effect, projectile.Center, projectile.rotation, projectile.scale * 15, Color.White * projectile.Opacity);
+		public void AdditiveCall(SpriteBatch sB)
+		{
+			StarPrimitive star = new StarPrimitive
+			{
+				Color = Color.White * projectile.Opacity,
+				TriangleHeight = 12 * projectile.scale,
+				TriangleWidth = 4 * projectile.scale,
+				Position = projectile.Center - Main.screenPosition,
+				Rotation = projectile.rotation
+			};
+			PrimitiveRenderer.DrawPrimitiveShape(star);
+		}
 
 		public override void Kill(int timeLeft)
 		{

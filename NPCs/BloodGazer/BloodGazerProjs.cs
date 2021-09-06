@@ -252,16 +252,17 @@ namespace SpiritMod.NPCs.BloodGazer
 		}
 
 		private Chain chain;
-		public void InitializeChain(Vector2 position) => chain = new Chain(ModContent.GetTexture(Texture + "_chain"), 8, 8, position, new ChainPhysics(0.9f, 0.5f, 0f), false, true); 
+		public void InitializeChain(Vector2 position) => chain = new Chain(8, 8, position, new ChainPhysics(0.9f, 0.5f, 0f), false, true); 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			if (chain == null)
 				return false;
 
-			chain.Draw(spriteBatch, out float endrot, out Vector2 endpos);
+			Texture2D chaintex = ModContent.GetTexture(Texture + "_chain");
+			chain.Draw(spriteBatch, chaintex);
 			Texture2D tex = Main.projectileTexture[projectile.type];
 
-			spriteBatch.Draw(tex, endpos - new Vector2(chain.Texture.Height / 2, -chain.Texture.Width / 2).RotatedBy(endrot) - Main.screenPosition, tex.Bounds, drawColor, endrot, tex.Bounds.Size() / 2, projectile.scale, SpriteEffects.None, 0);
+			spriteBatch.Draw(tex, chain.EndPosition - new Vector2(chaintex.Height / 2, -chaintex.Width / 2).RotatedBy(chain.EndRotation) - Main.screenPosition, tex.Bounds, drawColor, chain.EndRotation, tex.Bounds.Size() / 2, projectile.scale, SpriteEffects.None, 0);
 			return false;
 		}
 

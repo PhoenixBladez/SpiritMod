@@ -5,10 +5,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Particles;
+using SpiritMod.Prim;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 {
-	public class WeaverStarChannel : ModProjectile, IBasicPrimDraw, IDrawAdditive
+	public class WeaverStarChannel : ModProjectile, IDrawAdditive
 	{
 		public override string Texture => "Terraria/Projectile_1";
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Star");
@@ -57,10 +58,18 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			TargetAngle = Utils.AngleLerp(TargetAngle, projectile.AngleTo(Target.Center), MathHelper.Lerp(0.2f, 0.04f, Timer / (float)CHANNELTIME));
 		}
 
-		public void DrawPrimShape(BasicEffect effect) => StarDraw.DrawStarBasic(effect, projectile.Center, projectile.rotation, projectile.scale * 15, Color.White * projectile.Opacity);
-
 		public void AdditiveCall(SpriteBatch sB)
 		{
+			StarPrimitive star = new StarPrimitive
+			{
+				Color = Color.White * projectile.Opacity,
+				TriangleHeight = 12 * projectile.scale,
+				TriangleWidth = 4 * projectile.scale,
+				Position = projectile.Center - Main.screenPosition,
+				Rotation = projectile.rotation
+			};
+			PrimitiveRenderer.DrawPrimitiveShape(star);
+
 			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
 
 			sB.Draw(bloom, projectile.Center - Main.screenPosition, null, Color.Goldenrod * 0.8f * projectile.Opacity, 0, bloom.Size() / 2, 0.25f * projectile.scale, SpriteEffects.None, 0);

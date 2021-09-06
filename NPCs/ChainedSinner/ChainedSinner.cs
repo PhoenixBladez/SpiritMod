@@ -73,11 +73,11 @@ namespace SpiritMod.NPCs.ChainedSinner
 			return true;
 		}
 
-		public void InitializeChain(Vector2 position) => chain = new Chain(mod.GetTexture("NPCs/ChainedSinner/ChainedSinner_Chain"), mod.GetTexture("NPCs/ChainedSinner/ChainedSinner_Chain"), 16, 16, position, new ChainPhysics(0.95f, 0.5f, 0.4f), true, false);
+		public void InitializeChain(Vector2 position) => chain = new Chain(16, 16, position, new ChainPhysics(0.95f, 0.5f, 0.4f), true, false);
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			chain.Draw(spriteBatch);
+			chain.Draw(spriteBatch, mod.GetTexture("NPCs/ChainedSinner/ChainedSinner_Chain"));
 			return true;
 		}
 	}

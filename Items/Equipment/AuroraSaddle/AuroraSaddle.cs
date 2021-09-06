@@ -33,6 +33,45 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 			item.noUseGraphic = true;
 			item.mountType = ModContent.MountType<AuroraStagMount>();
 		}
+
+		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+		{
+			Texture2D glowmask = ModContent.GetTexture(Texture + "_glow");
+			float Timer = 0.5f + (float)(Math.Sin(Main.GlobalTime * 4) / 2);
+			float BlurTimer = 0.5f + (float)(Math.Sin(Main.GlobalTime * 12) / 2);
+
+			Color color = Color.Lerp(new Color(85, 255, 229), new Color(28, 155, 255), Timer);
+			float opacity = MathHelper.Lerp(0.7f, 1f, Timer) * ((255f - item.alpha) / 255f);
+			Vector2 itemCenter = new Vector2(item.position.X - Main.screenPosition.X + item.width / 2, item.position.Y - Main.screenPosition.Y + item.height - (Main.itemTexture[item.type].Height / 2) + 2f);
+			int numtodraw = 6;
+			for(int i = 0; i < numtodraw; i++) //draw pulsing glowmask effect
+			{
+				Vector2 offset = Vector2.UnitX.RotatedBy(MathHelper.TwoPi * (i / (float)numtodraw)) * Timer * 6;
+				float pulseOpacity = 1 - Timer;
+				pulseOpacity *= opacity;
+				spriteBatch.Draw(glowmask, itemCenter + offset, null, color * pulseOpacity, rotation, glowmask.Size() / 2, scale, SpriteEffects.None, 0f);
+			}
+			spriteBatch.Draw(glowmask, itemCenter, null, color * opacity, rotation, glowmask.Size() / 2, scale, SpriteEffects.None, 0f); //draw the glowmask
+
+			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D blurLine = Main.extraTexture[89];
+			Vector2 blurScale = new Vector2(0.3f, MathHelper.Lerp(2.5f, 3f, BlurTimer));
+			float bloomScale = MathHelper.Lerp(0.5f, 0.55f, Timer);
+			spriteBatch.Draw(blurLine, itemCenter, null, color * opacity, MathHelper.PiOver2 + rotation, blurLine.Size() / 2, blurScale, SpriteEffects.None, 0); //draw the bloom
+			spriteBatch.Draw(bloom, itemCenter, null, color * opacity, 0, bloom.Size() / 2, bloomScale, SpriteEffects.None, 0); //draw the blur line
+
+			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
+			return true;
+		}
+
+		public override void Update(ref float gravity, ref float maxFallSpeed)
+		{
+			float Timer = 0.5f + (float)(Math.Sin(Main.GlobalTime * 4) / 2); 
+			Color color = Color.Lerp(new Color(85, 255, 229), new Color(28, 155, 255), Timer);
+			Lighting.AddLight(item.Center, color.ToVector3());
+		}
 	}
 
 	internal class SaddleBuff : ModBuff

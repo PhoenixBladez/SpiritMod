@@ -13,7 +13,7 @@ using SpiritMod.Projectiles;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 {
-    public class JinxprobeEnergy : ModProjectile, ITrailProjectile, IBasicPrimDraw
+    public class JinxprobeEnergy : ModProjectile, ITrailProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -66,9 +66,19 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
             tM.CreateTrail(projectile, new StarjinxTrail(Timer, 2, 0.3f), new RoundCap(), new ArrowGlowPosition(), 48f * projectile.scale, 40f * projectile.scale, new DefaultShader());
         }
 
-        public void DrawPrimShape(BasicEffect effect) => StarDraw.DrawStarBasic(effect, projectile.Center, projectile.rotation, projectile.scale * 15, Color.White);
-
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) => false;
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			StarPrimitive star = new StarPrimitive
+			{
+				Color = Color.White,
+				TriangleHeight = 12 * projectile.scale,
+				TriangleWidth = 4 * projectile.scale,
+				Position = projectile.Center - Main.screenPosition,
+				Rotation = projectile.rotation
+			};
+			PrimitiveRenderer.DrawPrimitiveShape(star);
+			return false;
+		}
 
         public override void Kill(int timeLeft)
         {

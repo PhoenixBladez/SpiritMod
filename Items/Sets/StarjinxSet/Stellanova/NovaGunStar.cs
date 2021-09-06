@@ -13,7 +13,7 @@ using SpiritMod.Prim;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 {
-    public class NovaGunStar : ModProjectile, IBasicPrimDraw
+    public class NovaGunStar : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -34,22 +34,6 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
             projectile.penetrate = 1;
             projectile.ignoreWater = true;
             projectile.hide = true;
-        }
-
-        public void DrawPrimShape(BasicEffect effect)
-        {
-            if (projectile.velocity.Length() >= 1)
-            {
-                for (int i = 1; i < ProjectileID.Sets.TrailCacheLength[projectile.type]; i += 2)
-                {
-                    Vector2 newCenter = projectile.oldPos[i] + projectile.Size / 2;
-                    float lerpamount = 0.5f + (i / (float)(ProjectileID.Sets.TrailCacheLength[projectile.type] * 2));
-                    StarDraw.DrawStarBasic(effect, newCenter, projectile.oldRot[i], Scale * 100, Color.Lerp(SpiritMod.StarjinxColor(Main.GlobalTime * 4 + i), Color.Transparent, lerpamount));
-                }
-            }
-
-            StarDraw.DrawStarBasic(effect, projectile.Center, projectile.rotation, Scale * 100, Color.Lerp(SpiritMod.StarjinxColor(Main.GlobalTime * 4), Color.Black, 0.1f));
-            StarDraw.DrawStarBasic(effect, projectile.Center, projectile.rotation, Scale * 70, Color.White);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -152,7 +136,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
         public override bool? CanHitNPC(NPC target) => !target.friendly && target.active && Timer >= 90;
     }
 
-    internal class NovaShockwave : ModProjectile, IBasicPrimDraw
+    internal class NovaShockwave : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -177,11 +161,6 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
         {
             Scale *= 1.08f;
             projectile.ai[0] += 0.075f;
-        }
-
-        public void DrawPrimShape(BasicEffect effect)
-        {
-            StarDraw.DrawStarBasic(effect, projectile.Center, projectile.rotation, Scale * 150, Color.Lerp(SpiritMod.StarjinxColor(Main.GlobalTime * 4), Color.Transparent, projectile.ai[0]));
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => projectile.Distance(targetHitbox.Center.ToVector2()) < (100 * Scale);
