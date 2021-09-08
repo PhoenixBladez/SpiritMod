@@ -1509,9 +1509,9 @@ namespace SpiritMod
 			{
 				screenshakeTimer++;
 
-				if (tremorTime >= 0 && screenshakeTimer >= 20) // so it doesnt immediately decrease
+				if (tremorTime > 0 && screenshakeTimer >= 20) // so it doesnt immediately decrease
 					tremorTime -= 0.5f;
-				else if (tremorTime < 0)
+				if (tremorTime < 0)
 					tremorTime = 0;
 
 				Main.screenPosition += new Vector2(tremorTime * Main.rand.NextFloat(), tremorTime * Main.rand.NextFloat());

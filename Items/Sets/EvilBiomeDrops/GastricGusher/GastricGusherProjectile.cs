@@ -89,9 +89,12 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 			{
 				if (p.inventory[i].ammo == AmmoID.Gel)
 				{
-					p.inventory[i].stack--;
-					if (p.inventory[i].stack <= 0)
-						p.inventory[i].TurnToAir();
+					if (PlayerHooks.ConsumeAmmo(p, p.HeldItem, p.inventory[i])) //Do not consume ammo if possible
+					{
+						p.inventory[i].stack--;
+						if (p.inventory[i].stack <= 0)
+							p.inventory[i].TurnToAir();
+					}
 					break;
 				}
 			}
