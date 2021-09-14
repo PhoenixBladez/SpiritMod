@@ -21,6 +21,7 @@ using Terraria.Localization;
 using SpiritMod.Mechanics.PortraitSystem;
 using SpiritMod.Mechanics.BackgroundSystem;
 using Mono.Cecil;
+using System.Diagnostics;
 
 namespace SpiritMod.Utilities
 {
@@ -51,11 +52,48 @@ namespace SpiritMod.Utilities
 			On.Terraria.Main.DrawBackgroundBlackFill += Main_DrawBackgroundBlackFill; //BackgroundItemManager.Draw()
 			On.Terraria.Main.Update += Main_Update; //BackgroundItemManager.Update()
 
+			On.Terraria.NetMessage.SendData += NetMessage_SendData; //Debug
+			On.Terraria.NetMessage.greetPlayer += NetMessage_greetPlayer;
+			On.Terraria.NetMessage.SyncConnectedPlayer += NetMessage_SyncConnectedPlayer;
+
 			Main.OnPreDraw += Main_OnPreDraw;
 
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
 			IL.Terraria.WorldGen.hardUpdateWorld += WorldGen_hardUpdateWorld;
 			//IL.Terraria.Main.DoDraw += Main_DoDraw;
+		}
+
+		private static void NetMessage_SyncConnectedPlayer(On.Terraria.NetMessage.orig_SyncConnectedPlayer orig, int plr)
+		{
+			if (Main.LocalPlayer.controlUp)
+			{
+				var trace = new StackTrace(true);
+				SpiritMod.Instance.Logger.Debug($"CAUGHT SYNCCONNECTEDPLAYER:\nPLR {plr}\n" + trace.ToString());
+			}
+
+			orig(plr);
+		}
+
+		private static void NetMessage_greetPlayer(On.Terraria.NetMessage.orig_greetPlayer orig, int plr)
+		{
+			if (Main.LocalPlayer.controlHook)
+			{
+				var trace = new StackTrace(true);
+				SpiritMod.Instance.Logger.Debug($"CAUGHT GREETPLAYER:\nPLR {plr}\n" + trace.ToString());
+			}
+
+			orig(plr);
+		}
+
+		private static void NetMessage_SendData(On.Terraria.NetMessage.orig_SendData orig, int msgType, int remoteClient, int ignoreClient, NetworkText text, int number, float number2, float number3, float number4, int number5, int number6, int number7)
+		{
+			if (Main.LocalPlayer.controlJump && msgType != MessageID.PlayerControls)
+			{
+				var trace = new StackTrace(true);
+				SpiritMod.Instance.Logger.Debug($"CAUGHT MESSAGE:\nTYPE {msgType} . REMOTECLIENT {remoteClient} . IGNORECLIENT {ignoreClient}\n NUMBERS [ASCENDING] {number} . {number2} . {number3} . {number4} . {number5} . {number6} . {number7}\n" + trace.ToString());
+			}
+
+			orig(msgType, remoteClient, ignoreClient, text, number, number2, number3, number4, number5, number6, number7);
 		}
 
 		public static void Unload()
@@ -170,78 +208,81 @@ namespace SpiritMod.Utilities
 		public static bool HoveringQuestButton = false;
 		private static void Main_DrawNPCChatButtons(On.Terraria.Main.orig_DrawNPCChatButtons orig, int superColor, Color chatColor, int numLines, string focusText, string focusText3) //Portrait drawing - Gabe
 		{
-			NPC talkNPC = Main.npc[Main.LocalPlayer.talkNPC];
-			bool hasPortrait = PortraitManager.HasPortrait(talkNPC.type) || PortraitManager.HasCallPortrait(talkNPC.type);
-
-			if (ModContent.GetInstance<SpiritClientConfig>().ShowNPCPortraits && hasPortrait)
+			if (Main.LocalPlayer.talkNPC != -1)
 			{
-				Point size = new Point(108, 108);
-				if (PortraitManager.HasPortrait(talkNPC.type)) //In-house portrait
+				NPC talkNPC = Main.npc[Main.LocalPlayer.talkNPC];
+				bool hasPortrait = PortraitManager.HasPortrait(talkNPC.type) || PortraitManager.HasCallPortrait(talkNPC.type);
+
+				if (ModContent.GetInstance<SpiritClientConfig>().ShowNPCPortraits && hasPortrait)
 				{
-					BasePortrait portrait = PortraitManager.GetPortrait(talkNPC.type); //Gets portrait
-					size = portrait.BaseSize;
-
-					var pos = new Vector2(Main.screenWidth / 2 - (252 + portrait.BaseSize.X), 100); //Portrait position
-					Main.spriteBatch.Draw(portrait.Texture, pos, portrait.GetFrame(Main.npcChatText, talkNPC), Color.White, 0f, default, 1f, SpriteEffects.None, 0f); //Portrait
-				}
-				else if (PortraitManager.HasCallPortrait(talkNPC.type)) //Mod.Call portrait
-				{
-					ModCallPortrait portrait = PortraitManager.GetCallPortrait(talkNPC.type); //Gets portrait
-					size = portrait.BaseSize;
-
-					var pos = new Vector2(Main.screenWidth / 2 - (252 + portrait.BaseSize.X), 100); //Portrait position
-					Main.spriteBatch.Draw(portrait.Texture, pos, portrait.GetFrame(Main.npcChatText, talkNPC), Color.White, 0f, default, 1f, SpriteEffects.None, 0f); //Portrait
-				}
-				
-				DrawPortraitName(talkNPC, size); //Draws the name
-			}
-
-			if (talkNPC.type == NPCID.Angler)
-				focusText = ""; // empty string, we'll add our own angler quest button
-
-			var queue = ModContent.GetInstance<QuestWorld>().NPCQuestQueue;
-
-			if (queue.ContainsKey(talkNPC.type) && queue[talkNPC.type].Count > 0) //If this NPC has a quest
-			{
-				// TODO: localization
-				string questText = "Quest";
-
-				DynamicSpriteFont font = Main.fontMouseText;
-				Vector2 scale = new Vector2(0.9f);
-				Vector2 stringSize = ChatManager.GetStringSize(font, questText, scale);
-				Vector2 position = new Vector2((180 + Main.screenWidth / 2) + stringSize.X - 50f, 130 + numLines * 30);
-				Color baseColor = new Color(superColor, (int)(superColor / 1.1), superColor / 2, superColor);
-				Vector2 mousePos = new Vector2(Main.mouseX, Main.mouseY);
-
-				if (mousePos.Between(position, position + stringSize * scale) && !PlayerInput.IgnoreMouseInterface) //Mouse hovers over button
-				{
-					Main.LocalPlayer.mouseInterface = true;
-					Main.LocalPlayer.releaseUseItem = true;
-					scale *= 1.1f;
-
-					if (!HoveringQuestButton)
-						Main.PlaySound(SoundID.MenuTick);
-
-					HoveringQuestButton = true;
-
-					if (Main.mouseLeft && Main.mouseLeftRelease) //If clicked on, unlock a quest.
+					Point size = new Point(108, 108);
+					if (PortraitManager.HasPortrait(talkNPC.type)) //In-house portrait
 					{
-						Quest q = queue[talkNPC.type].Dequeue();
-						QuestManager.UnlockQuest(q, true);
+						BasePortrait portrait = PortraitManager.GetPortrait(talkNPC.type); //Gets portrait
+						size = portrait.BaseSize;
 
-						Main.npcChatText = q.QuestDescription;
+						var pos = new Vector2(Main.screenWidth / 2 - (252 + portrait.BaseSize.X), 100); //Portrait position
+						Main.spriteBatch.Draw(portrait.Texture, pos, portrait.GetFrame(Main.npcChatText, talkNPC), Color.White, 0f, default, 1f, SpriteEffects.None, 0f); //Portrait
 					}
+					else if (PortraitManager.HasCallPortrait(talkNPC.type)) //Mod.Call portrait
+					{
+						ModCallPortrait portrait = PortraitManager.GetCallPortrait(talkNPC.type); //Gets portrait
+						size = portrait.BaseSize;
+
+						var pos = new Vector2(Main.screenWidth / 2 - (252 + portrait.BaseSize.X), 100); //Portrait position
+						Main.spriteBatch.Draw(portrait.Texture, pos, portrait.GetFrame(Main.npcChatText, talkNPC), Color.White, 0f, default, 1f, SpriteEffects.None, 0f); //Portrait
+					}
+
+					DrawPortraitName(talkNPC, size); //Draws the name
 				}
-				else
+
+				if (talkNPC.type == NPCID.Angler)
+					focusText = ""; // empty string, we'll add our own angler quest button
+
+				var queue = ModContent.GetInstance<QuestWorld>().NPCQuestQueue;
+
+				if (queue.ContainsKey(talkNPC.type) && queue[talkNPC.type].Count > 0) //If this NPC has a quest
 				{
-					if (HoveringQuestButton)
-						Main.PlaySound(SoundID.MenuTick);
+					// TODO: localization
+					string questText = "Quest";
 
-					HoveringQuestButton = false;
+					DynamicSpriteFont font = Main.fontMouseText;
+					Vector2 scale = new Vector2(0.9f);
+					Vector2 stringSize = ChatManager.GetStringSize(font, questText, scale);
+					Vector2 position = new Vector2((180 + Main.screenWidth / 2) + stringSize.X - 50f, 130 + numLines * 30);
+					Color baseColor = new Color(superColor, (int)(superColor / 1.1), superColor / 2, superColor);
+					Vector2 mousePos = new Vector2(Main.mouseX, Main.mouseY);
+
+					if (mousePos.Between(position, position + stringSize * scale) && !PlayerInput.IgnoreMouseInterface) //Mouse hovers over button
+					{
+						Main.LocalPlayer.mouseInterface = true;
+						Main.LocalPlayer.releaseUseItem = true;
+						scale *= 1.1f;
+
+						if (!HoveringQuestButton)
+							Main.PlaySound(SoundID.MenuTick);
+
+						HoveringQuestButton = true;
+
+						if (Main.mouseLeft && Main.mouseLeftRelease) //If clicked on, unlock a quest.
+						{
+							Quest q = queue[talkNPC.type].Dequeue();
+							QuestManager.UnlockQuest(q, true);
+
+							Main.npcChatText = q.QuestDescription;
+						}
+					}
+					else
+					{
+						if (HoveringQuestButton)
+							Main.PlaySound(SoundID.MenuTick);
+
+						HoveringQuestButton = false;
+					}
+
+					ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, font, questText, position + new Vector2(16f, 14f), baseColor, 0f,
+						stringSize * 0.5f, scale * new Vector2(1f));
 				}
-
-				ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, font, questText, position + new Vector2(16f, 14f), baseColor, 0f,
-					stringSize * 0.5f, scale * new Vector2(1f));
 			}
 			orig(superColor, chatColor, numLines, focusText, focusText3);
 		}
@@ -471,56 +512,6 @@ namespace SpiritMod.Utilities
 				// Now we finish up and plant a sapling above the tile we hit
 				WorldGen.PlaceTile(currentX, currentY - 1, TileID.Saplings);
 			});
-		}
-
-		/// This IL edit hooks into the part of Main.DoDraw() that draws the default, basic Moon texture.
-		/// It allows us to use the MoonDrawHook in order to draw 
-		/// 
-		/// IL_35b8: ldc.r4 0.0 
-		/// IL_35bd: callvirt instance void[Microsoft.Xna.Framework.Graphics] Microsoft.Xna.Framework.Graphics.SpriteBatch::Draw(class [Microsoft.Xna.Framework.Graphics] Microsoft.Xna.Framework.Graphics.Texture2D, valuetype[Microsoft.Xna.Framework] Microsoft.Xna.Framework.Vector2, valuetype[mscorlib] System.Nullable`1<valuetype[Microsoft.Xna.Framework] Microsoft.Xna.Framework.Rectangle>, valuetype[Microsoft.Xna.Framework] Microsoft.Xna.Framework.Color, float32, valuetype[Microsoft.Xna.Framework] Microsoft.Xna.Framework.Vector2, float32, valuetype[Microsoft.Xna.Framework.Graphics] Microsoft.Xna.Framework.Graphics.SpriteEffects, float32)
-		/// IL_XXXX: [WE INSERT OUR OWN METHOD HERE]
-		/// IL_35c2: br IL_3665
-		private static void Main_DoDraw(ILContext il)
-		{
-			var cursor = new ILCursor(il);
-			ILog logger = ModContent.GetInstance<SpiritMod>().Logger;
-
-			// TEMP: First, I want to grab the X position of the moon [through IL for practice reasons]
-			//if (!cursor.TryGotoNext(i => i.MatchStloc(7)))
-			//{
-			//	logger.Error("Failed to patch Main.DoDraw for Moon x position.");
-			//	return;
-			//}
-
-			for (int c = 0; c < 10; c++) // Our target is the 10th Draw call in DoDraw
-			{
-				if (!cursor.TryGotoNext(i => i.MatchCallvirt<SpriteBatch>("Draw")))
-				{
-					logger.Error("Failed to patch Main.DoDraw for Moon System: First jump failed");
-					return;
-				}
-			}
-
-			cursor.Index++; // Skip over the relevant Draw call
-
-			// Now we (hopefully) add our own method that we can use for drawing
-
-		}
-
-		private static void MoonDrawHook()
-		{
-			int x = (int)(Main.time / 32400.0 * (Main.screenWidth + Main.moonTexture[Main.moonType].Width * 2)) - Main.moonTexture[Main.moonType].Width;
-
-			double num28 = Math.Pow(1.0 - Main.time / 32400.0 * 2.0, 2.0);
-			double top = (int)((0f - Main.screenPosition.Y) / (Main.worldSurface * 16.0 - 600.0) * 200.0);
-			int y = (int)(top + num28 * 250.0 + 180.0);
-
-			var source = new Rectangle(0, Main.moonTexture[Main.moonType].Width * Main.moonPhase, Main.moonTexture[Main.moonType].Width, Main.moonTexture[Main.moonType].Width);
-			Main.spriteBatch.Draw(Main.sun2Texture, new Vector2(x, y), source, Color.White);
-
-			Main.NewText("e");
-
-			ModContent.GetInstance<SpiritMod>().Logger.Debug("im so epic");
 		}
 
 		/// This IL edit is used to stop evil stones (ebonstone/crimstone) from spreading into areas protected by super sunflowers

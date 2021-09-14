@@ -214,24 +214,17 @@ namespace SpiritMod.Mechanics.EventSystem.Controllers
 				if (!UseEntityRotation) return _rotation;
 
 				if (_entity is Player player)
-				{
 					return player.fullRotation;
-				}
 
 				if (_entity is Projectile projectile)
-				{
 					return projectile.rotation;
-				}
 
 				if (_entity is NPC npc)
-				{
 					return npc.rotation;
-				}
 
 				return _rotation;
 			}
 		}
-
 		#endregion
 	}
 }

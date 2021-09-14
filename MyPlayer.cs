@@ -3,27 +3,21 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
 using SpiritMod.Buffs.Armor;
 using SpiritMod.Buffs.Glyph;
-using SpiritMod.Buffs.Summon;
 using SpiritMod.Dusts;
 using SpiritMod.Items;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Consumable;
-using SpiritMod.Items.Consumable.Quest;
 using SpiritMod.Items.DonatorItems;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Mounts;
-using SpiritMod.NPCs;
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Boss.MoonWizard;
 using SpiritMod.NPCs.Mimic;
 using SpiritMod.Projectiles;
-using SpiritMod.NPCs.Tides.Tide;
-using SpiritMod.NPCs.Tides;
 using SpiritMod.Projectiles.DonatorItems;
 using SpiritMod.Projectiles.Magic;
 using SpiritMod.Projectiles.Summon;
-using SpiritMod.Projectiles.Sword;
 using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
@@ -39,15 +33,11 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using SpiritMod.Items.Equipment;
 using SpiritMod.NPCs.Boss.Scarabeus;
-using SpiritMod.Items.Sets.SpiritBiomeDrops;
-using System.Linq;
 using Terraria.Audio;
-using SpiritMod.Items.Consumable.Food;
 using SpiritMod.NPCs.AuroraStag;
 using SpiritMod.Tiles.Walls.Natural;
 using SpiritMod.Items.Accessory.GranitechDrones;
 using SpiritMod.Items.Equipment.AuroraSaddle;
-using SpiritMod.Particles;
 using Terraria.Graphics.Effects;
 using SpiritMod.Projectiles.Bullet;
 
@@ -55,11 +45,12 @@ namespace SpiritMod
 {
 	public class MyPlayer : ModPlayer
 	{
+		public const int CAMO_DELAY = 100;
+
 		public int Shake = 0;
 		public List<SpiritPlayerEffect> effects = new List<SpiritPlayerEffect>();
 		public List<SpiritPlayerEffect> removedEffects = new List<SpiritPlayerEffect>();
 		public SpiritPlayerEffect setbonus = null;
-		public const int CAMO_DELAY = 100;
 		public int Soldiers = 0;
 		internal static bool swingingCheck;
 		internal static Item swingingItem;
@@ -2443,31 +2434,34 @@ namespace SpiritMod
 			else
 				MinifishTimer = 120;
 
-			Vector2 zoom = Main.GameViewMatrix.Zoom;
-
-			foreach (NPC npc in Main.npc)
+			if (Main.netMode != NetmodeID.MultiplayerClient && !Main.dedServ)
 			{
-				if (!npc.active || npc.type != ModContent.NPCType<AuroraStag>())
-					continue;
+				Vector2 zoom = Main.GameViewMatrix.Zoom;
 
-				AuroraStag auroraStag = (AuroraStag)npc.modNPC;
-				if (auroraStag.Scared)
-					continue;
+				foreach (NPC npc in Main.npc)
+				{
+					if (!npc.active || npc.type != ModContent.NPCType<AuroraStag>())
+						continue;
 
-				Rectangle npcBox = npc.getRect();
-				npcBox.Inflate((int)zoom.X, (int)zoom.Y);
+					AuroraStag auroraStag = (AuroraStag)npc.modNPC;
+					if (auroraStag.Scared)
+						continue;
 
-				if ((int)(Vector2.Distance(player.Center, npc.Center) / 16) < 8 && npcBox.Contains(Main.MouseWorld.ToPoint()))
-					hoveredStag = auroraStag;
-			}
+					Rectangle npcBox = npc.getRect();
+					npcBox.Inflate((int)zoom.X, (int)zoom.Y);
 
-			if (hoveredStag != null)
-			{
-				Rectangle npcBox = hoveredStag.npc.getRect();
-				npcBox.Inflate((int)zoom.X, (int)zoom.Y);
+					if ((int)(Vector2.Distance(player.Center, npc.Center) / 16) < 8 && npcBox.Contains(Main.MouseWorld.ToPoint()))
+						hoveredStag = auroraStag;
+				}
 
-				if ((int)(Vector2.Distance(player.Center, hoveredStag.npc.Center) / 16) > 8 || !npcBox.Contains(Main.MouseWorld.ToPoint()))
-					hoveredStag = null;
+				if (hoveredStag != null)
+				{
+					Rectangle npcBox = hoveredStag.npc.getRect();
+					npcBox.Inflate((int)zoom.X, (int)zoom.Y);
+
+					if ((int)(Vector2.Distance(player.Center, hoveredStag.npc.Center) / 16) > 8 || !npcBox.Contains(Main.MouseWorld.ToPoint()))
+						hoveredStag = null;
+				}
 			}
 		}
 

@@ -107,9 +107,12 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 					{
 						if (player.inventory[i].ammo == AmmoID.Gel)
 						{
-							player.inventory[i].stack--;
-							if (player.inventory[i].stack <= 0)
-								player.inventory[i].TurnToAir();
+							if (PlayerHooks.ConsumeAmmo(player, player.HeldItem, player.inventory[i]))
+							{
+								player.inventory[i].stack--;
+								if (player.inventory[i].stack <= 0)
+									player.inventory[i].TurnToAir();
+							}
 							break;
 						}
 					}

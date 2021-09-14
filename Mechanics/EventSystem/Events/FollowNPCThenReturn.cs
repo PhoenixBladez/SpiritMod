@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Xna.Framework;
-
+﻿using Microsoft.Xna.Framework;
 using SpiritMod.Utilities;
 using SpiritMod.Mechanics.EventSystem.Controllers;
-
 using Terraria;
 
 namespace SpiritMod.Mechanics.EventSystem.Events
@@ -48,9 +40,6 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			AddToQueue(camera);
 		}
 
-		public override bool Update(float deltaTime)
-		{
-			return base.Update(deltaTime);
-		}
+		public override bool Update(float deltaTime) => base.Update(deltaTime);
 	}
 }

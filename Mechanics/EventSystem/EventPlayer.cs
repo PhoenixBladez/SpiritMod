@@ -1,10 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+﻿using System;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.EventSystem
@@ -13,9 +7,6 @@ namespace SpiritMod.Mechanics.EventSystem
 	{
 		public static event Action OnModifyScreenPosition;
 
-		public override void ModifyScreenPosition()
-		{
-			OnModifyScreenPosition?.Invoke();
-		}
+		public override void ModifyScreenPosition() => OnModifyScreenPosition?.Invoke();
 	}
 }

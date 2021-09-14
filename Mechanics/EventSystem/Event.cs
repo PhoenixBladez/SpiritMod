@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
-
 using Terraria.Graphics.Effects;
-
 using Priority_Queue;
 
 namespace SpiritMod.Mechanics.EventSystem

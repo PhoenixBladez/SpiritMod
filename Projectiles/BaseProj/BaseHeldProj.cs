@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,7 +24,6 @@ namespace SpiritMod.Projectiles.BaseProj
 				Owner.ChangeDir(projectile.velocity.X > 0 ? 1 : -1); //change the owner's direction based on the projectile's velocity
 				if(ownerDir != Owner.direction && Main.netMode != NetmodeID.SinglePlayer) //if in multiplayer and the owner's last direction is not equal to the owner's current, sync the owner
 					NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, Owner.whoAmI);
-
 			}
 
 			projectile.Center += HoldoutOffset(); //add in the holdout offset after calculating the direction

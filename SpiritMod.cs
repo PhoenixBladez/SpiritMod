@@ -1237,14 +1237,18 @@ namespace SpiritMod
 
 		public override void PostSetupContent()
 		{
-			nighttimeAmbience = new SoundLooper(this, "Sounds/NighttimeAmbience");
-			underwaterAmbience = new SoundLooper(this, "Sounds/UnderwaterAmbience");
-			wavesAmbience = new SoundLooper(this, "Sounds/WavesAmbience");
-			lightWind = new SoundLooper(this, "Sounds/LightWind");
-			desertWind = new SoundLooper(this, "Sounds/DesertWind");
-			caveAmbience = new SoundLooper(this, "Sounds/CaveAmbience");
-			spookyAmbience = new SoundLooper(this, "Sounds/SpookyAmbience");
-			scarabWings = new SoundLooper(this, "Sounds/BossSFX/Scarab_Wings");
+			if (!Main.dedServ)
+			{
+				nighttimeAmbience = new SoundLooper(this, "Sounds/NighttimeAmbience");
+				underwaterAmbience = new SoundLooper(this, "Sounds/UnderwaterAmbience");
+				wavesAmbience = new SoundLooper(this, "Sounds/WavesAmbience");
+				lightWind = new SoundLooper(this, "Sounds/LightWind");
+				desertWind = new SoundLooper(this, "Sounds/DesertWind");
+				caveAmbience = new SoundLooper(this, "Sounds/CaveAmbience");
+				spookyAmbience = new SoundLooper(this, "Sounds/SpookyAmbience");
+				scarabWings = new SoundLooper(this, "Sounds/BossSFX/Scarab_Wings");
+			}
+
 			Items.Glyphs.GlyphBase.InitializeGlyphLookup();
 
 			BossChecklistDataHandler.RegisterSpiritData(this);
