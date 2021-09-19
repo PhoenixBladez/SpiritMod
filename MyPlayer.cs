@@ -47,13 +47,14 @@ namespace SpiritMod
 	{
 		public const int CAMO_DELAY = 100;
 
+		internal static bool swingingCheck;
+		internal static Item swingingItem;
+
 		public int Shake = 0;
 		public List<SpiritPlayerEffect> effects = new List<SpiritPlayerEffect>();
 		public List<SpiritPlayerEffect> removedEffects = new List<SpiritPlayerEffect>();
 		public SpiritPlayerEffect setbonus = null;
 		public int Soldiers = 0;
-		internal static bool swingingCheck;
-		internal static Item swingingItem;
 		public bool clockActive = false;
 		public bool QuacklingMinion = false;
 		public bool rabbitMinion = false;

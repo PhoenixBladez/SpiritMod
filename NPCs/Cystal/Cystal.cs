@@ -14,8 +14,8 @@ namespace SpiritMod.NPCs.Cystal
 		public int dustTimer = 0;
 		public int healTimer = 0;
 		public bool check = false;
-		public static bool flag = false;
 		public bool shieldSpawned = false;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cystal");
@@ -36,13 +36,13 @@ namespace SpiritMod.NPCs.Cystal
 			npc.noTileCollide = true;
 			npc.HitSound = new Terraria.Audio.LegacySoundStyle(42, 193);
 			npc.DeathSound = new Terraria.Audio.LegacySoundStyle(42, 182);
-			/*banner = npc.type;
-			bannerItem = mod.ItemType("Energy_Humanoid_Banner");*/
 		}
+
 		public override void AI()
 		{
 			dustTimer++;
 			healTimer++;
+
 			Player player = Main.player[npc.target];
 			npc.spriteDirection = npc.direction;
 
@@ -50,137 +50,134 @@ namespace SpiritMod.NPCs.Cystal
 			if (npc.active && player.active && !shieldSpawned)
 			{
 				shieldSpawned = true;
-				int shield1 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + (int)(npc.height / 2), mod.NPCType("Cystal_Shield"));
+				int shield1 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + (npc.height / 2), ModContent.NPCType<Cystal_Shield>());
 				Main.npc[shield1].Center += new Vector2(0, 150).RotatedBy(MathHelper.ToRadians(90));
 				Main.npc[shield1].ai[1] = npc.whoAmI;
 
-				int shield2 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + (int)(npc.height / 2), mod.NPCType("Cystal_Shield"));
+				int shield2 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + (npc.height / 2), ModContent.NPCType<Cystal_Shield>());
 				Main.npc[shield2].Center += new Vector2(0, 150).RotatedBy(MathHelper.ToRadians(180));
 				Main.npc[shield2].ai[1] = npc.whoAmI;
 
-				int shield3 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + (int)(npc.height / 2), mod.NPCType("Cystal_Shield"));
+				int shield3 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + (npc.height / 2), ModContent.NPCType<Cystal_Shield>());
 				Main.npc[shield3].Center += new Vector2(0, 150).RotatedBy(MathHelper.ToRadians(270));
 				Main.npc[shield3].ai[1] = npc.whoAmI;
 
-				int shield4 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + (int)(npc.height / 2), mod.NPCType("Cystal_Shield"));
+				int shield4 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + (npc.height / 2), ModContent.NPCType<Cystal_Shield>());
 				Main.npc[shield4].Center += new Vector2(0, 150).RotatedBy(MathHelper.ToRadians(360));
 				Main.npc[shield4].ai[1] = npc.whoAmI;
 			}
-			if ((double)Vector2.Distance(npc.Center, player.Center) < (double)150f)
+
+			if (npc.DistanceSQ(player.Center) < 150 * 150)
 			{
-				Filters.Scene.Activate("CystalTower", Main.player[Main.myPlayer].position);
-				Filters.Scene.Activate("CystalBloodMoon", Main.player[Main.myPlayer].position);
-				player.AddBuff(mod.BuffType("Crystallization"), 2);
+				Filters.Scene.Activate("CystalTower", player.position);
+				Filters.Scene.Activate("CystalBloodMoon", player.position);
+				player.AddBuff(ModContent.BuffType<Crystallization>(), 2);
 			}
 			else
 			{
-				Filters.Scene.Deactivate("CystalTower", Main.player[Main.myPlayer].position);
-				Filters.Scene.Deactivate("CystalBloodMoon", Main.player[Main.myPlayer].position);
+				Filters.Scene.Deactivate("CystalTower", player.position);
+				Filters.Scene.Deactivate("CystalBloodMoon", player.position);
 			}
 
 			for (int i = 0; i < 200; i++)
 			{
-				NPC npc2 = Main.npc[i];
-				if ((double)Vector2.Distance(npc.Center, npc2.Center) < (double)150f && healTimer % 60 == 0 && npc2.type != mod.NPCType("Cystal") && npc2.type != mod.NPCType("Cystal_Shield"))
+				NPC other = Main.npc[i];
+
+				if (other.active && other.type != ModContent.NPCType<Cystal>() && other.type != ModContent.NPCType<Cystal_Shield>())
 				{
-					if (npc2.life < npc2.lifeMax - 10)
+					if (npc.DistanceSQ(other.Center) < 150 * 150 && healTimer % 60 == 0)
 					{
-						npc2.life += 10;
-						npc2.HealEffect(10, true);
+						if (other.life < other.lifeMax - 10)
+						{
+							other.life += 10;
+							other.HealEffect(10, true);
+						}
 					}
-				}
-				if ((double)Vector2.Distance(npc.Center, npc2.Center) < (double)1200f && npc2.type != mod.NPCType("Cystal") && npc2.type != mod.NPCType("Cystal_Shield") && npc2.life < npc2.lifeMax - 10 && npc2.type == Main.npc[(int)npc.ai[1]].type && npc2.active && !npc2.friendly)
-				{
-					npc.SimpleFlyMovement(npc.DirectionTo(Main.npc[(int)npc.ai[1]].Center + new Vector2(0.0f, -100f)) * 2.5f * 2f, 0.45f * 2f);
-					return;
+
+					if (npc.DistanceSQ(other.Center) < 1200 * 1200 && other.life < other.lifeMax - 10 && other.type == Main.npc[(int)npc.ai[1]].type && other.active && !other.friendly)
+					{
+						npc.SimpleFlyMovement(npc.DirectionTo(Main.npc[(int)npc.ai[1]].Center + new Vector2(0.0f, -100f)) * 5f, 0.9f);
+						return;
+					}
 				}
 			}
 
-			if ((double)Vector2.Distance(player.Center, npc.Center) <= (double)150f && player.active)
+			float playerDistance = player.DistanceSQ(npc.Center);
+			if (playerDistance <= 150 * 150f && player.active)
 			{
-				Vector2 vector2 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-				float num2 = player.position.X + (float)(player.width / 2) - vector2.X;
-				float num3 = player.position.Y + (float)(player.height / 2) - vector2.Y;
-				float num4 = 8f / (float)Math.Sqrt((double)num2 * (double)num2 + (double)num3 * (double)num3);
-				npc.velocity.X = num2 * num4 * -1 * (0.3f);
-				npc.velocity.Y = num3 * num4 * -1 * (0.3f);
+				float x = player.Center.X - npc.Center.X;
+				float y = player.Center.Y - npc.Center.Y;
+				float length = 8f / (float)Math.Sqrt(x * x + y * y);
+				npc.velocity.X = x * length * -1 * 0.3f;
+				npc.velocity.Y = y * length * -1 * 0.3f;
+
 				npc.spriteDirection = -1;
 				npc.direction = -1;
 			}
-			if ((double)Vector2.Distance(player.Center, npc.Center) <= (double)150f && (double)Vector2.Distance(player.Center, npc.Center) > (double)100f)
-			{
-				npc.velocity = Vector2.Zero;
-			}
 
-			if ((double)Vector2.Distance(player.Center, npc.Center) > (double)150f && player.active)
+			if (playerDistance <= 150 * 150f && playerDistance > 100 * 100f)
+				npc.velocity = Vector2.Zero;
+
+			if (playerDistance > 150f && player.active)
 			{
-				float num1 = 4f;
-				float number2 = 0.25f;
-				Vector2 vektor2 = new Vector2(npc.Center.X, npc.Center.Y);
-				float number3 = Main.player[npc.target].Center.X - vektor2.X;
-				float number4 = (float)((double)Main.player[npc.target].Center.Y - (double)vektor2.Y);
-				float num5 = (float)Math.Sqrt((double)number3 * (double)number3 + (double)number4 * (double)number4);
-				float num6;
-				float num7;
+				const float MoveSpeed = 0.25f;
+
+				float x = player.Center.X - npc.Center.X;
+				float y = player.Center.Y - npc.Center.Y;
+				float distance = x * x + y * y;
+
 				if (player == Main.player[npc.target])
 				{
-					if ((double)num5 < 20.0)
+					float oldVelX = npc.velocity.X;
+					float oldVelY = npc.velocity.Y;
+
+					if (distance >= 20 * 20f)
 					{
-						num6 = npc.velocity.X;
-						num7 = npc.velocity.Y;
+						float magnitude = 4f / distance;
+						oldVelX = x * magnitude;
+						oldVelY = y * magnitude;
 					}
-					else
+
+					if (npc.velocity.X < oldVelX)
 					{
-						float num8 = num1 / num5;
-						num6 = number3 * num8;
-						num7 = number4 * num8;
+						npc.velocity.X += MoveSpeed;
+						if (npc.velocity.X < 0 && oldVelX > 0)
+							npc.velocity.X += MoveSpeed * 2f;
 					}
-					if ((double)npc.velocity.X < (double)num6)
+					else if (npc.velocity.X > oldVelX)
 					{
-						npc.velocity.X += number2;
-						if ((double)npc.velocity.X < 0.0 && (double)num6 > 0.0)
-						{
-							npc.velocity.X += number2 * 2f;
-						}
+						npc.velocity.X -= MoveSpeed;
+						if (npc.velocity.X > 0 && oldVelX < 0)
+							npc.velocity.X -= MoveSpeed * 2f;
 					}
-					else if ((double)npc.velocity.X > (double)num6)
+					if (npc.velocity.Y < oldVelY)
 					{
-						npc.velocity.X -= number2;
-						if ((double)npc.velocity.X > 0.0 && (double)num6 < 0.0)
-						{
-							npc.velocity.X -= number2 * 2f;
-						}
+						npc.velocity.Y += MoveSpeed;
+						if (npc.velocity.Y < 0 && oldVelY > 0)
+							npc.velocity.Y += MoveSpeed * 2f;
 					}
-					if ((double)npc.velocity.Y < (double)num7)
+					else if (npc.velocity.Y > oldVelY)
 					{
-						npc.velocity.Y += number2;
-						if ((double)npc.velocity.Y < 0.0 && (double)num7 > 0.0)
-						{
-							npc.velocity.Y += number2 * 2f;
-						}
-					}
-					else if ((double)npc.velocity.Y > (double)num7)
-					{
-						npc.velocity.Y -= number2;
-						if ((double)npc.velocity.Y > 0.0 && (double)num7 < 0.0)
-						{
-							npc.velocity.Y -= number2 * 2f;
-						}
+						npc.velocity.Y -= MoveSpeed;
+						if (npc.velocity.Y > 0 && oldVelY < 0)
+							npc.velocity.Y -= MoveSpeed * 2f;
 					}
 				}
 			}
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CystalGore4"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CystalGore3"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CystalGore2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CystalGore1"), 1f);
-				Filters.Scene.Deactivate("CystalTower", Main.player[Main.myPlayer].position);
-				Filters.Scene.Deactivate("CystalBloodMoon", Main.player[Main.myPlayer].position);
+				for (int i = 1; i < 5; ++i)
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CystalGore" + i), 1f);
+
+				Player player = Main.player[npc.target];
+				Filters.Scene.Deactivate("CystalTower", player.position);
+				Filters.Scene.Deactivate("CystalBloodMoon", player.position);
 			}
+
 			for (int k = 0; k < 7; k++)
 			{
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.ScourgeOfTheCorruptor, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
@@ -188,112 +185,64 @@ namespace SpiritMod.NPCs.Cystal
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.PurpleCrystalShard, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
 			}
 		}
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			if (NPC.AnyNPCs(ModContent.NPCType<Cystal>()))
-			{
-				return 0f;
-			}
-			else
-			{
-				return SpawnCondition.Corruption.Chance * 0.065f;
-			}
-		}
+
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => NPC.AnyNPCs(ModContent.NPCType<Cystal>()) ? 0 : SpawnCondition.Corruption.Chance * 0.065f;
+
 		public override void NPCLoot()
 		{
-			/*if (Main.rand.Next(3) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Demonicrystal"), Main.rand.Next(1, 3));
-			}*/
 			Filters.Scene.Deactivate("CystalTower", Main.player[Main.myPlayer].position);
 			Filters.Scene.Deactivate("CystalBloodMoon", Main.player[Main.myPlayer].position);
+
 			if (Main.rand.Next(2) == 0)
-			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 68, Main.rand.Next(1, 3));
-			}
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			if (colorNumber >= 510)
-			{
 				check = true;
-			}
 			else if (colorNumber <= 300)
-			{
 				check = false;
-			}
 
 			if (check)
-			{
 				colorNumber -= 10;
-			}
 			else if (!check)
-			{
 				colorNumber += 10;
-			}
+
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 			return false;
 		}
+
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(mod.GetTexture("NPCs/Cystal/Cystal_Glow"), npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 new Color(colorNumber / 2, colorNumber / 2, colorNumber / 2), npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			spriteBatch.Draw(mod.GetTexture("NPCs/Cystal/Cystal_Glow"), npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, new Color(colorNumber / 2, colorNumber / 2, colorNumber / 2), npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 		}
+
 		public override void FindFrame(int frameHeight)
 		{
-			const int Frame_1 = 0;
-			const int Frame_2 = 1;
-			const int Frame_3 = 2;
-			const int Frame_4 = 3;
-			const int Frame_5 = 4;
-			const int Frame_6 = 5;
-			const int Frame_7 = 6;
-			const int Frame_8 = 7;
-
-			Player player = Main.player[npc.target];
-
-			if (npc.active && player.active)
+			if (npc.active && Main.player[npc.target].active)
 			{
 				npc.frameCounter++;
 				if (npc.frameCounter < 6)
-				{
-					npc.frame.Y = Frame_1 * frameHeight;
-				}
+					npc.frame.Y = 0 * frameHeight;
 				else if (npc.frameCounter < 12)
-				{
-					npc.frame.Y = Frame_2 * frameHeight;
-				}
+					npc.frame.Y = 1 * frameHeight;
 				else if (npc.frameCounter < 18)
-				{
-					npc.frame.Y = Frame_3 * frameHeight;
-				}
+					npc.frame.Y = 2 * frameHeight;
 				else if (npc.frameCounter < 24)
-				{
-					npc.frame.Y = Frame_4 * frameHeight;
-				}
+					npc.frame.Y = 3 * frameHeight;
 				else if (npc.frameCounter < 30)
-				{
-					npc.frame.Y = Frame_5 * frameHeight;
-				}
+					npc.frame.Y = 4 * frameHeight;
 				else if (npc.frameCounter < 36)
-				{
-					npc.frame.Y = Frame_6 * frameHeight;
-				}
+					npc.frame.Y = 5 * frameHeight;
 				else if (npc.frameCounter < 42)
-				{
-					npc.frame.Y = Frame_7 * frameHeight;
-				}
+					npc.frame.Y = 6 * frameHeight;
 				else if (npc.frameCounter < 48)
-				{
-					npc.frame.Y = Frame_8 * frameHeight;
-				}
+					npc.frame.Y = 7 * frameHeight;
 				else
-				{
 					npc.frameCounter = 0;
-				}
 			}
 		}
 	}

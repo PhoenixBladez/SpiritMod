@@ -192,17 +192,15 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
         {
             Texture2D tex = Main.projectileTexture[projectile.type];
 			Color color = lightColor;
-			Main.spriteBatch.Draw(tex, Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, 0, tex.Width, tex.Height / 3), color, Truerotation, Origin, projectile.scale, Effects, 0);
-            Main.spriteBatch.Draw(tex, Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, 2 * (tex.Height / 3), tex.Width, tex.Height / 3), Color.White, Truerotation, Origin, projectile.scale, Effects, 0);
+			Main.spriteBatch.Draw(tex, Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, 0, tex.Width - 1, tex.Height / 3 - 1), color, Truerotation, Origin, projectile.scale, Effects, 0);
+			Main.spriteBatch.Draw(tex, Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, 2 * (tex.Height / 3), tex.Width - 1, tex.Height / 3 - 1), Color.White, Truerotation, Origin, projectile.scale, Effects, 0);
 			if (!released && flickerTime < 16) {
 				flickerTime++;
-				color = Color.White;
-				float flickerTime2 = (float)(flickerTime / 20f);
+				float flickerTime2 = flickerTime / 20f;
 				float alpha = 1.5f - (((flickerTime2 * flickerTime2) / 2) + (2f * flickerTime2));
-				if (alpha < 0) {
+				if (alpha < 0)
 					alpha = 0;
-				}
-				Main.spriteBatch.Draw(tex, Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, tex.Height / 3, tex.Width, tex.Height / 3), color * alpha, Truerotation, Origin, projectile.scale, Effects, 1);
+				Main.spriteBatch.Draw(tex, Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, tex.Height / 3, tex.Width - 1, tex.Height / 3 - 1), Color.White * alpha, Truerotation, Origin, projectile.scale, Effects, 1);
 			}
             return false;
         }
