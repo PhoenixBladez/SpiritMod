@@ -1,10 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ModLoader;
 
 namespace SpiritMod.Utilities
 {
@@ -34,14 +31,15 @@ namespace SpiritMod.Utilities
 			_opacity = 0f;
 		}
 
-		public void Update(float Speed, int direction, bool fadeOut = false)
+		public void Update(float Speed, int direction, float maxOpacity, bool fadeOut = false)
 		{
 			float UpdateRatio = Math.Min(Speed / _speedCap, 1); //cap the effect of the input, and make its effect a ratio relative to the cap
 			_rotationSpeed = MathHelper.Lerp(_rotationSpeed, direction * BaseRotationSpeed * MathHelper.Lerp(1, 2, UpdateRatio), 0.1f); //rotate more with a higher speed
 			_rotation += _rotationSpeed;
 			_radius = MathHelper.Lerp(_radius, MathHelper.Lerp(_maxRadius, _minRadius, UpdateRatio), 0.08f); //reduce radius with a higher speed
 
-			_opacity = fadeOut ? Math.Max(_opacity - 0.05f, 0) : Math.Min(_opacity + 0.05f, 1);
+			_opacity = fadeOut ? Math.Max(_opacity - 0.05f, 0) : Math.Min(_opacity + 0.05f, maxOpacity);
+
 			Dead = fadeOut && (_opacity <= 0);
 		}
 

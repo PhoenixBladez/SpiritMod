@@ -30,7 +30,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			if (!Main.dedServ)
 			{
 				if (_runeCircle != null)
-					_runeCircle.Update(npc.velocity.Length(), npc.direction);
+					_runeCircle.Update(npc.velocity.Length(), npc.direction, 1f);
 
 				_rotMan.UpdateObjects();
 			}

@@ -934,16 +934,15 @@ namespace SpiritMod.NPCs
 		public override void NPCLoot(NPC npc)
 		{
 			Player closest = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)];
-			Player player = Main.LocalPlayer;
 
 			if (NPC.killCount[Item.NPCtoBanner(npc.BannerID())] == 50)
-				Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/BannerSfx"));
+				Main.PlaySound(SoundLoader.customSoundType, closest.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/BannerSfx"));
 
 			if (bloodInfused)
 				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
 
-			if (player.GetSpiritPlayer().wayfarerSet)
-				player.AddBuff(BuffType<Buffs.Armor.ExplorerFight>(), 240);
+			if (closest.GetSpiritPlayer().wayfarerSet)
+				closest.AddBuff(BuffType<Buffs.Armor.ExplorerFight>(), 240);
 
 			#region Glyph
 			if (npc.boss && (npc.modNPC == null || npc.modNPC.bossBag > 0))
@@ -962,6 +961,15 @@ namespace SpiritMod.NPCs
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Glyph>());
 			#endregion
 
+			ItemLoot(npc, closest);
+
+			bool lastTwin = (npc.type == NPCID.Retinazer && !NPC.AnyNPCs(NPCID.Spazmatism)) || (npc.type == NPCID.Spazmatism && !NPC.AnyNPCs(NPCID.Retinazer));
+			if ((npc.type == NPCID.SkeletronPrime || npc.type == NPCID.TheDestroyer || lastTwin) && !MyWorld.spiritBiome)
+				SpawnSpiritBiome();
+		}
+
+		private void ItemLoot(NPC npc, Player player)
+		{
 			DropLoot(1, 1, ItemType<Glyph>(), npc, NPCID.Tim, NPCID.RuneWizard);
 			DropLoot(100, 100, ItemType<Items.Consumable.Potion.BottomlessAle>(), npc, NPCID.Pixie);
 			DropLoot(250, 200, ItemType<Items.Accessory.Ukelele.Ukelele>(), npc, NPCID.AngryNimbus);
@@ -984,13 +992,13 @@ namespace SpiritMod.NPCs
 				DropLoot(150, 150, ItemType<WinterbornSculpture>(), npc, NPCType<Winterborn.WinterbornMelee>(), NPCType<WinterbornHerald.WinterbornMagic>());
 				DropLoot(5, 5, ItemType<Items.Consumable.Potion.BottomlessHealingPotion>(), npc, NPCID.Mimic);
 
-				if (closest.ZoneSnow)
+				if (player.ZoneSnow)
 					DropLoot(100, 100, ItemType<IceWheezerSculpture>(), npc, NPCType<Wheezer.Wheezer>());
 			}
 
 			DropLoot(110, 95, ItemType<Items.Sets.ClubSubclass.BoneClub>(), npc, NPCID.AngryBones, NPCID.AngryBonesBig, NPCID.AngryBonesBigMuscle);
 
-			if (closest.GetSpiritPlayer().ZoneAsteroid && Main.rand.Next(50) == 0)
+			if (player.GetSpiritPlayer().ZoneAsteroid && Main.rand.Next(50) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.GunsMisc.Blaster.Blaster>());
 
 			DropLoot(45, 45, ItemType<Items.Sets.BowsMisc.StarSpray.StarlightBow>(), npc, NPCID.Harpy);
@@ -1029,9 +1037,9 @@ namespace SpiritMod.NPCs
 			DropLoot(3, 3, ItemType<FrigidFragment>(), Main.rand.Next(1, 3), npc, NPCID.ZombieEskimo, NPCID.IceSlime, NPCID.IceBat, NPCID.ArmoredViking);
 			DropLoot(1, 1, ItemType<FrigidFragment>(), Main.rand.Next(1, 3), npc, NPCID.SpikedIceSlime, NPCID.ArmedZombieEskimo);
 
-			if (closest.GetSpiritPlayer().vitaStone)
+			if (player.GetSpiritPlayer().vitaStone)
 			{
-				if (!npc.friendly && npc.lifeMax > 5 && Main.rand.Next(9) == 1 && closest.statLife < closest.statLifeMax)
+				if (!npc.friendly && npc.lifeMax > 5 && Main.rand.Next(9) == 1 && player.statLife < player.statLifeMax)
 				{
 					if (Main.halloween)
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1734);
@@ -1059,15 +1067,11 @@ namespace SpiritMod.NPCs
 			DropLoot(50, 50, ItemType<CursedPendant>(), npc, NPCID.Clinger);
 			DropLoot(50, 50, ItemType<MagnifyingGlass>(), npc, NPCID.DemonEye, NPCID.DemonEye2, NPCID.DemonEyeOwl, NPCID.DemonEyeSpaceship);
 
-			if (closest.GetSpiritPlayer().floranSet && Main.rand.Next(9) == 1)
+			if (player.GetSpiritPlayer().floranSet && Main.rand.Next(9) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<RawMeat>(), 1);
 
 			if (npc.type == NPCID.EaterofWorldsTail && !NPC.AnyNPCs(NPCID.EaterofWorldsHead) && !NPC.AnyNPCs(NPCID.EaterofWorldsBody) && Main.rand.Next(3) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.SpearsMisc.RotScourge.EoWSpear>(), 1);
-
-			bool lastTwin = (npc.type == NPCID.Retinazer && !NPC.AnyNPCs(NPCID.Spazmatism)) || (npc.type == NPCID.Spazmatism && !NPC.AnyNPCs(NPCID.Retinazer));
-			if ((npc.type == NPCID.SkeletronPrime || npc.type == NPCID.TheDestroyer || lastTwin) && !MyWorld.spiritBiome)
-				SpawnSpiritBiome();
 		}
 
 		/// <summary>Drops an item given the specific conditions.</summary>
@@ -1106,10 +1110,10 @@ namespace SpiritMod.NPCs
 			int distanceFromCenter = 0;
 
 			int[] Grasses = { TileID.Grass, TileID.CorruptGrass, TileID.HallowedGrass, TileID.FleshGrass };
-			int[] IceTypes = { TileID.IceBlock, TileID.CorruptIce, TileID.HallowedIce, TileID.FleshIce };
-			int[] StoneTypes = { TileID.Stone, TileID.Ebonstone, TileID.Pearlstone, TileID.Crimstone, TileID.GreenMoss, TileID.BrownMoss, TileID.RedMoss, TileID.BlueMoss, TileID.PurpleMoss };
-			int[] SandArray = { TileID.Sand, TileID.Ebonsand, TileID.Pearlsand, TileID.Crimsand };
-			int[] DecorTypes = { TileID.Plants, TileID.CorruptPlants, TileID.CorruptThorns, TileID.Vines, TileID.JungleVines, TileID.HallowedPlants, TileID.HallowedPlants2, TileID.HallowedVines, TileID.Stalactite, TileID.SmallPiles, TileID.LargePiles, TileID.LargePiles2, TileID.FleshWeeds, TileID.CrimsonVines };
+			int[] Ices = { TileID.IceBlock, TileID.CorruptIce, TileID.HallowedIce, TileID.FleshIce };
+			int[] Stones = { TileID.Stone, TileID.Ebonstone, TileID.Pearlstone, TileID.Crimstone, TileID.GreenMoss, TileID.BrownMoss, TileID.RedMoss, TileID.BlueMoss, TileID.PurpleMoss };
+			int[] Sands = { TileID.Sand, TileID.Ebonsand, TileID.Pearlsand, TileID.Crimsand };
+			int[] Decors = { TileID.Plants, TileID.CorruptPlants, TileID.CorruptThorns, TileID.Vines, TileID.JungleVines, TileID.HallowedPlants, TileID.HallowedPlants2, TileID.HallowedVines, TileID.Stalactite, TileID.SmallPiles, TileID.LargePiles, TileID.LargePiles2, TileID.FleshWeeds, TileID.CrimsonVines };
 
 			for (int y = 0; y < Main.maxTilesY; y++)
 			{
@@ -1127,11 +1131,11 @@ namespace SpiritMod.NPCs
 							type = TileType<SpiritDirt>();
 						if (Grasses.Contains(Main.tile[xAxis, yAxis].type))
 							type = TileType<SpiritGrass>();
-						else if (IceTypes.Contains(Main.tile[xAxis, yAxis].type))
+						else if (Ices.Contains(Main.tile[xAxis, yAxis].type))
 							type = TileType<SpiritIce>();
-						else if (StoneTypes.Contains(Main.tile[xAxis, yAxis].type))
+						else if (Stones.Contains(Main.tile[xAxis, yAxis].type))
 							type = TileType<SpiritStone>();
-						else if (SandArray.Contains(Main.tile[xAxis, yAxis].type))
+						else if (Sands.Contains(Main.tile[xAxis, yAxis].type))
 							type = TileType<Spiritsand>();
 
 						if (xAxis < xAxisMid - 1)
@@ -1142,10 +1146,10 @@ namespace SpiritMod.NPCs
 						if (type != -1 && Main.rand.NextBool(nullRandom) && Main.rand.Next(distanceFromCenter) < 10)
 							Main.tile[xAxis, yAxis].type = (ushort)type; //Converts tiles
 
-						if (WallID.Sets.Conversion.Grass[Main.tile[xAxis, yAxis].wall] && /*Main.tile[xAxis, yAxis + 1] == null &&*/ Main.rand.NextBool(50) && Main.rand.Next(distanceFromCenter) < 18)
+						if (WallID.Sets.Conversion.Grass[Main.tile[xAxis, yAxis].wall] && Main.rand.NextBool(50) && Main.rand.Next(distanceFromCenter) < 18)
 							Main.tile[xAxis, yAxis].wall = (ushort)WallType<SpiritWall>(); //Converts walls
 
-						if (DecorTypes.Contains(Main.tile[xAxis, yAxis].type) && Main.rand.NextBool(nullRandom) && Main.rand.Next(distanceFromCenter) < 18)
+						if (Decors.Contains(Main.tile[xAxis, yAxis].type) && Main.rand.NextBool(nullRandom) && Main.rand.Next(distanceFromCenter) < 18)
 							Main.tile[xAxis, yAxis].active(false); //Removes decor
 
 						if (Main.tile[xAxis, yAxis].type == TileType<SpiritStone>() && yAxis > (int)((Main.rockLayer + Main.maxTilesY - 500) / 2f) && Main.rand.NextBool(300))
