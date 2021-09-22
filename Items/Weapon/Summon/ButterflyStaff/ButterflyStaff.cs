@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace SpiritMod.Items.Weapon.Summon.ButterflyStaff
 {
 	public class ButterflyStaff : ModItem
@@ -9,7 +10,7 @@ namespace SpiritMod.Items.Weapon.Summon.ButterflyStaff
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ethereal Butterfly Staff");
-			Tooltip.SetDefault("Summons a magical butterfly to fight for you\nRight-click to cause butterflies to dissipate and leave behind exploding arcane stars");
+			Tooltip.SetDefault("Summons a magical butterfly to fight for you\nLeft-click to cause butterflies to dissipate and leave behind exploding arcane stars");
 		}
 
 		public override void SetDefaults()

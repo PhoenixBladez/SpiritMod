@@ -1,13 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs.Summon;
-using SpiritMod.Projectiles;
 using SpiritMod.Projectiles.BaseProj;
 using System;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Weapon.Summon.ButterflyStaff
 {
@@ -23,8 +21,6 @@ namespace SpiritMod.Items.Weapon.Summon.ButterflyStaff
 			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
 		}
 
-		//public override void AbstractSetDefaults() => projectile.hide = true;
-
 		public override bool PreAI()
 		{
 
@@ -34,13 +30,11 @@ namespace SpiritMod.Items.Weapon.Summon.ButterflyStaff
 				projectile.alpha = Math.Max(projectile.alpha - 5, 0);
 
 				foreach (Projectile p in Main.projectile.Where(x => x.active && x != null && x.type == projectile.type && x.owner == projectile.owner && x != projectile))
-				{
-					if(p.Hitbox.Intersects(projectile.Hitbox))
+					if (p.Hitbox.Intersects(projectile.Hitbox))
 						projectile.velocity += projectile.DirectionFrom(p.Center) / 20;
-				}
 
 				if (Main.rand.NextBool(8) && !Main.dedServ)
-					Particles.ParticleHandler.SpawnParticle(new Particles.StarParticle(projectile.Center + Main.rand.NextVector2Circular(4, 4), 
+					Particles.ParticleHandler.SpawnParticle(new Particles.StarParticle(projectile.Center + Main.rand.NextVector2Circular(4, 4),
 						projectile.velocity.RotatedByRandom(MathHelper.Pi / 8) * Main.rand.NextFloat(0.2f, 0.4f), Color.LightPink, Color.DeepPink, Main.rand.NextFloat(0.1f, 0.2f), 20));
 			}
 			else
@@ -56,9 +50,9 @@ namespace SpiritMod.Items.Weapon.Summon.ButterflyStaff
 		private Vector2 stuckPos = Vector2.Zero;
 		public override void IdleMovement(Player player)
 		{
-			if(AiState == Moving)
+			if (AiState == Moving)
 			{
-				if(projectile.Distance(player.MountedCenter) > 2000)
+				if (projectile.Distance(player.MountedCenter) > 2000)
 					projectile.Center = player.MountedCenter;
 
 				projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(player.MountedCenter) * 15, 0.04f);
@@ -70,9 +64,7 @@ namespace SpiritMod.Items.Weapon.Summon.ButterflyStaff
 				}
 			}
 			else
-			{
 				projectile.Center = stuckPos + player.MountedCenter;
-			}
 		}
 
 		public override bool DoAutoFrameUpdate(ref int framespersecond, ref int startframe, ref int endframe)
@@ -85,7 +77,7 @@ namespace SpiritMod.Items.Weapon.Summon.ButterflyStaff
 		{
 			AiState = Moving;
 
-			if(Math.Abs(MathHelper.WrapAngle(projectile.velocity.ToRotation() - projectile.AngleTo(target.Center))) < MathHelper.PiOver4) //if close enough in desired angle, accelerate and home accurately
+			if (Math.Abs(MathHelper.WrapAngle(projectile.velocity.ToRotation() - projectile.AngleTo(target.Center))) < MathHelper.PiOver4) //if close enough in desired angle, accelerate and home accurately
 				projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center) * 18, 0.1f);
 
 			else //if too much of an angle, circle around
@@ -104,11 +96,9 @@ namespace SpiritMod.Items.Weapon.Summon.ButterflyStaff
 
 		public override void Kill(int timeLeft)
 		{
-            DustHelper.DrawStar(projectile.Center, 223, pointAmount: 5, mainSize: 1.6425f, dustDensity: 1.5f, dustSize: .5f, pointDepthMult: 0.3f, noGravity: true);
-            for (int i = 0; i < 15; i++)
-            {
-                Dust d = Dust.NewDustPerfect(projectile.Center, 223, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(3), 0, default, 0.5f);
-            }
+			DustHelper.DrawStar(projectile.Center, 223, pointAmount: 5, mainSize: 1.6425f, dustDensity: 1.5f, dustSize: .5f, pointDepthMult: 0.3f, noGravity: true);
+			for (int i = 0; i < 15; i++)
+				Dust.NewDustPerfect(projectile.Center, 223, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(3), 0, default, 0.5f);
 		}
 
 		public void AdditiveCall(SpriteBatch sB)

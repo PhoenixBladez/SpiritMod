@@ -9,8 +9,9 @@ namespace SpiritMod.Items.Equipment
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Obolos");
-			Tooltip.SetDefault("Summons a rideable Ethereal Boat for you to sail \n'Payment recieved' ");
+			Tooltip.SetDefault("Summons a rideable Ethereal Boat for you to sail \n'Payment recieved'");
 		}
+
 		public override void SetDefaults()
         {
             item.width = 20;

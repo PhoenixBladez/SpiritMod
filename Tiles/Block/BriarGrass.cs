@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Tiles.Ambient.Briar;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -28,19 +29,6 @@ namespace SpiritMod.Tiles.Block
 			drop = ItemID.DirtBlock;
 		}
 
-		public static bool PlaceObject(int x, int y, int type, bool mute = false, int style = 0, int alternate = 0, int random = -1, int direction = -1)
-		{
-			TileObject toBePlaced;
-			if (!TileObject.CanPlace(x, y, type, style, direction, out toBePlaced, false)) {
-				return false;
-			}
-			toBePlaced.random = random;
-			if (TileObject.Place(toBePlaced) && !mute) {
-				WorldGen.SquareTileFrame(x, y, true);
-			}
-			return false;
-		}
-
 		public override void RandomUpdate(int i, int j)
 		{
 			Tile tile = Framing.GetTileSafely(i, j);
@@ -48,29 +36,32 @@ namespace SpiritMod.Tiles.Block
 			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
 
 			//Try place vine
-			if (WorldGen.genRand.NextBool(15) && !tileBelow.active() && !tileBelow.lava()) {
-				if (!tile.bottomSlope()) {
+			if (WorldGen.genRand.NextBool(15) && !tileBelow.active() && !tileBelow.lava())
+			{
+				if (!tile.bottomSlope())
+				{
 					tileBelow.type = (ushort)ModContent.TileType<BriarVines>();
 					tileBelow.active(true);
 					WorldGen.SquareTileFrame(i, j + 1, true);
-					if (Main.netMode == NetmodeID.Server) {
+					if (Main.netMode == NetmodeID.Server)
+					{
 						NetMessage.SendTileSquare(-1, i, j + 1, 3, TileChangeType.None);
 					}
 				}
 			}
 
 			//try place foliage
-			if (WorldGen.genRand.NextBool(25) && !tileAbove.active() && !tileBelow.lava()) {
+			if (WorldGen.genRand.NextBool(25) && !tileAbove.active() && !tileBelow.lava())
+			{
 				if (!tile.bottomSlope() && !tile.topSlope() && !tile.halfBrick() && !tile.topSlope())
-                {
+				{
 					tileAbove.type = (ushort)ModContent.TileType<BriarFoliage>();
 					tileAbove.active(true);
 					tileAbove.frameY = 0;
 					tileAbove.frameX = (short)(WorldGen.genRand.Next(8) * 18);
 					WorldGen.SquareTileFrame(i, j + 1, true);
-					if (Main.netMode == NetmodeID.Server) {
+					if (Main.netMode == NetmodeID.Server)
 						NetMessage.SendTileSquare(-1, i, j - 1, 3, TileChangeType.None);
-					}
 				}
 			}
 
@@ -78,6 +69,29 @@ namespace SpiritMod.Tiles.Block
 			if (Main.hardMode && WorldGen.genRand.NextBool(500))
 				if (WorldGen.PlaceTile(i, j - 1, ModContent.TileType<SuperSunFlower>(), true))
 					MyWorld.superSunFlowerPositions.Add(new Point16(i, j - 1));
+
+			//Try spread grass
+			if (Main.rand.NextBool(Main.dayTime && j < Main.worldSurface ? 5 : 8))
+			{
+				List<Point> adjacents = OpenAdjacents(i, j, TileID.Dirt);
+				if (adjacents.Count > 0)
+				{
+					Point p = adjacents[Main.rand.Next(adjacents.Count)];
+					Framing.GetTileSafely(p.X, p.Y).type = (ushort)ModContent.TileType<BriarGrass>();
+					if (Main.netMode == NetmodeID.Server)
+						NetMessage.SendTileSquare(-1, p.X, p.Y, 1, TileChangeType.None);
+				}
+			}
+		}
+
+		private List<Point> OpenAdjacents(int i, int j, int type)
+		{
+			var p = new List<Point>();
+			for (int k = -1; k < 2; ++k)
+				for (int l = -1; l < 2; ++l)
+					if (Framing.GetTileSafely(i + k, j + l).active() && Framing.GetTileSafely(i + k, j + l).type == type)
+						p.Add(new Point(i + k, j + l));
+			return p;
 		}
 
 		public override int SaplingGrowthType(ref int style)
@@ -96,4 +110,3 @@ namespace SpiritMod.Tiles.Block
 		}
 	}
 }
-

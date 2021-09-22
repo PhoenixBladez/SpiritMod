@@ -1,14 +1,7 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using Terraria.GameInput;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
@@ -17,14 +10,14 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
     {
         public override void SetDefaults()
         {
-            item.damage = 50;
+            item.damage = 56;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.magic = true;
             item.width = 36;
             item.height = 40;
-            item.useTime = 12;
-            item.useAnimation = 12;
+			item.useTime = 9;
+            item.useAnimation = 9;
             item.useStyle = ItemUseStyleID.Stabbing;
             item.shoot = ModContent.ProjectileType<StarfireProj>();
             item.shootSpeed = 24f;
@@ -34,7 +27,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
             item.UseSound = SoundID.Item45.WithPitchVariance(0.2f).WithVolume(0.5f);
             item.value = Item.sellPrice(silver: 55);
             item.useTurn = false;
-            item.mana = 7;
+            item.mana = 5;
         }
 
         public override void SetStaticDefaults()
@@ -65,8 +58,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 
 				return true;
 			}
-			item.useTime = 12;
-			item.useAnimation = 12;
+			item.useTime = 9;
+			item.useAnimation = 9;
 			return true;
 		}
 
