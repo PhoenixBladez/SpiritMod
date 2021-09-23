@@ -30,6 +30,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.ignoreWater = true;
 			projectile.aiStyle = -1;
 		}
+
 		int timer;
 		int colortimer;
 
@@ -51,50 +52,42 @@ namespace SpiritMod.Projectiles.Magic
 		public override void AI()
 		{
 			timer++;
-			if (timer <= 50) {
+
+			if (timer <= 50)
 				colortimer++;
-			}
-			if (timer > 50) {
+			else if (timer > 50)
 				colortimer--;
-			}
-			if (timer >= 100) {
+
+			if (timer >= 100)
 				timer = 0;
-			}
-			float num395 = Main.mouseTextColor / 155f - 0.35f;
-			num395 *= 0.34f;
+
+			float num395 = (Main.mouseTextColor / 155f - 0.35f) * 0.34f;
 			projectile.scale = num395 + 0.55f;
 			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
 			Lighting.AddLight((int)(projectile.position.X / 16f), (int)(projectile.position.Y / 16f), 0.396f / 2, 0.370588235f / 2, 0.364705882f / 2);
-			bool flag25 = false;
-			int jim = 1;
-			for (int index1 = 0; index1 < 200; index1++) {
-				if (Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
-					float num23 = Main.npc[index1].position.X + (float)(Main.npc[index1].width / 2);
-					float num24 = Main.npc[index1].position.Y + (float)(Main.npc[index1].height / 2);
-					float num25 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num23) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num24);
-					if (num25 < 500f) {
-						flag25 = true;
-						jim = index1;
-					}
 
+			int target = -1;
+
+			for (int i = 0; i < Main.maxNPCs; i++) {
+				if (Main.npc[i].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1)) {
+					float num23 = Main.npc[i].position.X + (Main.npc[i].width / 2);
+					float num24 = Main.npc[i].position.Y + (Main.npc[i].height / 2);
+					float num25 = Math.Abs(projectile.Center.X - num23) + Math.Abs(projectile.Center.Y - num24);
+					if (num25 < 500f) {
+						target = i;
+						break;
+					}
 				}
 			}
-			if (flag25) {
-				float num1 = 12.5f;
-				Vector2 vector2 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-				float num2 = Main.npc[jim].Center.X - vector2.X;
-				float num3 = Main.npc[jim].Center.Y - vector2.Y;
-				Vector2 direction5 = Main.npc[jim].Center - projectile.Center;
-				direction5.Normalize();
-				projectile.rotation = projectile.DirectionTo(Main.npc[jim].Center).ToRotation() + 1.57f;
-				float num4 = (float)Math.Sqrt((double)num2 * (double)num2 + (double)num3 * (double)num3);
-				float num5 = num1 / num4;
-				float num6 = num2 * num5;
-				float num7 = num3 * num5;
-				int num8 = 10;
+
+			if (target != -1) {
+				const float Speed = 12.5f;
+				
+				Vector2 direction5 = Vector2.Normalize(Main.npc[target].Center - projectile.Center);
+				projectile.rotation = projectile.DirectionTo(Main.npc[target].Center).ToRotation() + 1.57f;
+
 				if (Main.rand.Next(16) == 0) {
-					projectile.velocity.X = (projectile.velocity.X * (float)(num8 - 1) + num6) / (float)num8;
-					projectile.velocity.Y = (projectile.velocity.Y * (float)(num8 - 1) + num7) / (float)num8;
+					projectile.velocity = direction5 * Speed;
 				}
 			}
 
@@ -106,7 +99,9 @@ namespace SpiritMod.Projectiles.Magic
 					projectile.Kill();
 				}
 			}
+
 			projectile.localAI[0] += 1f;
+
 			if (projectile.localAI[0] >= 10f) {
 				projectile.localAI[0] = 0f;
 				int num416 = 0;

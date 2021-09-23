@@ -1,9 +1,6 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
-using SpiritMod.Projectiles.Magic;
-using SpiritMod.NPCs.Boss.MoonWizard.Projectiles;
 using Terraria.ID;
 
 namespace SpiritMod.Projectiles.Bullet
@@ -32,6 +29,7 @@ namespace SpiritMod.Projectiles.Bullet
 		Vector2 direction = Vector2.Zero;
         int counter = 0;
         Vector2 holdOffset = new Vector2(0, -15);
+
         public override bool PreAI()
 		{
             Player player = Main.player[projectile.owner];
@@ -43,14 +41,13 @@ namespace SpiritMod.Projectiles.Bullet
                     direction.Normalize();
                     direction *= 5f;
                 }
+
 				if (counter == 45 || counter == 140)
-                {
-                    Main.PlaySound(SoundID.Item5, (int)projectile.position.X, (int)projectile.position.Y);
-                }
-				if (counter == 45)
-                    DustHelper.DrawDustImage(player.Center, 226, 0.11f, "SpiritMod/Effects/DustImages/MoonSigil", 1f);
-				if (counter == 140)
-                    DustHelper.DrawDustImage(player.Center, 226, 0.18f, "SpiritMod/Effects/DustImages/MoonSigil", 1f);
+				{
+					Main.PlaySound(SoundID.Item5, (int)projectile.position.X, (int)projectile.position.Y);
+					DustHelper.DrawDustImage(player.Center, 226, counter == 45 ? 0.11f : 0.18f, "SpiritMod/Effects/DustImages/MoonSigil", 1f);
+				}
+
                 player.itemTime = 5;
                 player.itemAnimation = 5;
                 projectile.position = player.Center + holdOffset;
@@ -101,17 +98,5 @@ namespace SpiritMod.Projectiles.Bullet
             player.itemAnimation = 2;
             return true;
 		}
-        private void DoDustEffect(Vector2 position, float distance, float minSpeed = 2f, float maxSpeed = 3f, object follow = null)
-        {
-            float angle = Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi);
-            Vector2 vec = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
-            Vector2 vel = vec * Main.rand.NextFloat(minSpeed, maxSpeed);
-
-            int dust = Dust.NewDust(position - vec * distance, 0, 0, DustID.Electric);
-            Main.dust[dust].noGravity = true;
-            Main.dust[dust].scale *= .3f;
-            Main.dust[dust].velocity = vel;
-            Main.dust[dust].customData = follow;
-        }
     }
 }

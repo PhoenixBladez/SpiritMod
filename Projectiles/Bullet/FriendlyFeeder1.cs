@@ -5,13 +5,9 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Bullet
 {
-	public class FriendlyFeeder1 : ModProjectile
+	public class FriendlyFeeder : ModProjectile
 	{
-
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Rotten Meat");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Rotten Meat");
 
 		public override void SetDefaults()
 		{
@@ -45,16 +41,15 @@ namespace SpiritMod.Projectiles.Bullet
 				int num416 = 0;
 				int num417 = 0;
 				float num418 = 0f;
-				int num419 = projectile.type;
-				for (int num420 = 0; num420 < 1000; num420++)
+				for (int i = 0; i < Main.maxProjectiles; i++)
 				{
-					if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f)
+					if (Main.projectile[i].active && Main.projectile[i].owner == projectile.owner && Main.projectile[i].type == projectile.type && Main.projectile[i].ai[1] < 3600f)
 					{
 						num416++;
-						if (Main.projectile[num420].ai[1] > num418)
+						if (Main.projectile[i].ai[1] > num418)
 						{
-							num417 = num420;
-							num418 = Main.projectile[num420].ai[1];
+							num417 = i;
+							num418 = Main.projectile[i].ai[1];
 						}
 					}
 				}
@@ -79,19 +74,17 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			const int DustType = DustID.Blood;
-
-			for (int k = 0; k < 6; k++)
-			{
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustType, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustType, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
-			}
-
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, DustType, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, DustType, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, DustType, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, DustType, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
+			for (int k = 0; k < 16; k++)
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Blood, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
 			return true;
+		}
+
+		public class FriendlyFeeder2 : FriendlyFeeder
+		{
+		}
+
+		public class FriendlyFeeder3 : FriendlyFeeder
+		{
 		}
 	}
 }

@@ -26,13 +26,15 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override bool PreAI()
 		{
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.ShadowbeamStaff, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.CursedTorch, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.ShadowbeamStaff, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.CursedTorch, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			Main.dust[dust].scale = 2f;
-			Main.dust[dust].noGravity = true;
-
+			for (int i = 0; i < 2; ++i)
+			{
+				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.ShadowbeamStaff, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				Main.dust[dust].scale = 2f;
+				Main.dust[dust].noGravity = true;
+				dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.CursedTorch, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				Main.dust[dust].scale = 2f;
+				Main.dust[dust].noGravity = true;
+			}
 			return true;
 		}
 
@@ -45,7 +47,7 @@ namespace SpiritMod.Projectiles.Magic
 			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -10f, 30f, ModContent.ProjectileType<CursedFlames>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
 
 			Projectile.NewProjectile(projectile.position.X - 100, projectile.position.Y - 100, 0f, 30f, ModContent.ProjectileType<NightSpit>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X - -100, projectile.position.Y - 100, 0f, 30f, ModContent.ProjectileType<NightSpit>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X + 100, projectile.position.Y - 100, 0f, 30f, ModContent.ProjectileType<NightSpit>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

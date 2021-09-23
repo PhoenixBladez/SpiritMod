@@ -40,7 +40,6 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			if (Main.rand.Next(4) == 1)
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Blood, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-
 			return true;
 		}
 
@@ -49,6 +48,5 @@ namespace SpiritMod.Projectiles.Magic
 			if (Main.rand.Next(5) == 0)
 				target.AddBuff(ModContent.BuffType<Wither>(), 180);
 		}
-
 	}
 }

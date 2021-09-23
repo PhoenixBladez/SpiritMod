@@ -46,7 +46,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.Belcher
 			}
 			int bloodproj;
 			bloodproj = Main.rand.Next(new int[] {
-				ModContent.ProjectileType<FriendlyFeeder1>(),
+				ModContent.ProjectileType<FriendlyFeeder>(),
 				ModContent.ProjectileType<FriendlyFeeder2>(),
 				ModContent.ProjectileType<FriendlyFeeder3>()
 			});

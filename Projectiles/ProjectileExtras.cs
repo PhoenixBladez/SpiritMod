@@ -617,12 +617,11 @@ namespace SpiritMod.Projectiles
 
 			projectile.tileCollide = false;
 			projectile.alpha = 255;
-			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
+			projectile.position = projectile.Center;
 			projectile.width = sizeX;
 			projectile.height = sizeY;
-			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			projectile.position.X -= (projectile.width / 2f);
+			projectile.position.Y -= (projectile.height / 2f);
             if (weakerExplosion)
             {
                 projectile.damage = (int)(projectile.damage * .75f);	
@@ -647,35 +646,19 @@ namespace SpiritMod.Projectiles
 					num2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 1.5f);
 					Main.dust[num2].velocity *= 3f;
 				}
-				for (int k = 0; k < 2; k++) {
+				for (int k = 0; k < 8; k++) {
 					float scaleFactor = 0.4f;
-					if (k == 1) {
+					if (k > 3)
 						scaleFactor = 0.8f;
-					}
-					int num3 = Gore.NewGore(new Vector2(projectile.position.X, projectile.position.Y), default, Main.rand.Next(61, 64), 1f);
-					Main.gore[num3].velocity *= scaleFactor;
-					Gore gore = Main.gore[num3];
-					gore.velocity.X = gore.velocity.X + 1f;
-					Gore gore2 = Main.gore[num3];
-					gore2.velocity.Y = gore2.velocity.Y + 1f;
-					num3 = Gore.NewGore(new Vector2(projectile.position.X, projectile.position.Y), default, Main.rand.Next(61, 64), 1f);
-					Main.gore[num3].velocity *= scaleFactor;
-					Gore gore3 = Main.gore[num3];
-					gore3.velocity.X = gore3.velocity.X - 1f;
-					Gore gore4 = Main.gore[num3];
-					gore4.velocity.Y = gore4.velocity.Y + 1f;
-					num3 = Gore.NewGore(new Vector2(projectile.position.X, projectile.position.Y), default, Main.rand.Next(61, 64), 1f);
-					Main.gore[num3].velocity *= scaleFactor;
-					Gore gore5 = Main.gore[num3];
-					gore5.velocity.X = gore5.velocity.X + 1f;
-					Gore gore6 = Main.gore[num3];
-					gore6.velocity.Y = gore6.velocity.Y - 1f;
-					num3 = Gore.NewGore(new Vector2(projectile.position.X, projectile.position.Y), default, Main.rand.Next(61, 64), 1f);
-					Main.gore[num3].velocity *= scaleFactor;
-					Gore gore7 = Main.gore[num3];
-					gore7.velocity.X = gore7.velocity.X - 1f;
-					Gore gore8 = Main.gore[num3];
-					gore8.velocity.Y = gore8.velocity.Y - 1f;
+
+					Gore gore = Main.gore[Gore.NewGore(projectile.position, default, Main.rand.Next(61, 64), 1f)];
+					gore.velocity *= scaleFactor;
+
+					float negateX = k > 3 ? -1 : 1;
+					float negateY = k == 2 || k == 3 || k > 5 ? -1 : 1;
+
+					gore.velocity.X += 1f * negateX;
+					gore.velocity.Y += 1f * negateY;
 				}
 				return;
 			}
@@ -813,20 +796,17 @@ namespace SpiritMod.Projectiles
 			Projectile projectile = Main.projectile[index];
 			Vector2 vector = projectile.Center;
 			Rectangle? sourceRectangle = null;
-			Vector2 origin = new Vector2((float)texture.Width * 0.5f, (float)texture.Height * 0.5f);
+			Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
 			float num = (float)texture.Height;
 			Vector2 vector2 = to - vector;
-			float rotation = (float)Math.Atan2((double)vector2.Y, (double)vector2.X) - 1.57f;
+			float rotation = (float)Math.Atan2(vector2.Y, vector2.X) - 1.57f;
 			bool flag = true;
-			if (float.IsNaN(vector.X) && float.IsNaN(vector.Y)) {
+
+			if (vector2.HasNaNs() || vector.HasNaNs())
 				flag = false;
-			}
-			if (float.IsNaN(vector2.X) && float.IsNaN(vector2.Y)) {
-				flag = false;
-			}
 
 			while (flag) {
-				if ((double)vector2.Length() < (double)num + 1.0) {
+				if (vector2.Length() < num + 1.0) {
 					flag = false;
 				}
 				else {
@@ -862,7 +842,7 @@ namespace SpiritMod.Projectiles
 			Vector2 zero = Vector2.Zero;
 			SpriteEffects effects = SpriteEffects.None;
 			if (projectile.spriteDirection == -1) {
-				zero.X = (float)Main.projectileTexture[projectile.type].Width;
+				zero.X = Main.projectileTexture[projectile.type].Width;
 				effects = SpriteEffects.FlipHorizontally;
 			}
 			Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], new Vector2(projectile.position.X - Main.screenPosition.X + (float)(projectile.width / 2), projectile.position.Y - Main.screenPosition.Y + (float)(projectile.height / 2) + projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height)), projectile.GetAlpha(lightColor), projectile.rotation, zero, projectile.scale, effects, 0f);

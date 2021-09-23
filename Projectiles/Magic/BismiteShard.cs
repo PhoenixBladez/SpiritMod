@@ -29,7 +29,8 @@ namespace SpiritMod.Projectiles.Magic
 			aiType = ProjectileID.Bullet;
 			projectile.extraUpdates = 1;
 		}
-		int num;
+
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
@@ -40,10 +41,13 @@ namespace SpiritMod.Projectiles.Magic
 			}
 			return false;
 		}
+
+		int alpha;
+
 		public override void AI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-			num += 2;
+			alpha += 2;
 			projectile.velocity *= 0.98f;
 			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Plantera_Green, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Plantera_Green, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
@@ -54,15 +58,13 @@ namespace SpiritMod.Projectiles.Magic
 			Main.dust[dust2].scale = 0.9f;
 			Main.dust[dust].scale = 0.9f;
 		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return new Color(155 - (int)(num / 3 * 2), 204 - (int)(num / 3 * 2), 92 - (int)(num / 3 * 2), 255 - num);
-		}
+
+		public override Color? GetAlpha(Color lightColor) => new Color(155 - (int)(alpha / 3 * 2), 204 - (int)(alpha / 3 * 2), 92 - (int)(alpha / 3 * 2), 255 - alpha);
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(5) == 0)
 				target.AddBuff(ModContent.BuffType<FesteringWounds>(), 180);
 		}
-
 	}
 }

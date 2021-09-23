@@ -60,26 +60,17 @@ namespace SpiritMod.Projectiles
 						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, -2f, 0, default, 1.2f);
 						Main.dust[num].noGravity = true;
 						Dust dust = Main.dust[num];
-						dust.position.X = dust.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-						Dust expr_92_cp_0 = Main.dust[num];
-						expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-						if (Main.dust[num].position != projectile.Center) {
-							Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
-						}
+						dust.position.X += (Main.rand.Next(-50, 51) / 20) - 1.5f;
+						dust.position.Y += (Main.rand.Next(-50, 51) / 20) - 1.5f;
+						if (dust.position != projectile.Center) 
+							dust.velocity = projectile.DirectionTo(dust.position) * 6f;
 					}
 				});
-			for (int num625 = 0; num625 < 2; num625++) {
-				float scaleFactor10 = 0.33f;
-				if (num625 == 1)
-					scaleFactor10 = 0.66f;
 
-				if (num625 == 2)
-					scaleFactor10 = 1f;
-
-				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-				Main.gore[num626].velocity *= scaleFactor10;
-				Gore expr_13AB6_cp_0 = Main.gore[num626];
-				expr_13AB6_cp_0.velocity.X = expr_13AB6_cp_0.velocity.X + 1f;
+			for (int i = 0; i < 2; i++) {
+				int gore = Gore.NewGore(new Vector2(projectile.Center.X - 24f, projectile.Center.Y - 24f), default, Main.rand.Next(61, 64), 1f);
+				Main.gore[gore].velocity *= 1 / 3f * (i + 1);
+				Main.gore[gore].velocity.X += 1f;
 			}
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

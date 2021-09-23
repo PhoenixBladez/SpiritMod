@@ -31,8 +31,8 @@ namespace SpiritMod.Projectiles.Bullet
 			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
 			for (int i = 0; i < 10; i++) {
-				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
-				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
+				float x = projectile.Center.X - projectile.velocity.X / 10f * i;
+				float y = projectile.Center.Y - projectile.velocity.Y / 10f * i;
 				int num = Dust.NewDust(new Vector2(x, y), 26, 26, DustID.RedTorch);
 				Main.dust[num].position.X = x;
 				Main.dust[num].position.Y = y;
@@ -46,6 +46,5 @@ namespace SpiritMod.Projectiles.Bullet
 			if (Main.rand.Next(4) == 0)
 				target.AddBuff(ModContent.BuffType<Wither>(), 180);
 		}
-
 	}
 }

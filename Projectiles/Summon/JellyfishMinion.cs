@@ -52,25 +52,21 @@ namespace SpiritMod.Projectiles.Summon
                 colorType = Main.rand.Next(0, 2);
                 chosenColor = true;
             }
-			if (colorType == 0)
-            {
-                colorVer = new Color(133 + Main.rand.Next(-10, 20), 177 + Main.rand.Next(-10, 20), 255 + Main.rand.Next(0, 10));
-            }
-			if (colorType == 1)
-            {
-                colorVer = new Color(248 + Main.rand.Next(-13, 6), 148 + Main.rand.Next(-10, 20), 255 + Main.rand.Next(-20, 0));
-            }
 
-			bool flag64 = projectile.type == ModContent.ProjectileType<Projectiles.Summon.JellyfishMinion>();
+			if (colorType == 0)
+                colorVer = new Color(133 + Main.rand.Next(-10, 20), 177 + Main.rand.Next(-10, 20), 255 + Main.rand.Next(0, 10));
+			else if (colorType == 1)
+                colorVer = new Color(248 + Main.rand.Next(-13, 6), 148 + Main.rand.Next(-10, 20), 255 + Main.rand.Next(-20, 0));
+
+			bool flag64 = projectile.type == ModContent.ProjectileType<JellyfishMinion>();
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
+
 			if (flag64) {
 				if (player.dead)
 					modPlayer.jellyfishMinion = false;
-
 				if (modPlayer.jellyfishMinion)
 					projectile.timeLeft = 2;
-
 			}
 
 			foreach (Projectile p in Main.projectile.Where(x => x.active && x != null && x.type == projectile.type && x.owner == projectile.owner && x != projectile))
@@ -270,14 +266,8 @@ namespace SpiritMod.Projectiles.Summon
 				}
 			}
 		}
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return colorVer;
-        }
-        public override bool MinionContactDamage()
-		{
-			return true;
-		}
 
+		public override Color? GetAlpha(Color lightColor) => colorVer;
+		public override bool MinionContactDamage() => true;
 	}
 }

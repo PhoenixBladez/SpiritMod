@@ -62,9 +62,7 @@ namespace SpiritMod.Projectiles.Arrow
 			}
 			return false;
 		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return new Color(200, 200, 200, 100);
-		}
+
+		public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 100);
 	}
 }

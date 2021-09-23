@@ -93,20 +93,9 @@ namespace SpiritMod.NPCs.CracklingCore
 			}
 			return true;
 		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return Color.White;
-		}
-		public override void NPCLoot()
-		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GraniteChunk>(), 1);
-		}
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			{
-				target.AddBuff(BuffID.Confused, 160);
-			}
-		}
+		public override Color? GetAlpha(Color lightColor) => Color.White;
+		public override void NPCLoot() => Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GraniteChunk>(), 1);
+		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.Confused, 160);
 	}
 }
