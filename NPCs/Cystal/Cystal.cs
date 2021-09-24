@@ -43,6 +43,7 @@ namespace SpiritMod.NPCs.Cystal
 			dustTimer++;
 			healTimer++;
 
+			npc.TargetClosest(false);
 			Player player = Main.player[npc.target];
 			npc.spriteDirection = npc.direction;
 
@@ -190,8 +191,8 @@ namespace SpiritMod.NPCs.Cystal
 
 		public override void NPCLoot()
 		{
-			Filters.Scene.Deactivate("CystalTower", Main.player[Main.myPlayer].position);
-			Filters.Scene.Deactivate("CystalBloodMoon", Main.player[Main.myPlayer].position);
+			Filters.Scene.Deactivate("CystalTower", Main.player[npc.target].position);
+			Filters.Scene.Deactivate("CystalBloodMoon", Main.player[npc.target].position);
 
 			if (Main.rand.Next(2) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 68, Main.rand.Next(1, 3));

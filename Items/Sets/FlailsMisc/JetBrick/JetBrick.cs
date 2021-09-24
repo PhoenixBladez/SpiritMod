@@ -4,7 +4,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Prim;
 using SpiritMod.Particles;
 
 namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
@@ -14,14 +13,15 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Jet Brick");
-			Tooltip.SetDefault("Launches you forward");
+			Tooltip.SetDefault("Pulls you along with it when launched far enough");
 		}
 
 		public override void SafeSetDefaults()
 		{
 			item.Size = new Vector2(34, 30);
-			item.damage = 60;
-			item.rare = ItemRarityID.Green;
+			item.damage = 50;
+			item.rare = ItemRarityID.Pink;
+			item.value = Item.buyPrice(0, 3, 0, 0);
 			item.useTime = 30;
 			item.useAnimation = 30;
 			item.shoot = ModContent.ProjectileType<JetBrickProj>();
@@ -29,9 +29,10 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
 			item.knockBack = 4;
 		}
 	}
+
 	public class JetBrickProj : BaseFlailProj
 	{
-		public JetBrickProj() : base(new Vector2(0.7f, 1.6f), new Vector2(0.5f, 3f), 2, 70, 13) { }
+		public JetBrickProj() : base(new Vector2(0.7f, 1.6f), new Vector2(0.5f, 2f), 2, 70, 13) { }
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Jet Brick");
 
@@ -39,9 +40,8 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
 		{
 			projectile.localAI[1]++;
 			if (projectile.localAI[0]++ == 0)
-			{
 				SpiritMod.primitives.CreateTrail(new JetBrickPrimTrail(projectile));
-			}
+
 			AddColor();
 			CreateSmoke(3, true, player);
 		}
@@ -55,8 +55,9 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
 
 		public override void LaunchExtras(Player player)
 		{
-			if (projectile.Distance(player.Center) > 200 && projectile.localAI[0] > 100)
+			if (projectile.Distance(player.Center) > 190 && projectile.localAI[0] > 100)
 				player.velocity = projectile.velocity * 0.7f;
+
 			base.LaunchExtras(player);
 		}
 
@@ -71,7 +72,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
 			if (projectile.localAI[1] % rate == 0)
 			{
 				Vector2 direction = spinning ? projectile.DirectionTo(player.Center).RotatedBy(player.direction * -1.57f) * 3 : Main.rand.NextVector2Circular(3, 3);
-				SmokeParticle particle = new SmokeParticle(
+				var particle = new SmokeParticle(
 					projectile.Center,
 					direction,
 					Color.Lerp(Color.Black, Color.Gray, Main.rand.NextFloat()),
@@ -80,6 +81,9 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
 				ParticleHandler.SpawnParticle(particle);
 			}
 		}
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => projectile.velocity = projectile.DirectionFrom(target.Center) * projectile.velocity.Length() * 0.8f;
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			float sineAdd = (float)Math.Sin(projectile.localAI[1] * 0.1f) + 3;

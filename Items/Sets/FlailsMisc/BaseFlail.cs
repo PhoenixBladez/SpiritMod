@@ -30,15 +30,17 @@ namespace SpiritMod.Items.Sets.FlailsMisc
 	{
 		internal bool released = false;
 		internal bool falling = false;
-		internal bool strucktile = false;
+		internal bool struckTile = false;
 
-		private float Timer
+		/// <summary>Mirrors projectile.ai[0].</summary>
+		internal float Timer
 		{
 			get => projectile.ai[0];
 			set => projectile.ai[0] = value;
 		}
 
-		private float ChargeTime
+		/// <summary>Mirrors projectile.ai[1].</summary>
+		internal float ChargeTime
 		{
 			get => projectile.ai[1];
 			set => projectile.ai[1] = value;
@@ -72,14 +74,14 @@ namespace SpiritMod.Items.Sets.FlailsMisc
 		{
 			writer.Write(released);
 			writer.Write(falling);
-			writer.Write(strucktile);
+			writer.Write(struckTile);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			released = reader.ReadBoolean();
 			falling = reader.ReadBoolean();
-			strucktile = reader.ReadBoolean();
+			struckTile = reader.ReadBoolean();
 		}
 
 		public override void AI()
@@ -106,7 +108,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc
 
 				ChargeTime = MathHelper.Clamp(Timer / 60, MaxChargeTime / 6, MaxChargeTime);
 
-				float radians = MathHelper.ToRadians(degreespertick * Timer * (1 + ChargeTime/MaxChargeTime)) * Owner.direction;
+				float radians = MathHelper.ToRadians(degreespertick * Timer * (1 + ChargeTime / MaxChargeTime)) * Owner.direction;
 				float distfromplayer = spinningdistance * ((float)Math.Abs(Math.Cos(radians) / 5) + 0.8f); //use a cosine function based on the amount of rotation the flail has gone through to create an ellipse-like pattern
 				Vector2 spinningoffset = new Vector2(distfromplayer, 0).RotatedBy(radians);
 				projectile.Center = Owner.MountedCenter + spinningoffset;
@@ -127,7 +129,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc
 			if (released && !falling) //basic flail launch, returns after a while
 			{
 				projectile.tileCollide = true;
-				if(++Timer == 1 && Owner.whoAmI == Main.myPlayer)
+				if (++Timer == 1 && Owner.whoAmI == Main.myPlayer)
 				{
 					Main.PlaySound(SoundID.Item19, projectile.Center);
 					projectile.Center = Owner.MountedCenter;
@@ -149,16 +151,16 @@ namespace SpiritMod.Items.Sets.FlailsMisc
 				}
 			}
 
-			if(falling) //falling towards ground, returns after hitting ground
+			if (falling) //falling towards ground, returns after hitting ground
 			{
-				if(strucktile || ++Timer >= 180)
+				if (struckTile || ++Timer >= 180)
 					Return(launchspeed, Owner);
 
 				else
 				{
 					FallingExtras(Owner);
 					projectile.tileCollide = true;
-					if(projectile.velocity.Y < 16f)
+					if (projectile.velocity.Y < 16f)
 						projectile.velocity.Y += 0.5f;
 
 					projectile.velocity.X *= 0.98f;
@@ -175,8 +177,8 @@ namespace SpiritMod.Items.Sets.FlailsMisc
 			ReturnExtras(Owner);
 		}
 
-        #region extra hooks
-        public virtual void SpinExtras(Player player) { }
+		#region extra hooks
+		public virtual void SpinExtras(Player player) { }
 
 		public virtual void NotSpinningExtras(Player player) { }
 
@@ -195,7 +197,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			if(ChargeTime > 0)
+			if (ChargeTime > 0)
 				damage = (int)(damage * MathHelper.Lerp(DamageMult.X, DamageMult.Y, ChargeTime / MaxChargeTime));
 		}
 
@@ -203,7 +205,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc
 		{
 			if (falling)
 			{
-				strucktile = true;
+				struckTile = true;
 				FallingTileCollide(oldVelocity);
 			}
 			Main.PlaySound(SoundID.Dig, projectile.Center);

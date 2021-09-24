@@ -91,8 +91,6 @@ namespace SpiritMod.NPCs.StarjinxEvent
 					int[] cometTypes = new int[] { ModContent.NPCType<LargeComet>(), ModContent.NPCType<SmallComet>(), ModContent.NPCType<MediumComet>() };
 					if (comet.active && comet.life > 0 && cometTypes.Contains(comet.type))
 						break;
-					//if (i == comets.Count - 1)
-					//	npc.dontTakeDamage = false;
 				}
 
 				if (updateCometOrder)
@@ -137,6 +135,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
             {
                 spawnedComets = true;
 				npc.dontTakeDamage = true;
+
 				StarjinxEventWorld.StarjinxActive = true;
 
 				SpawnComets();
@@ -231,7 +230,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
         {
             StarjinxEventWorld.StarjinxActive = false;
 
-            int drops = (Main.expertMode) ? 9 : 7;
+            int drops = Main.expertMode ? 9 : 7;
             for (int i = 0; i < drops; i++)
                 Item.NewItem(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), mod.ItemType("Starjinx"), Main.rand.Next(3, 6));
 

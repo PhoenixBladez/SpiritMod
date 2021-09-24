@@ -1,7 +1,6 @@
 using Terraria.ModLoader;
 using Terraria;
 using Terraria.ModLoader.IO;
-using SpiritMod.NPCs.StarjinxEvent;
 
 namespace SpiritMod.NPCs.StarjinxEvent
 {
@@ -34,11 +33,6 @@ namespace SpiritMod.NPCs.StarjinxEvent
                 StarjinxActive = tag.GetBool("Starjinx Active?");
             SpawnedStarjinx = false;
         }
-
-		public override void PostDrawTiles()
-		{
-			base.PostDrawTiles();
-		}
 
 		/*public override void Initialize()
 		{
