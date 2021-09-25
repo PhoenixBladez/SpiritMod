@@ -66,12 +66,16 @@ namespace SpiritMod
 		public float ziplineCounter = 0f;
 		public int shieldCounter = 0;
 		public int bismiteShieldStacks;
+
 		public bool MetalBand = false;
 		public bool KoiTotem = false;
 		public bool VampireCloak = false;
 		public bool starplateGlitchEffect = false;
 		public bool HealCloak = false;
 		public bool SpiritCloak = false;
+
+		public bool crystalFlower = false;
+
 		public bool firewall = false;
 		public int clockX = 0;
 		public int clockY = 0;
@@ -1238,7 +1242,7 @@ namespace SpiritMod
 				if (target.life <= target.lifeMax / 2 && Main.rand.Next(7) == 0)
 				{
 					Projectile.NewProjectile(target.position, Vector2.Zero, ModContent.ProjectileType<ShadowSingeProj>(), item.damage / 3 * 2, 4, Main.myPlayer);
-					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 6));
+					Main.PlaySound(new LegacySoundStyle(4, 6));
 					player.statLife -= 3;
 				}
 			}
@@ -1311,10 +1315,8 @@ namespace SpiritMod
 
 			if (wheezeScale && Main.rand.NextBool(9) && item.melee)
 			{
-				Vector2 vel = new Vector2(0, -1);
 				float rand = Main.rand.NextFloat() * 6.283f;
-				vel = vel.RotatedBy(rand);
-				vel *= 8f;
+				Vector2 vel = new Vector2(0, -1).RotatedBy(rand) * 8f;
 				Projectile.NewProjectile(target.Center, vel, ModContent.ProjectileType<Wheeze>(), item.damage / 2, 0, Main.myPlayer);
 			}
 
@@ -1338,6 +1340,9 @@ namespace SpiritMod
 
 			if (infernalFlame && item.melee && crit && Main.rand.NextBool(12))
 				Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PhoenixProjectile>(), 50, 4, Main.myPlayer);
+
+			if (crystalFlower && target.life <= 0 && Main.rand.NextBool(12))
+				CrystalFlowerOnKillEffect(target);
 		}
 
 		int Charger;
@@ -1519,7 +1524,7 @@ namespace SpiritMod
 			if (meleeshadowSet && Main.rand.NextBool(10) && proj.melee)
 				Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
 
-			if (rangedshadowSet && Main.rand.Next(10) == 2 && (proj.ranged))
+			if (rangedshadowSet && Main.rand.Next(10) == 2 && proj.ranged)
 				Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
 
 			if (ToxicExtract && Main.rand.NextBool(5) && proj.magic)
@@ -1533,6 +1538,18 @@ namespace SpiritMod
 
 			if (magalaSet && Main.rand.NextBool(6))
 				player.AddBuff(ModContent.BuffType<FrenzyVirus1>(), 240);
+
+			if (crystalFlower && target.life <= 0 && Main.rand.NextBool(12))
+				CrystalFlowerOnKillEffect(target);
+		}
+
+		private void CrystalFlowerOnKillEffect(NPC target)
+		{
+			Main.PlaySound(SoundID.Item107, target.Center);
+
+			int numProjectiles = Main.rand.Next(2, 5);
+			for (int i = 0; i < numProjectiles; ++i)
+				Projectile.NewProjectile(target.Center, new Vector2(Main.rand.NextFloat(3, 3), Main.rand.NextFloat(3, 1)), ProjectileID.UnholyArrow, 30, 0, player.whoAmI);
 		}
 
 		public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
