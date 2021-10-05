@@ -17,9 +17,9 @@ namespace SpiritMod.Items.Weapon.Summon.WyvernStaff
 
 		public override void SetDefaults()
 		{
-			 item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 320;
-            item.useAnimation = 320;
+			item.useStyle = ItemUseStyleID.SwingThrow;
+			item.useTime = 320;
+			item.useAnimation = 320;
 			item.width = 40;
 			item.height = 32;
 			item.noUseGraphic = true;
@@ -30,12 +30,14 @@ namespace SpiritMod.Items.Weapon.Summon.WyvernStaff
 			item.shootSpeed = 8f;
 			item.knockBack = 5f;
 			item.damage = 36;
-			item.value = Item.sellPrice(0, 0, 60, 0);
-			item.rare = ItemRarityID.Orange;
+			item.value = Item.sellPrice(0, 2, 0, 0);
+			item.rare = ItemRarityID.LightPurple;
 			item.shoot = ModContent.ProjectileType<WyvernStaffProj>();
 		}
+
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0;
 	}
+
 	public class WyvernStaffProj : ModProjectile
 	{
 		public override void SetStaticDefaults()
@@ -60,33 +62,39 @@ namespace SpiritMod.Items.Weapon.Summon.WyvernStaff
 		readonly int width = 50;
 
 		double radians = 0;
-        float alphaCounter = 0;
-        bool released = false;
+		float alphaCounter = 0;
+		bool released = false;
 
 		Projectile head;
 		int latestSegment;
 		int numSegments = 0;
+
 		public override void AI()
 		{
 			Player player = Main.player[projectile.owner];
 			alphaCounter += 0.08f;
+
 			if (numSegments == 0)
 			{
-				numSegments = 1;
+				numSegments++;
 				int headint = Projectile.NewProjectile(player.Center - new Vector2(0, 150), Vector2.Zero, ModContent.ProjectileType<WyvernStaffHead>(), projectile.damage, projectile.knockBack, projectile.owner);
 				head = Main.projectile[headint];
 				latestSegment = headint;
 			}
+
+			projectile.ai[0]++;
 			if ((int)projectile.ai[0] % 15 == 0 && numSegments < 25)
 			{
-				if (!Main.projectile[latestSegment].active)
-					Main.NewText("Uh oh. Something went wrong with the Wyvern Staff. Report to Spirit Mod devs immediately: Issue #3");
 				Main.projectile[latestSegment].frame = 1 + (int)projectile.ai[0] % 2;
 				latestSegment = Projectile.NewProjectile(Main.projectile[latestSegment].Center, Vector2.Zero, ModContent.ProjectileType<WyvernStaffBody>(), projectile.damage, projectile.knockBack, projectile.owner, latestSegment);
 				numSegments++;
+
+				if (!Main.projectile[latestSegment].active)
+					Main.NewText("Uh oh. Something went wrong. Report to Spirit Mod devs immediately: Wyvern Staff Bad Segmentation");
 			}
-			projectile.ai[0]++;
+
 			head.Center = player.Center + ((float)radians + 3.14f).ToRotationVector2() * 80;
+
 			if (player.direction == 1)
 			{
 				head.spriteDirection = -1;
@@ -95,72 +103,65 @@ namespace SpiritMod.Items.Weapon.Summon.WyvernStaff
 			else
 			{
 				head.spriteDirection = -1;
-				head.rotation = (float)radians + 3.14f;
+				head.rotation = (float)radians + MathHelper.Pi;
 			}
+
 			if (!released)
-			{
-                projectile.scale = MathHelper.Clamp(projectile.ai[0] / 10f, 0, 1);
-			}
-            if (player.direction == 1)
-            {
-                radians += (double)(30f / 200);
-            }
-            else
-            {
-                radians -= (double)(30f / 200);
-            }
-            if (radians > 6.28)
-            {
-                radians -= 6.28;
-            }
-            if (radians < -6.28)
-            {
-                radians += 6.28;
-            }
+				projectile.scale = MathHelper.Clamp(projectile.ai[0] / 10f, 0, 1);
+
+			if (player.direction == 1)
+				radians += 30f / 200;
+			else
+				radians -= 30f / 200;
+
+			if (radians > 6.28)
+				radians -= 6.28;
+
+			if (radians < -6.28)
+				radians += 6.28;
+
 			projectile.velocity = Vector2.Zero;
 
-			Vector2 direction = Main.MouseWorld - player.position;
-            direction.Normalize();
-            double throwingAngle = direction.ToRotation() + 3.14;
+			Vector2 direction = Vector2.Normalize(Main.MouseWorld - player.position);
+			double throwingAngle = direction.ToRotation() + 3.14;
 			projectile.position = player.Center - (Vector2.UnitX.RotatedBy(radians) * 40) - (projectile.Size / 2);
 			player.itemAnimation -= 14;
 
-            while (player.itemAnimation < 3)
-            {
-                Main.PlaySound(SoundID.Item1, projectile.Center);
-                player.itemAnimation += 320;
-            }
-            player.itemTime = player.itemAnimation;
+			while (player.itemAnimation < 3)
+			{
+				Main.PlaySound(SoundID.Item1, projectile.Center);
+				player.itemAnimation += 320;
+			}
+
+			player.itemTime = player.itemAnimation;
 
 			if (player.whoAmI == Main.myPlayer)
 				player.ChangeDir(Math.Sign(direction.X));
 
 			if (player.direction != 1)
-            {
-                throwingAngle -= 6.28;
-            }
+				throwingAngle -= 6.28;
 
 			if ((!player.channel && Math.Abs(radians - throwingAngle) < 1 && projectile.ai[0] > 20) || released)
-            {
-                released = true;
-                projectile.scale -= 0.35f;
-                if (projectile.scale < 0.35f)
-                {
+			{
+				released = true;
+				projectile.scale -= 0.35f;
+				if (projectile.scale < 0.35f)
+				{
 					player.itemTime = player.itemAnimation = 2;
-                    projectile.active = false;
+					projectile.active = false;
 					head.velocity = direction * 20;
 					if (head.modProjectile is WyvernStaffHead modProj)
 					{
 						modProj.attack = true;
 						modProj.deathCounter = 30 * numSegments;
 					}
-                }
-            }
+				}
+			}
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Color color = lightColor;
-            Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, 0, width, height), color, (float)radians + 3.9f, new Vector2(0, height), projectile.scale, SpriteEffects.None, 0);
+			Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, 0, width, height), color, (float)radians + 3.9f, new Vector2(0, height), projectile.scale, SpriteEffects.None, 0);
 			return false;
 		}
 	}

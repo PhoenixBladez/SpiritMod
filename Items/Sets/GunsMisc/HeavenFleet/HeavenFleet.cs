@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Bullet;
 using Terraria;
 using Terraria.ID;
@@ -13,7 +13,6 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 		{
 			DisplayName.SetDefault("Heaven Fleet");
 			Tooltip.SetDefault("Converts regular bullets into bouncing stars \nHold down for a bigger blast");
-
 		}
 
 		public override void SetDefaults()
@@ -29,25 +28,34 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 			item.noMelee = true;
 			item.knockBack = 3;
 			item.useTurn = false;
-			item.value = Terraria.Item.sellPrice(0, 1, 42, 0);
-			item.rare = ItemRarityID.Orange;
+			item.value = Item.sellPrice(0, 5, 0, 0);
+			item.rare = ItemRarityID.Pink;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<HeavenFleetProj>();
 			item.shootSpeed = 25f;
 			item.useAmmo = AmmoID.Bullet;
 		}
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			if (type == ProjectileID.Bullet)
-			{
 				type = ModContent.ProjectileType<ConfluxPellet>();
-			}
-			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<HeavenFleetProj>(), damage, knockBack, player.whoAmI, type);
+
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<HeavenFleetProj>(), damage, knockBack, player.whoAmI, type);
 			return false;
 		}
-		public override Vector2? HoldoutOffset()
+
+		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
+
+		public override void AddRecipes()
 		{
-			return new Vector2(-10, 0);
+			var recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.Shotgun, 1);
+			recipe.AddIngredient(ItemID.Star, 8);
+			recipe.AddIngredient(ModContent.ItemType<Starjinx>(), 12);
+			recipe.AddTile(TileID.MythrilAnvil);
+			recipe.SetResult(this, 1);
+			recipe.AddRecipe();
 		}
 	}
 }

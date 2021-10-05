@@ -28,10 +28,11 @@ namespace SpiritMod.Items.Weapon.Summon.WyvernStaff
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 			projectile.minionSlots = 0;
-
 		}
+
 		public bool attack;
 		public int deathCounter;
+
 		public override void AI()
 		{
 			deathCounter--;
@@ -41,6 +42,7 @@ namespace SpiritMod.Items.Weapon.Summon.WyvernStaff
 				Gore.NewGore(projectile.Center, projectile.velocity, Main.rand.Next(11, 13), 1f);
 				projectile.active = false;
 			}
+
 			if (attack)
 			{
 				projectile.aiStyle = 121;

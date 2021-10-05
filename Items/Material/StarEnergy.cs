@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-
 namespace SpiritMod.Items.Material
 {
 	public class StarEnergy : ModItem
@@ -14,7 +13,6 @@ namespace SpiritMod.Items.Material
 			DisplayName.SetDefault("Energized Metal");
 			Tooltip.SetDefault("'It utilizes some kind of otherworldly power source'");
 		}
-
 
 		public override void SetDefaults()
 		{

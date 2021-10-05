@@ -24,7 +24,7 @@ namespace SpiritMod.Tiles.Ambient.CrystalFlower
 
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Crystal Flower");
-			AddMapEntry(new Color(107, 90, 64), name);
+			AddMapEntry(new Color(9, 170, 219), name);
 
 			mineResist = 1.2f;
 			drop = ModContent.ItemType<CrystalFlowerItem>();

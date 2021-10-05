@@ -14,13 +14,11 @@ namespace SpiritMod.Items.Consumable
 			DisplayName.SetDefault("Starplate Beacon");
 			Tooltip.SetDefault("Non-consumable\nUse at an Astralite Beacon to summon the Starplate Voyager");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Consumable/StarWormSummon_Glow");
-
 		}
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			Texture2D texture = Main.itemTexture[item.type];
 			spriteBatch.Draw
 			(
 				ModContent.GetTexture("SpiritMod/Items/Consumable/StarWormSummon_Glow"),
@@ -38,6 +36,7 @@ namespace SpiritMod.Items.Consumable
 				0f
 			);
 		}
+
 		public override void SetDefaults()
 		{
 			item.width = item.height = 16;
@@ -47,7 +46,6 @@ namespace SpiritMod.Items.Consumable
 			item.noMelee = true;
 			item.consumable = false;
 			item.autoReuse = false;
-
 		}
 
 		public override void AddRecipes()

@@ -204,23 +204,18 @@ namespace SpiritMod.Items.Sets.GranitechSet.PulseOrbs
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            float num108 = 4;
-            float num107 = (float)Math.Cos((double)(Main.GlobalTime % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
+            float num107 = (float)Math.Cos((Main.GlobalTime % 2.4f / 2.4f * MathHelper.TwoPi)) / 2f + 0.5f;
             float num106 = 0f;
 
-            Texture2D texture2D6 = Main.projectileTexture[projectile.type];
+            Texture2D tex = Main.projectileTexture[projectile.type];
             SpriteEffects spriteEffects3 = (projectile.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            Color color29 = new Color(127 - projectile.alpha, 127 - projectile.alpha, 127 - projectile.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.White);
-            Color color28 = color29;
-            color28 = projectile.GetAlpha(color28);
-            color28 *= 1f - num107;
+            Color color29 = new Color(127 - projectile.alpha, 127 - projectile.alpha, 127 - projectile.alpha, 0).MultiplyRGBA(Color.White);
+			color29 = projectile.GetAlpha(color29) * (1f - num107);
 
-            Color color30 = projectile.GetAlpha(color28);
-            color30 *= 1.18f - num107;
             for (int num103 = 0; num103 < 6; num103++)
             {
-                Vector2 vector29 = new Vector2(projectile.Center.X, projectile.Center.Y) + ((float)num103 / (float)num108 * 6.28318548f + projectile.rotation + num106).ToRotationVector2() * (3f * num107 + 2f) - Main.screenPosition + new Vector2(0, projectile.gfxOffY);
-                Main.spriteBatch.Draw(mod.GetTexture("Items/Sets/GranitechSet/PulseOrbs/PulseOrbProjGlow"), vector29, null, color28, projectile.rotation, texture2D6.Size() / 2f, projectile.scale, spriteEffects3, 0f);
+                Vector2 vector29 = new Vector2(projectile.Center.X, projectile.Center.Y) + (num103 / 4f * MathHelper.TwoPi + projectile.rotation + num106).ToRotationVector2() * (3f * num107 + 2f) - Main.screenPosition + new Vector2(0, projectile.gfxOffY);
+                Main.spriteBatch.Draw(mod.GetTexture("Items/Sets/GranitechSet/PulseOrbs/PulseOrbProjGlow"), vector29, null, color29, projectile.rotation, tex.Size() / 2f, projectile.scale, spriteEffects3, 0f);
             }
 		}
 

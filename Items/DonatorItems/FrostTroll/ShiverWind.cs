@@ -13,7 +13,6 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 			Tooltip.SetDefault("Shoots a chilly bolt that morphs into an icy rune");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.damage = 44;

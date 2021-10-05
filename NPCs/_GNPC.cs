@@ -970,18 +970,41 @@ namespace SpiritMod.NPCs
 
 		private void ItemLoot(NPC npc, Player player)
 		{
-			DropLoot(1, 1, ItemType<Glyph>(), npc, NPCID.Tim, NPCID.RuneWizard);
-			DropLoot(100, 100, ItemType<Items.Consumable.Potion.BottomlessAle>(), npc, NPCID.Pixie);
-			DropLoot(250, 200, ItemType<Items.Accessory.Ukelele.Ukelele>(), npc, NPCID.AngryNimbus);
-			DropLoot(100, 95, ItemType<Items.Accessory.BowSummonItem.BowSummonItem>(), npc, NPCID.GoblinArcher);
-			DropLoot(100, 100, ItemType<Items.Accessory.FlyingFishFin.Flying_Fish_Fin>(), npc, NPCID.FlyingFish);
-			DropLoot(3, 3, ItemType<Items.Accessory.SeaSnailVenom.Sea_Snail_Poison>(), npc, NPCID.SeaSnail);
+			if (player.GetSpiritPlayer().vitaStone)
+			{
+				if (!npc.friendly && npc.lifeMax > 5 && Main.rand.Next(9) == 1 && player.statLife < player.statLifeMax)
+				{
+					if (Main.halloween)
+						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1734);
+					else
+						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58);
+				}
+			}
 
 			if (player.GetSpiritPlayer().arcaneNecklace && Main.rand.Next(5) == 0 && !npc.friendly && player.HeldItem.magic && player.statMana < player.statManaMax2)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Star);
 
-			DropLoot(100, 100, ItemType<PossessedHammer>(), npc, NPCID.PossessedArmor);
-			DropLoot(90, 75, ItemType<GoblinSorcererStaff>(), npc, NPCID.GoblinSorcerer);
+			if (player.GetSpiritPlayer().ZoneAsteroid && Main.rand.Next(50) == 0)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.GunsMisc.Blaster.Blaster>());
+
+			if (npc.type == NPCID.PirateShip || npc.type == NPCID.PirateCaptain)
+			{
+				if (Main.rand.Next(50) <= 2)
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.GunsMisc.CaptainsRegards.CaptainsRegards>());
+				if (npc.type == NPCID.PirateShip && Main.rand.NextBool(3))
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<PirateCrate>());
+				if (npc.type == NPCID.PirateCaptain)
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Weapon.Thrown.ExplosiveRum.ExplosiveRum>(), Main.rand.Next(38, 77));
+			}
+
+			if (npc.type == NPCID.Demon && NPC.downedBoss3 && Main.rand.Next(4) == 0)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.SlagSet.CarvedRock>(), Main.rand.Next(1) + 2);
+
+			if (player.GetSpiritPlayer().floranSet && Main.rand.Next(9) == 1)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<RawMeat>(), 1);
+
+			if (npc.type == NPCID.EaterofWorldsTail && !NPC.AnyNPCs(NPCID.EaterofWorldsHead) && !NPC.AnyNPCs(NPCID.EaterofWorldsBody) && Main.rand.Next(3) == 1)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.SpearsMisc.RotScourge.EoWSpear>(), 1);
 
 			if (!npc.SpawnedFromStatue)
 			{
@@ -996,11 +1019,18 @@ namespace SpiritMod.NPCs
 					DropLoot(100, 100, ItemType<IceWheezerSculpture>(), npc, NPCType<Wheezer.Wheezer>());
 			}
 
+			if (MyWorld.downedScarabeus)
+				DropLoot(40, 40, ItemType<DesertSlab>(), npc, NPCID.TombCrawlerHead);
+
+			DropLoot(1, 1, ItemType<Glyph>(), npc, NPCID.Tim, NPCID.RuneWizard);
+			DropLoot(100, 100, ItemType<Items.Consumable.Potion.BottomlessAle>(), npc, NPCID.Pixie);
+			DropLoot(250, 200, ItemType<Items.Accessory.Ukelele.Ukelele>(), npc, NPCID.AngryNimbus);
+			DropLoot(100, 95, ItemType<Items.Accessory.BowSummonItem.BowSummonItem>(), npc, NPCID.GoblinArcher);
+			DropLoot(100, 100, ItemType<Items.Accessory.FlyingFishFin.Flying_Fish_Fin>(), npc, NPCID.FlyingFish);
+			DropLoot(3, 3, ItemType<Items.Accessory.SeaSnailVenom.Sea_Snail_Poison>(), npc, NPCID.SeaSnail);
+			DropLoot(100, 100, ItemType<PossessedHammer>(), npc, NPCID.PossessedArmor);
+			DropLoot(90, 75, ItemType<GoblinSorcererStaff>(), npc, NPCID.GoblinSorcerer);
 			DropLoot(110, 95, ItemType<Items.Sets.ClubSubclass.BoneClub>(), npc, NPCID.AngryBones, NPCID.AngryBonesBig, NPCID.AngryBonesBigMuscle);
-
-			if (player.GetSpiritPlayer().ZoneAsteroid && Main.rand.Next(50) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.GunsMisc.Blaster.Blaster>());
-
 			DropLoot(45, 45, ItemType<Items.Sets.BowsMisc.StarSpray.StarlightBow>(), npc, NPCID.Harpy);
 			DropLoot(45, 45, ItemType<Items.Sets.MagicMisc.ZephyrBreath.BreathOfTheZephyr>(), npc, NPCID.Harpy);
 			DropLoot(1, 1, ItemType<TimScroll>(), npc, NPCID.Tim);
@@ -1009,24 +1039,9 @@ namespace SpiritMod.NPCs
 			DropLoot(1, 1, ItemType<BlueprintTwins>(), Main.rand.Next(2) + 1, npc, NPCID.Retinazer, NPCID.Spazmatism);
 			DropLoot(1, 1, ItemType<PrintProbe>(), Main.rand.Next(2) + 1, npc, NPCID.TheDestroyer);
 			DropLoot(50, 50, ItemType<ChaosCrystal>(), npc, NPCID.ChaosElemental);
-
-			if (npc.type == NPCID.PirateShip || npc.type == NPCID.PirateCaptain)
-			{
-				if (Main.rand.Next(50) <= 2)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.GunsMisc.CaptainsRegards.CaptainsRegards>());
-				if (npc.type == NPCID.PirateShip && Main.rand.NextBool(3))
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<PirateCrate>());
-				if (npc.type == NPCID.PirateCaptain)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Weapon.Thrown.ExplosiveRum.ExplosiveRum>(), Main.rand.Next(38, 77));
-			}
-
 			DropLoot(225, 175, ItemType<Items.Sets.GunsMisc.LadyLuck.LadyLuck>(), npc, NPCID.PirateDeadeye);
 			DropLoot(120, 92, ItemType<Items.Weapon.Thrown.PiecesOfEight.PiecesOfEight>(), npc, NPCID.PirateDeckhand);
 			DropLoot(23, 23, ItemType<SaucerBeacon>(), npc, NPCID.MartianOfficer);
-
-			if (MyWorld.downedScarabeus)
-				DropLoot(40, 40, ItemType<DesertSlab>(), npc, NPCID.TombCrawlerHead);
-
 			DropLoot(35, 35, ItemType<SnapperHat>(), npc, NPCID.Crawdad, NPCID.Crawdad2);
 			DropLoot(50, 50, ItemType<TrapperGlove>(), npc, NPCID.ManEater);
 			DropLoot(500, 500, ItemType<SnakeStaff>(), npc, NPCID.Lihzahrd, NPCID.LihzahrdCrawler);
@@ -1036,18 +1051,6 @@ namespace SpiritMod.NPCs
 			DropLoot(175, 175, ItemType<Items.Sets.BowsMisc.Morningtide.Morningtide>(), npc, NPCID.HellArmoredBones, NPCID.HellArmoredBonesSpikeShield, NPCID.HellArmoredBonesMace, NPCID.HellArmoredBonesSword);
 			DropLoot(3, 3, ItemType<FrigidFragment>(), Main.rand.Next(1, 3), npc, NPCID.ZombieEskimo, NPCID.IceSlime, NPCID.IceBat, NPCID.ArmoredViking);
 			DropLoot(1, 1, ItemType<FrigidFragment>(), Main.rand.Next(1, 3), npc, NPCID.SpikedIceSlime, NPCID.ArmedZombieEskimo);
-
-			if (player.GetSpiritPlayer().vitaStone)
-			{
-				if (!npc.friendly && npc.lifeMax > 5 && Main.rand.Next(9) == 1 && player.statLife < player.statLifeMax)
-				{
-					if (Main.halloween)
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1734);
-					else
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58);
-				}
-			}
-
 			DropLoot(20, 10, ItemType<SweetThrow>(), npc, NPCID.QueenBee);
 			DropLoot(2, 2, ItemType<OldLeather>(), Main.rand.Next(1, 3), npc, NPCID.Zombie, NPCID.BaldZombie, NPCID.SlimedZombie, NPCID.SwampZombie, NPCID.TwiggyZombie, NPCID.ZombieRaincoat, NPCID.PincushionZombie);
 			DropLoot(50, 50, ItemType<SolarRattle>(), npc, NPCID.SolarDrakomire, NPCID.SolarDrakomireRider);
@@ -1058,20 +1061,11 @@ namespace SpiritMod.NPCs
 			DropLoot(1, 1, Main.rand.NextBool(2) ? ItemType<Ancient>() : ItemType<CultistScarf>(), npc, NPCID.CultistBoss);
 			DropLoot(50, 50, ItemType<IchorPendant>(), npc, NPCID.IchorSticker);
 			DropLoot(1, 1, ItemType<Typhoon>(), npc, NPCID.DukeFishron);
-
-			if (npc.type == NPCID.Demon && NPC.downedBoss3 && Main.rand.Next(4) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.SlagSet.CarvedRock>(), Main.rand.Next(1) + 2);
-
 			DropLoot(6, 4, ItemType<PigronStaffItem>(), npc, NPCID.PigronCorruption, NPCID.PigronHallow, NPCID.PigronCrimson);
 			DropLoot(18, 18, ItemType<TheFireball>(), npc, NPCID.FireImp);
 			DropLoot(50, 50, ItemType<CursedPendant>(), npc, NPCID.Clinger);
 			DropLoot(50, 50, ItemType<MagnifyingGlass>(), npc, NPCID.DemonEye, NPCID.DemonEye2, NPCID.DemonEyeOwl, NPCID.DemonEyeSpaceship);
-
-			if (player.GetSpiritPlayer().floranSet && Main.rand.Next(9) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<RawMeat>(), 1);
-
-			if (npc.type == NPCID.EaterofWorldsTail && !NPC.AnyNPCs(NPCID.EaterofWorldsHead) && !NPC.AnyNPCs(NPCID.EaterofWorldsBody) && Main.rand.Next(3) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.SpearsMisc.RotScourge.EoWSpear>(), 1);
+			DropLoot(12, 10, ItemType<Items.Weapon.Summon.WyvernStaff.WyvernStaff>(), npc, NPCID.WyvernHead);
 		}
 
 		/// <summary>Drops an item given the specific conditions.</summary>

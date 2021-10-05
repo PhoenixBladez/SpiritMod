@@ -5,13 +5,9 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Bullet
 {
-
 	public class HelixRocket : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Helix Rocket");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Helix Rocket");
 
 		public override void SetDefaults()
 		{
@@ -28,8 +24,8 @@ namespace SpiritMod.Projectiles.Bullet
 		public override bool PreAI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-
 			projectile.tileCollide = true;
+
 			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.DungeonWater);
 			Main.dust[dust].scale = 1.5f;
 			Main.dust[dust].velocity = Vector2.Zero;
@@ -56,11 +52,7 @@ namespace SpiritMod.Projectiles.Bullet
 				});
 		}
 
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return Color.White;
-		}
-
+		public override Color? GetAlpha(Color lightColor) => Color.White;
 	}
 }
 
