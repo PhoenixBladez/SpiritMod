@@ -35,9 +35,13 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 			if (dust.fadeIn <= 0)
 			{
+				dust.scale -= 0.02f;
+
+				if (dust.scale <= 1.2f)
+					dust.alpha -= 5;
+
 				if (dust.scale <= 0)
 					dust.active = false;
-				dust.scale -= 0.02f;
 			}
 			else
 			{

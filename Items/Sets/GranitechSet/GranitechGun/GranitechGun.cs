@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) 
 				position += muzzleOffset;
 
-			VFX(position + muzzleOffset, new Vector2(speedX, speedY) * 0.2f);
+			//VFX(position + muzzleOffset, new Vector2(speedX, speedY) * 0.2f);
 
 			var p = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY).RotatedByRandom(0.03f), ModContent.ProjectileType<GranitechGunBullet>(), damage, knockBack, player.whoAmI);
 			p.GetGlobalProjectile<GranitechGunGlobalProjectile>().spawnedByGranitechGun = true;
