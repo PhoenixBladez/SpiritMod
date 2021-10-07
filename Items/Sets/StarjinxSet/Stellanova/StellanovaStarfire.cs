@@ -140,7 +140,6 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 				var temp = new List<Vector2> { projectile.Center };
 				temp.AddRange(_chain.VerticesArray());
 				Vector2[] vertices = temp.ToArray();
-				vertices.IterateArray(delegate (ref Vector2 vertex, int index, float progress) { IterateVerticesSine(ref vertex, progress); });
 				//draw the strip with the given array
 				var strip = new PrimitiveStrip
 				{
@@ -179,10 +178,6 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			sB.Draw(tex, projectile.Center - Main.screenPosition, null, blurcolor * Timer, MathHelper.PiOver2, tex.Size() / 2, scaleHorizontalGlow, SpriteEffects.None, 0);
 
 			#endregion
-		}
-
-		private void IterateVerticesSine(ref Vector2 vertex, float progress)
-		{
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => HitEffects();

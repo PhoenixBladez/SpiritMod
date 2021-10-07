@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stellanova Cannon");
-            Tooltip.SetDefault("Fires erratic stars\nRight click to launch an explosive stellanova that draws in smaller stars\n50% chance not to consume ammo");
+            Tooltip.SetDefault("Fires erratic starfire\nRight click to launch an explosive stellanova that draws in smaller stars\n50% chance not to consume ammo");
 			SpiritGlowmask.AddGlowMask(item.type, Texture + "_glow");
         }
 
@@ -38,10 +38,6 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			item.UseSound = Main.dedServ ? sound : sound.WithPitchVariance(0.3f).WithVolume(0.7f);
 			item.noUseGraphic = true;
 			item.channel = true;
-		}
-
-		public override void HoldItem(Player player)
-		{
 		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(-20, -10);
