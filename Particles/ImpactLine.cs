@@ -7,11 +7,12 @@ namespace SpiritMod.Particles
 {
 	public class ImpactLine : Particle
 	{
+		private readonly Entity _ent = null;
+
 		private Color _color;
-		public int _timeLeft;
-		Vector2 _scaleMod;
-		Entity _ent = null;
-		Vector2 _offset;
+		private Vector2 _scaleMod;
+		private Vector2 _offset;
+		private int _timeLeft;
 
 		public ImpactLine(Vector2 position, Vector2 velocity, Color color, Vector2 scale, int timeLeft, Entity attatchedEntity = null)
 		{
@@ -21,10 +22,9 @@ namespace SpiritMod.Particles
 			_scaleMod = scale;
 			_timeLeft = timeLeft;
 			_ent = attatchedEntity;
+
 			if(_ent != null)
-			{
 				_offset = Position - _ent.Center;
-			}
 		}
 
 		public override void Update()
@@ -49,7 +49,6 @@ namespace SpiritMod.Particles
 		}
 
 		public override bool UseCustomDraw => true;
-
 		public override bool UseAdditiveBlend => true;
 
 		public override void CustomDraw(SpriteBatch spriteBatch)
@@ -58,6 +57,7 @@ namespace SpiritMod.Particles
 			Vector2 scale = new Vector2(0.5f, progress) * _scaleMod;
 			Vector2 offset = Vector2.Zero;
 			Vector2 origin = new Vector2(ParticleHandler.GetTexture(Type).Width / 2, ParticleHandler.GetTexture(Type).Height);
+
 			if (TimeActive > _timeLeft / 2)
 			{
 				offset = Vector2.UnitX.RotatedBy(Rotation - MathHelper.PiOver2) * ParticleHandler.GetTexture(Type).Height * scale.Y;

@@ -11,6 +11,8 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 {
 	public class GranitechGunBullet : ModProjectile, ITrailProjectile
 	{
+		public bool spawnRings = false;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Granitech Bullet");
@@ -29,24 +31,17 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			projectile.alpha = 0;
 			projectile.timeLeft = 900;
 			projectile.aiStyle = -1;
-			projectile.extraUpdates = 3;
+			projectile.extraUpdates = 1;
 		}
 
 		public override void AI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation() - MathHelper.Pi;
 
-			if (projectile.ai[0] % 1 == 0 && projectile.ai[0] >= 1 && projectile.ai[0] < 3)
+			if (spawnRings && projectile.ai[0] % 1 == 0 && projectile.ai[0] >= 1 && projectile.ai[0] < 3)
 			{
-				//var d = Dust.NewDustPerfect(projectile.Center, ModContent.DustType<GranitechGunDust>(), Vector2.Zero, 0, default, Main.rand.NextFloat(1f, 1.5f));
-				//GranitechGunDust.SetFrame(d, 3);
-				//d.rotation = projectile.velocity.ToRotation() - MathHelper.Pi;
-				//d.fadeIn = Main.rand.NextFloat(1f, 1.6f) * (0.75f + projectile.ai[0]);
-				//d.velocity = projectile.velocity * d.fadeIn * 0.08f;
-				//d.scale = 0f;
-
 				float scale = 0.75f + (2 - (projectile.ai[0] * 0.75f));
-				ParticleHandler.SpawnParticle(new GranitechGunParticle(projectile.Center, projectile.velocity * 0.2f * (2.5f - scale), new Color(255, 46, 122) * 0.5f, scale, 60));
+				ParticleHandler.SpawnParticle(new GranitechGunParticle(projectile.Center, projectile.velocity * 0.2f * (2f - (scale * 0.5f)), scale, 60));
 			}
 			projectile.ai[0]++;
 		}
@@ -74,6 +69,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 				var d = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(4, 4), ModContent.DustType<GranitechGunDust>(), vel, 0, default, Main.rand.NextFloat(1f, 1.5f));
 				GranitechGunDust.RandomizeFrame(d);
 			}
+			spawnRings = false;
 		}
 	}
 }
