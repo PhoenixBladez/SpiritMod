@@ -49,7 +49,7 @@ namespace SpiritMod.VerletChains
 
 			for (int i = 0; i < segmentCount; i++)
 			{
-				Vertices.Add(new ChainVertex(startPosition + new Vector2(0, segmentLength*i), 1f, Coefficients.drag, Coefficients.groundBounce, Coefficients.gravity));
+				Vertices.Add(new ChainVertex(startPosition, 1f, Coefficients.drag, Coefficients.groundBounce, Coefficients.gravity));
 			}
 
 			for (int i = 0; i < segmentCount-1; i++)

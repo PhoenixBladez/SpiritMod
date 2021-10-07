@@ -127,7 +127,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 					if (!Main.dedServ)
 					{
-						ParticleHandler.SpawnParticle(new PulseCircle(npc.Center, new Color(252, 3, 148), 120, 15));
+						ParticleHandler.SpawnParticle(new PulseCircle(npc.Center, new Color(252, 3, 148) * 0.6f, 120, 15) { RingColor = new Color(255, 115, 239) * 0.4f });
 						ParticleHandler.SpawnParticle(new StarParticle(npc.Center + vel, vel / 8, Color.Lerp(Color.Red, Color.White, 0.15f), 0.5f, 20, 4f));
 						for (int i = 0; i < 4; i++)
 							ParticleHandler.SpawnParticle(new OccultistSoulVisual(npc.Center + vel * Main.rand.NextFloat(), vel.RotatedByRandom(MathHelper.Pi / 12) * Main.rand.NextFloat(0.2f, 0.7f),

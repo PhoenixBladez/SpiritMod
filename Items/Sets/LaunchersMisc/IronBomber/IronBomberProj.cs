@@ -55,8 +55,14 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.IronBomber
 			if (projectile.timeLeft < PulseTime)
 				projectile.scale = 1f + (float)Math.Sin(Math.Pow(projectile.timeLeft / PulseTime, 0.5) * MathHelper.Pi * 6)/4;
 
-			if (!Main.dedServ && projectile.timeLeft % 4 == 3)
-				ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center, Color.Cyan * 0.6f, 20, 15));
+			if (!Main.dedServ)
+			{
+				if(projectile.velocity.Length() > 6 && projectile.timeLeft % 4 == 3)
+					ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center, Color.Cyan * 0.6f, 18, 15) { Angle = projectile.velocity.ToRotation(), ZRotation = 0.5f });
+
+				if(projectile.timeLeft % 6 == 5)
+					ParticleHandler.SpawnParticle(new PulseCircle(projectile, Color.Cyan * 0.5f, 20, 20));
+			}
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
@@ -71,15 +77,15 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.IronBomber
 		{
 			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BassBoom").WithVolume(0.7f).WithPitchVariance(0.2f), projectile.Center);
 
-			//ParticleHandler.SpawnParticle(new GlowParticle(projectile.Center, Vector2.Zero, Color.LightCyan * 0.6f, 1f, 10, 6));
 			for (int i = 1; i <= 3; i++)
-				ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center, Color.Cyan, (ExplosionRange / 3) * i, 12));
+				ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center, Color.Cyan * 0.5f, (ExplosionRange / 3) * i, 15, PulseCircle.MovementType.OutwardsQuadratic));
 
 			for(int i = 0; i < 10; i++)
-				ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center + Main.rand.NextVector2Circular(ExplosionRange / 3, ExplosionRange / 3), Color.Cyan * 0.8f, (ExplosionRange / 5), 15));
-
-			for (int i = 0; i < 15; i++)
-				ParticleHandler.SpawnParticle(new GlowParticle(projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(ExplosionRange / 20), Color.Cyan, Main.rand.NextFloat(0.04f, 0.08f), 15));
+			{
+				Vector2 offset = Main.rand.NextVector2Circular(ExplosionRange / 6, ExplosionRange / 6);
+				ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center + offset, Color.Cyan * 0.7f, (ExplosionRange / 6), Main.rand.Next(14, 22))
+				{ Velocity = Vector2.Normalize(offset) * Main.rand.NextFloat(1f, 1.5f), Angle = offset.ToRotation() });
+			}
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

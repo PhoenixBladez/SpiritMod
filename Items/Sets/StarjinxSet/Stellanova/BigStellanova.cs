@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 {
-	public class StellanovaStarfire : ModProjectile, ITrailProjectile, IDrawAdditive
+	public class BigStellanova : ModProjectile, ITrailProjectile, IDrawAdditive
     {
 		public override string Texture => "Terraria/Projectile_1";
 
@@ -29,7 +29,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.ignoreWater = true;
-			projectile.alpha = 255;
+			projectile.extraUpdates = 1;
+			projectile.alpha = 155;
 			projectile.scale = Main.rand.NextFloat(0.8f, 1.2f);
         }
 
@@ -41,8 +42,6 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		public float Amplitude = MathHelper.Pi / 16;
 		private const float Period = 80;
 
-		private const float MaxSpeed = 32;
-
 		private ref float AiTimer => ref projectile.ai[0];
 		private Chain _chain = null;
 		private float _sinAmplitude;
@@ -53,27 +52,24 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
 
 			if(projectile.alpha > 0)
-				projectile.alpha = Math.Max(projectile.alpha - 10, 0);
+				projectile.alpha = Math.Max(projectile.alpha - 5, 0);
 
 			if (++AiTimer <= VelocityLerpTime) //lerping to desired vel
 				projectile.velocity = Vector2.Lerp(InitialVelocity, TargetVelocity, (float)Math.Pow(AiTimer / VelocityLerpTime, 1.5f));
 
 			else //behavior afterwards
 			{
-				if (TargetVelocity.Length() < MaxSpeed)
-					TargetVelocity *= 1.025f;
-
 				projectile.velocity = TargetVelocity.RotatedBy((float)Math.Sin(MathHelper.TwoPi * (AiTimer - VelocityLerpTime) / Period) * Amplitude);
-				_sinAmplitude = MathHelper.Lerp(_sinAmplitude, Amplitude * 110, 0.06f);
+				_sinAmplitude = MathHelper.Lerp(_sinAmplitude, Amplitude * 100, 0.03f);
 			}
 
-			if (Main.rand.NextBool(6) && !Main.dedServ)
+			if (Main.rand.NextBool(8) && !Main.dedServ)
 				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(0.4f), Color.White * 0.5f,
 					SpiritMod.StarjinxColor(Main.GlobalTime - 1) * 0.5f, Main.rand.NextFloat(0.1f, 0.2f), 25));
 
 			_sinCounter += 0.18f;
 			if (_chain == null)
-				_chain = new Chain(3.5f, 12, projectile.Center, new ChainPhysics(0.8f, 0f, 0f), true, false, 4);
+				_chain = new Chain(8, 12, projectile.Center, new ChainPhysics(0.8f, 0f, 0f), true, false, 5);
 			else
 				_chain.Update(projectile.Center, projectile.Center);
 		}
@@ -92,11 +88,11 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			Amplitude = reader.ReadSingle();
 		}
 
-		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new StarjinxTrail(projectile, Main.GlobalTime, 1, 0.8f), new RoundCap(), new DefaultTrailPosition(), 50f * projectile.scale, 240f * projectile.scale, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.02f, 1f, 1f));
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new StarjinxTrail(projectile, Main.GlobalTime, 1, 0.66f), new RoundCap(), new DefaultTrailPosition(), 50f * projectile.scale, 240f * projectile.scale, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.02f, 1f, 1f));
 
-		public override bool PreDraw(SpriteBatch sB, Color lightColor)
+		public void AdditiveCall(SpriteBatch sB)
 		{
-			#region primitives
+			#region primitives and blooms
 			//star
 			StarPrimitive star = new StarPrimitive
 			{
@@ -108,7 +104,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			};
 			PrimitiveRenderer.DrawPrimitiveShape(star);
 
-			//chain
+			//chain and blooms
 			if (_chain != null)
 			{
 				//set the parameters for the shader
@@ -116,7 +112,6 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 				Color endColor = new Color(255, 69, 187);
 				Effect effect = SpiritMod.ShaderDict["FlameTrail"];
 				effect.Parameters["uTexture"].SetValue(mod.GetTexture("Textures/Trails/Trail_3"));
-				effect.Parameters["uTexture2"].SetValue(mod.GetTexture("Textures/Trails/Trail_4"));
 				effect.Parameters["Progress"].SetValue(Main.GlobalTime);
 				effect.Parameters["StartColor"].SetValue(startColor.ToVector4());
 				effect.Parameters["EndColor"].SetValue(endColor.ToVector4());
@@ -145,14 +140,22 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 					MaxRadians = MathHelper.Pi
 				};
 				PrimitiveRenderer.DrawPrimitiveShape(circle, effect);
+
+				//draw blooms at each position
+				Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
+
+				for (int i = 0; i < vertices.Length; i++)
+				{
+					float progress = i / (float)vertices.Length;
+					float scale = MathHelper.Lerp(0.4f, 0f, progress);
+					Color color = Color.Lerp(startColor, endColor, progress);
+					sB.Draw(bloom, vertices[i] - Main.screenPosition, null, color * Math.Min(1f * projectile.Opacity, 0.6f), 0, bloom.Size() / 2, scale, SpriteEffects.None, 0);
+				}
+				sB.Draw(bloom, projectile.Center - Main.screenPosition, null, startColor * Math.Min(1f * projectile.Opacity, 0.6f) * projectile.Opacity, 0, bloom.Size() / 2, 0.5f, SpriteEffects.None, 0);
+
 			}
 			#endregion
 
-			return false;
-		}
-
-		public void AdditiveCall(SpriteBatch sB)
-		{
 			#region blur lines
 
 			Texture2D tex = Main.extraTexture[89];
@@ -171,8 +174,10 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			var DirectionUnit = Vector2.Normalize(projectile.position - vertex);
 			DirectionUnit = DirectionUnit.RotatedBy(MathHelper.PiOver2);
 			float numwaves = 1f;
-			vertex += DirectionUnit * (float)Math.Sin(_sinCounter + progress * MathHelper.TwoPi * numwaves) * ((progress/5) + 0.8f) * _sinAmplitude;
+			vertex += DirectionUnit * (float)Math.Sin(_sinCounter + progress * MathHelper.TwoPi * numwaves) * ((progress/4) + 0.75f) * _sinAmplitude;
 		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) => false;
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => HitEffects();
 

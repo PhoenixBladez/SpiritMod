@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
             projectile.timeLeft = 360;
             projectile.extraUpdates = 3;
             projectile.friendly = true;
-            projectile.penetrate = 3;
+            projectile.penetrate = 4;
             projectile.ignoreWater = true;
             projectile.scale = Main.rand.NextFloat(0.6f, 0.9f);
             projectile.usesLocalNPCImmunity = true;

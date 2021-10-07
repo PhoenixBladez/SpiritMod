@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Particles;
 using SpiritMod.Projectiles.Bullet;
 using Terraria;
 using Terraria.ID;
@@ -39,11 +40,13 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.IronBomber
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 34f;
+			Vector2 velUnit = Vector2.Normalize(new Vector2(speedX, speedY));
+			Vector2 muzzleOffset = Vector2.Normalize(velUnit) * 34f;
 			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) 
 				position += muzzleOffset;
 
 			type = ModContent.ProjectileType<IronBomberProj>();
+
 			return true;
 		}
 
