@@ -38,8 +38,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 
 		private const int VelocityLerpTime = 12;
 
-		public float Amplitude = MathHelper.Pi / 16;
-		private const float Period = 80;
+		public float Amplitude = MathHelper.Pi / 12;
+		private const float Period = 35;
 
 		private const float MaxSpeed = 32;
 
@@ -64,18 +64,33 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 					TargetVelocity *= 1.025f;
 
 				projectile.velocity = TargetVelocity.RotatedBy((float)Math.Sin(MathHelper.TwoPi * (AiTimer - VelocityLerpTime) / Period) * Amplitude);
-				_sinAmplitude = MathHelper.Lerp(_sinAmplitude, Amplitude * 110, 0.06f);
+				_sinAmplitude = MathHelper.Lerp(_sinAmplitude, Amplitude * 20, 0.06f);
 			}
 
 			if (Main.rand.NextBool(6) && !Main.dedServ)
 				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(0.4f), Color.White * 0.5f,
 					SpiritMod.StarjinxColor(Main.GlobalTime - 1) * 0.5f, Main.rand.NextFloat(0.1f, 0.2f), 25));
 
-			_sinCounter += 0.18f;
+			_sinCounter += 0.2f;
 			if (_chain == null)
 				_chain = new Chain(3.5f, 12, projectile.Center, new ChainPhysics(0.8f, 0f, 0f), true, false, 4);
 			else
+			{
 				_chain.Update(projectile.Center, projectile.Center);
+				for(int i = 0; i < _chain.Vertices.Count; i++)
+				{
+					ChainVertex vertex = _chain.Vertices[i];
+					float progress = i / (float)(_chain.Vertices.Count);
+					Vector2 lastPos = projectile.position;
+					if (i > 0)
+						lastPos = _chain.Vertices[i - 1].Position;
+
+					var DirectionUnit = Vector2.Normalize(lastPos - vertex.Position);
+					DirectionUnit = DirectionUnit.RotatedBy(MathHelper.PiOver2);
+					float numwaves = 1f;
+					vertex.Position += DirectionUnit * (float)Math.Sin(_sinCounter + progress * MathHelper.TwoPi * numwaves) * ((progress / 2) + 0.5f) * _sinAmplitude;
+				}
+			}
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -142,7 +157,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 					Radius = 30f * projectile.scale,
 					Position = projectile.Center - Main.screenPosition,
 					Rotation = _chain.StartRotation,
-					MaxRadians = MathHelper.Pi
+					MaxRadians = MathHelper.TwoPi
 				};
 				PrimitiveRenderer.DrawPrimitiveShape(circle, effect);
 			}
@@ -168,10 +183,6 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 
 		private void IterateVerticesSine(ref Vector2 vertex, float progress)
 		{
-			var DirectionUnit = Vector2.Normalize(projectile.position - vertex);
-			DirectionUnit = DirectionUnit.RotatedBy(MathHelper.PiOver2);
-			float numwaves = 1f;
-			vertex += DirectionUnit * (float)Math.Sin(_sinCounter + progress * MathHelper.TwoPi * numwaves) * ((progress/5) + 0.8f) * _sinAmplitude;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => HitEffects();
