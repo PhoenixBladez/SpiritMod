@@ -24,13 +24,13 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
             projectile.height = 32;
             projectile.aiStyle = 0;
             projectile.tileCollide = true;
-            projectile.timeLeft = 720;
+            projectile.timeLeft = 80;
             projectile.ranged = true;
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.ignoreWater = true;
 			projectile.alpha = 255;
-			projectile.scale = Main.rand.NextFloat(0.8f, 1.2f);
+			projectile.scale = Main.rand.NextFloat(1f, 1.2f);
         }
 
 		public Vector2 InitialVelocity = Vector2.Zero;
@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		public float Amplitude = MathHelper.Pi / 12;
 		private const float Period = 25;
 
-		private const float MaxSpeed = 32;
+		private const float MaxSpeed = 20;
 
 		private ref float AiTimer => ref projectile.ai[0];
 		private readonly List<Chain> _chains = new List<Chain>();
@@ -77,14 +77,14 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 				int chainamount = 2;
 				for (int i = 0; i < chainamount; i++)
 				{
-					float length = MathHelper.Lerp(3f, 3.5f, i / (float)chainamount);
-					_chains.Add(new Chain(length, 12, projectile.Center, new ChainPhysics(0.8f, 0f, 0f), true, false, 5));
+					float length = MathHelper.Lerp(4f, 3f, i / (float)chainamount);
+					_chains.Add(new Chain(length, 12, projectile.Center, new ChainPhysics(0.8f, 0f, 0f), true, false, 7));
 				}
 			}
 			else
 				for(int i = 0; i < _chains.Count; i++)
 				{
-					float amplitude = MathHelper.Lerp(_sinAmplitude, -_sinAmplitude, i / (float)_chains.Count);
+					float amplitude = MathHelper.Lerp(_sinAmplitude, -_sinAmplitude * 1.25f, i / (float)_chains.Count);
 					UpdateChain(_chains[i], amplitude);
 				}
 		}
@@ -121,7 +121,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			Amplitude = reader.ReadSingle();
 		}
 
-		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new StarjinxTrail(projectile, Main.GlobalTime, 1, 0.8f), new RoundCap(), new DefaultTrailPosition(), 50f * projectile.scale, 240f * projectile.scale, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.02f, 1f, 1f));
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new StarjinxTrail(projectile, Main.GlobalTime, 1, 0.8f), new RoundCap(), new DefaultTrailPosition(), 50f * projectile.scale, 250f * projectile.scale, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.02f, 1f, 1f));
 
 		public override bool PreDraw(SpriteBatch sB, Color lightColor)
 		{
@@ -157,7 +157,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 					temp.AddRange(_chains[i].VerticesArray());
 					Vector2[] vertices = temp.ToArray();
 					//draw the strip with the given array
-					float width = MathHelper.Lerp(25, 15, i / (float)_chains.Count);
+					float width = MathHelper.Lerp(22, 12, i / (float)_chains.Count);
 					var strip = new PrimitiveStrip
 					{
 						Color = Color.White * projectile.Opacity,

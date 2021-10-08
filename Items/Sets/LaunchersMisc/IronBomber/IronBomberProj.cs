@@ -58,7 +58,7 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.IronBomber
 			if (!Main.dedServ)
 			{
 				if(projectile.velocity.Length() > 6 && projectile.timeLeft % 4 == 3)
-					ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center, Color.Cyan * 0.6f, 18, 15) { Angle = projectile.velocity.ToRotation(), ZRotation = 0.5f });
+					ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center, Color.Cyan, 18, 18) { Angle = projectile.velocity.ToRotation(), ZRotation = 0.5f });
 
 				if(projectile.timeLeft % 6 == 5)
 					ParticleHandler.SpawnParticle(new PulseCircle(projectile, Color.Cyan * 0.5f, 20, 20));
@@ -82,7 +82,7 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.IronBomber
 
 			for(int i = 0; i < 10; i++)
 			{
-				Vector2 offset = Main.rand.NextVector2Circular(ExplosionRange / 6, ExplosionRange / 6);
+				Vector2 offset = Main.rand.NextVector2Circular(ExplosionRange / 12, ExplosionRange / 12);
 				ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center + offset, Color.Cyan * 0.7f, (ExplosionRange / 6), Main.rand.Next(14, 22))
 				{ Velocity = Vector2.Normalize(offset) * Main.rand.NextFloat(1f, 1.5f), Angle = offset.ToRotation() });
 			}

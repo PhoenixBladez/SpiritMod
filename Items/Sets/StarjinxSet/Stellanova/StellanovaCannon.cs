@@ -76,7 +76,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 				if(proj.modProjectile is StellanovaStarfire starfire)
 				{
 					starfire.TargetVelocity = new Vector2(speedX, speedY) * 2f;
-					starfire.InitialVelocity = direction * 1.25f;
+					starfire.InitialVelocity = direction;
 					starfire.Amplitude = Main.rand.NextFloat(MathHelper.Pi / 30, MathHelper.Pi / 18) * (Main.rand.NextBool() ? -1 : 1);
 				}
 				if (Main.netMode != NetmodeID.SinglePlayer)
