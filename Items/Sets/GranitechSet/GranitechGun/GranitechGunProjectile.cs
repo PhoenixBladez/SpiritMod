@@ -65,24 +65,24 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 				_endCharge = _charge;
 				_finalRotation = (Vector2.Normalize(p.MountedCenter - Main.MouseWorld) * 27).ToRotation();
 
+				_endCharge += p.HeldItem.useAnimation;
 				if (!LaserMode)
 				{
-					_endCharge += p.HeldItem.useAnimation;
 					Fire(p);
 				}
 				else if (_endCharge >= MinimumCharge)
 				{
-					//tbd
+					Fire(p, true);
 				}
 
 				_effect = Main.MouseWorld.X >= p.MountedCenter.X ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			}
 
-			if (_charge > _endCharge && _endCharge != -1) //Kill projectile when done shooting - does nothing special but allowed for a cooldown timer before polish
+			if (_charge > _endCharge && _endCharge != -1) //Kill projectile when done shooting
 				projectile.Kill();
 		}
 
-		private void Fire(Player player)
+		private void Fire(Player player, bool laser = false)
 		{
 			var baseVel = player.DirectionTo(Main.MouseWorld).RotatedByRandom(0.03f) * player.HeldItem.shootSpeed;
 
@@ -93,6 +93,8 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 			int alt = player.altFunctionUse == 2 ? 0 : 2;
 			var p = Projectile.NewProjectileDirect(pos, baseVel, ModContent.ProjectileType<GranitechGunBullet>(), player.HeldItem.damage, 0f, player.whoAmI, alt);
+			if (laser)
+				p.penetrate = -1;
 
 			if (p.modProjectile is GranitechGunBullet bullet)
 				bullet.spawnRings = true;
@@ -123,7 +125,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 			var frame = new Rectangle(0, 0, 86, 36);
 
-			if (p.altFunctionUse == 2 && _charge >= 3)
+			if (!LaserMode && _charge >= 5)
 				frame = new Rectangle(0, 38, 86, 36);
 
 			if (LaserMode)
@@ -140,7 +142,6 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 		public override void Kill(int timeLeft) //paranoia - I don't know if this is necessary
 		{
-			_charge = 0;
 			_endCharge = -1;
 			_finalRotation = 0;
 		}

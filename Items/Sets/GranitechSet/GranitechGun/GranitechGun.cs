@@ -38,15 +38,15 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 		public override bool CanUseItem(Player player)
 		{
-			if (player.altFunctionUse == 2) //Laser badaboom
+			if (player.altFunctionUse == 2) //fast gun badaboom
 			{
 				item.damage = 30;
 				item.useTime = item.useAnimation = 10;
 				item.knockBack = 1f;
-				item.shootSpeed = 30f;
-				item.channel = true;
+				item.shootSpeed = 24f;
+				item.channel = false;
 			}
-			else //fast gun
+			else //lasre
 			{
 				item.damage = 37;
 				item.useTime = item.useAnimation = 18;

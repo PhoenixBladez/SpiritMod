@@ -198,7 +198,6 @@ namespace SpiritMod.Items
 			}
 		}
 
-
 		public override bool NeedsSaving(Item item) => glyph != GlyphType.None;
 
 		public override TagCompound Save(Item item)

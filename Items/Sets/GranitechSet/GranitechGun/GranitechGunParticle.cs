@@ -59,8 +59,10 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			spriteBatch.Draw(baseTex, Position - Main.screenPosition, Frame, Color * opacity, Rotation, Frame.Size() / 2f, Scale / 2f, SpriteEffects.None, 0);
 
 			float bloomScale = Frame.Y == 44 ? 0.5f : 1f;
-			spriteBatch.Draw(bloomTex, Position - Main.screenPosition, null, Color * opacity * 0.5f * bloomScale, 0, bloomTex.Size() / 2f, Scale / 4f * bloomScale, SpriteEffects.None, 0);
-			spriteBatch.Draw(bloomTex, Position - Main.screenPosition, null, Color * opacity * 0.25f * bloomScale, 0, bloomTex.Size() / 2f, Scale / 2f * bloomScale, SpriteEffects.None, 0);
+			float realOpacity = Frame.Y == 44 ? opacity * 0.5f : opacity * 0.75f;
+
+			spriteBatch.Draw(bloomTex, Position - Main.screenPosition, null, Color * realOpacity * 0.5f, 0, bloomTex.Size() / 2f, Scale / 4f * bloomScale, SpriteEffects.None, 0);
+			spriteBatch.Draw(bloomTex, Position - Main.screenPosition, null, Color * realOpacity * 0.25f, 0, bloomTex.Size() / 2f, Scale / 2f * bloomScale, SpriteEffects.None, 0);
 		}
 	}
 }
