@@ -309,18 +309,6 @@ namespace SpiritMod.Utilities
 			{
 				SpiritMod.TrailManager.DrawTrails(Main.spriteBatch);
 				SpiritMod.primitives.DrawTargetProj(Main.spriteBatch);
-
-				//make this cleaner later probably
-				var primdrawprojs = Main.projectile.Where(x => x.active && x.modProjectile is IBasicPrimDraw);
-				if (primdrawprojs.Any())
-				{
-					foreach (EffectPass pass in SpiritMod.basicEffect.CurrentTechnique.Passes)
-					{
-						pass.Apply();
-					}
-					foreach (Projectile proj in Main.projectile.Where(x => x.active && x.modProjectile is IBasicPrimDraw))
-						(proj.modProjectile as IBasicPrimDraw).DrawPrimShape(SpiritMod.basicEffect);
-				}
 			}
 			orig(self);
 		}
@@ -328,9 +316,8 @@ namespace SpiritMod.Utilities
 		private static void Main_DrawNPCs(On.Terraria.Main.orig_DrawNPCs orig, Main self, bool behindTiles)
 		{
 			if (!Main.dedServ) 
-			{
 				SpiritMod.primitives.DrawTargetNPC(Main.spriteBatch);
-			}
+
 			SpiritMod.Metaballs.DrawEnemyLayer(Main.spriteBatch);
 			SpiritMod.Metaballs.DrawNebulaLayer(Main.spriteBatch);
 			orig(self, behindTiles);
@@ -340,33 +327,7 @@ namespace SpiritMod.Utilities
 		{
 			orig(self);
 
-			List<ExtraDrawOnPlayer> additiveCallPlayers = new List<ExtraDrawOnPlayer>();
-			List<ExtraDrawOnPlayer> alphaBlendCallPlayers = new List<ExtraDrawOnPlayer>();
-			foreach (Player player in Main.player.Where(x => x.active && x != null))
-			{
-				if (player.GetModPlayer<ExtraDrawOnPlayer>().AnyOfType(ExtraDrawOnPlayer.DrawType.Additive))
-					additiveCallPlayers.Add(player.GetModPlayer<ExtraDrawOnPlayer>());
-
-				if (player.GetModPlayer<ExtraDrawOnPlayer>().AnyOfType(ExtraDrawOnPlayer.DrawType.AlphaBlend))
-					alphaBlendCallPlayers.Add(player.GetModPlayer<ExtraDrawOnPlayer>());
-			}
-
-			if (additiveCallPlayers.Any())
-			{
-				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
-				foreach (ExtraDrawOnPlayer player in additiveCallPlayers) 
-					player.DrawAllCallsOfType(Main.spriteBatch, ExtraDrawOnPlayer.DrawType.Additive); 
-				Main.spriteBatch.End();
-			}
-
-			if (alphaBlendCallPlayers.Any())
-			{
-				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
-				foreach (ExtraDrawOnPlayer player in alphaBlendCallPlayers)
-					player.DrawAllCallsOfType(Main.spriteBatch, ExtraDrawOnPlayer.DrawType.AlphaBlend);
-				Main.spriteBatch.End();
-			}
-
+			ExtraDrawOnPlayer.DrawPlayers();
 			SpiritMod.Metaballs.DrawFriendlyLayer(Main.spriteBatch);
 		}
 

@@ -50,17 +50,17 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 			projectile.rotation = projectile.AngleFrom(player.Center);
 		}
 
+		private const float MaxDistFromCenter = 100;
 		private void OrbitingMovement()
         {
-			float distanceStrength = 0.0015f;
+			float distanceStrength = 0.002f;
 			float mindistance = 30;
-			float maxdistance = 150;
 
 			if (projectile.Distance(newCenter) > mindistance)
 				projectile.velocity += projectile.DirectionTo(newCenter) * MathHelper.Clamp((projectile.Distance(newCenter) - mindistance) * distanceStrength, 0, 0.5f);
 
-			if (projectile.Distance(newCenter) > maxdistance)
-				projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(newCenter) * 10, MathHelper.Clamp((projectile.Distance(newCenter) - maxdistance) * distanceStrength * 0.05f, 0, 0.01f));
+			if (projectile.Distance(newCenter) > MaxDistFromCenter)
+				projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(newCenter) * 10, MathHelper.Clamp((projectile.Distance(newCenter) - MaxDistFromCenter) * distanceStrength * 0.05f, 0, 0.01f));
 
 			if (projectile.velocity.Length() < 8)
 				projectile.velocity *= 1.03f;
@@ -76,13 +76,13 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 			projectile.rotation = Utils.AngleLerp(projectile.rotation, projectile.AngleTo(target.Center), 0.05f);
 
 			projectile.ai[1]++;
-			if(projectile.ai[1] > 60 && projectile.Distance(newCenter) < 300)
+			if(projectile.ai[1] > 50 && Collision.CanHit(projectile.Center, 0, 0, target.Center, 0, 0))
             {
 				if (Main.netMode != NetmodeID.Server)
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starCast").WithPitchVariance(0.3f).WithVolume(0.6f), projectile.position);
 
 				Vector2 vel = projectile.GetArcVel(target.Center, 0.1f, heightabovetarget : Main.rand.Next(50, 100));
-				projectile.velocity = projectile.DirectionFrom(target.Center).RotatedByRandom(MathHelper.PiOver2) * 15;
+				projectile.velocity = projectile.DirectionFrom(target.Center).RotatedByRandom(MathHelper.PiOver2) * 8;
 
 				Projectile.NewProjectileDirect(projectile.Center, vel, ModContent.ProjectileType<JinxprobeEnergy>(), projectile.damage, projectile.knockBack, projectile.owner).netUpdate = true;
 				projectile.ai[1] = 0;

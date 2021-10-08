@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 		public override void SetDefaults()
 		{
 			item.CloneDefaults(ItemID.SpiderStaff);
-			item.damage = 46;
+			item.damage = 56;
 			item.Size = new Vector2(36, 52);
 			item.shoot = mod.ProjectileType("Jinxprobe");
 			item.value = Item.sellPrice(gold: 12);
@@ -45,7 +45,6 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(mod, "Starjinx", 10);
-			recipe.AddIngredient(ItemID.FallenStar, 8);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stellanova Cannon");
-            Tooltip.SetDefault("Fires erratic stars\nRight click to launch an explosive stellanova that draws in smaller stars\n50% chance not to consume ammo");
+            Tooltip.SetDefault("Fires erratic starfire\nRight click to launch an explosive stellanova that draws in smaller stars\n50% chance not to consume ammo");
 			SpiritGlowmask.AddGlowMask(item.type, Texture + "_glow");
         }
 
@@ -21,22 +21,23 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
         {
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.autoReuse = true;
-            item.useAnimation = 40;
-            item.useTime = 40;
-            item.width = 38;
+            item.useTime = 12;
+			item.useAnimation = 12;
+			item.width = 38;
             item.height = 6;
             item.damage = 53;
             item.shoot = ModContent.ProjectileType<StellanovaStarfire>();
-            item.shootSpeed = 16f;
+            item.shootSpeed = 15f;
             item.noMelee = true;
             item.useAmmo = AmmoID.FallenStar;
             item.value = Item.sellPrice(silver: 55);
             item.knockBack = 3f;
             item.ranged = true;
             item.rare = ItemRarityID.Pink;
-
 			var sound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/StarCast");
 			item.UseSound = Main.dedServ ? sound : sound.WithPitchVariance(0.3f).WithVolume(0.7f);
+			item.noUseGraphic = true;
+			item.channel = true;
 		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(-20, -10);
@@ -47,19 +48,11 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		public override bool ConsumeAmmo(Player player) => Main.rand.NextBool();
 
         public override bool CanUseItem(Player player)
-        {
-            if (player.altFunctionUse == 2)
-            {
-                item.useAnimation = 40;
-                item.useTime = 40;
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<NovaGunStar>()] > 0)
+		{
+			if (player.altFunctionUse == 2)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<BigStellanova>()] > 0)
                     return false;
-            }
-            else
-            {
-                item.useAnimation = 10;
-                item.useTime = 10;
-			}
+
             return true;
         }
 
@@ -69,34 +62,33 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
             if (player.altFunctionUse == 2) //big stellanova
 			{
 				position += direction * 5;
-				Projectile.NewProjectile(position, direction * 1.2f, ModContent.ProjectileType<NovaGunStar>(), damage * 2, knockBack, player.whoAmI);
-				if(!Main.dedServ)
-					for(int i = 0; i < 8; i++)
-						ParticleHandler.SpawnParticle(new StarParticle(position, player.velocity + direction.RotatedByRandom(MathHelper.Pi / 3) * Main.rand.NextFloat(0.33f, 0.8f),
-							Color.White * 0.66f, SpiritMod.StarjinxColor(Main.GlobalTime + i), Main.rand.NextFloat(0.2f, 0.3f), 20));
+				Projectile.NewProjectile(position, direction * 1.2f, ModContent.ProjectileType<BigStellanova>(), damage * 2, knockBack, player.whoAmI);
 			}
             else //starfire
             {
-                float shootRotation = Main.rand.NextFloat(-0.5f, 0.5f);
+                float shootRotation = Main.rand.NextFloat(-0.6f, 0.6f);
 				shootRotation = Math.Sign(shootRotation) * (float)Math.Pow(shootRotation, 2); //square the rotation offset to "weigh" it more towards 0
 
-                direction = direction.RotatedBy(shootRotation);
+				direction = direction.RotatedBy(shootRotation);
                 position += direction * 5;
                 player.itemRotation += shootRotation;
                 Projectile proj = Projectile.NewProjectileDirect(position, direction, type, damage, knockBack, player.whoAmI);
 				if(proj.modProjectile is StellanovaStarfire starfire)
 				{
-					starfire.TargetVelocity = new Vector2(speedX, speedY) * 1.1f;
+					starfire.TargetVelocity = new Vector2(speedX, speedY) * 2f;
 					starfire.InitialVelocity = direction;
-					starfire.Amplitude = Main.rand.NextFloat(-MathHelper.Pi / 20, MathHelper.Pi / 20);
+					starfire.Amplitude = Main.rand.NextFloat(MathHelper.Pi / 30, MathHelper.Pi / 18) * (Main.rand.NextBool() ? -1 : 1);
 				}
 				if (Main.netMode != NetmodeID.SinglePlayer)
 					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
 
-				if (!Main.dedServ)
-					for (int i = 0; i < 3; i++)
-						ParticleHandler.SpawnParticle(new StarParticle(position, player.velocity + direction.RotatedByRandom(MathHelper.Pi / 3) * Main.rand.NextFloat(0.2f, 0.5f),
-							Color.White * 0.66f, SpiritMod.StarjinxColor(Main.GlobalTime + i), Main.rand.NextFloat(0.2f, 0.3f), 20));
+				if(!Main.dedServ)
+					for (int i = 0; i < 4; i++) //weak burst of particles in direction of movement
+						ParticleHandler.SpawnParticle(new FireParticle(proj.Center - direction, player.velocity + Vector2.Normalize(proj.velocity).RotatedByRandom(MathHelper.Pi / 4) * Main.rand.NextFloat(1f, 6f),
+							SpiritMod.StarjinxColor(Main.GlobalTime), SpiritMod.StarjinxColor(Main.GlobalTime + 5) * 0.5f, Main.rand.NextFloat(0.5f, 0.7f), 25, delegate (Particle p)
+							{
+								p.Velocity = p.Velocity.RotatedByRandom(0.1f) * 0.97f;
+							}));
 			}
             return false;
         }

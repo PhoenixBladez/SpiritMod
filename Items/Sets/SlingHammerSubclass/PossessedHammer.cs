@@ -189,8 +189,8 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 				if (!Main.dedServ)
 				{
 					Main.PlaySound(SoundID.Item88, projectile.Center);
-					ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center, new Color(217, 0, 255) * 0.75f, 150, 12));
-					ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center, new Color(57, 14, 92) * 0.75f, 200, 12));
+					ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center, new Color(217, 0, 255) * 0.25f, 150, 12) {RingColor = new Color(255, 94, 239) * 0.5f });
+					ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center, new Color(217, 0, 255) * 0.2f, 200, 12) { RingColor = new Color(255, 94, 239) * 0.4f });
 					for (int i = 0; i < 6; i++)
 						ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, (projectile.velocity / 4) - (Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2 * 3) * Main.rand.NextFloat(6)),
 							new Color(255, 143, 216), new Color(57, 14, 92), Main.rand.NextFloat(0.5f, 0.7f), 40, delegate (Particle particle)

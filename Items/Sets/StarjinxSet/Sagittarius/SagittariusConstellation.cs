@@ -71,7 +71,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 				for (int i = 0; i < 7; i++)
 					ParticleHandler.SpawnParticle(new ImpactLine(projectile.Center, Main.rand.NextVector2Unit(), color * 0.7f, new Vector2(0.2f, Main.rand.NextFloat(0.3f, 0.4f)), 10, projectile));
 
-				ParticleHandler.SpawnParticle(new PulseCircle(projectile, color, projectile.scale * 120, 15, PulseCircle.MovementType.OutwardsQuadratic));
+				ParticleHandler.SpawnParticle(new PulseCircle(projectile, color * 0.5f, projectile.scale * 80, 15, PulseCircle.MovementType.OutwardsQuadratic));
 			}
 
 			if (Owner == Main.LocalPlayer)

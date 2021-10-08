@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace SpiritMod.Prim
 {
@@ -10,7 +11,8 @@ namespace SpiritMod.Prim
 	{
 		TaperEnd,
 		TaperStart,
-		None
+		None,
+		TaperEndQuadratic
 	}
 
 	/// <summary>
@@ -56,6 +58,9 @@ namespace SpiritMod.Prim
 							break;
 						case StripTaperType.TaperEnd:
 							widthModifier *= (1 - progress);
+							break;
+						case StripTaperType.TaperEndQuadratic:
+							widthModifier *= (float)Math.Pow(1 - progress, 2);
 							break;
 					}
 

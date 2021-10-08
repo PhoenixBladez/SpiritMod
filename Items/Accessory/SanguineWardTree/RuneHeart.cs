@@ -76,7 +76,7 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 
 						if (!Main.dedServ)
 						{
-							Particles.ParticleHandler.SpawnParticle(new Particles.PulseCircle(Owner.Center, Color.Lerp(new Color(252, 3, 102), Color.White, 0.25f), 70, 20));
+							Particles.ParticleHandler.SpawnParticle(new Particles.PulseCircle(Owner, Color.Lerp(new Color(252, 3, 102), Color.White, 0.25f), 70, 20));
 							Main.PlaySound(SoundID.Item29.WithPitchVariance(0.2f).WithVolume(0.6f), Owner.Center);
 						}
 

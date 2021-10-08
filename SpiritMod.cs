@@ -947,7 +947,7 @@ namespace SpiritMod
 				{
 					Helpers.SetBasicEffectMatrices(ref basicEffect, Main.GameViewMatrix.Zoom);
 					Helpers.SetBasicEffectMatrices(ref primitives.pixelEffect, Main.GameViewMatrix.Zoom);
-					Helpers.SetBasicEffectMatrices(ref primitives.pixelEffect, new Vector2(1));
+					Helpers.SetBasicEffectMatrices(ref primitives.galaxyEffect, new Vector2(1));
 				}
 
 				_lastScreenSize = new Vector2(Main.screenWidth, Main.screenHeight);

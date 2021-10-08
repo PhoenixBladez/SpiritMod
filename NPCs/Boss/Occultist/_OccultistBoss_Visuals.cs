@@ -136,7 +136,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 						ParticleHandler.SpawnParticle(new GlowParticle(npc.Center, Main.rand.NextVector2Circular(12, 12), new Color(99, 23, 51), Main.rand.NextFloat(0.04f, 0.08f), 40));
 
 					for (int i = 0; i < 3; i++)
-						ParticleHandler.SpawnParticle(new PulseCircle(npc.Center, new Color(99, 23, 51), 200 * i, 20));
+						ParticleHandler.SpawnParticle(new PulseCircle(npc.Center, new Color(255, 33, 66) * 0.7f, 200 * i, 20) {RingColor = new Color(255, 115, 239) });
 
 					_runeCircle = new RuneCircle(80, 50, 10, 8);
 
@@ -210,7 +210,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 				if (AiTimer % (int)(30 * speedMod) == 0 && !Main.dedServ)
 				{
-					ParticleHandler.SpawnParticle(new PulseCircle(npc.Center, new Color(252, 3, 148, 100) * 0.5f, 120, 12));
+					ParticleHandler.SpawnParticle(new PulseCircle(npc.Center, new Color(255, 33, 66) * 0.4f, 120, 12) { RingColor = new Color(255, 115, 239) * 0.4f});
 					ParticleHandler.SpawnParticle(new OccultistDeathBoom(npc.Center + Main.rand.NextVector2Circular(50, 60), Main.rand.NextFloat(0.2f, 0.3f), Main.rand.NextFloat(-0.1f, 0.1f)));
 				}
 
@@ -244,7 +244,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 					//pulsing circles
 					for (int i = 0; i < 4; i++)
-						ParticleHandler.SpawnParticle(new PulseCircle(npc.Center, new Color(99, 23, 51), 150 * i, 20));
+						ParticleHandler.SpawnParticle(new PulseCircle(npc.Center, new Color(255, 33, 66) * 0.7f, 150 * i, 20) { RingColor = new Color(255, 115, 239) });
 
 					EventManager.PlayEvent(new ScreenShake(30f, 0.33f));
 					EventManager.PlayEvent(new ScreenFlash(new Color(255, 99, 161), 0.1f, 0.23f, 0.3f));
