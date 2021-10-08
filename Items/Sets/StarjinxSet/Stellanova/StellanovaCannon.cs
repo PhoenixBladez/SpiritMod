@@ -21,8 +21,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
         {
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.autoReuse = true;
-            item.useTime = 30;
-			item.useAnimation = 15;
+            item.useTime = 12;
+			item.useAnimation = 12;
 			item.width = 38;
             item.height = 6;
             item.damage = 53;
@@ -49,15 +49,10 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 
         public override bool CanUseItem(Player player)
 		{
-			item.useAnimation = 12;
 			if (player.altFunctionUse == 2)
-            {
-                item.useTime = 30;
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<BigStellanova>()] > 0)
                     return false;
-            }
-            else
-                item.useTime = 12;
+
             return true;
         }
 
@@ -82,7 +77,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 				{
 					starfire.TargetVelocity = new Vector2(speedX, speedY) * 2f;
 					starfire.InitialVelocity = direction * 1.25f;
-					starfire.Amplitude = Main.rand.NextFloat(MathHelper.Pi / 40, MathHelper.Pi / 20) * (Main.rand.NextBool() ? -1 : 1);
+					starfire.Amplitude = Main.rand.NextFloat(MathHelper.Pi / 30, MathHelper.Pi / 18) * (Main.rand.NextBool() ? -1 : 1);
 				}
 				if (Main.netMode != NetmodeID.SinglePlayer)
 					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);

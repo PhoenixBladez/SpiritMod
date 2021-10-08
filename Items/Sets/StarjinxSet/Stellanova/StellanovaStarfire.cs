@@ -39,20 +39,22 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		private const int VelocityLerpTime = 12;
 
 		public float Amplitude = MathHelper.Pi / 12;
-		private const float Period = 35;
+		private const float Period = 25;
 
 		private const float MaxSpeed = 32;
 
 		private ref float AiTimer => ref projectile.ai[0];
-		private Chain _chain = null;
+		private readonly List<Chain> _chains = new List<Chain>();
 		private float _sinAmplitude;
 		private float _sinCounter;
 
 		public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+			_sinAmplitude = MathHelper.Lerp(_sinAmplitude, Amplitude * 30, 0.06f);
+			_sinCounter += 0.22f;
 
-			if(projectile.alpha > 0)
+			if (projectile.alpha > 0)
 				projectile.alpha = Math.Max(projectile.alpha - 10, 0);
 
 			if (++AiTimer <= VelocityLerpTime) //lerping to desired vel
@@ -64,32 +66,44 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 					TargetVelocity *= 1.025f;
 
 				projectile.velocity = TargetVelocity.RotatedBy((float)Math.Sin(MathHelper.TwoPi * (AiTimer - VelocityLerpTime) / Period) * Amplitude);
-				_sinAmplitude = MathHelper.Lerp(_sinAmplitude, Amplitude * 20, 0.06f);
 			}
 
 			if (Main.rand.NextBool(6) && !Main.dedServ)
 				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(0.4f), Color.White * 0.5f,
 					SpiritMod.StarjinxColor(Main.GlobalTime - 1) * 0.5f, Main.rand.NextFloat(0.1f, 0.2f), 25));
 
-			_sinCounter += 0.2f;
-			if (_chain == null)
-				_chain = new Chain(3.5f, 12, projectile.Center, new ChainPhysics(0.8f, 0f, 0f), true, false, 4);
-			else
+			if (!(_chains.Count > 0))
 			{
-				_chain.Update(projectile.Center, projectile.Center);
-				for(int i = 0; i < _chain.Vertices.Count; i++)
+				int chainamount = 2;
+				for (int i = 0; i < chainamount; i++)
 				{
-					ChainVertex vertex = _chain.Vertices[i];
-					float progress = i / (float)(_chain.Vertices.Count);
-					Vector2 lastPos = projectile.position;
-					if (i > 0)
-						lastPos = _chain.Vertices[i - 1].Position;
-
-					var DirectionUnit = Vector2.Normalize(lastPos - vertex.Position);
-					DirectionUnit = DirectionUnit.RotatedBy(MathHelper.PiOver2);
-					float numwaves = 1f;
-					vertex.Position += DirectionUnit * (float)Math.Sin(_sinCounter + progress * MathHelper.TwoPi * numwaves) * ((progress / 2) + 0.5f) * _sinAmplitude;
+					float length = MathHelper.Lerp(3f, 3.5f, i / (float)chainamount);
+					_chains.Add(new Chain(length, 12, projectile.Center, new ChainPhysics(0.8f, 0f, 0f), true, false, 5));
 				}
+			}
+			else
+				for(int i = 0; i < _chains.Count; i++)
+				{
+					float amplitude = MathHelper.Lerp(_sinAmplitude, -_sinAmplitude, i / (float)_chains.Count);
+					UpdateChain(_chains[i], amplitude);
+				}
+		}
+
+		private void UpdateChain(Chain chain, float amplitude)
+		{
+			chain.Update(projectile.Center, projectile.Center);
+			for (int i = 0; i < chain.Vertices.Count; i++)
+			{
+				ChainVertex vertex = chain.Vertices[i];
+				float progress = i / (float)(chain.Vertices.Count);
+				Vector2 lastPos = projectile.position;
+				if (i > 0)
+					lastPos = chain.Vertices[i - 1].Position;
+
+				var DirectionUnit = Vector2.Normalize(lastPos - vertex.Position);
+				DirectionUnit = DirectionUnit.RotatedBy(MathHelper.PiOver2);
+				float numwaves = 1f;
+				vertex.Position += DirectionUnit * (float)Math.Sin(_sinCounter + progress * MathHelper.TwoPi * numwaves) * amplitude;
 			}
 		}
 
@@ -124,7 +138,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			PrimitiveRenderer.DrawPrimitiveShape(star);
 
 			//chain
-			if (_chain != null)
+			if (_chains.Count > 0)
 			{
 				//set the parameters for the shader
 				Color startColor = new Color(242, 240, 134);
@@ -136,26 +150,29 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 				effect.Parameters["StartColor"].SetValue(startColor.ToVector4());
 				effect.Parameters["EndColor"].SetValue(endColor.ToVector4());
 
-				//projectile's center needs to manually be added to the start of the array
-				var temp = new List<Vector2> { projectile.Center };
-				temp.AddRange(_chain.VerticesArray());
-				Vector2[] vertices = temp.ToArray();
-				//draw the strip with the given array
-				var strip = new PrimitiveStrip
+				for(int i = 0; i < _chains.Count; i++)
 				{
-					Color = Color.White * projectile.Opacity,
-					Width = 25 * projectile.scale,
-					PositionArray = vertices,
-					TaperingType = StripTaperType.TaperEnd,
-				};
-				PrimitiveRenderer.DrawPrimitiveShape(strip, effect);
+					//projectile's center needs to manually be added to the start of the array
+					var temp = new List<Vector2> { projectile.Center };
+					temp.AddRange(_chains[i].VerticesArray());
+					Vector2[] vertices = temp.ToArray();
+					//draw the strip with the given array
+					float width = MathHelper.Lerp(25, 15, i / (float)_chains.Count);
+					var strip = new PrimitiveStrip
+					{
+						Color = Color.White * projectile.Opacity,
+						Width = width * projectile.scale,
+						PositionArray = vertices,
+						TaperingType = StripTaperType.TaperEndQuadratic,
+					};
+					PrimitiveRenderer.DrawPrimitiveShape(strip, effect);
+				}
 
 				var circle = new CirclePrimitive
 				{
 					Color = Color.White * projectile.Opacity,
 					Radius = 30f * projectile.scale,
 					Position = projectile.Center - Main.screenPosition,
-					Rotation = _chain.StartRotation,
 					MaxRadians = MathHelper.TwoPi
 				};
 				PrimitiveRenderer.DrawPrimitiveShape(circle, effect);
