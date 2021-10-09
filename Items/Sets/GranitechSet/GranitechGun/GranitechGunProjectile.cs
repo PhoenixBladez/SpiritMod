@@ -104,10 +104,10 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 		private void VFX(Vector2 position, Vector2 velocity)
 		{
-			for (int i = 0; i < 4; ++i)
+			for (int i = 0; i < 6; ++i)
 			{
-				Vector2 vel = velocity.RotatedByRandom(MathHelper.ToRadians(30)) * Main.rand.NextFloat(0.5f, 1.2f);
-				ParticleHandler.SpawnParticle(new GranitechGunParticle(position, vel, Main.rand.NextFloat(1.8f, 2.6f), Main.rand.Next(20, 40), Main.rand.Next(2, 5)));
+				Vector2 vel = velocity.RotatedByRandom(MathHelper.ToRadians(30)) * Main.rand.NextFloat(2f, 6f);
+				ParticleHandler.SpawnParticle(new GranitechGunParticle(position, vel, Main.rand.NextFloat(2.5f, 3f), 20, Main.rand.Next(2, 5)));
 			}
 		}
 
@@ -137,6 +137,10 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			}
 
 			spriteBatch.Draw(t, drawPos, frame, lightColor, realRot, new Vector2(42, 22), 1f, _effect, 1f);
+
+			Texture2D glowmask = ModContent.GetTexture(Texture + "_glow");
+			spriteBatch.Draw(glowmask, drawPos, frame, Color.White, realRot, new Vector2(42, 22), 1f, _effect, 1f);
+
 			return false;
 		}
 

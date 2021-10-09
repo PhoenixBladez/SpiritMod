@@ -13,14 +13,13 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 	public class GranitechGunBullet : ModProjectile, IDrawAdditive //, ITrailProjectile
 	{
 		public bool spawnRings = false;
-
-		private Color _glowColor = new Color(255, 46, 122);
+		private float aberrationOffset = 0;
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Granitech Bullet");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
 			Main.projFrames[projectile.type] = 1;
 		}
 
@@ -29,64 +28,119 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			projectile.hostile = false;
 			projectile.friendly = true;
 			projectile.penetrate = 1;
-			projectile.width = 46;
-			projectile.height = 8;
-			projectile.alpha = 0;
+			projectile.width = 12;
+			projectile.height = 12;
+			projectile.alpha = 255;
 			projectile.timeLeft = 900;
 			projectile.aiStyle = -1;
 			projectile.extraUpdates = 1;
-
-			//if (Main.rand.NextBool())
-				_glowColor = new Color(239, 241, 80);
+			projectile.scale = Main.rand.NextFloat(1f, 1.3f);
 		}
 
 		public override void AI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation() - MathHelper.Pi;
-
-			if (spawnRings && projectile.ai[0] % 1 == 0 && projectile.ai[0] >= 1 && projectile.ai[0] < 3)
+			Lighting.AddLight(projectile.Center, Color.Yellow.ToVector3() / 2);
+			if (spawnRings && projectile.ai[0]++ == 0 && !Main.dedServ)
 			{
-				float scale = 0.75f + (2 - (projectile.ai[0] * 0.75f));
-				ParticleHandler.SpawnParticle(new GranitechGunParticle(projectile.Center, projectile.velocity * 0.2f * (2f - (scale * 0.5f)), scale, 50));
+				int maxRings = 3;
+				for (int j = -1; j <= 1; j++) //repeat multiple times with different offset and color, for chromatic aberration effect
+				{
+					Vector2 posOffset = Vector2.Normalize(projectile.velocity).RotatedBy(j * MathHelper.PiOver2) * 1.5f;
+					Color colorMod = (j == -1) ? new Color(255, 0, 0, 80) : ((j == 0) ? new Color(0, 255, 0, 80) : new Color(0, 0, 255, 80));
+
+					for (int i = 0; i < maxRings; i++) //multiple rings
+					{
+						float progress = i / (float)maxRings;
+						Color color = Color.Lerp(new Color(222, 111, 127), new Color(239, 241, 80), progress).MultiplyRGBA(colorMod);
+
+						float scale = (i == 0) ? 0.5f : //small
+							(i == 1) ? 0.75f : //med
+							1f; //big
+
+						float speed = (i == 0) ? 4.5f :
+							(i == 1) ? 2.5f :
+							0.66f;
+
+						Vector2 velNormal = Vector2.Normalize(projectile.velocity);
+						Vector2 spawnPos = Vector2.Lerp(projectile.Center, projectile.Center + Vector2.Normalize(projectile.velocity) * 110, progress) + posOffset;
+						ParticleHandler.SpawnParticle(new PulseCircle(spawnPos, color * 0.4f, scale * 150, 20, PulseCircle.MovementType.OutwardsSquareRooted)
+						{
+							Angle = projectile.velocity.ToRotation(),
+							ZRotation = 0.6f,
+							RingColor = color,
+							Velocity = velNormal * speed
+						});
+					}
+				}
 			}
-			projectile.ai[0]++;
+
+			//accelerate over time, with a cap
+			const float maxSpeed = 18f;
+			if (projectile.velocity.Length() < maxSpeed)
+				projectile.velocity *= 1.02f;
+			else
+				projectile.velocity = Vector2.Normalize(projectile.velocity) * maxSpeed;
+
+			//randomize the aberration offset, at random intervals
+			if (Main.rand.NextBool(10))
+				aberrationOffset = Main.rand.NextFloat(1, 2f);
+
+			//fade in quickly
+			projectile.alpha = (int)MathHelper.Max(projectile.alpha - 10, 0);
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(new LegacySoundStyle(29, 53).WithPitchVariance(0.3f), projectile.Center);
-			for (int i = 0; i < 3; i++)
-			{
-				Vector2 vel = projectile.velocity.RotatedByRandom(MathHelper.Pi / 8f) * Main.rand.NextFloat(0.2f, 0.6f);
-				var d = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(4, 4), ModContent.DustType<GranitechGunDust>(), vel, 0, default, Main.rand.NextFloat(1f, 1.5f));
-				GranitechGunDust.RandomizeFrame(d);
-			}
+
+			if (!Main.dedServ)
+				ParticleHandler.SpawnParticle(new GranitechGunBurst(projectile.Center, Main.rand.NextFloat(0.9f, 1.1f)));
+
 			spawnRings = false;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(SpriteBatch sb, Color lightColor)
 		{
-			Vector2 drawPosition = projectile.Center - Main.screenPosition;
 
-			spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPosition, null, Color.White, projectile.rotation, new Vector2(10, 5), 1f, SpriteEffects.None, 0f);
-
-			Vector2 normVel = Vector2.Normalize(projectile.velocity);
 			Texture2D glow = mod.GetTexture("Items/Sets/GranitechSet/GranitechGun/GranitechGunBullet_Glow");
-
-			Color[] colors = new Color[2] { new Color(222, 111, 127), new Color(178, 105, 140) };
-			for (int i = 0; i < 2; ++i)
+			//draw 3 times, with position and color offsets, for a chromatic aberration effect
+			for (int j = 1; j >= -1; j--)
 			{
-				Vector2 off = normVel * 16 * (i + 1);
-				spriteBatch.Draw(glow, drawPosition - off, null, colors[i] * (1 - (i * 0.05f)), projectile.rotation, new Vector2(10, 5), 1f, SpriteEffects.None, 0f);
+				Vector2 posOffset = Vector2.Normalize(projectile.velocity).RotatedBy(j * MathHelper.PiOver2) * aberrationOffset;
+				Color colorMod = (j == -1) ? new Color(255, 0, 0, 70) : ((j == 0) ? new Color(0, 255, 0, 70) : new Color(0, 0, 255, 70));
+
+				Vector2 drawPosition = projectile.Center + posOffset - Main.screenPosition;
+				for (int i = 1; i < ProjectileID.Sets.TrailCacheLength[projectile.type]; i++)
+				{
+					float progress = (ProjectileID.Sets.TrailCacheLength[projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[projectile.type];
+					Color trailColor = Color.Lerp(new Color(222, 111, 127), new Color(178, 105, 140), progress).MultiplyRGBA(colorMod) * progress;
+					Vector2 trailPosition = projectile.oldPos[i] + posOffset + projectile.Size / 2 - Main.screenPosition;
+					sb.Draw(glow, trailPosition, null, projectile.GetAlpha(trailColor), projectile.rotation, glow.Size() / 2, projectile.scale, SpriteEffects.None, 0f);
+				}
+
+				sb.Draw(Main.projectileTexture[projectile.type], drawPosition, null, projectile.GetAlpha(colorMod), projectile.rotation, glow.Size()/2, projectile.scale, SpriteEffects.None, 0f);
 			}
+
 			return false;
 		}
 
 		public void AdditiveCall(SpriteBatch sb)
 		{
-			Texture2D bloomTex = SpiritMod.instance.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloomTex = mod.GetTexture("Effects/Masks/CircleGradient");
 
-			sb.Draw(bloomTex, projectile.Center - Main.screenPosition, null, Color.White * 0.5f, 0, bloomTex.Size() / 2f, 0.2f, SpriteEffects.None, 0);
+			//trail of blooms at the positions of each bullet texture
+			for (int i = 1; i < ProjectileID.Sets.TrailCacheLength[projectile.type]; i++)
+			{
+				float progress = (ProjectileID.Sets.TrailCacheLength[projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[projectile.type];
+				Color trailColor = Color.Lerp(new Color(222, 111, 127), new Color(178, 105, 140), progress) * progress;
+				Vector2 trailPosition = projectile.oldPos[i] + projectile.Size / 2 - Main.screenPosition;
+				sb.Draw(bloomTex, trailPosition, null, projectile.GetAlpha(trailColor) * 0.66f, projectile.rotation, bloomTex.Size() / 2f,
+					new Vector2(0.22f, 0.17f) * projectile.scale, SpriteEffects.None, 0);
+			}
+
+			sb.Draw(bloomTex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(new Color(239, 241, 80)) * 0.33f, projectile.rotation, bloomTex.Size() / 2f,
+				new Vector2(0.22f, 0.17f) * projectile.scale, SpriteEffects.None, 0);
 		}
 
 		//public void DoTrailCreation(TrailManager tManager) { }// tManager.CreateTrail(projectile, new GranitechBulletTrail(new Color(255, 46, 122, 0)), new RoundCap(), new DefaultTrailPosition(), 4, 220);

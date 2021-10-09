@@ -52,7 +52,8 @@ namespace SpiritMod.Particles
 			Outwards,
 			Inwards,
 			OutwardsQuadratic,
-			InwardsQuadratic
+			InwardsQuadratic,
+			OutwardsSquareRooted
 		}
 
 		private MovementType moveType;
@@ -103,6 +104,9 @@ namespace SpiritMod.Particles
 					break;
 				case MovementType.OutwardsQuadratic:
 					Progress = (float)Math.Pow(TimeActive / (float)MaxTime, 2);
+					break;
+				case MovementType.OutwardsSquareRooted:
+					Progress = (float)Math.Pow(TimeActive / (float)MaxTime, 0.5f);
 					break;
 				case MovementType.InwardsQuadratic:
 					Progress = (float)Math.Pow(1 - (TimeActive / (float)MaxTime), 2);

@@ -126,16 +126,6 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		public override bool PreDraw(SpriteBatch sB, Color lightColor)
 		{
 			#region primitives
-			//star
-			StarPrimitive star = new StarPrimitive
-			{
-				Color = Color.White * projectile.Opacity,
-				TriangleHeight = 9 * projectile.scale,
-				TriangleWidth = 3 * projectile.scale,
-				Position = projectile.Center - Main.screenPosition,
-				Rotation = projectile.rotation
-			};
-			PrimitiveRenderer.DrawPrimitiveShape(star);
 
 			//chain
 			if (_chains.Count > 0)
@@ -176,6 +166,17 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 					MaxRadians = MathHelper.TwoPi
 				};
 				PrimitiveRenderer.DrawPrimitiveShape(circle, effect);
+
+				//star
+				StarPrimitive star = new StarPrimitive
+				{
+					Color = Color.White * projectile.Opacity,
+					TriangleHeight = 9 * projectile.scale,
+					TriangleWidth = 3 * projectile.scale,
+					Position = projectile.Center - Main.screenPosition,
+					Rotation = projectile.rotation
+				};
+				PrimitiveRenderer.DrawPrimitiveShape(star);
 			}
 			#endregion
 

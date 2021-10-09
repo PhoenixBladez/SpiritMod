@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Particles;
+using System;
 using Terraria;
 
 namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
@@ -11,7 +12,6 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 		public readonly int MaxTime;
 
 		private float opacity;
-
 
 		public override bool UseAdditiveBlend => true;
 		public override bool UseCustomDraw => true;
@@ -39,11 +39,14 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 		{
 			Lighting.AddLight(Position, Color.R / 255f, Color.G / 255f, Color.B / 255f);
 
-			opacity = 1 - ((float)TimeActive / MaxTime);
+			opacity = (float)Math.Pow(1 - ((float)TimeActive / MaxTime), 0.33f);
 			Rotation = Velocity.ToRotation();
 
 			if (Frame.Y == 44)
-				Velocity *= 0.98f;
+			{
+				Velocity *= 0.90f;
+				Scale *= 0.93f;
+			}
 			else
 				Velocity *= 0.93f;
 
@@ -54,15 +57,14 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 		public override void CustomDraw(SpriteBatch spriteBatch)
 		{
 			Texture2D baseTex = ParticleHandler.GetTexture(Type);
-			Texture2D bloomTex = SpiritMod.instance.GetTexture("Effects/Masks/CircleGradient");
 
-			spriteBatch.Draw(baseTex, Position - Main.screenPosition, Frame, Color * opacity, Rotation, Frame.Size() / 2f, Scale / 2f, SpriteEffects.None, 0);
+			for (int j = -1; j <= 1; j++) //repeat multiple times with different offset and color, for chromatic aberration effect
+			{
+				Vector2 posOffset = Vector2.UnitX * j * 1.5f;
+				Color colorMod = (j == -1) ? new Color(255, 0, 0) : ((j == 0) ? new Color(0, 255, 0) : new Color(0, 0, 255));
 
-			float bloomScale = Frame.Y == 44 ? 0.5f : 1f;
-			float realOpacity = Frame.Y == 44 ? opacity * 0.5f : opacity * 0.75f;
-
-			spriteBatch.Draw(bloomTex, Position - Main.screenPosition, null, Color * realOpacity * 0.5f, 0, bloomTex.Size() / 2f, Scale / 4f * bloomScale, SpriteEffects.None, 0);
-			spriteBatch.Draw(bloomTex, Position - Main.screenPosition, null, Color * realOpacity * 0.25f, 0, bloomTex.Size() / 2f, Scale / 2f * bloomScale, SpriteEffects.None, 0);
+				spriteBatch.Draw(baseTex, Position + posOffset - Main.screenPosition, Frame, Color.MultiplyRGB(colorMod) * opacity, Rotation, Frame.Size() / 2f, Scale / 2f, SpriteEffects.None, 0);
+			}
 		}
 	}
 }
