@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			item.height = 14;
 			item.useTime = item.useAnimation = 24;
 			item.knockBack = 0f;
-			item.shootSpeed = 24;
+			item.shootSpeed = 9;
 			item.noUseGraphic = true;
 			item.noMelee = true;
 			item.autoReuse = true;
@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 				item.damage = 30;
 				item.useTime = item.useAnimation = 10;
 				item.knockBack = 1f;
-				item.shootSpeed = 24f;
+				item.shootSpeed = 9f;
 				item.channel = false;
 			}
 			else //lasre
