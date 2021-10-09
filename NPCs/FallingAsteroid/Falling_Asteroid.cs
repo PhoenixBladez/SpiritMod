@@ -10,10 +10,11 @@ namespace SpiritMod.NPCs.FallingAsteroid
 	public class Falling_Asteroid : ModNPC
 	{
 		public int visualTimer = 0;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Falling Asteroid");
-			NPCID.Sets.TrailCacheLength[npc.type] = 30; 
+			NPCID.Sets.TrailCacheLength[npc.type] = 30;
 			NPCID.Sets.TrailingMode[npc.type] = 0;
 			Main.npcFrameCount[npc.type] = 5;
 		}
@@ -32,54 +33,47 @@ namespace SpiritMod.NPCs.FallingAsteroid
 			npc.HitSound = SoundID.NPCHit3;
 			npc.DeathSound = SoundID.NPCDeath43;
 		}
-		public override void OnHitPlayer (Player target, int damage, bool crit)
-		{
-			target.AddBuff(24, 60*3);
-		}
+
+		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(24, 60 * 3);
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => SpawnCondition.Meteor.Chance * 0.15f;
+
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];
 			npc.spriteDirection = 1;
-			
+
 			npc.ai[0]++;
 			if (npc.ai[0] <= 320 && npc.ai[0] >= 0)
-				movement();
+				Movement();
 			else if (npc.ai[0] > 360)
-				doExplosion();
-			if (npc.ai[0] == 320 ||npc.ai[0] == 360) {
+				DoExplosion();
+
+			if (npc.ai[0] == 320 || npc.ai[0] == 360)
 				npc.netUpdate = true;
-			}
+
 			if (npc.ai[0] >= 580)
 			{
 				npc.ai[0] = 0;
 				npc.netUpdate = true;
 			}
-			Vector2 vector2 = npc.Center + Vector2.Normalize(npc.velocity) / 2f;
-			Dust dust1 = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 0.0f, 0.0f, 0, new Color(), 1f)];
-			dust1.position = vector2;
-			dust1.velocity = npc.velocity.RotatedBy(1.57079637050629, new Vector2()) * 0.33f + npc.velocity / 120f;
-			dust1.position += npc.velocity.RotatedBy(1.57079637050629, new Vector2());
-			dust1.fadeIn = 0.5f;
-			dust1.noGravity = true;
-			Dust dust2 = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 0.0f, 0.0f, 0, new Color(), 1f)];
-			dust2.position = vector2;
-			dust2.velocity = npc.velocity.RotatedBy(-1.57079637050629, new Vector2()) * 0.33f + npc.velocity / 120f;
-			dust2.position += npc.velocity.RotatedBy(-1.57079637050629, new Vector2());
-			dust2.fadeIn = 0.5f;
-			dust2.noGravity = true;
-			
+
+			for (int i = 0; i < 2; ++i)
+			{
+				Dust dust = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 0.0f, 0.0f, 0, new Color(), 1f)];
+				dust.position = npc.Center + Vector2.Normalize(npc.velocity) / 2f;
+				dust.velocity = npc.velocity.RotatedBy(MathHelper.PiOver2, new Vector2()) * 0.33f + npc.velocity / 120f;
+				dust.position += npc.velocity.RotatedBy(MathHelper.PiOver2, new Vector2());
+				dust.fadeIn = 0.5f;
+				dust.noGravity = true;
+			}
+
 			if (player.dead)
 				npc.velocity.Y -= 0.15f;
 			Lighting.AddLight(new Vector2(npc.Center.X, npc.Center.Y), 0.5f, 0.25f, 0f);
 		}
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return SpawnCondition.Meteor.Chance * 0.15f;
-		}
-		public void doExplosion()
-		{
-			Player player = Main.player[npc.target];
 
+		public void DoExplosion()
+		{
 			npc.velocity.Y += 0.15f;
 			npc.noTileCollide = false;
 			if (npc.collideY && npc.ai[0] > 420)
@@ -87,190 +81,142 @@ namespace SpiritMod.NPCs.FallingAsteroid
 				for (int index = 0; index < 30; ++index)
 				{
 					Dust dust = Main.dust[Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 50), npc.width, npc.height, DustID.Granite, 0.0f, 0.0f, 0, new Color(), 1.2f)];
-					dust.velocity.Y -= (float)(3.0 + (double)2 * 2.5);
+					dust.velocity.Y -= (float)(3.0 + 2 * 2.5);
 					dust.velocity.Y *= Main.rand.NextFloat();
-					dust.scale += (float)8 * 0.03f;
+					dust.scale += 8 * 0.03f;
 				}
+
 				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 14, 1f, 0.0f);
 				npc.ai[0] = -90;
 				npc.netUpdate = true;
+
 				for (int k = 0; k < 10; k++)
-				{
 					Gore.NewGore(npc.position, new Vector2(npc.velocity.X * 0.5f, -npc.velocity.Y * 0.5f), Main.rand.Next(61, 64), 1f);
-				}
 				for (int k = 0; k < 20; k++)
-				{
 					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, npc.velocity.X * 2f, -npc.velocity.Y * 2f, 150, new Color(), 1.2f);
-				}
+
 				for (int i = 0; i < Main.npc.Length; i++)
 				{
 					NPC npc2 = Main.npc[i];
-					if ((double)Vector2.Distance(npc.Center, npc2.Center) <= (double)150f && !npc2.boss && npc2.knockBackResist != 0f)
-					{
-						Vector2 vector2 = new Vector2(npc2.position.X + (float)npc2.width * 0.5f, npc2.position.Y + (float)npc2.height * 0.5f);
-						float num2 = npc.position.X + Main.rand.Next(-10, 10) + (float)(npc.width / 2) - vector2.X;
-						float num3 = npc.position.Y + Main.rand.Next(-10, 10) + (float)(npc.height / 2) - vector2.Y;
-						float num4 = 8f / (float)Math.Sqrt((double)num2 * (double)num2 + (double)num3 * (double)num3);
-						npc2.velocity.X = num2 * -1 * num4 * (1.7f);
-						npc2.velocity.Y = num3 * num4 * -1 * (1.7f);
-					}
+					if (Vector2.Distance(npc.Center, npc2.Center) <= (double)150f && !npc2.boss && npc2.knockBackResist != 0f)
+						MoveEntity(npc2);
 				}
+
 				for (int i = 0; i < Main.item.Length; i++)
 				{
 					Item item = Main.item[i];
-					if ((double)Vector2.Distance(npc.Center, item.Center) <= (double)150f)
-					{
-						Vector2 vector2 = new Vector2(item.position.X + (float)item.width * 0.5f, item.position.Y + (float)item.height * 0.5f);
-						float num2 = npc.position.X + Main.rand.Next(-10, 10) + (float)(npc.width / 2) - vector2.X;
-						float num3 = npc.position.Y + Main.rand.Next(-10, 10) + (float)(npc.height / 2) - vector2.Y;
-						float num4 = 8f / (float)Math.Sqrt((double)num2 * (double)num2 + (double)num3 * (double)num3);
-						item.velocity.X = num2 * -1 * num4 * (1.7f);
-						item.velocity.Y = num3 * -1 * num4 * (1.7f);
-					}
+					if (Vector2.Distance(npc.Center, item.Center) <= 150f)
+						MoveEntity(item);
 				}
+
 				for (int i = 0; i < Main.player.Length; i++)
 				{
 					Player patates = Main.player[i];
-					if ((double)Vector2.Distance(npc.Center, patates.Center) <= (double)150f)
-					{
-						Vector2 vector2 = new Vector2(patates.position.X + (float)patates.width * 0.5f, patates.position.Y + (float)patates.height * 0.5f);
-						float num2 = npc.position.X + Main.rand.Next(-10, 10) + (float)(npc.width / 2) - vector2.X;
-						float num3 = npc.position.Y + Main.rand.Next(-10, 10) + (float)(npc.height / 2) - vector2.Y;
-						float num4 = 8f / (float)Math.Sqrt((double)num2 * (double)num2 + (double)num3 * (double)num3);
-						patates.velocity.X = num2 * num4 * -1 * (1.7f);
-						patates.velocity.Y = num3 * num4 * -1 * (1.7f);
-					}
+					if (Vector2.Distance(npc.Center, patates.Center) <= 150f)
+						MoveEntity(patates);
 				}
+
 				for (int i = 0; i < Main.projectile.Length; i++)
 				{
 					Projectile aga = Main.projectile[i];
-					if ((double)Vector2.Distance(npc.Center, aga.Center) <= (double)150f)
-					{
-						Vector2 vector2 = new Vector2(aga.position.X + (float)aga.width * 0.5f, aga.position.Y + (float)aga.height * 0.5f);
-						float num2 = npc.position.X + Main.rand.Next(-10, 10) + (float)(npc.width / 2) - vector2.X;
-						float num3 = npc.position.Y + Main.rand.Next(-10, 10) + (float)(npc.height / 2) - vector2.Y;
-						float num4 = 8f / (float)Math.Sqrt((double)num2 * (double)num2 + (double)num3 * (double)num3);
-						aga.velocity.X = num2 * -1 * num4 * (1.7f);
-						aga.velocity.Y = num3 * num4 * -1 * (1.7f);
-					}
+					if (Vector2.Distance(npc.Center, aga.Center) <= 150f)
+						MoveEntity(aga);
 				}
 			}
 		}
-		public void movement()
+
+		public void MoveEntity(Entity t)
 		{
+			float num2 = npc.position.X + Main.rand.Next(-10, 10) + (npc.width / 2f) - t.Center.X;
+			float num3 = npc.position.Y + Main.rand.Next(-10, 10) + (npc.height / 2f) - t.Center.Y;
+			float num4 = 8f / (float)Math.Sqrt(num2 * num2 + num3 * num3);
+			t.velocity.X = num2 * num4 * -1.7f;
+			t.velocity.Y = num3 * num4 * -1.7f;
+		}
+
+		public void Movement()
+		{
+			const float MoveSpeed = 0.35f;
+
 			Player player = Main.player[npc.target];
-			
+
 			npc.noTileCollide = true;
-			float num1 = 4f;
-			float number2 = 0.35f;
-			Vector2 vektor2 = new Vector2(npc.Center.X, npc.Center.Y);
-			float number3 = Main.player[npc.target].Center.X - vektor2.X;
-			float number4 = (float)((double)Main.player[npc.target].Center.Y - (double)vektor2.Y - 300.0);
-			float num5 = (float)Math.Sqrt((double)number3 * (double)number3 + (double)number4 * (double)number4);
-			float num6;
-			float num7;
+			float number3 = Main.player[npc.target].Center.X - npc.Center.X;
+			float number4 = (float)(Main.player[npc.target].Center.Y - npc.Center.Y - 300.0);
+			float num5 = (float)Math.Sqrt(number3 * number3 + number4 * number4);
+
 			if (player == Main.player[npc.target])
 			{
-				if ((double)num5 < 20.0)
+				float num6 = npc.velocity.X;
+				float num7 = npc.velocity.Y;
+
+				if (num5 >= 20)
 				{
-					num6 = npc.velocity.X;
-					num7 = npc.velocity.Y;
-				}
-				else
-				{
-					float num8 = num1 / num5;
+					float num8 = 4f / num5;
 					num6 = number3 * num8;
 					num7 = number4 * num8;
 				}
-				if ((double)npc.velocity.X < (double)num6)
+
+				if (npc.velocity.X < num6)
 				{
-					npc.velocity.X += number2;
-					if ((double)npc.velocity.X < 0.0 && (double)num6 > 0.0)
-					{
-						npc.velocity.X += number2 * 2f;
-					}
+					npc.velocity.X += MoveSpeed;
+					if (npc.velocity.X < 0 && num6 > 0)
+						npc.velocity.X += MoveSpeed * 2f;
 				}
-				else if ((double)npc.velocity.X > (double)num6)
+				else if (npc.velocity.X > num6)
 				{
-					npc.velocity.X -= number2;
-					if ((double)npc.velocity.X > 0.0 && (double)num6 < 0.0)
-					{
-						npc.velocity.X -= number2 * 2f;
-					}
+					npc.velocity.X -= MoveSpeed;
+					if (npc.velocity.X > 0 && num6 < 0)
+						npc.velocity.X -= MoveSpeed * 2f;
 				}
-				if ((double)npc.velocity.Y < (double)num7)
+				if (npc.velocity.Y < num7)
 				{
-					npc.velocity.Y += number2;
-					if ((double)npc.velocity.Y < 0.0 && (double)num7 > 0.0)
-					{
-						npc.velocity.Y += number2 * 2f;
-					}
+					npc.velocity.Y += MoveSpeed;
+					if (npc.velocity.Y < 0 && num7 > 0)
+						npc.velocity.Y += MoveSpeed * 2f;
 				}
-				else if ((double)npc.velocity.Y > (double)num7)
+				else if (npc.velocity.Y > num7)
 				{
-					npc.velocity.Y -= number2;
-					if ((double)npc.velocity.Y > 0.0 && (double)num7 < 0.0)
-					{
-						npc.velocity.Y -= number2 * 2f;
-					}
+					npc.velocity.Y -= MoveSpeed;
+					if (npc.velocity.Y > 0 && num7 < 0)
+						npc.velocity.Y -= MoveSpeed * 2f;
 				}
 			}
-			
-			++npc.ai[1];
-			if ((double) npc.ai[1] >= (double) 5f)
+
+			if (++npc.ai[1] >= 5f)
 			{
-				npc.ai[1] = 0.0f;
+				npc.ai[1] = 0f;
 				npc.netUpdate = true;
-          }
+			}
 		}
 		public override void FindFrame(int frameHeight)
 		{
-			const int Frame_1 = 0;
-			const int Frame_2 = 1;
-			const int Frame_3 = 2;
-			const int Frame_4 = 3;
-			const int Frame_5 = 4;
-
 			Player player = Main.player[npc.target];
 
 			if (npc.active && player.active)
 			{
 				npc.frameCounter++;
 				if (npc.frameCounter < 6)
-				{
-					npc.frame.Y = Frame_1 * frameHeight;
-				}
+					npc.frame.Y = 0 * frameHeight;
 				else if (npc.frameCounter < 12)
-				{
-					npc.frame.Y = Frame_2 * frameHeight;
-				}
+					npc.frame.Y = 1 * frameHeight;
 				else if (npc.frameCounter < 18)
-				{
-					npc.frame.Y = Frame_3 * frameHeight;
-				}
+					npc.frame.Y = 2 * frameHeight;
 				else if (npc.frameCounter < 24)
-				{
-					npc.frame.Y = Frame_4 * frameHeight;
-				}
+					npc.frame.Y = 3 * frameHeight;
 				else if (npc.frameCounter < 28)
-				{
-					npc.frame.Y = Frame_5 * frameHeight;
-				}
+					npc.frame.Y = 4 * frameHeight;
 				else
-				{
 					npc.frameCounter = 0;
-				}
 			}
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)
-			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/FallenAsteroid/FallenAsteroidGore1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/FallenAsteroid/FallenAsteroidGore2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/FallenAsteroid/FallenAsteroidGore3"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/FallenAsteroid/FallenAsteroidGore4"), 1f);
-			}
+				for (int i = 1; i < 5; ++i)
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/FallenAsteroid/FallenAsteroidGore" + i), 1f);
+
 			for (int k = 0; k < 7; k++)
 			{
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
@@ -278,67 +224,72 @@ namespace SpiritMod.NPCs.FallingAsteroid
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
 			}
 		}
+
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(10) == 0)
-			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 116, Main.rand.Next(2, 5));
-			}
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			if (npc.ai[0] > 360)
 			{
-				Player player = Main.player[npc.target];
 				++visualTimer;
-				bool flag2 = (double) Vector2.Distance(npc.Center, player.Center) > (double) 0f && (double) npc.Center.Y == (double) player.Center.Y;
-				if ((double) visualTimer >= (double) 30f && flag2)
-				{
+
+				Player player = Main.player[npc.target];
+
+				bool flag2 = Vector2.Distance(npc.Center, player.Center) > 0f && npc.Center.Y == player.Center.Y;
+				if (visualTimer >= 30f && flag2)
 					visualTimer = 0;
-				}
+
 				SpriteEffects spriteEffects = SpriteEffects.None;
 				float addHeight = -4f;
 				float addWidth = 0f;
-				Vector2 vector2_3 = new Vector2((float) (Main.npcTexture[npc.type].Width / 2), (float) (Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
-				Texture2D texture2D = Main.extraTexture[55];
+				var vector2_3 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
+
 				if (npc.velocity.X == 0)
 				{
 					addHeight = 0f;
 					addWidth = 0f;
-					texture2D = Main.extraTexture[55];
 				}
-				Vector2 origin = new Vector2((float) (texture2D.Width / 2), (float) (texture2D.Height / 8 + 14));
-				int num1 = (int) visualTimer / 2;
-				float num2 = -1.570796f * (float) npc.rotation;
+
+				Texture2D tex = Main.extraTexture[55];
+				Vector2 origin = new Vector2(tex.Width / 2, tex.Height / 8 + 14);
+
+				float num2 = -MathHelper.PiOver2 * npc.rotation;
 				float amount = visualTimer / 45f;
-				if ((double) amount > 1.0)
+				if (amount > 1f)
 					amount = 1f;
-				int num3 = num1 % 4;
+
 				for (int index = 5; index >= 0; --index)
 				{
-					Vector2 oldPo = npc.oldPos[index];
-					Microsoft.Xna.Framework.Color color2 = Microsoft.Xna.Framework.Color.Lerp(Microsoft.Xna.Framework.Color.Gold, Microsoft.Xna.Framework.Color.OrangeRed, amount);
-					color2 = Microsoft.Xna.Framework.Color.Lerp(color2, Microsoft.Xna.Framework.Color.Blue, (float) index / 12f);
-					color2.A = (byte) (64.0 * (double) amount);
-					color2.R = (byte) ((int) color2.R * (10 - index) / 20);
-					color2.G = (byte) ((int) color2.G * (10 - index) / 20);
-					color2.B = (byte) ((int) color2.B * (10 - index) / 20);
-					color2.A = (byte) ((int) color2.A * (10 - index) / 20);
+					var color2 = Color.Lerp(Color.Lerp(Color.Gold, Color.OrangeRed, amount), Color.Blue, index / 12f);
+
+					color2.A = (byte)(64.0 * amount);
+					color2.R = (byte)(color2.R * (10 - index) / 20);
+					color2.G = (byte)(color2.G * (10 - index) / 20);
+					color2.B = (byte)(color2.B * (10 - index) / 20);
+					color2.A = (byte)(color2.A * (10 - index) / 20);
 					color2 *= amount;
-					int frameY = (num3 - index) % 4;
+
+					int frameY = (((visualTimer / 2) % 4) - index) % 4;
 					if (frameY < 0)
 						frameY += 4;
-					Microsoft.Xna.Framework.Rectangle rectangle = texture2D.Frame(1, 4, 0, frameY);
-					Main.spriteBatch.Draw(texture2D, new Vector2((float) ((double) npc.oldPos[index].X - (double) Main.screenPosition.X + (double) (npc.width / 2) - (double) Main.npcTexture[npc.type].Width * (double) npc.scale / 2.0 + (double) vector2_3.X * (double) npc.scale) + addWidth, (float) ((double) npc.oldPos[index].Y - (double) Main.screenPosition.Y + (double) npc.height - (double) Main.npcTexture[npc.type].Height * (double) npc.scale / (double) Main.npcFrameCount[npc.type] + 4.0 + (double) vector2_3.Y * (double) npc.scale) + addHeight), new Microsoft.Xna.Framework.Rectangle?(rectangle), color2, num2, origin, MathHelper.Lerp(0.1f, 1.2f, (float) ((10.0 - (double) index) / 15.0)), spriteEffects, 0.0f);
+
+					Rectangle rectangle = tex.Frame(1, 4, 0, frameY);
+
+					var pos = new Vector2(npc.oldPos[index].X + (npc.width / 2f) - Main.npcTexture[npc.type].Width * npc.scale / 2 + vector2_3.X + addWidth, npc.oldPos[index].Y + npc.height - Main.npcTexture[npc.type].Height * npc.scale / Main.npcFrameCount[npc.type] + 4 + vector2_3.Y + addHeight) * npc.scale;
+					Main.spriteBatch.Draw(tex, pos - Main.screenPosition, rectangle, color2, num2, origin, MathHelper.Lerp(0.1f, 1.2f, ((10 - index) / 15f)), spriteEffects, 0.0f);
 				}
 			}
 			return false;
 		}
+
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/FallingAsteroid/Falling_Asteroid_Glow"));
 		}
 	}
