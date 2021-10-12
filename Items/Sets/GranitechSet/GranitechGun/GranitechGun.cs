@@ -18,13 +18,14 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			item.damage = 37;
 			item.width = 28;
 			item.height = 14;
-			item.useTime = item.useAnimation = 24;
+			item.useTime = item.useAnimation = 9;
 			item.knockBack = 0f;
 			item.shootSpeed = 9;
 			item.noUseGraphic = true;
 			item.noMelee = true;
 			item.autoReuse = true;
 			item.ranged = true;
+			item.channel = true;
 			item.value = Item.sellPrice(0, 1, 32, 0);
 			item.rare = ItemRarityID.Orange;
 			item.useStyle = ItemUseStyleID.HoldingOut;
@@ -34,26 +35,10 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(-6, 0);
-		public override bool AltFunctionUse(Player player) => true;
+		public override bool AltFunctionUse(Player player) => false;
 
 		public override bool CanUseItem(Player player)
 		{
-			if (player.altFunctionUse == 2) //fast gun badaboom
-			{
-				item.damage = 30;
-				item.useTime = item.useAnimation = 10;
-				item.knockBack = 1f;
-				item.shootSpeed = 9f;
-				item.channel = false;
-			}
-			else //lasre
-			{
-				item.damage = 37;
-				item.useTime = item.useAnimation = 18;
-				item.knockBack = 1f;
-				item.shootSpeed = 20;
-				item.channel = true;
-			}
 			return true;
 		}
 

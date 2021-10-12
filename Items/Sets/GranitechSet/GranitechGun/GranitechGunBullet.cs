@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using SpiritMod.Particles;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.ModLoader.Config;
 
 namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 {
@@ -97,13 +98,22 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			if (!Main.dedServ)
 				ParticleHandler.SpawnParticle(new GranitechGunBurst(projectile.Center, Main.rand.NextFloat(0.9f, 1.1f)));
 
+			for (int i = 0; i < 4; ++i)
+			{
+				float speed = Main.rand.NextFloat(3, 5.5f);
+				var d = Dust.NewDustPerfect(projectile.Center, ModContent.DustType<GranitechGunDust>(), new Vector2(speed, 0).RotatedByRandom(MathHelper.Pi) + (projectile.velocity * 0.4f), 0, default);
+				GranitechGunDust.RandomizeFrame(d);
+				d.scale = speed / 4f;
+				d.fadeIn = speed / 4f;
+			}
+
 			spawnRings = false;
 		}
 
 		public override bool PreDraw(SpriteBatch sb, Color lightColor)
 		{
-
 			Texture2D glow = mod.GetTexture("Items/Sets/GranitechSet/GranitechGun/GranitechGunBullet_Glow");
+
 			//draw 3 times, with position and color offsets, for a chromatic aberration effect
 			for (int j = 1; j >= -1; j--)
 			{
@@ -119,7 +129,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 					sb.Draw(glow, trailPosition, null, projectile.GetAlpha(trailColor), projectile.rotation, glow.Size() / 2, projectile.scale, SpriteEffects.None, 0f);
 				}
 
-				sb.Draw(Main.projectileTexture[projectile.type], drawPosition, null, projectile.GetAlpha(colorMod), projectile.rotation, glow.Size()/2, projectile.scale, SpriteEffects.None, 0f);
+				sb.Draw(Main.projectileTexture[projectile.type], drawPosition, null, projectile.GetAlpha(colorMod), projectile.rotation, glow.Size() / 2, projectile.scale, SpriteEffects.None, 0f);
 			}
 
 			return false;
@@ -135,8 +145,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 				float progress = (ProjectileID.Sets.TrailCacheLength[projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[projectile.type];
 				Color trailColor = Color.Lerp(new Color(222, 111, 127), new Color(178, 105, 140), progress) * progress;
 				Vector2 trailPosition = projectile.oldPos[i] + projectile.Size / 2 - Main.screenPosition;
-				sb.Draw(bloomTex, trailPosition, null, projectile.GetAlpha(trailColor) * 0.66f, projectile.rotation, bloomTex.Size() / 2f,
-					new Vector2(0.22f, 0.17f) * projectile.scale, SpriteEffects.None, 0);
+				sb.Draw(bloomTex, trailPosition, null, projectile.GetAlpha(trailColor) * 0.66f, projectile.rotation, bloomTex.Size() / 2f, new Vector2(0.22f, 0.17f) * projectile.scale, SpriteEffects.None, 0);
 			}
 
 			sb.Draw(bloomTex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(new Color(239, 241, 80)) * 0.33f, projectile.rotation, bloomTex.Size() / 2f,

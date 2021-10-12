@@ -36,9 +36,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			if (dust.fadeIn <= 0)
 			{
 				dust.scale -= 0.02f;
-
-				if (dust.scale <= 1.2f)
-					dust.alpha -= 5;
+				dust.alpha = System.Math.Min((int)(dust.scale / 1.2f * 255), 255);
 
 				if (dust.scale <= 0)
 					dust.active = false;

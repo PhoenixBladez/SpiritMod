@@ -13,9 +13,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 		private float _finalRotation = 0f;
 		private SpriteEffects _effect = SpriteEffects.None; //So there's no wackies with the semiauto mode
 
-		const int MinimumCharge = 30; //How long it takes for a minimum charge - 1/2 second by default
-
-		public bool LaserMode => projectile.ai[0] == 0; //player.altFunctionUse is a bit wacky so projectile.ai[0] is used to check if it's in firing mode or not
+		const int ChargeUp = 16; //How long it takes to start up
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Granitech Blaster");
 
@@ -59,43 +57,33 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			else
 				projectile.Center = p.Center - (new Vector2(1, 0).RotatedBy(_finalRotation) * 27) + new Vector2(21, 12);
 
-			bool letGo = p.altFunctionUse == 0 ? !p.channel && _endCharge == -1 : _endCharge < 1;
-			if (letGo) //Fire (if possible)
+			if (!p.channel && _endCharge == -1) //the player has stopped shooting
 			{
 				_endCharge = _charge;
 				_finalRotation = (Vector2.Normalize(p.MountedCenter - Main.MouseWorld) * 27).ToRotation();
 
 				_endCharge += p.HeldItem.useAnimation;
-				if (!LaserMode)
-				{
-					Fire(p);
-				}
-				else if (_endCharge >= MinimumCharge)
-				{
-					Fire(p, true);
-				}
 
 				_effect = Main.MouseWorld.X >= p.MountedCenter.X ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			}
 
 			if (_charge > _endCharge && _endCharge != -1) //Kill projectile when done shooting
 				projectile.Kill();
+
+			if (_charge > ChargeUp && (_charge - ChargeUp) % p.HeldItem.useTime == 1)
+				Fire(p);
 		}
 
-		private void Fire(Player player, bool laser = false)
+		private void Fire(Player player)
 		{
-			var baseVel = player.DirectionTo(Main.MouseWorld).RotatedByRandom(0.03f) * player.HeldItem.shootSpeed;
+			var baseVel = player.DirectionTo(Main.MouseWorld).RotatedByRandom(0.02f) * player.HeldItem.shootSpeed;
 
 			Vector2 pos = player.Center - new Vector2(0, 8);
 			Vector2 muzzleOffset = Vector2.Normalize(baseVel) * (player.HeldItem.width / 2f);
 			if (Collision.CanHit(pos, 0, 0, pos + muzzleOffset, 0, 0))
 				pos += muzzleOffset;
 
-			int alt = player.altFunctionUse == 2 ? 0 : 2;
-			var p = Projectile.NewProjectileDirect(pos, baseVel, ModContent.ProjectileType<GranitechGunBullet>(), player.HeldItem.damage, 0f, player.whoAmI, alt);
-			if (laser)
-				p.penetrate = -1;
-
+			var p = Projectile.NewProjectileDirect(pos, baseVel, ModContent.ProjectileType<GranitechGunBullet>(), player.HeldItem.damage, 0f, player.whoAmI);
 			if (p.modProjectile is GranitechGunBullet bullet)
 				bullet.spawnRings = true;
 
@@ -116,6 +104,8 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			Player p = Main.player[projectile.owner];
 			Texture2D t = Main.projectileTexture[projectile.type];
 
+			_effect = Main.MouseWorld.X >= p.MountedCenter.X ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+
 			float realRot = projectile.rotation; //Rotate towards mouse
 			if (_endCharge != -1) realRot = _finalRotation + MathHelper.Pi;
 			if (_effect == SpriteEffects.FlipHorizontally)
@@ -123,18 +113,24 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 			Vector2 drawPos = projectile.position - Main.screenPosition; //Draw position + charge shaking
 
-			var frame = new Rectangle(0, 0, 86, 36);
+			const int Width = 82;
+			const int Height = 38;
 
-			if (!LaserMode && _charge >= 5)
-				frame = new Rectangle(0, 38, 86, 36);
+			var frame = new Rectangle(0, 0, Width, Height);
 
-			if (LaserMode)
-			{
-				_effect = Main.MouseWorld.X >= p.MountedCenter.X ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-				frame = new Rectangle(0, 38, 86, 36);
+			if (_charge > ChargeUp && (_charge - ChargeUp) % p.HeldItem.useTime < 5)
+				frame = new Rectangle(0, Height * 4, Width, Height);
+			else if (_charge > ChargeUp && (_charge - ChargeUp) % p.HeldItem.useTime >= 5)
+				frame = new Rectangle(0, Height * 5, Width, Height);
 
-				spriteBatch.Draw(Main.magicPixel, drawPos, new Rectangle(0, 0, 1, 1), Color.White, projectile.rotation, new Vector2(0, 1), new Vector2(10000, 2f), SpriteEffects.None, 0f);
-			}
+			if (_charge < ChargeUp / 4)
+				frame = new Rectangle(0, 0, Width, Height);
+			else if (_charge < ChargeUp / 2)
+				frame = new Rectangle(0, Height, Width, Height);
+			else if (_charge < ChargeUp / 1.5f)
+				frame = new Rectangle(0, Height * 2, Width, Height);
+			else if (_charge <= ChargeUp)
+				frame = new Rectangle(0, Height * 3, Width, Height);
 
 			spriteBatch.Draw(t, drawPos, frame, lightColor, realRot, new Vector2(42, 22), 1f, _effect, 1f);
 
