@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 		public GranitechGunParticle(Vector2 position, Vector2 velocity, float scale, int maxTime, int frame = 0)
 		{
-			Color = Main.rand.NextBool(2) ? new Color(255, 46, 122) : new Color(239, 241, 80);
+			Color = Main.rand.NextBool(2) ? new Color(222, 111, 127) : new Color(239, 241, 80);
 			Position = position;
 			Velocity = velocity;
 			Scale = scale;

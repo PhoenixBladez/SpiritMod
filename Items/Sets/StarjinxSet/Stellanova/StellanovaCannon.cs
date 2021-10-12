@@ -70,7 +70,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 				shootRotation = Math.Sign(shootRotation) * (float)Math.Pow(shootRotation, 2); //square the rotation offset to "weigh" it more towards 0
 
 				direction = direction.RotatedBy(shootRotation);
-                position += direction * 5;
+                position += direction * 5.1f;
                 player.itemRotation += shootRotation;
                 Projectile proj = Projectile.NewProjectileDirect(position, direction, type, damage, knockBack, player.whoAmI);
 				if(proj.modProjectile is StellanovaStarfire starfire)
@@ -84,8 +84,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 
 				if(!Main.dedServ)
 					for (int i = 0; i < 4; i++) //weak burst of particles in direction of movement
-						ParticleHandler.SpawnParticle(new FireParticle(proj.Center - direction, player.velocity + Vector2.Normalize(proj.velocity).RotatedByRandom(MathHelper.Pi / 4) * Main.rand.NextFloat(1f, 6f),
-							SpiritMod.StarjinxColor(Main.GlobalTime), SpiritMod.StarjinxColor(Main.GlobalTime + 5) * 0.5f, Main.rand.NextFloat(0.5f, 0.7f), 25, delegate (Particle p)
+						ParticleHandler.SpawnParticle(new FireParticle(proj.Center - direction, player.velocity + Vector2.Normalize(proj.velocity).RotatedByRandom(MathHelper.Pi / 6) * Main.rand.NextFloat(1f, 6f),
+							SpiritMod.StarjinxColor(Main.GlobalTime), SpiritMod.StarjinxColor(Main.GlobalTime + 5) * 0.5f, Main.rand.NextFloat(0.4f, 0.5f), 20, delegate (Particle p)
 							{
 								p.Velocity = p.Velocity.RotatedByRandom(0.1f) * 0.97f;
 							}));
