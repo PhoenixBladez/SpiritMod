@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
             item.height = 6;
             item.damage = 53;
             item.shoot = ModContent.ProjectileType<StellanovaStarfire>();
-            item.shootSpeed = 15f;
+            item.shootSpeed = 12f;
             item.noMelee = true;
             item.useAmmo = AmmoID.FallenStar;
             item.value = Item.sellPrice(silver: 55);
@@ -70,12 +70,12 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 				shootRotation = Math.Sign(shootRotation) * (float)Math.Pow(shootRotation, 2); //square the rotation offset to "weigh" it more towards 0
 
 				direction = direction.RotatedBy(shootRotation);
-                position += direction * 5.1f;
+                position += Vector2.Normalize(direction) * 78;
                 player.itemRotation += shootRotation;
                 Projectile proj = Projectile.NewProjectileDirect(position, direction, type, damage, knockBack, player.whoAmI);
 				if(proj.modProjectile is StellanovaStarfire starfire)
 				{
-					starfire.TargetVelocity = new Vector2(speedX, speedY) * 2f;
+					starfire.TargetVelocity = Vector2.Normalize(new Vector2(speedX, speedY)) * StellanovaStarfire.MaxSpeed;
 					starfire.InitialVelocity = direction;
 					starfire.Amplitude = Main.rand.NextFloat(MathHelper.Pi / 30, MathHelper.Pi / 18) * (Main.rand.NextBool() ? -1 : 1);
 				}
@@ -83,11 +83,11 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
 
 				if(!Main.dedServ)
-					for (int i = 0; i < 4; i++) //weak burst of particles in direction of movement
-						ParticleHandler.SpawnParticle(new FireParticle(proj.Center - direction, player.velocity + Vector2.Normalize(proj.velocity).RotatedByRandom(MathHelper.Pi / 6) * Main.rand.NextFloat(1f, 6f),
-							SpiritMod.StarjinxColor(Main.GlobalTime), SpiritMod.StarjinxColor(Main.GlobalTime + 5) * 0.5f, Main.rand.NextFloat(0.4f, 0.5f), 20, delegate (Particle p)
+					for (int i = 0; i < 10; i++) //weak burst of particles in direction of movement
+						ParticleHandler.SpawnParticle(new FireParticle(proj.Center - direction, player.velocity + Vector2.Normalize(proj.velocity).RotatedByRandom(MathHelper.Pi / 6) * Main.rand.NextFloat(1f, 8f),
+							new Color(242, 240, 134), new Color(255, 88, 35), Main.rand.NextFloat(0.2f, 0.4f), 22, delegate (Particle p)
 							{
-								p.Velocity = p.Velocity.RotatedByRandom(0.1f) * 0.97f;
+								p.Velocity *= 0.92f;
 							}));
 			}
             return false;

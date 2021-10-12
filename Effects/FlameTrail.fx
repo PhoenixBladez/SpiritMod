@@ -14,6 +14,7 @@ sampler texture2Sampler = sampler_state
 float Progress;
 float4 StartColor;
 float4 EndColor;
+float xMod;
 
 struct VertexShaderInput
 {
@@ -45,10 +46,10 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
 float4 MainPS(VertexShaderOutput input) : COLOR0
 {
     float4 color = lerp(StartColor, EndColor, input.TextureCoordinates.y);
-    float2 texcoords = float2((input.TextureCoordinates.y + Progress) % 1, input.TextureCoordinates.x % 1); //main texture sampling coordinates, scrolls horizontally
+    float2 texcoords = float2((xMod * (input.TextureCoordinates.y + Progress)) % 1, input.TextureCoordinates.x % 1); //main texture sampling coordinates, scrolls horizontally
     float2 bloomcoords = float2(input.TextureCoordinates.y, input.TextureCoordinates.x); //bloom texture coordinates
     float colorstrength = tex2D(textureSampler, texcoords).r; //use main texture coordinates as base strength
-    colorstrength = min(colorstrength + min(tex2D(texture2Sampler, bloomcoords).r * 2, 0.5f), 1); //add bloom texture whiteness to color multiplier, with a cap
+    colorstrength = min(colorstrength + min(tex2D(texture2Sampler, bloomcoords).r * 1.5f, 0.5f), 1); //add bloom texture whiteness to color multiplier, with a cap
     color *= colorstrength;
 	return color * input.Color;
 }
