@@ -119,9 +119,19 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			var frame = new Rectangle(0, 0, Width, Height);
 
 			if (_charge > ChargeUp && (_charge - ChargeUp) % p.HeldItem.useTime < 5)
-				frame = new Rectangle(0, Height * 4, Width, Height);
+			{
+				int offset = (_charge - ChargeUp) % (p.HeldItem.useTime * 3);
+				int variation = offset / p.HeldItem.useTime;
+
+				frame = new Rectangle(0, Height * (4 + (variation * 2)), Width, Height);
+			}
 			else if (_charge > ChargeUp && (_charge - ChargeUp) % p.HeldItem.useTime >= 5)
-				frame = new Rectangle(0, Height * 5, Width, Height);
+			{
+				int offset = (_charge - ChargeUp) % (p.HeldItem.useTime * 3);
+				int variation = offset / p.HeldItem.useTime;
+
+				frame = new Rectangle(0, Height * (5 + (variation * 2)), Width, Height);
+			}
 
 			if (_charge < ChargeUp / 4)
 				frame = new Rectangle(0, 0, Width, Height);
