@@ -47,8 +47,8 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 				int maxRings = 3;
 				for (int j = -1; j <= 1; j++) //repeat multiple times with different offset and color, for chromatic aberration effect
 				{
-					Vector2 posOffset = Vector2.Normalize(projectile.velocity).RotatedBy(j * MathHelper.PiOver2) * 1.5f;
-					Color colorMod = (j == -1) ? new Color(255, 0, 0, 80) : ((j == 0) ? new Color(0, 255, 0, 80) : new Color(0, 0, 255, 80));
+					Vector2 posOffset = Vector2.Normalize(projectile.velocity).RotatedBy(j * MathHelper.PiOver2) * 1f;
+					Color colorMod = (j == -1) ? new Color(255, 0, 0, 100) : ((j == 0) ? new Color(0, 255, 0, 100) : new Color(0, 0, 255, 100));
 
 					for (int i = 0; i < maxRings; i++) //multiple rings
 					{
@@ -59,13 +59,13 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 							(i == 1) ? 0.75f : //med
 							1f; //big
 
-						float speed = (i == 0) ? 4.5f :
-							(i == 1) ? 2.5f :
-							0.66f;
+						float speed = (i == 0) ? 3.5f :
+							(i == 1) ? 1.8f :
+							0.5f;
 
 						Vector2 velNormal = Vector2.Normalize(projectile.velocity);
-						Vector2 spawnPos = Vector2.Lerp(projectile.Center, projectile.Center + Vector2.Normalize(projectile.velocity) * 110, progress) + posOffset;
-						ParticleHandler.SpawnParticle(new PulseCircle(spawnPos, color * 0.4f, scale * 150, 20, PulseCircle.MovementType.OutwardsSquareRooted)
+						Vector2 spawnPos = Vector2.Lerp(projectile.Center, projectile.Center + Vector2.Normalize(projectile.velocity) * 90, progress) + posOffset;
+						ParticleHandler.SpawnParticle(new PulseCircle(spawnPos, color * 0.4f, scale * 100, 20, PulseCircle.MovementType.OutwardsSquareRooted)
 						{
 							Angle = projectile.velocity.ToRotation(),
 							ZRotation = 0.6f,
@@ -96,7 +96,15 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			Main.PlaySound(new LegacySoundStyle(29, 53).WithPitchVariance(0.3f), projectile.Center);
 
 			if (!Main.dedServ)
-				ParticleHandler.SpawnParticle(new GranitechGunBurst(projectile.Center, Main.rand.NextFloat(0.9f, 1.1f)));
+			{
+				ParticleHandler.SpawnParticle(new GranitechGunBurst(projectile.Center, Main.rand.NextFloat(0.9f, 1.1f), projectile.oldVelocity.ToRotation()));
+
+				for (int i = 0; i < 4; ++i)
+				{
+					Vector2 vel = Vector2.Normalize(projectile.oldVelocity).RotatedByRandom(MathHelper.ToRadians(30)) * Main.rand.NextFloat(6f, 10f);
+					ParticleHandler.SpawnParticle(new GranitechGunParticle(projectile.Center, vel, Main.rand.NextFloat(3f, 3.5f), 22, Main.rand.Next(2, 5)));
+				}
+			}
 
 			for (int i = 0; i < 4; ++i)
 			{

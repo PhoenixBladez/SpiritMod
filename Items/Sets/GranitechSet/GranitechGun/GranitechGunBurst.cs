@@ -9,16 +9,17 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 {
 	public class GranitechGunBurst : Particle
 	{
-		private const int _numFrames = 2;
+		private const int _numFrames = 4;
 		private int _frame;
 		private readonly int _direction;
-		private const int _displayTime = 10;
+		private const int _displayTime = 15;
 
-		public GranitechGunBurst(Vector2 position, float scale)
+		public GranitechGunBurst(Vector2 position, float scale, float rotation)
 		{
 			Position = position;
 			Scale = scale;
 			_direction = Main.rand.NextBool() ? -1 : 1;
+			Rotation = (_direction > 0) ? (rotation - MathHelper.Pi) : rotation;
 		}
 
 		public override void Update()
@@ -40,7 +41,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 			for (int j = -1; j <= 1; j++) //repeat multiple times with different offset and color, for chromatic aberration effect
 			{
-				Vector2 posOffset = Vector2.UnitX * j * 1.5f;
+				Vector2 posOffset = Vector2.UnitY.RotatedBy(Rotation) * j * 1.5f;
 				Color colorMod = (j == -1) ? new Color(255, 0, 0) : ((j == 0) ? new Color(0, 255, 0) : new Color(0, 0, 255));
 
 				spriteBatch.Draw(tex, Position + posOffset - Main.screenPosition, DrawFrame, colorMod, Rotation, DrawFrame.Size() / 2, Scale, (_direction > 0) ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
