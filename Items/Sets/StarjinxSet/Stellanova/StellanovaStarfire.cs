@@ -36,12 +36,12 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		public Vector2 InitialVelocity = Vector2.Zero;
 		public Vector2 TargetVelocity = Vector2.Zero;
 
-		private const int VelocityLerpTime = 12;
+		private const int VelocityLerpTime = 30;
 
 		public float Amplitude = MathHelper.Pi / 12;
-		private const float Period = 25;
+		private const float Period = 40;
 
-		private const float MaxSpeed = 20;
+		public const float MaxSpeed = 30;
 
 		private ref float AiTimer => ref projectile.ai[0];
 		private readonly List<Chain> _chains = new List<Chain>();
@@ -51,14 +51,19 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
-			_sinAmplitude = MathHelper.Lerp(_sinAmplitude, Amplitude * 30, 0.06f);
-			_sinCounter += 0.22f;
+			float speedProgress = (projectile.velocity.Length() / MaxSpeed);
+			_sinAmplitude = MathHelper.Lerp(_sinAmplitude, Amplitude * 40, 0.06f) * speedProgress;
+			_sinCounter += speedProgress * 0.03f;
 
-			if (projectile.alpha > 0)
+			int fadeOutTime = 20;
+			if (projectile.alpha > 0 && projectile.timeLeft > fadeOutTime)
 				projectile.alpha = Math.Max(projectile.alpha - 10, 0);
 
+			if (projectile.timeLeft <= fadeOutTime)
+				projectile.alpha = Math.Min(projectile.alpha + (255 / fadeOutTime), 255);
+
 			if (++AiTimer <= VelocityLerpTime) //lerping to desired vel
-				projectile.velocity = Vector2.Lerp(InitialVelocity, TargetVelocity, (float)Math.Pow(AiTimer / VelocityLerpTime, 1.5f));
+				projectile.velocity = Vector2.Lerp(InitialVelocity, TargetVelocity, AiTimer / VelocityLerpTime);
 
 			else //behavior afterwards
 			{
@@ -68,28 +73,33 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 				projectile.velocity = TargetVelocity.RotatedBy((float)Math.Sin(MathHelper.TwoPi * (AiTimer - VelocityLerpTime) / Period) * Amplitude);
 			}
 
-			if (Main.rand.NextBool(6) && !Main.dedServ)
-				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(0.4f), Color.White * 0.5f,
-					SpiritMod.StarjinxColor(Main.GlobalTime - 1) * 0.5f, Main.rand.NextFloat(0.1f, 0.2f), 25));
+			if(Main.rand.NextBool(6) && !Main.dedServ)
+				ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, projectile.velocity * Main.rand.NextFloat(0.75f),
+					new Color(242, 240, 134), new Color(255, 88, 35), Main.rand.NextFloat(0.25f, 0.3f), 30, delegate (Particle p)
+					{
+						int among = projectile.timeLeft;
+						p.Velocity *= 0.93f;
+					}));
 
 			if (!(_chains.Count > 0))
 			{
 				int chainamount = 2;
 				for (int i = 0; i < chainamount; i++)
 				{
-					float length = MathHelper.Lerp(4f, 3f, i / (float)chainamount);
-					_chains.Add(new Chain(length, 12, projectile.Center, new ChainPhysics(0.8f, 0f, 0f), true, false, 7));
+					int length = (i == 0) ? 18 : 13;
+					_chains.Add(new Chain(6, length, projectile.Center, new ChainPhysics(0.8f, 0f, 0f), true, false, 7));
 				}
 			}
 			else
 				for(int i = 0; i < _chains.Count; i++)
 				{
-					float amplitude = MathHelper.Lerp(_sinAmplitude, -_sinAmplitude * 1.25f, i / (float)_chains.Count);
-					UpdateChain(_chains[i], amplitude);
+					float amplitude = ((i == 0) ? 1f : -1.2f) * _sinAmplitude;
+					float numwaves = ((i == 0) ? 1.75f : -1.15f);
+					UpdateChain(_chains[i], amplitude, numwaves);
 				}
 		}
 
-		private void UpdateChain(Chain chain, float amplitude)
+		private void UpdateChain(Chain chain, float amplitude, float numwaves)
 		{
 			chain.Update(projectile.Center, projectile.Center);
 			for (int i = 0; i < chain.Vertices.Count; i++)
@@ -102,8 +112,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 
 				var DirectionUnit = Vector2.Normalize(lastPos - vertex.Position);
 				DirectionUnit = DirectionUnit.RotatedBy(MathHelper.PiOver2);
-				float numwaves = 1f;
-				vertex.Position += DirectionUnit * (float)Math.Sin(_sinCounter + progress * MathHelper.TwoPi * numwaves) * amplitude;
+				vertex.Position += DirectionUnit * (float)Math.Sin((_sinCounter + progress) * MathHelper.TwoPi * numwaves) * amplitude * Math.Max(1.1f - progress, 0.85f);
 			}
 		}
 
@@ -121,7 +130,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			Amplitude = reader.ReadSingle();
 		}
 
-		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new StarjinxTrail(projectile, Main.GlobalTime, 1, 0.8f), new RoundCap(), new DefaultTrailPosition(), 50f * projectile.scale, 250f * projectile.scale, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.02f, 1f, 1f));
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(242, 240, 134), new Color(255, 88, 35)), new RoundCap(), new DefaultTrailPosition(), 50f * projectile.scale, 250f * projectile.scale, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.02f, 1f, 1f));
 
 		public override bool PreDraw(SpriteBatch sB, Color lightColor)
 		{
@@ -132,22 +141,23 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			{
 				//set the parameters for the shader
 				Color startColor = new Color(242, 240, 134);
-				Color endColor = new Color(255, 69, 187);
+				Color endColor = new Color(255, 88, 35);
 				Effect effect = SpiritMod.ShaderDict["FlameTrail"];
 				effect.Parameters["uTexture"].SetValue(mod.GetTexture("Textures/Trails/Trail_3"));
 				effect.Parameters["uTexture2"].SetValue(mod.GetTexture("Textures/Trails/Trail_4"));
-				effect.Parameters["Progress"].SetValue(Main.GlobalTime);
+				effect.Parameters["Progress"].SetValue(Main.GlobalTime * -0.33f);
+				effect.Parameters["xMod"].SetValue(5);
 				effect.Parameters["StartColor"].SetValue(startColor.ToVector4());
 				effect.Parameters["EndColor"].SetValue(endColor.ToVector4());
 
 				for(int i = 0; i < _chains.Count; i++)
 				{
 					//projectile's center needs to manually be added to the start of the array
-					var temp = new List<Vector2> { projectile.Center };
-					temp.AddRange(_chains[i].VerticesArray());
-					Vector2[] vertices = temp.ToArray();
+					Vector2[] vertices = _chains[i].VerticesArray();
+					Vector2 displacement = projectile.Center - _chains[i].StartPosition;
+					vertices.IterateArray(delegate (ref Vector2 vertex, int index, float progress) { vertex += displacement; });
 					//draw the strip with the given array
-					float width = MathHelper.Lerp(22, 12, i / (float)_chains.Count);
+					float width = ((i == 0) ? 22f : 16f);
 					var strip = new PrimitiveStrip
 					{
 						Color = Color.White * projectile.Opacity,
@@ -191,7 +201,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			float Timer = (float)(Math.Abs(Math.Sin(Main.GlobalTime * 8f)) / 12f) + 0.7f;
 			Vector2 scaleVerticalGlow = new Vector2(0.25f, 2f) * Timer;
 			Vector2 scaleHorizontalGlow = new Vector2(0.25f, 4f) * Timer;
-			Color blurcolor = Color.Lerp(SpiritMod.StarjinxColor(Main.GlobalTime - 1), Color.White, 0.33f) * projectile.Opacity;
+			Color blurcolor = Color.Lerp(new Color(242, 240, 134), Color.White, 0.33f) * projectile.Opacity;
 			sB.Draw(tex, projectile.Center - Main.screenPosition, null, blurcolor * Timer, 0, tex.Size() / 2, scaleVerticalGlow, SpriteEffects.None, 0);
 			sB.Draw(tex, projectile.Center - Main.screenPosition, null, blurcolor * Timer, MathHelper.PiOver2, tex.Size() / 2, scaleHorizontalGlow, SpriteEffects.None, 0);
 
@@ -206,20 +216,27 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		{
 			if (!Main.dedServ)
 			{
-				for (int i = 0; i < 5; i++)
+				for(int j = -1; j <=1; j += 2)
 				{
-					ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, projectile.velocity.RotatedByRandom(3 * MathHelper.Pi / 4) * Main.rand.NextFloat(0.5f, 0.75f),
-						SpiritMod.StarjinxColor(Main.GlobalTime), SpiritMod.StarjinxColor(Main.GlobalTime + 5) * 0.5f, Main.rand.NextFloat(0.5f, 0.7f), 15, delegate (Particle p)
-						{
-							p.Velocity = p.Velocity.RotatedByRandom(0.4f) * 0.85f;
-						}));
+					for (int i = 0; i < 5; i++)
+					{
+						ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, 
+							projectile.velocity.RotatedBy(j * MathHelper.PiOver2).RotatedByRandom(MathHelper.Pi / 4) * Main.rand.NextFloat(0.2f, 0.6f),
+							new Color(242, 240, 134), new Color(255, 88, 35), Main.rand.NextFloat(0.35f, 0.55f), 15, delegate (Particle p)
+							{
+								p.Velocity *= 0.88f;
+							}));
+					}
 				}
 
-				for (int i = 0; i < 2; i++)
+				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.Pi / 6) * Main.rand.NextFloat(0.15f), Color.White,
+					new Color(255, 88, 35), Main.rand.NextFloat(0.2f, 0.4f), 25));
+
+				Color circleColor = Color.Lerp(new Color(255, 88, 35), new Color(242, 240, 134), 0.33f) * 0.8f;
+				ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center, circleColor * 0.5f, 100, 10, PulseCircle.MovementType.OutwardsSquareRooted)
 				{
-					ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.Pi / 6) * Main.rand.NextFloat(0.15f, 0.3f), Color.White,
-						SpiritMod.StarjinxColor(Main.GlobalTime), Main.rand.NextFloat(0.2f, 0.4f), 25));
-				}
+					RingColor = circleColor
+				});
 			}
 		}
 
@@ -232,14 +249,14 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 
 				for (int i = 0; i < 2; i++) //weak burst of particles in direction of movement
 					ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, velnormal.RotatedByRandom(MathHelper.Pi / 6) * Main.rand.NextFloat(1f, 2f),
-						SpiritMod.StarjinxColor(Main.GlobalTime), SpiritMod.StarjinxColor(Main.GlobalTime + 5), Main.rand.NextFloat(0.5f, 0.7f), 25, delegate (Particle p)
+						new Color(242, 240, 134), new Color(255, 88, 35), Main.rand.NextFloat(0.5f, 0.7f), 25, delegate (Particle p)
 						{
 							p.Velocity = p.Velocity.RotatedByRandom(0.1f) * 0.98f;
 						}));
 
 				for (int i = 0; i < 3; i++) //wide burst of slower moving particles in opposite direction
 					ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, -velnormal.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(1f, 1.5f),
-						SpiritMod.StarjinxColor(Main.GlobalTime), SpiritMod.StarjinxColor(Main.GlobalTime + 5), Main.rand.NextFloat(0.5f, 0.7f), 25, delegate (Particle p)
+						new Color(242, 240, 134), new Color(255, 88, 35), Main.rand.NextFloat(0.5f, 0.7f), 25, delegate (Particle p)
 						{
 							p.Velocity = p.Velocity.RotatedByRandom(0.1f) * 0.98f;
 						}));
@@ -247,7 +264,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 
 				for (int i = 0; i < 2; i++) //narrow burst of faster, bigger particles
 					ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, -velnormal.RotatedByRandom(MathHelper.Pi / 6) * Main.rand.NextFloat(1f, 2.5f),
-						SpiritMod.StarjinxColor(Main.GlobalTime), SpiritMod.StarjinxColor(Main.GlobalTime + 5), Main.rand.NextFloat(0.5f, 0.7f), 25, delegate (Particle p)
+						new Color(242, 240, 134), new Color(255, 88, 35), Main.rand.NextFloat(0.5f, 0.7f), 25, delegate (Particle p)
 						{
 							p.Velocity = p.Velocity.RotatedByRandom(0.15f) * 0.98f;
 							p.Velocity.Y += 0.25f;
@@ -256,8 +273,9 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 				for (int i = 0; i < 4; i++)
 				{
 					ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, oldVelocity.RotatedByRandom(MathHelper.Pi / 6) * Main.rand.NextFloat(0.6f), Color.White,
-						SpiritMod.StarjinxColor(Main.GlobalTime), Main.rand.NextFloat(0.2f, 0.4f), 25));
+						new Color(255, 88, 35), Main.rand.NextFloat(0.2f, 0.4f), 25));
 				}
+
 
 				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithVolume(0.35f).WithPitchVariance(0.3f), projectile.Center);
 			}
