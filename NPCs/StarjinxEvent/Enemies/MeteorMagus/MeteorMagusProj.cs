@@ -120,10 +120,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		private Vector2 homeCenter;
 
 		public float Direction;
-
+		public float CirclingTime = 60f;
 		public Vector2 Offset;
 
-		private readonly float circlingtime = 60;
 
 		public override void AI()
 		{
@@ -136,13 +135,13 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			}
 			else
 			{
-				float speed = Math.Max((circlingtime - Timer) / (circlingtime * 0.75f), 0.25f);
+				float speed = Math.Max((CirclingTime - Timer) / (CirclingTime * 0.75f), 0.25f);
 				projectile.rotation += speed * Direction / 5;
 
 				if (++Timer < 60)
 					homeCenter = Target.Center;
 				else
-					Offset *= (float)Math.Pow((circlingtime / Timer) / 10 + 0.9f, 3);
+					Offset *= (float)Math.Pow((CirclingTime / Timer) / 10 + 0.9f, 3);
 
 				if (Timer == 60)
 					projectile.netUpdate = true;

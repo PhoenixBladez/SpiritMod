@@ -4,9 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 {
@@ -20,16 +18,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 
 		private NPC Target;
 
-		private bool LockedOn
-		{
-			get
-			{
-				if (Target != null)
-					return Target.active && Vector2.Distance(Target.Center, npc.Center) <= 800;
-				return false;
-			}
-		}
-
+		private bool LockedOn => Target != null && Target.active && Vector2.Distance(Target.Center, npc.Center) <= 800;
 		private int Speed => 14;
 
 		public override void SetDefaults()
@@ -40,8 +29,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 			npc.defense = 28;
 			npc.lifeMax = 450;
 			npc.HitSound = SoundID.NPCHit3;
-			npc.DeathSound = SoundID.DD2_LightningBugDeath;
-			npc.value = 600f;
+			npc.DeathSound = SoundID.NPCDeath6;//SoundID.DD2_LightningBugDeath;
+			npc.value = Item.buyPrice(0, 0, 15, 0);
 			npc.knockBackResist = 0;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -49,14 +38,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 
 		public override void AI()
 		{
-			if (Target == null)
+			if (Target == null || (!Target.active || Vector2.Distance(Target.Center, npc.Center) > 800))
 				FindTarget();
-			else if (!Target.active || Vector2.Distance(Target.Center, npc.Center) > 800)
-			{
-				FindTarget();
-			}
 			else
 				FollowTarget();
+
+			npc.rotation = npc.velocity.X * 0.08f;
 		}
 
 		public override void FindFrame(int frameHeight)
@@ -75,19 +62,25 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 
 			NPC target = Main.npc.Where(n => n.active && Vector2.Distance(n.Center, npc.Center) < 600 && !n.GetGlobalNPC<PathfinderGNPC>().Targetted && n.modNPC is IStarjinxEnemy modEnemy).OrderBy(n => Vector2.Distance(n.Center, npc.Center)).FirstOrDefault();
 			if (target != default)
-			{
 				Target = target;
-			}
 		}
 
 		private void FollowTarget()
 		{
 			Target.GetGlobalNPC<PathfinderGNPC>().Targetted = true;
+
 			Vector2 direction = Target.Center - npc.Center;
+
 			if (direction.Length() > 250)
 			{
 				direction.Normalize();
 				npc.velocity = Vector2.Lerp(npc.velocity, direction * Speed, 0.018f);
+			}
+
+			if (npc.soundDelay-- < 0)
+			{
+				Main.PlaySound(SoundID.Item8, npc.Center);
+				npc.soundDelay = 60;
 			}
 		}
 
@@ -121,18 +114,16 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0)
-			{
-				if (Target != null)
-				{
-					if (LockedOn)
-						Target.GetGlobalNPC<PathfinderGNPC>().Targetted = false;
-				}
-			}
-		}
+			if (npc.life <= 0 && Target != null && LockedOn)
+				Target.GetGlobalNPC<PathfinderGNPC>().Targetted = false;
 
+			if (npc.life <= 0)
+				for (int k = 0; k < 4; k++)
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/StarjinxEvent/Pathfinder/Pathfinder_" + Main.rand.Next(3)), Main.rand.NextFloat(.6f, 1f));
+		}
 	}
-	public class PathfinderGNPC : GlobalNPC 
+
+	public class PathfinderGNPC : GlobalNPC
 	{
 		public override bool InstancePerEntity => true;
 

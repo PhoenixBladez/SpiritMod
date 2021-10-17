@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria.Utilities;
+using SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 {
@@ -175,15 +176,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int i = 0; i < 18; i++)
-			{
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.VilePowder, 2.5f * hitDirection, -2.5f, 0, default, Main.rand.NextFloat(.45f, .75f));
-			}
+
 			if (npc.life <= 0)
 			{
                 for (int k = 0; k < 4; k++)
-                {
-                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starachnid/Starachnid1"), Main.rand.NextFloat(.6f, 1f));
-                }
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/StarjinxEvent/Starachnid/Starachnid1"), Main.rand.NextFloat(.6f, 1f));
 				ThreadDeathDust();
 			}
 		}
@@ -367,9 +365,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		}
 
 		private bool IsTileActive(Vector2 toLookAt) //Is the tile at the vector position solid?
-		{
-			return Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).active() && Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).type];
-		}
+			=> Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).active() && Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).type];
 
 		private void TraverseThread()
 		{
@@ -377,23 +373,25 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			Bottom = Vector2.Lerp(currentThread.StartPoint, currentThread.EndPoint, progress);
 			threadCounter--;
 			if (random.Next(200) == 0 && threadCounter < 0 && progress > 0.15f && progress < 0.85f)
-			{
 				NewThread(false, false);
-			}
 			Dust.NewDustPerfect(Bottom, 21);
 		}
 
 		private void RotateIntoPlace()
 		{
 			toRotation = (currentThread.EndPoint - currentThread.StartPoint).ToRotation();
+
+			bool empowered = npc.GetGlobalNPC<PathfinderGNPC>().Targetted;
+			float speedInc = empowered ? 1.4f : 1f;
+
 			float rotDifference = ((((toRotation - npc.rotation) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
 			if (Math.Abs(rotDifference) < 0.15f)
 			{
 				npc.rotation = toRotation;
-				speed = 2;
+				speed = 2 * speedInc;
 				return;
 			}
-			speed = 1;
+			speed = 1 * speedInc;
 			npc.rotation += Math.Sign(rotDifference) * 0.06f;
 		}
 
