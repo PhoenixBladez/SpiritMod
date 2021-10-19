@@ -1,5 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder;
+using SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid;
+using SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -14,10 +17,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 
 		protected virtual string Size => "Small";
 		protected virtual float BeamScale => 0.75f;
-		protected virtual List<int>[] WaveTypes => new[] {
-			new List<int>() { NPCID.JungleBat, NPCID.CaveBat, NPCID.IceBat },
-			new List<int>() { NPCID.Harpy, NPCID.EaterofSouls } };
-		protected virtual int[] WaveSizes => new[] { 4, 6 };
 
 		ref NPC Parent => ref Main.npc[(int)npc.ai[0]];
 		ref float TimerOffset => ref npc.ai[1];
@@ -130,22 +129,58 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
                 Gore.NewGorePerfect(npc.Center, (Parent.Center - npc.Center) / 45f, mod.GetGoreSlot("Gores/StarjinxGore"), 1);
         }
 
-		public void SpawnWave()
+		public virtual void SpawnWave()
 		{
-			int wave = Main.rand.Next(WaveTypes.Length);
-			List<int> types = WaveTypes[wave];
+			int choice = Main.rand.Next(4);
 
-			for (int i = 0; i < WaveSizes[wave]; ++i)
+			switch (choice)
 			{
-				int X = (int)(npc.position.X + Main.rand.Next(-500, 500));
-				int Y = (int)(npc.position.Y + Main.rand.Next(-500, 500));
-				int type = Main.rand.Next(types);
+				case 0: //4 random starachnid/starweaver
+					for (int i = 0; i < 4; ++i)
+						SpawnValidNPC(Main.rand.NextBool(2) ? ModContent.NPCType<Starachnid>() : ModContent.NPCType<StarWeaverNPC>());
+					break;
+				case 1: //fan of 3 starweavers
+					for (int i = -1; i < 2; ++i)
+					{
+						float rotation = i * (MathHelper.Pi / 3);
+						SpawnValidNPC(ModContent.NPCType<StarWeaverNPC>(), (Vector2.UnitY * 200).RotatedBy(rotation));
+					}
+					break;
 
+				default: //2 starachnid, 1 pathfinder
+					for (int i = 0; i < 2; ++i)
+						SpawnValidNPC(ModContent.NPCType<Starachnid>());
+					SpawnValidNPC(ModContent.NPCType<Pathfinder>());
+					break;
+			}
+		}
+
+		/// <summary>Spawns an NPC that is attached to this comet with an automatic (and overrideable) offset.</summary>
+		/// <param name="type">NPCID to spawn.</param>
+		/// <param name="overrideOffset">If not null, this is the offset used to spawn, based off of the origin npc.Center.</param>
+		/// <returns>The spawn offset used.</returns>
+		internal Vector2 SpawnValidNPC(int type, Vector2? overrideOffset = null)
+		{
+			int X = (int)(npc.Center.X + Main.rand.Next(-500, 500));
+			int Y = (int)(npc.Center.Y + Main.rand.Next(-500, 500));
+
+			if (overrideOffset.HasValue)
+			{
+				X = (int)(npc.Center.X + overrideOffset.Value.X);
+				Y = (int)(npc.Center.Y + overrideOffset.Value.Y);
+			}
+
+			bool success = false;
+
+			while (!success)
+			{
 				var temp = new NPC(); //so I can get the size of the NPC without hardcoding
 				temp.SetDefaults(type);
 
 				if (!Collision.SolidCollision(new Vector2(X, Y), temp.width, temp.height))
 				{
+					success = true;
+
 					int id = NPC.NewNPC(X, Y, type);
 					NPC n = Main.npc[id];
 					n.GetGlobalNPC<StarjinxGlobalNPC>().spawnedByComet = true;
@@ -153,12 +188,16 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 					enemies.Add(id);
 					spawnedEnemies = true;
 
+					if (Main.netMode == NetmodeID.MultiplayerClient)
+						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, id);
+
 					//add spawn vfx here
 				}
 			}
+			return new Vector2(X, Y) - npc.Center;
 		}
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 7; k++)
             {

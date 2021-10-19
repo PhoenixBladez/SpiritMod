@@ -1,5 +1,11 @@
+using Microsoft.Xna.Framework;
+using SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus;
+using SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder;
+using SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid;
 using System.Collections.Generic;
+using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Comets
 {
@@ -7,10 +13,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
     {
 		protected override string Size => "Medium";
 		protected override float BeamScale => 1f;
-		protected override List<int>[] WaveTypes => new[] {
-			new List<int>() { NPCID.Corruptor, NPCID.Vulture, NPCID.Raven, NPCID.Slimer, NPCID.GiantBat },
-			new List<int>() { NPCID.WyvernHead } };
-		protected override int[] WaveSizes => new[] { 6, 1 };
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Medium Starjinx Comet");
 
@@ -21,5 +23,23 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
             npc.width = 42;
             npc.height = 40;
         }
-    }
+
+		public override void SpawnWave()
+		{
+			int choice = Main.rand.Next(4);
+
+			switch (choice)
+			{
+
+				default: //2 magus & 2 pathfinder connected, 1 starachnid
+					for (int i = 0; i < 5; ++i)
+					{
+						var spawn = SpawnValidNPC(ModContent.NPCType<Starachnid>());
+						if (Main.rand.NextBool())
+							SpawnValidNPC(ModContent.NPCType<Pathfinder>(), spawn);
+					}
+					break;
+			}
+		}
+	}
 }

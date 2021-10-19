@@ -97,7 +97,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 						if (displacement < mindisplacement)
 							desiredPos += npc.DirectionTo(player.Center) * (mindisplacement - displacement);
 
-						npc.Center = desiredPos;
+						npc.Center = desiredPos + new Vector2(0, 30);
 						if (!Main.dedServ)
 						{
 							ParticleHandler.SpawnParticle(new ImpactLine(npc.Center, Vector2.UnitY * 2, Color.White, new Vector2(0.1f, 1f), 10));

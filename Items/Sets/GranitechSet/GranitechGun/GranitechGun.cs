@@ -7,11 +7,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 {
 	public class GranitechGun : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Granitech Blaster");
-			Tooltip.SetDefault("Left click to charge laser\nRight click to repeatedly fire granitech bullets");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Granitech Blaster");
 
 		public override void SetDefaults()
 		{
