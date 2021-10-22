@@ -23,7 +23,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
-            npc.lifeMax = 8000;
+            npc.lifeMax = 2000;
             npc.defense = 20;
             npc.value = 0f;
             npc.dontTakeDamage = false;
@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
             npc.HitSound = SoundID.NPCHit7;
             npc.DeathSound = SoundID.Item89;
             npc.alpha = 255;
-
+			npc.chaseable = false;
             aiType = 0;
 		}
 
@@ -83,51 +83,62 @@ namespace SpiritMod.NPCs.StarjinxEvent
 				}
 			}
 
-			if (spawnedComets && npc.dontTakeDamage && comets.Count > 0) //Child meteor active checks
+			if(spawnedComets)
 			{
-				for (int i = 0; i < comets.Count; i++)
+				for (int i = 0; i < Main.player.Count(); i++) //Check if players are in range
 				{
-					NPC comet = Main.npc[comets[i]];
-					int[] cometTypes = new int[] { ModContent.NPCType<LargeComet>(), ModContent.NPCType<SmallComet>(), ModContent.NPCType<MediumComet>() };
-					if (comet.active && comet.life > 0 && cometTypes.Contains(comet.type))
-						break;
+					Player player = Main.player[i];
+					if (player.active && !player.dead && player.Distance(npc.Center) < 1500)
+						player.GetModPlayer<StarjinxPlayer>().zoneStarjinxEvent = true;
 				}
 
-				if (updateCometOrder)
+				if(npc.dontTakeDamage && comets.Count > 0) //Child meteor active checks
 				{
-					for (int i = 0; i < comets.Count; i++) //update list
+					for (int i = 0; i < comets.Count; i++)
 					{
 						NPC comet = Main.npc[comets[i]];
-						if (!comet.active || comet.modNPC == null || !(comet.modNPC is SmallComet))
+						int[] cometTypes = new int[] { ModContent.NPCType<LargeComet>(), ModContent.NPCType<SmallComet>(), ModContent.NPCType<MediumComet>() };
+						if (comet.active && comet.life > 0 && cometTypes.Contains(comet.type))
+							break;
+					}
+
+
+					if (updateCometOrder)
+					{
+						for (int i = 0; i < comets.Count; i++) //update list
 						{
-							comets.Remove(comets[i]);
-							i--;
-							continue;
+							NPC comet = Main.npc[comets[i]];
+							if (!comet.active || comet.modNPC == null || !(comet.modNPC is SmallComet))
+							{
+								comets.Remove(comets[i]);
+								i--;
+								continue;
+							}
 						}
+
+						if (comets.Count <= 0) return;
+
+						NPC furthest = Main.npc[comets[0]];
+						for (int i = 0; i < comets.Count; i++)
+						{
+							NPC comet = Main.npc[comets[i]];
+
+							if (comet.active && comet.modNPC is SmallComet npc && furthest.modNPC is SmallComet far && npc.initialDistance > far.initialDistance)
+								furthest = comet;
+						}
+
+						for (int i = 0; i < comets.Count; i++)
+						{
+							NPC comet = Main.npc[comets[i]];
+							if (comet.active && comet.modNPC is SmallComet)
+								comet.dontTakeDamage = true;
+							if (comet.whoAmI == furthest.whoAmI)
+								(comet.modNPC as SmallComet).SpawnWave();
+						}
+
+						npc.netUpdate = true;
+						updateCometOrder = false;
 					}
-
-					if (comets.Count <= 0) return;
-
-					NPC furthest = Main.npc[comets[0]];
-					for (int i = 0; i < comets.Count; i++)
-					{
-						NPC comet = Main.npc[comets[i]];
-
-						if (comet.active && comet.modNPC is SmallComet npc && furthest.modNPC is SmallComet far && npc.initialDistance > far.initialDistance)
-							furthest = comet;
-					}
-
-					for (int i = 0; i < comets.Count; i++)
-					{
-						NPC comet = Main.npc[comets[i]];
-						if (comet.active && comet.modNPC is SmallComet)
-							comet.dontTakeDamage = true;
-						if (comet.whoAmI == furthest.whoAmI)
-							(comet.modNPC as SmallComet).SpawnWave();
-					}
-
-					npc.netUpdate = true;
-					updateCometOrder = false;
 				}
 			}
 
@@ -144,33 +155,37 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 		private void SpawnComets()
 		{
-			for (int i = 0; i < 3; i++)
+			int maxSmallComets = 3;
+			int maxMedComets = 2;
+			int maxLargeComets = 1;
+			float maxDist = 350;
+			float minDist = 50;
+			float FindDistance()
 			{
-				float x = npc.Center.X - Main.rand.Next(150, 250) * (i == 1 ? 1 : -1);
-				float y = npc.Bottom.Y + (Main.rand.Next(200, 300) * (Main.rand.NextBool(2) ? -1 : 1));
-				int id = NPC.NewNPC((int)x, (int)y, ModContent.NPCType<SmallComet>(), 0, npc.whoAmI, Main.rand.NextFloat(10), 0, -1);
+				float maxComets = maxLargeComets + maxMedComets + maxSmallComets;
+				return MathHelper.Lerp(maxDist, minDist, comets.Count / maxComets);
+			}
+			void SpawnComet(int type)
+			{
+				Vector2 spawnPos = npc.Center + Vector2.UnitX.RotatedByRandom(MathHelper.TwoPi) * FindDistance();
+				int id = NPC.NewNPC((int)spawnPos.X, (int)spawnPos.Y, type, npc.whoAmI, npc.whoAmI, comets.Count * 2, 0, -1);
+				Main.npc[id].Center = spawnPos;
 				Main.npc[id].dontTakeDamage = true;
+				if (Main.netMode != NetmodeID.SinglePlayer)
+					NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, id);
+
 				comets.Add(id);
+				npc.netUpdate = true;
 			}
 
-			for (int i = 0; i < 2; i++)
-			{
-				float x = npc.Center.X - Main.rand.Next(100, 150) * (i == 1 ? 1 : -1);
-				float y = npc.Bottom.Y + (Main.rand.Next(125, 200) * (Main.rand.NextBool(2) ? -1 : 1));
-				int id = NPC.NewNPC((int)x, (int)y, ModContent.NPCType<MediumComet>(), 0, npc.whoAmI, Main.rand.NextFloat(10), 0, -1);
-				Main.npc[id].dontTakeDamage = true;
-				comets.Add(id);
-			}
+			for (int i = 0; i < maxSmallComets; i++)
+				SpawnComet(ModContent.NPCType<SmallComet>());
 
-			int maxLargeComets = Main.expertMode ? 3 : 1;
+			for (int i = 0; i < maxMedComets; i++)
+				SpawnComet(ModContent.NPCType<MediumComet>());
+
 			for (int i = 0; i < maxLargeComets; i++)
-			{
-				float x = npc.Center.X + (Main.rand.Next(75, 100) * (Main.rand.NextBool(2) ? -1 : 1));
-				float y = npc.Bottom.Y + (Main.rand.Next(50, 125) * (Main.rand.NextBool(2) ? -1 : 1));
-				int id = NPC.NewNPC((int)x, (int)y, ModContent.NPCType<LargeComet>(), 0, npc.whoAmI, Main.rand.NextFloat(10), 0, -1);
-				Main.npc[id].dontTakeDamage = true;
-				comets.Add(id);
-			}
+				SpawnComet(ModContent.NPCType<LargeComet>());
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) => false;
@@ -178,30 +193,28 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
 			var center = new Vector2((Main.npcTexture[npc.type].Width / 2), (Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
-            float sineAdd = (float)Math.Sin(sinCounter * 1.33f);
+            float sineAdd = (float)Math.Sin(sinCounter * 1.5f);
 
             //Weird shader stuff, dont touch yuyutsu
             #region shader
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-            Vector4 yellow = new Vector4(1f, 0.89f, 0.63f, 1f);
-            Vector4 pink = new Vector4(0.95f, 0.45f, 0.78f, 1f);
-            Vector4 colorMod = Vector4.Lerp(yellow, pink, 0.5f - (sineAdd / 2));
+            Vector4 colorMod = Color.LightGoldenrodYellow.ToVector4();
             SpiritMod.StarjinxNoise.Parameters["distance"].SetValue(2.9f - (sineAdd / 10));
 			SpiritMod.StarjinxNoise.Parameters["colorMod"].SetValue(colorMod);
 			SpiritMod.StarjinxNoise.Parameters["noise"].SetValue(mod.GetTexture("Textures/noise"));
 			SpiritMod.StarjinxNoise.Parameters["rotation"].SetValue(sinCounter / 5);
 			SpiritMod.StarjinxNoise.Parameters["opacity2"].SetValue(0.3f - (sineAdd / 10));
 			SpiritMod.StarjinxNoise.CurrentTechnique.Passes[0].Apply();
-            Main.spriteBatch.Draw(mod.GetTexture("Effects/Masks/Extra_49"), (npc.Center - Main.screenPosition), null, npc.GetAlpha(Color.White), 0f, new Vector2(50, 50), 2.1f - (sineAdd / 9), SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(mod.GetTexture("Effects/Masks/CircleGradient"), (npc.Center - Main.screenPosition), null, npc.GetAlpha(Color.White), 0f, new Vector2(125, 125), 1.3f - (sineAdd / 9), SpriteEffects.None, 0f);
 
 			SpiritMod.StarjinxNoise.Parameters["opacity2"].SetValue(1);
-			SpiritMod.StarjinxNoise.Parameters["rotation"].SetValue((sinCounter + 3) / 4);
-            colorMod = Vector4.Lerp(yellow, pink, 0.5f + (sineAdd / 2));
+			SpiritMod.StarjinxNoise.Parameters["rotation"].SetValue((sinCounter + 3) / 4); 
+			colorMod *= 0.66f;
 			SpiritMod.StarjinxNoise.Parameters["colorMod"].SetValue(colorMod);
 			SpiritMod.StarjinxNoise.CurrentTechnique.Passes[0].Apply();
 
-            Main.spriteBatch.Draw(mod.GetTexture("Effects/Masks/Extra_49"), (npc.Center - Main.screenPosition), null, npc.GetAlpha(Color.White), 0f, new Vector2(50, 50), 1.3f + (sineAdd / 7), SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(mod.GetTexture("Effects/Masks/CircleGradient"), (npc.Center - Main.screenPosition), null, npc.GetAlpha(Color.White), 0f, new Vector2(125, 125), 1.1f + (sineAdd / 7), SpriteEffects.None, 0f);
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
@@ -215,12 +228,12 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			Color baseCol = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.White);
 			Color drawCol = npc.GetAlpha(baseCol) * (1f - cos);
 
-            Main.spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, null, npc.GetAlpha(Color.White), 0f, center, 1, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, null, npc.GetAlpha(Color.Lerp(drawColor, Color.White, 0.5f)), 0f, center, 1, SpriteEffects.None, 0f);
             Main.spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteoriteGlowOutline"), npc.Center - Main.screenPosition, null, npc.GetAlpha(Color.White * .4f), 0f, center, 1, SpriteEffects.None, 0f);
 
             for (int i = 0; i < 6; i++)
             {
-                Vector2 drawPos = npc.Center + (i / 4 * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * (4f * cos + 2f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * i;
+                Vector2 drawPos = npc.Center + ((i / 6f) * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * (4f * cos + 2f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * i;
                 Main.spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteoriteGlow"), drawPos, npc.frame, drawCol, npc.rotation, npc.frame.Size() / 2f, npc.scale, spriteEffects3, 0f);
                 Main.spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteoriteGlowOutline"), drawPos, npc.frame, drawCol, npc.rotation, npc.frame.Size() / 2f, npc.scale, spriteEffects3, 0f);
             }

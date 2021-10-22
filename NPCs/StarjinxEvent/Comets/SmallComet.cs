@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder;
 using SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid;
 using SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver;
+using SpiritMod.Particles;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -23,6 +24,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 		ref float SpinMomentum => ref npc.ai[2];
 		ref float RotationOffset => ref npc.ai[3];
 
+		private float glowOpacity = 1f;
+
 		public float initialDistance = 0f;
 
 		private readonly List<int> enemies = new List<int>();
@@ -33,7 +36,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 		public override void SetDefaults()
         {
             npc.aiStyle = -1;
-            npc.lifeMax = 10;
+            npc.lifeMax = 300;
             npc.defense = 0;
             npc.value = 0f;
             aiType = 0;
@@ -47,32 +50,19 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
             npc.HitSound = SoundID.NPCHit7;
             npc.DeathSound = SoundID.Item89;
             npc.alpha = 255;
-
+			npc.direction = npc.spriteDirection = Main.rand.NextBool() ? -1 : 1;
+			npc.chaseable = false;
             for (int i = 0; i < BuffLoader.BuffCount; i++)
                 npc.buffImmune[i] = true;
         }
 
-        public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
-        {
-            crit = false;
-			damage = player.HeldItem.pick > 0 ? 5 : 1;
-		}
-
-		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            crit = false;
-			damage = Main.player[projectile.owner].HeldItem.pick > 0 ? 5 : 1;
-		}
-
 		float sinCounter;
         float sinIncrement = 0;
-
-		private bool spinPlateau = false;
 
         public override void AI()
         {
             if (npc.alpha > 0)
-                npc.alpha -= 10;
+                npc.alpha -= 7;
             else
                 npc.alpha = 0;
 
@@ -80,28 +70,18 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			{
 				RotationOffset = npc.AngleTo(Parent.Center);
 				initialDistance = npc.Distance(Parent.Center);
-				if (this is MediumComet)
-					initialDistance *= 0.5f;
-				if (this is LargeComet)
-					initialDistance *= 0.1f;
 				npc.position = Parent.Center + new Vector2(0, initialDistance).RotatedBy(RotationOffset);
 			}
 			else
 			{
-				var pos = new Vector2(0, initialDistance * (float)(1 + Math.Sin(sinCounter) * 0.05f));
-				npc.position = Parent.Center + pos.RotatedBy(RotationOffset);
-				npc.rotation = RotationOffset;
-				RotationOffset += SpinMomentum * BeamScale;
+				var pos = new Vector2(0, initialDistance * (float)(1 + (Math.Sin(sinCounter) * 0.02f)));
+				npc.Center = Parent.Center + pos.RotatedBy(RotationOffset);
+				//npc.rotation = RotationOffset;
+				RotationOffset += SpinMomentum * (float)Math.Pow(50 / initialDistance, 1.25f);
 			}
 
-            if (sinIncrement == 0) sinIncrement = Main.rand.NextFloat(0.025f, 0.035f);
-
-			if (!spinPlateau) //startup spin speed thing
-			{
-				SpinMomentum += 0.00005f;
-				if (SpinMomentum > 0.005f && Main.rand.NextBool(10))
-					spinPlateau = true;
-			}
+            if (sinIncrement == 0) 
+				sinIncrement = Main.rand.NextFloat(0.025f, 0.035f);
 
             sinCounter += sinIncrement;
             npc.TargetClosest(true);
@@ -122,11 +102,17 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 					npc.dontTakeDamage = false;
 			}
 
+			npc.rotation = (float)Math.Sin(sinCounter) / 15;
+			if (!npc.dontTakeDamage)
+			{
+				glowOpacity = MathHelper.Lerp(glowOpacity, 0f, 0.05f);
+				SpinMomentum = MathHelper.Lerp(SpinMomentum, 0.04f, 0.05f);
+			}
+			else
+				SpinMomentum = Math.Min(SpinMomentum + 0.002f, 0.08f);
+
             if (!Parent.active || Parent.type != ModContent.NPCType<StarjinxMeteorite>()) //kill me if the main meteor is dead somehow
                 npc.active = false;
-
-            if (Main.rand.Next(200) == 0)
-                Gore.NewGorePerfect(npc.Center, (Parent.Center - npc.Center) / 45f, mod.GetGoreSlot("Gores/StarjinxGore"), 1);
         }
 
 		public virtual void SpawnWave()
@@ -199,12 +185,15 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 
 		public override void HitEffect(int hitDirection, double damage)
         {
-            for (int k = 0; k < 7; k++)
-            {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Teleporter, 2.5f * hitDirection, -2.5f, 0, default, 0.6f);
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.TeleportationPotion, 2.5f * hitDirection, -2.5f, 0, default, 1.25f);
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Teleporter, 2.5f * hitDirection, -2.5f, 0, default, 0.85f);
-            }
+			if (!Main.dedServ)
+				for (int i = 0; i < 8; i++)
+					ParticleHandler.SpawnParticle(new StarParticle(npc.Center, 
+						Main.rand.NextVector2Unit() * Main.rand.NextFloat(6f), 
+						SpiritMod.StarjinxColor(Main.rand.Next(10)),
+						Main.rand.NextFloat(0.1f, 0.2f), 20));
+
+			SpinMomentum *= 0.5f;
+			npc.netUpdate = true;
 
             if (npc.life <= 0)
                 Main.PlaySound(SoundID.Item14, npc.position);
@@ -215,20 +204,38 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             var center = new Vector2(Main.npcTexture[npc.type].Width / 2, (Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
-            float cos = (float)Math.Cos(Timer % 2.4f / 2.4f * MathHelper.TwoPi) / 2f + 0.5f;
+            float cos = (float)Math.Cos(((Timer % 3.2f) / 3.2f) * MathHelper.TwoPi) / 2f + 0.5f;
 
 			DrawBeam(spriteBatch);
 
-            SpriteEffects effect = (npc.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+			Effect effect = SpiritMod.ShaderDict["SjinxRing"];
+			float size = npc.Distance(Parent.Center) * 2;
+			effect.Parameters["Size"].SetValue(size);
+			effect.Parameters["RingWidth"].SetValue(2.5f * (((1 - cos) * 0.5f) + 0.5f));
+			effect.Parameters["Angle"].SetValue(npc.AngleTo(Parent.Center));
+			var square = new Prim.SquarePrimitive
+			{
+				Color = Color.Lerp(SpiritMod.StarjinxColor(Timer * 0.8f), Color.White, 0.66f) * 
+					glowOpacity * 
+					npc.Opacity * 
+					(0.5f * (((1f - cos) * 0.75f) + 0.25f)),
+				Height = size,
+				Length = size,
+				Position = Parent.Center - Main.screenPosition,
+				ColorXCoordMod = 1
+			};
+			Prim.PrimitiveRenderer.DrawPrimitiveShape(square, effect);
+
 			Color baseCol = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.White);
-            Color col = npc.GetAlpha(baseCol) * (1f - cos);
+            Color col = npc.GetAlpha(baseCol) * 0.6f;
 
-            Main.spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, null, npc.GetAlpha(Color.White), npc.rotation, center, 1, SpriteEffects.None, 0f);
-
+			SpriteEffects effects = npc.spriteDirection > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, null, npc.GetAlpha(Color.Lerp(drawColor, Color.White, 0.5f)), npc.rotation, center, 1, effects, 0f);
+			spriteBatch.Draw(ModContent.GetTexture($"SpiritMod/NPCs/StarjinxEvent/Comets/{Size}CometGlow"), npc.Center - Main.screenPosition, null, col * glowOpacity, npc.rotation, center, 1, effects, 0f);
             for (int i = 0; i < 6; i++)
             {
-                var drawPos = npc.Center + (i / 4 * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * (4f * cos + 2f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * i;
-                spriteBatch.Draw(ModContent.GetTexture($"SpiritMod/NPCs/StarjinxEvent/Comets/{Size}CometGlow"), drawPos, npc.frame, col, npc.rotation, npc.frame.Size() / 2f, npc.scale, effect, 0f);
+                var drawPos = npc.Center + ((i / 6f) * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * (4f * cos + 2f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * i;
+				spriteBatch.Draw(ModContent.GetTexture($"SpiritMod/NPCs/StarjinxEvent/Comets/{Size}CometGlow"), drawPos, npc.frame, col * glowOpacity * (1f - cos), npc.rotation, npc.frame.Size() / 2f, npc.scale, effects, 0f);
             }
 			return false;
 		}
@@ -240,10 +247,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			float fluctuate = (float)Math.Sin(Timer * 1.2f) / 6 + 0.125f;
 
 			Color color = SpiritMod.StarjinxColor(Timer * 0.8f);
-			color = Color.Lerp(color, Color.Transparent, fluctuate * 2);
+			color = Color.Lerp(color, Color.Transparent, fluctuate * 2) * ((glowOpacity * 0.75f) + 0.25f) * npc.Opacity;
 
 			Rectangle rect = new Rectangle(0, 0, beam.Width, beam.Height);
-			Vector2 scale = new Vector2((1 - fluctuate) * npc.Distance(Main.npc[(int)npc.ai[0]].Center) / beam.Width, 1) * BeamScale;
+			Vector2 scale = new Vector2((1 - fluctuate) * ((glowOpacity * 0.5f) + 0.5f) * npc.Distance(Main.npc[(int)npc.ai[0]].Center) / beam.Width, 1) * BeamScale;
 			Vector2 offset = new Vector2(100 * scale.X, 0).RotatedBy(rotation);
 			b.Draw(beam, npc.Center - Main.screenPosition + offset / 2, new Rectangle?(rect), npc.GetAlpha(color), rotation, rect.Size() / 2, scale, SpriteEffects.None, 0);
 		}
