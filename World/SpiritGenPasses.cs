@@ -916,7 +916,7 @@ namespace SpiritMod.World
 		public static void AsteroidsPass(GenerationProgress progress)
 		{
 			progress.Message = "Creating an asteroid belt";
-			int width = 200 + (int)(((Main.maxTilesX / 4200f) - 1) * 75); //Automatically scales based on world size (WORKS WITH CUSTOM SIZES!! WOOOO)
+			int width = 200 + (int)(((Main.maxTilesX / 4200f) - 1) * 75); //Automatically scales based on world size
 			int height = 40 + (int)(((Main.maxTilesX / 4200f) - 1) * 15);
 			int x = width + 80;
 			MyWorld.asteroidSide = 0;

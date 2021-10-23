@@ -23,6 +23,7 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.height = 36;
 			projectile.netImportant = true;
 			projectile.friendly = true;
+			projectile.hostile = false;
 			projectile.ignoreWater = true;
 			projectile.minionSlots = 1f;
 			projectile.penetrate = -1;
@@ -38,9 +39,8 @@ namespace SpiritMod.Projectiles.Summon
 				int num416 = 0;
 				int num417 = 0;
 				float currentCap = 0f;
-				int num419 = projectile.type;
 				for (int i = 0; i < 1000; i++) {
-					if (Main.projectile[i].active && Main.projectile[i].owner == projectile.owner && Main.projectile[i].type == num419 && Main.projectile[i].ai[1] < 3600f) {
+					if (Main.projectile[i].active && Main.projectile[i].owner == projectile.owner && Main.projectile[i].type == projectile.type && Main.projectile[i].ai[1] < 3600f) {
 						num416++;
 						if (Main.projectile[i].ai[1] > currentCap) {
 							num417 = i;
@@ -67,8 +67,9 @@ namespace SpiritMod.Projectiles.Summon
 					projectile.timeLeft = 2;
 			}
 
-			projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-			projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2) + Main.player[projectile.owner].gfxOffY - 60f;
+			projectile.position.X = Main.player[projectile.owner].Center.X - (projectile.width / 2f);
+			projectile.position.Y = Main.player[projectile.owner].Center.Y - (projectile.height / 2f) + Main.player[projectile.owner].gfxOffY - 60f;
+
 			if (Main.player[projectile.owner].gravDir == -1f) {
 				projectile.position.Y = projectile.position.Y + 120f;
 				projectile.rotation = 3.14f;
@@ -105,9 +106,10 @@ namespace SpiritMod.Projectiles.Summon
 
 				if (validTarget) {
 					const float Magnitude = 12f; //modify the speed the projectile are shot.  Lower number = slower projectile.
+
 					float velX = shootPosX - projectile.Center.X;
 					float velY = shootPosY - projectile.Center.Y;
-					float str = (float)Math.Sqrt((velX * velX + velY * velY));
+					float str = (float)Math.Sqrt(velX * velX + velY * velY);
 					str = Magnitude / str;
 					velX *= str;
 					velY *= str;
@@ -128,6 +130,7 @@ namespace SpiritMod.Projectiles.Summon
 				Main.dust[index2].velocity.Y *= 1.7f;
 				Main.dust[index2].noLight = false;
 			}
+
 			for (int j = 0; j < 3; j++) {
 				int index2 = Dust.NewDust(new Vector2(projectile.Center.X - 12, projectile.Center.Y + 3), 1, 1, DustID.Flare, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].scale = .5f;

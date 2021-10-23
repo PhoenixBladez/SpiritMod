@@ -15,6 +15,7 @@ namespace SpiritMod.Items.Material
 			Tooltip.SetDefault("'Forged with the power of a billion stars!'");
 			ItemID.Sets.ItemNoGravity[item.type] = true;
 		}
+
 		public override void SetDefaults()
 		{
 			item.width = 32;
@@ -29,8 +30,7 @@ namespace SpiritMod.Items.Material
 			Texture2D glow = ModContent.GetTexture(Texture + "_Glow");
 			Texture2D outline = ModContent.GetTexture(Texture + "_outline");
 			float Timer = (float)Math.Sin(Main.GlobalTime * 3) / 2 + 0.5f;
-			void DrawTex(Texture2D tex, float opacity, Vector2? offset = null) => spriteBatch.Draw(tex, item.Center + (offset ?? Vector2.Zero) - Main.screenPosition, null, 
-				Color.White * opacity, rotation, tex.Size() / 2, scale, SpriteEffects.None, 0);
+			void DrawTex(Texture2D tex, float opacity, Vector2? offset = null) => spriteBatch.Draw(tex, item.Center + (offset ?? Vector2.Zero) - Main.screenPosition, null, Color.White * opacity, rotation, tex.Size() / 2, scale, SpriteEffects.None, 0);
 
 			for (int i = 0; i < 6; i++)
 			{

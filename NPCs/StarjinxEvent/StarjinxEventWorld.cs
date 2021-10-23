@@ -9,16 +9,6 @@ namespace SpiritMod.NPCs.StarjinxEvent
         public static bool StarjinxActive = false;
         public static bool SpawnedStarjinx = false;
 
-        public override void PostUpdate()
-        {
-            if (Main.rand.Next(5) == 0 && !NPC.AnyNPCs(ModContent.NPCType<StarjinxMeteorite>()))
-            {
-                Main.NewText("An enchanted comet has appeared in the asteroid field!", 252, 150, 255);
-                NPC.NewNPC(1800, 1800, ModContent.NPCType<StarjinxMeteorite>());
-                SpawnedStarjinx = true;
-			}
-        }
-
         public override TagCompound Save()
         {
             return new TagCompound
@@ -33,10 +23,5 @@ namespace SpiritMod.NPCs.StarjinxEvent
                 StarjinxActive = tag.GetBool("Starjinx Active?");
             SpawnedStarjinx = false;
         }
-
-		/*public override void Initialize()
-		{
-            SpiritMod.InitStargoop();
-		}*/
 	}
 }

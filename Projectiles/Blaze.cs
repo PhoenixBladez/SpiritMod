@@ -18,6 +18,7 @@ namespace SpiritMod.Projectiles
 		public override void SetDefaults()
 		{
 			projectile.friendly = true;
+			projectile.hostile = false;
 			projectile.minion = true;
 			projectile.penetrate = 1;
 			projectile.timeLeft = 500;
@@ -27,7 +28,10 @@ namespace SpiritMod.Projectiles
 			projectile.CloneDefaults(ProjectileID.BoneArrow);
 			projectile.extraUpdates = 1;
 		}
+
 		public override Color? GetAlpha(Color lightColor) => Color.White;
+		public override bool? CanHitNPC(NPC target) => target.immune[projectile.owner] == 0;
+
 		public override void AI()
 		{
 			Lighting.AddLight(projectile.position, 0.4f, .12f, .036f);
@@ -45,11 +49,8 @@ namespace SpiritMod.Projectiles
 		{
 			if (Main.rand.NextBool(6))
 				target.AddBuff(BuffID.OnFire, 180);
-
 			target.immune[projectile.owner] = 10;
 		}
-
-		public override bool? CanHitNPC(NPC target) => target.immune[projectile.owner] == 0;
 
 		public override void Kill(int timeLeft)
 		{
@@ -73,12 +74,13 @@ namespace SpiritMod.Projectiles
 				Main.gore[gore].velocity.X += 1f;
 			}
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
 			for (int k = 0; k < projectile.oldPos.Length; k++) {
 				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+				Color color = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
 				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
