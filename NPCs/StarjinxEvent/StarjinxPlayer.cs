@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿using SpiritMod.Buffs;
+using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.StarjinxEvent
 {
@@ -9,6 +10,12 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 		public override void ResetEffects() => zoneStarjinxEvent = false;
 
-		public override void UpdateBiomeVisuals() => player.ManageSpecialBiomeVisuals("SpiritMod:StarjinxSky", zoneStarjinxEvent);
+		public override void UpdateBiomeVisuals()
+		{
+			if (zoneStarjinxEvent)
+				player.AddBuff(ModContent.BuffType<HighGravityBuff>(), 2);
+
+			player.ManageSpecialBiomeVisuals("SpiritMod:StarjinxSky", zoneStarjinxEvent);
+		}
 	}
 }
