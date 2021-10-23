@@ -126,8 +126,7 @@ namespace SpiritMod.Utilities
 
 		private static void Main_Update(On.Terraria.Main.orig_Update orig, Main self, GameTime gameTime)
 		{
-			bool playerInv = Main.hasFocus && (!Main.autoPause || Main.netMode != NetmodeID.SinglePlayer || (Main.autoPause && !Main.playerInventory && Main.netMode == NetmodeID.SinglePlayer));
-			if (Main.playerLoaded && BackgroundItemManager.Loaded && playerInv) //Update all background items
+			if (Main.playerLoaded && BackgroundItemManager.Loaded && !Main.gamePaused) //Update all background items
 				BackgroundItemManager.Update();
 
 			SpiritMod.deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
