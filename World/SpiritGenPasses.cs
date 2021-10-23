@@ -926,7 +926,7 @@ namespace SpiritMod.World
 				MyWorld.asteroidSide = 1;
 			}
 
-			int y = height + WorldGen.genRand.Next(30, 38); //If you want to change the top of the asteroid biome, change this
+			int y = height + WorldGen.genRand.Next(36, 50); //If you want to change the top of the asteroid biome, change this
 			PlaceAsteroids(x, y, width, height);
 		}
 		#endregion GENPASS: ASTEROIDS

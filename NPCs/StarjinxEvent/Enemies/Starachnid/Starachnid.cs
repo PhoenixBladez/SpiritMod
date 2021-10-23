@@ -87,14 +87,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 
 		private Vector2 Bottom
 		{
-			get
-			{
-				return npc.Center + ((npc.height / 2) * (toRotation + 1.57f).ToRotationVector2());
-			}
-			set
-			{
-				npc.Center = value - ((npc.height / 2) * (toRotation + 1.57f).ToRotationVector2());
-			}
+			get => npc.Center + ((npc.height / 2) * (toRotation + 1.57f).ToRotationVector2());
+			set => npc.Center = value - ((npc.height / 2) * (toRotation + 1.57f).ToRotationVector2());
 		}
 
 		public override void SetStaticDefaults()

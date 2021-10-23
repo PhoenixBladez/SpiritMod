@@ -157,17 +157,32 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			}
 
 			bool success = false;
+			int attempts = 0;
 
 			while (!success)
 			{
+				if (attempts++ > 200)
+				{
+					Main.NewText("Failed to spawn Starjinx enemies. Report to devs.", Color.Red);
+					break;
+				}
+
+				var spawnPos = new Vector2(X, Y);
+
+				if (attempts > 100)
+				{
+					float magnitude = attempts / 100f;
+					spawnPos += new Vector2(Main.rand.Next(-100, 100), Main.rand.Next(-100, 100)) * magnitude;
+				}
+
 				var temp = new NPC(); //so I can get the size of the NPC without hardcoding
 				temp.SetDefaults(type);
 
-				if (!Collision.SolidCollision(new Vector2(X, Y), temp.width, temp.height))
+				if (!Collision.SolidCollision(spawnPos, temp.width, temp.height))
 				{
 					success = true;
 
-					int id = NPC.NewNPC(X, Y, type);
+					int id = NPC.NewNPC((int)spawnPos.X, (int)spawnPos.Y, type);
 					NPC n = Main.npc[id];
 					n.GetGlobalNPC<StarjinxGlobalNPC>().spawnedByComet = true;
 
