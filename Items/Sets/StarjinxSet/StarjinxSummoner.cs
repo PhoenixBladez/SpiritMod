@@ -2,6 +2,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.NPCs.StarjinxEvent;
+using System;
+using Microsoft.Xna.Framework;
 
 namespace SpiritMod.Items.Sets.StarjinxSet
 {
@@ -32,14 +34,49 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 
 		public override bool UseItem(Player player)
 		{
-			Main.NewText("An enchanted comet has appeared in the asteroid field!", 252, 150, 255);
 
 			int width = 200 + (int)(((Main.maxTilesX / 4200f) - 1) * 75);
-			int x = MyWorld.asteroidSide == 0 ? (int)(width * 16) + 80 : Main.maxTilesX - (width + 80);
+			int x = MyWorld.asteroidSide == 0 ? (width * 16) + 80 : Main.maxTilesX - (width + 80);
 
-			NPC.NewNPC(x, 1800, ModContent.NPCType<StarjinxMeteorite>());
-			StarjinxEventWorld.SpawnedStarjinx = true;
+			Vector2 finalPos = GetOpenSpace(x, 1800);
+
+			if (finalPos != Vector2.Zero)
+			{
+				Main.NewText("An enchanted comet has appeared in the asteroid field!", 252, 150, 255);
+				NPC.NewNPC((int)finalPos.X, (int)finalPos.Y, ModContent.NPCType<StarjinxMeteorite>());
+				StarjinxEventWorld.SpawnedStarjinx = true;
+			}
+			else
+				Main.NewText("A comet soars overhead...", 202, 100, 205);
 			return true;
+		}
+
+		/// <summary>Get an open space for the meteorite to spawn.</summary>
+		/// <param name="x">Original X position.</param>
+		/// <param name="y">Original Y position.</param>
+		private Vector2 GetOpenSpace(int x, int y)
+		{
+			const int MinX = 1600;
+			const int MinY = 1600;
+
+			var temp = new NPC();
+			temp.SetDefaults(ModContent.NPCType<StarjinxMeteorite>());
+
+			int attempts = 0;
+
+			while (true)
+			{
+				if (attempts++ >= 200)
+					break;
+
+				var spawnPos = new Vector2(x, y) + (new Vector2(Main.rand.Next(-1000, 1000), Main.rand.Next(-1000, 1000)) * (attempts / 25f));
+				if (spawnPos.X < MinX) spawnPos.X = MinX;
+				if (spawnPos.Y < MinY) spawnPos.Y = MinY;
+
+				if (!Collision.SolidCollision(spawnPos - (temp.Size * 2), temp.width * 4, temp.height * 4))
+					return spawnPos;
+			}
+			return Vector2.Zero;
 		}
 	}
 }

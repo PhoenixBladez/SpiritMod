@@ -144,22 +144,32 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 		/// <summary>Spawns an NPC that is attached to this comet with an automatic (and overrideable) offset.</summary>
 		/// <param name="type">NPCID to spawn.</param>
 		/// <param name="overrideOffset">If not null, this is the offset used to spawn, based off of the origin npc.Center.</param>
+		/// <param name="rawPosition">Completely overrides position, making overrideOffset simply equal the position.</param>
 		/// <returns>The spawn offset used.</returns>
-		internal Vector2 SpawnValidNPC(int type, Vector2? overrideOffset = null)
+		internal Vector2 SpawnValidNPC(int type, Vector2? overrideOffset = null, bool rawPosition = false)
 		{
-			int X = (int)(npc.Center.X + Main.rand.Next(-500, 500));
-			int Y = (int)(npc.Center.Y + Main.rand.Next(-500, 500));
+			if (!overrideOffset.HasValue && rawPosition) //Trying to use a null position
+			{
+				Main.NewText("Trying to use a raw position without using the overrideOffset parameter. Report to devs.", Color.Red);
+				mod.Logger.Error("Invalid raw position/overriedeOffset combination (SmallComet.SpawnValidNPC)", new ArgumentException("Bad args for SmallComet.SpawnValidNPC(int, Vector2?, bool):\n"));
+				return Vector2.Zero;
+			}
+
+			const int MaxOffset = 450;
+
+			Vector2 originalSpawn = npc.Center + new Vector2(Main.rand.Next(-MaxOffset, MaxOffset), Main.rand.Next(-MaxOffset, MaxOffset));
 
 			if (overrideOffset.HasValue)
 			{
-				X = (int)(npc.Center.X + overrideOffset.Value.X);
-				Y = (int)(npc.Center.Y + overrideOffset.Value.Y);
+				if (!rawPosition)
+					originalSpawn = npc.Center + overrideOffset.Value;
+				else
+					originalSpawn = overrideOffset.Value;
 			}
 
-			bool success = false;
 			int attempts = 0;
 
-			while (!success)
+			while (true)
 			{
 				if (attempts++ > 200)
 				{
@@ -167,21 +177,19 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 					break;
 				}
 
-				var spawnPos = new Vector2(X, Y);
+				Vector2 spawnPos = originalSpawn;
 
-				if (attempts > 100)
+				if (attempts > 100) //randomize position in order to find valid spawn if we're having trouble finding a good place
 				{
-					float magnitude = attempts / 100f;
-					spawnPos += new Vector2(Main.rand.Next(-100, 100), Main.rand.Next(-100, 100)) * magnitude;
+					float magnitude = (attempts - 50) / 50f;
+					spawnPos += new Vector2(Main.rand.Next(-200, 200), Main.rand.Next(-200, 200)) * magnitude;
 				}
 
 				var temp = new NPC(); //so I can get the size of the NPC without hardcoding
 				temp.SetDefaults(type);
 
-				if (!Collision.SolidCollision(spawnPos, temp.width, temp.height))
+				if (!Collision.SolidCollision(spawnPos - (new Vector2(temp.width, temp.height) / 2f), temp.width * 2, temp.height * 2))
 				{
-					success = true;
-
 					int id = NPC.NewNPC((int)spawnPos.X, (int)spawnPos.Y, type);
 					NPC n = Main.npc[id];
 					n.GetGlobalNPC<StarjinxGlobalNPC>().spawnedByComet = true;
@@ -192,20 +200,25 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 					if (Main.netMode == NetmodeID.MultiplayerClient)
 						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, id);
 
+					originalSpawn = spawnPos;
+
 					//add spawn vfx here
+
+					break;
 				}
 			}
-			return new Vector2(X, Y) - npc.Center;
+
+			if (rawPosition)
+				return overrideOffset.Value;
+
+			return originalSpawn - npc.Center;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
         {
 			if (!Main.dedServ)
 				for (int i = 0; i < 8; i++)
-					ParticleHandler.SpawnParticle(new StarParticle(npc.Center, 
-						Main.rand.NextVector2Unit() * Main.rand.NextFloat(6f), 
-						SpiritMod.StarjinxColor(Main.rand.Next(10)),
-						Main.rand.NextFloat(0.1f, 0.2f), 20));
+					ParticleHandler.SpawnParticle(new StarParticle(npc.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(6f), SpiritMod.StarjinxColor(Main.rand.Next(10)), Main.rand.NextFloat(0.1f, 0.2f), 20));
 
 			SpinMomentum *= 0.5f;
 			npc.netUpdate = true;
@@ -228,6 +241,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			effect.Parameters["Size"].SetValue(size);
 			effect.Parameters["RingWidth"].SetValue(2.5f * (((1 - cos) * 0.5f) + 0.5f));
 			effect.Parameters["Angle"].SetValue(npc.AngleTo(Parent.Center));
+
 			var square = new Prim.SquarePrimitive
 			{
 				Color = Color.Lerp(SpiritMod.StarjinxColor(Timer * 0.8f), Color.White, 0.66f) * 

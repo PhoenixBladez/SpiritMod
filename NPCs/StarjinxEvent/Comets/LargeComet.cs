@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus;
 using SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder;
 using SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid;
+using SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -29,7 +30,18 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 
 			switch (choice)
 			{
+				case 0: //circle of 5 empowered starweavers
+					npc.TargetClosest(false);
+					Player target = Main.player[npc.target];
 
+					for (int i = 0; i < 5; ++i)
+					{
+						var offset = Vector2.One.RotatedBy(i * (MathHelper.TwoPi / 5)) * 250;
+
+						SpawnValidNPC(ModContent.NPCType<StarWeaverNPC>(), target.Center + offset, true);
+						SpawnValidNPC(ModContent.NPCType<Pathfinder>(), target.Center + offset, true);
+					}
+					break;
 				default: //2 magus & 2 pathfinder connected, 1 starachnid
 					for (int i = 0; i < 2; ++i)
 					{
