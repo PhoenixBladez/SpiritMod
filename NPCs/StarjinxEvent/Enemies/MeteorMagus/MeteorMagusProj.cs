@@ -22,7 +22,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			projectile.Size = new Vector2(32, 32);
 			projectile.scale = Main.rand.NextFloat(0.8f, 1.2f);
 			projectile.hostile = true;
-			projectile.tileCollide = true;
 			projectile.alpha = 255;
 			projectile.hide = true;
 		}
@@ -49,6 +48,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			if (projectile.localAI[1] == 0)
 				projectile.localAI[1] = Main.rand.NextBool() ? -0.2f : 0.2f;
 
+			projectile.tileCollide = Timer > 100;
 			projectile.rotation += projectile.localAI[1];
 
 			if (!Parent.active || !Target.active || Target.dead)

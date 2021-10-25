@@ -36,8 +36,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 		{
 
 			int width = 200 + (int)(((Main.maxTilesX / 4200f) - 1) * 75);
-			int x = MyWorld.asteroidSide == 0 ? (width * 16) + 80 : Main.maxTilesX - (width + 80);
-
+			int x = MyWorld.asteroidSide == 0 ? (width * 16) + 80 : (Main.maxTilesX * 16) - ((width * 16) + 80);
 			Vector2 finalPos = GetOpenSpace(x, 1800);
 
 			if (finalPos != Vector2.Zero)
