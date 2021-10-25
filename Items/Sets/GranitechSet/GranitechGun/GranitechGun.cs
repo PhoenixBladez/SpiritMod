@@ -26,7 +26,6 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			item.rare = ItemRarityID.Orange;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ProjectileID.PurificationPowder;
-			item.UseSound = SoundID.NPCHit18;
 			item.useAmmo = AmmoID.Bullet;
 		}
 

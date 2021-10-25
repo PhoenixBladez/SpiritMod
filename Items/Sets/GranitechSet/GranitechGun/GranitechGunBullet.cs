@@ -93,7 +93,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(new LegacySoundStyle(29, 53).WithPitchVariance(0.3f), projectile.Center);
+			Main.PlaySound(SoundID.Item10, projectile.Center);
 
 			if (!Main.dedServ)
 			{

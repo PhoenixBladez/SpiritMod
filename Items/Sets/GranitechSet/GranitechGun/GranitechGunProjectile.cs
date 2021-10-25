@@ -52,10 +52,10 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			{
 				p.itemTime = p.HeldItem.useTime;
 				p.itemAnimation = p.HeldItem.useAnimation;
-				projectile.Center = p.Center - (Vector2.Normalize(p.MountedCenter - Main.MouseWorld) * 27) + new Vector2(21, 12);
+				projectile.Center = p.Center - (Vector2.Normalize(p.MountedCenter - Main.MouseWorld) * 27) + new Vector2(21, 12 + p.gfxOffY);
 			}
 			else
-				projectile.Center = p.Center - (new Vector2(1, 0).RotatedBy(_finalRotation) * 27) + new Vector2(21, 12);
+				projectile.Center = p.Center - (new Vector2(1, 0).RotatedBy(_finalRotation) * 27) + new Vector2(21, 12 + p.gfxOffY);
 
 			if (!p.channel && _endCharge == -1) //the player has stopped shooting
 			{
@@ -87,6 +87,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			if (p.modProjectile is GranitechGunBullet bullet)
 				bullet.spawnRings = true;
 
+			Main.PlaySound(Terraria.ID.SoundID.Item11, projectile.Center);
 			VFX(pos + muzzleOffset, baseVel * 0.2f);
 		}
 
