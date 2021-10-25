@@ -86,7 +86,7 @@ float4 White(VertexShaderOutput input) : COLOR0
 	column = clamp(column, 0, 1);
 
 	float4 color = lerp(float4(1,1,1,1), float4(33.0f / 255.0f, 1, 211.0f / 255.0f, 1), 1 - column);
-	if (column > 0.9f)
+	if (column > 0.7f)
 		return float4(1, 1, 1, 1);
 	if (column > 0.5f)
 		return float4(33.0f / 255.0f, 1, 211.0f / 255.0f, 1);
