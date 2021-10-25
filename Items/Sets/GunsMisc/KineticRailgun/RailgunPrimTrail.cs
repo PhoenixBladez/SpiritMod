@@ -46,7 +46,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
                 widthVar = Width;
                 if (i == 0)
                 {
-                    Color c1 = Color.White;
+                    Color c1 = Counter % 33 > 20 && Counter % 33 < 32 ? Color.White : Color.Lerp(Color.Cyan, Color.White, Math.Min((widthVar - Width) / 5f, 1));
                     Vector2 normalAhead = CurveNormal(Points, i + 1);
                     Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
                     Vector2 secondDown = Points[i + 1] + normalAhead * widthVar;
@@ -58,7 +58,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
                 {
                     if (i != Points.Count - 1)
                     {
-                        Color c = Color.White;
+                        Color c = Counter % 33 > 20 && Counter % 33 < 32 ? Color.White : Color.Lerp(Color.Cyan, Color.White, Math.Min((widthVar - Width) / 5f, 1));
                         Vector2 normal = CurveNormal(Points, i);
                         Vector2 normalAhead = CurveNormal(Points, i + 1);
                         Vector2 firstUp = Points[i] - normal * widthVar;
