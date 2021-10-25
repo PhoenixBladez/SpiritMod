@@ -18,9 +18,9 @@ float4 MainPS(float2 coords : TEXCOORD0, float4 ocolor : COLOR0) : COLOR0
     float dist = sqrt(pow(coords.x - 0.5f, 2) + pow(coords.y - 0.5f, 2)) * 2;
     float strength = 0.2f + min(pow(dist, 5) * 250, 4);
     
-    float4 noiseColor = tex2D(vNoise, float2((0.75f * (coords.x + timer)) % 1, (0.75f * (coords.y + timer)) % 1));
-    float4 noiseStrength = (1 - noiseColor.r);
-    noiseStrength = pow(noiseStrength, 6) * 6 * pow(1 - dist, 6);
+    float4 noiseColor = tex2D(vNoise, float2((1.2f * (coords.x + timer)) % 1, (1.2f * (coords.y + timer)) % 1));
+    float4 noiseStrength = noiseColor.r;
+    noiseStrength = pow(noiseStrength, 5) * 4 * pow(1 - dist, 6);
     
     strength += noiseStrength;
     

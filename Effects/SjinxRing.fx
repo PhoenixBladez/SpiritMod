@@ -52,7 +52,7 @@ float4 MainPS(VertexShaderOutput input) : COLOR0
     if (distance > Size || distance < (Size - (2 * halfWidth))) //transparent if too much distance from center, as the shader is being applied to a square
         return float4(0, 0, 0, 0);
     
-    float distMod = pow((1 - (abs(distance - (Size - halfWidth)) / halfWidth)), 10); //smooth out color to be more transparent towards edge
+    float distMod = pow((1 - (abs(distance - (Size - halfWidth)) / halfWidth)), 15); //smooth out color to be more transparent towards edge
     float coordAngle = atan2(input.TextureCoordinates.y - 0.5f, input.TextureCoordinates.x - 0.5f);
     
     float angleDist = abs(WrapAngle(Angle - coordAngle)); //angular distance
