@@ -91,7 +91,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 
 					if(AiTimer == TELEPORT_STARTTIME)
 					{
-						Vector2 desiredPos = player.Center + npc.DirectionTo(player.Center) * (TELEPORT_DISTANCE * 0.75f);
+						Vector2 desiredPos = player.Center + npc.DirectionTo(player.Center) * (TELEPORT_DISTANCE * 0.75f * Main.rand.NextFloat(0.9f, 1.1f));
 						float displacement = npc.Distance(desiredPos);
 						float mindisplacement = TELEPORT_DISTANCE;
 						if (displacement < mindisplacement)
@@ -129,7 +129,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 
 					if(AiTimer > STARBURST_CHANNELTIME)
 					{
-						AiTimer = 0;
+						AiTimer = -Main.rand.Next(60);
 						AiState = STATE_IDLE;
 						npc.netUpdate = true;
 					}

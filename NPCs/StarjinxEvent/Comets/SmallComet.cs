@@ -24,7 +24,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 		ref float SpinMomentum => ref npc.ai[2];
 		ref float RotationOffset => ref npc.ai[3];
 
-		private float glowOpacity = 1f;
+		private float glowOpacity = 0f;
 
 		public float initialDistance = 0f;
 
@@ -54,6 +54,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			npc.chaseable = false;
             for (int i = 0; i < BuffLoader.BuffCount; i++)
                 npc.buffImmune[i] = true;
+
+			npc.hide = true; //Drawn manually by main meteor for layering and efficiency with shaders
         }
 
 		float sinCounter;
@@ -109,7 +111,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 				SpinMomentum = MathHelper.Lerp(SpinMomentum, 0.04f, 0.05f);
 			}
 			else
+			{
+				glowOpacity = MathHelper.Lerp(glowOpacity, 1f, 0.05f);
 				SpinMomentum = Math.Min(SpinMomentum + 0.002f, 0.08f);
+			}
 
             if (!Parent.active || Parent.type != ModContent.NPCType<StarjinxMeteorite>()) //kill me if the main meteor is dead somehow
                 npc.active = false;
@@ -234,27 +239,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
             var center = new Vector2(Main.npcTexture[npc.type].Width / 2, (Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             float cos = (float)Math.Cos(((Timer % 3.2f) / 3.2f) * MathHelper.TwoPi) / 2f + 0.5f;
 
-			DrawBeam(spriteBatch);
-
-			Effect effect = SpiritMod.ShaderDict["SjinxRing"];
-			float size = npc.Distance(Parent.Center) * 2;
-			effect.Parameters["Size"].SetValue(size);
-			effect.Parameters["RingWidth"].SetValue(2.5f * (((1 - cos) * 0.5f) + 0.5f));
-			effect.Parameters["Angle"].SetValue(npc.AngleTo(Parent.Center));
-
-			var square = new Prim.SquarePrimitive
-			{
-				Color = Color.Lerp(SpiritMod.StarjinxColor(Timer * 0.8f), Color.White, 0.66f) * 
-					glowOpacity * 
-					npc.Opacity * 
-					(0.5f * (((1f - cos) * 0.75f) + 0.25f)),
-				Height = size,
-				Length = size,
-				Position = Parent.Center - Main.screenPosition,
-				ColorXCoordMod = 1
-			};
-			Prim.PrimitiveRenderer.DrawPrimitiveShape(square, effect);
-
 			Color baseCol = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.White);
             Color col = npc.GetAlpha(baseCol) * 0.6f;
 
@@ -269,19 +253,59 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			return false;
 		}
 
-		private void DrawBeam(SpriteBatch b)
-		{
-			Texture2D beam = mod.GetTexture("Textures/Medusa_Ray");
-			float rotation = npc.DirectionTo(Main.npc[(int)npc.ai[0]].Center).ToRotation();
-			float fluctuate = (float)Math.Sin(Timer * 1.2f) / 6 + 0.125f;
+		private Color EnergyColor => Color.Lerp(SpiritMod.StarjinxColor(Timer * 0.8f), Color.White, 0.33f);
 
-			Color color = SpiritMod.StarjinxColor(Timer * 0.8f);
-			color = Color.Lerp(color, Color.Transparent, fluctuate * 2) * ((glowOpacity * 0.75f) + 0.25f) * npc.Opacity;
+		private float CosTimer => (float)Math.Cos(((Timer % 3.2f) / 3.2f) * MathHelper.TwoPi) / 2f + 0.5f;
+
+		public void DrawRing()
+		{
+			Effect effect = mod.GetEffect("Effects/SjinxRing");
+			float width = 70f * (((1 - CosTimer) * 0.25f) + 0.75f);
+			float size = (npc.Distance(Parent.Center) * 2) + width;
+			effect.Parameters["Size"].SetValue(size);
+			effect.Parameters["RingWidth"].SetValue(width);
+			effect.Parameters["Angle"].SetValue(npc.AngleTo(Parent.Center));
+			effect.Parameters["FadeAngleRange"].SetValue(MathHelper.Lerp(1.25f * MathHelper.PiOver2, MathHelper.Pi / 24, npc.Distance(Parent.Center) / 500));
+
+			var square = new Prim.SquarePrimitive
+			{
+				Color =  EnergyColor *
+					glowOpacity *
+					npc.Opacity *
+					(0.5f * (((1f - CosTimer) * 0.75f) + 0.25f)),
+				Height = size,
+				Length = size,
+				Position = Parent.Center - Main.screenPosition,
+				ColorXCoordMod = 1
+			};
+			Prim.PrimitiveRenderer.DrawPrimitiveShape(square, effect);
+		}
+
+		public void DrawBeam(SpriteBatch b)
+		{
+			Texture2D beam = mod.GetTexture("Textures/Ray");
+			float rotation = npc.DirectionTo(Main.npc[(int)npc.ai[0]].Center).ToRotation() - MathHelper.PiOver2;
+			float fluctuate = (float)(CosTimer / 10) + 0.15f;
+
+			Color color = Color.Lerp(EnergyColor, Color.Transparent, fluctuate * 2) * ((glowOpacity * 0.75f) + 0.25f) * npc.Opacity * 0.5f;
 
 			Rectangle rect = new Rectangle(0, 0, beam.Width, beam.Height);
-			Vector2 scale = new Vector2((1 - fluctuate) * ((glowOpacity * 0.5f) + 0.5f) * npc.Distance(Main.npc[(int)npc.ai[0]].Center) / beam.Width, 1) * BeamScale;
-			Vector2 offset = new Vector2(100 * scale.X, 0).RotatedBy(rotation);
+			Vector2 scale = new Vector2(1, (1 - fluctuate) * ((glowOpacity * 0.5f) + 0.5f) * npc.Distance(Main.npc[(int)npc.ai[0]].Center) / beam.Height) * BeamScale;
+			Vector2 offset = new Vector2(0, 100 * scale.Y).RotatedBy(rotation);
 			b.Draw(beam, npc.Center - Main.screenPosition + offset / 2, new Rectangle?(rect), npc.GetAlpha(color), rotation, rect.Size() / 2, scale, SpriteEffects.None, 0);
+		}
+
+		public void DrawShield(SpriteBatch b)
+		{
+			Texture2D mask = mod.GetTexture("Effects/Masks/CircleGradient");
+
+			Texture2D mainTex = Main.npcTexture[npc.type];
+			float averageSize = mainTex.Width / 2f + mainTex.Height / 2f;
+			float scale = averageSize / mask.Width;
+
+			scale *= MathHelper.Lerp(3.2f, 9.6f, 1 - glowOpacity) * (CosTimer/15f + 1f);
+
+			b.Draw(mask, npc.Center - Main.screenPosition, null, EnergyColor * glowOpacity, npc.rotation + Timer * 2f, mask.Size() / 2f, scale, SpriteEffects.None, 0);
 		}
 
 		public override bool CheckDead()

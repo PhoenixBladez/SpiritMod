@@ -53,6 +53,7 @@ using SpiritMod.Items.Weapon.Magic.Rhythm;
 using SpiritMod.Items.Weapon.Magic.Rhythm.Anthem;
 using SpiritMod.Mechanics.EventSystem;
 using static Terraria.ModLoader.Core.TmodFile;
+using SpiritMod.Skies.Starjinx;
 
 namespace SpiritMod
 {

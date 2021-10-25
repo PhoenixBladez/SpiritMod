@@ -34,6 +34,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 				projectile.localAI[0]++;
 			}
 
+			projectile.tileCollide = projectile.timeLeft < 50;
 			projectile.velocity *= 0.98f;
 			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 			Lighting.AddLight(projectile.Center, Color.Gold.ToVector3() / 3);

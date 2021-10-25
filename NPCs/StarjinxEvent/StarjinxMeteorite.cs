@@ -42,6 +42,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		}
 
 		float sinCounter;
+		float shieldOpacity = 0f;
         bool spawnedComets = false;
 
 		List<int> comets = new List<int>();
@@ -72,7 +73,10 @@ namespace SpiritMod.NPCs.StarjinxEvent
 							bossWhoAmI = -1;
 					}
 					else
+					{
 						npc.dontTakeDamage = false;
+						shieldOpacity = MathHelper.Lerp(shieldOpacity, 0, 0.05f);
+					}
 				}
 				else
 				{
@@ -94,6 +98,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 				if(npc.dontTakeDamage && comets.Count > 0) //Child meteor active checks
 				{
+					shieldOpacity = MathHelper.Lerp(shieldOpacity, 1, 0.05f);
 					for (int i = 0; i < comets.Count; i++)
 					{
 						NPC comet = Main.npc[comets[i]];
@@ -158,8 +163,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			int maxSmallComets = 3;
 			int maxMedComets = 2;
 			int maxLargeComets = 1;
-			float maxDist = 350;
-			float minDist = 50;
+			float maxDist = 450;
+			float minDist = 80;
 			float FindDistance()
 			{
 				float maxComets = maxLargeComets + maxMedComets + maxSmallComets;
@@ -188,17 +193,41 @@ namespace SpiritMod.NPCs.StarjinxEvent
 				SpawnComet(ModContent.NPCType<LargeComet>());
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) => false;
+		private delegate void IterateAction(SmallComet comet);
+
+		private void IterateComets(IterateAction action)
+		{
+			foreach (int ID in comets)
+			{
+				if (Main.npc[ID].modNPC != null)
+					if (Main.npc[ID].modNPC is SmallComet comet)
+						action.Invoke(comet);
+			}
+		}
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			IterateComets(delegate (SmallComet comet) //Draw rings and beams underneath everything else
+			{
+				comet.DrawBeam(spriteBatch);
+				comet.DrawRing();
+			});
+
+			IterateComets(delegate (SmallComet comet) //Then draw base textures
+			{
+				comet.PreDraw(spriteBatch, Lighting.GetColor((int)comet.npc.position.X / 16, (int)comet.npc.position.Y / 16));
+			});
+			return false;
+		}
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
 			var center = new Vector2((Main.npcTexture[npc.type].Width / 2), (Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             float sineAdd = (float)Math.Sin(sinCounter * 1.5f);
 
-            //Weird shader stuff, dont touch yuyutsu
-            #region shader
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+			//Weird shader stuff, dont touch yuyutsu
+			#region shader
+			spriteBatch.End();
+			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
             Vector4 colorMod = Color.LightGoldenrodYellow.ToVector4();
             SpiritMod.StarjinxNoise.Parameters["distance"].SetValue(2.9f - (sineAdd / 10));
 			SpiritMod.StarjinxNoise.Parameters["colorMod"].SetValue(colorMod);
@@ -206,7 +235,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			SpiritMod.StarjinxNoise.Parameters["rotation"].SetValue(sinCounter / 5);
 			SpiritMod.StarjinxNoise.Parameters["opacity2"].SetValue(0.3f - (sineAdd / 10));
 			SpiritMod.StarjinxNoise.CurrentTechnique.Passes[0].Apply();
-            Main.spriteBatch.Draw(mod.GetTexture("Effects/Masks/CircleGradient"), (npc.Center - Main.screenPosition), null, npc.GetAlpha(Color.White), 0f, new Vector2(125, 125), 1.3f - (sineAdd / 9), SpriteEffects.None, 0f);
+			spriteBatch.Draw(mod.GetTexture("Effects/Masks/CircleGradient"), (npc.Center - Main.screenPosition), null, npc.GetAlpha(Color.White), 0f, new Vector2(125, 125), 1.3f - (sineAdd / 9), SpriteEffects.None, 0f);
 
 			SpiritMod.StarjinxNoise.Parameters["opacity2"].SetValue(1);
 			SpiritMod.StarjinxNoise.Parameters["rotation"].SetValue((sinCounter + 3) / 4); 
@@ -214,13 +243,13 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			SpiritMod.StarjinxNoise.Parameters["colorMod"].SetValue(colorMod);
 			SpiritMod.StarjinxNoise.CurrentTechnique.Passes[0].Apply();
 
-            Main.spriteBatch.Draw(mod.GetTexture("Effects/Masks/CircleGradient"), (npc.Center - Main.screenPosition), null, npc.GetAlpha(Color.White), 0f, new Vector2(125, 125), 1.1f + (sineAdd / 7), SpriteEffects.None, 0f);
+			spriteBatch.Draw(mod.GetTexture("Effects/Masks/CircleGradient"), (npc.Center - Main.screenPosition), null, npc.GetAlpha(Color.White), 0f, new Vector2(125, 125), 1.1f + (sineAdd / 7), SpriteEffects.None, 0f);
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
-            #endregion
+			spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+			#endregion
 
-            Main.spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteorite"), npc.Center - Main.screenPosition, null, Color.White, 0f, center, 1, SpriteEffects.None, 0f);
+			spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteorite"), npc.Center - Main.screenPosition, null, Color.White, 0f, center, 1, SpriteEffects.None, 0f);
 
             float cos = (float)Math.Cos((Main.GlobalTime % 2.4f / 2.4f * MathHelper.TwoPi)) / 2f + 0.5f;
 
@@ -228,24 +257,43 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			Color baseCol = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.White);
 			Color drawCol = npc.GetAlpha(baseCol) * (1f - cos);
 
-            Main.spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, null, npc.GetAlpha(Color.Lerp(drawColor, Color.White, 0.5f)), 0f, center, 1, SpriteEffects.None, 0f);
-            Main.spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteoriteGlowOutline"), npc.Center - Main.screenPosition, null, npc.GetAlpha(Color.White * .4f), 0f, center, 1, SpriteEffects.None, 0f);
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, null, npc.GetAlpha(Color.Lerp(drawColor, Color.White, 0.5f)), 0f, center, 1, SpriteEffects.None, 0f);
+			spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteoriteGlowOutline"), npc.Center - Main.screenPosition, null, npc.GetAlpha(Color.White * .4f), 0f, center, 1, SpriteEffects.None, 0f);
 
             for (int i = 0; i < 6; i++)
             {
                 Vector2 drawPos = npc.Center + ((i / 6f) * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * (4f * cos + 2f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * i;
-                Main.spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteoriteGlow"), drawPos, npc.frame, drawCol, npc.rotation, npc.frame.Size() / 2f, npc.scale, spriteEffects3, 0f);
-                Main.spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteoriteGlowOutline"), drawPos, npc.frame, drawCol, npc.rotation, npc.frame.Size() / 2f, npc.scale, spriteEffects3, 0f);
+				spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteoriteGlow"), drawPos, npc.frame, drawCol, npc.rotation, npc.frame.Size() / 2f, npc.scale, spriteEffects3, 0f);
+				spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteoriteGlowOutline"), drawPos, npc.frame, drawCol, npc.rotation, npc.frame.Size() / 2f, npc.scale, spriteEffects3, 0f);
             }
-        }
+
+			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+			SpiritMod.instance.GetEffect("Effects/SjinxShield").Parameters["vnoiseTex"].SetValue(mod.GetTexture("Textures/voronoiLooping"));
+			SpiritMod.instance.GetEffect("Effects/SjinxShield").Parameters["timer"].SetValue(Main.GlobalTime / 3);
+			SpiritMod.instance.GetEffect("Effects/SjinxShield").CurrentTechnique.Passes[0].Apply();
+			IterateComets(delegate (SmallComet comet)
+			{
+				comet.DrawShield(Main.spriteBatch);
+			});
+
+			Texture2D mask = mod.GetTexture("Effects/Masks/CircleGradient");
+
+			Texture2D mainTex = Main.npcTexture[npc.type];
+			float averageSize = mainTex.Width / 2f + mainTex.Height / 2f;
+			float scale = averageSize / mask.Width;
+
+			scale *= MathHelper.Lerp(3f, 6f, 1 - shieldOpacity) * (sineAdd / 15f + 1f);
+
+			spriteBatch.Draw(mask, npc.Center - Main.screenPosition, null, Color.LightGoldenrodYellow * shieldOpacity, npc.rotation + Main.GlobalTime, mask.Size() / 2f, scale, SpriteEffects.None, 0);
+			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+		}
 
         public override void NPCLoot()
         {
             StarjinxEventWorld.StarjinxActive = false;
 
             int drops = Main.expertMode ? 9 : 7;
-            for (int i = 0; i < drops; i++)
-                Item.NewItem(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), mod.ItemType("Starjinx"), Main.rand.Next(3, 6));
+            Item.NewItem(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), mod.ItemType("Starjinx"), Main.rand.Next(4, 6) * drops);
 
             Main.NewText("The asteroids return to their tranquil state...", 252, 150, 255);
         }

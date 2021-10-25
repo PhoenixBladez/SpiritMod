@@ -4,6 +4,7 @@ matrix WorldViewProjection;
 float Size;
 float RingWidth;
 float Angle;
+float FadeAngleRange;
 
 struct VertexShaderInput
 {
@@ -51,11 +52,14 @@ float4 MainPS(VertexShaderOutput input) : COLOR0
     if (distance > Size || distance < (Size - (2 * halfWidth))) //transparent if too much distance from center, as the shader is being applied to a square
         return float4(0, 0, 0, 0);
     
-    float distMod = pow((1 - (abs(distance - (Size - halfWidth)) / halfWidth)), 0.75f); //smooth out color to be more transparent towards edge
+    float distMod = pow((1 - (abs(distance - (Size - halfWidth)) / halfWidth)), 15); //smooth out color to be more transparent towards edge
     float coordAngle = atan2(input.TextureCoordinates.y - 0.5f, input.TextureCoordinates.x - 0.5f);
     
-    float angleMod = abs(WrapAngle(Angle - coordAngle)) * 2; //make color more transparent when further from desired angle
-    angleMod = pow(abs(min(angleMod, 1)), 3); //cap at 1, then raise to a power to make the fadeout stronger
+    float angleDist = abs(WrapAngle(Angle - coordAngle)); //angular distance
+    float angleMod = 1;
+    if (angleDist < FadeAngleRange)
+        angleMod = 1 - (4 * pow((FadeAngleRange - angleDist) / FadeAngleRange, 4));
+    
     return input.Color * distMod * angleMod;
 }
 

@@ -191,7 +191,6 @@ namespace SpiritMod
 
 			data.Add("blueMoon", BlueMoon);
 			data.Add("jellySky", jellySky);
-
 			data.Add("gennedBandits", gennedBandits);
 			data.Add("gennedTower", gennedTower); ;
 
@@ -208,6 +207,7 @@ namespace SpiritMod
 				List<TagCompound> backgroundItems = BackgroundItemManager.Save();
 				data.Add("backgroundItems", backgroundItems);
 			}
+			data.Add("asteroidSide", asteroidSide);
 			return data;
 		}
 
@@ -242,7 +242,6 @@ namespace SpiritMod
 
 			BlueMoon = tag.GetBool("blueMoon");
 			jellySky = tag.GetBool("jellySky");
-
 			gennedBandits = tag.GetBool("gennedBandits");
 			gennedTower = tag.GetBool("gennedTower");
 
@@ -258,6 +257,7 @@ namespace SpiritMod
 
 			var bgItems = tag.GetList<TagCompound>("backgroundItems");
 			BackgroundItemManager.Load(bgItems);
+			asteroidSide = tag.Get<int>("asteroidSide");
 		}
 
 		public override void LoadLegacy(BinaryReader reader)
