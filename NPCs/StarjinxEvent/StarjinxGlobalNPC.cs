@@ -19,4 +19,13 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			return true;
 		}
 	}
+	
+	class StarjinxNonInstancedGlobalNPC : GlobalNPC
+	{
+		public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
+		{
+			if (StarjinxEventWorld.StarjinxActive && player.HasBuff(ModContent.BuffType<Buffs.HighGravityBuff>()))
+				maxSpawns = 0;
+		}
+	}
 }

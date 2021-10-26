@@ -25,7 +25,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 		public override void SetDefaults()
 		{
 			npc.Size = new Vector2(70, 68);
-			npc.lifeMax = 1850;
+			npc.lifeMax = 750;
 			npc.damage = 40;
 			npc.defense = 24;
 			npc.noTileCollide = true;
