@@ -91,6 +91,7 @@ namespace SpiritMod
 		public static Effect JetbrickTrailShader;
 		public static Effect OutlinePrimShader;
 		public static Effect AnthemCircle;
+		public static Effect TeslaShader;
 
 		public static IDictionary<string, Effect> ShaderDict = new Dictionary<string, Effect>();
 
@@ -823,6 +824,7 @@ namespace SpiritMod
 				OutlinePrimShader = instance.GetEffect("Effects/OutlinePrimShader");
 				GSaber = instance.GetEffect("Effects/GSaber");
 				AnthemCircle = instance.GetEffect("Effects/AnthemCircle");
+				TeslaShader = instance.GetEffect("Effects/TeslaShader");
 
 				SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
 				Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);

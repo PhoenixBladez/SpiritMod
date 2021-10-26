@@ -179,7 +179,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < 5; i++)
 			{
 				int dust = Dust.NewDust(target.position, target.width, target.height, DustID.Electric);
 				Main.dust[dust].scale = 0.8f;

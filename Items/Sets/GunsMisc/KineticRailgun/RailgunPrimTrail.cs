@@ -26,9 +26,8 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
         public override void SetDefaults()
         {
             Pixellated = true;
-            Width = 1;
-            AlphaValue = 0.7f;
-            Cap = 100;
+            Width = 50;
+            Cap = 34;
         }
         float _bezierOffset = 0f;
         float _bezierAcc = 0f;
@@ -44,18 +43,17 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
             float widthVar;
             for (int i = 0; i < Points.Count; i++)
             {
-                 float intensity  =(33 - Math.Abs(i - (((Counter * 1.5f) % 50) - 8)));
-                widthVar = Width + (intensity * intensity * intensity * 0.00015f);
+                widthVar = Width;
                 if (i == 0)
                 {
                     Color c1 = Counter % 33 > 20 && Counter % 33 < 32 ? Color.White : Color.Lerp(Color.Cyan, Color.White, Math.Min((widthVar - Width) / 5f, 1));
                     Vector2 normalAhead = CurveNormal(Points, i + 1);
                     Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
                     Vector2 secondDown = Points[i + 1] + normalAhead * widthVar;
-                    AddVertex(Points[i], c1 * AlphaValue, new Vector2((float)Math.Sin(Counter / 20f), (float)Math.Sin(Counter / 20f)));
-                    AddVertex(secondUp, c1 * AlphaValue, new Vector2((float)Math.Sin(Counter / 20f), (float)Math.Sin(Counter / 20f)));
-                    AddVertex(secondDown, c1 * AlphaValue, new Vector2((float)Math.Sin(Counter / 20f), (float)Math.Sin(Counter / 20f)));
-                }
+                    AddVertex(Points[i], c1 * AlphaValue, new Vector2(0, 0.5f));
+                    AddVertex(secondUp, c1 * AlphaValue, new Vector2((float)(i + 1) / (float)Cap, 0));
+					AddVertex(secondUp, c1 * AlphaValue, new Vector2((float)(i + 1) / (float)Cap, 1));
+				}
                 else
                 {
                     if (i != Points.Count - 1)
@@ -68,13 +66,13 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
                         Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
                         Vector2 secondDown = Points[i + 1] + normalAhead * widthVar;
 
-                        AddVertex(firstDown, c * AlphaValue, new Vector2((i / Cap), 1));
-                        AddVertex(firstUp, c * AlphaValue, new Vector2((i / Cap), 0));
-                        AddVertex(secondDown, c * AlphaValue, new Vector2((i + 1) / Cap, 1));
+                        AddVertex(firstDown, c * AlphaValue, new Vector2((float)(i / (float)Cap), 1));
+                        AddVertex(firstUp, c * AlphaValue, new Vector2((float)(i / (float)Cap), 0));
+                        AddVertex(secondDown, c * AlphaValue, new Vector2((float)(i + 1) / (float)Cap, 1));
 
-                        AddVertex(secondUp, c * AlphaValue, new Vector2((i + 1) / Cap, 0));
-                        AddVertex(secondDown, c * AlphaValue, new Vector2((i + 1) / Cap, 1));
-                        AddVertex(firstUp, c * AlphaValue, new Vector2((i / Cap), 0));
+                        AddVertex(secondUp, c * AlphaValue, new Vector2((float)(i + 1) / (float)Cap, 0));
+                        AddVertex(secondDown, c * AlphaValue, new Vector2((float)(i + 1) / (float)Cap, 1));
+                        AddVertex(firstUp, c * AlphaValue, new Vector2((float)(i / (float)Cap), 0));
                     }
                     else
                     {
@@ -85,8 +83,13 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
         }
        public override void SetShaders()
         {
-            PrepareBasicShader();
-        }
+			Effect effect = SpiritMod.TeslaShader;
+				effect.Parameters["baseTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/GlowTrail"));
+				effect.Parameters["pnoise"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/noise"));
+				effect.Parameters["vnoise"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/vnoise"));
+				effect.Parameters["wnoise"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/wnoise"));
+			PrepareShader(effect, "MainPS", Counter * 0.1f);
+		}
         int _seed = 503240;
         public override void OnUpdate()
         {
@@ -125,7 +128,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
                         Vector2 toAdd = Helpers.TraverseBezier(_target.Center, Entity.position, Entity.position + dir, i);
                         Vector2 toNext = Helpers.TraverseBezier(_target.Center, Entity.position, Entity.position + dir, i + 0.03f) - toAdd;
                         toNext.Normalize();
-                        toAdd += toNext.RotatedBy(1.57f) * 4 * Main.rand.NextFloat(-1,1);
+                        //toAdd += toNext.RotatedBy(1.57f) * 4 * Main.rand.NextFloat(-1,1);
                         points.Add(toAdd);
                     }
                     Points = points;
