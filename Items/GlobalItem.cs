@@ -671,5 +671,52 @@ namespace SpiritMod.Items
 				}
 			}
 		}
+
+		/// <summary>Uses ammo, given vanilla ammo effects and ModPlayer hooks.</summary>
+		/// <param name="p">Player to check against.</param>
+		/// <param name="ammoType">Ammo type to check for.</param>
+		public static void UseAmmo(Player p, int ammoType)
+		{
+			for (int i = 0; i < p.inventory.Length; ++i) //Consume ammo here so it's used when shot rather than when clicked
+			{
+				if (p.inventory[i].ammo == ammoType)
+				{
+					if (p.inventory[i].consumable && VanillaAmmoConsumption(p, p.inventory[i].ammo) && PlayerHooks.ConsumeAmmo(p, p.HeldItem, p.inventory[i])) //Do not consume ammo if possible
+					{
+						p.inventory[i].stack--;
+						if (p.inventory[i].stack <= 0)
+							p.inventory[i].TurnToAir();
+					}
+					break;
+				}
+			}
+		}
+
+		public static bool VanillaAmmoConsumption(Player p, int ammo)
+		{
+			float chance = 0;
+
+			float CombineChances(float p1, float p2) => p1 + p2 - (p1 * p2);
+
+			if (p.ammoBox) //1/5 chance to reduce
+				chance = 0.2f;
+
+			if (p.ammoCost75) //1/4 chance to reduce
+				chance = CombineChances(chance, 0.25f);
+
+			if (p.ammoCost80) //1/5 chance to reduce
+				chance = CombineChances(chance, 0.2f);
+
+			if (p.ammoPotion) //1/5 chance to reduce
+				chance = CombineChances(chance, 0.2f);
+
+			if (ammo == AmmoID.Arrow && p.magicQuiver) //1/5 chance to reduce for arrows only
+				chance = CombineChances(chance, 0.2f);
+
+			if (p.armor[0].type == ItemID.ChlorophyteHelmet) //1/5 chance to reduce -- seems unique??
+				chance = CombineChances(chance, 0.2f);
+
+			return Main.rand.NextFloat(1f) > chance;
+		}
 	}
 }

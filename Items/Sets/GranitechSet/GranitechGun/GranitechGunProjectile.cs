@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Particles;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
@@ -61,9 +62,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			{
 				_endCharge = _charge;
 				_finalRotation = (Vector2.Normalize(p.MountedCenter - Main.MouseWorld) * 27).ToRotation();
-
 				_endCharge += p.HeldItem.useAnimation;
-
 				_effect = Main.MouseWorld.X >= p.MountedCenter.X ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			}
 
@@ -87,8 +86,11 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			if (p.modProjectile is GranitechGunBullet bullet)
 				bullet.spawnRings = true;
 
-			Main.PlaySound(Terraria.ID.SoundID.Item11, projectile.Center);
+			//Main.PlaySound(Terraria.ID.SoundID.Item11, projectile.Center);
+			Main.PlaySound(SpiritMod.instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/EnergyShoot").WithPitchVariance(0.1f).WithVolume(0.25f), pos);
 			VFX(pos + muzzleOffset, baseVel * 0.2f);
+
+			GItem.UseAmmo(player, AmmoID.Bullet);
 		}
 
 		private void VFX(Vector2 position, Vector2 velocity)
@@ -117,16 +119,18 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			const int Width = 82;
 			const int Height = 38;
 
+			const int MuzzleFlashDuration = 2;
+
 			var frame = new Rectangle(0, 0, Width, Height);
 
-			if (_charge > ChargeUp && (_charge - ChargeUp) % p.HeldItem.useTime < 5)
+			if (_charge > ChargeUp && (_charge - ChargeUp) % p.HeldItem.useTime < MuzzleFlashDuration)
 			{
 				int offset = (_charge - ChargeUp) % (p.HeldItem.useTime * 3);
 				int variation = offset / p.HeldItem.useTime;
 
 				frame = new Rectangle(0, Height * (4 + (variation * 2)), Width, Height);
 			}
-			else if (_charge > ChargeUp && (_charge - ChargeUp) % p.HeldItem.useTime >= 5)
+			else if (_charge > ChargeUp && (_charge - ChargeUp) % p.HeldItem.useTime >= MuzzleFlashDuration)
 			{
 				int offset = (_charge - ChargeUp) % (p.HeldItem.useTime * 3);
 				int variation = offset / p.HeldItem.useTime;

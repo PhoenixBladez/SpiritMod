@@ -85,19 +85,7 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 				Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<GastricAcid>(), (int)(p.HeldItem.damage * ScalingCapped), 1f, projectile.owner);
 			}
 
-			for (int i = 0; i < p.inventory.Length; ++i) //Consume ammo here so it's used when shot rather than when clicked
-			{
-				if (p.inventory[i].ammo == AmmoID.Gel)
-				{
-					if (PlayerHooks.ConsumeAmmo(p, p.HeldItem, p.inventory[i])) //Do not consume ammo if possible
-					{
-						p.inventory[i].stack--;
-						if (p.inventory[i].stack <= 0)
-							p.inventory[i].TurnToAir();
-					}
-					break;
-				}
-			}
+			GItem.UseAmmo(p, AmmoID.Gel);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
