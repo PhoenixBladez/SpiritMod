@@ -42,22 +42,32 @@ namespace SpiritMod.Skies.Starjinx
 				star.Draw(sB);
 		}
 
+		private void AddBGStar()
+		{
+			Stars.Add(new StarjinxBGStar(
+				new Vector2(Main.rand.NextFloat(Main.screenWidth), Main.rand.NextFloat(Main.screenHeight)), //Position
+				Vector2.UnitX * Main.rand.NextFloat(8, 12), //Velocity
+				Main.rand.NextBool() ? Color.White : (Main.rand.NextBool() ? new Color(101, 255, 245) : new Color(255, 161, 239)), // Color
+				Main.rand.NextFloat(0.15f, 0.75f))); //Parallax
+		}
+
 		public override void Update(GameTime gameTime)
 		{
-			if (_isActive) {
+			if (!Main.gamePaused) //spaw a stars on the left of the screen when unpaused
+			{
+				while (Stars.Count < 60) //if too little onscreen, spawn more
+					AddBGStar();
+
+				if (Main.rand.NextBool(8))
+					AddBGStar();
+			}
+
+			if (_isActive) 
 				_fadeOpacity = Math.Min(1f, 0.025f + _fadeOpacity);
 
-				if (Main.rand.NextBool(8) && !Main.gamePaused) //spaw a stars on the left of the screen
-					Stars.Add(new StarjinxBGStar(
-						new Vector2(Main.rand.NextFloat(Main.screenWidth), Main.rand.NextFloat(Main.screenHeight)), //Position
-						Vector2.UnitX * Main.rand.NextFloat(6, 8f), //Velocity
-						Main.rand.NextBool() ? Color.White : (Main.rand.NextBool() ? new Color(101, 255, 245) : new Color(255, 141, 239)), // Color
-						Main.rand.NextFloat(0.33f, 0.66f))); //Parallax
-
-			}
-			else {
+			else 
 				_fadeOpacity = Math.Max(0f, _fadeOpacity - 0.025f);
-			}
+			
 
 			if (Stars.Any() && !Main.gamePaused)
 			{
@@ -70,8 +80,15 @@ namespace SpiritMod.Skies.Starjinx
 		public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
 		{
 			if (maxDepth >= 3.40282347E+38f && minDepth < 3.40282347E+38f) {
+
+				float Time = (float)Main.time;
+				if (!Main.dayTime)
+					Time += (float)Main.dayLength;
+
+				float TimeLerp = Time / (float)(Main.dayLength + Main.nightLength);
+				TimeLerp = MathHelper.Clamp((float)-Math.Sin(-(MathHelper.Pi / 8) + (TimeLerp * MathHelper.TwoPi)), 0.2f, 0.6f);
 				spriteBatch.Draw(_bgTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), 
-					Color.Lerp(Color.White, Color.Black, 0.2f) * _fadeOpacity);
+					Color.Lerp(Color.LightBlue, Color.Black, TimeLerp) * _fadeOpacity);
 
 				spriteBatch.End();
 				spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, RasterizerState.CullNone);
@@ -170,7 +187,14 @@ namespace SpiritMod.Skies.Starjinx
 
 		public void Draw(SpriteBatch sB)
 		{
-			sB.Draw(BloomTexture, Position, null, Color * Opacity * 0.5f, 0, BloomTexture.Size() / 2, Scale * 0.75f, SpriteEffects.None, 0);
+			float Time = (float)Main.time;
+			if (!Main.dayTime)
+				Time += (float)Main.dayLength;
+
+			float TimeLerp = Time / (float)(Main.dayLength + Main.nightLength);
+			TimeLerp = MathHelper.Clamp((float)-Math.Sin(-(MathHelper.Pi / 8) + (TimeLerp * MathHelper.TwoPi)), 0.25f, 0.6f);
+
+			sB.Draw(BloomTexture, Position, null, Color * Opacity * MathHelper.Lerp(0.7f, 1f, TimeLerp), 0, BloomTexture.Size() / 2, Scale * 0.85f, SpriteEffects.None, 0);
 			sB.Draw(Texture, Position, null, Color * Opacity, 0, Texture.Size() / 2, Scale, SpriteEffects.None, 0);
 		}
 	}
