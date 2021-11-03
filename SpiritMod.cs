@@ -183,7 +183,7 @@ namespace SpiritMod
 					MyWorld.auroraType = reader.ReadInt32();
 					break;
 				case MessageType.ProjectileData:
-					gProj.ReceiveProjectileData(reader, whoAmI);
+					GlyphProj.ReceiveProjectileData(reader, whoAmI);
 					break;
 				case MessageType.Dodge:
 					player = reader.ReadByte();
