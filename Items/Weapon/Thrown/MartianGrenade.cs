@@ -12,7 +12,6 @@ namespace SpiritMod.Items.Weapon.Thrown
 			Tooltip.SetDefault("'WARNING- HIGH VOLTAGE'");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.CloneDefaults(ItemID.Grenade);

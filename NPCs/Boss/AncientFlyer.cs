@@ -2,14 +2,12 @@
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Sets.AvianDrops.ApostleArmor;
 using SpiritMod.Items.Sets.AvianDrops;
-using SpiritMod.Projectiles.Hostile;
 using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using System.Collections.Generic;
-using SpiritMod.Items.Equipment;
 using SpiritMod.Items.Placeable.MusicBox;
 using SpiritMod.Items.Consumable;
 
@@ -19,6 +17,7 @@ namespace SpiritMod.NPCs.Boss
 	public class AncientFlyer : ModNPC, IBCRegistrable
 	{
 		private Point tornado = new Point();
+
 		int timer = 0;
 		int moveSpeed = 0;
 		int moveSpeedY = 0;
@@ -295,9 +294,9 @@ namespace SpiritMod.NPCs.Boss
 				Vector2 position3 = position1 + new Vector2(0.0f, -40f);
 
 				Color drawColor = new Color(252, 3, 50) * 1.6f;
-				Main.spriteBatch.Draw(glowMask, position3, new Rectangle?(r2), drawColor, npc.rotation, drawOrigin, npc.scale * 0.75f, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
-				Main.spriteBatch.Draw(glowMask, position3, new Rectangle?(r2), drawColor, npc.rotation, drawOrigin, npc.scale * 0.75f, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
-				Main.spriteBatch.Draw(glowMask, position3, new Rectangle?(r2), drawColor, npc.rotation, drawOrigin, npc.scale * 0.75f, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+
+				for (int i = 0; i < 3; ++i)
+					Main.spriteBatch.Draw(glowMask, position3, r2, drawColor, npc.rotation, drawOrigin, npc.scale * 0.75f, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
 			}
 			return true;
 		}
@@ -342,8 +341,9 @@ namespace SpiritMod.NPCs.Boss
 			if (npc.life <= 0)
 			{
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(42, 39));
+
 				for (int i = 1; i < 5; ++i)
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gore" + i), 1f);
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AncientAvianGore" + i), 1f);
 			}
 		}
 
