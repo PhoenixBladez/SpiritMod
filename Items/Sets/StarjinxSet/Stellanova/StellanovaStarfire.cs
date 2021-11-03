@@ -141,7 +141,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			{
 				//set the parameters for the shader
 				Color startColor = new Color(242, 240, 134);
-				Color endColor = new Color(255, 88, 35);
+				Color endColor = new Color(255, 88, 35, 50);
 				Effect effect = SpiritMod.ShaderDict["FlameTrail"];
 				effect.Parameters["uTexture"].SetValue(mod.GetTexture("Textures/Trails/Trail_3"));
 				effect.Parameters["uTexture2"].SetValue(mod.GetTexture("Textures/Trails/Trail_4"));

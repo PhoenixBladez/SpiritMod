@@ -94,7 +94,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 		public override void Kill(int timeLeft)
 		{
 			//Main.PlaySound(SoundID.Item10, projectile.Center);
-			Main.PlaySound(SpiritMod.instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.35f), projectile.Center);
+			Main.PlaySound(SpiritMod.instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.66f), projectile.Center);
 
 			if (!Main.dedServ)
 			{
@@ -102,19 +102,25 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 				for (int i = 0; i < 4; ++i)
 				{
-					Vector2 vel = Vector2.Normalize(projectile.oldVelocity).RotatedByRandom(MathHelper.ToRadians(30)) * Main.rand.NextFloat(6f, 10f);
+					Vector2 vel = Vector2.Normalize(projectile.oldVelocity).RotatedByRandom(MathHelper.ToRadians(30)) * Main.rand.NextFloat(6f, 10f) + (projectile.velocity * 0.8f);
+					ParticleHandler.SpawnParticle(new GranitechGunParticle(projectile.Center, vel, Main.rand.NextFloat(3f, 3.5f), 22, Main.rand.Next(2, 5)));
+				}
+
+				for (int i = 0; i < 4; ++i)
+				{
+					Vector2 vel = Vector2.Normalize(projectile.oldVelocity).RotatedByRandom(MathHelper.ToRadians(180)) * Main.rand.NextFloat(6f, 10f) + (projectile.velocity * 0.4f);
 					ParticleHandler.SpawnParticle(new GranitechGunParticle(projectile.Center, vel, Main.rand.NextFloat(3f, 3.5f), 22, Main.rand.Next(2, 5)));
 				}
 			}
 
-			for (int i = 0; i < 4; ++i)
+			/*for (int i = 0; i < 4; ++i)
 			{
 				float speed = Main.rand.NextFloat(3, 5.5f);
 				var d = Dust.NewDustPerfect(projectile.Center, ModContent.DustType<GranitechGunDust>(), new Vector2(speed, 0).RotatedByRandom(MathHelper.Pi) + (projectile.velocity * 0.4f), 0, default);
 				GranitechGunDust.RandomizeFrame(d);
 				d.scale = speed / 4f;
 				d.fadeIn = speed / 4f;
-			}
+			}*/
 
 			spawnRings = false;
 		}
