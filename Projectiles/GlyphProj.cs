@@ -51,11 +51,12 @@ namespace SpiritMod.Projectiles
 
 		internal static void ReceiveProjectileData(BinaryReader reader, int sender)
 		{
+			if (Main.netMode != NetmodeID.Server)
+				return;
+
 			hasNext = true;
 			nextType = reader.ReadInt16();
 			nextGlyph = (GlyphType)reader.ReadByte();
-			if (Main.netMode != NetmodeID.Server)
-				return;
 
 			ModPacket packet = SpiritMod.instance.GetPacket(MessageType.ProjectileData, 3);
 			packet.Write((short)nextType);

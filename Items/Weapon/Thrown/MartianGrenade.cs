@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 		public override void SetDefaults()
 		{
 			item.CloneDefaults(ItemID.Grenade);
-			item.shoot = ModContent.ProjectileType<Grenadeproj>();
+			item.shoot = ModContent.ProjectileType<ElectrosphereGrenade>();
 			item.useAnimation = 30;
 			item.rare = ItemRarityID.Yellow;
 			item.ranged = true;
@@ -24,7 +24,5 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.damage = 110;
 			item.value = 1900;
 		}
-
-
 	}
 }

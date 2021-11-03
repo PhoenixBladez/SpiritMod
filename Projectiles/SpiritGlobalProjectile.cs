@@ -14,8 +14,11 @@ namespace SpiritMod.Projectiles
 {
 	public class SpiritGlobalProjectile : GlobalProjectile
 	{
-		public static int[] Explosives { get => new int[] { ProjectileID.Bomb, ProjectileID.BombFish, ProjectileID.BouncyBomb, ProjectileID.Grenade, ProjectileID.BouncyGrenade,
-			ProjectileID.StickyGrenade, ProjectileID.Dynamite, ProjectileID.BouncyDynamite, ProjectileID.StickyDynamite }; }
+		public static int[] Explosives
+		{
+			get => new int[] { ProjectileID.Bomb, ProjectileID.BombFish, ProjectileID.BouncyBomb, ProjectileID.Grenade, ProjectileID.BouncyGrenade,
+			ProjectileID.StickyGrenade, ProjectileID.Dynamite, ProjectileID.BouncyDynamite, ProjectileID.StickyDynamite };
+		}
 
 		public override bool InstancePerEntity => true;
 
@@ -51,34 +54,38 @@ namespace SpiritMod.Projectiles
 		{
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
-			if(projectile.minion && modPlayer.stellarSet && player.HasBuff(ModContent.BuffType<StellarMinionBonus>())) {
+			if (projectile.minion && modPlayer.stellarSet && player.HasBuff(ModContent.BuffType<StellarMinionBonus>()))
+			{
 				float sineAdd = (float)Math.Sin(alphaCounter) + 3;
 				Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), projectile.Center - Main.screenPosition, null, new Color((int)(20f * sineAdd), (int)(16f * sineAdd), (int)(4f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + .25f), SpriteEffects.None, 0f);
 			}
-			if(throwerGloveBoost && projectile.thrown) {
+			if (throwerGloveBoost && projectile.thrown)
+			{
 				Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-				for(int k = 0; k < projectile.oldPos.Length; k++) {
+				for (int k = 0; k < projectile.oldPos.Length; k++)
+				{
 					Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
 					Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / projectile.oldPos.Length);
 					spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
 				}
 				return true;
 			}
-			return base.PreDraw(projectile, spriteBatch, lightColor);
+			return true;
 		}
 
 		float alphaCounter;
 		public override bool PreAI(Projectile projectile)
 		{
-			foreach(var effect in effects) {
-				if(!effect.ProjectilePreAI(projectile))
+			foreach (var effect in effects)
+			{
+				if (!effect.ProjectilePreAI(projectile))
 					return false;
 			}
 
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
 
-			if (projectile.friendly && projectile.owner != 255 && !runOnce) 
+			if (projectile.friendly && projectile.owner != 255 && !runOnce)
 			{
 				if (projectile.ranged && modPlayer.throwerGlove && modPlayer.throwerStacks >= 7) //Thrower glove functionality
 				{
@@ -95,12 +102,14 @@ namespace SpiritMod.Projectiles
 
 			runOnce = true;
 
-			if (projectile.minion && modPlayer.stellarSet && player.HasBuff(ModContent.BuffType<StellarMinionBonus>())) 
+			if (projectile.minion && modPlayer.stellarSet && player.HasBuff(ModContent.BuffType<StellarMinionBonus>()))
 				alphaCounter += .04f;
 
-			if(shotFromMaliwanFreezeCommon) {
+			if (shotFromMaliwanFreezeCommon)
+			{
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				for(int k = 0; k < 3; k++) {
+				for (int k = 0; k < 3; k++)
+				{
 					int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, DustID.DungeonSpirit);
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity *= 0f;
@@ -108,9 +117,11 @@ namespace SpiritMod.Projectiles
 				}
 			}
 
-			if(shotFromMaliwanFireCommon) {
+			if (shotFromMaliwanFireCommon)
+			{
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				for(int k = 0; k < 3; k++) {
+				for (int k = 0; k < 3; k++)
+				{
 					int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, DustID.Flare);
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity *= 0f;
@@ -118,9 +129,11 @@ namespace SpiritMod.Projectiles
 				}
 			}
 
-			if(shotFromMaliwanAcidCommon) {
+			if (shotFromMaliwanAcidCommon)
+			{
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				for(int k = 0; k < 3; k++) {
+				for (int k = 0; k < 3; k++)
+				{
 					int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, DustID.PoisonStaff);
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity *= 0f;
@@ -128,9 +141,11 @@ namespace SpiritMod.Projectiles
 				}
 			}
 
-			if(shotFromMaliwanShockCommon) {
+			if (shotFromMaliwanShockCommon)
+			{
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				for(int k = 0; k < 3; k++) {
+				for (int k = 0; k < 3; k++)
+				{
 					int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, DustID.Electric);
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity *= 0f;
@@ -138,15 +153,18 @@ namespace SpiritMod.Projectiles
 				}
 			}
 
-			if(WitherLeaf) {
+			if (WitherLeaf)
+			{
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				if(Main.rand.NextBool()) {
+				if (Main.rand.NextBool())
+				{
 					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Plantera_Green);
 					return true;
 				}
 			}
 
-			if(projectile.minion && modPlayer.silkenSet) {
+			if (projectile.minion && modPlayer.silkenSet)
+			{
 				int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.GoldCoin);
 				Main.dust[dust].velocity *= -1f;
 				Main.dust[dust].noGravity = true;
@@ -156,37 +174,46 @@ namespace SpiritMod.Projectiles
 				Main.dust[dust].position = projectile.Center - vel * 34f;
 			}
 
-			if(shotFromStellarCrosbow) {
+			if (shotFromStellarCrosbow)
+			{
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				if(Main.rand.Next(2) == 0)
+				if (Main.rand.Next(2) == 0)
 					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Firework_Yellow);
 				return false;
 			}
 
-			if(shotFromHolyBurst || shotFromTrueHolyBurst) {
+			if (shotFromHolyBurst || shotFromTrueHolyBurst)
+			{
 				counter++;
-				if(counter >= 1440) {
+				if (counter >= 1440)
 					counter = -1440;
-				}
-				for(int i = 0; i < 2; i++) {
+
+				for (int i = 0; i < 2; i++)
+				{
 					int num = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter / 8.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, DustID.Clentaminator_Purple, 0f, 0f, 0, default, 1f);
 					Main.dust[num].velocity *= .1f;
 					Main.dust[num].scale *= .7f;
 					Main.dust[num].noGravity = true;
 				}
-				for(int i = 0; i < 2; i++) {
+
+				for (int i = 0; i < 2; i++)
+				{
 					int num = Dust.NewDust(projectile.Center - new Vector2(0, (float)Math.Cos(counter / 8.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, DustID.Clentaminator_Purple, 0f, 0f, 0, default, 1f);
 					Main.dust[num].velocity *= .1f;
 					Main.dust[num].scale *= .7f;
 					Main.dust[num].noGravity = true;
 				}
 				return false;
-			} else if(shotFromBloodshot) {
+			}
+			else if (shotFromBloodshot)
+			{
 				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-				if(Main.rand.Next(2) == 0)
+				if (Main.rand.Next(2) == 0)
 					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Blood);
 				return false;
-			} else if(shotFromGeodeBow) {
+			}
+			else if (shotFromGeodeBow)
+			{
 				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, Scale: 1.2f);
 				int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.IceTorch, Scale: 1.2f);
@@ -198,7 +225,9 @@ namespace SpiritMod.Projectiles
 				Main.dust[dust2].noGravity = true;
 				Main.dust[dust2].velocity *= 0f;
 				return false;
-			} else if(shotFromMarbleBow) {
+			}
+			else if (shotFromMarbleBow)
+			{
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height - 10, DustID.GoldCoin, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height - 10, DustID.Marble, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
@@ -209,121 +238,118 @@ namespace SpiritMod.Projectiles
 				Main.dust[dust2].scale = .5f;
 				Main.dust[dust].scale = 2f;
 				return false;
-			} else if(shotFromBismiteBow) {
-				if(Main.rand.Next(20) == 0) {
-					DustHelper.DrawTriangle(projectile.Center, 167, 1, .8f, 1.1f);
-				}
 			}
-			return base.PreAI(projectile);
+			else if (shotFromBismiteBow)
+			{
+				if (Main.rand.Next(20) == 0)
+					DustHelper.DrawTriangle(projectile.Center, 167, 1, .8f, 1.1f);
+			}
+			return true;
 		}
 
 		public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
 		{
-			foreach(var effect in effects)
+			foreach (var effect in effects)
 				effect.ProjectileOnHitNPC(projectile, target, damage, knockback, crit);
 
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(shotFromMaliwanFreezeCommon) {
-				if(Main.rand.Next(6) == 0) {
-					target.AddBuff(ModContent.BuffType<MageFreeze>(), 120);
-					int d = 180;
-					int d1 = 180;
-					for(int k = 0; k < 20; k++) {
-						Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, .7f);
-						Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, 0.27f);
-						Dust.NewDust(target.position, target.width, target.height, d1, 2.5f, -2.5f, 0, Color.White, .9f);
-						Dust.NewDust(target.position, target.width, target.height, d1, 2.5f, -2.5f, 0, Color.White, 0.27f);
-					}
-				}
-			}
-			if(shotFromMaliwanFireCommon) {
-				if(Main.rand.Next(6) == 0) {
-					target.AddBuff(BuffID.OnFire, Main.rand.Next(120, 180));
-					for(int k = 0; k < 20; k++) {
-						Dust.NewDust(target.position, target.width, target.height, DustID.Fire, 2.5f, -2.5f, 0, Color.White, .7f);
-						Dust.NewDust(target.position, target.width, target.height, DustID.Fire, 2.5f, -2.5f, 0, Color.White, 0.27f);
-						Dust.NewDust(target.position, target.width, target.height, DustID.Fire, 2.5f, -2.5f, 0, Color.White, .9f);
-						Dust.NewDust(target.position, target.width, target.height, DustID.Fire, 2.5f, -2.5f, 0, Color.White, 0.27f);
-					}
-				}
 
+			if (shotFromMaliwanFreezeCommon)
+			{
+				if (Main.rand.Next(6) == 0)
+				{
+					target.AddBuff(ModContent.BuffType<MageFreeze>(), 120);
+					SpamDust(target, DustID.DungeonSpirit);
+				}
 			}
-			if(shotFromMaliwanAcidCommon) {
-				if(Main.rand.Next(6) == 0) {
+
+			if (shotFromMaliwanFireCommon)
+			{
+				if (Main.rand.Next(6) == 0)
+				{
+					target.AddBuff(BuffID.OnFire, Main.rand.Next(120, 180));
+					SpamDust(target, DustID.Fire);
+				}
+			}
+
+			if (shotFromMaliwanAcidCommon)
+			{
+				if (Main.rand.Next(6) == 0)
+				{
 					target.AddBuff(BuffID.Poisoned, Main.rand.Next(120, 180));
-					int d = 163;
-					int d1 = 163;
-					for(int k = 0; k < 20; k++) {
-						Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, .7f);
-						Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, 0.27f);
-						Dust.NewDust(target.position, target.width, target.height, d1, 2.5f, -2.5f, 0, Color.White, .9f);
-						Dust.NewDust(target.position, target.width, target.height, d1, 2.5f, -2.5f, 0, Color.White, 0.27f);
-					}
+					SpamDust(target, DustID.PoisonStaff);
 				}
 			}
-			if(shotFromMaliwanShockCommon) {
-				if(Main.rand.Next(12) == 0 || player.GetSpiritPlayer().starSet && Main.rand.Next(8) == 0) {
-					if(player.GetSpiritPlayer().starSet) {
-						int newdamage = damage + (int)(damage * .15f);
-						damage = newdamage;
-					}
+
+			if (shotFromMaliwanShockCommon)
+			{
+				if (Main.rand.Next(12) == 0 || player.GetSpiritPlayer().starSet && Main.rand.Next(8) == 0)
+				{
 					target.AddBuff(ModContent.BuffType<ElectrifiedV2>(), Main.rand.Next(60, 120));
-					int d = 226;
-					int d1 = 226;
-					for(int k = 0; k < 20; k++) {
-						Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, .7f);
-						Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, 0.27f);
-						Dust.NewDust(target.position, target.width, target.height, d1, 2.5f, -2.5f, 0, Color.White, .9f);
-						Dust.NewDust(target.position, target.width, target.height, d1, 2.5f, -2.5f, 0, Color.White, 0.27f);
-					}
+					SpamDust(target, DustID.Electric);
 				}
 			}
-			if(shotFromCoralBow && Main.rand.NextBool()) {
+
+			if (shotFromCoralBow && Main.rand.NextBool())
+			{
 				target.StrikeNPC(projectile.damage / 4, 0f, 0, crit);
-				for(int k = 0; k < 20; k++) {
+				for (int k = 0; k < 20; k++)
+				{
 					Dust.NewDust(target.position, target.width, target.height, DustID.Coralstone, 2.5f * projectile.direction, -2.5f, 0, Color.White, 0.7f);
 					Dust.NewDust(target.position, target.width, target.height, DustID.Coralstone, 2.5f * projectile.direction, -2.5f, 0, default, 0.34f);
 				}
 			}
-			if(shotFromStellarCrosbow) {
-				target.AddBuff(ModContent.BuffType<StarFracture>(), 300);
-			}
-			if(shotFromHolyBurst) {
-				target.AddBuff(ModContent.BuffType<AngelLight>(), 60);
-			}
-			if(shotFromTrueHolyBurst) {
-				target.AddBuff(ModContent.BuffType<AngelWrath>(), 60);
-			} else if(shotFromPalmSword) {
-				target.AddBuff(BuffID.Poisoned, 300);
-			} else if(shotFromSpazLung) {
-				target.AddBuff(BuffID.CursedInferno, 120);
-			} else if(shotFromBloodshot) {
-				target.AddBuff(ModContent.BuffType<BCorrupt>(), 120);
-			} else if(shotFromNightSky && Main.rand.NextBool(8)) {
-				target.AddBuff(ModContent.BuffType<StarFlame>(), 179);
-			}
 
-			if(WitherLeaf) {
+			if (shotFromStellarCrosbow)
+				target.AddBuff(ModContent.BuffType<StarFracture>(), 300);
+
+			if (shotFromHolyBurst)
+				target.AddBuff(ModContent.BuffType<AngelLight>(), 60);
+
+			if (shotFromTrueHolyBurst)
+				target.AddBuff(ModContent.BuffType<AngelWrath>(), 60);
+			else if (shotFromPalmSword)
+				target.AddBuff(BuffID.Poisoned, 300);
+			else if (shotFromSpazLung)
+				target.AddBuff(BuffID.CursedInferno, 120);
+			else if (shotFromBloodshot)
+				target.AddBuff(ModContent.BuffType<BCorrupt>(), 120);
+			else if (shotFromNightSky && Main.rand.NextBool(8))
+				target.AddBuff(ModContent.BuffType<StarFlame>(), 179);
+
+			if (WitherLeaf)
 				target.AddBuff(ModContent.BuffType<WitheringLeaf>(), 180);
-			}
-			if(modPlayer.HealCloak && projectile.minion && Main.rand.NextBool(25)) {
+
+			if (modPlayer.HealCloak && projectile.minion && Main.rand.NextBool(25))
+			{
 				player.HealEffect(4);
 				player.statLife += 4;
 			}
-			if(modPlayer.SpiritCloak && projectile.minion && Main.rand.NextBool(15)) {
+
+			if (modPlayer.SpiritCloak && projectile.minion && Main.rand.NextBool(15))
+			{
 				player.HealEffect(9);
 				player.statLife += 9;
 			}
 
-			if(modPlayer.VampireCloak && projectile.minion && Main.rand.Next(100) < 30) {
+			if (modPlayer.VampireCloak && projectile.minion && Main.rand.Next(100) < 30)
+			{
 				player.HealEffect(3);
 				player.statLife += 3;
 			}
-			if(shotFromBismiteBow) {
-				if(Main.rand.NextBool(5)) {
+
+			if (shotFromBismiteBow && Main.rand.NextBool(5))
 					target.AddBuff(ModContent.BuffType<FesteringWounds>(), 120, true);
-				}
+		}
+
+		private void SpamDust(Entity target, int dustID)
+		{
+			for (int k = 0; k < 26; k++)
+			{
+				Dust.NewDust(target.position, target.width, target.height, dustID, 2.5f, -2.5f, 0, Color.White, .7f);
+				Dust.NewDust(target.position, target.width, target.height, dustID, 2.5f, -2.5f, 0, Color.White, 0.27f);
+				Dust.NewDust(target.position, target.width, target.height, dustID, 2.5f, -2.5f, 0, Color.White, .9f);
 			}
 		}
 

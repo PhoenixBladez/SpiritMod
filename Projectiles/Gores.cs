@@ -7,10 +7,7 @@ namespace SpiritMod.Projectiles
 {
 	public class Gores : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Gores");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Gores");
 
 		public override void SetDefaults()
 		{
@@ -30,9 +27,6 @@ namespace SpiritMod.Projectiles
 			projectile.Center = new Vector2(player.Center.X + (player.direction > 0 ? 0 : 0), player.position.Y + 30);   // I dont know why I had to set it to -60 so that it would look right   (change to -40 to 40 so that it's on the floor)
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			target.AddBuff(BuffID.Ichor, 380);
-		}
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.Ichor, 380);
 	}
 }

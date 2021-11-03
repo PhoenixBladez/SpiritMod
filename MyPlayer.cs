@@ -4683,9 +4683,9 @@ namespace SpiritMod
 				if (ichorSet2 && !player.HasBuff(ModContent.BuffType<GoreCooldown2>()))
 				{
 					player.AddBuff(ModContent.BuffType<GoreCooldown2>(), 3600);
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<Gore1>(), 21, 0, player.whoAmI);
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<Gore1>(), 21, 0, player.whoAmI);
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<Gore1>(), 21, 0, player.whoAmI);
+					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<IchorWrath>(), 21, 0, player.whoAmI);
+					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<IchorWrath>(), 21, 0, player.whoAmI);
+					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<IchorWrath>(), 21, 0, player.whoAmI);
 				}
 
 				if (frigidSet && !player.HasBuff(ModContent.BuffType<FrigidCooldown>()))
