@@ -97,7 +97,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 				sinIncrement = Main.rand.NextFloat(0.025f, 0.035f);
 
             sinCounter += sinIncrement;
-            npc.TargetClosest(true);
 
 			if (spawnedEnemies && enemies.Count > 0)
 			{
@@ -134,7 +133,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			for (int i = 0; i < Main.maxPlayers; ++i)
 			{
 				Player p = Main.player[i];
-				if (p.active && !p.dead && npc.DistanceSQ(p.Center) < 3000 * 3000)
+				if (p.active && !p.dead && npc.DistanceSQ(p.Center) < 3000 * 3000) //There is a player nearby and we don't need to reset
 					return;
 			}
 
@@ -144,7 +143,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			spawnedEnemies = false;
 			enemies.Clear();
 			npc.dontTakeDamage = true;
-			Main.NewText("far away");
         }
 
 		public virtual void SpawnWave()
