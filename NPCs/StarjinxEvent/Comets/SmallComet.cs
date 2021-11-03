@@ -27,6 +27,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 		private float glowOpacity = 0f;
 
 		public float initialDistance = 0f;
+		public bool nextUp = false; //if true, spawn enemies when the player approaches next
 
 		private readonly List<int> enemies = new List<int>();
 		private bool spawnedEnemies = false;
@@ -63,10 +64,20 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 
         public override void AI()
         {
+			npc.TargetClosest(false);
+
             if (npc.alpha > 0)
                 npc.alpha -= 7;
             else
                 npc.alpha = 0;
+
+			Player nearest = Main.player[npc.target];
+
+			if (nearest.active && !nearest.dead && nearest.DistanceSQ(npc.Center) < 200 * 200 && nextUp && !spawnedEnemies)
+			{
+				nextUp = false;
+				SpawnWave();
+			}
 
             if (RotationOffset == -1) //rotation init
 			{
@@ -118,10 +129,28 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 
             if (!Parent.active || Parent.type != ModContent.NPCType<StarjinxMeteorite>()) //kill me if the main meteor is dead somehow
                 npc.active = false;
+
+
+			for (int i = 0; i < Main.maxPlayers; ++i)
+			{
+				Player p = Main.player[i];
+				if (p.active && !p.dead && npc.DistanceSQ(p.Center) < 3000 * 3000)
+					return;
+			}
+
+			//if this part runs then all players have left the event area
+			if (spawnedEnemies)
+				nextUp = true;
+			spawnedEnemies = false;
+			enemies.Clear();
+			npc.dontTakeDamage = true;
+			Main.NewText("far away");
         }
 
 		public virtual void SpawnWave()
 		{
+			spawnedEnemies = true;
+
 			int choice = Main.rand.Next(4);
 
 			switch (choice)
@@ -137,7 +166,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 						SpawnValidNPC(ModContent.NPCType<StarWeaverNPC>(), (Vector2.UnitY * 200).RotatedBy(rotation));
 					}
 					break;
-
 				default: //2 starachnid, 1 pathfinder
 					for (int i = 0; i < 2; ++i)
 						SpawnValidNPC(ModContent.NPCType<Starachnid>());
@@ -200,7 +228,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 					n.GetGlobalNPC<StarjinxGlobalNPC>().spawnedByComet = true;
 
 					enemies.Add(id);
-					spawnedEnemies = true;
 
 					if (Main.netMode == NetmodeID.MultiplayerClient)
 						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, id);
@@ -236,7 +263,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            var center = new Vector2(Main.npcTexture[npc.type].Width / 2, (Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+            var center = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
             float cos = (float)Math.Cos(((Timer % 3.2f) / 3.2f) * MathHelper.TwoPi) / 2f + 0.5f;
 
 			Color baseCol = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.White);
@@ -285,7 +312,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 		{
 			Texture2D beam = mod.GetTexture("Textures/Ray");
 			float rotation = npc.DirectionTo(Main.npc[(int)npc.ai[0]].Center).ToRotation() - MathHelper.PiOver2;
-			float fluctuate = (float)(CosTimer / 10) + 0.15f;
+			float fluctuate = (CosTimer / 10f) + 0.15f;
 
 			Color color = Color.Lerp(EnergyColor, Color.Transparent, fluctuate * 2) * ((glowOpacity * 0.75f) + 0.25f) * npc.Opacity * 0.5f;
 

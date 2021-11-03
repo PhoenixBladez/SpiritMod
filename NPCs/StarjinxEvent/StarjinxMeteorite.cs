@@ -138,7 +138,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 							if (comet.active && comet.modNPC is SmallComet)
 								comet.dontTakeDamage = true;
 							if (comet.whoAmI == furthest.whoAmI)
-								(comet.modNPC as SmallComet).SpawnWave();
+								(comet.modNPC as SmallComet).nextUp = true;
 						}
 
 						npc.netUpdate = true;
