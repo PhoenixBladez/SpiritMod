@@ -78,6 +78,7 @@ namespace SpiritMod
 		public static StargoopManager Metaballs;
 		public static BoidHost Boids;
 		public static Effect glitchEffect;
+		public static Effect starjinxBorderEffect;
 		public static Effect StarjinxNoise;
 		public static Effect CircleNoise;
 		public static Effect StarfirePrims;
@@ -97,6 +98,7 @@ namespace SpiritMod
 
 		public static PerlinNoise GlobalNoise;
 		public static GlitchScreenShader glitchScreenShader;
+		public static StarjinxBorderShader starjinxBorderShader;
 		public static Texture2D noise;
 
 		public AutoSellUI AutoSellUI_SHORTCUT;
@@ -757,6 +759,11 @@ namespace SpiritMod
 				EmptyTexture = GetTexture("Empty");
 				auroraEffect = GetEffect("Effects/aurora");
 
+				ShaderDict = new Dictionary<string, Effect>();
+				var tmodfile = (TmodFile)typeof(SpiritMod).GetProperty("File", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(instance);
+				IDictionary<string, FileEntry> files = (IDictionary<string, FileEntry>)typeof(TmodFile).GetField("files", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(tmodfile);
+				foreach (KeyValuePair<string, FileEntry> kvp in files.Where(x => x.Key.Contains("Effects/") && x.Key.Contains(".xnb")))
+					ShaderDict.Add(kvp.Key.Remove(kvp.Key.Length - ".xnb".Length, ".xnb".Length).Remove(0, "Effects/".Length), GetEffect(kvp.Key.Remove(kvp.Key.Length - ".xnb".Length, ".xnb".Length)));
 
 				int width = Main.graphics.GraphicsDevice.Viewport.Width;
 				int height = Main.graphics.GraphicsDevice.Viewport.Height;
@@ -804,11 +811,11 @@ namespace SpiritMod
 				glitchScreenShader = new GlitchScreenShader(glitchEffect);
 				Filters.Scene["SpiritMod:Glitch"] = new Filter(glitchScreenShader, (EffectPriority)50);
 
-				ShaderDict = new Dictionary<string, Effect>();
-				var tmodfile = (TmodFile)typeof(SpiritMod).GetProperty("File", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(instance);
-				IDictionary<string, FileEntry> files = (IDictionary<string, FileEntry>)typeof(TmodFile).GetField("files", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(tmodfile);
-				foreach (KeyValuePair<string, FileEntry> kvp in files.Where(x => x.Key.Contains("Effects/") && x.Key.Contains(".xnb")))
-					ShaderDict.Add(kvp.Key.Remove(kvp.Key.Length - ".xnb".Length, ".xnb".Length).Remove(0, "Effects/".Length), GetEffect(kvp.Key.Remove(kvp.Key.Length - ".xnb".Length, ".xnb".Length)));
+				starjinxBorderEffect = GetEffect("Effects/StarjinxBorder");
+				starjinxBorderShader = new StarjinxBorderShader(starjinxBorderEffect, "MainPS");
+				Filters.Scene["SpiritMod:StarjinxBorder"] = new Filter(starjinxBorderShader, (EffectPriority)50);
+
+				Filters.Scene["SpiritMod:StarjinxBorderFade"] = new Filter(new StarjinxBorderShader(starjinxBorderEffect, "FadePS"), (EffectPriority)70);
 
 				StarjinxNoise = instance.GetEffect("Effects/StarjinxNoise");
 				CircleNoise = instance.GetEffect("Effects/CircleNoise");

@@ -93,7 +93,10 @@ namespace SpiritMod.NPCs.StarjinxEvent
 				{
 					Player player = Main.player[i];
 					if (player.active && !player.dead && player.Distance(npc.Center) < 1500)
+					{
 						player.GetModPlayer<StarjinxPlayer>().zoneStarjinxEvent = true;
+						player.GetModPlayer<StarjinxPlayer>().StarjinxPosition = npc.Center;
+					}
 				}
 
 				if(npc.dontTakeDamage && comets.Count > 0) //Child meteor active checks
