@@ -327,7 +327,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		private bool NearbyStars(Vector2 position, ref Vector2 output)
 		{
 			int maxDistance = 40;
-			float distance = 0;
+			float distance;
+
 			foreach (StarThread thread in threads.ToArray())
 			{
 				distance = (thread.StartPoint - position).Length();
@@ -343,13 +344,17 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 					return true;
 				}
 			}
+
 			distance = (currentThread.StartPoint - position).Length();
+
 			if (distance < maxDistance)
 			{
 				output = currentThread.StartPoint;
 				return true;
 			}
+
 			distance = (currentThread.EndPoint - position).Length();
+
 			if (distance < maxDistance)
 			{
 				output = currentThread.EndPoint;
@@ -366,8 +371,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			progress += (1f / currentThread.Length) * speed;
 			Bottom = Vector2.Lerp(currentThread.StartPoint, currentThread.EndPoint, progress);
 			threadCounter--;
-			if (random.Next(200) == 0 && threadCounter < 0 && progress > 0.15f && progress < 0.85f)
-				NewThread(false, false);
+			//if (random.Next(200) == 0 && threadCounter < 0 && progress > 0.15f && progress < 0.85f)
+			//	NewThread(false, false);
 			Dust.NewDustPerfect(Bottom, 21);
 		}
 
