@@ -45,6 +45,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		float shieldOpacity = 0f;
         bool spawnedComets = false;
 
+		private float musicVolume = 1f;
+
 		List<int> comets = new List<int>();
 
 		public bool updateCometOrder = true;
@@ -76,6 +78,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 					{
 						npc.dontTakeDamage = false;
 						shieldOpacity = MathHelper.Lerp(shieldOpacity, 0, 0.05f);
+						musicVolume = Math.Max(musicVolume - 0.0125f, 0); //Fully fade out music when event is done
 					}
 				}
 				else
@@ -147,6 +150,18 @@ namespace SpiritMod.NPCs.StarjinxEvent
 						npc.netUpdate = true;
 						updateCometOrder = false;
 					}
+
+					bool anyVulnerable = false;
+					foreach (int cometID in comets)
+					{
+						if (!Main.npc[cometID].dontTakeDamage)
+							anyVulnerable = true;
+					}
+
+					if (anyVulnerable) //Make music quieter when a comet is vulnerable to damage, and bring back up the volume when it's dead
+						musicVolume = Math.Max(musicVolume - 0.0125f, 0.5f);
+					else
+						musicVolume = Math.Min(musicVolume + 0.0125f, 1f);
 				}
 			}
 
@@ -159,6 +174,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 				SpawnComets();
             }
+
+			Main.musicFade[Main.curMusic] = musicVolume; 
         }
 
 		private void SpawnComets()

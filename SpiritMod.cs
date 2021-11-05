@@ -309,14 +309,20 @@ namespace SpiritMod
 			if (Main.gameMenu)
 				return;
 
-			if (priority > MusicPriority.Event)
-				return;
-
 			Player player = Main.LocalPlayer;
 			if (!player.active)
 				return;
 
 			MyPlayer spirit = player.GetModPlayer<MyPlayer>();
+
+			if (player.GetModPlayer<NPCs.StarjinxEvent.StarjinxPlayer>().zoneStarjinxEvent)
+			{
+				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Starjinx");
+				priority = MusicPriority.BossMedium; //Should take precedence even over most bosses, same as pillars 
+			}
+
+			if (priority > MusicPriority.Event)
+				return;
 
 			if (TideWorld.TheTide && player.ZoneBeach)
 			{
