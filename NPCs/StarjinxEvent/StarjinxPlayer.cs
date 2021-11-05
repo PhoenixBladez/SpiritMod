@@ -27,7 +27,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			player.ManageSpecialBiomeVisuals("SpiritMod:StarjinxSky", zoneStarjinxEvent);
 			SpiritMod.starjinxBorderEffect.Parameters["Radius"].SetValue(1500);
 			SpiritMod.starjinxBorderEffect.Parameters["NoiseTexture"].SetValue(mod.GetTexture("Textures/Trails/Trail_2"));
-			SpiritMod.starjinxBorderShader.UseColor(new Color(255, 166, 252).ToVector3());
+			SpiritMod.starjinxBorderShader.UseColor(new Color(230, 55, 166).ToVector3());
 			player.ManageSpecialBiomeVisuals("SpiritMod:StarjinxBorder", zoneStarjinxEvent, StarjinxPosition);
 			player.ManageSpecialBiomeVisuals("SpiritMod:StarjinxBorderFade", zoneStarjinxEvent, StarjinxPosition);
 		}

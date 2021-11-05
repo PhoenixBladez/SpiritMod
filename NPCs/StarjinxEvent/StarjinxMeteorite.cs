@@ -205,6 +205,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 				}
             }
 
+			musicVolume = MathHelper.Clamp(musicVolume, 0, 1); //Just in case, been getting some debug messages about value not being valid
 			Main.musicFade[Main.curMusic] = musicVolume; 
         }
 
