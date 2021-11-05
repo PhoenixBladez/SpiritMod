@@ -13,26 +13,26 @@ using System.Collections.Generic;
 namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 {
 	public class BigStellanova : ModProjectile, ITrailProjectile, IDrawAdditive
-    {
+	{
 		public override string Texture => "Terraria/Projectile_1";
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Starfire");
 
 		public override void SetDefaults()
-        {
-            projectile.width = 32;
-            projectile.height = 32;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = true;
-            projectile.timeLeft = 720;
-            projectile.ranged = true;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.ignoreWater = true;
+		{
+			projectile.width = 32;
+			projectile.height = 32;
+			projectile.aiStyle = 0;
+			projectile.tileCollide = true;
+			projectile.timeLeft = 720;
+			projectile.ranged = true;
+			projectile.friendly = true;
+			projectile.penetrate = -1;
+			projectile.ignoreWater = true;
 			projectile.extraUpdates = 1;
 			projectile.alpha = 155;
 			projectile.scale = Main.rand.NextFloat(0.8f, 1.2f);
-        }
+		}
 
 		public Vector2 InitialVelocity = Vector2.Zero;
 		public Vector2 TargetVelocity = Vector2.Zero;
@@ -48,10 +48,10 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		private float _sinCounter;
 
 		public override void AI()
-        {
-            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+		{
+			projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
 
-			if(projectile.alpha > 0)
+			if (projectile.alpha > 0)
 				projectile.alpha = Math.Max(projectile.alpha - 5, 0);
 
 			if (++AiTimer <= VelocityLerpTime) //lerping to desired vel
@@ -72,6 +72,21 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 				_chain = new Chain(8, 12, projectile.Center, new ChainPhysics(0.8f, 0f, 0f), true, false, 5);
 			else
 				_chain.Update(projectile.Center, projectile.Center);
+
+			//for (int i = 0; i < Main.maxProjectiles; ++i) //Supposed to gravitate StellanovaStarfire projectiles to this proj but it doesnt work :(
+			//{
+			//	Projectile p = Main.projectile[i];
+			//	if (p.active && p.DistanceSQ(projectile.Center) < 400 * 400 && p.type == ModContent.ProjectileType<StellanovaStarfire>())
+			//	{
+			//		if (p.modProjectile != null && p.modProjectile is StellanovaStarfire fire)
+			//		{
+			//			float angle = MathHelper.Lerp(fire.TargetVelocity.ToRotation(), p.AngleTo(projectile.Center), 0.6f);
+			//			fire.TargetVelocity = TargetVelocity.RotatedBy(angle) * StellanovaStarfire.MaxSpeed;
+
+			//			Main.NewText(angle);
+			//		}
+			//	}
+			//}
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -174,7 +189,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			var DirectionUnit = Vector2.Normalize(projectile.position - vertex);
 			DirectionUnit = DirectionUnit.RotatedBy(MathHelper.PiOver2);
 			float numwaves = 1f;
-			vertex += DirectionUnit * (float)Math.Sin(_sinCounter + progress * MathHelper.TwoPi * numwaves) * ((progress/4) + 0.75f) * _sinAmplitude;
+			vertex += DirectionUnit * (float)Math.Sin(_sinCounter + progress * MathHelper.TwoPi * numwaves) * ((progress / 4) + 0.75f) * _sinAmplitude;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) => false;
@@ -208,8 +223,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		{
 			if (!Main.dedServ)
 			{
-				Vector2 velnormal = Vector2.Normalize(projectile.velocity);
-				velnormal *= 4;
+				Vector2 velnormal = Vector2.Normalize(projectile.velocity) * 4f;
 
 				for (int i = 0; i < 2; i++) //weak burst of particles in direction of movement
 					ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, velnormal.RotatedByRandom(MathHelper.Pi / 6) * Main.rand.NextFloat(1f, 2f),
@@ -244,5 +258,5 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			}
 			return true;
 		}
-    }
+	}
 }

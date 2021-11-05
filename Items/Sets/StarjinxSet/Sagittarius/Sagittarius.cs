@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -41,9 +42,10 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 
 		public override void HoldItem(Player player)
 		{
-			if(player == Main.LocalPlayer)
+			if (player == Main.LocalPlayer)
 			{
 				int fireTime = 3 * (item.useAnimation / 9);
+
 				if (!player.channel && player.itemAnimation > fireTime)
 				{
 					player.itemTime = 0;
@@ -52,11 +54,12 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 						NetMessage.SendData(MessageID.ItemAnimation, -1, -1, null, player.whoAmI);
 					return;
 				}
-				if(player.itemAnimation > 0)
+
+				if (player.itemAnimation > 0)
 				{
 					player.ChangeDir(player.DirectionTo(Main.MouseWorld).X > 0 ? 1 : -1);
 					player.itemRotation = MathHelper.WrapAngle(player.AngleTo(Main.MouseWorld) - ((player.direction < 0) ? MathHelper.Pi : 0)) - player.fullRotation;
-					if(Main.netMode != NetmodeID.SinglePlayer)
+					if (Main.netMode != NetmodeID.SinglePlayer)
 						NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, player.whoAmI);
 				}
 
@@ -70,7 +73,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/StarCast"), player.Center);
 					Projectile arrow = Projectile.NewProjectileDirect(player.MountedCenter + (shootDir * 20), shootDir * item.shootSpeed, type, item.damage, item.knockBack, player.whoAmI);
 
-					if(Main.netMode != NetmodeID.SinglePlayer)
+					if (Main.netMode != NetmodeID.SinglePlayer)
 					{
 						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, constellation.whoAmI);
 						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, arrow.whoAmI);
@@ -85,8 +88,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(mod, "Starjinx", 14);
+			var recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<Starjinx>(), 18);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

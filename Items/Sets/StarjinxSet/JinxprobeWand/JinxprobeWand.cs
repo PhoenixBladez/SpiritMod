@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Material;
 using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
@@ -43,8 +44,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(mod, "Starjinx", 10);
+			var recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<Starjinx>(), 12);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

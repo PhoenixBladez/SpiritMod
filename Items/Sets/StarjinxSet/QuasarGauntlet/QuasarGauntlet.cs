@@ -6,6 +6,7 @@ using System.Text;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Material;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 {
@@ -74,8 +75,10 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 		{
 			if (player.altFunctionUse == 2)
 				return false;
+
 			Main.PlaySound(SoundID.Item117, player.Center);
 			int proj = Projectile.NewProjectile(position, new Vector2(speedX,speedY), type, damage, knockBack, player.whoAmI);
+
 			for (int i = 0; i < 6; i++)
 			{
 				int p = Projectile.NewProjectile(position, Main.rand.NextVector2CircularEdge(2, 2), ModContent.ProjectileType<QuasarOrbiter>(), damage, knockBack, player.whoAmI, proj, Main.rand.Next(3));
@@ -86,22 +89,24 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 
 		public override void HoldItem(Player player)
 		{
-			int chosenDust = 66;
-			Vector2 vector2_1 = Main.OffsetsPlayerOnhand[player.bodyFrame.Y / 56] * 2f;
+			Vector2 handOffset = Main.OffsetsPlayerOnhand[player.bodyFrame.Y / 56] * 2f;
 			if (player.direction != 1)
-				vector2_1.X = player.bodyFrame.Width - vector2_1.X;
+				handOffset.X = player.bodyFrame.Width - handOffset.X;
 			if (player.gravDir != 1.0)
-				vector2_1.Y = player.bodyFrame.Height - vector2_1.Y;
-			Vector2 vector2_2 = player.RotatedRelativePoint(player.position + vector2_1 - new Vector2(player.bodyFrame.Width - player.width, player.bodyFrame.Height - 42) / 2f, true) - player.velocity;
+				handOffset.Y = player.bodyFrame.Height - handOffset.Y;
+
+			Vector2 spawnPos = player.RotatedRelativePoint(player.position + handOffset - new Vector2(player.bodyFrame.Width - player.width, player.bodyFrame.Height - 42) / 2f, true) - player.velocity;
+
 			for (int index = 0; index < 2; ++index)
 			{
-				Dust dust = Main.dust[Dust.NewDust(player.Center, 0, 0, chosenDust, player.direction * 2, 0.0f, 150, SpiritMod.StarjinxColor(Main.GlobalTime * 2), 1.3f)];
-				dust.position = vector2_2;
+				Dust dust = Main.dust[Dust.NewDust(player.Center, 0, 0, DustID.Rainbow, player.direction * 2, 0.0f, 150, SpiritMod.StarjinxColor(Main.GlobalTime * 2), 1.3f)];
+				dust.position = spawnPos;
 				dust.velocity *= 0.0f;
 				dust.noGravity = true;
 				dust.fadeIn = 1f;
 				dust.velocity += player.velocity;
 				dust.scale *= 0.8f;
+
 				if (Main.rand.Next(2) == 0)
 				{
 					dust.position += Utils.RandomVector2(Main.rand, -4f, 4f);
@@ -114,9 +119,9 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(mod, "Starjinx", 10);
-			recipe.AddIngredient(ItemID.FallenStar, 8);
+			var recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<Starjinx>(), 16);
+			recipe.AddIngredient(ItemID.FallenStar, 4);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

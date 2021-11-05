@@ -112,8 +112,6 @@ namespace SpiritMod.NPCs.StarjinxEvent
 							});
 							spawnedComets = false;
 							comets.Clear();
-
-							Main.NewText(savedComets["Small"] + " " + savedComets["Medium"] + " " + savedComets["Large"]);
 						}
 					}
 				}
@@ -214,8 +212,6 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			int maxSmallComets = savedComets["Small"] == -1 ? 3 : savedComets["Small"] + 1; //Use cached values if respawning comets
 			int maxMedComets = savedComets["Medium"] == -1 ? 2 : savedComets["Medium"] + 1;
 			int maxLargeComets = savedComets["Large"] == -1 ? 1 : savedComets["Large"] + 1;
-
-			Main.NewText("COMETS: " + maxLargeComets + " " + maxMedComets + " " + maxSmallComets);
 
 			const float MaxDist = 450;
 			const float MinDist = 80;

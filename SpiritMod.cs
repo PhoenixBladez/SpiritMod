@@ -1478,9 +1478,9 @@ namespace SpiritMod
 
 			int ColorAdjustment(int col, float light)
 			{
-				float val = (250f / 1.14f * light * (col / 255f));
-				if (val < 15)
-					val = 15;
+				float val = 250f / 1.14f * light * (col / 255f);
+				if (val < 0)
+					val = 0;
 				return (int)val;
 			}
 
@@ -1514,12 +1514,17 @@ namespace SpiritMod
 			if (MyWorld.asteroidLight > 0f)
 			{
 				int r = Main.bgColor.R - ColorAdjustment(Main.bgColor.R, MyWorld.asteroidLight);
+				if (Main.bgColor.R > r)
+					Main.bgColor.R = (byte)r;
+
 				int g = Main.bgColor.G - ColorAdjustment(Main.bgColor.G, MyWorld.asteroidLight);
+				if (Main.bgColor.G > g)
+					Main.bgColor.G = (byte)g;
+
 				int b = Main.bgColor.B - ColorAdjustment(Main.bgColor.B, MyWorld.asteroidLight);
 
-				Main.bgColor.R = (byte)r;
-				Main.bgColor.G = (byte)g;
-				Main.bgColor.B = (byte)b;
+				if (Main.bgColor.B > b)
+					Main.bgColor.B = (byte)b;
 			}
 		}
 

@@ -12,9 +12,10 @@ namespace SpiritMod.NPCs.StarjinxEvent
 {
 	class StarjinxEnemySpawner : ModProjectile, IDrawAdditive
 	{
-		public int enemyToSpawn = NPCID.Guide; //lol
-		//public int cometWhoAmI = -1;
-		public Vector2 spawnPosition = Vector2.Zero;
+		public int enemyToSpawn = NPCID.Guide; //Enemy that is spawned by this projectile
+		public Vector2 spawnPosition = Vector2.Zero; //Position to spawn the enemy at
+
+		/// <summary>See <seealso cref="SmallComet.SpawnSpawnerProjectile"/> for what this does.</summary>
 		public bool rawPos = false;
 
 		private ref float Timer => ref projectile.ai[0];
@@ -55,6 +56,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 			chosenColor = Color.Lerp(chosenColor, Color.White, 0.7f);
 		}
+
 		public override void AI()
 		{
 			if (projectile.timeLeft < MINTIMELEFT) //Start incrementing timer when the random delay is over
@@ -72,7 +74,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 				projectile.scale = MathHelper.Lerp(1f, 0.66f, PowF(progress, 0.5f));
 			}
 
-			else if((Timer - FADEINTIME) < PULSETIME) //Briefly pulse at full opacity
+			else if ((Timer - FADEINTIME) < PULSETIME) //Briefly pulse at full opacity
 			{
 				float progress = (Timer - FADEINTIME) / PULSETIME;
 				projectile.scale = MathHelper.Lerp(0.66f, 0.5f, (float)Math.Sin(progress * MathHelper.Pi));
@@ -80,7 +82,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 			else
 			{
-				if(Timer == PULSETIME + FADEINTIME + 1) //Spawn in NPC and do visual effects
+				if (Timer == PULSETIME + FADEINTIME + 1) //Spawn in NPC and do visual effects
 				{
 					int id = NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, enemyToSpawn);
 					NPC n = Main.npc[id];
@@ -89,12 +91,12 @@ namespace SpiritMod.NPCs.StarjinxEvent
 					if (Main.netMode == NetmodeID.MultiplayerClient)
 						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, id);
 
-					if(Main.netMode != NetmodeID.Server)
+					if (Main.netMode != NetmodeID.Server)
 					{
 						for (int i = 0; i < 12; i++)
 							ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(2, 5), chosenColor, Main.rand.NextFloat(0.2f, 0.3f), 25));
 
-						ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center, chosenColor * 0.4f, 200, 15, PulseCircle.MovementType.OutwardsSquareRooted) { RingColor = chosenColor });;
+						ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center, chosenColor * 0.4f, 200, 15, PulseCircle.MovementType.OutwardsSquareRooted) { RingColor = chosenColor }); ;
 					}
 				}
 
@@ -120,12 +122,13 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			baseScale /= star.Width;
 			baseScale *= projectile.scale;
 
-			int maxRays = 6;
-			for(int i = 0; i < 6; i++)
+			const int MaxRays = 6;
+			for (int i = 0; i < MaxRays; i++)
 			{
-				float rotation = projectile.rotation + (MathHelper.TwoPi * i / (float)maxRays);
+				float rotation = projectile.rotation + (MathHelper.TwoPi * i / MaxRays);
 				sB.Draw(ray, projectile.Center - Main.screenPosition, null, chosenColor * projectile.Opacity, rotation, ray.Size() / 2, baseScale, SpriteEffects.None, 0);
 			}
+
 			sB.Draw(bloom, projectile.Center - Main.screenPosition, null, chosenColor * 0.66f * projectile.Opacity, 0f, bloom.Size() / 2, baseScale, SpriteEffects.None, 0);
 
 			sB.Draw(star, projectile.Center - Main.screenPosition, null, chosenColor * projectile.Opacity, projectile.rotation, star.Size() / 2, baseScale, SpriteEffects.None, 0);
