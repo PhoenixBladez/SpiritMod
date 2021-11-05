@@ -6,6 +6,7 @@ using SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver;
 using SpiritMod.Particles;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,7 +17,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 	{
 		public override sealed bool CloneNewInstances => true;
 
-		protected virtual string Size => "Small";
+		public  virtual string Size => "Small";
+
 		protected virtual float BeamScale => 0.75f;
 
 		ref NPC Parent => ref Main.npc[(int)npc.ai[0]];
@@ -29,7 +31,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 		public float initialDistance = 0f;
 		public bool nextUp = false; //if true, spawn enemies when the player approaches next
 
-		private readonly List<int> enemies = new List<int>();
+		//private readonly List<int> enemies = new List<int>();
 		private bool spawnedEnemies = false;
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Small Starjinx Comet");
@@ -76,6 +78,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			if (nearest.active && !nearest.dead && nearest.DistanceSQ(npc.Center) < 200 * 200 && nextUp && !spawnedEnemies)
 			{
 				nextUp = false;
+				spawnedEnemies = true;
 				SpawnWave();
 			}
 
@@ -98,19 +101,22 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 
             sinCounter += sinIncrement;
 
-			if (spawnedEnemies && enemies.Count > 0)
+			if (spawnedEnemies)
 			{
-				for (int i = 0; i < enemies.Count; ++i) //update enemy list
+				bool tempProjectile = Main.projectile.Any(x => x.active && x.type == ModContent.ProjectileType<StarjinxEnemySpawner>());
+				bool sjinxEnemyAlive = false;
+
+				for (int i = 0; i < Main.maxNPCs; ++i) //update enemy list
 				{
-					NPC npc = Main.npc[enemies[i]];
-					if ((!npc.active || npc.life <= 0) || !npc.GetGlobalNPC<StarjinxGlobalNPC>().spawnedByComet)
+					NPC npc = Main.npc[i];
+					if (npc.active && npc.life > 0 && npc.modNPC != null && (npc.modNPC is IStarjinxEnemy || npc.type == ModContent.NPCType<Pathfinder>()))
 					{
-						enemies.RemoveAt(i);
-						i--;
+						sjinxEnemyAlive = true;
+						break;
 					}
 				}
 
-				if (enemies.Count <= 0) //if all enemies are dead, make me vulnerable
+				if (!tempProjectile && !sjinxEnemyAlive) //if all enemies are dead, make me vulnerable
 					npc.dontTakeDamage = false;
 			}
 
@@ -129,45 +135,43 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
             if (!Parent.active || Parent.type != ModContent.NPCType<StarjinxMeteorite>()) //kill me if the main meteor is dead somehow
                 npc.active = false;
 
-
 			for (int i = 0; i < Main.maxPlayers; ++i)
 			{
 				Player p = Main.player[i];
-				if (p.active && !p.dead && npc.DistanceSQ(p.Center) < 3000 * 3000) //There is a player nearby and we don't need to reset
-					return;
+				if (p.active && !p.dead && p.GetModPlayer<StarjinxPlayer>().zoneStarjinxEvent) //There is a player nearby and we don't need to reset
+					return; //npc.DistanceSQ(p.Center) < 1490 * 1490 - Old distance check because Just In Case
 			}
 
 			//if this part runs then all players have left the event area
-			if (spawnedEnemies)
-				nextUp = true;
-			spawnedEnemies = false;
-			enemies.Clear();
-			npc.dontTakeDamage = true;
+			//if (spawnedEnemies)
+			//	nextUp = true;
+			//spawnedEnemies = false;
+			//npc.dontTakeDamage = true;
+
+			//Main.NewText("escape");
         }
 
 		public virtual void SpawnWave()
 		{
-			spawnedEnemies = true;
-
 			int choice = Main.rand.Next(4);
 
 			switch (choice)
 			{
 				case 0: //4 random starachnid/starweaver
 					for (int i = 0; i < 4; ++i)
-						SpawnValidNPC(Main.rand.NextBool(2) ? ModContent.NPCType<Starachnid>() : ModContent.NPCType<StarWeaverNPC>());
+						SpawnSpawnerProjectile(Main.rand.NextBool(2) ? ModContent.NPCType<Starachnid>() : ModContent.NPCType<StarWeaverNPC>());
 					break;
 				case 1: //fan of 3 starweavers
 					for (int i = -1; i < 2; ++i)
 					{
 						float rotation = i * (MathHelper.Pi / 3);
-						SpawnValidNPC(ModContent.NPCType<StarWeaverNPC>(), (Vector2.UnitY * 200).RotatedBy(rotation));
+						SpawnSpawnerProjectile(ModContent.NPCType<StarWeaverNPC>(), (Vector2.UnitY * 200).RotatedBy(rotation));
 					}
 					break;
 				default: //2 starachnid, 1 pathfinder
 					for (int i = 0; i < 2; ++i)
-						SpawnValidNPC(ModContent.NPCType<Starachnid>());
-					SpawnValidNPC(ModContent.NPCType<Pathfinder>());
+						SpawnSpawnerProjectile(ModContent.NPCType<Starachnid>());
+					SpawnSpawnerProjectile(ModContent.NPCType<Pathfinder>());
 					break;
 			}
 		}
@@ -177,7 +181,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 		/// <param name="overrideOffset">If not null, this is the offset used to spawn, based off of the origin npc.Center.</param>
 		/// <param name="rawPosition">Completely overrides position, making overrideOffset simply equal the position.</param>
 		/// <returns>The spawn offset used.</returns>
-		internal Vector2 SpawnValidNPC(int type, Vector2? overrideOffset = null, bool rawPosition = false)
+		internal Vector2 SpawnSpawnerProjectile(int type, Vector2? overrideOffset = null, bool rawPosition = false)
 		{
 			if (!overrideOffset.HasValue && rawPosition) //Trying to use a null position
 			{
@@ -186,7 +190,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 				return Vector2.Zero;
 			}
 
-			const int MaxOffset = 450;
+			const int MaxOffset = 300;
 
 			Vector2 originalSpawn = npc.Center + new Vector2(Main.rand.Next(-MaxOffset, MaxOffset), Main.rand.Next(-MaxOffset, MaxOffset));
 
@@ -221,19 +225,17 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 
 				if (!Collision.SolidCollision(spawnPos - (new Vector2(temp.width, temp.height) / 2f), temp.width * 2, temp.height * 2))
 				{
-					int id = NPC.NewNPC((int)spawnPos.X, (int)spawnPos.Y, type);
-					NPC n = Main.npc[id];
-					n.GetGlobalNPC<StarjinxGlobalNPC>().spawnedByComet = true;
+					var p = Projectile.NewProjectileDirect(spawnPos, Vector2.Zero, ModContent.ProjectileType<StarjinxEnemySpawner>(), 0, 0);
 
-					enemies.Add(id);
-
-					if (Main.netMode == NetmodeID.MultiplayerClient)
-						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, id);
+					if (p.modProjectile != null && p.modProjectile is StarjinxEnemySpawner spawner)
+					{
+						spawner.enemyToSpawn = type;
+						spawner.spawnPosition = spawnPos;
+						spawner.rawPos = rawPosition;
+						//spawner.cometWhoAmI = npc.whoAmI;
+					}
 
 					originalSpawn = spawnPos;
-
-					//add spawn vfx here
-
 					break;
 				}
 			}
@@ -337,7 +339,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 		{
 			(Parent.modNPC as StarjinxMeteorite).updateCometOrder = true;
 
-			enemies.Clear();
+			//enemies.Clear();
 			spawnedEnemies = false;
 			return true;
 		}

@@ -1,7 +1,5 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,7 +13,6 @@ namespace SpiritMod.Projectiles
 			DisplayName.SetDefault("Holy Star");
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-
 		}
 
 		public override void SetDefaults()

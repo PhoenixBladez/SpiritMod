@@ -12,7 +12,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 {
     public class LargeComet : SmallComet
     {
-		protected override string Size => "Large";
+		public override string Size => "Large";
+
 		protected override float BeamScale => 1.25f;
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Large Starjinx Comet");
 
@@ -38,8 +39,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 					{
 						var offset = Vector2.One.RotatedBy(i * (MathHelper.TwoPi / 5)) * 250;
 
-						SpawnValidNPC(ModContent.NPCType<StarWeaverNPC>(), target.Center + offset, true);
-						SpawnValidNPC(ModContent.NPCType<Pathfinder>(), target.Center + offset, true);
+						SpawnSpawnerProjectile(ModContent.NPCType<StarWeaverNPC>(), target.Center + offset, true);
+						SpawnSpawnerProjectile(ModContent.NPCType<Pathfinder>(), target.Center + offset, true);
 					}
 					break;
 				default: //2 magus & 2 pathfinder connected, 1 starachnid
@@ -47,10 +48,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 					{
 						var offset = new Vector2(i == 0 ? -300 : 300, -300);
 
-						SpawnValidNPC(ModContent.NPCType<MeteorMagus>(), offset);
-						SpawnValidNPC(ModContent.NPCType<Pathfinder>(), offset);
+						SpawnSpawnerProjectile(ModContent.NPCType<MeteorMagus>(), offset);
+						SpawnSpawnerProjectile(ModContent.NPCType<Pathfinder>(), offset);
 					}
-					SpawnValidNPC(ModContent.NPCType<Starachnid>());
+					SpawnSpawnerProjectile(ModContent.NPCType<Starachnid>());
 					break;
 			}
 		}

@@ -47,7 +47,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 		private float musicVolume = 1f;
 
-		List<int> comets = new List<int>();
+		private List<int> comets = new List<int>();
+		private Dictionary<string, int> savedComets = new Dictionary<string, int>() { { "Small", -1 }, { "Medium", -1 }, { "Large", -1 } };
 
 		public bool updateCometOrder = true;
 		public bool spawnedBoss = false;
@@ -92,13 +93,28 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 			if(spawnedComets)
 			{
-				for (int i = 0; i < Main.player.Count(); i++) //Check if players are in range
+				for (int i = 0; i < Main.maxPlayers; i++) //Check if players are in range
 				{
 					Player player = Main.player[i];
-					if (player.active && !player.dead && player.Distance(npc.Center) < 1500)
+					if (player.active && !player.dead)
 					{
-						player.GetModPlayer<StarjinxPlayer>().zoneStarjinxEvent = true;
-						player.GetModPlayer<StarjinxPlayer>().StarjinxPosition = npc.Center;
+						if (player.DistanceSQ(npc.Center) < 1500 * 1500)
+						{
+							player.GetModPlayer<StarjinxPlayer>().zoneStarjinxEvent = true;
+							player.GetModPlayer<StarjinxPlayer>().StarjinxPosition = npc.Center;
+						}
+						else if (player.GetModPlayer<StarjinxPlayer>().oldZoneStarjinx) //cache all meteors if need be
+						{
+							IterateComets((SmallComet comet) =>
+							{
+								savedComets[comet.Size]++;
+								comet.npc.active = false;
+							});
+							spawnedComets = false;
+							comets.Clear();
+
+							Main.NewText(savedComets["Small"] + " " + savedComets["Medium"] + " " + savedComets["Large"]);
+						}
 					}
 				}
 
@@ -112,7 +128,6 @@ namespace SpiritMod.NPCs.StarjinxEvent
 						if (comet.active && comet.life > 0 && cometTypes.Contains(comet.type))
 							break;
 					}
-
 
 					if (updateCometOrder)
 					{
@@ -167,12 +182,27 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 			if (!spawnedComets && npc.life < npc.lifeMax) //Spawn meteors below max health (when I take damage) and start the event
             {
-                spawnedComets = true;
-				npc.dontTakeDamage = true;
+				bool validPlayer = false;
 
-				StarjinxEventWorld.StarjinxActive = true;
+				for (int i = 0; i < Main.maxPlayers; ++i) //Search for valid player in order to start event
+				{
+					Player p = Main.player[i];
+					if (p.active && !p.dead && p.DistanceSQ(npc.Center) < 1500 * 1500)
+					{
+						validPlayer = true;
+						break;
+					}
+				}
 
-				SpawnComets();
+				if (validPlayer)
+				{
+					spawnedComets = true;
+					npc.dontTakeDamage = true;
+
+					StarjinxEventWorld.StarjinxActive = true;
+
+					SpawnComets();
+				}
             }
 
 			Main.musicFade[Main.curMusic] = musicVolume; 
@@ -180,24 +210,37 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 		private void SpawnComets()
 		{
-			int maxSmallComets = 3;
-			int maxMedComets = 2;
-			int maxLargeComets = 1;
-			float maxDist = 450;
-			float minDist = 80;
+			int maxSmallComets = savedComets["Small"] == -1 ? 3 : savedComets["Small"] + 1; //Use cached values if respawning comets
+			int maxMedComets = savedComets["Medium"] == -1 ? 2 : savedComets["Medium"] + 1;
+			int maxLargeComets = savedComets["Large"] == -1 ? 1 : savedComets["Large"] + 1;
+
+			Main.NewText("COMETS: " + maxLargeComets + " " + maxMedComets + " " + maxSmallComets);
+
+			const float MaxDist = 450;
+			const float MinDist = 80;
+
 			float FindDistance()
 			{
 				float maxComets = maxLargeComets + maxMedComets + maxSmallComets;
-				return MathHelper.Lerp(maxDist, minDist, comets.Count / maxComets);
+				return MathHelper.Lerp(MaxDist, MinDist, comets.Count / maxComets);
 			}
+
 			void SpawnComet(int type)
 			{
 				Vector2 spawnPos = npc.Center + Vector2.UnitX.RotatedByRandom(MathHelper.TwoPi) * FindDistance();
+
 				int id = NPC.NewNPC((int)spawnPos.X, (int)spawnPos.Y, type, npc.whoAmI, npc.whoAmI, comets.Count * 2, 0, -1);
 				Main.npc[id].Center = spawnPos;
 				Main.npc[id].dontTakeDamage = true;
+
 				if (Main.netMode != NetmodeID.SinglePlayer)
 					NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, id);
+
+				if (comets.Count <= 0 && (savedComets["Small"] != -1 || savedComets["Medium"] != -1 || savedComets["Large"] != -1))
+				{ //Kinda ugly but it makes sure the respawned comet is next up
+					if (Main.npc[id].modNPC != null && Main.npc[id].modNPC is SmallComet comet)
+						comet.nextUp = true;
+				}
 
 				comets.Add(id);
 				npc.netUpdate = true;
@@ -211,6 +254,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 			for (int i = 0; i < maxLargeComets; i++)
 				SpawnComet(ModContent.NPCType<LargeComet>());
+
+			savedComets["Small"] = savedComets["Medium"] = savedComets["Large"] = -1; //clear out cache
 		}
 
 		private delegate void IterateAction(SmallComet comet);
@@ -224,6 +269,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 						action.Invoke(comet);
 			}
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			IterateComets(delegate (SmallComet comet) //Draw rings and beams underneath everything else

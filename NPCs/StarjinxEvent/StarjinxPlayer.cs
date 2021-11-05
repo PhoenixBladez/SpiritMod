@@ -9,15 +9,20 @@ namespace SpiritMod.NPCs.StarjinxEvent
 	class StarjinxPlayer : ModPlayer
 	{
 		public bool zoneStarjinxEvent = false;
+		public bool oldZoneStarjinx = false;
+
 		public Vector2 StarjinxPosition;
-		public override void ResetEffects() => zoneStarjinxEvent = false;
+
+		public override void ResetEffects()
+		{
+			oldZoneStarjinx = zoneStarjinxEvent;
+			zoneStarjinxEvent = false;
+		}
 
 		public override void UpdateBiomeVisuals()
 		{
 			if (zoneStarjinxEvent)
-			{
 				player.AddBuff(ModContent.BuffType<HighGravityBuff>(), 2);
-			}
 
 			player.ManageSpecialBiomeVisuals("SpiritMod:StarjinxSky", zoneStarjinxEvent);
 			SpiritMod.starjinxBorderEffect.Parameters["Radius"].SetValue(1500);
