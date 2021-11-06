@@ -72,6 +72,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 				{
 					if (bossWhoAmI != -1)
 					{
+						musicVolume = Math.Min(musicVolume + 0.0125f, 1f);
 						NPC boss = Main.npc[bossWhoAmI];
 						if (!boss.active || !boss.boss)
 							bossWhoAmI = -1;
