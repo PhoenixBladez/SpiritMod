@@ -13,6 +13,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
     [AutoloadBossHead]
     public class StarjinxMeteorite : ModNPC
     {
+		public const int EVENT_RADIUS = 1500;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starjinx");
@@ -98,7 +99,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 					Player player = Main.player[i];
 					if (player.active && !player.dead)
 					{
-						if (player.DistanceSQ(npc.Center) < 1500 * 1500)
+						if (player.DistanceSQ(npc.Center) < EVENT_RADIUS * EVENT_RADIUS)
 						{
 							player.GetModPlayer<StarjinxPlayer>().zoneStarjinxEvent = true;
 							player.GetModPlayer<StarjinxPlayer>().StarjinxPosition = npc.Center;

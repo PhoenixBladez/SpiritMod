@@ -299,7 +299,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 				Color =  EnergyColor *
 					glowOpacity *
 					npc.Opacity *
-					(0.5f * (((1f - CosTimer) * 0.75f) + 0.25f)),
+					(0.5f * (((1f - CosTimer) * 0.5f) + 0.25f)),
 				Height = size,
 				Length = size,
 				Position = Parent.Center - Main.screenPosition,
