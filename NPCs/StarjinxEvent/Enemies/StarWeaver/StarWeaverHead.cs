@@ -72,7 +72,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			{
 				for (int i = 0; i < 5; i++)
 					Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(15, 15), ModContent.DustType<Dusts.EnemyStargoopDustFastDissipate>(), 
-						Vector2.UnitY * Main.rand.NextFloat(-3, 0) + (projectile.velocity.RotatedByRandom(MathHelper.PiOver4) / 5), Scale: 3);
+						Vector2.UnitY * Main.rand.NextFloat(-4.5f, -0.5f) + (projectile.velocity.RotatedByRandom(MathHelper.PiOver4) / 5), Scale: 3);
 
 				projectile.scale = Math.Max(projectile.scale - 0.33f / fadeTime, 0.66f);
 				projectile.alpha = Math.Min(projectile.alpha + 255 / fadeTime, 255);
@@ -84,7 +84,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 				{
 					Vector2 velocity = projectile.DirectionTo(Main.player[Parent.target].Center)
 						.RotatedBy(Main.rand.NextFloat(MathHelper.PiOver4, MathHelper.PiOver2) * (Main.rand.NextBool() ? -1 : 1)) * Main.rand.NextFloat(4, 6);
-					projectile.velocity -= velocity * 1.5f;
+					projectile.velocity -= velocity * 1.33f;
 
 					int p = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<WeaverStargloopChaser>(), projectile.damage, 1f, Main.myPlayer, Parent.target);
 

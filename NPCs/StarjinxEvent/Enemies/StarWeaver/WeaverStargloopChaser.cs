@@ -17,7 +17,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 		private const int MAXTIMELEFT = 160;
 		public override void SetDefaults()
 		{
-			projectile.Size = new Vector2(10, 10);
+			projectile.Size = new Vector2(20, 20);
 			projectile.hostile = true;
 			projectile.timeLeft = MAXTIMELEFT;
 			projectile.ignoreWater = true;
@@ -49,8 +49,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			float Speed = MathHelper.Lerp(MinSpeed, MaxSpeed, progress);
 			projectile.velocity = Speed * Vector2.Normalize(Vector2.Lerp(projectile.velocity, projectile.DirectionTo(player.Center) * Speed, TurnSpeed));
 
-			for (int i = 0; i < 5; i++)
-				Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(i * 1.5f, i * 1.5f), ModContent.DustType<Dusts.EnemyStargoopDustFastDissipate>(), projectile.velocity * Main.rand.NextFloat(0.5f, 1f), Scale : 2f);
+			for (int i = 0; i < 4; i++)
+				Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(i * 0.5f, i * 0.5f), ModContent.DustType<Dusts.EnemyStargoopDustFastDissipate>(), projectile.velocity * Main.rand.NextFloat(0.5f, 1f), Scale : 2.5f);
 		}
 	}
 }
