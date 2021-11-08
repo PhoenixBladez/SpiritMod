@@ -11,6 +11,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Particles;
+using SpiritMod.Items.Armor.StarjinxSet;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 {
@@ -251,6 +252,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 		}
 
 		#endregion
+
+		public override void NPCLoot()
+		{
+			float chance = Main.expertMode ? 0.1f : 0.05f;
+			npc.DropItem(ModContent.ItemType<StargloopHead>(), chance);
+		}
 
 		public override void SendExtraAI(BinaryWriter writer) => writer.Write(_headIndex);
 

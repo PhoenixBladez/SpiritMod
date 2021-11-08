@@ -299,7 +299,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 				Color =  EnergyColor *
 					glowOpacity *
 					npc.Opacity *
-					(0.5f * (((1f - CosTimer) * 0.5f) + 0.25f)),
+					(0.2f * (((1f - CosTimer) * 0.5f) + 0.25f)),
 				Height = size,
 				Length = size,
 				Position = Parent.Center - Main.screenPosition,
@@ -314,7 +314,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			float rotation = npc.DirectionTo(Main.npc[(int)npc.ai[0]].Center).ToRotation() - MathHelper.PiOver2;
 			float fluctuate = (CosTimer / 10f) + 0.15f;
 
-			Color color = Color.Lerp(EnergyColor, Color.Transparent, fluctuate * 2) * ((glowOpacity * 0.75f) + 0.25f) * npc.Opacity * 0.5f;
+			Color color = Color.Lerp(EnergyColor, Color.Transparent, fluctuate * 2) * ((glowOpacity * 0.75f) + 0.25f) * npc.Opacity * 0.2f;
 
 			Rectangle rect = new Rectangle(0, 0, beam.Width, beam.Height);
 			Vector2 scale = new Vector2(1, (1 - fluctuate) * ((glowOpacity * 0.5f) + 0.5f) * npc.Distance(Main.npc[(int)npc.ai[0]].Center) / beam.Height) * BeamScale;
