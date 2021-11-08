@@ -40,6 +40,11 @@ namespace SpiritMod.NPCs.StarjinxEvent
             npc.alpha = 255;
 			npc.chaseable = false;
             aiType = 0;
+			for (int i = 0; i < BuffLoader.BuffCount; i++)
+				npc.buffImmune[i] = true;
+
+			//Draw on a layer before all other npcs, to help with visual clarity
+			npc.behindTiles = true;
 		}
 
 		float sinCounter;

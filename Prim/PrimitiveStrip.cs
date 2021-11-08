@@ -11,8 +11,7 @@ namespace SpiritMod.Prim
 	{
 		TaperEnd,
 		TaperStart,
-		None,
-		TaperEndQuadratic
+		None
 	}
 
 	/// <summary>
@@ -25,6 +24,10 @@ namespace SpiritMod.Prim
 		public float Width { get; set; }
 		public Color Color { get; set; }
 		public StripTaperType TaperingType { get; set; }
+
+		public delegate float StripWidthDelagate(float progress);
+
+		public StripWidthDelagate WidthDelegate { get; set; } = null;
 
 		public void PrimitiveStructure(out VertexPositionColorTexture[] vertices, out short[] indeces)
 		{
@@ -59,10 +62,9 @@ namespace SpiritMod.Prim
 						case StripTaperType.TaperEnd:
 							widthModifier *= (1 - progress);
 							break;
-						case StripTaperType.TaperEndQuadratic:
-							widthModifier *= (float)Math.Pow(1 - progress, 2);
-							break;
 					}
+					if (WidthDelegate != null)
+						widthModifier *= WidthDelegate.Invoke(progress);
 
 					//If on the first element of the array, add the vertices corresponding to the front of the trail
 					if (i == start)
@@ -75,8 +77,9 @@ namespace SpiritMod.Prim
 						{
 							Vector2 currentWidthUnit = CurveNormal(PositionArray.ToList(), i);
 
-							Vector2 currentLeft = currentPosition - (currentWidthUnit * Width * widthModifier);
-							Vector2 currentRight = currentPosition + (currentWidthUnit * Width * widthModifier);
+							float startWidth = WidthDelegate == null ? 1 : WidthDelegate.Invoke(0);
+							Vector2 currentLeft = currentPosition - (currentWidthUnit * Width * startWidth);
+							Vector2 currentRight = currentPosition + (currentWidthUnit * Width * startWidth);
 
 							AddVertexIndex(currentRight, new Vector2(1, 0));
 							AddVertexIndex(currentLeft, new Vector2(0, 0));
@@ -85,7 +88,7 @@ namespace SpiritMod.Prim
 
 					Vector2 nextPosition = PositionArray[i + 1];
 					if (i == end && TaperingType == StripTaperType.TaperEnd) //Only add the center point if set to taper at the end
-						AddVertexIndex(nextPosition, new Vector2(0.5f, progress));
+						AddVertexIndex(nextPosition, new Vector2(0.5f, 1));
 
 					else //Add vertices based on the next position of the array
 					{
@@ -116,7 +119,7 @@ namespace SpiritMod.Prim
 			{
 				return Clockwise90(Vector2.Normalize(points[index] - points[index - 1]));
 			}
-			return Clockwise90(Vector2.Normalize(points[index + 1] - points[index - 1]));
+			return Clockwise90(Vector2.Normalize(points[index] - points[index - 1]));
 		}
 
 		private Vector2 Clockwise90(Vector2 vector)

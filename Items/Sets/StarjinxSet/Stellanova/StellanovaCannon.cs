@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
             item.height = 6;
             item.damage = 53;
             item.shoot = ModContent.ProjectileType<StellanovaStarfire>();
-            item.shootSpeed = 12f;
+            item.shootSpeed = 30f;
             item.noMelee = true;
             item.useAmmo = AmmoID.FallenStar;
             item.value = Item.sellPrice(silver: 55);
@@ -57,7 +57,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			}
             else //starfire
             {
-                float shootRotation = Main.rand.NextFloat(-0.6f, 0.6f);
+                float shootRotation = Main.rand.NextFloat(-0.3f, 0.3f);
 				shootRotation = Math.Sign(shootRotation) * (float)Math.Pow(shootRotation, 2); //square the rotation offset to "weigh" it more towards 0
 
 				direction = direction.RotatedBy(shootRotation);
@@ -66,19 +66,12 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 
                 Projectile proj = Projectile.NewProjectileDirect(position, direction, type, damage, knockBack, player.whoAmI);
 
-				if(proj.modProjectile is StellanovaStarfire starfire)
-				{
-					starfire.TargetVelocity = Vector2.Normalize(new Vector2(speedX, speedY)) * StellanovaStarfire.MaxSpeed;
-					starfire.InitialVelocity = direction;
-					starfire.Amplitude = Main.rand.NextFloat(MathHelper.Pi / 30, MathHelper.Pi / 18) * (Main.rand.NextBool() ? -1 : 1);
-				}
-
 				if (Main.netMode != NetmodeID.SinglePlayer)
 					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
 
 				if(!Main.dedServ)
 					for (int i = 0; i < 10; i++) //weak burst of particles in direction of movement
-						ParticleHandler.SpawnParticle(new FireParticle(proj.Center - direction, player.velocity + Vector2.Normalize(proj.velocity).RotatedByRandom(MathHelper.Pi / 6) * Main.rand.NextFloat(1f, 8f),
+						ParticleHandler.SpawnParticle(new FireParticle(proj.Center, player.velocity + Vector2.Normalize(proj.velocity).RotatedByRandom(MathHelper.Pi / 6) * Main.rand.NextFloat(1f, 8f),
 							new Color(242, 240, 134), new Color(255, 88, 35), Main.rand.NextFloat(0.2f, 0.4f), 22, delegate (Particle p) { p.Velocity *= 0.92f; }));
 			}
             return false;

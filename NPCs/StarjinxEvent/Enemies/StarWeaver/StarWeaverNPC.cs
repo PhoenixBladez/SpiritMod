@@ -52,12 +52,15 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 		public const int STATE_IDLE = 0;
 		public const int STATE_TELEPORT = 1;
 		public const int STATE_STARBURST = 2;
+		public const int STATE_STARGLOOP = 3;
 
 		public const float TELEPORT_DISTANCE = 400;
 		public const int TELEPORT_STARTTIME = 30;
-		public const int TELEPORT_ENDTIME = 30;
+		public const int TELEPORT_ENDTIME = 45;
 
 		public const int STARBURST_CHANNELTIME = 100;
+		public const int STARGLOOP_TIME = 150;
+		public const int STARGLOOP_NUMSHOTS = 3;
 
 		public override void AI()
 		{
@@ -80,7 +83,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 					if (AiTimer > IDLETIME)
 					{
 						bool teleport = !Collision.CanHit(npc.Center, 0, 0, player.Center, 0, 0) || npc.Distance(player.Center) > TELEPORT_DISTANCE;
-						AiState = teleport ? STATE_TELEPORT : STATE_STARBURST;
+						AiState = teleport ? STATE_TELEPORT : Main.rand.NextBool() ? STATE_STARGLOOP : STATE_STARBURST;
 						AiTimer = 0;
 						npc.netUpdate = true;
 					}
@@ -109,7 +112,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 
 					if(AiTimer >= TELEPORT_ENDTIME + TELEPORT_STARTTIME)
 					{
-						AiState = STATE_STARBURST;
+						AiState = Main.rand.NextBool() ? STATE_STARGLOOP : STATE_STARBURST;
 						AiTimer = 0;
 						npc.netUpdate = true;
 					}
@@ -128,6 +131,19 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 					}
 
 					if(AiTimer > STARBURST_CHANNELTIME)
+					{
+						AiTimer = -Main.rand.Next(60);
+						AiState = STATE_IDLE;
+						npc.netUpdate = true;
+					}
+					break;
+
+				case STATE_STARGLOOP: //Attack mostly handled by head projectile, this is just for controlling the body and setting back to another state when done
+					frame.X = 1;
+					npc.velocity = Vector2.Zero;
+
+
+					if (AiTimer > STARGLOOP_TIME)
 					{
 						AiTimer = -Main.rand.Next(60);
 						AiState = STATE_IDLE;
@@ -196,12 +212,13 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 				npc.FindFrame();
 			}
 
-			if (AiState == STATE_STARBURST)
+			if (AiState == STATE_STARBURST || AiState == STATE_STARGLOOP)
 			{
 				float num395 = Main.mouseTextColor / 200f - 0.35f;
 				num395 *= 0.2f;
 				float num366 = num395 + 1.1f;
-				DrawAfterImage(Main.spriteBatch, new Vector2(0f, 0f), 0.5f, new Color(255, 234, 0), new Color(255, 234, 0) * .3f, 0.45f, num366, .65f);
+				Color color = (AiState == STATE_STARGLOOP) ? Color.DarkViolet : new Color(255, 234, 0);
+				DrawAfterImage(Main.spriteBatch, new Vector2(0f, 0f), 0.5f, color, color * .3f, 0.45f, num366, .65f);
 			}
 
 			Vector2 scale = new Vector2(TeleportWidth(), 1) * npc.scale;

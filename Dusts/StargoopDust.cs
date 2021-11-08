@@ -35,14 +35,16 @@ namespace SpiritMod.Dusts
             positions[dust.dustIndex] = dust.position;
             scales[dust.dustIndex] = dust.scale;
 
-            if (dust.scale <= 0.25f)
+            if (dust.scale <= DespawnScale)
             {
-                positions.Remove(dust.dustIndex);
-                scales.Remove(dust.dustIndex);
-                dust.active = false;
+					positions.Remove(dust.dustIndex);
+					scales.Remove(dust.dustIndex);
+					dust.active = false;
             }
             return false;
         }
+
+		internal virtual float DespawnScale => 0.25f;
 
         public void DrawOnMetaballLayer(SpriteBatch sB)
         {

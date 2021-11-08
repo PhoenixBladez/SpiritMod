@@ -21,8 +21,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		private ref float Timer => ref projectile.ai[0];
 		private Color chosenColor;
 
-		private const int MINTIMELEFT = 90; //Used to determine when its timer activates
-		private const int MAXTIMELEFT = 180;
+		private const int MINTIMELEFT = 120; //Used to determine when its timer activates
+		private const int MAXTIMELEFT = 210;
 
 		private const int FADEINTIME = 40; //How long it takes to fade in fully
 		private const int IDLETIME = 20; //How long it stays at full opacity before expanding and fading out
@@ -101,8 +101,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 				}
 
 				float progress = (Timer - FADEINTIME - IDLETIME) / FADEOUTTIME;
-				projectile.alpha = (int)MathHelper.Lerp(0, 255, PowF(progress, 1.2f));
-				projectile.scale = MathHelper.Lerp(0.66f, 2.5f, PowF(progress, 1.2f));
+				projectile.alpha = (int)MathHelper.Lerp(0, 255, PowF(progress, 0.25f));
+				projectile.scale = MathHelper.Lerp(0.66f, 2f, PowF(progress, 0.33f));
 			}
 		}
 

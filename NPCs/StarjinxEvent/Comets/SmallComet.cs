@@ -59,7 +59,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
                 npc.buffImmune[i] = true;
 
 			npc.hide = true; //Drawn manually by main meteor for layering and efficiency with shaders
-        }
+		}
 
 		float sinCounter;
         float sinIncrement = 0;
