@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 			projectile.tileCollide = false;
 			projectile.alpha = 255;
 			projectile.timeLeft = 360;
-			projectile.scale = Main.rand.NextFloat(1.3f, 1.5f);
+			projectile.scale = Main.rand.NextFloat(1f, 1.2f);
 		}
 
 		public override bool CanDamage() => false;
@@ -95,8 +95,8 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 
 		public void DoTrailCreation(TrailManager tM)
 		{
-			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, Color.Lerp(new Color(252, 3, 102), Color.White, 0.25f) * 0.1f), new RoundCap(), new ArrowGlowPosition(), 80, 120);
-			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(252, 3, 102) * 0.2f), new RoundCap(), new ArrowGlowPosition(), 40, 80);
+			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, Color.Lerp(new Color(252, 3, 102), Color.White, 0.25f) * 0.1f), new RoundCap(), new ArrowGlowPosition(), 64, 96);
+			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(252, 3, 102) * 0.2f), new RoundCap(), new ArrowGlowPosition(), 32, 64);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

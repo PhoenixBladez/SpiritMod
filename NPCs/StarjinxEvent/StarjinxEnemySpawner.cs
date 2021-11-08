@@ -21,12 +21,12 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		private ref float Timer => ref projectile.ai[0];
 		private Color chosenColor;
 
-		private const int MINTIMELEFT = 90; //Used to determine when its timer activates
-		private const int MAXTIMELEFT = 180;
+		private const int MINTIMELEFT = 120; //Used to determine when its timer activates
+		private const int MAXTIMELEFT = 210;
 
 		private const int FADEINTIME = 40; //How long it takes to fade in fully
-		private const int PULSETIME = 20; //How long it pulses before expanding and fading out
-		private int FADEOUTTIME => MINTIMELEFT - FADEINTIME - PULSETIME; //Remaining lifetime calculation, how long the projectile takes to fade out and expand
+		private const int IDLETIME = 20; //How long it stays at full opacity before expanding and fading out
+		private int FADEOUTTIME => MINTIMELEFT - FADEINTIME - IDLETIME; //Remaining lifetime calculation, how long the projectile takes to fade out and expand
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Starjinx Enemy Spawner");
 
@@ -74,15 +74,15 @@ namespace SpiritMod.NPCs.StarjinxEvent
 				projectile.scale = MathHelper.Lerp(1f, 0.66f, PowF(progress, 0.5f));
 			}
 
-			else if ((Timer - FADEINTIME) < PULSETIME) //Briefly pulse at full opacity
+			else if((Timer - FADEINTIME) < IDLETIME) //Compress slightly at full opacity
 			{
-				float progress = (Timer - FADEINTIME) / PULSETIME;
-				projectile.scale = MathHelper.Lerp(0.66f, 0.5f, (float)Math.Sin(progress * MathHelper.Pi));
+				float progress = (Timer - FADEINTIME) / IDLETIME;
+				projectile.scale = MathHelper.Lerp(0.66f, 0.5f, progress);
 			}
 
 			else
 			{
-				if (Timer == PULSETIME + FADEINTIME + 1) //Spawn in NPC and do visual effects
+				if(Timer == IDLETIME + FADEINTIME + 1)
 				{
 					int id = NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, enemyToSpawn);
 					NPC n = Main.npc[id];
@@ -100,9 +100,9 @@ namespace SpiritMod.NPCs.StarjinxEvent
 					}
 				}
 
-				float progress = (Timer - FADEINTIME - PULSETIME) / FADEOUTTIME;
-				projectile.alpha = (int)MathHelper.Lerp(0, 255, PowF(progress, 1.2f));
-				projectile.scale = MathHelper.Lerp(0.66f, 2.5f, PowF(progress, 1.2f));
+				float progress = (Timer - FADEINTIME - IDLETIME) / FADEOUTTIME;
+				projectile.alpha = (int)MathHelper.Lerp(0, 255, PowF(progress, 0.25f));
+				projectile.scale = MathHelper.Lerp(0.66f, 2f, PowF(progress, 0.33f));
 			}
 		}
 
@@ -121,6 +121,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			float baseScale = Math.Max(dummy.width, dummy.height);
 			baseScale /= star.Width;
 			baseScale *= projectile.scale;
+			if (enemyToSpawn == ModContent.NPCType<Enemies.StarWeaver.StarWeaverNPC>()) //Hardcoded to be bigger because of star weaver head
+				baseScale *= 1.75f;
 
 			const int MaxRays = 6;
 			for (int i = 0; i < MaxRays; i++)

@@ -37,8 +37,8 @@ namespace SpiritMod.Prim
 			{
 				float progress = (i / (float)maxTriangles);
 				Vector2 vertex = Position - (Radius * Vector2.UnitX.RotatedBy((MaxRadians * progress) + Rotation + (MaxRadians / 2)));
-				AddVertexIndex(vertex, new Vector2(1f, 0.5f));
-				AddVertexIndex(Position, new Vector2(0.5f, 0.5f));
+				AddVertexIndex(vertex, new Vector2(1f, 0f));
+				AddVertexIndex(Position, new Vector2(0.5f, 0f));
 			}
 
 			vertices = vertexList.ToArray();

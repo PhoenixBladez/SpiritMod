@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using Terraria.Utilities;
 using SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder;
+using SpiritMod.Prim;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 {
@@ -65,7 +66,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		}
 	}
 
-	public class Starachnid : ModNPC, IStarjinxEnemy
+	public class Starachnid : ModNPC, IStarjinxEnemy, IDrawAdditive
 	{
 		public List<StarThread> threads = new List<StarThread>(); //All active threads the spider has weaved
 		public StarThread currentThread; //The current thread the starachnid is on
@@ -76,9 +77,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		private float threadRotation = 0; //Current rotation of the thread
 		private float speed = 2; //The walking speed of the spider
 		private int threadCounter = 0; //How long has it been since last star?
-		private Color color = new Color(255, 148, 235, 0); //The color of the constellation
 
-		private const float THREADGROWLERP = 15; //How many frames does it take for threads to fade in/out?
+		private const float THREADGROWLERP = 30; //How many frames does it take for threads to fade in/out?
 		private const int DISTANCEFROMPLAYER = 300; //How far does the spider have to be from the player to turn around?
 
 		private int seed; // The seed shared between the server and clients for the starachshit
@@ -157,8 +157,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<StarachnidProj>(), Main.expertMode ? 20 : 45, 0, npc.target, npc.whoAmI);
 			}
 
-			Lighting.AddLight(npc.Center, color.R / 300f, color.G / 300f, color.B / 300f);
-
 			TraverseThread(); //Walk along thread
 			RotateIntoPlace(); //Smoothly rotate into place
 			UpdateThreads(); //Update the spider's threads
@@ -184,8 +182,13 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		{
 			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation % 6.28f, npc.frame.Size() / 2, npc.scale, SpriteEffects.FlipHorizontally, 0);
 
-			DrawThreads(spriteBatch);
 			return false;
+		}
+
+		public void AdditiveCall(SpriteBatch sB)
+		{
+			DrawThreads(sB);
+			sB.Draw(ModContent.GetTexture(Texture + "_glow"), npc.Center - Main.screenPosition, npc.frame, Color.White, npc.rotation % 6.28f, npc.frame.Size() / 2, npc.scale, SpriteEffects.FlipHorizontally, 0);
 		}
 
 		public void DrawPathfinderOutline(SpriteBatch spriteBatch) => PathfinderOutlineDraw.DrawAfterImage(spriteBatch, npc, npc.frame, Vector2.Zero, Color.White, 0.75f, 1, 1.4f, npc.frame.Size() / 2);
@@ -373,7 +376,15 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			threadCounter--;
 			//if (random.Next(200) == 0 && threadCounter < 0 && progress > 0.15f && progress < 0.85f)
 			//	NewThread(false, false);
-			Dust.NewDustPerfect(Bottom, 21);
+			if (!Main.dedServ && progress < 0.9f && progress > 0) //Make particles along the thread while starachnid walks
+			{
+				for(int i = -1; i <= 1; i++)
+				{
+					Vector2 vel = Vector2.Normalize(npc.position - npc.oldPosition);
+					Particles.ParticleHandler.SpawnParticle(new Particles.GlowParticle(Bottom, vel.RotatedBy(Main.rand.NextFloat(MathHelper.Pi / 16, MathHelper.Pi / 6) * i),
+						Color.HotPink, Main.rand.NextFloat(0.05f, 0.1f), 22, 15));
+				}
+			}
 		}
 
 		private void RotateIntoPlace()
@@ -400,46 +411,79 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				return;
 
 			float length;
-			Texture2D tex = SpiritMod.instance.GetTexture("NPCs/StarjinxEvent/Enemies/Starachnid/ConstellationStrip");
-			foreach (StarThread thread in threads)
+			Texture2D tex = SpiritMod.instance.GetTexture("Textures/Trails/Trail_4");
+			Vector2 threadScale = new Vector2(1 / (float)tex.Width, 30 / (float)tex.Height); //Base scale of the thread based on the texture's size, stretched horizontally depending on thread length
+
+			//Draw each thread's beam
+			foreach (StarThread thread in threads) 
 			{
 				length = Math.Min(thread.Counter / THREADGROWLERP, (thread.Duration - thread.Counter) / THREADGROWLERP);
 				length = Math.Min(length, 1);
-				spriteBatch.Draw(tex, thread.StartPoint - Main.screenPosition, null, color * 0.75f, (thread.EndPoint - thread.StartPoint).ToRotation(), new Vector2(0f, tex.Height / 2), new Vector2(thread.Length, 1) * length, SpriteEffects.None, 0f);
+				spriteBatch.Draw(tex, thread.StartPoint - Main.screenPosition, null, Color.HotPink * length, (thread.EndPoint - thread.StartPoint).ToRotation(), new Vector2(0f, tex.Height / 2), 
+					threadScale * new Vector2(thread.Length, 1), SpriteEffects.None, 0f);
 			}
 			StarThread thread2 = currentThread;
-			spriteBatch.Draw(tex, thread2.StartPoint - Main.screenPosition, null, color * 0.75f, (thread2.EndPoint - thread2.StartPoint).ToRotation(), new Vector2(0f, tex.Height / 2), new Vector2(thread2.Length * progress, 1), SpriteEffects.None, 0f);
 
-			tex = SpiritMod.instance.GetTexture("NPCs/StarjinxEvent/Enemies/Starachnid/SpiderStar");
 			float size = Math.Min(thread2.Counter / THREADGROWLERP, (thread2.Duration - thread2.Counter) / THREADGROWLERP);
 			size = Math.Min(size, 1);
-			spriteBatch.Draw(tex, thread2.EndPoint - Main.screenPosition, null, color * size, 0, new Vector2(tex.Width, tex.Height) / 2, size * thread2.EndScale, SpriteEffects.None, 0f);
 
+			spriteBatch.Draw(tex, thread2.StartPoint - Main.screenPosition, null, Color.HotPink, (thread2.EndPoint - thread2.StartPoint).ToRotation(), //Draw the portion of the current beam that's already been walked through
+				new Vector2(0f, tex.Height / 2), threadScale * new Vector2(progress * thread2.Length, 1), SpriteEffects.None, 0f);
+
+			spriteBatch.Draw(tex, thread2.EndPoint - Main.screenPosition, null, Color.HotPink * 0.5f * size, (thread2.StartPoint - thread2.EndPoint).ToRotation(), //Draw the remaining portion at lower opacity
+				new Vector2(0f, tex.Height / 2), threadScale * new Vector2((1 - progress) * thread2.Length, 1), SpriteEffects.None, 0f);
+
+			tex = SpiritMod.instance.GetTexture("NPCs/StarjinxEvent/Enemies/Starachnid/SpiderStar");
+			Texture2D Bloom = mod.GetTexture("Effects/Masks/CircleGradient");
+
+			//Use a method to cut down on boilerplate with drawing stars
+			void DrawStar(Vector2 center, float starSize, float rotation) 
+			{
+				int bloomstodraw = 3;
+				for (int i = 0; i < bloomstodraw; i++)
+				{
+					float progress = i / (float)bloomstodraw;
+					spriteBatch.Draw(Bloom, center - Main.screenPosition, null, Color.HotPink * starSize * MathHelper.Lerp(1f, 0.5f, 1 - progress), 0,
+						Bloom.Size() / 2, starSize * 0.4f * MathHelper.Lerp(0.66f, 1f, progress), SpriteEffects.None, 0);
+				}
+
+				spriteBatch.Draw(tex, center - Main.screenPosition, null, Color.White * starSize, rotation, tex.Size() / 2, starSize * 0.6f, SpriteEffects.None, 0);
+				spriteBatch.Draw(tex, center - Main.screenPosition, null, Color.White * starSize * 0.7f, -rotation, tex.Size() / 2, starSize * 0.5f, SpriteEffects.None, 0);
+			}
+
+			float rotationSpeed = 1.5f;
+			if (threads.Count == 0) //Fix it otherwise spawning on a thread with only 1 star
+				DrawStar(thread2.StartPoint, size, Main.GlobalTime * rotationSpeed);
+
+			DrawStar(thread2.EndPoint, size, Main.GlobalTime * rotationSpeed);
+
+			//Draw stars at each thread's end and start points
 			int threadsDrawn = 0;
-			foreach (StarThread thread in threads)
+			foreach (StarThread thread in threads) 
 			{
 				size = Math.Min(thread.Counter / THREADGROWLERP, (thread.Duration - thread.Counter) / THREADGROWLERP);
 				size = Math.Min(size, 1);
 				if (thread.DrawStart || threadsDrawn == 0)
-					spriteBatch.Draw(tex, thread.StartPoint - Main.screenPosition, null, color * size, 0, new Vector2(tex.Width, tex.Height) / 2, size * thread.StartScale, SpriteEffects.None, 0f);
-				spriteBatch.Draw(tex, thread.EndPoint - Main.screenPosition, null, color * size, 0, new Vector2(tex.Width, tex.Height) / 2, size * thread.EndScale, SpriteEffects.None, 0f);
+					DrawStar(thread.StartPoint, size, Main.GlobalTime * rotationSpeed);
+
+				DrawStar(thread.EndPoint, 1, Main.GlobalTime * rotationSpeed);
 				if (!thread.DrawStart)
 					threadsDrawn++;
 			}
 
-			//draw substars
+			//Draw substars(replace with particles later?)
 			foreach (StarThread thread in threads)
 			{
 				foreach (SubStar star in thread.SubStars)
 				{
-					float scale = star.MaxScale * (float)Math.Sin(star.Counter / 10f);
-					spriteBatch.Draw(tex, star.Position - Main.screenPosition, null, color, 0, new Vector2(tex.Width, tex.Height) / 2, scale, SpriteEffects.None, 0f);
+					float scale = star.MaxScale * (float)Math.Sin(star.Counter / 10f) * 0.5f;
+					spriteBatch.Draw(tex, star.Position - Main.screenPosition, null, Color.LightPink, 0, new Vector2(tex.Width, tex.Height) / 2, scale, SpriteEffects.None, 0f);
 				}
 			}
 			foreach (SubStar star in currentThread.SubStars)
 			{
-				float scale = star.MaxScale * (float)Math.Sin(star.Counter / 10f);
-				spriteBatch.Draw(tex, star.Position - Main.screenPosition, null, color, 0, new Vector2(tex.Width, tex.Height) / 2, scale, SpriteEffects.None, 0f);
+				float scale = star.MaxScale * (float)Math.Sin(star.Counter / 10f) * 0.5f;
+				spriteBatch.Draw(tex, star.Position - Main.screenPosition, null, Color.LightPink, 0, new Vector2(tex.Width, tex.Height) / 2, scale, SpriteEffects.None, 0f);
 			}
 		}
 
@@ -459,23 +503,40 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		}
 		private void ThreadDeathDust()
 		{
-			foreach (StarThread thread in threads)
+			if (Main.dedServ) //Dont do this on server
+				return;
+
+			//Burst of star particles at the positions of endpoints
+			void StarBreakParticles(Vector2 position)
 			{
-				for (int i = 0; i < thread.Length; i += 20)
+				for (int i = 0; i < 5; i++)
+					Particles.ParticleHandler.SpawnParticle(new Particles.StarParticle(position, Main.rand.NextVector2Unit() * Main.rand.NextFloat(1.5f),
+						Color.LightPink, Color.HotPink, Main.rand.NextFloat(0.2f, 0.3f), 25));
+			}
+
+			//Bloom particles along each thread
+			void ThreadBreakParticles(StarThread thread, float progress = 1)
+			{
+				for (int i = 0; i < thread.Length * progress; i += Main.rand.Next(7, 14))
 				{
 					Vector2 direction = thread.EndPoint - thread.StartPoint;
 					direction.Normalize();
 					Vector2 position = thread.StartPoint + (direction * i);
-					Dust.NewDustPerfect(position, 21);
+					Particles.ParticleHandler.SpawnParticle(new Particles.GlowParticle(position, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.5f), Color.HotPink,
+						Main.rand.NextFloat(0.07f, 0.1f), Main.rand.Next(30, 40), 12));
 				}
 			}
-			for (int i = 0; i < currentThread.Length * progress; i += 20)
+
+			foreach (StarThread thread in threads)
 			{
-				Vector2 direction = currentThread.EndPoint - currentThread.StartPoint;
-				direction.Normalize();
-				Vector2 position = currentThread.StartPoint + (direction * i);
-				Dust.NewDustPerfect(position, 21);
+				ThreadBreakParticles(thread);
+				StarBreakParticles(thread.StartPoint);
+				StarBreakParticles(thread.EndPoint);
 			}
+
+			ThreadBreakParticles(currentThread, progress);
+			StarBreakParticles(currentThread.StartPoint);
+			StarBreakParticles(currentThread.EndPoint);
 		}
 	}
 	public class StarachnidProj : ModProjectile

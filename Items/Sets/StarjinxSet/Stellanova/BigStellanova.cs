@@ -73,20 +73,14 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			else
 				_chain.Update(projectile.Center, projectile.Center);
 
-			//for (int i = 0; i < Main.maxProjectiles; ++i) //Supposed to gravitate StellanovaStarfire projectiles to this proj but it doesnt work :(
-			//{
-			//	Projectile p = Main.projectile[i];
-			//	if (p.active && p.DistanceSQ(projectile.Center) < 400 * 400 && p.type == ModContent.ProjectileType<StellanovaStarfire>())
-			//	{
-			//		if (p.modProjectile != null && p.modProjectile is StellanovaStarfire fire)
-			//		{
-			//			float angle = MathHelper.Lerp(fire.TargetVelocity.ToRotation(), p.AngleTo(projectile.Center), 0.6f);
-			//			fire.TargetVelocity = TargetVelocity.RotatedBy(angle) * StellanovaStarfire.MaxSpeed;
-
-			//			Main.NewText(angle);
-			//		}
-			//	}
-			//}
+			for (int i = 0; i < Main.maxProjectiles; ++i) //Gravitate StellanovaStarfire projectiles to this proj
+			{
+				Projectile p = Main.projectile[i];
+				if (p.active && p.DistanceSQ(projectile.Center) < 400 * 400 && p.type == ModContent.ProjectileType<StellanovaStarfire>())
+				{
+					p.velocity = Vector2.Lerp(p.velocity, p.DirectionTo(projectile.Center) * 20, 0.06f);
+				}
+			}
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)

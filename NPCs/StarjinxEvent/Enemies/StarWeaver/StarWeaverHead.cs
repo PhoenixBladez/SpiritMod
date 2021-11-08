@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Utilities;
 using SpiritMod.Particles;
+using System.Collections.Generic;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 {
@@ -27,6 +28,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			projectile.hostile = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
+			projectile.scale = 0.66f;
+			projectile.alpha = 255;
 		}
 
 		private NPC Parent => Main.npc[(int)projectile.ai[0]];
@@ -44,7 +47,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 		private const int STATE_HOVERTOPARENT = 0;
 		private const int STATE_RETURNTOPARENT = 1;
 
-		public override bool CanDamage() => TrailProgress == 1;
+		public override bool CanDamage() => TrailProgress == 1 || WeaverNPC.AiState == StarWeaverNPC.STATE_STARGLOOP && projectile.scale == 0.66f;
 
 		public override void AI()
 		{
@@ -63,7 +66,43 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			projectile.timeLeft = 2;
 			Vector2 TargetPos = Parent.Top - new Vector2(0, 20);
 			projectile.rotation = projectile.velocity.X * 0.05f;
-			projectile.scale = MathHelper.Lerp(1, 1.2f, TrailProgress);
+
+			int fadeTime = 35;
+			if (WeaverNPC.AiState == StarWeaverNPC.STATE_STARGLOOP) //Fade out head and do stargloop dust if parent is doing stargloop attack
+			{
+				for (int i = 0; i < 5; i++)
+					Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(15, 15), ModContent.DustType<Dusts.EnemyStargoopDustFastDissipate>(), 
+						Vector2.UnitY * Main.rand.NextFloat(-4.5f, -0.5f) + (projectile.velocity.RotatedByRandom(MathHelper.PiOver4) / 5), Scale: 3);
+
+				projectile.scale = Math.Max(projectile.scale - 0.33f / fadeTime, 0.66f);
+				projectile.alpha = Math.Min(projectile.alpha + 255 / fadeTime, 255);
+
+				//Shoot after fully fading out, calculated based on star weaver's stargloop attack length, and how many times it shoots
+				int ShotTimer = (int)(WeaverNPC.AiTimer - fadeTime);
+				int TimeBetweenShots = ((StarWeaverNPC.STARGLOOP_TIME - fadeTime) / StarWeaverNPC.STARGLOOP_NUMSHOTS);
+				if (WeaverNPC.AiTimer > fadeTime && ShotTimer % TimeBetweenShots == 0)
+				{
+					Vector2 velocity = projectile.DirectionTo(Main.player[Parent.target].Center)
+						.RotatedBy(Main.rand.NextFloat(MathHelper.PiOver4, MathHelper.PiOver2) * (Main.rand.NextBool() ? -1 : 1)) * Main.rand.NextFloat(4, 6);
+					projectile.velocity -= velocity * 1.33f;
+
+					int p = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<WeaverStargloopChaser>(), projectile.damage, 1f, Main.myPlayer, Parent.target);
+
+					if (Main.netMode != NetmodeID.SinglePlayer)
+						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, p);
+				}
+			}
+			else
+			{
+				if (projectile.scale >= 1)
+					projectile.scale = MathHelper.Lerp(1, 1.2f, TrailProgress);
+				else
+					projectile.scale = Math.Min(projectile.scale + 0.33f / fadeTime, 1);
+
+				projectile.alpha = Math.Max(projectile.alpha - 255 / fadeTime, 0);
+			}
+
+			//projectile.alpha = Math.Max(projectile.alpha - 255 / fadeTime, 0);
 
 			switch (AiState)
 			{
@@ -119,6 +158,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			}
 		}
 
+		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI) => drawCacheProjsBehindNPCs.Add(index);
+
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(AiTimer);
@@ -144,27 +185,29 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 				float scale = (TrailLength - i) / (float)TrailLength;
 				float opacity = TrailProgress * scale;
 
-				spriteBatch.Draw(ripple, position - Main.screenPosition, null, Color.Red * TrailProgress, 0, ripple.Size() / 2, 1.5f * scale, SpriteEffects.None, 0);
+				spriteBatch.Draw(ripple, position - Main.screenPosition, null, projectile.GetAlpha(Color.Red) * TrailProgress, 0, ripple.Size() / 2, 1.5f * scale, SpriteEffects.None, 0);
 
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], position - Main.screenPosition, projectile.DrawFrame(), Color.White * opacity, 
+				spriteBatch.Draw(Main.projectileTexture[projectile.type], position - Main.screenPosition, projectile.DrawFrame(), projectile.GetAlpha(lightColor) * opacity, 
 					rotation, projectile.DrawFrame().Size() / 2, projectile.scale * scale, SpriteEffects.None, 0);
 
-				spriteBatch.Draw(ModContent.GetTexture(Texture + "_glow"), position - Main.screenPosition, projectile.DrawFrame(), Color.White * opacity,
+				spriteBatch.Draw(ModContent.GetTexture(Texture + "_glowRed"), position - Main.screenPosition, projectile.DrawFrame(), projectile.GetAlpha(Color.White) * opacity,
 					rotation, projectile.DrawFrame().Size() / 2, projectile.scale * scale, SpriteEffects.None, 0);
 			}
 
-			spriteBatch.Draw(ripple, projectile.Center - Main.screenPosition, null, Color.Red * TrailProgress, 0, ripple.Size() / 2, 1.5f, SpriteEffects.None, 0);
+			spriteBatch.Draw(ripple, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(Color.Red) * TrailProgress, 0, ripple.Size() / 2, 1.5f, SpriteEffects.None, 0);
 			if(WeaverNPC.AiState == StarWeaverNPC.STATE_STARBURST)
 			{
-				spriteBatch.Draw(ripple, projectile.Center - Main.screenPosition, null, Color.Gold * (1 - TrailProgress), 0, ripple.Size() / 2, 1.5f, SpriteEffects.None, 0);
+				spriteBatch.Draw(ripple, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(Color.Gold) * (1 - TrailProgress), 0, ripple.Size() / 2, 1.5f, SpriteEffects.None, 0);
 
 				float num395 = Main.mouseTextColor / 200f - 0.35f;
 				num395 *= 0.2f;
 				float num366 = num395 + 1.1f;
-				DrawAfterImage(Main.spriteBatch, new Vector2(0f, 0f), 0.5f, new Color(255, 234, 0), new Color(255, 234, 0) * .3f, 0.45f * (1 - TrailProgress), num366, .65f);
+				DrawAfterImage(Main.spriteBatch, new Vector2(0f, 0f), 0.5f, projectile.GetAlpha(new Color(255, 234, 0)), projectile.GetAlpha(new Color(255, 234, 0)) * .3f, 0.45f * (1 - TrailProgress), num366, .65f);
 			}
-			projectile.QuickDraw(spriteBatch, drawColor: Color.White);
-			projectile.QuickDrawGlow(spriteBatch, Color.White * TrailProgress);
+			projectile.QuickDraw(spriteBatch);
+			projectile.QuickDrawGlow(spriteBatch, projectile.GetAlpha(Color.White) * (1 - TrailProgress));
+			spriteBatch.Draw(ModContent.GetTexture(Texture + "_glowRed"), projectile.Center - Main.screenPosition, projectile.DrawFrame(), projectile.GetAlpha(Color.White) * TrailProgress,
+				projectile.rotation, projectile.DrawFrame().Size() / 2, projectile.scale, SpriteEffects.None, 0);
 			return false;
 		}
 

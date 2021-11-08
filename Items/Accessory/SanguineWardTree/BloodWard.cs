@@ -50,7 +50,7 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 			if (_combatTime > 300)
 				_combatTime = 300;
 
-			float rotSpeed = player.velocity.Length() * 0.15f * (_combatTime / 5f);
+			float rotSpeed = player.velocity.Length() * 0.15f * (Math.Max(60, _combatTime) / 6f);
 
 			if (!HasRuneCircle && _circle != null)
 			{
@@ -67,7 +67,7 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 				player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawBloom(sB); }, ExtraDrawOnPlayer.DrawType.Additive);
 				player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawRuneCircle(sB); }, ExtraDrawOnPlayer.DrawType.AlphaBlend);
 
-				float opacity = Math.Min(((_combatTime + 50) / 250f) + 0.05f, 1f);
+				float opacity = Math.Min(((_combatTime + 50) / 250f) + 0.05f, 0.7f);
 				if (_circle == null)
 					_circle = new RuneCircle(MAXRADIUS, MAXRADIUS * 0.8f, 12, 8);
 				else
@@ -103,7 +103,7 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 			Color color = Color.Lerp(new Color(252, 3, 98), Color.White, flashprogress);
 			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
 
-			_circle.DelegateDraw(spriteBatch, player.MountedCenter, (flashprogress/5) + 0.3f, delegate (int runeNumber)
+			_circle.DelegateDraw(spriteBatch, player.MountedCenter, 0.3f, delegate (int runeNumber)
 			{
 				return new RuneCircle.RuneDrawInfo(bloom, color, bloom.Bounds);
 			});
