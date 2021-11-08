@@ -34,7 +34,8 @@ namespace SpiritMod.World
 		{
 			int attempts = 0;
 
-			while (true) {
+			while (true)
+			{
 				attempts++;
 				if (attempts > 20)
 					break;
@@ -42,13 +43,15 @@ namespace SpiritMod.World
 				progress.Message = "Spirit Mod: Adding Microstructures...";
 
 				if (WorldGen.genRand.Next(4) == 0)
-						GenerateCampsite();
+					GenerateCampsite();
 
-				if (Main.rand.Next(2) == 0) {
+				if (Main.rand.Next(2) == 0)
+				{
 					new BanditHideout().Generate();
 					MyWorld.gennedBandits = true;
 				}
-				else {
+				else
+				{
 					new GoblinTower().Generate();
 					MyWorld.gennedTower = true;
 				}
@@ -73,7 +76,7 @@ namespace SpiritMod.World
 					GenerateGemStash();
 
 				for (int i = 0; i < Main.maxTilesX / 4200f * 2f; i++)
-					GenerateBoneIsland((int)(Main.maxTilesX / 4200f * 2f), i);
+					GenerateBoneIsland((int)(Main.maxTilesX / 2100f), i); //2 islands in a small world
 
 				GeneratePagoda();
 				GenerateZiggurat();
@@ -96,47 +99,49 @@ namespace SpiritMod.World
 				{1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 			};
 
-			while (true) {
+			while (true)
+			{
 				// Select a place in the first 6th of the world
-				int towerX = Main.spawnTileX + Main.rand.Next(-800, 800); // from 50 since there's a unaccessible area at the world's borders
+				int fireX = Main.spawnTileX + Main.rand.Next(-800, 800); // from 50 since there's a unaccessible area at the world's borders
 																		  // 50% of choosing the last 6th of the world
-				if (WorldGen.genRand.NextBool()) {
-					towerX = Main.maxTilesX - towerX;
-				}
+				if (WorldGen.genRand.NextBool())
+					fireX = Main.maxTilesX - fireX;
 
-				int towerY = 0;
+				int fireY = 0;
 				// We go down until we hit a solid tile or go under the world's surface
-				while (!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface)
-					towerY++;
+				while (!WorldGen.SolidTile(fireX, fireY) && fireY <= Main.worldSurface)
+					fireY++;
 
 				// If we went under the world's surface, try again
-				if (towerY > Main.worldSurface) {
+				if (fireY > Main.worldSurface)
 					continue;
-				}
 
-				Tile tile = Main.tile[towerX, towerY];
+				Tile tile = Main.tile[fireX, fireY];
 				// If the type of the tile we are placing the tower on doesn't match what we want, try again
 				if (tile.type != TileID.Dirt && tile.type != TileID.Grass && tile.type != TileID.Stone)
 					continue;
 
 				// place the tower
-				PlaceCampsite(towerX, towerY + 1, CampShape1);
-
+				PlaceCampsite(fireX, fireY + 1, CampShape1);
 				break;
 			}
 		}
 
 		private static void PlaceCampsite(int i, int j, int[,] BlocksArray)
 		{
-			for (int y = 0; y < BlocksArray.GetLength(0); y++) {
-				for (int x = 0; x < BlocksArray.GetLength(1); x++) {
+			for (int y = 0; y < BlocksArray.GetLength(0); y++)
+			{
+				for (int x = 0; x < BlocksArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
 
-					if (WorldGen.InWorld(k, l, 30)) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
 						Tile tile = Framing.GetTileSafely(k, l);
 
-						switch (BlocksArray[y, x]) {
+						switch (BlocksArray[y, x])
+						{
 							case 0:
 								tile.ClearTile();
 								break;
@@ -164,34 +169,33 @@ namespace SpiritMod.World
 				}
 			}
 
-			for (int y = 0; y < BlocksArray.GetLength(0); y++) {
-				for (int x = 0; x < BlocksArray.GetLength(1); x++) {
+			for (int y = 0; y < BlocksArray.GetLength(0); y++)
+			{
+				for (int x = 0; x < BlocksArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
 
-					if (WorldGen.InWorld(k, l, 30)) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
 						Tile tile = Framing.GetTileSafely(k, l);
 
-						switch (BlocksArray[y, x]) {
+						switch (BlocksArray[y, x])
+						{
 							case 0:
 								break;
-
 							case 1:
 								WorldGen.PlaceTile(k, l, 2);
 								break;
-
 							case 2:
 								WorldGen.PlaceObject(k, l, 215, true, 0);
 								break;
-
 							case 3:
 								WorldGen.PlaceTile(k, l, ModContent.TileType<TentOpposite>());
 								break;
-
 							case 4:
 								WorldGen.PlaceObject(k, l, 187, true, 26, 1, -1, -1);
 								break;
-
 							case 5:
 								WorldGen.PlaceTile(k, l, 28);  // Pot
 								tile.active(true);
@@ -206,8 +210,8 @@ namespace SpiritMod.World
 		#region Crate Stashes
 		private static void GenerateCrateStash()
 		{
-			bool placed = false;
-			while (!placed) {
+			while (true)
+			{
 				int hideoutX = Main.rand.Next(300, Main.maxTilesX - 300); // from 50 since there's a unaccessible area at the world's borders
 				int hideoutY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 450);
 				Tile tile = Main.tile[hideoutX, hideoutY];
@@ -215,19 +219,15 @@ namespace SpiritMod.World
 				if (!tile.active() || tile.type != TileID.Stone)
 					continue;
 
-				List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
-				Point[] containers = location.ToArray();
-
-				StructureLoader.GetStructure("CrateStashRegular").PlaceForce(hideoutX, hideoutY, out containers);
-
-				placed = true;
+				StructureLoader.GetStructure("CrateStashRegular").PlaceForce(hideoutX, hideoutY, out Point[] containers);
+				break;
 			}
 		}
 
 		private static void GenerateCrateStashJungle()
 		{
-			bool placed = false;
-			while (!placed) {
+			while (true)
+			{
 				int hideoutX = Main.rand.Next(300, Main.maxTilesX - 300); // from 50 since there's a unaccessible area at the world's borders
 				int hideoutY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 450);
 				Tile tile = Framing.GetTileSafely(hideoutX, hideoutY);
@@ -235,12 +235,8 @@ namespace SpiritMod.World
 				if (!tile.active() || tile.type != 60)
 					continue;
 
-				List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
-				Point[] containers = location.ToArray();
-
-				StructureLoader.GetStructure("CrateStashJungle").PlaceForce(hideoutX, hideoutY, out containers);
-
-				placed = true;
+				StructureLoader.GetStructure("CrateStashJungle").PlaceForce(hideoutX, hideoutY, out Point[] containers);
+				break;
 			}
 		}
 		#endregion Crate Stashes
@@ -248,7 +244,8 @@ namespace SpiritMod.World
 		#region Bismite Cavern
 		private static void GenerateBismiteCavern()
 		{
-			while (true) {
+			while (true)
+			{
 				int hideoutX = Main.rand.Next(300, Main.maxTilesX - 200); // from 50 since there's a unaccessible area at the world's borders
 				int hideoutY = Main.rand.Next((int)Main.rockLayer, Main.maxTilesY - 300);
 				Tile tile = Framing.GetTileSafely(hideoutX, hideoutY);
@@ -274,27 +271,16 @@ namespace SpiritMod.World
 		#region Stone Dungeon
 		private static void GenerateStoneDungeon()
 		{
-			while (true) {
+			while (true)
+			{
 				int hideoutX = Main.rand.Next(50, Main.maxTilesX - 200); // from 50 since there's a unaccessible area at the world's borders
 				int hideoutY = Main.rand.Next((int)Main.rockLayer, Main.maxTilesY);
 				Tile tile = Framing.GetTileSafely(hideoutX, hideoutY);
 
-				List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
-				Point[] containers = location.ToArray();
-
-				if (!tile.active() || tile.type != TileID.Stone) {
+				if (!tile.active() || tile.type != TileID.Stone)
 					continue;
-				}
 
-				if (WorldGen.genRand.Next(2) == 0) {
-					StructureLoader.GetStructure("StoneDungeon1").PlaceForce(hideoutX, hideoutY, out containers);
-				}
-				else if (WorldGen.genRand.Next(2) == 0) {
-					StructureLoader.GetStructure("StoneDungeon2").PlaceForce(hideoutX, hideoutY, out containers);
-				}
-				else {
-					StructureLoader.GetStructure("StoneDungeon3").PlaceForce(hideoutX, hideoutY, out containers);
-				}
+				StructureLoader.GetStructure("StoneDungeon" + (WorldGen.genRand.Next(3) + 1)).PlaceForce(hideoutX, hideoutY, out Point[] containers);
 				break;
 			}
 		}
@@ -430,13 +416,17 @@ namespace SpiritMod.World
 
 		private static void PlaceGemStash(int i, int j, int[,] BlocksArray, int[,] WallsArray, int[,] LootArray)
 		{
-			for (int y = 0; y < WallsArray.GetLength(0); y++) {
-				for (int x = 0; x < WallsArray.GetLength(1); x++) {
+			for (int y = 0; y < WallsArray.GetLength(0); y++)
+			{
+				for (int x = 0; x < WallsArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
 
-					if (WorldGen.InWorld(k, l, 30)) {
-						switch (WallsArray[y, x]) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
+						switch (WallsArray[y, x])
+						{
 							case 0:
 								break;
 							case 1:
@@ -456,13 +446,17 @@ namespace SpiritMod.World
 				}
 			}
 
-			for (int y = 0; y < BlocksArray.GetLength(0); y++) {
-				for (int x = 0; x < BlocksArray.GetLength(1); x++) {
+			for (int y = 0; y < BlocksArray.GetLength(0); y++)
+			{
+				for (int x = 0; x < BlocksArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
 
-					if (WorldGen.InWorld(k, l, 30)) {
-						switch (BlocksArray[y, x]) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
+						switch (BlocksArray[y, x])
+						{
 							case 0:
 								break;
 
@@ -482,15 +476,19 @@ namespace SpiritMod.World
 				}
 			}
 
-			for (int y = 0; y < BlocksArray.GetLength(0); y++) {
-				for (int x = 0; x < BlocksArray.GetLength(1); x++) {
+			for (int y = 0; y < BlocksArray.GetLength(0); y++)
+			{
+				for (int x = 0; x < BlocksArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
 
-					if (WorldGen.InWorld(k, l, 30)) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
 						Tile tile = Framing.GetTileSafely(k, l);
 
-						switch (BlocksArray[y, x]) {
+						switch (BlocksArray[y, x])
+						{
 							case 0:
 								break;
 
@@ -523,15 +521,19 @@ namespace SpiritMod.World
 				}
 			}
 
-			for (int y = 0; y < WallsArray.GetLength(0); y++) {
-				for (int x = 0; x < WallsArray.GetLength(1); x++) {
+			for (int y = 0; y < WallsArray.GetLength(0); y++)
+			{
+				for (int x = 0; x < WallsArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
 
-					if (WorldGen.InWorld(k, l, 30)) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
 						Tile tile = Framing.GetTileSafely(k, l);
 
-						switch (WallsArray[y, x]) {
+						switch (WallsArray[y, x])
+						{
 							case 0:
 								break;
 
@@ -543,15 +545,19 @@ namespace SpiritMod.World
 				}
 			}
 
-			for (int y = 0; y < LootArray.GetLength(0); y++) {
-				for (int x = 0; x < LootArray.GetLength(1); x++) {
+			for (int y = 0; y < LootArray.GetLength(0); y++)
+			{
+				for (int x = 0; x < LootArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
 
-					if (WorldGen.InWorld(k, l, 30)) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
 						Tile tile = Framing.GetTileSafely(k, l);
 
-						switch (LootArray[y, x]) {
+						switch (LootArray[y, x])
+						{
 							case 0:
 								break;
 
@@ -566,19 +572,24 @@ namespace SpiritMod.World
 
 							case 6:
 								int objects;
-								if (WorldGen.genRand.NextBool(3)) {
+								if (WorldGen.genRand.NextBool(3))
+								{
 									objects = TileID.Statues;
 								}
-								else if (WorldGen.genRand.NextBool(2)) {
+								else if (WorldGen.genRand.NextBool(2))
+								{
 									objects = TileID.Anvils;
 								}
-								else if (WorldGen.genRand.NextBool(4)) {
+								else if (WorldGen.genRand.NextBool(4))
+								{
 									objects = TileID.Pianos;
 								}
-								else if (WorldGen.genRand.NextBool(4)) {
+								else if (WorldGen.genRand.NextBool(4))
+								{
 									objects = TileID.WorkBenches;
 								}
-								else {
+								else
+								{
 									objects = TileID.Pots;
 								}
 
@@ -590,19 +601,24 @@ namespace SpiritMod.World
 								break;
 
 							case 8:
-								if (WorldGen.genRand.NextBool(3)) {
+								if (WorldGen.genRand.NextBool(3))
+								{
 									objects = TileID.Statues;
 								}
-								else if (WorldGen.genRand.NextBool(2)) {
+								else if (WorldGen.genRand.NextBool(2))
+								{
 									objects = TileID.Anvils;
 								}
-								else if (WorldGen.genRand.NextBool(4)) {
+								else if (WorldGen.genRand.NextBool(4))
+								{
 									objects = TileID.Pianos;
 								}
-								else if (WorldGen.genRand.NextBool(4)) {
+								else if (WorldGen.genRand.NextBool(4))
+								{
 									objects = TileID.WorkBenches;
 								}
-								else {
+								else
+								{
 									objects = TileID.Pots;
 								}
 
@@ -622,26 +638,26 @@ namespace SpiritMod.World
 		#region Bone Island
 		private static void GenerateBoneIsland(int islands, int section)
 		{
-			while (true) {
-				// Select a place in the first 6th of the world
-				int sectionSize = Main.maxTilesX / 3 * 2 / islands;
-				int towerX = Main.rand.Next((sectionSize * section) + 50, (sectionSize * (section + 1)) - 50);
-				int towerY = WorldGen.genRand.Next(Main.maxTilesY / 9, Main.maxTilesY / 8);
+			int attempts = -1;
 
-				Tile tile = Main.tile[towerX, towerY];
-				if (tile.active())
-					continue;
+		retry:
+			attempts++;
+			// Select a place in the first 6th of the world
+			int sectionSize = Main.maxTilesX / 3 * 2 / islands;
+			int islandX = WorldGen.genRand.Next((sectionSize * section) + 50, (sectionSize * (section + 1)) - 50);
+			int islandY = WorldGen.genRand.Next(Main.maxTilesY / 9, Main.maxTilesY / 8);
 
-				List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
-				Point[] containers = location.ToArray();
-
-				if (WorldGen.genRand.Next(2) == 0)
-					StructureLoader.GetStructure("BoneIsland").PlaceForce(towerX, towerY, out containers);
-				else
-					StructureLoader.GetStructure("BoneIsland1").PlaceForce(towerX, towerY, out containers);
-
-				break;
+			for (int i = 0; i < 30; ++i)
+			{
+				for (int j = 0; j < 20; ++j)
+				{
+					Tile tile = Framing.GetTileSafely(islandX + i, islandY + j);
+					if (tile.active())
+						goto retry; //Retry if this space is taken up
+				}
 			}
+
+			StructureLoader.GetStructure(WorldGen.genRand.Next(2) == 0 ? "BoneIsland" : "BoneIsland1").PlaceForce(islandX, islandY, out Point[] containers); //Place the bone island
 		}
 		#endregion Bone Island
 
@@ -751,28 +767,33 @@ namespace SpiritMod.World
 			};
 
 			bool placed = false;
-			while (!placed) {
+			while (!placed)
+			{
 				// Select a place in the first 6th of the world
 				int hideoutX = Main.rand.Next(Main.maxTilesX / 6, Main.maxTilesX / 6 * 5); // from 50 since there's a unaccessible area at the world's borders
 																						   // 50% of choosing the last 6th of the world
-				if (WorldGen.genRand.NextBool()) {
+				if (WorldGen.genRand.NextBool())
+				{
 					hideoutX = Main.maxTilesX - hideoutX;
 				}
 
 				int hideoutY = 0;
 				// We go down until we hit a solid tile or go under the world's surface
-				while (!WorldGen.SolidTile(hideoutX, hideoutY) && hideoutY <= Main.worldSurface) {
+				while (!WorldGen.SolidTile(hideoutX, hideoutY) && hideoutY <= Main.worldSurface)
+				{
 					hideoutY++;
 				}
 
 				// If we went under the world's surface, try again
-				if (hideoutY > Main.worldSurface) {
+				if (hideoutY > Main.worldSurface)
+				{
 					continue;
 				}
 
 				Tile tile = Main.tile[hideoutX, hideoutY];
 				// If the type of the tile we are placing the hideout on doesn't match what we want, try again
-				if (tile.type != TileID.Sand && tile.type != TileID.Ebonsand && tile.type != TileID.Crimsand && tile.type != TileID.Sandstone) {
+				if (tile.type != TileID.Sand && tile.type != TileID.Ebonsand && tile.type != TileID.Crimsand && tile.type != TileID.Sandstone)
+				{
 					continue;
 				}
 
@@ -784,13 +805,17 @@ namespace SpiritMod.World
 
 		private static void PlaceZiggurat(int i, int j, int[,] BlocksArray, int[,] WallsArray, int[,] LootArray)
 		{
-			for (int y = 0; y < BlocksArray.GetLength(0); y++) {
-				for (int x = 0; x < BlocksArray.GetLength(1); x++) {
+			for (int y = 0; y < BlocksArray.GetLength(0); y++)
+			{
+				for (int x = 0; x < BlocksArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
 						Tile tile = Framing.GetTileSafely(k, l);
-						switch (BlocksArray[y, x]) {
+						switch (BlocksArray[y, x])
+						{
 							case 0:
 								break;
 							case 1:
@@ -810,13 +835,17 @@ namespace SpiritMod.World
 				}
 			}
 
-			for (int y = 0; y < WallsArray.GetLength(0); y++) {
-				for (int x = 0; x < WallsArray.GetLength(1); x++) {
+			for (int y = 0; y < WallsArray.GetLength(0); y++)
+			{
+				for (int x = 0; x < WallsArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
 						Tile tile = Framing.GetTileSafely(k, l);
-						switch (WallsArray[y, x]) {
+						switch (WallsArray[y, x])
+						{
 							case 0:
 								break;
 							case 1:
@@ -836,13 +865,17 @@ namespace SpiritMod.World
 				}
 			}
 
-			for (int y = 0; y < BlocksArray.GetLength(0); y++) {
-				for (int x = 0; x < BlocksArray.GetLength(1); x++) {
+			for (int y = 0; y < BlocksArray.GetLength(0); y++)
+			{
+				for (int x = 0; x < BlocksArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
 						Tile tile = Framing.GetTileSafely(k, l);
-						switch (BlocksArray[y, x]) {
+						switch (BlocksArray[y, x])
+						{
 							case 0:
 								break;
 							case 1:
@@ -858,13 +891,17 @@ namespace SpiritMod.World
 				}
 			}
 
-			for (int y = 0; y < WallsArray.GetLength(0); y++) {
-				for (int x = 0; x < WallsArray.GetLength(1); x++) {
+			for (int y = 0; y < WallsArray.GetLength(0); y++)
+			{
+				for (int x = 0; x < WallsArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
 						Tile tile = Framing.GetTileSafely(k, l);
-						switch (WallsArray[y, x]) {
+						switch (WallsArray[y, x])
+						{
 							case 0:
 								break;
 							case 1:
@@ -881,13 +918,17 @@ namespace SpiritMod.World
 				}
 			}
 
-			for (int y = 0; y < LootArray.GetLength(0); y++) {
-				for (int x = 0; x < LootArray.GetLength(1); x++) {
+			for (int y = 0; y < LootArray.GetLength(0); y++)
+			{
+				for (int x = 0; x < LootArray.GetLength(1); x++)
+				{
 					int k = i - 3 + x;
 					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
+					if (WorldGen.InWorld(k, l, 30))
+					{
 						Tile tile = Framing.GetTileSafely(k, l);
-						switch (LootArray[y, x]) {
+						switch (LootArray[y, x])
+						{
 							case 0:
 								break;
 							case 4:
@@ -921,7 +962,8 @@ namespace SpiritMod.World
 			int x = width + 80;
 			MyWorld.asteroidSide = 0;
 
-			if (WorldGen.genRand.NextBool()) {
+			if (WorldGen.genRand.NextBool())
+			{
 				x = Main.maxTilesX - (width + 80);
 				MyWorld.asteroidSide = 1;
 			}
@@ -993,10 +1035,12 @@ namespace SpiritMod.World
 			int chestTries = 0;
 			int chestSuccesses = 0;
 
-			while (chestTries < MaxChestTries && chestSuccesses < 4) {
+			while (chestTries < MaxChestTries && chestSuccesses < 4)
+			{
 				int x = i + WorldGen.genRand.Next(0 - width, width);
 				int y = j + WorldGen.genRand.Next(0 - height, height);
-				if (WorldGen.PlaceChest(x, y, (ushort)ModContent.TileType<Tiles.Furniture.SpaceJunk.AsteroidChest>(), false, 0) != -1) {
+				if (WorldGen.PlaceChest(x, y, (ushort)ModContent.TileType<Tiles.Furniture.SpaceJunk.AsteroidChest>(), false, 0) != -1)
+				{
 					chestSuccesses++;
 					chestTries = 0;
 				}
@@ -1007,21 +1051,28 @@ namespace SpiritMod.World
 		private static void PlaceBlob(int x, int y, float xsize, float ysize, int size, int type, int roundness, bool placewall = false, int walltype = 0)
 		{
 			int distance = size;
-			for (int i = 0; i < 360; i++) {
-				if (360 - i <= Math.Abs(size - distance) / Math.Sqrt(size) * 50) {
-					if (size > distance) {
+			for (int i = 0; i < 360; i++)
+			{
+				if (360 - i <= Math.Abs(size - distance) / Math.Sqrt(size) * 50)
+				{
+					if (size > distance)
+					{
 						distance++;
 					}
-					else {
+					else
+					{
 						distance--;
 					}
 				}
-				else {
+				else
+				{
 					int increase = Main.rand.Next(roundness);
-					if (increase == 0 && distance > 3) {
+					if (increase == 0 && distance > 3)
+					{
 						distance--;
 					}
-					if (increase == 1) {
+					if (increase == 1)
+					{
 						distance++;
 					}
 				}
@@ -1057,144 +1108,180 @@ namespace SpiritMod.World
 		{
 			progress.Message = "Spirit Mod: Adding Ambient Objects...";
 
-			if (WorldGen.CopperTierOre == TileID.Copper) {
-				for (int i = 0; i < Main.maxTilesX * 22.5; i++) {
+			if (WorldGen.CopperTierOre == TileID.Copper)
+			{
+				for (int i = 0; i < Main.maxTilesX * 22.5; i++)
+				{
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)Main.worldSurface, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
-					if (tile.type == TileID.Stone && tile.active()) {
+					if (tile.type == TileID.Stone && tile.active())
+					{
 						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<CopperPile>());
 						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<CopperPile>(), 0, 0, -1, -1);
 					}
 				}
 			}
-			else if (WorldGen.CopperTierOre == TileID.Tin) {
-				for (int i = 0; i < Main.maxTilesX * 22.5; i++) {
+			else if (WorldGen.CopperTierOre == TileID.Tin)
+			{
+				for (int i = 0; i < Main.maxTilesX * 22.5; i++)
+				{
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)Main.worldSurface, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
-					if (tile.type == TileID.Stone && tile.active()) {
+					if (tile.type == TileID.Stone && tile.active())
+					{
 						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<TinPile>());
 						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<TinPile>(), 0, 0, -1, -1);
 					}
 				}
 			}
 
-			if (WorldGen.IronTierOre == TileID.Iron) {
-				for (int i = 0; i < Main.maxTilesX * 15; i++) {
+			if (WorldGen.IronTierOre == TileID.Iron)
+			{
+				for (int i = 0; i < Main.maxTilesX * 15; i++)
+				{
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
-					if (tile.type == TileID.Stone && tile.active()) {
+					if (tile.type == TileID.Stone && tile.active())
+					{
 						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<IronPile>());
 						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<IronPile>(), 0, 0, -1, -1);
 					}
 				}
 			}
-			else if (WorldGen.IronTierOre == TileID.Lead) {
-				for (int i = 0; i < Main.maxTilesX * 15; i++) {
+			else if (WorldGen.IronTierOre == TileID.Lead)
+			{
+				for (int i = 0; i < Main.maxTilesX * 15; i++)
+				{
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
-					if (tile.type == TileID.Stone && tile.active()) {
+					if (tile.type == TileID.Stone && tile.active())
+					{
 						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<LeadPile>());
 						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<LeadPile>(), 0, 0, -1, -1);
 					}
 				}
 			}
 
-			if (WorldGen.SilverTierOre == TileID.Silver) {
-				for (int i = 0; i < Main.maxTilesX * 11.75f; i++) {
+			if (WorldGen.SilverTierOre == TileID.Silver)
+			{
+				for (int i = 0; i < Main.maxTilesX * 11.75f; i++)
+				{
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
-					if (tile.type == TileID.Stone && tile.active()) {
+					if (tile.type == TileID.Stone && tile.active())
+					{
 						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<SilverPile>());
 						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<SilverPile>(), 0, 0, -1, -1);
 					}
 				}
 			}
-			else if (WorldGen.SilverTierOre == TileID.Tungsten) {
-				for (int i = 0; i < Main.maxTilesX * 11.75f; i++) {
+			else if (WorldGen.SilverTierOre == TileID.Tungsten)
+			{
+				for (int i = 0; i < Main.maxTilesX * 11.75f; i++)
+				{
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
-					if (tile.type == TileID.Stone && tile.active()) {
+					if (tile.type == TileID.Stone && tile.active())
+					{
 						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<TungstenPile>());
 						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<TungstenPile>(), 0, 0, -1, -1);
 					}
 				}
 			}
 
-			if (WorldGen.GoldTierOre == TileID.Gold) {
-				for (int i = 0; i < Main.maxTilesX * 7.5f; i++) {
+			if (WorldGen.GoldTierOre == TileID.Gold)
+			{
+				for (int i = 0; i < Main.maxTilesX * 7.5f; i++)
+				{
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
-					if (tile.type == TileID.Stone && tile.active()) {
+					if (tile.type == TileID.Stone && tile.active())
+					{
 						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<GoldPile>());
 						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<GoldPile>(), 0, 0, -1, -1);
 					}
 				}
 			}
-			else if (WorldGen.GoldTierOre == TileID.Platinum) {
-				for (int i = 0; i < Main.maxTilesX * 7.5f; i++) {
+			else if (WorldGen.GoldTierOre == TileID.Platinum)
+			{
+				for (int i = 0; i < Main.maxTilesX * 7.5f; i++)
+				{
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
-					if (tile.type == TileID.Stone && tile.active()) {
+					if (tile.type == TileID.Stone && tile.active())
+					{
 						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<PlatinumPile>());
 						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<PlatinumPile>(), 0, 0, -1, -1);
 					}
 				}
 			}
 
-			for (int C = 0; C < Main.maxTilesX * 10; C++) {
+			for (int C = 0; C < Main.maxTilesX * 10; C++)
+			{
 				int X = WorldGen.genRand.Next(300, Main.maxTilesX - 300);
 				int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY - 200);
-				if (Main.tile[X, Y].type == TileID.Stone) {
+				if (Main.tile[X, Y].type == TileID.Stone)
+				{
 					WorldGen.PlaceObject(X, Y, ModContent.TileType<ExplosiveBarrelTile>());
 					NetMessage.SendObjectPlacment(-1, X, Y, ModContent.TileType<ExplosiveBarrelTile>(), 0, 0, -1, -1);
 				}
 			}
 
-			for (int C = 0; C < Main.maxTilesX * 45; C++) {
+			for (int C = 0; C < Main.maxTilesX * 45; C++)
+			{
 				int[] sculptures = new int[] { ModContent.TileType<IceWheezerPassive>(), ModContent.TileType<IceFlinxPassive>(), ModContent.TileType<IceBatPassive>(), ModContent.TileType<IceVikingPassive>(), ModContent.TileType<IceWheezerHostile>(), ModContent.TileType<IceFlinxHostile>(), ModContent.TileType<IceBatHostile>(), ModContent.TileType<IceVikingHostile>() };
 				int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 				int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-				if ((Main.tile[X, Y].type == TileID.IceBlock || Main.tile[X, Y].type == TileID.SnowBlock) && Main.tile[X, Y + 1].type != 162) {
+				if ((Main.tile[X, Y].type == TileID.IceBlock || Main.tile[X, Y].type == TileID.SnowBlock) && Main.tile[X, Y + 1].type != 162)
+				{
 					WorldGen.PlaceObject(X, Y, (ushort)sculptures[Main.rand.Next(8)]);
 					NetMessage.SendObjectPlacment(-1, X, Y, (ushort)sculptures[Main.rand.Next(4)], 0, 0, -1, -1);
 				}
 			}
 
-			for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 78) * 15E-05); k++) {
+			for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 78) * 15E-05); k++)
+			{
 				int EEXX = WorldGen.genRand.Next(0, Main.maxTilesX);
 				int WHHYY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 130);
-				if (Main.tile[EEXX, WHHYY] != null) {
-					if (Main.tile[EEXX, WHHYY].active()) {
-						if (Main.tile[EEXX, WHHYY].type == 368) {
+				if (Main.tile[EEXX, WHHYY] != null)
+				{
+					if (Main.tile[EEXX, WHHYY].active())
+					{
+						if (Main.tile[EEXX, WHHYY].type == 368)
+						{
 							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(4, 8), (ushort)ModContent.TileType<GraniteOre>());
 						}
-						if (Main.tile[EEXX, WHHYY].type == 367) {
+						if (Main.tile[EEXX, WHHYY].type == 367)
+						{
 							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 8), WorldGen.genRand.Next(4, 9), (ushort)ModContent.TileType<MarbleOre>());
 						}
 					}
 				}
 			}
 
-			for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 16.2f) * 6E-03); k++) {
+			for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 16.2f) * 6E-03); k++)
+			{
 				{
 					int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int Y = WorldGen.genRand.Next(0, Main.maxTilesY);
-					if ((Main.tile[X, Y].type == ModContent.TileType<Asteroid>() || Main.tile[X, Y].type == ModContent.TileType<BigAsteroid>())) {
+					if ((Main.tile[X, Y].type == ModContent.TileType<Asteroid>() || Main.tile[X, Y].type == ModContent.TileType<BigAsteroid>()))
+					{
 						WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<BlueShardBig>());
 						NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<BlueShardBig>(), 0, 0, -1, -1);
 					}
 				}
 			}
 
-			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * 7.2f) * 6E-03); k++) {
+			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * 7.2f) * 6E-03); k++)
+			{
 				int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 				int Y = WorldGen.genRand.Next((int)Main.worldSurface - 100, (int)Main.worldSurface + 30);
 
@@ -1203,16 +1290,20 @@ namespace SpiritMod.World
 				if (ice)
 					types = new ushort[] { (ushort)ModContent.TileType<IceCube1>(), (ushort)ModContent.TileType<IceCube2>(), (ushort)ModContent.TileType<IceCube3>() };
 
-				if (Main.tile[X, Y].type == TileID.SnowBlock || Main.tile[X, Y].type == TileID.IceBlock) {
-					if (Main.rand.Next(3) == 0) {
+				if (Main.tile[X, Y].type == TileID.SnowBlock || Main.tile[X, Y].type == TileID.IceBlock)
+				{
+					if (Main.rand.Next(3) == 0)
+					{
 						WorldGen.PlaceObject(X, Y, types[2]);
 						NetMessage.SendObjectPlacment(-1, X, Y, types[2], 0, 0, -1, -1);
 					}
-					else if (Main.rand.Next(2) == 0) {
+					else if (Main.rand.Next(2) == 0)
+					{
 						WorldGen.PlaceObject(X, Y, types[1]);
 						NetMessage.SendObjectPlacment(-1, X, Y, types[1], 0, 0, -1, -1);
 					}
-					else {
+					else
+					{
 						WorldGen.PlaceObject(X, Y, types[0]);
 						NetMessage.SendObjectPlacment(-1, X, Y, types[0], 0, 0, -1, -1);
 					}
@@ -1220,7 +1311,7 @@ namespace SpiritMod.World
 			}
 
 			//Ocean corals
-			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * 16.2f) * 6E-03); k++) 
+			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * 16.2f) * 6E-03); k++)
 			{ //I hate the usage of scientific notation here but for consistency's sake it stays
 				int X = WorldGen.genRand.Next(5, 338);
 				if (WorldGen.genRand.NextBool())
@@ -1229,15 +1320,17 @@ namespace SpiritMod.World
 
 				int[] validTypes = new int[] { TileID.Sand, TileID.Crimsand, TileID.Ebonsand }; //Valid sand types
 
-				if (validTypes.Contains(Framing.GetTileSafely(X, Y).type) && Framing.GetTileSafely(X, Y).liquid > 155) 
+				if (validTypes.Contains(Framing.GetTileSafely(X, Y).type) && Framing.GetTileSafely(X, Y).liquid > 155)
 				{
-					if (validTypes.Contains(Framing.GetTileSafely(X + 1, Y).type) && validTypes.Contains(Framing.GetTileSafely(X + 2, Y).type) && WorldGen.genRand.NextBool(4)) { //Check for ground & randomize - 3x3 coral
+					if (validTypes.Contains(Framing.GetTileSafely(X + 1, Y).type) && validTypes.Contains(Framing.GetTileSafely(X + 2, Y).type) && WorldGen.genRand.NextBool(4))
+					{ //Check for ground & randomize - 3x3 coral
 						WorldGen.PlaceObject(X, Y, ModContent.TileType<Coral3x3>(), true, 0);
 						NetMessage.SendObjectPlacment(-1, X, Y, ModContent.TileType<Coral3x3>(), 0, 0, -1, -1);
 						continue;
 					}
 
-					if (validTypes.Contains(Framing.GetTileSafely(X + 1, Y).type) && WorldGen.genRand.NextBool(4)) { //Check for ground & randomize - 2x2/2x3 Coral/Kelp
+					if (validTypes.Contains(Framing.GetTileSafely(X + 1, Y).type) && WorldGen.genRand.NextBool(4))
+					{ //Check for ground & randomize - 2x2/2x3 Coral/Kelp
 						int type = ModContent.TileType<Coral2x2>();
 						int choice = WorldGen.genRand.Next(6);
 						if (choice == 0)
@@ -1252,7 +1345,8 @@ namespace SpiritMod.World
 						continue;
 					}
 
-					if (WorldGen.genRand.NextBool(2)) { //Randomize - 1x2 Coral/Kelp
+					if (WorldGen.genRand.NextBool(2))
+					{ //Randomize - 1x2 Coral/Kelp
 						int type = ModContent.TileType<Coral1x2>();
 						if (WorldGen.genRand.NextBool(3))
 							type = ModContent.TileType<Kelp1x2>();
