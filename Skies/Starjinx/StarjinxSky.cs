@@ -47,8 +47,8 @@ namespace SpiritMod.Skies.Starjinx
 			Stars.Add(new StarjinxBGStar(
 				new Vector2(Main.rand.NextFloat(Main.screenWidth), Main.rand.NextFloat(Main.screenHeight)), //Position
 				Vector2.UnitX * Main.rand.NextFloat(8, 12), //Velocity
-				Main.rand.NextBool() ? Color.White : (Main.rand.NextBool() ? new Color(101, 255, 245) : new Color(255, 161, 239)), // Color
-				Main.rand.NextFloat(0.15f, 0.75f))); //Parallax
+				Main.rand.NextBool() ? Color.White : (Main.rand.NextBool() ? new Color(0, 247, 255) : new Color(255, 56, 205)), // Color
+				Main.rand.NextFloat(0.15f, 0.5f))); //Parallax
 		}
 
 		public override void Update(GameTime gameTime)
@@ -86,7 +86,7 @@ namespace SpiritMod.Skies.Starjinx
 					Time += (float)Main.dayLength;
 
 				float TimeLerp = Time / (float)(Main.dayLength + Main.nightLength);
-				TimeLerp = MathHelper.Clamp((float)-Math.Sin(-(MathHelper.Pi / 8) + (TimeLerp * MathHelper.TwoPi)), 0.2f, 0.6f);
+				TimeLerp = MathHelper.Clamp((float)-Math.Sin(-(MathHelper.Pi / 8) + (TimeLerp * MathHelper.TwoPi)), 0.22f, 0.3f) * 2f;
 				spriteBatch.Draw(_bgTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), 
 					Color.Lerp(Color.LightBlue, Color.Black, TimeLerp) * _fadeOpacity);
 
@@ -192,10 +192,10 @@ namespace SpiritMod.Skies.Starjinx
 				Time += (float)Main.dayLength;
 
 			float TimeLerp = Time / (float)(Main.dayLength + Main.nightLength);
-			TimeLerp = MathHelper.Clamp((float)-Math.Sin(-(MathHelper.Pi / 8) + (TimeLerp * MathHelper.TwoPi)), 0.25f, 0.6f);
+			TimeLerp = MathHelper.Clamp((float)-Math.Sin(-(MathHelper.Pi / 8) + (TimeLerp * MathHelper.TwoPi)), 0.22f, 0.3f) * 2f;
 
 			sB.Draw(BloomTexture, Position, null, Color * Opacity * MathHelper.Lerp(0.7f, 1f, TimeLerp), 0, BloomTexture.Size() / 2, Scale * 0.85f, SpriteEffects.None, 0);
-			sB.Draw(Texture, Position, null, Color * Opacity, 0, Texture.Size() / 2, Scale, SpriteEffects.None, 0);
+			sB.Draw(Texture, Position, null, Color.Lerp(Color, Color.White, 0.5f) * Opacity, 0, Texture.Size() / 2, Scale, SpriteEffects.None, 0);
 		}
 	}
 }

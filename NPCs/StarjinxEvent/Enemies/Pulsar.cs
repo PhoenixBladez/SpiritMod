@@ -24,7 +24,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies
 			npc.friendly = false;
 			npc.knockBackResist = 0f;
 			npc.HitSound = SoundID.DD2_CrystalCartImpact;
-			npc.DeathSound = SoundID.DD2_WitherBeastDeath;
+			npc.DeathSound = SoundID.DD2_ExplosiveTrapExplode;
 			npc.width = 66;
 			npc.height = 88;
 			npc.damage = 45;

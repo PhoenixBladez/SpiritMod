@@ -83,7 +83,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			npc.TargetClosest(true);
 			npc.spriteDirection = npc.direction;
 
-			bool empowered = npc.GetGlobalNPC<PathfinderGNPC>().Targetted;
+			bool empowered = npc.GetGlobalNPC<PathfinderGNPC>().Buffed;
 
 			if (++AiTimer < IdleTime)
 			{
@@ -177,7 +177,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		{
 			npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
 
-			bool empowered = npc.GetGlobalNPC<PathfinderGNPC>().Targetted;
+			bool empowered = npc.GetGlobalNPC<PathfinderGNPC>().Buffed;
 
 			var modnpc = npc.modNPC as MeteorMagus;
 

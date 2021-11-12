@@ -60,6 +60,8 @@ float4 MainPS(VertexShaderOutput input) : COLOR0
     float4 final = color * input.Color;
     if (input.TextureCoordinates.y > 0.7f)
         final *= 1 - (input.TextureCoordinates.y - 0.7f) * 3;
+    
+    final.a *= (1 - input.TextureCoordinates.y)/2 + 0.5f;
 
      return final;
 }

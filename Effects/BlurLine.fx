@@ -6,8 +6,9 @@ sampler textureSampler = sampler_state
 {
     Texture = (uTexture);
 };
-bool flipCoords = false;
-bool additive = false;
+float progress;
+float4 uColor;
+float4 uSecondaryColor;
 
 struct VertexShaderInput
 {
@@ -36,23 +37,21 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
     return output;
 };
 
+const float fadeHeight = 0.95f;
 float4 MainPS(VertexShaderOutput input) : COLOR0
-{
-    float2 coords = input.TextureCoordinates;
-    if (flipCoords)
-        coords = float2(input.TextureCoordinates.y, input.TextureCoordinates.x);
+{    
+    float strength = pow(1 - (2 * abs(input.TextureCoordinates.x - 0.5f)), 3);
+    strength *= pow(1 - 2 * abs(input.TextureCoordinates.y - 0.5f), 2);
+    strength *= 2;
     
-    float4 color = tex2D(textureSampler, coords);
-    
-    if (additive)
-        color *= (color.r + color.g + color.b) / 3;
-    
-    return color * input.Color;
+    float4 color = input.Color;
+    color *= strength;
+    return color;
 }
 
 technique BasicColorDrawing
 {
-    pass PrimitiveTextureMap
+    pass Default
 	{
         VertexShader = compile vs_2_0 MainVS();
         PixelShader = compile ps_2_0 MainPS();

@@ -11,6 +11,7 @@ namespace SpiritMod.Prim
 	{
 		TaperEnd,
 		TaperStart,
+		TaperBoth,
 		None
 	}
 
@@ -42,7 +43,7 @@ namespace SpiritMod.Prim
 			}
 
 			//Check if the array is not too small first
-			if(PositionArray.Length >= 2)
+			if(PositionArray.Length >= (TaperingType == StripTaperType.TaperBoth ? 3 : 2))
 			{
 				//Iterate through the given array of positions
 				for (int i = 0; i < PositionArray.Length - 1; i++)
@@ -62,6 +63,10 @@ namespace SpiritMod.Prim
 						case StripTaperType.TaperEnd:
 							widthModifier *= (1 - progress);
 							break;
+						case StripTaperType.TaperBoth:
+							progress = (i + 1) / (float)(PositionArray.Length - 1);
+							widthModifier *= (float)Math.Pow(1 - (Math.Abs(progress - 0.5f) * 2), 0.5f);
+							break;
 					}
 					if (WidthDelegate != null)
 						widthModifier *= WidthDelegate.Invoke(progress);
@@ -70,7 +75,7 @@ namespace SpiritMod.Prim
 					if (i == start)
 					{
 						Vector2 currentPosition = PositionArray[i];
-						if (TaperingType == StripTaperType.TaperStart) //Only add the center point if set to taper at the start
+						if (TaperingType == StripTaperType.TaperStart || TaperingType == StripTaperType.TaperBoth) //Only add the center point if set to taper at the start
 							AddVertexIndex(currentPosition, new Vector2(0.5f, 0));
 
 						else
@@ -87,7 +92,7 @@ namespace SpiritMod.Prim
 					}
 
 					Vector2 nextPosition = PositionArray[i + 1];
-					if (i == end && TaperingType == StripTaperType.TaperEnd) //Only add the center point if set to taper at the end
+					if (i == end && (TaperingType == StripTaperType.TaperEnd || TaperingType == StripTaperType.TaperBoth)) //Only add the center point if set to taper at the end
 						AddVertexIndex(nextPosition, new Vector2(0.5f, 1));
 
 					else //Add vertices based on the next position of the array
@@ -96,8 +101,19 @@ namespace SpiritMod.Prim
 
 						Vector2 nextLeft = nextPosition - (nextWidthUnit * Width * widthModifier);
 						Vector2 nextRight = nextPosition + (nextWidthUnit * Width * widthModifier);
-						AddVertexIndex(nextRight, new Vector2(1, progress));
-						AddVertexIndex(nextLeft, new Vector2(0, progress));
+
+						//Needs to be in opposite order with this tapering type to avoid backwards facing primitives 
+						if(TaperingType == StripTaperType.TaperBoth)
+						{
+							AddVertexIndex(nextLeft, new Vector2(0, progress));
+							AddVertexIndex(nextRight, new Vector2(1, progress));
+						}
+
+						else
+						{
+							AddVertexIndex(nextRight, new Vector2(1, progress));
+							AddVertexIndex(nextLeft, new Vector2(0, progress));
+						}
 					}
 				}
 			}

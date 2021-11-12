@@ -178,9 +178,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			}
 		}
 
+		public override Color? GetAlpha(Color drawColor) => Color.Lerp(drawColor, Color.White, 0.5f) * npc.Opacity;
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation % 6.28f, npc.frame.Size() / 2, npc.scale, SpriteEffects.FlipHorizontally, 0);
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, GetAlpha(drawColor).Value, npc.rotation % 6.28f, npc.frame.Size() / 2, npc.scale, SpriteEffects.FlipHorizontally, 0);
 
 			return false;
 		}
@@ -391,7 +392,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		{
 			toRotation = (currentThread.EndPoint - currentThread.StartPoint).ToRotation();
 
-			bool empowered = npc.GetGlobalNPC<PathfinderGNPC>().Targetted;
+			bool empowered = npc.GetGlobalNPC<PathfinderGNPC>().Buffed;
 			float speedInc = empowered ? 1.4f : 1f;
 
 			float rotDifference = ((((toRotation - npc.rotation) % 6.28f) + 9.42f) % 6.28f) - 3.14f;

@@ -187,7 +187,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 
 				spriteBatch.Draw(ripple, position - Main.screenPosition, null, projectile.GetAlpha(Color.Red) * TrailProgress, 0, ripple.Size() / 2, 1.5f * scale, SpriteEffects.None, 0);
 
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], position - Main.screenPosition, projectile.DrawFrame(), projectile.GetAlpha(lightColor) * opacity, 
+				spriteBatch.Draw(Main.projectileTexture[projectile.type], position - Main.screenPosition, projectile.DrawFrame(), projectile.GetAlpha(Color.Lerp(lightColor, Color.White, 0.5f)) * opacity, 
 					rotation, projectile.DrawFrame().Size() / 2, projectile.scale * scale, SpriteEffects.None, 0);
 
 				spriteBatch.Draw(ModContent.GetTexture(Texture + "_glowRed"), position - Main.screenPosition, projectile.DrawFrame(), projectile.GetAlpha(Color.White) * opacity,
@@ -204,7 +204,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 				float num366 = num395 + 1.1f;
 				DrawAfterImage(Main.spriteBatch, new Vector2(0f, 0f), 0.5f, projectile.GetAlpha(new Color(255, 234, 0)), projectile.GetAlpha(new Color(255, 234, 0)) * .3f, 0.45f * (1 - TrailProgress), num366, .65f);
 			}
-			projectile.QuickDraw(spriteBatch);
+			projectile.QuickDraw(spriteBatch, drawColor: projectile.GetAlpha(Color.Lerp(lightColor, Color.White, 0.5f)));
 			projectile.QuickDrawGlow(spriteBatch, projectile.GetAlpha(Color.White) * (1 - TrailProgress));
 			spriteBatch.Draw(ModContent.GetTexture(Texture + "_glowRed"), projectile.Center - Main.screenPosition, projectile.DrawFrame(), projectile.GetAlpha(Color.White) * TrailProgress,
 				projectile.rotation, projectile.DrawFrame().Size() / 2, projectile.scale, SpriteEffects.None, 0);

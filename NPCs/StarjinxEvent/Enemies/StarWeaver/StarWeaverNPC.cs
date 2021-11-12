@@ -223,11 +223,13 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			}
 
 			Vector2 scale = new Vector2(TeleportWidth(), 1) * npc.scale;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2,
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, GetAlpha(drawColor).Value, npc.rotation, npc.frame.Size() / 2,
 				scale, (npc.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
 			return false;
 		}
+
+		public override Color? GetAlpha(Color drawColor) => Color.Lerp(drawColor, Color.White, 0.5f) * npc.Opacity;
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{

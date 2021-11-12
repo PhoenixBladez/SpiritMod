@@ -20,7 +20,7 @@ namespace SpiritMod.Prim
 		/// <summary>
 		/// Used for the purpose of having a pseudo 3D effect for pulse circle particles, multiplies the color based on the x coordinate of the texture coordinates
 		/// </summary>
-		public float ColorXCoordMod { get; set; }
+		public float ColorXCoordMod { get; set; } = 1;
 
 		public float Rotation { get; set; }
 

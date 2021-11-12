@@ -58,8 +58,8 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 			Texture2D blurLine = Main.extraTexture[89];
 			Vector2 blurScale = new Vector2(0.3f, MathHelper.Lerp(2.5f, 3f, BlurTimer));
 			float bloomScale = MathHelper.Lerp(0.5f, 0.55f, Timer);
-			spriteBatch.Draw(blurLine, itemCenter, null, color * opacity, MathHelper.PiOver2 + rotation, blurLine.Size() / 2, blurScale, SpriteEffects.None, 0); //draw the bloom
-			spriteBatch.Draw(bloom, itemCenter, null, color * opacity, 0, bloom.Size() / 2, bloomScale, SpriteEffects.None, 0); //draw the blur line
+			spriteBatch.Draw(blurLine, itemCenter, null, color * opacity, MathHelper.PiOver2 + rotation, blurLine.Size() / 2, blurScale, SpriteEffects.None, 0); //draw the blur line
+			spriteBatch.Draw(bloom, itemCenter, null, color * opacity, 0, bloom.Size() / 2, bloomScale, SpriteEffects.None, 0); //draw the bloom
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 

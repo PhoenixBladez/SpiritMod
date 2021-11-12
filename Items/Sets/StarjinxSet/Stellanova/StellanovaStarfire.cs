@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		private const int MAXTIMELEFT = 120;
 		private readonly Color Yellow = new Color(242, 240, 134);
 		private readonly Color Orange = new Color(255, 98, 74);
-		private readonly Color Purple = new Color(83, 3, 107);
+		private readonly Color Purple = new Color(255, 0, 144);
 		private bool Dying = false; //Used for a less abrupt death, stops movement and starts fadeout when set to true by colliding with tiles
 
 
@@ -43,6 +43,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
             projectile.ignoreWater = true;
 			projectile.alpha = 0;
 			projectile.scale = Main.rand.NextFloat(0.9f, 1.3f);
+			projectile.hide = true;
         }
 
 		private float CircleOffset;
@@ -103,7 +104,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			//tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(242, 240, 134), new Color(255, 88, 35)), new RoundCap(), new DefaultTrailPosition(), 50f * projectile.scale, 250f * projectile.scale, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.02f, 1f, 1f));
 		}
 
-		public override bool PreDraw(SpriteBatch sB, Color lightColor)
+		public void AdditiveCall(SpriteBatch sB)
 		{
 			//set the parameters for the shader
 			Effect effect = mod.GetEffect("Effects/FlameTrail");
@@ -119,7 +120,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 
 			///Just using the oldpos array with no changes bugs out due to values defaulting to (0, 0) in the world until set, setting all values to projectile.position makes a weird rectangle shape as
 			///the projectile spawns in. This solution isn't ideal, as it may bug out when the projectile actually passes through (0, 0), but it works well enough for now
-			Vector2[] trimmedOldPos = projectile.oldPos.Where(x => x != Vector2.Zero).ToArray(); 
+			Vector2[] trimmedOldPos = projectile.oldPos.Where(x => x != Vector2.Zero).ToArray();
 			Vector2[] posarray = new Vector2[trimmedOldPos.Length];
 			trimmedOldPos.CopyTo(posarray, 0);
 			posarray.IterateArray(delegate (ref Vector2 vec, int index, float progress) { vec += projectile.Size / 2; });
@@ -129,7 +130,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 				Width = 18 * projectile.scale,
 				PositionArray = posarray,
 				TaperingType = StripTaperType.None,
-				WidthDelegate = delegate(float progress) { return ((float)Math.Sin((Main.GlobalTime - progress) * MathHelper.TwoPi * 1.5f) * 0.33f + 1.33f) * (float)Math.Pow(1 - progress, 0.8f); }
+				WidthDelegate = delegate (float progress) { return ((float)Math.Sin((Main.GlobalTime - progress) * MathHelper.TwoPi * 1.5f) * 0.33f + 1.33f) * (float)Math.Pow(1 - progress, 0.8f); }
 			};
 			PrimitiveRenderer.DrawPrimitiveShape(strip, effect);
 
@@ -143,14 +144,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			};
 			PrimitiveRenderer.DrawPrimitiveShape(circle, effect);
 
-
-			return false;
-		}
-
-		public void AdditiveCall(SpriteBatch sB)
-		{
-			#region blur lines
-
+			//Blur lines
 			Texture2D tex = Main.extraTexture[89];
 			float Timer = (float)(Math.Abs(Math.Sin(Main.GlobalTime * 8f)) / 12f) + 0.7f;
 			Vector2 scaleVerticalGlow = new Vector2(0.25f, 2f) * Timer;
@@ -158,8 +152,6 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			Color blurcolor = Color.Lerp(Yellow, Color.White, 0.33f) * projectile.Opacity;
 			sB.Draw(tex, projectile.Center - Main.screenPosition, null, blurcolor * Timer, 0, tex.Size() / 2, scaleVerticalGlow, SpriteEffects.None, 0);
 			sB.Draw(tex, projectile.Center - Main.screenPosition, null, blurcolor * Timer, MathHelper.PiOver2, tex.Size() / 2, scaleHorizontalGlow, SpriteEffects.None, 0);
-
-			#endregion
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => HitEffects();

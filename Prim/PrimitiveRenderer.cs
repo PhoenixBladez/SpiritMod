@@ -23,6 +23,7 @@ namespace SpiritMod.Prim
 			if (vertices.Length == 0 || indeces.Length == 0)
 				return;
 
+			Graphics.RasterizerState = RasterizerState.CullNone;
 			//If the inputted effect is null, use the static BasicEffect
 			if(effect == null)
 			{
