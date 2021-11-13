@@ -277,7 +277,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 					direction.Y *= -1;
 
 				if (StarjinxEventWorld.StarjinxActive && Vector2.Distance(finalPos, player.GetModPlayer<StarjinxPlayer>().StarjinxPosition) > StarjinxMeteorite.EVENT_RADIUS)
-				{
+				{ //Check for leaving event area
 					direction = Vector2.Normalize(player.GetModPlayer<StarjinxPlayer>().StarjinxPosition - startPos);
 					dist = 2;
 				}
@@ -287,7 +287,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				{
 					while (dist < maxDistance)
 					{
-						//direction = random.NextFloat(MathHelper.TwoPi).ToRotationVector2();
+						//direction = random.NextFloat(MathHelper.TwoPi).ToRotationVector2(); //I removed this since it just made the first while loop useless? I don't really know what this is supposed to do.
 						for (dist = 16; dist < maxDistance; dist++)
 						{
 							Vector2 toLookAt = startPos + (direction * dist);
@@ -325,7 +325,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 					direction.Y *= -1;
 
 				if (StarjinxEventWorld.StarjinxActive && Vector2.Distance(finalPos, player.GetModPlayer<StarjinxPlayer>().StarjinxPosition) > StarjinxMeteorite.EVENT_RADIUS)
-				{
+				{ //Check for leaving event area
 					direction = Vector2.Normalize(player.GetModPlayer<StarjinxPlayer>().StarjinxPosition - startPos);
 					dist = 2;
 				}
@@ -335,7 +335,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				{
 					while (dist < maxDistance)
 					{
-						//direction = random.NextFloat(MathHelper.TwoPi).ToRotationVector2();
+						//direction = random.NextFloat(MathHelper.TwoPi).ToRotationVector2(); //I removed this since it just made the first while loop useless? I don't really know what this is supposed to do.
 						for (dist = 16; dist < maxDistance; dist++)
 						{
 							Vector2 toLookAt = startPos + (direction * dist);
