@@ -61,7 +61,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				if (star.Counter > 31)
 					SubStars.Remove(star);
 			}
-			if (Main.rand.Next((int)((1f / Length) * 20000)) + 1 < 4)
+			if (Main.rand.Next(Math.Max((int)((1f / Length) * 20000), 1)) + 1 < 4)
 				SubStars.Add(new SubStar(Main.rand.NextFloat(0.3f, 0.5f), Vector2.Lerp(StartPoint, EndPoint, Main.rand.NextFloat()) + (Main.rand.NextFloat(6.28f).ToRotationVector2() * Main.rand.Next(15, 40)))); //super magic number-y line, not super proud of this
 		}
 	}
@@ -259,7 +259,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				while (dist < maxDistance) //Loop through the shortest angle to the player, but multiplied by a random float (above 0.5f)
 				{
 					float rotDifference = ((((distanceFromPlayer.ToRotation() - threadRotation) % MathHelper.TwoPi) + 9.42f) % MathHelper.TwoPi) - MathHelper.Pi;
-					direction = (threadRotation + (Math.Sign(rotDifference) * random.NextFloat(1f, 1.5f))).ToRotationVector2();
+					direction = (threadRotation + ((Math.Sign(rotDifference) > 0 ? 1 : -1) * random.NextFloat(1f, 1.5f))).ToRotationVector2();
 
 					for (dist = 16; dist < maxDistance; dist++)
 					{

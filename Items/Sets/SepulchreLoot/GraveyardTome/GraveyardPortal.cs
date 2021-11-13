@@ -113,6 +113,8 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 			SpiritMod.ShaderDict["PortalShader"].Parameters["PortalNoise"].SetValue(mod.GetTexture("Utilities/Noise/SpiralNoise"));
 			SpiritMod.ShaderDict["PortalShader"].Parameters["DistortionNoise"].SetValue(mod.GetTexture("Utilities/Noise/noise"));
 			SpiritMod.ShaderDict["PortalShader"].Parameters["Timer"].SetValue(MathHelper.WrapAngle(Main.GlobalTime / 3));
+			SpiritMod.ShaderDict["PortalShader"].Parameters["DistortionStrength"].SetValue(0.1f);
+			SpiritMod.ShaderDict["PortalShader"].Parameters["Rotation"].SetValue(MathHelper.WrapAngle(Main.GlobalTime / 2));
 			SpiritMod.ShaderDict["PortalShader"].CurrentTechnique.Passes[0].Apply();
 
 			float opacitymod = (float)Math.Pow(projectile.scale / MaxScale, 2);
