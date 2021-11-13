@@ -1575,7 +1575,8 @@ namespace SpiritMod
 					luminousType = Main.rand.Next(new int[] { 1, 2, 3 });
 					luminousOcean = true;
 				}
-				luminousOcean = false;
+				else
+					luminousOcean = false;
 
 				if (!Main.dayTime && (Main.moonPhase == 2 || Main.moonPhase == 6) && !Main.bloodMoon && Main.rand.Next(2) == 0)
 					calmNight = true;

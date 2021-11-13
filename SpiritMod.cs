@@ -315,6 +315,12 @@ namespace SpiritMod
 
 			MyPlayer spirit = player.GetModPlayer<MyPlayer>();
 
+			if (NPC.AnyNPCs(NPCID.SkeletronPrime) && config.SkeletronPrimeMusic)
+			{
+				music = GetSoundSlot(SoundType.Music, "Sounds/Music/SkeletronPrime");
+				priority = MusicPriority.BossMedium; 
+			}
+
 			if (player.GetModPlayer<NPCs.StarjinxEvent.StarjinxPlayer>().zoneStarjinxEvent)
 			{
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Starjinx");
@@ -370,10 +376,18 @@ namespace SpiritMod
 			if (priority > MusicPriority.BiomeHigh)
 				return;
 
-			if (spirit.ZoneReach && Main.dayTime && !player.ZoneRockLayerHeight)
+			if (spirit.ZoneReach)
 			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Reach");
 				priority = MusicPriority.BiomeHigh;
+				if (!player.ZoneRockLayerHeight)
+				{
+					if (Main.dayTime)
+						music = GetSoundSlot(SoundType.Music, "Sounds/Music/Reach");
+					else
+						music = GetSoundSlot(SoundType.Music, "Sounds/Music/ReachNighttime");
+				}
+				else
+					music = GetSoundSlot(SoundType.Music, "Sounds/Music/ReachUnderground");
 			}
 			else if (spirit.ZoneReach)
 			{
