@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.IO;
 using Terraria.Utilities;
 using SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder;
-using SpiritMod.Prim;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 {
@@ -28,6 +27,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 
 		public void Update() => Counter++;
 	}
+
 	public class StarThread
 	{
 		public Vector2 StartPoint;
@@ -61,7 +61,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				if (star.Counter > 31)
 					SubStars.Remove(star);
 			}
-			if (Main.rand.Next((int)((1f / Length) * 20000)) < 3)
+			if (Main.rand.Next((int)((1f / Length) * 20000)) + 1 < 4)
 				SubStars.Add(new SubStar(Main.rand.NextFloat(0.3f, 0.5f), Vector2.Lerp(StartPoint, EndPoint, Main.rand.NextFloat()) + (Main.rand.NextFloat(6.28f).ToRotationVector2() * Main.rand.Next(15, 40)))); //super magic number-y line, not super proud of this
 		}
 	}
@@ -179,6 +179,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		}
 
 		public override Color? GetAlpha(Color drawColor) => Color.Lerp(drawColor, Color.White, 0.5f) * npc.Opacity;
+		public void DrawPathfinderOutline(SpriteBatch spriteBatch) => PathfinderOutlineDraw.DrawAfterImage(spriteBatch, npc, npc.frame, Vector2.Zero, Color.White, 0.75f, 1, 1.4f, npc.frame.Size() / 2);
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, GetAlpha(drawColor).Value, npc.rotation % 6.28f, npc.frame.Size() / 2, npc.scale, SpriteEffects.FlipHorizontally, 0);
@@ -192,7 +194,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			sB.Draw(ModContent.GetTexture(Texture + "_glow"), npc.Center - Main.screenPosition, npc.frame, Color.White, npc.rotation % 6.28f, npc.frame.Size() / 2, npc.scale, SpriteEffects.FlipHorizontally, 0);
 		}
 
-		public void DrawPathfinderOutline(SpriteBatch spriteBatch) => PathfinderOutlineDraw.DrawAfterImage(spriteBatch, npc, npc.frame, Vector2.Zero, Color.White, 0.75f, 1, 1.4f, npc.frame.Size() / 2);
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter %= Main.npcFrameCount[npc.type];
@@ -246,7 +247,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		//The first while loop, the new angle is in the same GENERAL direction as the current thread
 		//The second one can go in any direction
 		//However, if the player is too far away, it curves towards them
-		private Vector2 NewThreadAngle(int maxDistance, bool mainThread, ref int i, Vector2 startPos)
+		private Vector2 NewThreadAngle(int maxDistance, bool mainThread, ref int dist, Vector2 startPos)
 		{
 			Player player = Main.player[npc.target];
 			Vector2 distanceFromPlayer = player.Center - startPos;
@@ -255,30 +256,41 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 
 			if (distanceFromPlayer.Length() > DISTANCEFROMPLAYER && mainThread)
 			{
-				while (i < maxDistance) //Loop through the shortest angle to the player, but multiplied by a random float (above 0.5f)
+				while (dist < maxDistance) //Loop through the shortest angle to the player, but multiplied by a random float (above 0.5f)
 				{
-					float rotDifference = ((((distanceFromPlayer.ToRotation() - threadRotation) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
+					float rotDifference = ((((distanceFromPlayer.ToRotation() - threadRotation) % MathHelper.TwoPi) + 9.42f) % MathHelper.TwoPi) - MathHelper.Pi;
 					direction = (threadRotation + (Math.Sign(rotDifference) * random.NextFloat(1f, 1.5f))).ToRotationVector2();
-					for (i = 16; i < maxDistance; i++)
+
+					for (dist = 16; dist < maxDistance; dist++)
 					{
-						Vector2 toLookAt = startPos + (direction * i);
+						Vector2 toLookAt = startPos + (direction * dist);
 						if (IsTileActive(toLookAt))
 							break;
 					}
-					tries++;
-					if (tries > 100)
+
+					if (tries++ > 100)
 						break;
 				}
 
-				tries = 0;
-				if (i < maxDistance)
+				Vector2 finalPos = startPos + (direction * dist); //Top of the world check
+				if (finalPos.Y < 590 && direction.Y < 0)
+					direction.Y *= -1;
+
+				if (StarjinxEventWorld.StarjinxActive && Vector2.Distance(finalPos, player.GetModPlayer<StarjinxPlayer>().StarjinxPosition) > StarjinxMeteorite.EVENT_RADIUS)
 				{
-					while (i < maxDistance)
+					direction = Vector2.Normalize(player.GetModPlayer<StarjinxPlayer>().StarjinxPosition - startPos);
+					dist = 2;
+				}
+
+				tries = 0;
+				if (dist < maxDistance)
+				{
+					while (dist < maxDistance)
 					{
-						direction = random.NextFloat(6.28f).ToRotationVector2();
-						for (i = 16; i < maxDistance; i++)
+						//direction = random.NextFloat(MathHelper.TwoPi).ToRotationVector2();
+						for (dist = 16; dist < maxDistance; dist++)
 						{
-							Vector2 toLookAt = startPos + (direction * i);
+							Vector2 toLookAt = startPos + (direction * dist);
 							if (IsTileActive(toLookAt))
 								break;
 						}
@@ -290,37 +302,48 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			}
 			else
 			{
-				while (i < maxDistance) //first while loop
+				while (dist < maxDistance) //first while loop - get angle
 				{
 					if (mainThread)
 						direction = (threadRotation + random.NextFloat(-1f, 1f)).ToRotationVector2(); //Woohoo magic numbers
 					else
-						direction = random.NextFloat(6.28f).ToRotationVector2();
-					for (i = 16; i < maxDistance; i++)
+						direction = random.NextFloat(MathHelper.TwoPi).ToRotationVector2();
+
+					for (dist = 16; dist < maxDistance; dist++)
 					{
-						Vector2 toLookAt = startPos + (direction * i);
+						Vector2 toLookAt = startPos + (direction * dist);
 						if (IsTileActive(toLookAt))
 							break;
 					}
-					tries++;
-					if (tries > 100)
+
+					if (tries++ > 100)
 						break;
 				}
 
-				tries = 0;
-				if (i < maxDistance)
+				Vector2 finalPos = startPos + (direction * dist); //Top of the world check
+				if (finalPos.Y < 590 && direction.Y < 0)
+					direction.Y *= -1;
+
+				if (StarjinxEventWorld.StarjinxActive && Vector2.Distance(finalPos, player.GetModPlayer<StarjinxPlayer>().StarjinxPosition) > StarjinxMeteorite.EVENT_RADIUS)
 				{
-					while (i < maxDistance)
+					direction = Vector2.Normalize(player.GetModPlayer<StarjinxPlayer>().StarjinxPosition - startPos);
+					dist = 2;
+				}
+
+				tries = 0;
+				if (dist < maxDistance)
+				{
+					while (dist < maxDistance)
 					{
-						direction = random.NextFloat(6.28f).ToRotationVector2();
-						for (i = 16; i < maxDistance; i++)
+						//direction = random.NextFloat(MathHelper.TwoPi).ToRotationVector2();
+						for (dist = 16; dist < maxDistance; dist++)
 						{
-							Vector2 toLookAt = startPos + (direction * i);
+							Vector2 toLookAt = startPos + (direction * dist);
 							if (IsTileActive(toLookAt))
 								break;
 						}
-						tries++;
-						if (tries > 100)
+
+						if (tries++ > 100)
 							break;
 					}
 				}
@@ -368,7 +391,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		}
 
 		private bool IsTileActive(Vector2 toLookAt) //Is the tile at the vector position solid?
-			=> Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).active() && Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).type];
+			=> Framing.GetTileSafely((int)(toLookAt.X / 16f), (int)(toLookAt.Y / 16f)).active() && Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16f), (int)(toLookAt.Y / 16f)).type];
 
 		private void TraverseThread()
 		{
@@ -540,6 +563,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			StarBreakParticles(currentThread.EndPoint);
 		}
 	}
+
 	public class StarachnidProj : ModProjectile
 	{
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Constellation");
@@ -555,7 +579,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			projectile.ignoreWater = true;
 			projectile.alpha = 255;
 		}
+
 		NPC parent;
+
 		public override void AI()
 		{
 			parent = Main.npc[(int)projectile.ai[0]];
@@ -565,6 +591,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				projectile.timeLeft = 2;
 			}
 		}
+
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
 			if (parent != null)
@@ -574,16 +601,14 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 					foreach (StarThread thread in parent2.threads)
 					{
 						if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), thread.StartPoint, thread.EndPoint) && thread.Counter > 35)
-						{
 							return true;
-						}
 					}
+
 					StarThread currentThread = parent2.currentThread;
 					Vector2 direction = currentThread.EndPoint - currentThread.StartPoint;
+
 					if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), currentThread.StartPoint, currentThread.StartPoint + (direction * parent2.progress)))
-					{
 						return true;
-					}
 				}
 			}
 			return false;
