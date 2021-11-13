@@ -18,6 +18,29 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			spawnedByComet = false;
 			return true;
 		}
+
+		/// <summary>Finds and targets the closest player to the given NPC that is within the Starjinx event zone.</summary>
+		/// <param name="npc">NPC to find a target for.</param>
+		/// <param name="sticky">If true, the NPC will not switch targets until the player is inactive, dead or outside of the Starjinx Event zone.</param>
+		public static void TargetClosestSjinx(NPC npc, bool sticky = false)
+		{
+			int target = npc.target;
+
+			if (sticky && Main.player[target].active && !Main.player[target].dead && Main.player[target].GetModPlayer<StarjinxPlayer>().zoneStarjinxEvent)
+				return; //Do not switch targets if we have one already (and sticky is true)
+
+			for (int i = 0; i < Main.maxPlayers; ++i) //Find target
+			{
+				Player p = Main.player[i];
+				if (p.active && !p.dead && p.GetModPlayer<StarjinxPlayer>().zoneStarjinxEvent && p.DistanceSQ(npc.Center) < Main.player[target].DistanceSQ(npc.Center))
+					target = i;
+			}
+
+			npc.target = target;
+
+			if (!Main.player[target].active || Main.player[target].dead || !Main.player[target].GetModPlayer<StarjinxPlayer>().zoneStarjinxEvent)
+				npc.target = 0; //Default to 0 if no target is found
+		}
 	}
 	
 	class StarjinxNonInstancedGlobalNPC : GlobalNPC

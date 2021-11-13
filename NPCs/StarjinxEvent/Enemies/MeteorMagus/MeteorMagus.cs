@@ -80,7 +80,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];
-			npc.TargetClosest(true);
+			//npc.TargetClosest(true);
+			StarjinxGlobalNPC.TargetClosestSjinx(npc, true);
 			npc.spriteDirection = npc.direction;
 
 			bool empowered = npc.GetGlobalNPC<PathfinderGNPC>().Buffed;
@@ -89,24 +90,33 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			{
 				Vector2 homeCenter = player.Center;
 
-				float extraSpeed = empowered ? 1.2f : 1f;
-				npc.rotation = npc.velocity.X * .035f;
-
-				switch (Pattern[(int)AttackType])
+				//Dont go to players outside of the sjinx range
+				if (player.DistanceSQ(player.GetModPlayer<StarjinxPlayer>().StarjinxPosition) > StarjinxMeteorite.EVENT_RADIUS * StarjinxMeteorite.EVENT_RADIUS)
 				{
-					case (int)Attacks.FallingStars:
-						homeCenter.Y -= 300;
-						float xClamp = MathHelper.Clamp(npc.velocity.X + (0.18f * npc.DirectionTo(homeCenter).X), -4, 4);
-						float yClamp = MathHelper.Clamp(npc.velocity.Y + (0.2f * npc.DirectionTo(homeCenter).Y), -5, 5);
-						npc.velocity = new Vector2(xClamp, yClamp);
-						break;
+					npc.velocity *= 0.98f;
+					StarjinxGlobalNPC.TargetClosestSjinx(npc, false);
+				}
+				else
+				{
+					float extraSpeed = empowered ? 1.2f : 1f;
+					npc.rotation = npc.velocity.X * .035f;
 
-					default:
-						homeCenter.Y -= 50;
-						xClamp = MathHelper.Clamp(npc.velocity.X + (0.15f * npc.DirectionTo(homeCenter).X), -5, 5);
-						yClamp = MathHelper.Clamp(npc.velocity.Y + (0.1f * npc.DirectionTo(homeCenter).Y), -2, 2);
-						npc.velocity = new Vector2(xClamp, yClamp);
-						break;
+					switch (Pattern[(int)AttackType])
+					{
+						case (int)Attacks.FallingStars:
+							homeCenter.Y -= 300;
+							float xClamp = MathHelper.Clamp(npc.velocity.X + (0.18f * npc.DirectionTo(homeCenter).X), -4, 4);
+							float yClamp = MathHelper.Clamp(npc.velocity.Y + (0.2f * npc.DirectionTo(homeCenter).Y), -5, 5);
+							npc.velocity = new Vector2(xClamp, yClamp);
+							break;
+
+						default:
+							homeCenter.Y -= 50;
+							xClamp = MathHelper.Clamp(npc.velocity.X + (0.15f * npc.DirectionTo(homeCenter).X), -5, 5);
+							yClamp = MathHelper.Clamp(npc.velocity.Y + (0.1f * npc.DirectionTo(homeCenter).Y), -2, 2);
+							npc.velocity = new Vector2(xClamp, yClamp);
+							break;
+					}
 				}
 			}
 
