@@ -2347,6 +2347,7 @@ namespace SpiritMod
 
 			if (player.whoAmI == Main.myPlayer)
 			{
+				var temp = glyph; //Store the previous tick glyph type
 				if (!player.HeldItem.IsAir)
 				{
 					glyph = player.HeldItem.GetGlobalItem<GItem>().Glyph;
@@ -2356,7 +2357,7 @@ namespace SpiritMod
 				else
 					glyph = GlyphType.None;
 
-				if (Main.netMode == NetmodeID.MultiplayerClient)
+				if (Main.netMode == NetmodeID.MultiplayerClient && temp != glyph) //If the glyph type has changed, sync
 				{
 					ModPacket packet = SpiritMod.instance.GetPacket(MessageType.PlayerGlyph, 2);
 					packet.Write((byte)Main.myPlayer);
