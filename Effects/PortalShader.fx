@@ -14,6 +14,8 @@ sampler dNoise = sampler_state
 };
 
 float Timer;
+float Rotation;
+float DistortionStrength = 0.1f;
 
 float2 rotate(float2 coords, float delta)
 {
@@ -25,17 +27,17 @@ float2 rotate(float2 coords, float delta)
 
 float4 MainPS(float2 coords : TEXCOORD0, float4 ocolor : COLOR0) : COLOR0
 {
-    float2 displacement = (tex2D(dNoise, rotate(coords, Timer)).rg - float2(0.5f, 0.5f)) * 0.1f;
+    float2 displacement = (tex2D(dNoise, rotate(coords, Timer)).rg - float2(0.5f, 0.5f)) * DistortionStrength;
     float4 color = tex2D(uImage0, coords + displacement);
     if (color.a == 0)
         return float4(0, 0, 0, 0);
     
     color *= ocolor;
     float strength = (sqrt(pow(coords.x - 0.5f, 2) + pow(coords.y - 0.5f, 2)) * 2);
-    strength = max(strength - 0.15f, 0);
+    strength = max(strength - 0.05f, 0);
     
-    float4 noiseColor = tex2D(pNoise, coords);
-    noiseColor = float4(color.r * noiseColor.r, color.g * noiseColor.r, color.b * noiseColor.r, color.a * noiseColor.r);
+    float4 noiseColor = tex2D(pNoise, rotate(coords - float2(0.5f, 0.5f), Rotation) + float2(0.5f, 0.5f));
+    noiseColor = color * noiseColor.r;
     
     
     float4 finalcolor = lerp(color, noiseColor, strength);

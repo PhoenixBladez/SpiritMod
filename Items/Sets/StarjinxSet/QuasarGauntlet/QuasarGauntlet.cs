@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 		public override void SetDefaults()
 		{
             item.shoot = ModContent.ProjectileType<QuasarOrb>();
-            item.shootSpeed = 14f;
+            item.shootSpeed = 16f;
 			item.damage = 90;
 			item.knockBack = 3.3f;
 			item.magic = true;
@@ -53,14 +53,23 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			else
 			{
 				bool foundproj = false;
-				for (int i = 0; i < 1000; ++i)
+				for (int i = 0; i < Main.maxProjectiles; ++i)
 				{
-					if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == ModContent.ProjectileType<QuasarOrb>() && Main.projectile[i].ai[0] == 0)
+					Projectile proj = Main.projectile[i];
+					if (proj.active && proj.owner == Main.myPlayer && proj.type == ModContent.ProjectileType<QuasarOrb>())
 					{
-						Main.projectile[i].ai[0] = 1;
-						foundproj = true;
+						if(proj.modProjectile is QuasarOrb orb)
+						{
+							if(orb.AiState == QuasarOrb.STATE_SLOWDOWN)
+							{
+								orb.AiState = QuasarOrb.STATE_RETURN;
+								proj.netUpdate = true;
+								foundproj = true;
+							}
+						}
 					}
 				}
+
 				return foundproj;
 			}
         }
@@ -79,9 +88,9 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			Main.PlaySound(SoundID.Item117, player.Center);
 			int proj = Projectile.NewProjectile(position, new Vector2(speedX,speedY), type, damage, knockBack, player.whoAmI);
 
-			for (int i = 0; i < 6; i++)
+			for (int i = 0; i < 3; i++)
 			{
-				int p = Projectile.NewProjectile(position, Main.rand.NextVector2CircularEdge(2, 2), ModContent.ProjectileType<QuasarOrbiter>(), damage, knockBack, player.whoAmI, proj, Main.rand.Next(3));
+				int p = Projectile.NewProjectile(position, new Vector2(speedX, speedY).RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(0.15f, 0.22f), ModContent.ProjectileType<QuasarOrbiter>(), damage, knockBack, player.whoAmI, proj, Main.rand.Next(3));
 				Main.projectile[p].netUpdate = true;
 			}
 			return false;
@@ -89,39 +98,13 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 
 		public override void HoldItem(Player player)
 		{
-			Vector2 handOffset = Main.OffsetsPlayerOnhand[player.bodyFrame.Y / 56] * 2f;
-			if (player.direction != 1)
-				handOffset.X = player.bodyFrame.Width - handOffset.X;
-			if (player.gravDir != 1.0)
-				handOffset.Y = player.bodyFrame.Height - handOffset.Y;
 
-			Vector2 spawnPos = player.RotatedRelativePoint(player.position + handOffset - new Vector2(player.bodyFrame.Width - player.width, player.bodyFrame.Height - 42) / 2f, true) - player.velocity;
-
-			for (int index = 0; index < 2; ++index)
-			{
-				Dust dust = Main.dust[Dust.NewDust(player.Center, 0, 0, DustID.Rainbow, player.direction * 2, 0.0f, 150, SpiritMod.StarjinxColor(Main.GlobalTime * 2), 1.3f)];
-				dust.position = spawnPos;
-				dust.velocity *= 0.0f;
-				dust.noGravity = true;
-				dust.fadeIn = 1f;
-				dust.velocity += player.velocity;
-				dust.scale *= 0.8f;
-
-				if (Main.rand.Next(2) == 0)
-				{
-					dust.position += Utils.RandomVector2(Main.rand, -4f, 4f);
-					dust.scale += Main.rand.NextFloat();
-					if (Main.rand.Next(2) == 0)
-						dust.customData = player;
-				}
-			}
 		}
 
 		public override void AddRecipes()
 		{
 			var recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<Starjinx>(), 16);
-			recipe.AddIngredient(ItemID.FallenStar, 4);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

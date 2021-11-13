@@ -37,15 +37,14 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
     return output;
 };
 
-
+const float fadeHeight = 0.5f;
 float4 MainPS(VertexShaderOutput input) : COLOR0
 {    
-    float strength = pow(1 - (2 * abs(input.TextureCoordinates.x - 0.5f)), 3);
-    strength *= pow(1 - 2 * abs(input.TextureCoordinates.y - 0.5f), 2);
-    strength *= 2;
-    
     float4 color = input.Color;
-    color *= strength;
+    float height = (input.TextureCoordinates.x - 0.5f) * 2;
+    if (height > fadeHeight)
+        color *= pow((1 - ((height - fadeHeight) / (1 - fadeHeight))), 3);
+    
     return color;
 }
 

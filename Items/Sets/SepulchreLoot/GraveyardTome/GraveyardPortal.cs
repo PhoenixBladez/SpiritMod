@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 		{
 			Player player = Main.player[projectile.owner];
 
-			if (player == Main.LocalPlayer)
+			if (player == Main.LocalPlayer) //Make projectile rotate towards the cursor and change player direction, if the client is the owner
 			{
 				int temp = player.direction;
 				player.ChangeDir(player.DirectionTo(Main.MouseWorld).X > 0 ? 1 : -1);
@@ -43,15 +43,19 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 				if (temp != player.direction && Main.netMode == NetmodeID.MultiplayerClient)
 					NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, player.whoAmI);
 			}
+
+			//Make the player locked to the item
 			player.itemTime = 2;
 			player.itemAnimation = 2;
 			player.itemRotation = 0;
 			projectile.timeLeft = 20;
+
+			//Gradually make projectile move behind the player and flip
 			Direction = MathHelper.Lerp(Direction, player.direction, 0.07f);
 			projectile.Center = player.MountedCenter - new Vector2(50 * Direction, 50 + (float)(Math.Sin(Main.GameUpdateCount / 30f) * 7));
 			float particlerate = 0.15f;
 
-			if (!player.channel)
+			if (!player.channel) //Die if player isn't channelling 
 			{
 				projectile.scale -= 0.025f;
 				particlerate = 0.3f;
@@ -61,16 +65,16 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 			else
 			{
 				projectile.scale = Math.Min(projectile.scale + 0.025f, MaxScale);
-				if (projectile.scale == MaxScale)
+				if (projectile.scale == MaxScale) //First, check if the projectile's scale is at max
 				{
-					if (++Timer % player.HeldItem.useTime == 0)
+					if (++Timer % player.HeldItem.useTime == 0) //Then, increment timer and check if it's time to fire a projectile
 					{
-						if (player.CheckMana(player.HeldItem.mana, true))
+						if (player.CheckMana(player.HeldItem.mana, true)) //Fire a projectile if player has enough mana
 						{
-							if (!Main.dedServ)
+							if (!Main.dedServ) //Dont do sounds on server
 								Main.PlaySound(SoundID.Item104.WithPitchVariance(0.3f).WithVolume(0.5f), projectile.Center);
 
-							if (player == Main.LocalPlayer)
+							if (player == Main.LocalPlayer) //Spawn in projectiles only if the client is the owner, due to using the mouse position
 							{
 								bool straightline = Main.rand.NextBool(3);
 								Projectile p = Projectile.NewProjectileDirect(projectile.Center, projectile.DirectionTo(Main.MouseWorld) * (straightline ? 1.5f : 1) * Main.rand.NextFloat(10, 12), ModContent.ProjectileType<GraveyardSkull>(), projectile.damage, projectile.knockBack, projectile.owner);
@@ -81,7 +85,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 									NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, p.whoAmI);
 							}
 						}
-						else
+						else //If player doesn't have enough mana, kill projectile
 							player.channel = false;
 					}
 				}
@@ -89,6 +93,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 					particlerate = 0.3f;
 			}
 
+			//Spawn in particles
 			if(Main.rand.NextFloat() < particlerate && !Main.dedServ)
 			{
 				Vector2 offset = Main.rand.NextVector2CircularEdge(15, 30) * projectile.scale;

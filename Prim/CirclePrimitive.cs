@@ -15,6 +15,7 @@ namespace SpiritMod.Prim
 		public Vector2 Position { get; set; }
 		public float Radius { get; set; }
 		public Color Color { get; set; }
+		public Vector2 ScaleModifier { get; set; } = Vector2.One;
 
 		public float Rotation { get; set; }
 		public float MaxRadians { get; set; } = MathHelper.TwoPi;
@@ -32,11 +33,13 @@ namespace SpiritMod.Prim
 			}
 
 			AddVertexIndex(Position, new Vector2(0.5f, 0.5f));
-			int maxTriangles = 20;
+			int maxTriangles = 30;
 			for (int i = 0; i <= maxTriangles; i++)
 			{
 				float progress = (i / (float)maxTriangles);
-				Vector2 vertex = Position - (Radius * Vector2.UnitX.RotatedBy((MaxRadians * progress) + Rotation + (MaxRadians / 2)));
+				float rotation = (MaxRadians * progress) + Rotation;
+				float scale = MathHelper.Lerp(ScaleModifier.X, ScaleModifier.Y, (float)Math.Sin(rotation) % 1);
+				Vector2 vertex = Position - (Radius * Vector2.UnitX.RotatedBy(rotation) * scale);
 				AddVertexIndex(vertex, new Vector2(1f, 0f));
 				AddVertexIndex(Position, new Vector2(0.5f, 0f));
 			}

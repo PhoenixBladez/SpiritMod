@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Utilities;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -7,12 +8,10 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 {
-    public class QuasarOrbiter : ModProjectile
+    public class QuasarOrbiter : ModProjectile, ITrailProjectile
     {
-        public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Quasar Orb");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Quasar Orb");
+
 		public override void SetDefaults()
 		{
 			projectile.width = 2;
@@ -22,8 +21,10 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			projectile.friendly = false;
 			projectile.magic = true;
             projectile.ignoreWater = true;
-            projectile.extraUpdates = 3;
+			projectile.hide = true;
+			projectile.extraUpdates = 1;
 		}
+
         int counter = 0;
         Vector2 target = Vector2.Zero;
         Vector2 newCenter = Vector2.Zero;
@@ -44,26 +45,28 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
                 projectile.velocity = projectile.velocity.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f));
                // ColorSelect = Color.Lerp(Color.Orange, Color.Yellow, Main.rand.NextFloat(1));
             }
-            float x = 0.03f;
-            float y = 0.03f;
-             projectile.velocity += new Vector2((float)Math.Sign(target.X - projectile.Center.X), (float)Math.Sign(target.Y - projectile.Center.Y)) * new Vector2(x, y);
-            newCenter += projectile.velocity;
-            projectile.Center = target + newCenter;
-            projectile.rotation += 0.1f;
-            if (projectile.velocity.Length() > 12)
-            {
-                projectile.velocity *= (2f / projectile.velocity.Length());
-            }
+
+			projectile.alpha = parent.alpha;
+			projectile.position = target + newCenter;
+			newCenter += projectile.velocity;
+
+			float minRadius = 40;
+			float maxHomeEffectRadius = 120;
+			if(newCenter.Length() > minRadius)
+			{
+				float lerpSpeed = MathHelper.Lerp(0.12f, 0.2f, MathHelper.Clamp((newCenter.Length() - minRadius) / (maxHomeEffectRadius - minRadius), 0, 1));
+				projectile.velocity = projectile.velocity.Length() * Vector2.Normalize(Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target) * projectile.velocity.Length(), lerpSpeed));
+			}
         }
-        float FlickerFactor => Math.Abs((float)Math.Sin(counter / 120f)) * 3;
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            Helpers.DrawAdditive(Helpers.RadialMask, projectile.Center.ForDraw(), Color.White * (FlickerFactor * 0.1f + 0.12f), projectile.scale * Math.Abs((float)Math.Sin(counter / 120f) *0.2f));
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            Color color = SpiritMod.StarjinxColor(Main.GlobalTime * 2 + projectile.ai[1]);
-            Rectangle drawrect = new Rectangle(0, (int)projectile.ai[1] * texture.Height / 3, texture.Width, texture.Height / 3);
-            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Rectangle?(drawrect), color, projectile.rotation, drawrect.Size()/2, projectile.scale, SpriteEffects.None, 0f);
-            return false;
-        }
-    }
+
+		public void DoTrailCreation(TrailManager tM)
+		{
+			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, Color.Magenta), new RoundCap(), new DefaultTrailPosition(), 40f, 100f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
+
+			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(255, 5, 30)), new RoundCap(), new DefaultTrailPosition(), 30f, 100f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
+			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(255, 247, 0)), new RoundCap(), new DefaultTrailPosition(), 20f, 100f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
+			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(255, 251, 199)), new RoundCap(), new DefaultTrailPosition(), 6f, 100f);
+			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(255, 251, 199)), new RoundCap(), new DefaultTrailPosition(), 6f, 100f);
+		}
+	}
 }
