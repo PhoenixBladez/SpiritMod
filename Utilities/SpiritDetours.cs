@@ -52,48 +52,11 @@ namespace SpiritMod.Utilities
 			On.Terraria.Main.DrawBackgroundBlackFill += Main_DrawBackgroundBlackFill; //BackgroundItemManager.Draw()
 			On.Terraria.Main.Update += Main_Update; //BackgroundItemManager.Update()
 
-			On.Terraria.NetMessage.SendData += NetMessage_SendData; //Debug
-			On.Terraria.NetMessage.greetPlayer += NetMessage_greetPlayer;
-			On.Terraria.NetMessage.SyncConnectedPlayer += NetMessage_SyncConnectedPlayer;
-
 			Main.OnPreDraw += Main_OnPreDraw;
 
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
 			IL.Terraria.WorldGen.hardUpdateWorld += WorldGen_hardUpdateWorld;
 			//IL.Terraria.Main.DoDraw += Main_DoDraw;
-		}
-
-		private static void NetMessage_SyncConnectedPlayer(On.Terraria.NetMessage.orig_SyncConnectedPlayer orig, int plr)
-		{
-			if (Main.LocalPlayer.controlUp)
-			{
-				var trace = new StackTrace(true);
-				SpiritMod.Instance.Logger.Debug($"CAUGHT SYNCCONNECTEDPLAYER:\nPLR {plr}\n" + trace.ToString());
-			}
-
-			orig(plr);
-		}
-
-		private static void NetMessage_greetPlayer(On.Terraria.NetMessage.orig_greetPlayer orig, int plr)
-		{
-			if (Main.LocalPlayer.controlHook)
-			{
-				var trace = new StackTrace(true);
-				SpiritMod.Instance.Logger.Debug($"CAUGHT GREETPLAYER:\nPLR {plr}\n" + trace.ToString());
-			}
-
-			orig(plr);
-		}
-
-		private static void NetMessage_SendData(On.Terraria.NetMessage.orig_SendData orig, int msgType, int remoteClient, int ignoreClient, NetworkText text, int number, float number2, float number3, float number4, int number5, int number6, int number7)
-		{
-			if (Main.LocalPlayer.controlJump && msgType != MessageID.PlayerControls)
-			{
-				var trace = new StackTrace(true);
-				SpiritMod.Instance.Logger.Debug($"CAUGHT MESSAGE:\nTYPE {msgType} . REMOTECLIENT {remoteClient} . IGNORECLIENT {ignoreClient}\n NUMBERS [ASCENDING] {number} . {number2} . {number3} . {number4} . {number5} . {number6} . {number7}\n" + trace.ToString());
-			}
-
-			orig(msgType, remoteClient, ignoreClient, text, number, number2, number3, number4, number5, number6, number7);
 		}
 
 		public static void Unload()
