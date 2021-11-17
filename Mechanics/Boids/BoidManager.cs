@@ -1,13 +1,8 @@
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Mechanics.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 
 namespace SpiritMod.Mechanics.Boids
 {
@@ -15,6 +10,7 @@ namespace SpiritMod.Mechanics.Boids
 	{
 		internal List<Flock> Flocks = new List<Flock>();
 		private const int SPAWNRATE = 40;
+
 		public void Draw(SpriteBatch spriteBatch)
 		{
 			foreach (Flock fishflock in Flocks)
@@ -26,18 +22,16 @@ namespace SpiritMod.Mechanics.Boids
 		public void Update()
 		{
 			foreach (Flock fishflock in Flocks)
-			{
 				fishflock.Update();
-			}
 
 			//Test
-			if (Main.GameUpdateCount % SPAWNRATE == 0 && Main.LocalPlayer.ZoneBeach)
+			if (Main.GameUpdateCount % SPAWNRATE > 0 && Main.LocalPlayer.ZoneBeach)
 			{
 				int flock = Main.rand.Next(0, Flocks.Count);
 				int fluff = 1000;
 
 				Vector2 rand = new Vector2(
-					Main.rand.Next(-Main.screenWidth/2 - fluff, Main.screenWidth / 2 + fluff),
+					Main.rand.Next(-Main.screenWidth / 2 - fluff, Main.screenWidth / 2 + fluff),
 					Main.rand.Next(-Main.screenHeight / 2 - fluff, Main.screenHeight / 2 + fluff));
 
 				if (!new Rectangle(0, 0, Main.screenWidth, Main.screenHeight).Contains(rand.ToPoint()))
@@ -56,7 +50,29 @@ namespace SpiritMod.Mechanics.Boids
 
 		public void LoadContent()
 		{
-			for(int i = 0; i<7; i++) Flocks.Add(new Flock(ModContent.GetTexture($"SpiritMod/Textures/AmbientFish/fish_{i}"), 1f));
+			const int AmbientFishTextureCount = 7;
+
+			int flocks = Main.rand.Next(6, 14);
+			for (int i = 0; i < flocks; i++)
+			{
+				Texture2D[] textures = new Texture2D[Main.rand.Next(1, 5)];
+				bool[] addedIDs = new bool[AmbientFishTextureCount];
+
+				for (int j = 0; j < textures.Length; ++j)
+				{
+					int id = Main.rand.Next(AmbientFishTextureCount);
+
+					if (!addedIDs[id]) //So we don't have multiple of the same texture
+					{
+						textures[j] = SpiritMod.Instance.GetTexture($"Textures/AmbientFish/fish_{id}");
+						addedIDs[id] = true;
+					}
+					else
+						j--;
+				}
+
+				Flocks.Add(new Flock(textures, 1f, Main.rand.Next(25, 120)));
+			}
 
 			On.Terraria.Main.DrawWoF += Main_DrawWoF;
 		}
@@ -64,7 +80,7 @@ namespace SpiritMod.Mechanics.Boids
 		//TODO: Move to update hook soon
 		private void Main_DrawWoF(On.Terraria.Main.orig_DrawWoF orig, Main self)
 		{
-			if(Flocks != null)
+			if (Flocks != null)
 			{
 				Update();
 				Draw(Main.spriteBatch);
@@ -74,8 +90,8 @@ namespace SpiritMod.Mechanics.Boids
 
 		public void UnloadContent()
 		{
-			if(Flocks != null)
-				Flocks.Clear(); 
+			if (Flocks != null)
+				Flocks.Clear();
 
 			On.Terraria.Main.DrawWoF -= Main_DrawWoF;
 		}

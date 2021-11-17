@@ -54,7 +54,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		private float musicVolume = 1f;
 
 		private List<int> comets = new List<int>();
-		private Dictionary<string, int> savedComets = new Dictionary<string, int>() { { "Small", -1 }, { "Medium", -1 }, { "Large", -1 } };
+		private Dictionary<string, int> savedComets = new Dictionary<string, int>() { { "Small", -2 }, { "Medium", -2 }, { "Large", -2 } };
 
 		public bool updateCometOrder = true;
 		public bool spawnedBoss = false;
@@ -112,13 +112,21 @@ namespace SpiritMod.NPCs.StarjinxEvent
 						}
 						else if (player.GetModPlayer<StarjinxPlayer>().oldZoneStarjinx) //cache all meteors if need be
 						{
+							savedComets["Small"] = savedComets["Medium"] = savedComets["Large"] = -1; //So we "save" if all of them are dead
+
 							IterateComets((SmallComet comet) =>
 							{
 								savedComets[comet.Size]++;
 								comet.npc.active = false;
 							});
+
 							spawnedComets = false;
 							comets.Clear();
+
+							npc.life = npc.lifeMax; //Reset the meteor completely
+							npc.dontTakeDamage = false;
+
+							shieldOpacity = 0f;
 						}
 					}
 				}
@@ -216,9 +224,9 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 		private void SpawnComets()
 		{
-			int maxSmallComets = savedComets["Small"] == -1 ? 3 : savedComets["Small"] + 1; //Use cached values if respawning comets
-			int maxMedComets = savedComets["Medium"] == -1 ? 2 : savedComets["Medium"] + 1;
-			int maxLargeComets = savedComets["Large"] == -1 ? 1 : savedComets["Large"] + 1;
+			int maxSmallComets = savedComets["Small"] == -2 ? 3 : savedComets["Small"] + 1; //Use cached values if respawning comets
+			int maxMedComets = savedComets["Medium"] == -2 ? 2 : savedComets["Medium"] + 1;
+			int maxLargeComets = savedComets["Large"] == -2 ? 1 : savedComets["Large"] + 1;
 
 			const float MaxDist = 450;
 			const float MinDist = 80;
@@ -259,7 +267,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			for (int i = 0; i < maxLargeComets; i++)
 				SpawnComet(ModContent.NPCType<LargeComet>());
 
-			savedComets["Small"] = savedComets["Medium"] = savedComets["Large"] = -1; //clear out cache
+			savedComets["Small"] = savedComets["Medium"] = savedComets["Large"] = -2; //clear out cache
 		}
 
 		private delegate void IterateAction(SmallComet comet);

@@ -27,6 +27,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			if (zombieQuestStart)
                 QuestManager.UnlockQuest<ZombieOriginQuest>(true);
+
             if (Main.hardMode)
             {
                 QuestManager.UnlockQuest<ExplorerQuestBlueMoon>(true);
@@ -36,6 +37,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 				if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
 					AddQuestQueue(NPCID.Dryad, QuestManager.GetQuest<CritterCaptureSoulOrb>());
 			}
+
 			if (NPC.downedBoss2)
 				AddQuestQueue(NPCID.Stylist, QuestManager.GetQuest<StylistQuestMeteor>());
 		}
@@ -129,13 +131,15 @@ namespace SpiritMod.Mechanics.QuestSystem
 			{
 				Quest quest = QuestManager.Quests[i];
 
-				StoredQuestData data = new StoredQuestData();
-				data.IsActive = quest.IsActive;
-				data.IsUnlocked = quest.IsUnlocked;
-				data.IsCompleted = quest.IsCompleted;
-				data.RewardsGiven = quest.RewardsGiven;
-				data.TimeLeftActive = (short)quest.ActiveTime;
-				data.TimeLeftUnlocked = (short)quest.UnlockTime;
+				StoredQuestData data = new StoredQuestData
+				{
+					IsActive = quest.IsActive,
+					IsUnlocked = quest.IsUnlocked,
+					IsCompleted = quest.IsCompleted,
+					RewardsGiven = quest.RewardsGiven,
+					TimeLeftActive = (short)quest.ActiveTime,
+					TimeLeftUnlocked = (short)quest.UnlockTime
+				};
 
 				if (quest.IsActive)
 				{

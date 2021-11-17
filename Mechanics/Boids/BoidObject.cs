@@ -1,13 +1,9 @@
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Mechanics.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using Terraria;
-using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 
 namespace SpiritMod.Mechanics.Boids
 {
@@ -16,20 +12,23 @@ namespace SpiritMod.Mechanics.Boids
 		public Vector2 Acceleration { get; set; }
 
 		public const float Vision = 100;
-
 		private const float MaxForce = 0.02f;
-
 		private const float MaxVelocity = 2f;
 
 		private int Frame = 0;
+		private int TextureID = 0;
+		private int SpawnTimer = 0;
 
 		private Flock parent;
 
 		public List<Fish> AdjFish = new List<Fish>();
 
-		public Fish(Flock osSucksAtBedwars)
+		public Fish(Flock flock, int texID = -1)
 		{
-			parent = osSucksAtBedwars;
+			parent = flock;
+
+			TextureID = texID == -1 ? Main.rand.Next(flock.FlockTextures.Length) : 1;
+			SpawnTimer = 100;
 		}
 
 		Vector2 Limit(Vector2 vec, float val)
@@ -39,14 +38,16 @@ namespace SpiritMod.Mechanics.Boids
 			return vec;
 		}
 
-
 		public Vector2 AvoidTiles(int range) //WIP for Qwerty
 		{
 			Vector2 sum = new Vector2(0, 0);
 			Point tilePos = position.ToTileCoordinates();
-			for (int i = -3; i < 4; i++)
+
+			const int TileRange = 2;
+
+			for (int i = -TileRange; i < TileRange + 1; i++)
 			{
-				for (int j = -3; j < 4; j++)
+				for (int j = -TileRange; j < TileRange + 1; j++)
 				{
 					if (WorldGen.InWorld(tilePos.X + i, tilePos.Y + j, 10))
 					{
@@ -58,11 +59,11 @@ namespace SpiritMod.Mechanics.Boids
 							Vector2 norm = Vector2.Normalize(d);
 							Vector2 weight = norm;
 							sum += weight;
-
 						}
 					}
 				}
 			}
+
 			if (sum != Vector2.Zero)
 			{
 				sum = Vector2.Normalize(sum) * MaxVelocity;
@@ -78,6 +79,7 @@ namespace SpiritMod.Mechanics.Boids
 		{
 			float pdist = Vector2.DistanceSquared(position, Main.LocalPlayer.Center);
 			Vector2 sum = new Vector2(0, 0);
+
 			if (pdist < range * range && pdist > 0)
 			{
 				Vector2 d = position - Main.LocalPlayer.Center;
@@ -85,6 +87,7 @@ namespace SpiritMod.Mechanics.Boids
 				Vector2 weight = norm;
 				sum += weight;
 			}
+
 			if (sum != Vector2.Zero)
 			{
 				sum = Vector2.Normalize(sum) * MaxVelocity;
@@ -112,10 +115,10 @@ namespace SpiritMod.Mechanics.Boids
 					count++;
 				}
 			}
+
 			if (count > 0)
-			{
 				sum /= count;
-			}
+
 			if (sum != Vector2.Zero)
 			{
 				sum = Vector2.Normalize(sum) * MaxVelocity;
@@ -140,10 +143,10 @@ namespace SpiritMod.Mechanics.Boids
 					count++;
 				}
 			}
+
 			if (count > 0)
-			{
 				sum /= count;
-			}
+
 			if (sum != Vector2.Zero)
 			{
 				sum = Vector2.Normalize(sum) * MaxVelocity;
@@ -184,13 +187,13 @@ namespace SpiritMod.Mechanics.Boids
 		{
 			Point point = position.ToTileCoordinates();
 			Color lightColour = Lighting.GetColor(point.X, point.Y);
-			Texture2D texture = parent.FlockTexture;
+			float alpha = MathHelper.Clamp(1 - (SpawnTimer-- / 100f), 0f, 1f);
+			Texture2D texture = parent.FlockTextures[TextureID];
 
 			Rectangle source = new Rectangle(0, texture.Height / 2 * (Frame % 2), texture.Width, texture.Height / 2);
 
-			spritebatch.Draw(
-				texture, position.ForDraw(), source,
-				lightColour, velocity.ToRotation() + (float)Math.PI, new Rectangle(0, texture.Height / 2, texture.Width, texture.Height / 2).Center.ToVector2(),
+			spritebatch.Draw(texture, position.ForDraw(), source,
+				lightColour * alpha, velocity.ToRotation() + (float)Math.PI, new Rectangle(0, texture.Height / 2, texture.Width, texture.Height / 2).Center.ToVector2(),
 				parent.FlockScale, SpriteEffects.None, 0f);
 		}
 
@@ -213,9 +216,7 @@ namespace SpiritMod.Mechanics.Boids
 			ApplyForces();
 
 			if (Main.rand.Next(7) == 0)
-			{
 				Frame++;
-			}
 		}
 	}
 }

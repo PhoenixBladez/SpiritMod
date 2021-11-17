@@ -1,11 +1,6 @@
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using Terraria;
-using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 
 namespace SpiritMod.Mechanics.Interfaces.Hosts
 {
@@ -14,6 +9,7 @@ namespace SpiritMod.Mechanics.Interfaces.Hosts
         protected List<T> Objects = new List<T>();
 
         protected virtual void OnUpdate() { }
+
         public void Update()
         {
             OnUpdate();
@@ -23,6 +19,7 @@ namespace SpiritMod.Mechanics.Interfaces.Hosts
                     TV.Update();
             }
         }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach (T TV in Objects.ToArray())
@@ -31,7 +28,9 @@ namespace SpiritMod.Mechanics.Interfaces.Hosts
                 TV.Draw(spriteBatch);
             }
         }
+
         public void Clear() => Objects.Clear();
+
         public void AddElement(T TV)
         {
 			//Load logic maybe
@@ -45,5 +44,4 @@ namespace SpiritMod.Mechanics.Interfaces.Hosts
             Objects.Add(TV);
         }
     }
-
 }
