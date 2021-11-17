@@ -47,7 +47,7 @@ namespace SpiritMod.NPCs.Boss.Occultist.Particles
 			var drawFrame = new Rectangle(0, _frame * texture.Height / 2, texture.Width, texture.Height / 2);
 
 			Effect effect = SpiritMod.ShaderDict["PrimitiveTextureMap"];
-			effect.Parameters["uTexture"].SetValue(SpiritMod.instance.GetTexture("NPCs/Boss/Occultist/SoulTrail"));
+			effect.Parameters["uTexture"].SetValue(SpiritMod.Instance.GetTexture("NPCs/Boss/Occultist/SoulTrail"));
 			Vector2[] vertices = _chain.VerticesArray();
 			vertices.IterateArray(delegate (ref Vector2 vertex, int index, float progress) { IterateVerticesSine(ref vertex, progress); });
 			var strip = new PrimitiveStrip
@@ -62,7 +62,7 @@ namespace SpiritMod.NPCs.Boss.Occultist.Particles
 			var origin = new Vector2(drawFrame.Width / 2, drawFrame.Height);
 			spriteBatch.Draw(texture, _chain.StartPosition - Main.screenPosition, drawFrame, Color.White * _opacity, Rotation, origin, Scale, SpriteEffects.None, 0);
 
-			Texture2D bloom = SpiritMod.instance.GetTexture("Effects/Ripple");
+			Texture2D bloom = SpiritMod.Instance.GetTexture("Effects/Ripple");
 			spriteBatch.Draw(bloom, _chain.StartPosition - Main.screenPosition, null, Color.Red * _opacity, 0, bloom.Size() / 2, 0.75f, SpriteEffects.None, 0);
 		}
 

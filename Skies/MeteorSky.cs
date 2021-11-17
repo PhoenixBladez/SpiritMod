@@ -262,7 +262,7 @@ namespace SpiritMod.Skies
 				paths.Add("MeteorBG6", 0.025f);
 				paths.Add("MeteorBG", 0.01f);
 
-				_Meteors[j] = new Meteor(SpiritMod.instance.GetTexture("Textures/" + paths), (float)Main.rand.NextDouble() * 4f + 6.6f);
+				_Meteors[j] = new Meteor(SpiritMod.Instance.GetTexture("Textures/" + paths), (float)Main.rand.NextDouble() * 4f + 6.6f);
 			}
 
 			for (int i = num2; i < _Meteors.Length; i++)
@@ -274,7 +274,7 @@ namespace SpiritMod.Skies
 				paths.Add("MeteorBG4", 0.1f);
 				paths.Add("MeteorBG3", 0.28f);
 
-				_Meteors[i] = new Meteor(SpiritMod.instance.GetTexture("Textures/" + paths), (float)Main.rand.NextDouble() * 5f + 1.6f, 0.5f);
+				_Meteors[i] = new Meteor(SpiritMod.Instance.GetTexture("Textures/" + paths), (float)Main.rand.NextDouble() * 5f + 1.6f, 0.5f);
 			}
 		}
 

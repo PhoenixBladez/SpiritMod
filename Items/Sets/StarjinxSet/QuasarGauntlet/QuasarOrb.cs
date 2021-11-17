@@ -149,7 +149,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			sB.End(); sB.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, RasterizerState.CullNone, default, Main.GameViewMatrix.ZoomMatrix);
 			Texture2D tex = Main.projectileTexture[projectile.type];
 
-			Effect effect = SpiritMod.instance.GetEffect("Effects/PortalShader");
+			Effect effect = SpiritMod.Instance.GetEffect("Effects/PortalShader");
 			effect.Parameters["PortalNoise"].SetValue(mod.GetTexture("Utilities/Noise/SpiralNoise"));
 			effect.Parameters["Timer"].SetValue(MathHelper.WrapAngle(Main.GlobalTime / 3));
 			effect.Parameters["DistortionStrength"].SetValue(0);

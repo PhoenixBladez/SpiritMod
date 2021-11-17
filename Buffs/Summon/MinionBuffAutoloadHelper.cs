@@ -78,8 +78,8 @@ namespace SpiritMod.Buffs.Summon
 			{
 				AutoloadMinionBuff attribute = (AutoloadMinionBuff)Attribute.GetCustomAttribute(MinionType, typeof(AutoloadMinionBuff)); 
 				ModProjectile mProjectile = (ModProjectile)Activator.CreateInstance(MinionType);
-				SpiritMod.instance.AddBuff(MinionType.Name + "_buff", new AutoloadedMinionBuff(SpiritMod.instance.ProjectileType(MinionType.Name), attribute.BuffName, attribute.Description), MinionType.FullName.Replace(".", "/") + "_buff");
-				BuffDictionary.Add(SpiritMod.instance.ProjectileType(MinionType.Name), SpiritMod.instance.BuffType(MinionType.Name + "_buff"));
+				SpiritMod.Instance.AddBuff(MinionType.Name + "_buff", new AutoloadedMinionBuff(SpiritMod.Instance.ProjectileType(MinionType.Name), attribute.BuffName, attribute.Description), MinionType.FullName.Replace(".", "/") + "_buff");
+				BuffDictionary.Add(SpiritMod.Instance.ProjectileType(MinionType.Name), SpiritMod.Instance.BuffType(MinionType.Name + "_buff"));
 			}
 		}
 

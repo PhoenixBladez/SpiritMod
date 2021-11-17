@@ -89,14 +89,14 @@ namespace SpiritMod.Items.Glyphs
 			_lookup = new GlyphBase[(byte)GlyphType.Count];
 
 			Type glyphBase = typeof(GlyphBase);
-			foreach (Type type in SpiritMod.instance.Code.GetTypes()) {
+			foreach (Type type in SpiritMod.Instance.Code.GetTypes()) {
 				if (type.IsAbstract)
 					continue;
 				if (!type.IsSubclassOf(glyphBase))
 					continue;
 
 				Item item = new Item();
-				item.SetDefaults(SpiritMod.instance.ItemType(type.Name), true);
+				item.SetDefaults(SpiritMod.Instance.ItemType(type.Name), true);
 				GlyphBase glyph = (GlyphBase)item.modItem;
 				_lookup[(byte)glyph.Glyph] = glyph;
 			}

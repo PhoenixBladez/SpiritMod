@@ -54,6 +54,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 		public const int STATE_TELEPORT = 1;
 		public const int STATE_STARBURST = 2;
 		public const int STATE_STARGLOOP = 3;
+		public const int STATE_TELEPORT_OOB = 4;
 
 		public const float TELEPORT_DISTANCE = 400;
 		public const int TELEPORT_STARTTIME = 30;
@@ -97,11 +98,11 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 					{
 						Vector2 desiredPos = player.Center + npc.DirectionTo(player.Center) * (TELEPORT_DISTANCE * 0.75f * Main.rand.NextFloat(0.9f, 1.1f));
 						float displacement = npc.Distance(desiredPos);
-						float mindisplacement = TELEPORT_DISTANCE;
-						if (displacement < mindisplacement)
-							desiredPos += npc.DirectionTo(player.Center) * (mindisplacement - displacement);
+						if (displacement < TELEPORT_DISTANCE)
+							desiredPos += npc.DirectionTo(player.Center) * (TELEPORT_DISTANCE - displacement);
 
 						npc.Center = desiredPos + new Vector2(0, 30);
+
 						if (!Main.dedServ)
 						{
 							ParticleHandler.SpawnParticle(new ImpactLine(npc.Center, Vector2.UnitY * 2, Color.White, new Vector2(0.1f, 1f), 10));
@@ -112,6 +113,38 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 					}
 
 					if(AiTimer >= TELEPORT_ENDTIME + TELEPORT_STARTTIME)
+					{
+						if (Vector2.DistanceSquared(npc.Center, player.GetModPlayer<StarjinxPlayer>().StarjinxPosition) > StarjinxMeteorite.EVENT_RADIUS * StarjinxMeteorite.EVENT_RADIUS)
+							AiState = STATE_TELEPORT_OOB;
+						else
+							AiState = Main.rand.NextBool() ? STATE_STARGLOOP : STATE_STARBURST;
+						AiTimer = 0;
+						npc.netUpdate = true;
+					}
+					break;
+				case STATE_TELEPORT_OOB:
+					frame.X = 1;
+					npc.velocity = Vector2.Zero;
+
+					if (AiTimer == TELEPORT_STARTTIME / 2)
+					{
+						Vector2 desiredPos = player.Center + npc.DirectionTo(player.Center).RotatedByRandom(MathHelper.PiOver4) * (TELEPORT_DISTANCE * 0.75f * Main.rand.NextFloat(0.9f, 1.1f));
+						float displacement = npc.Distance(desiredPos);
+						if (displacement < TELEPORT_DISTANCE)
+							desiredPos += npc.DirectionTo(player.Center) * (TELEPORT_DISTANCE - displacement);
+
+						npc.Center = desiredPos + new Vector2(0, 30);
+
+						if (!Main.dedServ)
+						{
+							ParticleHandler.SpawnParticle(new ImpactLine(npc.Center, Vector2.UnitY * 2, Color.White, new Vector2(0.1f, 1f), 10));
+							ParticleHandler.SpawnParticle(new ImpactLine(npc.Center, -Vector2.UnitY * 2, Color.White, new Vector2(0.1f, 1f), 10));
+						}
+
+						npc.netUpdate = true;
+					}
+
+					if (AiTimer >= TELEPORT_ENDTIME + (TELEPORT_STARTTIME / 2))
 					{
 						AiState = Main.rand.NextBool() ? STATE_STARGLOOP : STATE_STARBURST;
 						AiTimer = 0;
@@ -168,7 +201,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 
 			if (_headIndex < 0)
 				SpawnHead();
-
 			else if (!Head.active || Head.type != ModContent.ProjectileType<StarWeaverHead>())
 				SpawnHead();
 
@@ -179,7 +211,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 		#region Drawing
 		private float TeleportMaskOpacity()
 		{
-			if (AiState != STATE_TELEPORT)
+			if (AiState != STATE_TELEPORT || AiState != STATE_TELEPORT_OOB)
 				return 0;
 
 			bool start = AiTimer <= TELEPORT_STARTTIME;
@@ -193,7 +225,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 
 		private float TeleportWidth()
 		{
-			if (AiState != STATE_TELEPORT)
+			if (AiState != STATE_TELEPORT || AiState != STATE_TELEPORT_OOB)
 				return 1;
 
 			bool start = AiTimer <= TELEPORT_STARTTIME;

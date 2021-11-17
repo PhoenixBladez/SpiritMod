@@ -94,7 +94,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 		public override void Kill(int timeLeft)
 		{
 			//Main.PlaySound(SoundID.Item10, projectile.Center);
-			Main.PlaySound(SpiritMod.instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.66f), projectile.Center);
+			Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.66f), projectile.Center);
 
 			if (!Main.dedServ)
 			{

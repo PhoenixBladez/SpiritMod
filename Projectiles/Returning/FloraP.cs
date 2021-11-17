@@ -105,7 +105,7 @@ namespace SpiritMod.Projectiles.Returning
 				for (float k = 0; k < projectile.oldPos.Length; k+= (projectile.oldPos.Length / 3)) {
 					Vector2 drawPos = projectile.oldPos[(int)k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
 					Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-					spriteBatch.Draw(SpiritMod.instance.GetTexture("Projectiles/Returning/FloraSpin"), drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+					spriteBatch.Draw(SpiritMod.Instance.GetTexture("Projectiles/Returning/FloraSpin"), drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
 				}
 				return false;
 			}

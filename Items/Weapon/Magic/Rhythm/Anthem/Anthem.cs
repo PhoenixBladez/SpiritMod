@@ -87,7 +87,7 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm.Anthem
 
 				if (owner.inventory[owner.selectedItem] == item && Minigame.Combo > 8)
 				{
-					Texture2D basetexture = SpiritMod.instance.GetTexture("Effects/Masks/Star");
+					Texture2D basetexture = SpiritMod.Instance.GetTexture("Effects/Masks/Star");
 
 					sB.End();
 

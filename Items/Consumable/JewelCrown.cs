@@ -56,7 +56,7 @@ namespace SpiritMod.Items.Consumable
 					if (tries >= maxtries)
 						return false;
 
-					SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(), (byte)MessageType.BossSpawnFromClient, (byte)player.whoAmI, mod.NPCType("AncientFlyer"), (int)spawnPos.X, (int)spawnPos.Y).Send(-1);
+					SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(), (byte)MessageType.BossSpawnFromClient, (byte)player.whoAmI, mod.NPCType("AncientFlyer"), (int)spawnPos.X, (int)spawnPos.Y).Send(-1);
 				}
 
 				Main.PlaySound(SoundID.Roar, player.position, 0);

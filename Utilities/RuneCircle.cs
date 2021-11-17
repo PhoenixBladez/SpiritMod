@@ -22,7 +22,7 @@ namespace SpiritMod.Utilities
 
 		public RuneCircle(float MaxRadius, float MinRadius, float SpeedCap, float RuneAmount)
 		{
-			_runeTex = SpiritMod.instance.GetTexture("Textures/Runes");
+			_runeTex = SpiritMod.Instance.GetTexture("Textures/Runes");
 			_maxRadius = MaxRadius;
 			_minRadius = MinRadius;
 			_radius = MaxRadius;

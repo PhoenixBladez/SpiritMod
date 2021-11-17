@@ -110,7 +110,7 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			AddToQueue(new ExpressionController(0, (int frame) =>
 			{
 				if(Main.netMode != NetmodeID.Server)
-					Main.PlaySound(SpiritMod.instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/StarplateBlast"), center);
+					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/StarplateBlast"), center);
 			}));
 
 			// add a screen shake event to the queue
@@ -133,7 +133,7 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 				}
 				else
 				{
-					SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(), (byte)MessageType.BossSpawnFromClient, (byte)player.whoAmI, (int)ModContent.NPCType<SteamRaiderHead>(), "The Starplate Voyager has awoken!", (int)player.Center.X - 600, (int)player.Center.Y - 600).Send(-1);
+					SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(), (byte)MessageType.BossSpawnFromClient, (byte)player.whoAmI, (int)ModContent.NPCType<SteamRaiderHead>(), "The Starplate Voyager has awoken!", (int)player.Center.X - 600, (int)player.Center.Y - 600).Send(-1);
 				}
 
 			}));
@@ -236,7 +236,7 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			{
 				if (beginSB) spriteBatch.Begin();
 
-				spriteBatch.Draw(SpiritMod.instance.GetTexture("Textures/Events/BeaconOverlay"), _center - new Vector2(16f, 10f) - Main.screenPosition, Color.White * _overlayOpacity.Ease(_currentTime));
+				spriteBatch.Draw(SpiritMod.Instance.GetTexture("Textures/Events/BeaconOverlay"), _center - new Vector2(16f, 10f) - Main.screenPosition, Color.White * _overlayOpacity.Ease(_currentTime));
 
 				float overlayOpacity = 1.0f - _overlayOpacity.Ease(_currentTime);
 				if (_currentTime < BUILDUP_LENGTH + PAUSE_TIME * 0.5f)

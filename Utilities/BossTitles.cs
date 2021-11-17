@@ -67,8 +67,7 @@ namespace SpiritMod.Utilities
 		public static void SyncNPCType(int Type)
 		{
 			if (Main.netMode != NetmodeID.SinglePlayer)
-				SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(), (byte)MessageType.BossTitle, Type).Send();
-
+				SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(), (byte)MessageType.BossTitle, Type).Send();
 			else
 				SetNPCType(Type);
 		}
@@ -80,14 +79,14 @@ namespace SpiritMod.Utilities
 				case "Spirit Bosses Only":
 					if (ModContent.GetModNPC(Type) == null) //return if from vanilla
 						return;
-					if (ModContent.GetModNPC(Type).mod != SpiritMod.instance) //then return if not from spirit mod
+					if (ModContent.GetModNPC(Type).mod != SpiritMod.Instance) //then return if not from spirit mod
 						return;
 					break;
 
 				case "Spirit and Vanilla Bosses Only":
 					if (ModContent.GetModNPC(Type) != null) //check if not vanilla
 					{
-						if (ModContent.GetModNPC(Type).mod != SpiritMod.instance) //then return if not from spirit mod
+						if (ModContent.GetModNPC(Type).mod != SpiritMod.Instance) //then return if not from spirit mod
 							return;
 					}
 
@@ -149,7 +148,7 @@ namespace SpiritMod.Utilities
 			//draw the underline between the name and head icon
 			Vector2 UnderlineDrawPos = NameDrawPos + namesize/2;
 			UnderlineDrawPos.Y += subtitlesize.Y + namesize.Y / 3;
-			Texture2D Underline = SpiritMod.instance.GetTexture("Textures/TitleUnderline");
+			Texture2D Underline = SpiritMod.Instance.GetTexture("Textures/TitleUnderline");
 			Vector2 underlinescale = new Vector2((namesize.X / Underline.Width) * 0.75f, 0.33f);
 
 			spriteBatch.Draw(Underline, UnderlineDrawPos, null, Color.White * Opacity, 0, Underline.Size() / 2, underlinescale, SpriteEffects.None, 0);

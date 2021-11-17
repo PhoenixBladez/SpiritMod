@@ -45,7 +45,7 @@ namespace SpiritMod.Items.Consumable
 		public override bool UseItem(Player player)
 		{
 			if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
-				SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(), (byte)MessageType.StartTide).Send();
+				SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(), (byte)MessageType.StartTide).Send();
 			else
 			{
 				TideWorld.TheTide = true;

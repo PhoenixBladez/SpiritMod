@@ -33,7 +33,7 @@ namespace SpiritMod.Skies
 		public override void OnLoad()
 		{
 			this._bgTexture = TextureManager.Load("Images/Misc/StardustSky/Background");
-			Mod mod = SpiritMod.instance;
+			Mod mod = SpiritMod.Instance;
 			_beamTexture = TextureManager.Load("Images/Misc/NebulaSky/Beam");
 			_rockTextures = new Texture2D[3];
 			for (int i = 0; i < _rockTextures.Length; i++) {

@@ -75,7 +75,7 @@ namespace SpiritMod.Tiles
 			{
 				if (Main.netMode == NetmodeID.SinglePlayer)
 					return false;
-				SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(), (byte)MessageType.BossSpawnFromClient, (byte)p.whoAmI, ModContent.NPCType<ReachBoss>(), "Vinewrath Bane Has Been Summoned!", (int)p.Center.X + 600, (int)p.Center.Y + 600).Send(-1);
+				SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(), (byte)MessageType.BossSpawnFromClient, (byte)p.whoAmI, ModContent.NPCType<ReachBoss>(), "Vinewrath Bane Has Been Summoned!", (int)p.Center.X + 600, (int)p.Center.Y + 600).Send(-1);
 			}
 			return true;
 		}

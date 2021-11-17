@@ -124,7 +124,7 @@ namespace SpiritMod.NPCs.BlueMoon.GlowToad
 			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
 							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 
-			Texture2D headTexture = SpiritMod.instance.GetTexture("NPCs/BlueMoon/GlowToad/GlowToad_Head");
+			Texture2D headTexture = SpiritMod.Instance.GetTexture("NPCs/BlueMoon/GlowToad/GlowToad_Head");
 			Vector2 headOffset = new Vector2(npc.direction == -1 ? 25 : headTexture.Width - 25,20);
 			spriteBatch.Draw(headTexture, npc.position - Main.screenPosition + headOffset, new Rectangle(0,mouthOpen ? 52 : 0, headTexture.Width, headTexture.Height / 2),
 							 drawColor, headRotation, headOffset, npc.scale, effects, 0);
@@ -134,9 +134,9 @@ namespace SpiritMod.NPCs.BlueMoon.GlowToad
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(SpiritMod.instance.GetTexture("NPCs/BlueMoon/GlowToad/GlowToad_Glow"), npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+			spriteBatch.Draw(SpiritMod.Instance.GetTexture("NPCs/BlueMoon/GlowToad/GlowToad_Glow"), npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
 							 Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
-			Texture2D headTexture = SpiritMod.instance.GetTexture("NPCs/BlueMoon/GlowToad/GlowToad_HeadGlow");
+			Texture2D headTexture = SpiritMod.Instance.GetTexture("NPCs/BlueMoon/GlowToad/GlowToad_HeadGlow");
 			Vector2 headOffset = new Vector2(npc.direction == -1 ? 25 : headTexture.Width - 25,20);
 			spriteBatch.Draw(headTexture, npc.position - Main.screenPosition + headOffset, new Rectangle(0,mouthOpen ? 52 : 0, headTexture.Width, headTexture.Height / 2),
 							 Color.White, headRotation, headOffset, npc.scale, effects, 0);

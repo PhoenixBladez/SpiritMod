@@ -44,7 +44,7 @@ namespace SpiritMod.Tiles
 			MyWorld.superSunFlowerPositions.Add(new Point16(i, j));
 
 			if (Main.netMode == NetmodeID.MultiplayerClient)
-				SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(4), (byte)MessageType.PlaceSuperSunFlower, (ushort)i, (ushort)j).Send();
+				SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(4), (byte)MessageType.PlaceSuperSunFlower, (ushort)i, (ushort)j).Send();
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)

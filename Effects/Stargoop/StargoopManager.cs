@@ -35,22 +35,22 @@ namespace SpiritMod.Effects.Stargoop
 		}
 		public void LoadContent()
 		{
-			Mask = SpiritMod.instance.GetTexture("Effects/Masks/Mask");
+			Mask = SpiritMod.Instance.GetTexture("Effects/Masks/Mask");
 
-			Galaxy0 = SpiritMod.instance.GetTexture("Effects/Masks/Galaxy0");
-			Galaxy1 = SpiritMod.instance.GetTexture("Effects/Masks/Galaxy1");
-			Galaxy2 = SpiritMod.instance.GetTexture("Effects/Masks/Galaxy2");
+			Galaxy0 = SpiritMod.Instance.GetTexture("Effects/Masks/Galaxy0");
+			Galaxy1 = SpiritMod.Instance.GetTexture("Effects/Masks/Galaxy1");
+			Galaxy2 = SpiritMod.Instance.GetTexture("Effects/Masks/Galaxy2");
 
-			metaballColorCode = SpiritMod.instance.GetEffect("Effects/MetaballColorCode");
-			metaballEdgeDetection = SpiritMod.instance.GetEffect("Effects/MetaballEdgeDetection");
-			borderNoise = SpiritMod.instance.GetEffect("Effects/BorderNoise");
-			galaxyParallax = SpiritMod.instance.GetEffect("Effects/GalaxyParallax");
+			metaballColorCode = SpiritMod.Instance.GetEffect("Effects/MetaballColorCode");
+			metaballEdgeDetection = SpiritMod.Instance.GetEffect("Effects/MetaballEdgeDetection");
+			borderNoise = SpiritMod.Instance.GetEffect("Effects/BorderNoise");
+			galaxyParallax = SpiritMod.Instance.GetEffect("Effects/GalaxyParallax");
 
 			FriendlyLayer = new StargoopLayer(FriendlyBorderColor, Galaxy0, Galaxy1, Galaxy2);
 			EnemyLayer = new StargoopLayer(EnemyBorderColor, Galaxy0, Galaxy1, Galaxy2);
-			NebulaLayer = new StargoopLayer(NebulaBorderColor, SpiritMod.instance.GetTexture("Effects/Masks/Nebula0"),
-															  SpiritMod.instance.GetTexture("Effects/Masks/Nebula1"),
-															  SpiritMod.instance.GetTexture("Effects/Masks/Nebula2"));
+			NebulaLayer = new StargoopLayer(NebulaBorderColor, SpiritMod.Instance.GetTexture("Effects/Masks/Nebula0"),
+															  SpiritMod.Instance.GetTexture("Effects/Masks/Nebula1"),
+															  SpiritMod.Instance.GetTexture("Effects/Masks/Nebula2"));
 		}
 
 		public void UpdateWindowSize(GraphicsDevice graphicsDevice, int width, int height)

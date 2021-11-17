@@ -21,7 +21,7 @@ namespace SpiritMod.Skies.Starjinx
 
 		public override void OnLoad()
 		{
-			_bgTexture = SpiritMod.instance.GetTexture("Skies/Starjinx/StarjinxSky");
+			_bgTexture = SpiritMod.Instance.GetTexture("Skies/Starjinx/StarjinxSky");
 		}
 
 		private List<StarjinxBGStar> Stars = new List<StarjinxBGStar>();
@@ -118,8 +118,8 @@ namespace SpiritMod.Skies.Starjinx
 
 	public class StarjinxBGStar
 	{
-		private readonly Texture2D Texture = SpiritMod.instance.GetTexture("Effects/Masks/Star");
-		private readonly Texture2D BloomTexture = SpiritMod.instance.GetTexture("Effects/Masks/CircleGradient");
+		private readonly Texture2D Texture = SpiritMod.Instance.GetTexture("Effects/Masks/Star");
+		private readonly Texture2D BloomTexture = SpiritMod.Instance.GetTexture("Effects/Masks/CircleGradient");
 		public Vector2 Position;
 		public Vector2 Velocity;
 		public float Scale = 0;

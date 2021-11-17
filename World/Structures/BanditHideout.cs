@@ -188,7 +188,7 @@ namespace SpiritMod.World
 
 				placed = true;
 			}
-			if (!placed) SpiritMod.instance.Logger.Error("Worldgen: FAILED to place Bandit Hideout, ground not flat enough?");
+			if (!placed) SpiritMod.Instance.Logger.Error("Worldgen: FAILED to place Bandit Hideout, ground not flat enough?");
 			return placed;
 		}
 

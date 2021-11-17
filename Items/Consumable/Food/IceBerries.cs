@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Consumable.Food
 				myPlayer.hoveredStag = null;
 
 				if (Main.netMode == NetmodeID.MultiplayerClient)
-					SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(4), (byte)MessageType.TameAuroraStag, auroraStag.npc.whoAmI).Send();
+					SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(4), (byte)MessageType.TameAuroraStag, auroraStag.npc.whoAmI).Send();
 			}
 			else
 				player.AddBuff(ModContent.BuffType<IceBerryBuff>(), 19600);

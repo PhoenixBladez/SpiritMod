@@ -68,7 +68,7 @@ namespace SpiritMod.Items.Glyphs
 				dust.noGravity = true;
 			}
 			if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.Server) {
-				ModPacket packet = SpiritMod.instance.GetPacket(MessageType.Dodge, 2);
+				ModPacket packet = SpiritMod.Instance.GetPacket(MessageType.Dodge, 2);
 				packet.Write((byte)player.whoAmI);
 				packet.Write((byte)1);
 				packet.Send();

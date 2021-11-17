@@ -93,8 +93,8 @@ namespace SpiritMod.Utilities
 				BackgroundItemManager.Update();
 
 			SpiritMod.deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-			if(SpiritMod.instance != null)
-				SpiritMod.instance.CheckScreenSize();
+			if(SpiritMod.Instance != null)
+				SpiritMod.Instance.CheckScreenSize();
 
 			orig(self, gameTime);
 		}
@@ -303,7 +303,7 @@ namespace SpiritMod.Utilities
 					(projectile.modProjectile as ITrailProjectile).DoTrailCreation(SpiritMod.TrailManager);
 
 				else 
-					SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(), (byte)MessageType.SpawnTrail, index).Send();
+					SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(), (byte)MessageType.SpawnTrail, index).Send();
 			}
 			//if (Main.netMode != NetmodeID.Server) SpiritMod.TrailManager.DoTrailCreation(projectile);
 

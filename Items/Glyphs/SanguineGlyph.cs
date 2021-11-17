@@ -51,29 +51,29 @@ namespace SpiritMod.Items.Glyphs
 			if (!target.CanLeech())
 				return;
 
-			if (target.FindBuffIndex(SpiritMod.instance.BuffType("SanguineBleed")) > -1
+			if (target.FindBuffIndex(SpiritMod.Instance.BuffType("SanguineBleed")) > -1
 				&& Main.rand.NextDouble() < 0.3) {
 				Leech(player);
 			}
 
 			if (Main.rand.Next(5) == 0)
-				target.AddBuff(SpiritMod.instance.BuffType("SanguineBleed"), 600);
+				target.AddBuff(SpiritMod.Instance.BuffType("SanguineBleed"), 600);
 		}
 
 		public static void BloodCorruption(Player player, Player target, int damage)
 		{
-			if (target.FindBuffIndex(SpiritMod.instance.BuffType("SanguineBleed")) > -1
+			if (target.FindBuffIndex(SpiritMod.Instance.BuffType("SanguineBleed")) > -1
 				&& Main.rand.NextDouble() < 0.2) {
 				Leech(player);
 			}
 
 			if (Main.rand.Next(5) == 0)
-				target.AddBuff(SpiritMod.instance.BuffType("SanguineBleed"), 600, false);
+				target.AddBuff(SpiritMod.Instance.BuffType("SanguineBleed"), 600, false);
 		}
 
 		private static void Leech(Player player)
 		{
-			player.AddBuff(SpiritMod.instance.BuffType("SanguineRegen"), Main.rand.Next(2, 4) * 60);
+			player.AddBuff(SpiritMod.Instance.BuffType("SanguineRegen"), Main.rand.Next(2, 4) * 60);
 			DustHelper.DrawDiamond(player.Center, ModContent.DustType<Dusts.Blood>(), 3);
 			Main.PlaySound(SoundID.Item, (int)player.Center.X, (int)player.Center.Y, 3, 0.75f, -0.5f);
 		}

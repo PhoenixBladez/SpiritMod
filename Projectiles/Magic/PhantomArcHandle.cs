@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			float sineAdd = (float)Math.Sin(alphaCounter) + 3;
-			Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), (projectile.Center - Main.screenPosition), null, new Color((int)(2.5f * sineAdd), (int)(5.5f * sineAdd), (int)(6f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + 1), SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49"), (projectile.Center - Main.screenPosition), null, new Color((int)(2.5f * sineAdd), (int)(5.5f * sineAdd), (int)(6f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + 1), SpriteEffects.None, 0f);
 		}
 		public override bool PreAI()
 		{

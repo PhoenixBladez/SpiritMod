@@ -58,7 +58,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 				if (modplayer.GraveyardFrame > 5 && !Main.dedServ)
 				{
 					modplayer.GraveyardFrame = 0;
-					Main.PlaySound(SpiritMod.instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/PageFlip").WithPitchVariance(0.2f), player.Center);
+					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/PageFlip").WithPitchVariance(0.2f), player.Center);
 				}
 
 				if (Main.rand.NextBool(10))

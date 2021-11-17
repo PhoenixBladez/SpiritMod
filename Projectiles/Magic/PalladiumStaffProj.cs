@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			if (hitGround) {
-				Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_60"), new Vector2((int)projectile.position.X - (int)Main.screenPosition.X - 44, (int)projectile.position.Y - (int)Main.screenPosition.Y - 22), null, new Color(252 + alphaCounter * 2, 152 + alphaCounter, 3, 0), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(SpiritMod.Instance.GetTexture("Effects/Masks/Extra_60"), new Vector2((int)projectile.position.X - (int)Main.screenPosition.X - 44, (int)projectile.position.Y - (int)Main.screenPosition.Y - 22), null, new Color(252 + alphaCounter * 2, 152 + alphaCounter, 3, 0), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			}
 			return false;
 		}

@@ -962,7 +962,7 @@ namespace SpiritMod
 
 			// quest related hotkeys
 			if (SpiritMod.QuestBookHotkey.JustPressed) // swap the quest book's state around, if it's open, close it, and vice versa.
-				Mechanics.QuestSystem.QuestManager.SetBookState(!(SpiritMod.instance.BookUserInterface.CurrentState is UI.QuestUI.QuestBookUI));
+				Mechanics.QuestSystem.QuestManager.SetBookState(!(SpiritMod.Instance.BookUserInterface.CurrentState is UI.QuestUI.QuestBookUI));
 
 			if (SpiritMod.QuestHUDHotkey.JustPressed) // swap the quest book's state around, if it's open, close it, and vice versa.
 				SpiritMod.QuestHUD.Toggle();
@@ -2359,7 +2359,7 @@ namespace SpiritMod
 
 				if (Main.netMode == NetmodeID.MultiplayerClient && temp != glyph) //If the glyph type has changed, sync
 				{
-					ModPacket packet = SpiritMod.instance.GetPacket(MessageType.PlayerGlyph, 2);
+					ModPacket packet = SpiritMod.Instance.GetPacket(MessageType.PlayerGlyph, 2);
 					packet.Write((byte)Main.myPlayer);
 					packet.Write((byte)glyph);
 					packet.Send();
@@ -2808,7 +2808,7 @@ namespace SpiritMod
 			if (!local || Main.netMode == NetmodeID.SinglePlayer)
 				return;
 
-			ModPacket packet = SpiritMod.instance.GetPacket(MessageType.Dash, 3);
+			ModPacket packet = SpiritMod.Instance.GetPacket(MessageType.Dash, 3);
 			packet.Write((byte)player.whoAmI);
 			packet.Write((byte)dash);
 			packet.Write(dir);

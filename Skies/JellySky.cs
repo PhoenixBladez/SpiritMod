@@ -270,7 +270,7 @@ namespace SpiritMod.Skies
 
         private void GenerateUfos()
         {
-            Mod mod = SpiritMod.instance;
+            Mod mod = SpiritMod.Instance;
             float num3 = (float)Main.maxTilesX / 4200f;
             this._maxUfos = (int)(256f * num3);
             this._ufos = new Ufo[this._maxUfos];

@@ -71,10 +71,10 @@ namespace SpiritMod.NPCs.Tides.Tide
 
 				if (Main.netMode != NetmodeID.Server)
 				{
-					Main.musicFade[SpiritMod.instance.GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion")] = 0;
+					Main.musicFade[SpiritMod.Instance.GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion")] = 0;
 					float temp = Main.soundVolume; //temporarily store main.soundvolume, since sounds dont play at all if sound volume is at 0, regardless of actual volume of the sound
 					Main.soundVolume = (temp == 0) ? 1 : Main.soundVolume;
-					Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, SpiritMod.instance.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/TideComplete"));
+					Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, SpiritMod.Instance.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/TideComplete"));
 					Main.soundVolume = temp;
 				}
 

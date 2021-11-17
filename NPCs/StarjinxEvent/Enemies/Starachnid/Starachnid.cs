@@ -435,7 +435,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				return;
 
 			float length;
-			Texture2D tex = SpiritMod.instance.GetTexture("Textures/Trails/Trail_4");
+			Texture2D tex = SpiritMod.Instance.GetTexture("Textures/Trails/Trail_4");
 			Vector2 threadScale = new Vector2(1 / (float)tex.Width, 30 / (float)tex.Height); //Base scale of the thread based on the texture's size, stretched horizontally depending on thread length
 
 			//Draw each thread's beam
@@ -457,7 +457,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			spriteBatch.Draw(tex, thread2.EndPoint - Main.screenPosition, null, Color.HotPink * 0.5f * size, (thread2.StartPoint - thread2.EndPoint).ToRotation(), //Draw the remaining portion at lower opacity
 				new Vector2(0f, tex.Height / 2), threadScale * new Vector2((1 - progress) * thread2.Length, 1), SpriteEffects.None, 0f);
 
-			tex = SpiritMod.instance.GetTexture("NPCs/StarjinxEvent/Enemies/Starachnid/SpiderStar");
+			tex = SpiritMod.Instance.GetTexture("NPCs/StarjinxEvent/Enemies/Starachnid/SpiderStar");
 			Texture2D Bloom = mod.GetTexture("Effects/Masks/CircleGradient");
 
 			//Use a method to cut down on boilerplate with drawing stars

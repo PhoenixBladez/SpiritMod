@@ -150,7 +150,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 				Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanFreezeCommon = true;
 			}
 			for (int index1 = 0; index1 < 5; ++index1) {
-				int index2 = Dust.NewDust(new Vector2(position.X, position.Y), item.width - 64, item.height - 16, dustType, speedX, speedY, (int)byte.MaxValue, new Color(), (float)SpiritMod.instance.spiritRNG.Next(10, 17) * 0.1f);
+				int index2 = Dust.NewDust(new Vector2(position.X, position.Y), item.width - 64, item.height - 16, dustType, speedX, speedY, (int)byte.MaxValue, new Color(), (float)SpiritMod.Instance.spiritRNG.Next(10, 17) * 0.1f);
 				Main.dust[index2].noLight = true;
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity *= 0.5f;
@@ -195,9 +195,9 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 		}
 		public void Generate()
 		{
-			nameIndex = (ushort)SpiritMod.instance.spiritRNG.Next(RandNames.Length); ;
-			elementPrimary = SpiritMod.instance.spiritRNG.Next(0, 3);
-			elementSecondary = SpiritMod.instance.spiritRNG.Next(3, 6);
+			nameIndex = (ushort)SpiritMod.Instance.spiritRNG.Next(RandNames.Length); ;
+			elementPrimary = SpiritMod.Instance.spiritRNG.Next(0, 3);
+			elementSecondary = SpiritMod.Instance.spiritRNG.Next(3, 6);
 
 			ApplyStats();
 		}

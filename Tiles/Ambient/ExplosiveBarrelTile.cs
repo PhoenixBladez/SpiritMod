@@ -64,7 +64,7 @@ namespace SpiritMod.Tiles.Ambient
                     WorldGen.KillTile(i, j);
 
 					if (Main.netMode == NetmodeID.MultiplayerClient)
-						SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(8), (byte)MessageType.SpawnExplosiveBarrel, x, y).Send();
+						SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(8), (byte)MessageType.SpawnExplosiveBarrel, x, y).Send();
                 }
             }
         }

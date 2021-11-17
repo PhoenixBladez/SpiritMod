@@ -133,7 +133,6 @@ namespace SpiritMod
 		//public static int customEvent;
 		public static int GlyphCurrencyID;
 
-		internal static SpiritMod instance;
 		internal static float deltaTime;
 
 		private Vector2 _lastScreenSize;
@@ -315,11 +314,11 @@ namespace SpiritMod
 
 			MyPlayer spirit = player.GetModPlayer<MyPlayer>();
 
-			if (NPC.AnyNPCs(NPCID.SkeletronPrime) && config.SkeletronPrimeMusic)
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/SkeletronPrime");
-				priority = MusicPriority.BossMedium; 
-			}
+			//if (NPC.AnyNPCs(NPCID.SkeletronPrime) && config.SkeletronPrimeMusic)
+			//{
+			//	music = GetSoundSlot(SoundType.Music, "Sounds/Music/SkeletronPrime");
+			//	priority = MusicPriority.BossMedium; 
+			//}
 
 			if (player.GetModPlayer<NPCs.StarjinxEvent.StarjinxPlayer>().zoneStarjinxEvent)
 			{
@@ -730,7 +729,6 @@ namespace SpiritMod
 			SpiritDetours.Initialize();
 
 			GlobalNoise = new PerlinNoise(Main.rand.Next());
-			instance = this;
 
 			if (Main.rand == null)
 				Main.rand = new UnifiedRandom();
@@ -780,7 +778,7 @@ namespace SpiritMod
 				auroraEffect = GetEffect("Effects/aurora");
 
 				ShaderDict = new Dictionary<string, Effect>();
-				var tmodfile = (TmodFile)typeof(SpiritMod).GetProperty("File", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(instance);
+				var tmodfile = (TmodFile)typeof(SpiritMod).GetProperty("File", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Instance);
 				IDictionary<string, FileEntry> files = (IDictionary<string, FileEntry>)typeof(TmodFile).GetField("files", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(tmodfile);
 				foreach (KeyValuePair<string, FileEntry> kvp in files.Where(x => x.Key.Contains("Effects/") && x.Key.Contains(".xnb")))
 					ShaderDict.Add(kvp.Key.Remove(kvp.Key.Length - ".xnb".Length, ".xnb".Length).Remove(0, "Effects/".Length), GetEffect(kvp.Key.Remove(kvp.Key.Length - ".xnb".Length, ".xnb".Length)));
@@ -837,21 +835,21 @@ namespace SpiritMod
 
 				Filters.Scene["SpiritMod:StarjinxBorderFade"] = new Filter(new StarjinxBorderShader(starjinxBorderEffect, "FadePS"), (EffectPriority)70);
 
-				StarjinxNoise = instance.GetEffect("Effects/StarjinxNoise");
-				CircleNoise = instance.GetEffect("Effects/CircleNoise");
-				StarfirePrims = instance.GetEffect("Effects/StarfirePrims");
-				ScreamingSkullTrail = instance.GetEffect("Effects/ScreamingSkullTrail");
-				RipperSlugShader = instance.GetEffect("Effects/RipperSlugShader");
-				EyeballShader = instance.GetEffect("Effects/EyeballShader");
-				ArcLashShader = instance.GetEffect("Effects/ArcLashShader");
-				JemShaders = instance.GetEffect("Effects/JemShaders");
-				SunOrbShader = instance.GetEffect("Effects/SunOrbShader");
-				ThyrsusShader = instance.GetEffect("Effects/ThyrsusShader");
-				JetbrickTrailShader = instance.GetEffect("Effects/JetbrickTrailShader");
-				OutlinePrimShader = instance.GetEffect("Effects/OutlinePrimShader");
-				GSaber = instance.GetEffect("Effects/GSaber");
-				AnthemCircle = instance.GetEffect("Effects/AnthemCircle");
-				TeslaShader = instance.GetEffect("Effects/TeslaShader");
+				StarjinxNoise = Instance.GetEffect("Effects/StarjinxNoise");
+				CircleNoise = Instance.GetEffect("Effects/CircleNoise");
+				StarfirePrims = Instance.GetEffect("Effects/StarfirePrims");
+				ScreamingSkullTrail = Instance.GetEffect("Effects/ScreamingSkullTrail");
+				RipperSlugShader = Instance.GetEffect("Effects/RipperSlugShader");
+				EyeballShader = Instance.GetEffect("Effects/EyeballShader");
+				ArcLashShader = Instance.GetEffect("Effects/ArcLashShader");
+				JemShaders = Instance.GetEffect("Effects/JemShaders");
+				SunOrbShader = Instance.GetEffect("Effects/SunOrbShader");
+				ThyrsusShader = Instance.GetEffect("Effects/ThyrsusShader");
+				JetbrickTrailShader = Instance.GetEffect("Effects/JetbrickTrailShader");
+				OutlinePrimShader = Instance.GetEffect("Effects/OutlinePrimShader");
+				GSaber = Instance.GetEffect("Effects/GSaber");
+				AnthemCircle = Instance.GetEffect("Effects/AnthemCircle");
+				TeslaShader = Instance.GetEffect("Effects/TeslaShader");
 
 				SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
 				Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
@@ -1072,7 +1070,6 @@ namespace SpiritMod
 			OutlinePrimShader = null;
 			SunOrbShader = null;
 			noise = null;
-			instance = null;
 
 			AutoSellUI_INTERFACE = null;
 			SellNoValue_INTERFACE = null;
@@ -1622,7 +1619,7 @@ namespace SpiritMod
 				const int OffsetX = 20;
 				const int OffsetY = 20;
 
-				Texture2D EventIcon = instance.GetTexture("Effects/InvasionIcons/Depths_Icon");
+				Texture2D EventIcon = Instance.GetTexture("Effects/InvasionIcons/Depths_Icon");
 				Color descColor = new Color(77, 39, 135);
 				Color waveColor = new Color(255, 241, 51);
 

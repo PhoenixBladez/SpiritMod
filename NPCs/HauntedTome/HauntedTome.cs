@@ -93,7 +93,7 @@ namespace SpiritMod.NPCs.HauntedTome
 				AttackDict[Pattern[(int)AttackType]].Invoke(Main.player[npc.target], npc);
 
 				if (AiTimer % 30 == 0 && Main.netMode != NetmodeID.Server)
-						Main.PlaySound(SpiritMod.instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/PageFlip").WithPitchVariance(0.2f), npc.Center);
+						Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/PageFlip").WithPitchVariance(0.2f), npc.Center);
 
 				if (frame < 9)
 					UpdateFrame(12, 0, 9);
@@ -159,7 +159,7 @@ namespace SpiritMod.NPCs.HauntedTome
 
 			if (modnpc.AiTimer % 45 == 0) {
 				if (Main.netMode != NetmodeID.Server)
-					Main.PlaySound(SpiritMod.instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/PaperRip"), npc.Center);
+					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/PaperRip"), npc.Center);
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 					Projectile.NewProjectileDirect(npc.Center,

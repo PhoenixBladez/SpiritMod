@@ -28,8 +28,8 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm.Anthem
 		{
 			if (Main.netMode != NetmodeID.Server)
 			{
-				Bolt = SpiritMod.instance.GetTexture("Items/Weapon/Magic/Rhythm/Anthem/Bolt");
-				Guitar = SpiritMod.instance.GetSound("Sounds/130bpm-guitar");
+				Bolt = SpiritMod.Instance.GetTexture("Items/Weapon/Magic/Rhythm/Anthem/Bolt");
+				Guitar = SpiritMod.Instance.GetSound("Sounds/130bpm-guitar");
 			}
 		}
 

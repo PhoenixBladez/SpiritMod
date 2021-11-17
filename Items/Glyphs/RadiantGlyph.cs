@@ -47,7 +47,7 @@ namespace SpiritMod.Items.Glyphs
 		{
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
 			modPlayer.divineCounter = 0;
-			int index = player.FindBuffIndex(SpiritMod.instance.BuffType("DivineStrike"));
+			int index = player.FindBuffIndex(SpiritMod.Instance.BuffType("DivineStrike"));
 			if (index < 0)
 				return;
 

@@ -89,7 +89,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
 			float sineAdd = (float)Math.Sin(projectile.localAI[1] * 0.1f) + 3;
 			Color color = Color.Lerp(Color.Orange, Color.Red, Math.Min(projectile.localAI[0] / 120f, 1));
 			color.A = 0;
-			Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), projectile.Center - Main.screenPosition, null, color * 0.7f, 0f, SpiritMod.instance.GetTexture("Effects/Masks/Extra_49").Size() / 2, 0.1f * (sineAdd + 1), SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49"), projectile.Center - Main.screenPosition, null, color * 0.7f, 0f, SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49").Size() / 2, 0.1f * (sineAdd + 1), SpriteEffects.None, 0f);
 			return true;
 		}
 	}
