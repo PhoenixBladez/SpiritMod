@@ -58,6 +58,16 @@ namespace SpiritMod.Utilities
         [DefaultValue(true)]
         public bool CorruptNightMusic { get; set; }
 
+		[Label("New Crimson Night Music")]
+		[Tooltip("Adds a unique track for the Crimson at nighttime")]
+		[DefaultValue(true)]
+		public bool CrimsonNightMusic { get; set; }
+
+		[Label("New Skeletron Prime Music")]
+		[Tooltip("Adds a unique boss soundtrack for Skeletron Prime")]
+		[DefaultValue(true)]
+		public bool SkeletronPrimeMusic { get; set; }
+
 		[Label("Aurora Music")]
 		[Tooltip("Enables unique music for Auroras")]
 		[DefaultValue(true)]

@@ -7,7 +7,7 @@ using System;
 using SpiritMod.Prim;
 using SpiritMod.Utilities;
 
-namespace SpiritMod.Items.Sets.GreatswordSubclass
+namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 {
     public class GSaber : ModItem
     {

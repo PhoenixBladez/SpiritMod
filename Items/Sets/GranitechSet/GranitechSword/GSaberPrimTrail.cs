@@ -9,9 +9,9 @@ using static Terraria.ModLoader.ModContent;
 using System.Reflection;
 using SpiritMod.Prim;
 
-namespace SpiritMod.Items.Sets.GreatswordSubclass
+namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 {
-    class GSaberPrimTrail : PrimTrail
+	class GSaberPrimTrail : PrimTrail
     {
         public GSaberPrimTrail(Projectile projectile, Vector2 start, Vector2 mid, Vector2 mid2, Vector2 end, bool reverse)
         {
@@ -26,10 +26,10 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
         bool _reverse;
         public override void SetDefaults()
         {
-            AlphaValue = 1f;
-            Width = 80;
+            AlphaValue = .7f;
+            Width = 15;
             Cap = 100;
-            Pixellated = true;
+            Pixellated = false;
         }
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
@@ -46,7 +46,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
             {
                 if (i == 0)
                 {
-                    widthVar = (float)Math.Sqrt(Points.Count) * Width;
+                    widthVar = (float)Math.Sqrt(Points.Count) * (Width + Counter * 3);
                     Color c1 = Color.Lerp(Color.White, SpiritMod.StarjinxColor(Main.GlobalTime * 2), colorSin);
                     Vector2 normalAhead = CurveNormal(Points, i + 1);
                     Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
@@ -59,9 +59,9 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
                 {
                     if (i != Points.Count - 1)
                     {
-                        float dist = Math.Abs((Points.Count - i) - Counter * 3);
-                        widthVar = (float)Math.Sin(i * (3.14f / Points.Count)) * Width * (i) / 100f;
-                        float widthVar2 = (float)Math.Sin((i + 1) * (3.14f / Points.Count)) * Width * ((i + 1)) / 100f;
+                        float dist = Math.Abs((Points.Count - i) - Counter);
+                        widthVar = (float)Math.Sin(i * (3.14f / Points.Count)) * (Width + Counter * 3) * (i) / 100f;
+                        float widthVar2 = (float)Math.Sin((i + 1) * (3.14f / Points.Count)) * (Width + Counter * 3) * ((i + 1)) / 100f;
                         Color c = Color.White * ((100 - dist) * 0.01f) * (Counter / 10f);
                         Color CBT = Color.White * ((100 - dist) * 0.01f) * (Counter / 10f);
                         Vector2 normal = CurveNormal(Points, i);
