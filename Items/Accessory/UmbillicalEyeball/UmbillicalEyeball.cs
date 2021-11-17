@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 
 		public override void SetDefaults()
 		{
-			item.damage = 80;
+			item.damage = 55;
 			item.summon = true;
 			item.knockBack = 1.5f;
 			item.width = 24;
@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 		{
 			if (EyeballMinion)
 				if (player.ownedProjectileCounts[ModContent.ProjectileType<UmbillicalEyeballProj>()] < 3)
-					Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<UmbillicalEyeballProj>(), (int)(80 * player.minionDamage), 1.5f, player.whoAmI, player.ownedProjectileCounts[ModContent.ProjectileType<UmbillicalEyeballProj>()], 0);
+					Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<UmbillicalEyeballProj>(), (int)(55 * player.minionDamage), 1.5f, player.whoAmI, player.ownedProjectileCounts[ModContent.ProjectileType<UmbillicalEyeballProj>()], 0);
 		}
 	}
 
@@ -108,8 +108,8 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 			if (modOwner.EyeballMinion)
 				projectile.timeLeft = 2;
 
-			float maxRange = 600f;
-			int range = 22;
+			float maxRange = 450f;
+			int range = 18;
 
 			if (projectile.ai[1] == -1) //boilerplate, sorry
 			{
@@ -119,6 +119,7 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 					NPC npc = Main.npc[i];
 					if (npc.active && npc.CanBeChasedBy(projectile) && !npc.friendly && !npc.noGravity)
 					{
+						projectile.rotation = projectile.DirectionTo(npc.Center).ToRotation() - MathHelper.Pi;
 						float dist = projectile.Distance(npc.Center);
 						if (dist / 16 < range)
 						{
@@ -133,7 +134,6 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 					}
 				}
 			}
-			projectile.rotation = rotationVector.ToRotation();
 			var circle = new Vector2(circleX * (float)Math.Sin(rotationCounter), circleY * (float)Math.Cos(rotationCounter));
 			float speed = 0.5f;
 
@@ -173,11 +173,16 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 				NPC target = Main.npc.Where(n => n.CanBeChasedBy(projectile, false) && Vector2.Distance(n.Center, projectile.Center) < maxRange).OrderBy(n => Vector2.Distance(n.Center, projectile.Center)).FirstOrDefault();
 				if (target != default)
 				{
+					projectile.rotation = projectile.DirectionTo(target.Center).ToRotation() - MathHelper.Pi;
 					posToBe = target.Center;
-					speed = 2;
+					speed = 1.14f;
 				}
 				else
+				{
+					projectile.rotation = rotationVector.ToRotation();
 					attacking = false;
+
+				}
 			}
 
 			Vector2 direction = posToBe - projectile.position;

@@ -451,10 +451,21 @@ namespace SpiritMod
 				&& !Main.dayTime
 				&& !player.ZoneHoly
 				&& !player.ZoneMeteor
-				&& !player.ZoneCrimson
 				&& !Main.bloodMoon)
 			{
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/CorruptNight");
+				priority = MusicPriority.BiomeHigh;
+			}
+
+			if (config.CrimsonNightMusic
+				&& player.ZoneCrimson
+				&& player.ZoneOverworldHeight
+				&& !Main.dayTime
+				&& !player.ZoneHoly
+				&& !player.ZoneMeteor
+				&& !Main.bloodMoon)
+			{
+				music = GetSoundSlot(SoundType.Music, "Sounds/Music/CrimsonNight");
 				priority = MusicPriority.BiomeHigh;
 			}
 
