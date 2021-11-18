@@ -1055,7 +1055,7 @@ namespace SpiritMod
 				caughtType = ModContent.ItemType<MysticalCage>();
 
 			if (modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextBool(player.cratePotion ? 35 : 65))
-				caughtType = ModContent.ItemType<SpiritCrate>();
+				caughtType = ModContent.ItemType<SpiritCrate>(); 
 
 			if (!mimicRepellent && config.EnemyFishing)
 			{

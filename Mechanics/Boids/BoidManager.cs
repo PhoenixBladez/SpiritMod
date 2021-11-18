@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
@@ -51,10 +52,13 @@ namespace SpiritMod.Mechanics.Boids
 		public void LoadContent()
 		{
 			const int AmbientFishTextureCount = 7;
+			int seed = (int)Main._drawInterfaceGameTime.ElapsedGameTime.Ticks;
 
-			int flocks = Main.rand.Next(6, 14);
+			int flocks = (seed % 8) + 6;
 			for (int i = 0; i < flocks; i++)
 			{
+				bool big = (seed + i) % 2 == 0;
+
 				Texture2D[] textures = new Texture2D[Main.rand.Next(1, 5)];
 				bool[] addedIDs = new bool[AmbientFishTextureCount];
 
@@ -71,7 +75,7 @@ namespace SpiritMod.Mechanics.Boids
 						j--;
 				}
 
-				Flocks.Add(new Flock(textures, 1f, Main.rand.Next(25, 120)));
+				Flocks.Add(big ? new Flock(textures, 1f, Main.rand.Next(5, 20)) : new Flock(textures, 1f, Main.rand.Next(30, 60)));
 			}
 
 			On.Terraria.Main.DrawWoF += Main_DrawWoF;
