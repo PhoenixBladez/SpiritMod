@@ -135,12 +135,12 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 		public void AdditiveCall(SpriteBatch sB)
 		{
 			Color White = new Color(255, 251, 199);
-			Color Yellow = new Color(255, 247, 0) * 0.9f;
-			Color Red = new Color(255, 5, 30) * 0.8f;
+			Color Yellow = new Color(255, 170, 0) * 0.9f;
+			Color Red = new Color(199, 0, 73) * 0.8f;
 
 
 			float rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
-			Vector2 scale = new Vector2(1f - projectile.velocity.Length() / 60, 1f + projectile.velocity.Length() / 60) * projectile.scale;
+			Vector2 scale = new Vector2(1f - projectile.velocity.Length() / 50, 1f + projectile.velocity.Length() / 50) * projectile.scale;
 
 			Vector2 drawCenter = projectile.Center - Main.screenPosition;
 			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
@@ -157,8 +157,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			effect.CurrentTechnique.Passes[0].Apply();
 
 			sB.Draw(tex, drawCenter, null, Red * projectile.Opacity, rotation, tex.Size() / 2, scale, SpriteEffects.None, 0);
-			sB.Draw(tex, drawCenter, null, Yellow * projectile.Opacity, rotation, tex.Size() / 2, scale * 0.85f, SpriteEffects.None, 0);
-			sB.Draw(tex, drawCenter, null, White * projectile.Opacity, rotation, tex.Size() / 2, scale * 0.7f, SpriteEffects.None, 0);
+			sB.Draw(tex, drawCenter, null, Yellow * projectile.Opacity, rotation, tex.Size() / 2, scale * 0.8f, SpriteEffects.None, 0);
+			sB.Draw(tex, drawCenter, null, White * projectile.Opacity, rotation, tex.Size() / 2, scale * 0.66f, SpriteEffects.None, 0);
 
 			sB.End(); sB.Begin(SpriteSortMode.Deferred, BlendState.Additive, default, default, RasterizerState.CullNone, default, Main.GameViewMatrix.ZoomMatrix);
 
@@ -178,15 +178,27 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			PrimitiveRenderer.DrawPrimitiveShape(blurLine, blurEffect);
 
 			Effect circleAA = mod.GetEffect("Effects/CirclePrimitiveAA");
-			CirclePrimitive circle = new CirclePrimitive()
+			CirclePrimitive WCircle = new CirclePrimitive()
 			{
-				Color = Color.Black * projectile.Opacity,
-				Radius = 28 * projectile.scale,
+				Color = Color.White * projectile.Opacity,
+				Radius = 20,
 				Position = projectile.Center - Main.screenPosition,
+				ScaleModifier = scale,
 				MaxRadians = MathHelper.TwoPi,
 				Rotation = projectile.velocity.ToRotation()
 			};
-			PrimitiveRenderer.DrawPrimitiveShape(circle, circleAA);
+			PrimitiveRenderer.DrawPrimitiveShape(WCircle, circleAA);
+
+			CirclePrimitive BCircle = new CirclePrimitive()
+			{
+				Color = Color.Black * projectile.Opacity,
+				Radius = 16,
+				Position = projectile.Center - Main.screenPosition,
+				ScaleModifier = scale,
+				MaxRadians = MathHelper.TwoPi,
+				Rotation = projectile.velocity.ToRotation()
+			};
+			PrimitiveRenderer.DrawPrimitiveShape(BCircle, circleAA);
 
 		}
 

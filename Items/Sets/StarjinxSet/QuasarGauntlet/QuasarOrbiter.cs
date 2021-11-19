@@ -55,7 +55,9 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			if(newCenter.Length() > minRadius)
 			{
 				float lerpSpeed = MathHelper.Lerp(0.12f, 0.2f, MathHelper.Clamp((newCenter.Length() - minRadius) / (maxHomeEffectRadius - minRadius), 0, 1));
-				projectile.velocity = projectile.velocity.Length() * Vector2.Normalize(Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target) * projectile.velocity.Length(), lerpSpeed));
+				projectile.velocity = projectile.velocity.Length() * Vector2.Normalize(Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target) * projectile.velocity.Length(), lerpSpeed)) * 0.95f +
+					Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target) * projectile.velocity.Length(), lerpSpeed) * 0.05f + 
+					parent.velocity * 0.01f;
 			}
         }
 

@@ -41,6 +41,7 @@ float4 MainPS(float2 coords : TEXCOORD0, float4 ocolor : COLOR0) : COLOR0
     
     
     float4 finalcolor = lerp(color, noiseColor, strength);
+    finalcolor.rgb *= 1 + (1 - finalcolor.a) / 4;
     return finalcolor;
 }
 

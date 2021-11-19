@@ -37,7 +37,7 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
     return output;
 };
 
-const float fadeHeight = 0.5f;
+const float fadeHeight = 0.7f;
 float4 MainPS(VertexShaderOutput input) : COLOR0
 {    
     float4 color = input.Color;
