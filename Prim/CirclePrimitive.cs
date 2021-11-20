@@ -13,7 +13,7 @@ namespace SpiritMod.Prim
 	{
 		public PrimitiveType GetPrimitiveType => PrimitiveType.TriangleStrip;
 		public Vector2 Position { get; set; }
-		public float Radius { get; set; }
+		public float Radius { get; set; } = 1;
 		public Color Color { get; set; }
 		public Vector2 ScaleModifier { get; set; } = Vector2.One;
 
@@ -37,9 +37,9 @@ namespace SpiritMod.Prim
 			for (int i = 0; i <= maxTriangles; i++)
 			{
 				float progress = (i / (float)maxTriangles);
-				float rotation = (MaxRadians * progress) + Rotation;
-				float scale = MathHelper.Lerp(ScaleModifier.X, ScaleModifier.Y, (float)Math.Sin(rotation) % 1);
-				Vector2 vertex = Position - (Radius * Vector2.UnitX.RotatedBy(rotation) * scale);
+				float vertRotation = (MaxRadians * progress);
+
+				Vector2 vertex = Position + new Vector2(Radius * ScaleModifier.Y * (float)Math.Cos(vertRotation), Radius * ScaleModifier.X * (float)Math.Sin(vertRotation)).RotatedBy(Rotation);
 				AddVertexIndex(vertex, new Vector2(1f, 0f));
 				AddVertexIndex(Position, new Vector2(0.5f, 0f));
 			}

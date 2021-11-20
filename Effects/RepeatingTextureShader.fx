@@ -1,14 +1,13 @@
 sampler uImage0 : register(s0);
 sampler uImage1 : register(s1);
-matrix WorldViewProjection;
-texture uTexture;
-sampler textureSampler = sampler_state
-{
-    Texture = (uTexture);
-};
 float progress;
-float4 uColor;
-float4 uSecondaryColor;
+
+matrix WorldViewProjection;
+
+texture baseTexture;
+
+float repeats;
+sampler2D baseSampler = sampler_state { texture = <baseTexture>; magfilter = LINEAR; minfilter = LINEAR; mipfilter = LINEAR; AddressU = wrap; };
 
 struct VertexShaderInput
 {
@@ -23,7 +22,6 @@ struct VertexShaderOutput
     float4 Position : SV_POSITION;
     float4 Color : COLOR0;
 };
-
 VertexShaderOutput MainVS(in VertexShaderInput input)
 {
     VertexShaderOutput output = (VertexShaderOutput)0;
@@ -36,23 +34,21 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
 
     return output;
 };
-
-const float fadeHeight = 0.7f;
-float4 MainPS(VertexShaderOutput input) : COLOR0
-{    
-    float4 color = input.Color;
-    float height = (input.TextureCoordinates.x - 0.5f) * 2;
-    if (height > fadeHeight)
-        color *= pow((1 - ((height - fadeHeight) / (1 - fadeHeight))), 3);
-    
-    return color;
+float4 White(VertexShaderOutput input) : COLOR0
+{
+    float2 uv = float2(input.TextureCoordinates.x * repeats, input.TextureCoordinates.y);
+    float4 color = tex2D(baseSampler, uv);
+	return color;
 }
 
 technique BasicColorDrawing
 {
-    pass Default
+    pass DefaultPass
 	{
-        VertexShader = compile vs_2_0 MainVS();
-        PixelShader = compile ps_2_0 MainPS();
+		VertexShader = compile vs_2_0 MainVS();
+	}
+    pass MainPS
+    {
+        PixelShader = compile ps_2_0 White();
     }
 };

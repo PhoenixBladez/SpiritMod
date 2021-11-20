@@ -7,7 +7,7 @@ namespace SpiritMod.Prim
 {
 	public partial class PrimTrail
 	{
-		public bool Destroyed { get; protected set; } = false;
+		public bool Destroyed { get; set; } = false;
 
 		public Entity Entity = null;
 		public bool Pixellated { get; set; } = false;

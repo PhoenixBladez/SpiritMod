@@ -233,7 +233,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 			Texture2D tex = Main.extraTexture[89];
 			float Timer = (float)(Math.Abs(Math.Sin(Main.GlobalTime * 8f)) / 12f) + 0.7f;
 			Vector2 scaleVerticalGlow = new Vector2(0.25f, 2f) * Timer;
-			Vector2 scaleHorizontalGlow = new Vector2(0.25f, 4f) * Timer;
+			Vector2 scaleHorizontalGlow = new Vector2(0.25f, 4f * projectile.Opacity) * Timer;
 			Color blurcolor = Color.Lerp(Yellow, Color.White, 0.33f) * projectile.Opacity;
 			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, blurcolor * Timer, 0, tex.Size() / 2, scaleVerticalGlow, SpriteEffects.None, 0);
 			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, blurcolor * Timer, MathHelper.PiOver2, tex.Size() / 2, scaleHorizontalGlow, SpriteEffects.None, 0);

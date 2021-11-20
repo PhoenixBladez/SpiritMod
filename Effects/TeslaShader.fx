@@ -1,12 +1,10 @@
 sampler uImage0 : register(s0);
 sampler uImage1 : register(s1);
 float progress;
+float repeats;
 matrix WorldViewProjection;
 texture baseTexture;
-sampler baseSampler = sampler_state
-{
-    Texture = (baseTexture);
-};
+sampler2D baseSampler = sampler_state { texture = <baseTexture>; magfilter = LINEAR; minfilter = LINEAR; mipfilter = LINEAR; AddressU = wrap;};
 
 texture vnoise;
 sampler vnoiseSampler = sampler_state
@@ -56,6 +54,7 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
 };
 float4 White(VertexShaderOutput input) : COLOR0
 {
+	input.TextureCoordinates.x *= repeats;
 	float2 uv = float2(input.TextureCoordinates.x, input.TextureCoordinates.y);
 	float time3 = floor(progress * 2) / 2;
 	float time2 = time3 / 15;
