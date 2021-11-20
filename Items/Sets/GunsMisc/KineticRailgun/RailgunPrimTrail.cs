@@ -27,7 +27,6 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
         {
             Pixellated = true;
             Width = 50;
-            Cap = 34;
         }
         float _bezierOffset = 0f;
         float _bezierAcc = 0f;
@@ -87,7 +86,8 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 				effect.Parameters["baseTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/GlowTrail"));
 				effect.Parameters["pnoise"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/noise"));
 				effect.Parameters["vnoise"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/vnoise"));
-				effect.Parameters["wnoise"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/wnoise"));
+			effect.Parameters["wnoise"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/wnoise"));
+			effect.Parameters["repeats"].SetValue(1);
 			PrepareShader(effect, "MainPS", Counter * 0.1f);
 		}
         int _seed = 503240;
