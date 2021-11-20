@@ -52,7 +52,7 @@ namespace SpiritMod.Mechanics.Boids
 		public void LoadContent()
 		{
 			const int AmbientFishTextureCount = 7;
-			int seed = (int)Main._drawInterfaceGameTime.ElapsedGameTime.Ticks;
+			int seed = (int)DateTime.UtcNow.Ticks;
 
 			int flocks = (seed % 8) + 6;
 			for (int i = 0; i < flocks; i++)
