@@ -75,7 +75,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 
 			Player nearest = Main.player[npc.target];
 
-			if (nearest.active && !nearest.dead && nearest.DistanceSQ(npc.Center) < 200 * 200 && nextUp && !spawnedEnemies)
+			if (nearest.active && !nearest.dead /*&& nearest.DistanceSQ(npc.Center) < 200 * 200*/ && nextUp && !spawnedEnemies)
 			{
 				nextUp = false;
 				spawnedEnemies = true;
@@ -92,7 +92,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			{
 				var pos = new Vector2(0, initialDistance * (float)(1 + (Math.Sin(sinCounter) * 0.02f)));
 				npc.Center = Parent.Center + pos.RotatedBy(RotationOffset);
-				//npc.rotation = RotationOffset;
 				RotationOffset += SpinMomentum * (float)Math.Pow(50 / initialDistance, 1.25f);
 			}
 
@@ -106,7 +105,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 				bool tempProjectile = Main.projectile.Any(x => x.active && x.type == ModContent.ProjectileType<StarjinxEnemySpawner>());
 				bool sjinxEnemyAlive = false;
 
-				for (int i = 0; i < Main.maxNPCs; ++i) //update enemy list
+				for (int i = 0; i < Main.maxNPCs; ++i) //make sure an sjinx enemy is alive
 				{
 					NPC npc = Main.npc[i];
 					if (npc.active && npc.life > 0 && npc.modNPC != null && (npc.modNPC is IStarjinxEnemy || npc.type == ModContent.NPCType<Pathfinder>()))
@@ -141,14 +140,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 				if (p.active && !p.dead && p.GetModPlayer<StarjinxPlayer>().zoneStarjinxEvent) //There is a player nearby and we don't need to reset
 					return; //npc.DistanceSQ(p.Center) < 1490 * 1490 - Old distance check because Just In Case
 			}
-
-			//if this part runs then all players have left the event area
-			//if (spawnedEnemies)
-			//	nextUp = true;
-			//spawnedEnemies = false;
-			//npc.dontTakeDamage = true;
-
-			//Main.NewText("escape");
         }
 
 		public virtual void SpawnWave()
