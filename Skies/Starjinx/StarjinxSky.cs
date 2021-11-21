@@ -58,7 +58,7 @@ namespace SpiritMod.Skies.Starjinx
 			float scaleVariance = MathHelper.Lerp(PLANET_PARALLAX_CLOSE - PLANET_PARALLAX_MID, PLANET_PARALLAX_MID - PLANET_PARALLAX_FARTHEST, 0.5f);
 			scaleVariance /= 6;
 
-			bool frontLayer = Main.rand.NextBool(4);
+			bool frontLayer = Main.rand.NextBool(3);
 			float distFromScreen = frontLayer ?
 				MathHelper.Lerp(PLANET_PARALLAX_CLOSE, PLANET_PARALLAX_MID, 0.5f) + Main.rand.NextFloat(-scaleVariance, scaleVariance) :
 				MathHelper.Lerp(PLANET_PARALLAX_FARTHEST, PLANET_PARALLAX_MID, 0.5f) + Main.rand.NextFloat(-scaleVariance, scaleVariance);
@@ -124,7 +124,7 @@ namespace SpiritMod.Skies.Starjinx
 				{
 					float Scale = 4f * distFromScreen;
 					rotation += (float)Math.Sin(Main.GlobalTime/2 + timerOffset) * 0.03f;
-					Vector2 verticalOffset = Vector2.UnitY * (float)Math.Sin(Main.GlobalTime + timerOffset) * 20 * distFromScreen;
+					Vector2 verticalOffset = Vector2.UnitY * (float)Math.Sin((Main.GlobalTime / 2) + timerOffset) * 40 * distFromScreen;
 					Color PlanetColor = Color.Lerp(Color.White, Color.Black, MathHelper.Clamp(1.25f * TimeLerp + (1 - distFromScreen) * 0.6f, 0, 1));
 					Color GlowColor = Color.Lerp(PlanetColor, Color.White, 0.5f);
 					spriteBatch.Draw(_planetBloom, position + verticalOffset + Parallax * distFromScreen, null, GlowColor.MultiplyRGB(Color.HotPink) * 2 * _fadeOpacity, rotation, _planetBloom.Size() / 2, Scale * 10f, SpriteEffects.None, 0);

@@ -1,4 +1,5 @@
 ﻿using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.StarjinxEvent
@@ -40,6 +41,12 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 			if (!Main.player[target].active || Main.player[target].dead || !Main.player[target].GetModPlayer<StarjinxPlayer>().zoneStarjinxEvent)
 				npc.target = 0; //Default to 0 if no target is found
+		}
+
+		public override void NPCLoot(NPC npc)
+		{
+			if (npc.modNPC is IStarjinxEnemy || npc.type == ModContent.NPCType<Enemies.Pathfinder.Pathfinder>() || npc.type == NPCID.EyeofCthulhu) //Replace eye of cthulhu with actual bosses eventually, ofc
+				StarjinxEventWorld.IncrementKilledEnemies();
 		}
 	}
 	

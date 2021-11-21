@@ -63,7 +63,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
         public override void AI()
         {
             npc.velocity.X = 0;
-            npc.velocity.Y = (float)Math.Sin(sinCounter) * 0.75f;
+            npc.gfxOffY = (float)Math.Sin(sinCounter) * 6f;
             sinCounter += 0.03f;
 
             if (npc.alpha > 0)
@@ -92,6 +92,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 				else
 				{
 					int boss = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 400, NPCID.EyeofCthulhu);
+
+					StarjinxEventWorld.SetMaxEnemies(1); //Change to 2 when actual boss fight is added
 
 					spawnedBoss = true;
 					bossWhoAmI = boss;
@@ -177,6 +179,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 						npc.netUpdate = true;
 						updateCometOrder = false;
+
+						StarjinxEventWorld.SetComets(comets.Count); //Update to new comet amount
 					}
 
 					bool anyVulnerable = false;
@@ -268,6 +272,9 @@ namespace SpiritMod.NPCs.StarjinxEvent
 				SpawnComet(ModContent.NPCType<LargeComet>());
 
 			savedComets["Small"] = savedComets["Medium"] = savedComets["Large"] = -2; //clear out cache
+
+			StarjinxEventWorld.SetComets(comets.Count); //Set comet amount for ui purposes
+			StarjinxEventWorld.SetMaxEnemies(1); //Initialize max enemies as well, in case of potential edge cases
 		}
 
 		private delegate void IterateAction(SmallComet comet);
@@ -301,6 +308,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
         {
 			var center = new Vector2((Main.npcTexture[npc.type].Width / 2), (Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             float sineAdd = (float)Math.Sin(sinCounter * 1.5f);
+			Vector2 drawCenter = npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY);
 
 			//Weird shader stuff, dont touch yuyutsu
 			#region shader
@@ -313,7 +321,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			SpiritMod.StarjinxNoise.Parameters["rotation"].SetValue(sinCounter / 5);
 			SpiritMod.StarjinxNoise.Parameters["opacity2"].SetValue(0.3f - (sineAdd / 10));
 			SpiritMod.StarjinxNoise.CurrentTechnique.Passes[0].Apply();
-			spriteBatch.Draw(mod.GetTexture("Effects/Masks/CircleGradient"), (npc.Center - Main.screenPosition), null, npc.GetAlpha(Color.White), 0f, new Vector2(125, 125), 1.3f - (sineAdd / 9), SpriteEffects.None, 0f);
+			spriteBatch.Draw(mod.GetTexture("Effects/Masks/CircleGradient"), drawCenter, null, npc.GetAlpha(Color.White), 0f, new Vector2(125, 125), 1.3f - (sineAdd / 9), SpriteEffects.None, 0f);
 
 			SpiritMod.StarjinxNoise.Parameters["opacity2"].SetValue(1);
 			SpiritMod.StarjinxNoise.Parameters["rotation"].SetValue((sinCounter + 3) / 4); 
@@ -321,13 +329,13 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			SpiritMod.StarjinxNoise.Parameters["colorMod"].SetValue(colorMod);
 			SpiritMod.StarjinxNoise.CurrentTechnique.Passes[0].Apply();
 
-			spriteBatch.Draw(mod.GetTexture("Effects/Masks/CircleGradient"), (npc.Center - Main.screenPosition), null, npc.GetAlpha(Color.White), 0f, new Vector2(125, 125), 1.1f + (sineAdd / 7), SpriteEffects.None, 0f);
+			spriteBatch.Draw(mod.GetTexture("Effects/Masks/CircleGradient"), drawCenter, null, npc.GetAlpha(Color.White), 0f, new Vector2(125, 125), 1.1f + (sineAdd / 7), SpriteEffects.None, 0f);
 
             Main.spriteBatch.End();
 			spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 			#endregion
 
-			spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteorite"), npc.Center - Main.screenPosition, null, Color.White, 0f, center, 1, SpriteEffects.None, 0f);
+			spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteorite"), drawCenter, null, Color.White, 0f, center, 1, SpriteEffects.None, 0f);
 
             float cos = (float)Math.Cos((Main.GlobalTime % 2.4f / 2.4f * MathHelper.TwoPi)) / 2f + 0.5f;
 
@@ -335,12 +343,12 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			Color baseCol = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.White);
 			Color drawCol = npc.GetAlpha(baseCol) * (1f - cos);
 
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, null, npc.GetAlpha(Color.Lerp(drawColor, Color.White, 0.5f)), 0f, center, 1, SpriteEffects.None, 0f);
-			spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteoriteGlowOutline"), npc.Center - Main.screenPosition, null, npc.GetAlpha(Color.White * .4f), 0f, center, 1, SpriteEffects.None, 0f);
+			spriteBatch.Draw(Main.npcTexture[npc.type], drawCenter, null, npc.GetAlpha(Color.Lerp(drawColor, Color.White, 0.5f)), 0f, center, 1, SpriteEffects.None, 0f);
+			spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteoriteGlowOutline"), drawCenter, null, npc.GetAlpha(Color.White * .4f), 0f, center, 1, SpriteEffects.None, 0f);
 
             for (int i = 0; i < 6; i++)
             {
-                Vector2 drawPos = npc.Center + ((i / 6f) * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * (4f * cos + 2f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * i;
+                Vector2 drawPos = drawCenter + ((i / 6f) * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * (4f * cos + 2f) - npc.velocity * i;
 				spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteoriteGlow"), drawPos, npc.frame, drawCol, npc.rotation, npc.frame.Size() / 2f, npc.scale, spriteEffects3, 0f);
 				spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteoriteGlowOutline"), drawPos, npc.frame, drawCol, npc.rotation, npc.frame.Size() / 2f, npc.scale, spriteEffects3, 0f);
             }
@@ -362,7 +370,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 			scale *= MathHelper.Lerp(3f, 6f, 1 - shieldOpacity) * (sineAdd / 15f + 1f);
 
-			spriteBatch.Draw(mask, npc.Center - Main.screenPosition, null, Color.LightGoldenrodYellow * shieldOpacity, npc.rotation + Main.GlobalTime, mask.Size() / 2f, scale, SpriteEffects.None, 0);
+			spriteBatch.Draw(mask, drawCenter, null, Color.LightGoldenrodYellow * shieldOpacity, npc.rotation + Main.GlobalTime, mask.Size() / 2f, scale, SpriteEffects.None, 0);
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 		}
 

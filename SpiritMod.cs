@@ -54,6 +54,7 @@ using SpiritMod.Items.Weapon.Magic.Rhythm.Anthem;
 using SpiritMod.Mechanics.EventSystem;
 using static Terraria.ModLoader.Core.TmodFile;
 using SpiritMod.Skies.Starjinx;
+using SpiritMod.NPCs.StarjinxEvent;
 
 namespace SpiritMod
 {
@@ -295,6 +296,9 @@ namespace SpiritMod
 					break;
 				case MessageType.SpawnExplosiveBarrel: // this packet is only meant to be received by the server
 					NPC.NewNPC(reader.ReadInt32(), reader.ReadInt32(), ModContent.NPCType<ExplosiveBarrel>(), 0, 2, 1, 0, 0); // gets forwarded to all clients
+					break;
+				case MessageType.StarjinxData:
+
 					break;
 				default:
 					Logger.Error("Unknown message (" + id + ")");
@@ -1383,8 +1387,9 @@ namespace SpiritMod
 					},
 					InterfaceScaleType.UI)
 				);
+
 				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer(
-					"Starjinx: SlotUI",
+					"SpiritMod: SlotUI",
 					delegate
 					{
 						SlotUserInterface.Draw(Main.spriteBatch, new GameTime());
@@ -1422,6 +1427,14 @@ namespace SpiritMod
 				},
 					InterfaceScaleType.UI)
 				);
+
+				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer("SpiritMod: Starjinx UI", delegate 
+				{
+					if (Main.LocalPlayer.GetModPlayer<StarjinxPlayer>().zoneStarjinxEvent)
+						StarjinxUI.DrawStarjinxEventUI(Main.spriteBatch);
+
+					return true; 
+				}, InterfaceScaleType.UI));
 			}
 
 			if (TideWorld.TheTide)
@@ -1633,7 +1646,7 @@ namespace SpiritMod
 				const int OffsetX = 20;
 				const int OffsetY = 20;
 
-				Texture2D EventIcon = Instance.GetTexture("Effects/InvasionIcons/Depths_Icon");
+				Texture2D EventIcon = Instance.GetTexture("Textures/InvasionIcons/Depths_Icon");
 				Color descColor = new Color(77, 39, 135);
 				Color waveColor = new Color(255, 241, 51);
 
