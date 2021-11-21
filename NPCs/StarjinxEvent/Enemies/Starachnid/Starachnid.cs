@@ -259,7 +259,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				while (dist < maxDistance) //Loop through the shortest angle to the player, but multiplied by a random float (above 0.5f)
 				{
 					float rotDifference = ((((distanceFromPlayer.ToRotation() - threadRotation) % MathHelper.TwoPi) + 9.42f) % MathHelper.TwoPi) - MathHelper.Pi;
-					direction = (threadRotation + ((Math.Sign(rotDifference) > 0 ? 1 : -1) * random.NextFloat(1f, 1.5f))).ToRotationVector2();
+					direction = (threadRotation + (Math.Sign(rotDifference) * random.NextFloat(1f, 1.5f))).ToRotationVector2();
 
 					for (dist = 16; dist < maxDistance; dist++)
 					{
@@ -391,7 +391,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		}
 
 		private bool IsTileActive(Vector2 toLookAt) //Is the tile at the vector position solid?
-			=> Framing.GetTileSafely((int)(toLookAt.X / 16f), (int)(toLookAt.Y / 16f)).active() && Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16f), (int)(toLookAt.Y / 16f)).type];
+		{
+			if (Framing.GetTileSafely((int)(toLookAt.X / 16f), (int)(toLookAt.Y / 16f)).active())
+				return Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16f), (int)(toLookAt.Y / 16f)).type];
+
+			return false;
+		}
 
 		private void TraverseThread()
 		{

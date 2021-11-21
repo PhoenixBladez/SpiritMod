@@ -54,17 +54,22 @@ namespace SpiritMod.Skies.Starjinx
 
 		private void AddBGStar()
 		{
-			//calculates average distance between planet parallax values, then divides by 4
+			//calculates average distance between planet parallax values, then divides
 			float scaleVariance = MathHelper.Lerp(PLANET_PARALLAX_CLOSE - PLANET_PARALLAX_MID, PLANET_PARALLAX_MID - PLANET_PARALLAX_FARTHEST, 0.5f);
-			scaleVariance /= 4;
+			scaleVariance /= 6;
 
-			float distFromScreen = Main.rand.NextBool(4) ?
+			bool frontLayer = Main.rand.NextBool(4);
+			float distFromScreen = frontLayer ?
 				MathHelper.Lerp(PLANET_PARALLAX_CLOSE, PLANET_PARALLAX_MID, 0.5f) + Main.rand.NextFloat(-scaleVariance, scaleVariance) :
 				MathHelper.Lerp(PLANET_PARALLAX_FARTHEST, PLANET_PARALLAX_MID, 0.5f) + Main.rand.NextFloat(-scaleVariance, scaleVariance);
 
+			Vector2 velocity = Vector2.UnitX * (frontLayer ?
+				Main.rand.NextFloat(8, 12) :
+				-Main.rand.NextFloat(6, 8));
+
 			Stars.Add(new StarjinxBGStar(
 				new Vector2(Main.rand.NextFloat(Main.screenWidth), Main.rand.NextFloat(Main.screenHeight)), //Position
-				Vector2.UnitX * Main.rand.NextFloat(8, 12), //Velocity
+				velocity, //Velocity
 				Main.rand.NextBool() ? Color.White : (Main.rand.NextBool() ? new Color(0, 247, 255) : new Color(255, 56, 205)), // Color
 				distFromScreen)); //Parallax
 		}
@@ -258,7 +263,7 @@ namespace SpiritMod.Skies.Starjinx
 			TimeLerp = MathHelper.Clamp((float)-Math.Sin(-(MathHelper.Pi / 8) + (TimeLerp * MathHelper.TwoPi)), 0.22f, 0.3f) * 2f;
 
 			sB.Draw(BloomTexture, Position + ParallaxOffset * Parallax, null, Color * Opacity * MathHelper.Lerp(0.7f, 1f, TimeLerp), 0, BloomTexture.Size() / 2, Scale * 0.85f, SpriteEffects.None, 0);
-			sB.Draw(Texture, Position + ParallaxOffset * Parallax, null, Color.Lerp(Color, Color.White, 0.66f) * Opacity, 0, Texture.Size() / 2, Scale, SpriteEffects.None, 0);
+			sB.Draw(Texture, Position + ParallaxOffset * Parallax, null, Color.Lerp(Color, Color.White, 0.6f) * Opacity, 0, Texture.Size() / 2, Scale, SpriteEffects.None, 0);
 		}
 	}
 }
