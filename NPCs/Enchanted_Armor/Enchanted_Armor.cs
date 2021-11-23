@@ -412,20 +412,12 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 
 		public override void NPCLoot()
 		{
-
-			void tilecheck(int i, int j, int maxX, int maxY, int tiletofind, OnTileCheck onTileCheck)
+			void tilecheck(int i, int j, int maxX, int maxY, int type, OnTileCheck onTileCheck)
 			{
 				for (int indexX = -maxX; indexX <= maxX; indexX++)
-				{
 					for (int indexY = -maxY; indexY <= maxY; indexY++)
-					{
-						if (Framing.GetTileSafely(indexX + i, indexY + j).type == tiletofind && Framing.GetTileSafely(indexX + i, indexY + j).frameX == 0 && Framing.GetTileSafely(indexX + i, indexY + j).frameY == 0)
-						{
-
+						if (Framing.GetTileSafely(indexX + i, indexY + j).type == type && Framing.GetTileSafely(indexX + i, indexY + j).frameX == 0 && Framing.GetTileSafely(indexX + i, indexY + j).frameY == 0)
 							onTileCheck(indexX + i, indexY + j);
-						}
-					}
-				}
 			}
 
 			if (Main.npc.Where(x => x.active && x.type == npc.type).Count() <= 1)

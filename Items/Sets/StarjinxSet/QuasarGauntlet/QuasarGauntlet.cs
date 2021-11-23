@@ -62,7 +62,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 						{
 							if(orb.AiState == QuasarOrb.STATE_SLOWDOWN)
 							{
-								orb.AiState = QuasarOrb.STATE_RETURN;
+								orb.AiState = QuasarOrb.STATE_ANTICIPATION;
+								orb.Timer = 0;
 								proj.netUpdate = true;
 								foundproj = true;
 							}

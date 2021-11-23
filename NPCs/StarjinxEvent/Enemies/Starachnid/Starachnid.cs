@@ -212,15 +212,15 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			if (!mainThread)
 				maxDistance = (int)(maxDistance * 0.5f);
 
-			int i = 0;
-			Vector2 direction = NewThreadAngle(maxDistance, mainThread, ref i, startPos); //Get both the direction (direction) and the length (i) of the next thread
+			int distance = 0;
+			Vector2 direction = NewThreadAngle(maxDistance, mainThread, ref distance, startPos); //Get both the direction (direction) and the length (i) of the next thread
 
-			StarThread thread = new StarThread(startPos, startPos + (direction * i));
+			var thread = new StarThread(startPos, startPos + (direction * distance));
 
 			Vector2 newPos = Vector2.Zero; //make star overlap if theres a nearby star
 
 			if (!firstThread)
-				if (NearbyStars(startPos + (direction * i), ref newPos))
+				if (NearbyStars(startPos + (direction * distance), ref newPos))
 					thread = new StarThread(startPos, newPos);
 
 			thread.StartScale = random.NextFloat(0.5f, 0.8f);
@@ -251,7 +251,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		{
 			Player player = Main.player[npc.target];
 			Vector2 distanceFromPlayer = player.Center - startPos;
-			Vector2 direction = Vector2.Zero;
+			Vector2 direction = Vector2.One;
 			int tries = 0;
 
 			if (distanceFromPlayer.Length() > DISTANCEFROMPLAYER && mainThread)
@@ -259,7 +259,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				while (dist < maxDistance) //Loop through the shortest angle to the player, but multiplied by a random float (above 0.5f)
 				{
 					float rotDifference = ((((distanceFromPlayer.ToRotation() - threadRotation) % MathHelper.TwoPi) + 9.42f) % MathHelper.TwoPi) - MathHelper.Pi;
-					direction = (threadRotation + ((Math.Sign(rotDifference) > 0 ? 1 : -1) * random.NextFloat(1f, 1.5f))).ToRotationVector2();
+					direction = (threadRotation + (Math.Sign(rotDifference) * random.NextFloat(1f, 1.5f))).ToRotationVector2();
 
 					for (dist = 16; dist < maxDistance; dist++)
 					{
@@ -283,11 +283,11 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				}
 
 				tries = 0;
-				if (dist < maxDistance)
+				if (dist < maxDistance) //Runs if the current angle would make too short of a thread
 				{
 					while (dist < maxDistance)
 					{
-						//direction = random.NextFloat(MathHelper.TwoPi).ToRotationVector2(); //I removed this since it just made the first while loop useless? I don't really know what this is supposed to do.
+						direction = random.NextFloat(MathHelper.TwoPi).ToRotationVector2();
 						for (dist = 16; dist < maxDistance; dist++)
 						{
 							Vector2 toLookAt = startPos + (direction * dist);
@@ -331,11 +331,11 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				}
 
 				tries = 0;
-				if (dist < maxDistance)
+				if (dist < maxDistance) //Runs if the current angle would make too short of a thread
 				{
 					while (dist < maxDistance)
 					{
-						//direction = random.NextFloat(MathHelper.TwoPi).ToRotationVector2(); //I removed this since it just made the first while loop useless? I don't really know what this is supposed to do.
+						direction = random.NextFloat(MathHelper.TwoPi).ToRotationVector2();
 						for (dist = 16; dist < maxDistance; dist++)
 						{
 							Vector2 toLookAt = startPos + (direction * dist);
@@ -391,7 +391,13 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		}
 
 		private bool IsTileActive(Vector2 toLookAt) //Is the tile at the vector position solid?
-			=> Framing.GetTileSafely((int)(toLookAt.X / 16f), (int)(toLookAt.Y / 16f)).active() && Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16f), (int)(toLookAt.Y / 16f)).type];
+		{
+			Point tPos = toLookAt.ToTileCoordinates();
+			if (WorldGen.InWorld(tPos.X, tPos.Y, 2) && Framing.GetTileSafely(tPos.X, tPos.Y).active())
+				return Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16f), (int)(toLookAt.Y / 16f)).type];
+
+			return false;
+		}
 
 		private void TraverseThread()
 		{

@@ -28,13 +28,14 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 		public override void SpawnWave()
 		{
 			int choice = Main.rand.Next(4);
+			int numEnemies = 0;
 
 			switch (choice)
 			{
 				case 0: //circle of 5 empowered starweavers
 					npc.TargetClosest(false);
 					Player target = Main.player[npc.target];
-
+					numEnemies = 10;
 					for (int i = 0; i < 5; ++i)
 					{
 						var offset = Vector2.One.RotatedBy(i * (MathHelper.TwoPi / 5)) * 250;
@@ -44,6 +45,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 					}
 					break;
 				default: //2 magus & 2 pathfinder connected, 1 starachnid
+
+					numEnemies = 5;
 					for (int i = 0; i < 2; ++i)
 					{
 						var offset = new Vector2(i == 0 ? -300 : 300, -300);
@@ -54,6 +57,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 					SpawnSpawnerProjectile(ModContent.NPCType<Starachnid>());
 					break;
 			}
+
+			StarjinxEventWorld.SetMaxEnemies(numEnemies);
 		}
 	}
 }
