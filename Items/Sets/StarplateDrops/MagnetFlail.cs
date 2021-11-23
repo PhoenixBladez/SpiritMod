@@ -79,6 +79,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 
 		public override bool PreAI()
 		{
+			Player player = Main.player[projectile.owner];
 			if (!released)
 				return true;
 			stuckTimer--;
@@ -93,8 +94,12 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 
 			if (stuck)
 			{
+
 				Vector2 vel = Vector2.UnitX.RotatedBy(Main.rand.NextFloat(6.28f));
-				ParticleHandler.SpawnParticle(new ImpactLine(projectile.Center, vel, new Color(33, 211, 255), new Vector2(0.25f, 2f), 16));
+				ParticleHandler.SpawnParticle(new ImpactLine(projectile.Center, vel, new Color(33, 211, 255), new Vector2(0.25f, 1f), 16));
+
+				float lerper = Main.rand.NextFloat();
+				ParticleHandler.SpawnParticle(new GlowParticle(Vector2.Lerp(projectile.Center, player.Center, lerper), Vector2.Zero, new Color(33, 151, 255), 0.1f, 30));
 				projectile.velocity = Vector2.Zero;
 				projectile.tileCollide = false;
 				if (stuckToTiles)
@@ -114,7 +119,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (readyToStick && released)
+			if (readyToStick && released && target.life > 0)
 			{
 				trail2 = new PlugTrail2(projectile, Main.player[projectile.owner]);
 				trail = new PlugTrail(projectile, Main.player[projectile.owner]);
@@ -160,7 +165,14 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 			{
 				damage = (int)(damage * 0.5f);
 				if (stickTarget == target)
+				{
 					canHitTarget = false;
+					for (int i = 0; i < 20; i++)
+					{
+						Vector2 vel = Main.rand.NextVector2Circular(35, 25);
+						ParticleHandler.SpawnParticle(new GlowParticle(projectile.Center, vel, new Color(33, 211, 255), 0.05f, 10));
+					}
+				}
 				else
 					canHitTarget = true;
 			}
