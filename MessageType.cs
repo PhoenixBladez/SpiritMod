@@ -16,6 +16,7 @@
 		PlaceSuperSunFlower,
 		DestroySuperSunFlower,
 		BossTitle,
-		SpawnExplosiveBarrel
+		SpawnExplosiveBarrel,
+		StarjinxData
 	}
 }

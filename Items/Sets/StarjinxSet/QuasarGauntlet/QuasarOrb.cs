@@ -34,17 +34,19 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			projectile.alpha = 255;
 		}
 
-		private const float MAXPOWER = 1.5f; //The maximum size and damage multiplier
+		private const float MAXPOWER = 1.6f; //The maximum size and damage multiplier
 		private const float STARTPOWER = 1f; //The starting size and damage multiplier
-		private const int MAXPOWERHITS = 3; //The amount of times the projectile needs to hit an enemy to reach max power
+		private const int MAXPOWERHITS = 5; //The amount of times the projectile needs to hit an enemy to reach max power
 		private float power = STARTPOWER;
 
 		public ref float AiState => ref projectile.ai[0];
-		private ref float Timer => ref projectile.ai[1];
+		public ref float Timer => ref projectile.ai[1];
 
 		public const int STATE_SLOWDOWN = 0;
-		public const int STATE_RETURN = 1;
-		private const int SLOWDOWN_TIME = 360;
+		public const int STATE_ANTICIPATION = 1;
+		public const int STATE_RETURN = 2;
+		private const int SLOWDOWN_TIME = 300;
+		private const int ANTICIPATION_TIME = 20;
 		private bool dying;
 		private float scaleMod;
 
@@ -52,6 +54,9 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 		public override void AI()
 		{
 			projectile.rotation += 0.05f * (Math.Sign(projectile.velocity.X) > 0 ? 1 : -1);
+			Lighting.AddLight(projectile.Center, Color.OrangeRed.ToVector3());
+			Timer++;
+			Player player = Main.player[projectile.owner];
 			switch (AiState)
 			{
 				case STATE_SLOWDOWN:
@@ -59,16 +64,28 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 					projectile.alpha = Math.Max(projectile.alpha - 25, 0);
 					scaleMod = MathHelper.Lerp(scaleMod, 1f, 0.1f);
 					projectile.velocity = Vector2.Lerp(projectile.velocity, Vector2.Zero, 0.03f);
-					if (++Timer > SLOWDOWN_TIME)
+					if (Timer > SLOWDOWN_TIME)
+					{
+						AiState = STATE_ANTICIPATION;
+						Timer = 0;
+						projectile.netUpdate = true;
+					}
+					break;
+
+				case STATE_ANTICIPATION:
+
+					projectile.alpha = Math.Max(projectile.alpha - 25, 0);
+					scaleMod = MathHelper.Lerp(scaleMod, 1f, 0.1f);
+					projectile.velocity = projectile.DirectionFrom(player.MountedCenter) * 4;
+					if (Timer > ANTICIPATION_TIME)
 					{
 						AiState = STATE_RETURN;
+						Timer = 0;
 						projectile.netUpdate = true;
 					}
 					break;
 
 				case STATE_RETURN:
-
-					Player player = Main.player[projectile.owner];
 					projectile.tileCollide = false;
 
 					Vector2 desiredPosition = player.MountedCenter;
@@ -96,8 +113,15 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 						if (projectile.alpha >= 255)
 							projectile.Kill();
 					}
+					else
+						scaleMod = MathHelper.Lerp(scaleMod, 1f, 0.1f);
+
 					break;
 			}
+
+			//pulse in scale
+			if (Timer % 60 == 0)
+				scaleMod += 0.6f;
 
 			power = MathHelper.Clamp(power, STARTPOWER, MAXPOWER);
 

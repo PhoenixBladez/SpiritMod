@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
         {
             counter++;
             Projectile parent = Main.projectile[(int)projectile.ai[0]];
-            if (parent.active && parent.owner == projectile.owner && parent.type == mod.ProjectileType("QuasarOrb"))
+            if (parent.active && parent.owner == projectile.owner && parent.type == ModContent.ProjectileType<QuasarOrb>())
             {
                 target = parent.Center;
             }
@@ -50,11 +50,11 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			projectile.position = target + newCenter;
 			newCenter += projectile.velocity;
 
-			float minRadius = 40;
-			float maxHomeEffectRadius = 120;
+			float minRadius = 40 * parent.scale;
+			float maxHomeEffectRadius = 120 * parent.scale;
 			if(newCenter.Length() > minRadius)
 			{
-				float lerpSpeed = MathHelper.Lerp(0.12f, 0.2f, MathHelper.Clamp((newCenter.Length() - minRadius) / (maxHomeEffectRadius - minRadius), 0, 1));
+				float lerpSpeed = MathHelper.Lerp(0.08f, 0.16f, MathHelper.Clamp((newCenter.Length() - minRadius) / (maxHomeEffectRadius - minRadius), 0, 1));
 				projectile.velocity = projectile.velocity.Length() * Vector2.Normalize(Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target) * projectile.velocity.Length(), lerpSpeed)) * 0.95f +
 					Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target) * projectile.velocity.Length(), lerpSpeed) * 0.05f + 
 					parent.velocity * 0.01f;

@@ -145,14 +145,16 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 		public virtual void SpawnWave()
 		{
 			int choice = Main.rand.Next(4);
-
+			int numEnemies;
 			switch (choice)
 			{
 				case 0: //4 random starachnid/starweaver
+					numEnemies = 4;
 					for (int i = 0; i < 4; ++i)
 						SpawnSpawnerProjectile(Main.rand.NextBool(2) ? ModContent.NPCType<Starachnid>() : ModContent.NPCType<StarWeaverNPC>());
 					break;
 				case 1: //fan of 3 starweavers
+					numEnemies = 3;
 					for (int i = -1; i < 2; ++i)
 					{
 						float rotation = i * (MathHelper.Pi / 3);
@@ -160,11 +162,14 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 					}
 					break;
 				default: //2 starachnid, 1 pathfinder
+					numEnemies = 3;
 					for (int i = 0; i < 2; ++i)
 						SpawnSpawnerProjectile(ModContent.NPCType<Starachnid>());
 					SpawnSpawnerProjectile(ModContent.NPCType<Pathfinder>());
 					break;
 			}
+
+			StarjinxEventWorld.SetMaxEnemies(numEnemies);
 		}
 
 		/// <summary>Spawns an NPC that is attached to this comet with an automatic (and overrideable) offset.</summary>
