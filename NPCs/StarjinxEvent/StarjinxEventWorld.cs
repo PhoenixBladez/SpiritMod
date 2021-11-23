@@ -12,6 +12,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
         public static bool StarjinxActive = false;
         public static bool SpawnedStarjinx = false;
 
+		//Synced between clients, used to calculate other variables and for drawing the ui
 		public static int MaxEnemies = 0;
 		public static int KilledEnemies = 0;
 		public static int CometsRemaining = 0;
@@ -24,10 +25,21 @@ namespace SpiritMod.NPCs.StarjinxEvent
             };
         }
 
+		public override void Initialize()
+		{
+			MaxEnemies = 0;
+			KilledEnemies = 0;
+			CometsRemaining = 0;
+
+			StarjinxUI.Initialize();
+		}
+
+		public override void PostUpdate() => StarjinxUI.Update();
+
 		public static void SetMaxEnemies(int maxEnemies)
 		{
 			MaxEnemies = maxEnemies;
-			KilledEnemies = 0; 
+			KilledEnemies = 0;
 			SendInfoPacket();
 		}
 
@@ -41,7 +53,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		public static void SetComets(int cometAmount)
 		{
 			CometsRemaining = cometAmount;
-			
+
 			SendInfoPacket();
 		}
 

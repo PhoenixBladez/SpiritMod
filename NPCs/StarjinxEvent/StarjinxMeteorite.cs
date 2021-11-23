@@ -94,6 +94,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 					int boss = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 400, NPCID.EyeofCthulhu);
 
 					StarjinxEventWorld.SetMaxEnemies(1); //Change to 2 when actual boss fight is added
+					StarjinxEventWorld.SetComets(comets.Count);
 
 					spawnedBoss = true;
 					bossWhoAmI = boss;
@@ -273,6 +274,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 			savedComets["Small"] = savedComets["Medium"] = savedComets["Large"] = -2; //clear out cache
 
+			StarjinxUI.Initialize();
 			StarjinxEventWorld.SetComets(comets.Count); //Set comet amount for ui purposes
 			StarjinxEventWorld.SetMaxEnemies(1); //Initialize max enemies as well, in case of potential edge cases
 		}

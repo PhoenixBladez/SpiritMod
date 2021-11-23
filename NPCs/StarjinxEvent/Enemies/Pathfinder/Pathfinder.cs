@@ -160,6 +160,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 				npc.life = 0;
 				Main.PlaySound(npc.DeathSound, npc.Center);
 				npc.HitEffect();
+				npc.NPCLoot();
 				npc.active = false;
 			}
 			UpdateYFrame(12, 0, 6);

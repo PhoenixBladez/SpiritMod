@@ -1430,8 +1430,7 @@ namespace SpiritMod
 
 				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer("SpiritMod: Starjinx UI", delegate 
 				{
-					if (Main.LocalPlayer.GetModPlayer<StarjinxPlayer>().zoneStarjinxEvent)
-						StarjinxUI.DrawStarjinxEventUI(Main.spriteBatch);
+					StarjinxUI.DrawStarjinxEventUI(Main.spriteBatch);
 
 					return true; 
 				}, InterfaceScaleType.UI));
