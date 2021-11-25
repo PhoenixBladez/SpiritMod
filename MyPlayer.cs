@@ -494,6 +494,7 @@ namespace SpiritMod
 			float deltaProgress = 0.1f;
 			float maxIntensity = 0.5f;
 			float deltaintensity = 0.02f * maxIntensity;
+
 			if (!player.ZoneUnderworldHeight || !MyWorld.ashRain)
 			{
 				if (ashrain.IsActive())
@@ -506,7 +507,6 @@ namespace SpiritMod
 
 				return;
 			}
-
 			else if (!ashrain.IsActive())
 				Filters.Scene.Activate("SpiritMod:AshRain", Vector2.Zero).GetShader()
 					.UseColor(0.15f, 0.1f, 0.15f)
@@ -515,7 +515,28 @@ namespace SpiritMod
 					.UseImage(mod.GetTexture("Textures/3dNoise"), 1);
 			else
 			{
-				ashrain.GetShader().UseIntensity(Math.Min(ashrain.GetShader().Intensity + deltaintensity, maxIntensity));
+				float intensity = Math.Min(ashrain.GetShader().Intensity + deltaintensity, maxIntensity);
+
+				bool wall = true;
+				for (int i = (int)player.Center.X - 16; i < player.Center.X + 16; i += 16)
+				{
+					for (int j = (int)player.Center.Y - 16; j < player.Center.Y + 16; j += 16)
+					{
+						Point p = new Point((int)(i / 16f), (int)(j / 16f));
+						Tile t = Framing.GetTileSafely(p);
+
+						if (t.wall == WallID.None)
+						{
+							wall = false;
+							break;
+						}
+					}
+				}
+
+				if (wall)
+					intensity *= 0.95f;
+
+				ashrain.GetShader().UseIntensity(intensity);
 				ashrain.GetShader().UseProgress(Main.GlobalTime * 10 * deltaProgress);
 			}
 		}

@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Particles;
-using SpiritMod.Prim;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -29,8 +28,8 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 		public override bool CanDamage() => false;
 
 		private ref float Direction => ref projectile.ai[0];
-
 		private ref float Timer => ref projectile.ai[1];
+
 		public override void AI()
 		{
 			Player player = Main.player[projectile.owner];
@@ -39,7 +38,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 			{
 				int temp = player.direction;
 				player.ChangeDir(player.DirectionTo(Main.MouseWorld).X > 0 ? 1 : -1);
-				projectile.rotation = MathHelper.WrapAngle(projectile.AngleTo(Main.MouseWorld) - ((Direction < 0) ? MathHelper.Pi : 0)) / 2;
+				projectile.rotation = projectile.AngleTo(Main.MouseWorld);// MathHelper.WrapAngle(projectile.AngleTo(Main.MouseWorld) - ((Direction < 0) ? MathHelper.Pi : 0)) / 2;
 				if (temp != player.direction && Main.netMode == NetmodeID.MultiplayerClient)
 					NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, player.whoAmI);
 			}
@@ -51,7 +50,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 			projectile.timeLeft = 20;
 
 			//Gradually make projectile move behind the player and flip
-			Direction = MathHelper.Lerp(Direction, player.direction, 0.07f);
+			Direction = MathHelper.Lerp(Direction, player.direction, 0.045f);
 			projectile.Center = player.MountedCenter - new Vector2(50 * Direction, 50 + (float)(Math.Sin(Main.GameUpdateCount / 30f) * 7));
 			float particlerate = 0.15f;
 
@@ -77,7 +76,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 							if (player == Main.LocalPlayer) //Spawn in projectiles only if the client is the owner, due to using the mouse position
 							{
 								bool straightline = Main.rand.NextBool(3);
-								Projectile p = Projectile.NewProjectileDirect(projectile.Center, projectile.DirectionTo(Main.MouseWorld) * (straightline ? 1.5f : 1) * Main.rand.NextFloat(10, 12), ModContent.ProjectileType<GraveyardSkull>(), projectile.damage, projectile.knockBack, projectile.owner);
+								var p = Projectile.NewProjectileDirect(projectile.Center, projectile.DirectionTo(Main.MouseWorld) * (straightline ? 1.5f : 1) * Main.rand.NextFloat(10, 12), ModContent.ProjectileType<GraveyardSkull>(), projectile.damage, projectile.knockBack, projectile.owner);
 								if (p.modProjectile is GraveyardSkull)
 									(p.modProjectile as GraveyardSkull).Movement = new GraveyardSkull.SkullMovement(straightline ? 0 : Main.rand.NextFloat(20, 30), Main.rand.NextFloat(60, 120));
 

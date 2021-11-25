@@ -6,7 +6,6 @@ using MonoMod.Cil;
 using SpiritMod.Particles;
 using SpiritMod.Tiles;
 using System;
-using System.Linq;
 using ReLogic.Graphics;
 using Terraria;
 using Terraria.DataStructures;
@@ -16,12 +15,8 @@ using Terraria.ModLoader;
 using Terraria.UI.Chat;
 using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Items.Sets.ToolsMisc.Evergreen;
-using System.Collections.Generic;
-using Terraria.Localization;
 using SpiritMod.Mechanics.PortraitSystem;
 using SpiritMod.Mechanics.BackgroundSystem;
-using Mono.Cecil;
-using System.Diagnostics;
 
 namespace SpiritMod.Utilities
 {
