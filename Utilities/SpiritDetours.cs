@@ -168,33 +168,30 @@ namespace SpiritMod.Utilities
 			if (Main.LocalPlayer.talkNPC != -1)
 			{
 				NPC talkNPC = Main.npc[Main.LocalPlayer.talkNPC];
-				if (false) //Temporarily removed until a future update
-				{
-					bool hasPortrait = PortraitManager.HasPortrait(talkNPC.type) || PortraitManager.HasCallPortrait(talkNPC.type);
+				//bool hasPortrait = PortraitManager.HasPortrait(talkNPC.type) || PortraitManager.HasCallPortrait(talkNPC.type);
 
-					if (ModContent.GetInstance<SpiritClientConfig>().ShowNPCPortraits && hasPortrait)
-					{
-						Point size = new Point(108, 108);
-						if (PortraitManager.HasPortrait(talkNPC.type)) //In-house portrait
-						{
-							BasePortrait portrait = PortraitManager.GetPortrait(talkNPC.type); //Gets portrait
-							size = portrait.BaseSize;
+				//if (ModContent.GetInstance<SpiritClientConfig>().ShowNPCPortraits && hasPortrait)
+				//{
+				//	Point size = new Point(108, 108);
+				//	if (PortraitManager.HasPortrait(talkNPC.type)) //In-house portrait
+				//	{
+				//		BasePortrait portrait = PortraitManager.GetPortrait(talkNPC.type); //Gets portrait
+				//		size = portrait.BaseSize;
 
-							var pos = new Vector2(Main.screenWidth / 2 - (252 + portrait.BaseSize.X), 100); //Portrait position
-							Main.spriteBatch.Draw(portrait.Texture, pos, portrait.GetFrame(Main.npcChatText, talkNPC), Color.White, 0f, default, 1f, SpriteEffects.None, 0f); //Portrait
-						}
-						else if (PortraitManager.HasCallPortrait(talkNPC.type)) //Mod.Call portrait
-						{
-							ModCallPortrait portrait = PortraitManager.GetCallPortrait(talkNPC.type); //Gets portrait
-							size = portrait.BaseSize;
+				//		var pos = new Vector2(Main.screenWidth / 2 - (252 + portrait.BaseSize.X), 100); //Portrait position
+				//		Main.spriteBatch.Draw(portrait.Texture, pos, portrait.GetFrame(Main.npcChatText, talkNPC), Color.White, 0f, default, 1f, SpriteEffects.None, 0f); //Portrait
+				//	}
+				//	else if (PortraitManager.HasCallPortrait(talkNPC.type)) //Mod.Call portrait
+				//	{
+				//		ModCallPortrait portrait = PortraitManager.GetCallPortrait(talkNPC.type); //Gets portrait
+				//		size = portrait.BaseSize;
 
-							var pos = new Vector2(Main.screenWidth / 2 - (252 + portrait.BaseSize.X), 100); //Portrait position
-							Main.spriteBatch.Draw(portrait.Texture, pos, portrait.GetFrame(Main.npcChatText, talkNPC), Color.White, 0f, default, 1f, SpriteEffects.None, 0f); //Portrait
-						}
+				//		var pos = new Vector2(Main.screenWidth / 2 - (252 + portrait.BaseSize.X), 100); //Portrait position
+				//		Main.spriteBatch.Draw(portrait.Texture, pos, portrait.GetFrame(Main.npcChatText, talkNPC), Color.White, 0f, default, 1f, SpriteEffects.None, 0f); //Portrait
+				//	}
 
-						DrawPortraitName(talkNPC, size); //Draws the name
-					}
-				}
+				//	DrawPortraitName(talkNPC, size); //Draws the name
+				//}
 
 				if (talkNPC.type == NPCID.Angler)
 					focusText = ""; // empty string, we'll add our own angler quest button
