@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.FairyWhistle
 
 		public override bool DoAutoFrameUpdate(ref int framespersecond, ref int startframe, ref int endframe)
 		{
-			framespersecond = (int)MathHelper.Lerp(6, 14, Math.Min(projectile.velocity.Length() / 6, 1));
+			framespersecond = (int)MathHelper.Lerp(10, 20, Math.Min(projectile.velocity.Length() / 6, 1));
 			return true;
 		}
 

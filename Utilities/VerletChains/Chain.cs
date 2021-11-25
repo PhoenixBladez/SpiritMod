@@ -72,7 +72,7 @@ namespace SpiritMod.VerletChains
 			foreach (var vertex in Vertices)
 			{
 				vertex.Update();
-				//vertex.StandardConstrain();
+				vertex.StandardConstrain();
 				vertex.SetStatic();
 			}
 

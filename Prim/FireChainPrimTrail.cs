@@ -80,10 +80,7 @@ namespace SpiritMod.Prim
 			if ((!Entity.active && Entity != null) || Destroyed)
 				OnDestroy();
 
-			else if (proj.modProjectile is BetrayersChainsProj modItem2)
-			{
-				Points.Add(modItem2.chainHeadPosition);
-			}
+			Points.Add(proj.position + proj.velocity);
 		}
 		public override void OnDestroy()
 		{

@@ -53,6 +53,6 @@ namespace SpiritMod.VerletChains
 			sB.Draw(Main.magicPixel, Vertex2.Position - Main.screenPosition, null, Color.White, rotation, new Vector2(0f, 0.5f), new Vector2(delta.Length(), 2f), SpriteEffects.None, 0);
 		}
 
-		public void Draw(SpriteBatch sB, Texture2D texture, Color color = default) => sB.Draw(texture, Vertex2.Position - Main.screenPosition, null, Lighting.GetColor((int)Vertex2.Position.X / 16, (int)((double)Vertex2.Position.Y / 16.0)), Rotation(), new Vector2(0f, texture.Height / 2f), Vector2.One, SpriteEffects.None, 0);
+		public void Draw(SpriteBatch sB, Texture2D texture, Color color = default) => sB.Draw(texture, Vertex2.Position - Main.screenPosition, null, Lighting.GetColor((int)Vertex2.Position.X / 16, (int)((double)Vertex2.Position.Y / 16.0)), Rotation() + MathHelper.PiOver2, new Vector2(0f, texture.Height / 2f), Vector2.One, SpriteEffects.None, 0);
 	}
 }

@@ -53,29 +53,30 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
             float direction = offset * directionbool.ToDirectionInt() * radius;
             Projectile projectile = Projectile.NewProjectileDirect(player.RotatedRelativePoint(player.MountedCenter), new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, direction);
             // Extra logic for the chain to adjust to item stats, unlike the Solar Eruption.
-            if (projectile.modProjectile is BetrayersChainsProj modItem)
+            if (projectile.modProjectile is BetrayersChainsProj modProj)
             {
                 switch (combo % 3)
                 {
                     case 0:
-                            modItem.firingSpeed = item.shootSpeed * 3f * Main.rand.NextFloat(1, 1.5f);
-                            modItem.firingAnimation = item.useAnimation * 0.66f;
-                            modItem.firingTime = item.useTime * 0.66f;
-                            modItem.InitializeChain(player.MountedCenter);
+                            modProj.firingSpeed = item.shootSpeed * 3f * Main.rand.NextFloat(1, 1.5f);
+                            modProj.firingAnimation = item.useAnimation * 0.66f;
+                            modProj.firingTime = item.useTime * 0.66f;
+                            modProj.InitializeChain(player.MountedCenter);
                             break;
                     case 1:
-                            modItem.firingSpeed = item.shootSpeed * 3f * Main.rand.NextFloat(1, 1.5f);
-                            modItem.firingAnimation = item.useAnimation * 0.66f;
-                            modItem.firingTime = item.useTime * 0.66f;
-                            modItem.InitializeChain(player.MountedCenter);
+                            modProj.firingSpeed = item.shootSpeed * 3f * Main.rand.NextFloat(1, 1.5f);
+                            modProj.firingAnimation = item.useAnimation * 0.66f;
+                            modProj.firingTime = item.useTime * 0.66f;
+                            modProj.InitializeChain(player.MountedCenter);
                             break;
                     case 2:
-                            modItem.firingSpeed = item.shootSpeed * 2.6f * Main.rand.NextFloat(1, 1.5f);
-                            modItem.firingAnimation = item.useAnimation;
-                            modItem.firingTime = item.useTime;
-                            modItem.combo = true;
-                            modItem.InitializeChain(player.MountedCenter);
+                            modProj.firingSpeed = item.shootSpeed * 2.6f * Main.rand.NextFloat(1, 1.5f);
+                            modProj.firingAnimation = item.useAnimation;
+                            modProj.firingTime = item.useTime;
+                            modProj.combo = true;
+                            modProj.InitializeChain(player.MountedCenter);
                             direction = offset * (!directionbool).ToDirectionInt() * radius;
+							projectile.damage *= 2;
                             projectile = Projectile.NewProjectileDirect(player.RotatedRelativePoint(player.MountedCenter), new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, direction);
                             // Extra logic for the chain to adjust to item stats, unlike the Solar Eruption.
                             if (projectile.modProjectile is BetrayersChainsProj modItem2)
@@ -84,6 +85,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
                                 modItem2.firingAnimation = item.useAnimation;
                                 modItem2.firingTime = item.useTime;
                                 modItem2.combo = true;
+								projectile.damage *= 2;
                                 modItem2.InitializeChain(player.MountedCenter);
                             }
                             break;
@@ -120,7 +122,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
             projectile.ownerHitCheck = true;
         }
 
-		public void InitializeChain(Vector2 position) => chain = new Chain(8, 16, position, new ChainPhysics(0.95f, 0.5f, 0.4f));
+		public void InitializeChain(Vector2 position) => chain = new Chain(6, 20, position, new ChainPhysics(0.95f, 0.5f, 0.4f), true, true);
 
 		// This projectile uses advanced calculation for its motion.
 		bool primsCreated = false;
@@ -200,7 +202,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
             offset -= new Vector2(player.bodyFrame.Width - projectile.width, player.bodyFrame.Height - 42) * 0.5f;
             projectile.Center = player.RotatedRelativePoint(player.position + offset) - projectile.velocity;
 
-            chain.Update(player.MountedCenter - new Vector2(0,1), chainHeadPosition);
+            chain.Update(player.MountedCenter - new Vector2(0,1), projectile.Center + projectile.velocity * 2);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
