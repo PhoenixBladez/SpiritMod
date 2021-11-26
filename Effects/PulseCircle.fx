@@ -39,11 +39,6 @@ float4 LerpColor3(float4 StartColor, float4 MidColor, float progress)
     return lerp(MidColor, float4(0, 0, 0, 0), (progress - 0.5) * 2);
 }
 
-float AverageAlpha(float3 inputColor)
-{
-    return (inputColor.r + inputColor.g + inputColor.b) / 3;
-}
-
 const float ringStart = 0.08f;
 const float ringEnd = 0.12f;
 float4 MainPS(VertexShaderOutput input) : COLOR0
@@ -70,8 +65,8 @@ float4 MainPS(VertexShaderOutput input) : COLOR0
     }
     
     finalColor *= input.Color;
-    finalColor.a = AverageAlpha(finalColor.rgb);
-    return finalColor;
+    finalColor.a = 0;
+    return finalColor * 2;
 }
 
 technique BasicColorDrawing
