@@ -1566,7 +1566,6 @@ namespace SpiritMod
 
 				if (!Main.dayTime && Main.rand.Next(32) == 0)
 					rareStarfallEvent = true;
-
 				else
 					rareStarfallEvent = false;
 

@@ -40,6 +40,8 @@ using SpiritMod.Items.Accessory.GranitechDrones;
 using SpiritMod.Items.Equipment.AuroraSaddle;
 using Terraria.Graphics.Effects;
 using SpiritMod.Projectiles.Bullet;
+using System.Linq;
+using SpiritMod.Skies.Overlays;
 
 namespace SpiritMod
 {
@@ -172,8 +174,7 @@ namespace SpiritMod
 		public int shootDelay1 = 0;
 		public int shootDelay2 = 0;
 		public int shootDelay3 = 0;
-		public bool ZoneSynthwave = false;
-		public bool ZoneLantern = false;
+
 		public bool unboundSoulMinion = false;
 		public bool cragboundMinion = false;
 		public bool crawlerockMinion = false;
@@ -201,8 +202,6 @@ namespace SpiritMod
 		public static bool hasProjectile;
 		public bool DoomDestiny = false;
 		public int HitNumber;
-		public bool ZoneSpirit = false;
-		public bool ZoneReach = false;
 		public int PutridHits = 0;
 		public int Rangedhits = 0;
 		public bool flametrail = false;
@@ -329,10 +328,15 @@ namespace SpiritMod
 		public bool ZoneAsteroid = false;
 		public bool ZoneMarble = false;
 		public bool ZoneGranite = false;
+		public bool ZoneSpider = false;
+		public bool ZoneSynthwave = false;
+		public bool ZoneLantern = false;
+		public bool ZoneSpirit = false;
+		public bool ZoneReach = false;
+		public bool ZoneHive = false;
+
 		public bool inGranite = false;
 		public bool inMarble = false;
-		public bool ZoneSpider = false;
-		public bool ZoneHive = false;
 
 		public bool Bauble = false;
 
@@ -411,10 +415,14 @@ namespace SpiritMod
 		public int candyInBowl;
 		private IList<string> candyFromTown = new List<string>();
 
+		public Dictionary<int, int> auroraMonoliths = new Dictionary<int, int>() { { AuroraOverlay.UNUSED_BASIC, 0 }, { AuroraOverlay.PRIMARY, 0 }, { AuroraOverlay.PRIMARY_ALT1, 0 },
+			{ AuroraOverlay.PRIMARY_ALT2, 0 }, { AuroraOverlay.PRIMARY_ALT3, 0 }, { AuroraOverlay.BLOODMOON, 0 }, { AuroraOverlay.PUMPKINMOON, 0 },
+			{ AuroraOverlay.FROSTMOON, 0 }, { AuroraOverlay.BLUEMOON, 0 }, { AuroraOverlay.SPIRIT, 0 } };
+		public bool overidingNaturalAurora = false;
+
 		public override void UpdateBiomeVisuals()
 		{
 			var config = ModContent.GetInstance<SpiritClientConfig>();
-			bool showAurora = (player.ZoneSnow || ZoneSpirit || player.ZoneSkyHeight) && !Main.dayTime && !Main.raining && !player.ZoneCorrupt && !player.ZoneCrimson && MyWorld.aurora;
 			bool reach = (!Main.dayTime && ZoneReach && !reachBrooch && player.ZoneOverworldHeight) || (ZoneReach && player.ZoneOverworldHeight && MyWorld.downedReachBoss && Main.dayTime);
 			bool spirit = (player.ZoneOverworldHeight && ZoneSpirit);
 
@@ -461,9 +469,11 @@ namespace SpiritMod
 			else
 				player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
 
+			bool showAurora = (player.ZoneSnow || ZoneSpirit || player.ZoneSkyHeight) && !Main.dayTime && !Main.raining && !player.ZoneCorrupt && !player.ZoneCrimson && MyWorld.aurora;
+
 			ManageAshrainShader();
 			//player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
-			player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora);
+			player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora || auroraMonoliths.Any(x => x.Value >= 1));
 			player.ManageSpecialBiomeVisuals("SpiritMod:SpiritBiomeSky", spirit);
 			player.ManageSpecialBiomeVisuals("SpiritMod:AsteroidSky2", ZoneAsteroid);
 
@@ -850,6 +860,13 @@ namespace SpiritMod
 			StarjinxSet = false;
 			oldHelios = usingHelios;
 			usingHelios = false;
+
+			for (int i = 0; i < AuroraOverlay.COUNT; ++i)
+			{
+				if (i == AuroraOverlay.COMPLETELY_UNIMPLEMENTED)
+					continue;
+				auroraMonoliths[i]--;
+			}
 
 			if (player.FindBuffIndex(ModContent.BuffType<BeetleFortitude>()) < 0)
 				beetleStacks = 1;
