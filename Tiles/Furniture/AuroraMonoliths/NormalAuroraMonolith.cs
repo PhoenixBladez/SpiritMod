@@ -1,5 +1,4 @@
 using SpiritMod.Skies.Overlays;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -7,29 +6,15 @@ namespace SpiritMod.Tiles.Furniture.AuroraMonoliths
 {
 	public class NormalAuroraMonolith : AuroraMonolith
 	{
-        public override int DropType => ModContent.ItemType<NormalAuroraMonolithItem>();
-        public override int AuroraType => AuroraOverlay.UNUSED_BASIC;
+        internal override int DropType => ModContent.ItemType<NormalAuroraMonolithItem>();
+        internal override int AuroraType => AuroraOverlay.UNUSED_BASIC;
     }
 
-	public class NormalAuroraMonolithItem : ModItem
+	public class NormalAuroraMonolithItem : AuroraMonolithItem
 	{
-		public override void SetDefaults()
-		{
-			item.width = 22;
-			item.height = 32;
-			item.maxStack = 999;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.consumable = true;
-			item.rare = ItemRarityID.Red;
-			item.value = Item.buyPrice(0, 2, 0, 0);
-			item.createTile = ModContent.TileType<NormalAuroraMonolith>();
-		}
+        public override int PlaceType => ModContent.TileType<NormalAuroraMonolith>();
 
-		public override void AddRecipes()
+        public override void SafeAddRecipes()
 		{
 			var recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.IceBlock, 10);
