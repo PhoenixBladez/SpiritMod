@@ -11,8 +11,8 @@ namespace SpiritMod.Tiles.Furniture.AuroraMonoliths
 {
     public abstract class AuroraMonolith : ModTile
     {
-        public virtual int AuroraType => AuroraOverlay.UNUSED_BASIC;
-        public virtual int DropType => ModContent.ItemType<NormalAuroraMonolithItem>();
+        internal virtual int AuroraType => AuroraOverlay.UNUSED_BASIC;
+        internal virtual int DropType => ModContent.ItemType<NormalAuroraMonolithItem>();
 
         public sealed override void SetDefaults()
         {
@@ -26,7 +26,7 @@ namespace SpiritMod.Tiles.Furniture.AuroraMonoliths
             dustType = DustID.Stone;
             animationFrameHeight = 56;
             disableSmartCursor = true;
-            adjTiles = new int[] { TileID.LunarMonolith };
+            //adjTiles = new int[] { TileID.LunarMonolith };
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 32, 48, DropType);
@@ -103,5 +103,30 @@ namespace SpiritMod.Tiles.Furniture.AuroraMonoliths
             }
             NetMessage.SendTileSquare(-1, x, y + 1, 3);
         }
+    }
+
+    public abstract class AuroraMonolithItem : ModItem
+    {
+		public virtual int PlaceType => ModContent.TileType<NormalAuroraMonolith>();
+
+        public override void SetDefaults()
+        {
+            item.width = 22;
+            item.height = 32;
+            item.maxStack = 999;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 16;
+            item.useTime = 16;
+            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.consumable = true;
+            item.rare = ItemRarityID.Red;
+            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.createTile = PlaceType;
+        }
+
+        public override void AddRecipes() => SafeAddRecipes();
+
+        public abstract void SafeAddRecipes();
     }
 }

@@ -42,6 +42,7 @@ using Terraria.Graphics.Effects;
 using SpiritMod.Projectiles.Bullet;
 using System.Linq;
 using SpiritMod.Skies.Overlays;
+using SpiritMod.Effects.Waters.Reach;
 
 namespace SpiritMod
 {
@@ -415,10 +416,23 @@ namespace SpiritMod
 		public int candyInBowl;
 		private IList<string> candyFromTown = new List<string>();
 
-		public Dictionary<int, int> auroraMonoliths = new Dictionary<int, int>() { { AuroraOverlay.UNUSED_BASIC, 0 }, { AuroraOverlay.PRIMARY, 0 }, { AuroraOverlay.PRIMARY_ALT1, 0 },
-			{ AuroraOverlay.PRIMARY_ALT2, 0 }, { AuroraOverlay.PRIMARY_ALT3, 0 }, { AuroraOverlay.BLOODMOON, 0 }, { AuroraOverlay.PUMPKINMOON, 0 },
-			{ AuroraOverlay.FROSTMOON, 0 }, { AuroraOverlay.BLUEMOON, 0 }, { AuroraOverlay.SPIRIT, 0 } };
-		public bool overidingNaturalAurora = false;
+		public Dictionary<int, int> auroraMonoliths = new Dictionary<int, int>()
+		{
+			{ AuroraOverlay.UNUSED_BASIC, 0 }, { AuroraOverlay.PRIMARY, 0 }, { AuroraOverlay.PRIMARY_ALT1, 0 },
+			{ AuroraOverlay.PRIMARY_ALT2, 0 }, { AuroraOverlay.PRIMARY_ALT3, 0 }, { AuroraOverlay.BLOODMOON, 0 },
+			{ AuroraOverlay.PUMPKINMOON, 0 }, { AuroraOverlay.FROSTMOON, 0 }, { AuroraOverlay.BLUEMOON, 0 },
+			{ AuroraOverlay.SPIRIT, 0 }
+		};
+
+		//public Dictionary<int, bool> fountainsActive = new Dictionary<int, bool>()
+		//{
+		//	{ ModContent.GetInstance<ReachWaterStyle>().Type, false }
+		//};
+
+		public Dictionary<string, int> fountainsActive = new Dictionary<string, int>()
+		{
+			{ "BRIAR", 0 }
+		};
 
 		public override void UpdateBiomeVisuals()
 		{
@@ -634,11 +648,133 @@ namespace SpiritMod
 			candyFromTown = tag.GetList<string>("candyFromTown");
 		}
 
-
 		public override void ResetEffects()
 		{
 			removedEffects = effects;
 			effects = new List<SpiritPlayerEffect>();
+
+			ResetMiscVariables();
+
+			// Reset armor set booleans.
+			ResetArmorBools();
+
+			marbleJustJumped = false;
+
+			// Reset accessory booleans.
+			ResetAccBools();
+
+			for (int i = 0; i < AuroraOverlay.COUNT; ++i) //Reset aurora monolith values
+			{
+				if (i == AuroraOverlay.COMPLETELY_UNIMPLEMENTED)
+					continue;
+				auroraMonoliths[i]--;
+			}
+
+			fountainsActive["BRIAR"]--;
+
+			if (player.FindBuffIndex(ModContent.BuffType<BeetleFortitude>()) < 0)
+				beetleStacks = 1;
+
+			if (player.FindBuffIndex(ModContent.BuffType<ExplorerFight>()) < 0)
+				damageStacks = 1;
+
+			if (player.FindBuffIndex(ModContent.BuffType<ExplorerPot>()) < 0)
+				movementStacks = 1;
+
+			if (player.FindBuffIndex(ModContent.BuffType<ExplorerMine>()) < 0)
+				miningStacks = 1;
+
+			if (player.FindBuffIndex(ModContent.BuffType<CollapsingVoid>()) < 0)
+				voidStacks = 1;
+
+			phaseShift = false;
+			blazeBurn = false;
+
+			if (glyph != GlyphType.Phase)
+			{
+				phaseStacks = 0;
+				phaseCounter = 0;
+			}
+
+			if (glyph != GlyphType.Veil)
+				veilCounter = 0;
+
+			if (glyph != GlyphType.Radiant)
+				divineStacks = 1;
+			divineCounter = 0;
+
+			if (glyph != GlyphType.Storm)
+				stormStacks = 0;
+
+			if (frostCooldown > 0)
+				frostCooldown--;
+
+			frostRotation += Items.Glyphs.FrostGlyph.TURNRATE;
+			if (frostRotation > MathHelper.TwoPi)
+				frostRotation -= MathHelper.TwoPi;
+
+			if (frostUpdate)
+			{
+				frostUpdate = false;
+				if (glyph == GlyphType.Frost)
+					Items.Glyphs.FrostGlyph.UpdateIceSpikes(player);
+			}
+
+			frostCount = frostTally;
+			frostTally = 0;
+
+			copterFireFrame++;
+
+			onGround = false;
+			flying = false;
+			swimming = false;
+			if (player.velocity.Y != 0f)
+			{
+				if (player.mount.Active && player.mount.FlyTime > 0 && player.jump == 0 && player.controlJump && !player.mount.CanHover)
+					flying = true;
+				else if (player.wet)
+					swimming = true;
+			}
+			else
+				onGround = true;
+
+			moving = false;
+			if (player.velocity.X != 0f)
+				moving = true;
+		}
+
+		private void ResetAccBools()
+		{
+			OriRing = false;
+			SRingOn = false;
+			goldenApple = false;
+			mimicRepellent = false;
+			hpRegenRing = false;
+			forbiddenTome = false;
+			bubbleShield = false;
+			animusLens = false;
+			deathRose = false;
+			mythrilCharm = false;
+			KingSlayerFlask = false;
+			Resolve = false;
+			MoonSongBlossom = false;
+			HolyGrail = false;
+			infernalShield = false;
+			illusionistEye = false;
+			shadowGauntlet = false;
+			moonGauntlet = false;
+			unboundSoulMinion = false;
+			longFuse = false;
+			granitechDrones = false;
+
+			WingTimeMaxMultiplier = 1f;
+			StarjinxSet = false;
+			oldHelios = usingHelios;
+			usingHelios = false;
+		}
+
+		private void ResetMiscVariables()
+		{
 			MetalBand = false;
 			strikeshield = false;
 			KoiTotem = false;
@@ -797,8 +933,10 @@ namespace SpiritMod
 			runeBuff = false;
 			soulPotion = false;
 			carnivorousPlantMinion = false;
+		}
 
-			// Reset armor set booleans.
+		private void ResetArmorBools()
+		{
 			duskSet = false;
 			runicSet = false;
 			darkfeatherVisage = false;
@@ -830,113 +968,6 @@ namespace SpiritMod
 			infernalSet = false;
 			clatterboneSet = false;
 			talonSet = false;
-
-			marbleJustJumped = false;
-
-			// Reset accessory booleans.
-			OriRing = false;
-			SRingOn = false;
-			goldenApple = false;
-			mimicRepellent = false;
-			hpRegenRing = false;
-			forbiddenTome = false;
-			bubbleShield = false;
-			animusLens = false;
-			deathRose = false;
-			mythrilCharm = false;
-			KingSlayerFlask = false;
-			Resolve = false;
-			MoonSongBlossom = false;
-			HolyGrail = false;
-			infernalShield = false;
-			illusionistEye = false;
-			shadowGauntlet = false;
-			moonGauntlet = false;
-			unboundSoulMinion = false;
-			longFuse = false;
-			granitechDrones = false;
-
-			WingTimeMaxMultiplier = 1f;
-			StarjinxSet = false;
-			oldHelios = usingHelios;
-			usingHelios = false;
-
-			for (int i = 0; i < AuroraOverlay.COUNT; ++i)
-			{
-				if (i == AuroraOverlay.COMPLETELY_UNIMPLEMENTED)
-					continue;
-				auroraMonoliths[i]--;
-			}
-
-			if (player.FindBuffIndex(ModContent.BuffType<BeetleFortitude>()) < 0)
-				beetleStacks = 1;
-
-			if (player.FindBuffIndex(ModContent.BuffType<ExplorerFight>()) < 0)
-				damageStacks = 1;
-
-			if (player.FindBuffIndex(ModContent.BuffType<ExplorerPot>()) < 0)
-				movementStacks = 1;
-
-			if (player.FindBuffIndex(ModContent.BuffType<ExplorerMine>()) < 0)
-				miningStacks = 1;
-
-			if (player.FindBuffIndex(ModContent.BuffType<CollapsingVoid>()) < 0)
-				voidStacks = 1;
-
-			phaseShift = false;
-			blazeBurn = false;
-
-			if (glyph != GlyphType.Phase)
-			{
-				phaseStacks = 0;
-				phaseCounter = 0;
-			}
-
-			if (glyph != GlyphType.Veil)
-				veilCounter = 0;
-
-			if (glyph != GlyphType.Radiant)
-				divineStacks = 1;
-			divineCounter = 0;
-
-			if (glyph != GlyphType.Storm)
-				stormStacks = 0;
-
-			if (frostCooldown > 0)
-				frostCooldown--;
-
-			frostRotation += Items.Glyphs.FrostGlyph.TURNRATE;
-			if (frostRotation > MathHelper.TwoPi)
-				frostRotation -= MathHelper.TwoPi;
-
-			if (frostUpdate)
-			{
-				frostUpdate = false;
-				if (glyph == GlyphType.Frost)
-					Items.Glyphs.FrostGlyph.UpdateIceSpikes(player);
-			}
-
-			frostCount = frostTally;
-			frostTally = 0;
-
-			copterFireFrame++;
-
-			onGround = false;
-			flying = false;
-			swimming = false;
-			if (player.velocity.Y != 0f)
-			{
-				if (player.mount.Active && player.mount.FlyTime > 0 && player.jump == 0 && player.controlJump && !player.mount.CanHover)
-					flying = true;
-				else if (player.wet)
-					swimming = true;
-			}
-			else
-				onGround = true;
-
-			moving = false;
-			if (player.velocity.X != 0f)
-				moving = true;
 		}
 
 		public bool marbleJumpEffects = false;
@@ -1109,7 +1140,7 @@ namespace SpiritMod
 						caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<WoodCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
 
 						if (Main.netMode == NetmodeID.MultiplayerClient)
-							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<WoodCrateMimic>());
+							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, caughtType);
 					}
 				}
 				if (Main.rand.NextBool(player.cratePotion ? 130 : 155))
@@ -1124,7 +1155,7 @@ namespace SpiritMod
 						caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<IronCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
 
 						if (Main.netMode == NetmodeID.MultiplayerClient)
-							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<IronCrateMimic>());
+							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, caughtType);
 					}
 				}
 				if (Main.rand.NextBool(player.cratePotion ? 100 : 125) && Main.raining)
@@ -1139,7 +1170,7 @@ namespace SpiritMod
 						caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<GoldCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
 
 						if (Main.netMode == NetmodeID.MultiplayerClient)
-							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<GoldCrateMimic>());
+							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, caughtType);
 					}
 				}
 			}
