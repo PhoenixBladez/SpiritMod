@@ -13,7 +13,6 @@ namespace SpiritMod.Items.Consumable
 			Tooltip.SetDefault("Use at nighttime to summon the Mystic Moon");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = item.height = 16;
@@ -38,9 +37,7 @@ namespace SpiritMod.Items.Consumable
 				return false;
 			}
 			if (MyWorld.BlueMoon)
-            {
                 return false;
-            }
 			return true;
 		}
 
@@ -48,11 +45,11 @@ namespace SpiritMod.Items.Consumable
 		{
 			Main.NewText("The Mystic Moon is Rising...", 0, 90, 220, true);
 			Main.PlaySound(SoundID.Roar, (int)player.position.X, (int)player.position.Y, 0);
-			if (!Main.dayTime) {
+			if (!Main.dayTime)
 				MyWorld.BlueMoon = true;
-			}
 			return true;
 		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -64,6 +61,5 @@ namespace SpiritMod.Items.Consumable
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}
-
 	}
 }

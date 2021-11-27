@@ -163,7 +163,7 @@ namespace SpiritMod.Utilities
 						ModContent.ItemType<DreamlightJellyItem>(), ModContent.ItemType<TinyLunazoaItem>(),
 						ModContent.ItemType<MoonJelly>()
 					}),
-				"Naturally occurs in space after any boss has been defeated. Can also be summoned by using a Distress Jelly, found in Asteroid Biomes and caught using a bug net. Occurs less frequently after the Moon Jelly Wizard has been defeated.",
+				"Naturally occurs aboveground after any boss has been defeated. Can also be summoned by using a Distress Jelly, found in Asteroid Biomes and caught using a bug net. Occurs less frequently after the Moon Jelly Wizard has been defeated.",
 				"",
 				"SpiritMod/Textures/BossChecklist/JellyDeluge",
 				"SpiritMod/Textures/BossChecklist/JellyDelugeIcon",

@@ -443,7 +443,7 @@ namespace SpiritMod
 			bool region1 = ZoneSpirit && player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f;
 			bool region2 = ZoneSpirit && player.position.Y / 16 >= Main.maxTilesY - 300;
 
-			bool showJellies = (player.ZoneSkyHeight && MyWorld.jellySky) || NPC.AnyNPCs(ModContent.NPCType<MoonWizard>());
+			bool showJellies = (player.ZoneOverworldHeight && MyWorld.jellySky) || NPC.AnyNPCs(ModContent.NPCType<MoonWizard>());
 
 			bool greenOcean = player.ZoneBeach && MyWorld.luminousType == 1 && MyWorld.luminousOcean;
 			bool blueOcean = player.ZoneBeach && MyWorld.luminousType == 2 && MyWorld.luminousOcean;

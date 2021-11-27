@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 using Microsoft.Xna.Framework;
+using SpiritMod.NPCs.Boss.MoonWizard;
 
 namespace SpiritMod.Items.Consumable
 {
@@ -15,7 +16,6 @@ namespace SpiritMod.Items.Consumable
             DisplayName.SetDefault("Dreamlight Jelly");
             Tooltip.SetDefault("'It exudes arcane energy'\nUse at nighttime to summon the Moon Jelly Wizard");
         }
-
 
         public override void SetDefaults()
         {
@@ -33,17 +33,12 @@ namespace SpiritMod.Items.Consumable
             item.UseSound = SoundID.Item43;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            return !NPC.AnyNPCs(mod.NPCType("MoonWizard")) && !Main.dayTime && (player.ZoneSkyHeight || player.ZoneOverworldHeight);
-        }
+		public override bool CanUseItem(Player player) => !NPC.AnyNPCs(ModContent.NPCType<MoonWizard>()) && !Main.dayTime && (player.ZoneSkyHeight || player.ZoneOverworldHeight);
 
-
-        public override bool UseItem(Player player)
+		public override bool UseItem(Player player)
         {
 			if (Main.netMode == NetmodeID.SinglePlayer)
-				NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("MoonWizard"));
-
+				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<MoonWizard>());
 			else if (Main.netMode == NetmodeID.MultiplayerClient && player == Main.LocalPlayer) {
 				Vector2 spawnPos = player.Center;
 				int tries = 0;
@@ -56,11 +51,11 @@ namespace SpiritMod.Items.Consumable
 				if (tries >= maxtries)
 					return false;
 
-				SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(), (byte)MessageType.BossSpawnFromClient, (byte)player.whoAmI, mod.NPCType("MoonWizard"), (int)spawnPos.X, (int)spawnPos.Y).Send(-1);
+				SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(), (byte)MessageType.BossSpawnFromClient, (byte)player.whoAmI, ModContent.NPCType<MoonWizard>(), (int)spawnPos.X, (int)spawnPos.Y).Send(-1);
 			}
+
             Main.PlaySound(SoundID.Roar, player.position, 0);
             return true;
-
         }
     }
 }

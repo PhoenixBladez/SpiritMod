@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Consumable
 
         public override bool UseItem(Player player)
         {
-			Main.NewText("Strange jellyfish are pouring out of the sky!", 61, 255, 142);
+			Main.NewText("Strange jellyfish are raining from the sky!", 61, 255, 142);
 			MyWorld.jellySky = true;
     		if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.WorldData);

@@ -1,4 +1,3 @@
-
 using SpiritMod.Items.Sets.SpiritSet;
 using SpiritMod.NPCs.Boss.Dusking;
 using Terraria;
@@ -16,7 +15,6 @@ namespace SpiritMod.Items.Consumable
 			Tooltip.SetDefault("Use at nighttime to summon Dusking");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = item.height = 16;
@@ -33,10 +31,7 @@ namespace SpiritMod.Items.Consumable
 			item.UseSound = SoundID.Item43;
 		}
 
-		public override bool CanUseItem(Player player)
-		{
-			return !NPC.AnyNPCs(ModContent.NPCType<Dusking>()) && !Main.dayTime;
-		}
+		public override bool CanUseItem(Player player) => !NPC.AnyNPCs(ModContent.NPCType<Dusking>()) && !Main.dayTime;
 
 		public override bool UseItem(Player player)
 		{

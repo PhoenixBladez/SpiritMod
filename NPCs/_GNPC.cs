@@ -806,7 +806,7 @@ namespace SpiritMod.NPCs
 				}
 			}
 
-			if (MyWorld.jellySky && spawnInfo.player.ZoneSkyHeight)
+			if (MyWorld.jellySky && spawnInfo.player.ZoneOverworldHeight)
 			{
 				pool.Add(NPCType<MoonjellyEvent.TinyLunazoa>(), 9.35f);
 				pool.Add(NPCType<MoonjellyEvent.ExplodingMoonjelly>(), 8.35f);

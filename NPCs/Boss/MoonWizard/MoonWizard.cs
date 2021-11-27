@@ -54,7 +54,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
             music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/MoonJelly");
             npc.boss = true;
 		}
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
+
 		float trueFrame = 0;
 		public override void SendExtraAI(BinaryWriter writer)
 		{
@@ -144,7 +146,6 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
             }
 			return false;
 		}
-
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
@@ -297,33 +298,32 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				trueFrame = minFrame;
 			}
 		}
-		public override void BossLoot(ref string name, ref int potionType) => potionType = mod.ItemType("MoonJelly");
+		public override void BossLoot(ref string name, ref int potionType) => potionType = ModContent.ItemType<MoonJelly>();
+
 		public override void NPCLoot()
-        {
-            {
-                if (Main.expertMode)
-                {
-                    npc.DropBossBags();
-                    return;
-                }
+		{
+			if (Main.expertMode)
+			{
+				npc.DropBossBags();
+				return;
+			}
 
-                npc.DropItem(ModContent.ItemType<MJWMask>(), 1f / 7);
-                npc.DropItem(ModContent.ItemType<MJWTrophy>(), 1f / 10);
-                int[] lootTable = {
-                ModContent.ItemType<Moonshot>(),
-                ModContent.ItemType<Moonburst>(),
-                ModContent.ItemType<JellynautBubble>(),
-                ModContent.ItemType<MoonjellySummonStaff>()
+			npc.DropItem(ModContent.ItemType<MJWMask>(), 1f / 7);
+			npc.DropItem(ModContent.ItemType<MJWTrophy>(), 1f / 10);
+			int[] lootTable = {
+				ModContent.ItemType<Moonshot>(),
+				ModContent.ItemType<Moonburst>(),
+				ModContent.ItemType<JellynautBubble>(),
+				ModContent.ItemType<MoonjellySummonStaff>()
 				};
-                int loot = Main.rand.Next(lootTable.Length);
-				int lunazoastack = Main.rand.Next(5, 7);
-                npc.DropItem(lootTable[loot]);
-				if (lootTable[loot] == ModContent.ItemType<Moonshot>())
-					lunazoastack += Main.rand.Next(55, 75);
+			int loot = Main.rand.Next(lootTable.Length);
+			int lunazoastack = Main.rand.Next(5, 7);
+			npc.DropItem(lootTable[loot]);
+			if (lootTable[loot] == ModContent.ItemType<Moonshot>())
+				lunazoastack += Main.rand.Next(55, 75);
 
-				npc.DropItem(ModContent.ItemType<TinyLunazoaItem>(), lunazoastack);
-            }
-        }
+			npc.DropItem(ModContent.ItemType<TinyLunazoaItem>(), lunazoastack);
+		}
 
         public override void HitEffect(int hitDirection, double damage)
 		{
@@ -337,7 +337,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
                 Main.PlaySound(SoundID.NPCHit, npc.Center, 27);
                 for (int i = 0; i < Main.rand.Next(1, 3); i++)
                 {
-                    int p = Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(2.2f)), mod.ProjectileType("MoonBubble"), 0, 3);
+                    int p = Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(2.2f)), ModContent.ProjectileType<MoonBubble>(), 0, 3);
                     Main.projectile[p].scale = Main.rand.NextFloat(.2f, .4f);
                 }
             }
@@ -345,7 +345,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
             {
                 Gore.NewGore(new Vector2(npc.Center.X, npc.Center.Y - 50), new Vector2(0, 3), mod.GetGoreSlot("Gores/WizardHat_Gore"));
                 for (int i = 0; i < Main.rand.Next(9, 15); i++)
-                    Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(2.2f)), mod.ProjectileType("MoonBubble"), 0, 3);
+                    Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(2.2f)), ModContent.ProjectileType<MoonBubble>(), 0, 3);
             }
         }
 
@@ -794,8 +794,8 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
             MyWorld.downedMoonWizard = true;
 			if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.WorldData);
-			npc.PlayDeathSound("MJWDeathSound");
 
+			npc.PlayDeathSound("MJWDeathSound");
             return true;
         }
 
@@ -829,7 +829,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 					ModContent.ItemType<MoonJelly>()
 				});
 			spawnInfo =
-				$"Use a [i:{ModContent.ItemType<DreamlightJellyItem>()}] anywhere at nighttime. A [i:{ModContent.ItemType<DreamlightJellyItem>()}] can be caught with a bug net during the Jelly Deluge, and is non-consumable";
+				$"Use a [i:{ModContent.ItemType<DreamlightJellyItem>()}] anywhere aboveground at nighttime. A [i:{ModContent.ItemType<DreamlightJellyItem>()}] can be caught with a bug net during the Jelly Deluge, and is non-consumable";
 			texture = "SpiritMod/Textures/BossChecklist/MoonWizardTexture";
 			headTextureOverride = "SpiritMod/NPCs/Boss/MoonWizard/MoonWizard_Head_Boss";
 		}
