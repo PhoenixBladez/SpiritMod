@@ -103,13 +103,13 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 				for (int i = 0; i < 4; ++i)
 				{
 					Vector2 vel = Vector2.Normalize(projectile.oldVelocity).RotatedByRandom(MathHelper.ToRadians(30)) * Main.rand.NextFloat(6f, 10f) + (projectile.velocity * 0.8f);
-					ParticleHandler.SpawnParticle(new GranitechGunParticle(projectile.Center, vel, Main.rand.NextFloat(3f, 3.5f), 22, Main.rand.Next(2, 5)));
+					ParticleHandler.SpawnParticle(new GranitechParticle(projectile.Center, vel, Main.rand.NextBool(2) ? new Color(222, 111, 127) : new Color(239, 241, 80), Main.rand.NextFloat(3f, 3.5f), 22));
 				}
 
 				for (int i = 0; i < 4; ++i)
 				{
 					Vector2 vel = Vector2.Normalize(projectile.oldVelocity).RotatedByRandom(MathHelper.ToRadians(180)) * Main.rand.NextFloat(6f, 10f) + (projectile.velocity * 0.4f);
-					ParticleHandler.SpawnParticle(new GranitechGunParticle(projectile.Center, vel, Main.rand.NextFloat(3f, 3.5f), 22, Main.rand.Next(2, 5)));
+					ParticleHandler.SpawnParticle(new GranitechParticle(projectile.Center, vel, Main.rand.NextBool(2) ? new Color(222, 111, 127) : new Color(239, 241, 80), Main.rand.NextFloat(3f, 3.5f), 22));
 				}
 			}
 
