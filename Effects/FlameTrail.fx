@@ -6,6 +6,8 @@ texture uTexture2;
 sampler textureSampler = sampler_state
 {
     Texture = (uTexture);
+    AddressU = wrap;
+    AddressV = wrap;
 };
 sampler texture2Sampler = sampler_state
 {
