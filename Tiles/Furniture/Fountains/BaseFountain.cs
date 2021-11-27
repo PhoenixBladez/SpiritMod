@@ -52,7 +52,7 @@ namespace SpiritMod.Tiles.Furniture.Fountains
             Texture2D texture = Main.canDrawColorTile(i, j) ? Main.tileAltTexture[Type, tile.color()] : Main.tileTexture[Type];
 
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
-            int animate = tile.frameY >= 72 ? (Main.tileFrame[Type] * (animationFrameHeight + 2)) : 0;
+            int animate = tile.frameY >= 72 ? (Main.tileFrame[Type] * (animationFrameHeight + 2)) + 2 : 0;
 
 			Main.spriteBatch.Draw(texture, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.frameX, tile.frameY + animate, 16, 16), Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);
             return false;

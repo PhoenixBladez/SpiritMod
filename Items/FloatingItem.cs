@@ -18,8 +18,10 @@ namespace SpiritMod.Items
 			if (item.wet)
 			{
 				gravity = Bouyancy;
+				if (item.velocity.Y < Bouyancy * 7)
+					item.velocity.Y = Bouyancy * 7;
 
-				Point tilePos = (item.position + new Vector2(0, 2 - item.velocity.Y)).ToTileCoordinates();
+				Point tilePos = (item.position + new Vector2(0, 8 - item.velocity.Y)).ToTileCoordinates();
 				if (Framing.GetTileSafely(tilePos.X, tilePos.Y - 1).liquid < 100)
 				{
 					gravity = 0;
@@ -35,10 +37,10 @@ namespace SpiritMod.Items
 
 		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
 		{
-			Point tilePos = (item.position + new Vector2(0, 2 - item.velocity.Y)).ToTileCoordinates();
-			if (Framing.GetTileSafely(tilePos.X, tilePos.Y - 1).liquid < 100 && item.wet && item.velocity.LengthSquared() < 0.1f)
+			Point tilePos = (item.position + new Vector2(0, 8 - item.velocity.Y)).ToTileCoordinates();
+			if (Framing.GetTileSafely(tilePos.X, tilePos.Y - 1).liquid < 100 && item.wet && item.velocity.LengthSquared() < 0.01f)
 			{
-				Vector2 drawPos = new Vector2(item.position.X - (item.width / 2f), item.Top.Y - item.height) - Main.screenPosition - (Vector2.UnitY * (float)(Math.Cos(floatingTimer++ * 0.04f) * 3f));
+				Vector2 drawPos = item.position - Main.screenPosition - (Vector2.UnitY * (float)(Math.Sin((floatingTimer++ * 0.04f) - MathHelper.PiOver2) * 3f));
 				spriteBatch.Draw(Main.itemTexture[item.type], drawPos, null, lightColor, rotation, Vector2.Zero, scale, SpriteEffects.None, 0f);
 				return false;
 			}
