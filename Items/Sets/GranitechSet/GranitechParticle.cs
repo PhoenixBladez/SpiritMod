@@ -4,9 +4,9 @@ using SpiritMod.Particles;
 using System;
 using Terraria;
 
-namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
+namespace SpiritMod.Items.Sets.GranitechSet
 {
-    public class GranitechGunParticle : Particle
+    public class GranitechParticle : Particle
 	{
 		private readonly Rectangle Frame = new Rectangle();
 		public readonly int MaxTime;
@@ -16,23 +16,27 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 		public override bool UseAdditiveBlend => true;
 		public override bool UseCustomDraw => true;
 
-		public GranitechGunParticle(Vector2 position, Vector2 velocity, float scale, int maxTime, int frame = 0)
+		public GranitechParticle(Vector2 position, Vector2 velocity, Color color, float scale, int maxTime)
 		{
-			Color = Main.rand.NextBool(2) ? new Color(222, 111, 127) : new Color(239, 241, 80);
+			Color = color;
 			Position = position;
 			Velocity = velocity;
 			Scale = scale;
 			MaxTime = maxTime;
 
-			Frame = new Rectangle(0, 0, 20, 44); //Ring 1
-			if (frame == 1)
-				Frame = new Rectangle(20, 0, 20, 44); //Ring 2
-			else if (frame == 2)
-				Frame = new Rectangle(0, 44, 14, 8); //Small line
-			else if (frame == 3)
-				Frame = new Rectangle(12, 44, 16, 8); //Large line
-			else if (frame == 4)
-				Frame = new Rectangle(26, 44, 14, 14); //Circle
+			int frame = Main.rand.Next(3);
+			switch (frame)
+			{
+				case 0:
+					Frame = new Rectangle(0, 44, 14, 8); //Small line
+					break;
+				case 1:
+					Frame = new Rectangle(12, 44, 16, 8); //Large line
+					break;
+				case 2:
+					Frame = new Rectangle(26, 44, 14, 14); //Circle
+					break;
+			}
 		}
 
 		public override void Update()
