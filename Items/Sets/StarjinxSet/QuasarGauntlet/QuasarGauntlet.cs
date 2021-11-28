@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 		{
             item.shoot = ModContent.ProjectileType<QuasarOrb>();
             item.shootSpeed = 16f;
-			item.damage = 90;
+			item.damage = 70;
 			item.knockBack = 3.3f;
 			item.magic = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;

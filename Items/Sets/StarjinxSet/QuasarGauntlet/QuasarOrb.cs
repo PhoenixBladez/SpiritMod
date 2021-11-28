@@ -120,7 +120,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			}
 
 			//pulse in scale
-			if (Timer % 60 == 0)
+			if (Timer % 80 == 0)
 				scaleMod += 0.6f;
 
 			power = MathHelper.Clamp(power, STARTPOWER, MAXPOWER);
@@ -158,10 +158,10 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 
 		public void AdditiveCall(SpriteBatch sB)
 		{
-			Color White = new Color(255, 251, 199);
-			Color Yellow = new Color(255, 170, 0) * 0.9f;
-			Color Red = new Color(199, 0, 73) * 0.8f;
-
+			Color White = new Color(255, 251, 199) * 0.7f;
+			Color Yellow = new Color(255, 170, 0) * 0.6f;
+			Color Red = new Color(199, 0, 73) * 0.5f;
+			Color Magenta = Color.Magenta * 0.4f;
 
 			float rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
 			Vector2 scale = new Vector2(1f - projectile.velocity.Length() / 50, 1f + projectile.velocity.Length() / 50) * projectile.scale;
@@ -180,15 +180,16 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			effect.Parameters["Rotation"].SetValue(projectile.rotation);
 			effect.CurrentTechnique.Passes[0].Apply();
 
+			sB.Draw(tex, drawCenter, null, Magenta * projectile.Opacity, rotation, tex.Size() / 2, scale * 1.1f, SpriteEffects.None, 0);
 			sB.Draw(tex, drawCenter, null, Red * projectile.Opacity, rotation, tex.Size() / 2, scale, SpriteEffects.None, 0);
-			sB.Draw(tex, drawCenter, null, Yellow * projectile.Opacity, rotation, tex.Size() / 2, scale * 0.8f, SpriteEffects.None, 0);
-			sB.Draw(tex, drawCenter, null, White * projectile.Opacity, rotation, tex.Size() / 2, scale * 0.66f, SpriteEffects.None, 0);
+			sB.Draw(tex, drawCenter, null, Yellow * projectile.Opacity, rotation, tex.Size() / 2, scale * 0.75f, SpriteEffects.None, 0);
+			sB.Draw(tex, drawCenter, null, White * projectile.Opacity, rotation, tex.Size() / 2, scale * 0.62f, SpriteEffects.None, 0);
 
 			sB.End(); sB.Begin(SpriteSortMode.Deferred, BlendState.Additive, default, default, RasterizerState.CullNone, default, Main.GameViewMatrix.ZoomMatrix);
 
 			float blurLength = 200 * projectile.scale;
 			float blurWidth = 12 * projectile.scale;
-			float flickerStrength = (((float)Math.Sin(Main.GlobalTime * 10) % 1) * 0.1f) + 0.9f;
+			float flickerStrength = (((float)Math.Sin(Main.GlobalTime * 10) % 1) * 0.1f) + 1f;
 			Effect blurEffect = mod.GetEffect("Effects/BlurLine");
 
 			SquarePrimitive blurLine = new SquarePrimitive()

@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Sets.GranitechSet
 		{
 			Lighting.AddLight(Position, Color.R / 255f, Color.G / 255f, Color.B / 255f);
 
-			opacity = (float)Math.Pow(1 - ((float)TimeActive / MaxTime), 0.33f);
+			opacity = (float)Math.Pow(1 - ((float)TimeActive / MaxTime), 0.5f);
 			Rotation = Velocity.ToRotation();
 
 			if (Frame.Y == 44)

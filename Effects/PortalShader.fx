@@ -37,7 +37,7 @@ float4 MainPS(float2 coords : TEXCOORD0, float4 ocolor : COLOR0) : COLOR0
     strength = max(strength - 0.05f, 0);
     
     float4 noiseColor = tex2D(pNoise, rotate(coords - float2(0.5f, 0.5f), Rotation) + float2(0.5f, 0.5f));
-    noiseColor = color * noiseColor.r;
+    noiseColor = color * noiseColor.r * 2;
     
     
     float4 finalcolor = lerp(color, noiseColor, strength);

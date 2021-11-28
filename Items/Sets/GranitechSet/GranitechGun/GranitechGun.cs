@@ -7,7 +7,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 {
 	public class GranitechGun : ModItem
 	{
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Granitech Blaster");
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Vector .109");
 
 		public override void SetDefaults()
 		{

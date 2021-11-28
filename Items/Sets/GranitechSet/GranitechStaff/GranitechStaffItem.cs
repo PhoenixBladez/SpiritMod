@@ -10,11 +10,11 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 {
 	public class GranitechStaffItem : ModItem
 	{
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Granitech Staff");
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Focus M.II");
 
 		public override void SetDefaults()
 		{
-			item.damage = 117;
+			item.damage = 180;
 			item.Size = new Vector2(54, 56);
 			item.useTime = item.useAnimation = 40;
 			item.reuseDelay = 20;

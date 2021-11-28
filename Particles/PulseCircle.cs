@@ -67,10 +67,11 @@ namespace SpiritMod.Particles
 			moveType = MovementStyle;
 		}
 
-		public PulseCircle(Entity attatchedEntity, Color color, float maxRadius, int maxTime, MovementType MovementStyle = MovementType.Outwards)
+		public PulseCircle(Entity attatchedEntity, Color color, float maxRadius, int maxTime, MovementType MovementStyle = MovementType.Outwards, Vector2? startingPosition = null)
 		{
 			entity = attatchedEntity;
 			Position = entity.Center;
+			_offset = startingPosition != null ? startingPosition.Value - entity.Center : Vector2.Zero;
 			baseColor = color;
 			MaxRadius = maxRadius;
 			MaxTime = maxTime;
