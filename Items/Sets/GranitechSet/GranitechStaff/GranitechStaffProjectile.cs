@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			projectile.tileCollide = false;
 			projectile.penetrate = -1;
 			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = LASER_TIME + 1;
+			projectile.localNPCHitCooldown = (LASER_TIME/3) + 1;
 		}
 
 		private Vector2 StaffTipPos = new Vector2(55, 29); //Position of the staff tip relative to the rest of the sprite
@@ -51,12 +51,15 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 
 		public const int LASER_TIME = 25;
 
-		public const int BASE_MANA_COST = 60; //Done in a kinda hacky way to make the initial use not eat up 80 mana, but have the item still display 80 mana cost in total
-		public const int MANA_DRAIN_TICKS = 10; //How many times it takes the player's mana, total mana consumed corresponds to stated mana cost on item
+		public const int MANA_DRAIN_TICKS = 5; //How many times it takes the player's mana
 
 		private Vector2 BeamDirection;
 		private float BeamLength;
 		private bool HittingTile; //Whether or not the beam is actually hitting a tile or is just out of range, used for tile hit vfx
+
+		private readonly Color lightCyan = new Color(99, 255, 229);
+		private readonly Color midBlue = new Color(25, 132, 247);
+		private readonly Color darkBlue = new Color(20, 8, 189);
 
 		public override void AbstractAI()
 		{
@@ -71,12 +74,12 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			{
 				case STATE_CHARGING:
 					ChannelKillCheck();
-					int ChargeTime = Owner.HeldItem.useTime; //Corresponds to player's held item's usetime, benefits from reforges as well
+					int ChargeTime = Owner.HeldItem.useTime; //Corresponds to player's held item's usetime, thus benefits from reforges as well
 
 					int ManaTickTime = ChargeTime / MANA_DRAIN_TICKS;
 					if(AiTimer % ManaTickTime == 0)
 					{
-						if (!Owner.CheckMana(BASE_MANA_COST / MANA_DRAIN_TICKS, true))
+						if (!Owner.CheckMana(Owner.HeldItem.mana, true))
 							projectile.Kill();
 
 						Owner.manaRegenDelay = (int)Owner.maxRegenDelay; //Doesnt automatically do this when using checkmana 
@@ -94,24 +97,15 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 					break;
 				case STATE_LASER:
 
-					if (!Main.dedServ && HittingTile)
+					if (!Main.dedServ && HittingTile) //Make particles if hitting a tile
 					{
-						int numParticles = (int)MathHelper.Lerp(1, 32, BeamLength / 1600f);
-						Vector2 startPoint = projectile.Center + StaffTipDirection;
 						Vector2 endPoint = projectile.Center + StaffTipDirection + BeamDirection * BeamLength;
 						float beamprogress = AiTimer / (float)LASER_TIME;
 
-						float angleDeviation = Main.rand.NextFloat(-1, 1);
-						float speed = Main.rand.NextFloat(5, 20) * (1 - (Math.Abs(angleDeviation) * 0.5f));
-						Vector2 velocity = -BeamDirection.RotatedBy(angleDeviation * MathHelper.Pi / 6) * speed;
-						ParticleHandler.SpawnParticle(new GranitechParticle(endPoint, velocity,
-							Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(15, 57, 247) * beamprogress,
-							Main.rand.NextFloat(3f, 3.5f) * beamprogress, 20));
+						ParallelParticles(endPoint, -BeamDirection * Main.rand.NextFloat(5, 10), 20, Main.rand.NextFloat(1.5f, 2f) * beamprogress);
 
 						if(Main.rand.NextBool())
-							ParticleHandler.SpawnParticle(new GranitechParticle(endPoint, -velocity/3,
-								Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(15, 57, 247) * beamprogress,
-								Main.rand.NextFloat(3f, 3.5f) * beamprogress, 20));
+							ParallelParticles(endPoint, BeamDirection * Main.rand.NextFloat(5), 20, Main.rand.NextFloat(1f, 1.5f) * beamprogress);
 					}
 
 					if(AiTimer > LASER_TIME)
@@ -121,6 +115,22 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			}
 		}
 
+		private void ParallelParticles(Vector2 position, Vector2 velocity, float width, float scale, int numParticles = 1)
+		{
+			for (int i = 0; i < numParticles; i++) 
+			{
+				float widthDeviation = Main.rand.NextFloat(-1, 1); //Determine how far from the center of the beam the particle will spawn
+				Vector2 newVel = velocity * (1 - Math.Abs(widthDeviation)); //Slow down particle based on how far it is from beam
+
+				Vector2 newPos = position + BeamDirection.RotatedBy(MathHelper.PiOver2) * widthDeviation * width; //Offset particle
+
+				ParticleHandler.SpawnParticle(new GranitechParticle(newPos, newVel, Main.rand.NextBool() ? lightCyan : midBlue, scale, 30, Main.rand.Next(4)));
+			}
+		}
+
+		/// <summary>
+		/// Mostly visual effects, called upon the laser being first fired
+		/// </summary>
 		private void OnLaserFire()
 		{
 			Owner.GetModPlayer<MyPlayer>().Shake = 15;
@@ -133,7 +143,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			float beamLengthLerp = MathHelper.Clamp(BeamLength / 800f, 0, 1);
 			int maxRings = 3;
 			float minRingDist = 20 * beamLengthLerp;
-			float maxRingDist = 200 * beamLengthLerp;
+			float maxRingDist = 150 * beamLengthLerp;
 			float sizeModifier = MathHelper.Lerp(0.5f, 1f, beamLengthLerp);
 
 			float minRingSize = 1f;
@@ -148,7 +158,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 				for (int i = 0; i < maxRings; i++) //multiple rings
 				{
 					float progress = i / (float)(maxRings - 1);
-					Color color = Color.Lerp(new Color(99, 255, 229), new Color(15, 57, 247), progress).MultiplyRGB(colorMod);
+					Color color = Color.Lerp(lightCyan, darkBlue, progress).MultiplyRGB(colorMod);
 
 					float scale = MathHelper.Lerp(minRingSize, maxRingSize, progress) * sizeModifier;
 					float speed = sizeModifier * RingSpeed;
@@ -168,19 +178,12 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 				}
 			}
 
-
-			int numParticles = Main.rand.Next(12, 15);
-
-			for (int i = 0; i < numParticles; i++)
-			{
-				float angleDeviation = Main.rand.NextFloat(-1, 1);
-				float speed = Main.rand.NextFloat(5, 50) * (1 - (Math.Abs(angleDeviation) * 0.5f));
-				Vector2 velocity = BeamDirection.RotatedBy(angleDeviation * MathHelper.Pi / 6) * speed;
-				ParticleHandler.SpawnParticle(new GranitechParticle(projectile.Center + StaffTipDirection, velocity,
-					Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(15, 57, 247), Main.rand.NextFloat(4f, 5f), (int)(LASER_TIME * 0.8f)));
-			}
+			ParallelParticles(projectile.Center + StaffTipDirection, BeamDirection * Main.rand.NextFloat(30, 40), 35, Main.rand.NextFloat(1.5f, 3f), Main.rand.Next(14, 18));
 		}
 
+		/// <summary>
+		/// Scans from the tip of the staff towards the mouse, finding the length and direction of the beam, and checking if it hits a tile
+		/// </summary>
 		private void ScanLaser()
 		{
 			Vector2 laserPos = projectile.Center + StaffTipDirection;
@@ -248,15 +251,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 				});
 			}
 
-			int numParticles = Main.rand.Next(5, 8);
-			for (int i = 0; i < numParticles; i++)
-			{
-				float angleDeviation = Main.rand.NextFloat(-1, 1);
-				float speed = Main.rand.NextFloat(10, 20) * (1 - (Math.Abs(angleDeviation) * 0.5f));
-				Vector2 velocity = BeamDirection.RotatedBy(angleDeviation * MathHelper.Pi / 6) * speed;
-				ParticleHandler.SpawnParticle(new GranitechParticle(target.Center, velocity,
-					Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(15, 57, 247), Main.rand.NextFloat(4f, 5f), 30));
-			}
+			ParallelParticles(target.Center, BeamDirection * Main.rand.NextFloat(10, 15), 25, Main.rand.NextFloat(1.5f, 2f), Main.rand.Next(7, 10));
 		}
 
 		public void AdditiveCall(SpriteBatch spriteBatch)
@@ -293,9 +288,9 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			{
 				Color color;
 				if (ColorLerp <= 0.5f)
-					color = Color.Lerp(new Color(20, 8, 189), new Color(25, 132, 247), ColorLerp * 2);
+					color = Color.Lerp(darkBlue, midBlue, ColorLerp * 2);
 				else
-					color = Color.Lerp(new Color(25, 132, 247), new Color(99, 255, 229), (ColorLerp - 0.5f) * 2);
+					color = Color.Lerp(midBlue, lightCyan, (ColorLerp - 0.5f) * 2);
 
 				Color aberrationColor = Color.White;
 				switch (i) //Switch between making the telegraph's color red, green, and blue
@@ -329,7 +324,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 
 			for (int i = 0; i < 3; i++)
 			{
-				Color color = Color.Lerp(new Color(48, 86, 255), new Color(16, 11, 156), ColorLerp);
+				Color color = Color.Lerp(midBlue, darkBlue, ColorLerp);
 
 				Color aberrationColor = Color.White;
 				switch (i) //Switch between making the beam's color red, green, and blue
@@ -375,9 +370,9 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 				float scaleMod = scale.Y / 60;
 				Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
 				Vector2 endPos = projectile.Center + StaffTipDirection + BeamDirection * BeamLength;
-				Main.spriteBatch.Draw(bloom, endPos - Main.screenPosition, null, new Color(48, 86, 255), 0, bloom.Size() / 2, 0.5f * scaleMod, SpriteEffects.None, 0);
+				Main.spriteBatch.Draw(bloom, endPos - Main.screenPosition, null, darkBlue, 0, bloom.Size() / 2, 0.5f * scaleMod, SpriteEffects.None, 0);
 
-				float blurLength = 250 * scaleMod;
+				float blurLength = 400 * scaleMod;
 				float blurWidth = 12 * scaleMod;
 				float flickerStrength = (((float)Math.Sin(Main.GlobalTime * 20) % 1) * 0.3f) + 1f;
 				Effect blurEffect = mod.GetEffect("Effects/BlurLine");
@@ -385,14 +380,14 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 				for(int i = -1; i <= 1; i++)
 				{
 					float rotation = BeamDirection.ToRotation() + MathHelper.PiOver2 + (MathHelper.Pi / 6) * i;
-					float size = 1 - Math.Abs(i * 0.33f);
+					float size = 1 - Math.Abs(i * 0.5f);
 					SquarePrimitive blurLine = new SquarePrimitive()
 					{
 						Position = endPos - Main.screenPosition,
 						Height = blurWidth * flickerStrength * size,
 						Length = blurLength * flickerStrength * size,
 						Rotation = rotation,
-						Color = Color.Lerp(new Color(99, 255, 229), Color.White, 0.4f) * (1 - ColorLerp)
+						Color = Color.Lerp(lightCyan, Color.White, 0.25f) * (1 - ColorLerp)
 					};
 					PrimitiveRenderer.DrawPrimitiveShape(blurLine, blurEffect);
 				}

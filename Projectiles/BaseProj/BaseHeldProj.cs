@@ -35,6 +35,8 @@ namespace SpiritMod.Projectiles.BaseProj
 			Owner.heldProj = projectile.whoAmI;
 			projectile.timeLeft = 2;
 			AbstractAI();
+
+			projectile.Center = Owner.MountedCenter + HoldoutOffset();
 		}
 
 		/// <summary>
