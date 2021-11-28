@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 
 		public override void SetDefaults()
 		{
-			item.damage = 120;
+			item.damage = 90;
 			item.Size = new Vector2(54, 56);
 			item.useTime = item.useAnimation = 40;
 			item.reuseDelay = 20;
