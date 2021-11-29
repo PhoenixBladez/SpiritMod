@@ -89,8 +89,9 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 			return base.CanUseItem(player);
 		}
 	}
-	public class ArtemisHuntArrow : ModProjectile, ITrailProjectile, IDrawAdditive
+	public class ArtemisHuntArrow : ModProjectile
 	{
+		float noiseRotation;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Celestial Arrow");
@@ -100,71 +101,60 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 
 		public override void SetDefaults()
 		{
-			projectile.width = 8;
+			projectile.width = 14;
 			projectile.height = 14;
-			projectile.aiStyle = 1;
 			projectile.friendly = true;
 			projectile.ranged = true;
 			projectile.extraUpdates = 1;
 			projectile.timeLeft = 600;
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-			aiType = ProjectileID.WoodenArrowFriendly;
 		}
 		public override void AI()
 		{
+			if (noiseRotation < 0.04f)
+				noiseRotation = Main.rand.NextFloat(6.28f);
+			noiseRotation += 0.04f;
+
+			if (Main.rand.Next(5) == 1)
+			{
+				StarParticle particle = new StarParticle(
+				projectile.Center + Main.rand.NextVector2Circular(5, 5),
+				projectile.velocity.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * 0.1f,
+				new Color(48, 255, 176),
+				Main.rand.NextFloat(0.08f, 0.23f),
+				Main.rand.Next(20, 40));
+
+				ParticleHandler.SpawnParticle(particle);
+			}
+
+			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			Lighting.AddLight(new Vector2(projectile.Center.X, projectile.Center.Y), 0.075f * .75f, 0.255f * .75f, 0.193f * .75f);
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			//target.AddBuff(ModContent.BuffType<ArtemisMark>(), 180);
 		}
-		public void DoTrailCreation(TrailManager tManager)
-		{
-			tManager.CreateTrail(projectile, new GradientTrail(new Color(108, 215, 245), new Color(48, 255, 176)), new RoundCap(), new DefaultTrailPosition(), 8f, 150f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
-			tManager.CreateTrail(projectile, new GradientTrail(new Color(255, 255, 255) * .25f, new Color(255, 255, 255) * .25f), new RoundCap(), new DefaultTrailPosition(), 26f, 50f, new DefaultShader());
-		}
-		public override void Kill(int timeLeft)
-		{
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
-			Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 3);
-			Vector2 vector9 = projectile.position;
-			Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
-			vector9 += value19 * 12f;
-			for (int num257 = 0; num257 < 18; num257++)
-			{
-				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, DustID.PoisonStaff, 0f, 0f, 0, Color.White, 1f);
-				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
-				Main.dust[newDust].velocity += value19 * 2f;
-				Main.dust[newDust].velocity *= 0.5f;
-				Main.dust[newDust].noGravity = true;
-				Main.dust[newDust].shader = GameShaders.Armor.GetSecondaryShader(22, Main.LocalPlayer);
-				vector9 -= value19 * 8f;
-			}
-			DustHelper.DrawDustImage(projectile.Center, 89, 0.125f, "SpiritMod/Effects/DustImages/MoonSigil", 1f);
-		}
-		public void AdditiveCall(SpriteBatch spriteBatch)
-		{
-			for (int k = 0; k < projectile.oldPos.Length; k++)
-			{
-				Color color = new Color(77, 255, 193) * 0.75f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-
-				float scale = projectile.scale;
-				Texture2D tex = ModContent.GetTexture("SpiritMod/Items/Sets/OlympiumSet/ArtemisHunt/ArtemisHunt_Glow");
-				spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, projectile.rotation, tex.Size() / 2, scale, default, default);
-			}
-		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			{
-				Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-				for (int k = 0; k < projectile.oldPos.Length; k++)
-				{
-					Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-					Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-					spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color * .6f, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f); ;
-				}
-			}
+			Color color = new Color(48, 255, 176);
+			color.A = 0;
+
+			Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, new Vector2(7, 0), 1, SpriteEffects.None, 0f);
+
+			Main.spriteBatch.End();
+			Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+
+			SpiritMod.ConicalNoise.Parameters["vnoise"].SetValue(mod.GetTexture("Textures/voronoiLooping"));
+			SpiritMod.ConicalNoise.Parameters["rotation"].SetValue(noiseRotation);
+			SpiritMod.ConicalNoise.Parameters["color"].SetValue(color.ToVector4());
+			SpiritMod.ConicalNoise.CurrentTechnique.Passes[0].Apply();
+
+			Main.spriteBatch.Draw(mod.GetTexture("Effects/Masks/Extra_49"), projectile.Center + (projectile.rotation.ToRotationVector2() * 17)- Main.screenPosition, null, color, projectile.rotation - 1.57f, new Vector2(100, 83), new Vector2(0.6f, 0.4f), SpriteEffects.None, 0f);
+
+			Main.spriteBatch.End();
+			Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
 			return false;
 		}
 	}

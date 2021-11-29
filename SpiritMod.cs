@@ -88,6 +88,7 @@ namespace SpiritMod
 		public static Effect RepeatingTextureShader;
 		public static Effect EyeballShader;
 		public static Effect ArcLashShader;
+		public static Effect ConicalNoise;
 		public static Effect JemShaders;
 		public static Effect SunOrbShader;
 		public static Effect ThyrsusShader;
@@ -859,6 +860,7 @@ namespace SpiritMod
 				RepeatingTextureShader = Instance.GetEffect("Effects/RepeatingTextureShader");
 				EyeballShader = Instance.GetEffect("Effects/EyeballShader");
 				ArcLashShader = Instance.GetEffect("Effects/ArcLashShader");
+				ConicalNoise = Instance.GetEffect("Effects/ConicalNoise");
 				JemShaders = Instance.GetEffect("Effects/JemShaders");
 				SunOrbShader = Instance.GetEffect("Effects/SunOrbShader");
 				ThyrsusShader = Instance.GetEffect("Effects/ThyrsusShader");
@@ -1082,6 +1084,7 @@ namespace SpiritMod
 			EyeballShader = null;
 			RepeatingTextureShader = null;
 			ArcLashShader = null;
+			ConicalNoise = null;
 			JemShaders = null;
 			ThyrsusShader = null;
 			JetbrickTrailShader = null;
