@@ -24,7 +24,6 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
         {
             AlphaValue= 0.7f;
             Cap = 80;
-            Pixellated = true;
         }
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
@@ -46,10 +45,10 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
                     Vector2 normalAhead = CurveNormal(Points, i + 1);
                     Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
                     Vector2 secondDown = Points[i + 1] + normalAhead * widthVar;
-                    AddVertex(Points[i], c1 * AlphaValue, new Vector2((float)Math.Sin(Counter / 20f), (float)Math.Sin(Counter / 20f)));
-                    AddVertex(secondUp, c1 * AlphaValue, new Vector2((float)Math.Sin(Counter / 20f), (float)Math.Sin(Counter / 20f)));
-                    AddVertex(secondDown, c1 * AlphaValue, new Vector2((float)Math.Sin(Counter / 20f), (float)Math.Sin(Counter / 20f)));
-                }
+					AddVertex(Points[i], c1 * AlphaValue, new Vector2(0, 0.5f));
+					AddVertex(secondUp, c1 * AlphaValue, new Vector2((float)(i + 1) / (float)Cap, 0));
+					AddVertex(secondUp, c1 * AlphaValue, new Vector2((float)(i + 1) / (float)Cap, 1));
+				}
                 else
                 {
                     if (i != Points.Count - 1)
@@ -68,14 +67,14 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
                         Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
                         Vector2 secondDown = Points[i + 1] + normalAhead * widthVar;
 
-                        AddVertex(firstDown, c * AlphaValue, new Vector2((i / Cap), 1));
-                        AddVertex(firstUp, c * AlphaValue, new Vector2((i / Cap), 0));
-                        AddVertex(secondDown, CBT * AlphaValue, new Vector2((i + 1) / Cap, 1));
+						AddVertex(firstDown, c * AlphaValue, new Vector2((float)(i / (float)Cap), 1));
+						AddVertex(firstUp, c * AlphaValue, new Vector2((float)(i / (float)Cap), 0));
+						AddVertex(secondDown, c * AlphaValue, new Vector2((float)(i + 1) / (float)Cap, 1));
 
-                        AddVertex(secondUp, CBT * AlphaValue, new Vector2((i + 1) / Cap, 0));
-                        AddVertex(secondDown, CBT * AlphaValue, new Vector2((i + 1) / Cap, 1));
-                        AddVertex(firstUp, c * AlphaValue, new Vector2((i / Cap), 0));
-                    }
+						AddVertex(secondUp, c * AlphaValue, new Vector2((float)(i + 1) / (float)Cap, 0));
+						AddVertex(secondDown, c * AlphaValue, new Vector2((float)(i + 1) / (float)Cap, 1));
+						AddVertex(firstUp, c * AlphaValue, new Vector2((float)(i / (float)Cap), 0));
+					}
                     else
                     {
 
@@ -83,11 +82,14 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
                 }
             }
         }
-       public override void SetShaders()
-        {
-            PrepareBasicShader();
-        }
-        public override void OnUpdate()
+		public override void SetShaders()
+		{
+			Effect effect = SpiritMod.PrimitiveTextureMap;
+			effect.Parameters["uTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/GlowTrail"));
+			effect.Parameters["additive"].SetValue(true);
+			PrepareShader(effect, "MainPS", Counter);
+		}
+		public override void OnUpdate()
         {
             Counter++;
             PointCount= Points.Count() * 6;

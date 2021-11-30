@@ -9,6 +9,8 @@ sampler textureSampler = sampler_state
 bool flipCoords = false;
 bool additive = false;
 
+float progress;
+
 struct VertexShaderInput
 {
 	float2 TextureCoordinates : TEXCOORD0;
@@ -36,7 +38,7 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
     return output;
 };
 
-float4 MainPS(VertexShaderOutput input) : COLOR0
+float4 White(VertexShaderOutput input) : COLOR0
 {
     float2 coords = input.TextureCoordinates;
     if (flipCoords)
@@ -52,9 +54,12 @@ float4 MainPS(VertexShaderOutput input) : COLOR0
 
 technique BasicColorDrawing
 {
-    pass PrimitiveTextureMap
-	{
+    pass DefaultPass
+    {
         VertexShader = compile vs_2_0 MainVS();
-        PixelShader = compile ps_2_0 MainPS();
+    }
+    pass MainPS
+    {
+        PixelShader = compile ps_2_0 White();
     }
 };
