@@ -170,6 +170,8 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 			var effects = player.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			Texture2D tex = Main.projectileTexture[projectile.type];
 
+			lightColor = Color.White;
+
 			if (charged)
 			{
 				float progress = glowCounter % 1;
@@ -260,7 +262,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
                 int lightningproj = Projectile.NewProjectile(projectile.Center + projectile.velocity - (new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 5f), new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<MarkOfZeusProj3>(), projectile.damage, projectile.knockBack, projectile.owner);
                 if (Main.netMode != NetmodeID.Server)
                 {
-					SpiritMod.primitives.CreateTrail(new MarkOfZeusPrimTrail(Main.projectile[lightningproj], 5 * (float)(Math.Sqrt(charge) / 3)));
+					SpiritMod.primitives.CreateTrail(new MarkOfZeusPrimTrail(Main.projectile[lightningproj], 7 * (float)(Math.Sqrt(charge) / 3)));
                 }
 				Main.projectile[lightningproj].timeLeft = (int)(20 * Math.Sqrt(charge));
             }
@@ -306,7 +308,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
             projectile.friendly = true;
             projectile.tileCollide = false;
             projectile.damage = 0;
-            projectile.timeLeft = 200;
+            projectile.timeLeft = 300;
             projectile.alpha = 255;
             projectile.extraUpdates = 4;
         }

@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
         public override void SetDefaults()
         {
             AlphaValue= 0.7f;
-            Cap = 80;
+            Cap = 120;
         }
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
