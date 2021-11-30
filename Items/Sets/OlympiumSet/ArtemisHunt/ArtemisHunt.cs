@@ -410,7 +410,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 			projectile.friendly = false;
 			projectile.penetrate = 1;
 			projectile.tileCollide = false;
-			projectile.timeLeft = 999;
+			projectile.timeLeft = 12;
 			projectile.ignoreWater = true;
 		}
 
