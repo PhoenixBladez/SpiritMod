@@ -57,7 +57,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			}
             else //starfire
             {
-                float shootRotation = Main.rand.NextFloat(-0.3f, 0.3f);
+				type = ModContent.ProjectileType<StellanovaStarfire>();
+				float shootRotation = Main.rand.NextFloat(-0.3f, 0.3f);
 				shootRotation = Math.Sign(shootRotation) * (float)Math.Pow(shootRotation, 2); //square the rotation offset to "weigh" it more towards 0
 
 				direction = direction.RotatedBy(shootRotation);

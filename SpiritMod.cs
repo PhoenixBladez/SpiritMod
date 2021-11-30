@@ -320,11 +320,11 @@ namespace SpiritMod
 
 			MyPlayer spirit = player.GetModPlayer<MyPlayer>();
 
-			//if (NPC.AnyNPCs(NPCID.SkeletronPrime) && config.SkeletronPrimeMusic)
-			//{
-			//	music = GetSoundSlot(SoundType.Music, "Sounds/Music/SkeletronPrime");
-			//	priority = MusicPriority.BossMedium; 
-			//}
+			if (NPC.AnyNPCs(NPCID.SkeletronPrime) && config.SkeletronPrimeMusic)
+			{
+				music = GetSoundSlot(SoundType.Music, "Sounds/Music/SkeletronPrime");
+				priority = MusicPriority.BossMedium; 
+			}
 
 			if (player.GetModPlayer<NPCs.StarjinxEvent.StarjinxPlayer>().zoneStarjinxEvent)
 			{

@@ -27,7 +27,6 @@ namespace SpiritMod.Projectiles
 			projectile.width = 26;
 			projectile.penetrate = 5;
 			aiType = ProjectileID.Bullet;
-			projectile.extraUpdates = 1;
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
