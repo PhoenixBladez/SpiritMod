@@ -8,6 +8,8 @@ sampler vnoiseSampler = sampler_state
 };
 float rotation;
 
+float transparency;
+
 float4 color;
 
 float val1 = 3.35f;
@@ -27,6 +29,8 @@ float4 White(float2 uv : TEXCOORD0) : COLOR0
 	Color *= pow(1.25f - tex2D(vnoiseSampler, noiseCoords).r, 4);
 
 	Color *= pow(uv.x, 0.3f);
+
+	Color *= transparency;
 
 	return Color * color;
 }

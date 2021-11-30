@@ -7,6 +7,8 @@ using SpiritMod.Utilities;
 using Terraria.Graphics.Shaders;
 using SpiritMod.Prim;
 using SpiritMod.Particles;
+using System;
+using System.Linq;
 
 namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 {
@@ -18,6 +20,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 		{
 			DisplayName.SetDefault("Artemis's Hunt");
 			Tooltip.SetDefault("Hit enemies to mark them \n Right click to fire a volley of arrows at marked foes");
+			SpiritGlowmask.AddGlowMask(item.type, Texture + "_Glow");
 		}
 
 		public override void SetDefaults()
@@ -38,28 +41,6 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 			item.value = Item.sellPrice(gold: 2);
 			item.autoReuse = true;
 			item.shootSpeed = 12f;
-		}
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-		{
-			Lighting.AddLight(new Vector2(item.Center.X, item.Center.Y), 0.075f, 0.255f, 0.193f);
-			Texture2D texture;
-			texture = Main.itemTexture[item.type];
-			spriteBatch.Draw
-			(
-				ModContent.GetTexture("SpiritMod/Items/Sets/OlympiumSet/ArtemisHunt/ArtemisHunt_Glow"),
-				new Vector2
-				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
-				),
-				new Rectangle(0, 0, texture.Width, texture.Height),
-				Color.White * .6f,
-				rotation,
-				texture.Size() * 0.5f,
-				scale,
-				SpriteEffects.None,
-				0f
-			);
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
@@ -88,6 +69,8 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 				item.noUseGraphic = false;
 			return base.CanUseItem(player);
 		}
+
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, item, ModContent.GetTexture(Texture + "_Glow"), rotation, scale);
 	}
 	public class ArtemisHuntArrow : ModProjectile
 	{
@@ -112,9 +95,9 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 		}
 		public override void AI()
 		{
-			if (noiseRotation < 0.04f)
+			if (noiseRotation < 0.02f)
 				noiseRotation = Main.rand.NextFloat(6.28f);
-			noiseRotation += 0.04f;
+			noiseRotation += 0.02f;
 
 			if (Main.rand.Next(5) == 1)
 			{
@@ -131,10 +114,6 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			Lighting.AddLight(new Vector2(projectile.Center.X, projectile.Center.Y), 0.075f * .75f, 0.255f * .75f, 0.193f * .75f);
 		}
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			//target.AddBuff(ModContent.BuffType<ArtemisMark>(), 180);
-		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Color color = new Color(48, 255, 176);
@@ -147,6 +126,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 
 			SpiritMod.ConicalNoise.Parameters["vnoise"].SetValue(mod.GetTexture("Textures/voronoiLooping"));
 			SpiritMod.ConicalNoise.Parameters["rotation"].SetValue(noiseRotation);
+			SpiritMod.ConicalNoise.Parameters["transparency"].SetValue(0.8f);
 			SpiritMod.ConicalNoise.Parameters["color"].SetValue(color.ToVector4());
 			SpiritMod.ConicalNoise.CurrentTechnique.Passes[0].Apply();
 
@@ -156,6 +136,40 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 			Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
 			return false;
+		}
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			for (int i = 0; i < 8; i++)
+			{
+				Vector2 vel = Vector2.Zero - projectile.velocity;
+				vel.Normalize();
+				vel = vel.RotatedBy(Main.rand.NextFloat(-0.5f, 0.5f));
+				vel *= Main.rand.NextFloat(2, 5);
+				ImpactLine line = new ImpactLine(target.Center - (vel * 10), vel, new Color(48, 255, 176), new Vector2(0.25f, Main.rand.NextFloat(0.75f, 1.75f)), 70);
+				line.TimeActive = 30;
+				ParticleHandler.SpawnParticle(line);
+
+			}
+
+			for (int j = 0; j < 7; j++)
+			{
+				Vector2 vel = Vector2.Zero - projectile.velocity.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * 0.25f;
+				int timeLeft = Main.rand.Next(40, 100);
+
+				StarParticle particle = new StarParticle(
+				projectile.Center + Main.rand.NextVector2Circular(10, 10) - (vel * 5),
+				vel + Main.rand.NextVector2Circular(3, 3),
+				new Color(48, 255, 176),
+				Main.rand.NextFloat(0.1f, 0.2f),
+				timeLeft);
+				particle.TimeActive = (uint)(timeLeft / 2);
+				ParticleHandler.SpawnParticle(particle);
+			}
+
+			if (!target.HasBuff(ModContent.BuffType<ArtemisMark>()))
+				Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<ArtemisCrescent>(), 0, 0, projectile.owner, target.whoAmI);
+			target.AddBuff(ModContent.BuffType<ArtemisMark>(), 180);
 		}
 	}
 	public class ArtemisHuntProj : ModProjectile
@@ -229,7 +243,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 					offsetAngle += SPREAD;
 					Projectile proj = Projectile.NewProjectileDirect(projectile.Center, direction.RotatedBy(offsetAngle) * 20, ModContent.ProjectileType<ArtemisHuntVolley>(), projectile.damage, projectile.knockBack, projectile.owner);
 
-					ImpactLine line = new ImpactLine(projectile.Center - (direction.RotatedBy(offsetAngle) * 50), direction.RotatedBy(offsetAngle) * 4, Color.Gold, new Vector2(0.25f, 2f), 70);
+					ImpactLine line = new ImpactLine(projectile.Center - (direction.RotatedBy(offsetAngle) * 50), direction.RotatedBy(offsetAngle) * 4, new Color(125, 255, 253), new Vector2(0.25f, 2f), 70);
 					line.TimeActive = 30; 
 					ParticleHandler.SpawnParticle(line);
 
@@ -303,23 +317,32 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 
 		public override bool PreAI()
 		{
-			if (Main.rand.Next(7) == 1)
+			if (Main.rand.Next(3) == 1)
 			{
 				StarParticle particle = new StarParticle(
 				projectile.Center + Main.rand.NextVector2Circular(5, 5),
 				projectile.velocity.RotatedBy(Main.rand.NextFloat(-0.3f,0.3f)) * 0.1f,
-				Main.rand.NextBool() ? Color.Gold : new Color(48, 255, 176),
+				Main.rand.NextBool() ? new Color(125, 255, 253) : new Color(48, 255, 176),
 				Main.rand.NextFloat(0.05f,0.15f),
 				Main.rand.Next(20, 40));
 
 				ParticleHandler.SpawnParticle(particle);
+			}
+
+			var target = Main.npc.Where(n => n.active && Vector2.Distance(n.Center, projectile.Center) < 200 && n.HasBuff(ModContent.BuffType<ArtemisMark>())).OrderBy(n => Vector2.Distance(n.Center, projectile.Center)).FirstOrDefault();
+			if (target != default)
+			{
+				Vector2 direction = target.Center - projectile.Center;
+				direction.Normalize();
+				direction *= 10;
+				projectile.velocity = Vector2.Lerp(projectile.velocity, direction, 0.05f);
 			}
 			Lighting.AddLight(projectile.Center, new Color(48, 255, 176).ToVector3() * 0.3f);
 			return true;
 		}
 		public void DoTrailCreation(TrailManager tManager)
 		{
-			tManager.CreateTrail(projectile, new GradientTrail(new Color(48, 255, 176), new Color(0, 168, 255)), new RoundCap(), new DefaultTrailPosition(), 8f, 400f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
+			tManager.CreateTrail(projectile, new GradientTrail(new Color(48, 255, 176), new Color(125, 255, 253)), new RoundCap(), new DefaultTrailPosition(), 8f, 400f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
 			tManager.CreateTrail(projectile, new GradientTrail(new Color(48, 255, 176) * .5f, new Color(255, 255, 255) * 0.3f), new RoundCap(), new DefaultTrailPosition(), 26f, 100f, new DefaultShader());
 		}
 
@@ -331,7 +354,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 				vel.Normalize();
 				vel = vel.RotatedBy(Main.rand.NextFloat(-0.5f, 0.5f));
 				vel *= Main.rand.NextFloat(2, 5);
-				ImpactLine line = new ImpactLine(target.Center - (vel * 10), vel, Main.rand.NextBool() ? Color.Gold : new Color(48, 255, 176), new Vector2(0.25f, Main.rand.NextFloat(0.5f,1.5f)), 70);
+				ImpactLine line = new ImpactLine(target.Center - (vel * 10), vel, Main.rand.NextBool() ? new Color(125, 255, 253) : new Color(48, 255, 176), new Vector2(0.25f, Main.rand.NextFloat(0.5f,1.5f)), 70);
 				line.TimeActive = 30;
 				ParticleHandler.SpawnParticle(line);
 
@@ -358,6 +381,70 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 			0.6f,
 			20);
 			ParticleHandler.SpawnParticle(particle2);
+		}
+
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			if (target.HasBuff(ModContent.BuffType<ArtemisMark>()))
+				damage = (int)(damage * 1.5f);
+		}
+	}
+
+	public class ArtemisCrescent : ModProjectile
+	{
+		private NPC target => Main.npc[(int)projectile.ai[0]];
+
+		private float counter;
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Artemis Crescent");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+		}
+		public override void SetDefaults()
+		{
+			projectile.hostile = false;
+			projectile.width = 48;
+			projectile.height = 48;
+			projectile.aiStyle = -1;
+			projectile.friendly = false;
+			projectile.penetrate = 1;
+			projectile.tileCollide = false;
+			projectile.timeLeft = 999;
+			projectile.ignoreWater = true;
+		}
+
+		public override Color? GetAlpha(Color lightColor) => Color.White;
+		public override void AI()
+		{
+			counter += 0.025f;
+			if (target.active)
+			{
+				if (target.HasBuff(ModContent.BuffType<ArtemisMark>()))
+					projectile.timeLeft = 2;
+				projectile.Center = target.Center + new Vector2(0, (float)Math.Sin(counter) * 10);
+			}
+			else
+				projectile.active = false;
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D tex = Main.projectileTexture[projectile.type];
+			float progress = counter % 1;
+			float transparency = (float)Math.Pow(1 - progress, 2);
+			float scale = 1 + progress;
+
+			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, Color.White * transparency, projectile.rotation, tex.Size() / 2, scale, SpriteEffects.None, 0f);
+			return true;
+		}
+	}
+	public class ArtemisMark : ModBuff
+	{
+		public override void SetDefaults()
+		{
+			DisplayName.SetDefault("Artemis Mark");
+			Main.buffNoTimeDisplay[Type] = false;
 		}
 	}
 }
