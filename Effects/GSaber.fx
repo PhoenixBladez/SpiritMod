@@ -1,75 +1,91 @@
 sampler uImage0 : register(s0);
 sampler uImage1 : register(s1);
-float progress;
-float3 uColor;
 matrix WorldViewProjection;
-texture spotTexture;
-texture vnoise;
-sampler spotSampler = sampler_state
+texture baseTexture;
+sampler baseSampler = sampler_state
 {
-    Texture = (spotTexture);
+    Texture = (baseTexture);
+    AddressU = wrap;
+    AddressV = wrap;
 };
-sampler voronoiSampler = sampler_state
+float4 baseColor;
+
+texture overlayTexture;
+sampler overlaySampler = sampler_state
 {
-    Texture = (vnoise);
+    Texture = (overlayTexture);
+    AddressU = wrap;
+    AddressV = wrap;
 };
-texture noiseTexture;
-sampler noiseSampler = sampler_state
-{
-    Texture = (noiseTexture);
-};
-float GetHeight(float2 Coord)
-{
-    return tex2D(noiseSampler, Coord).r;
-}
+float4 overlayColor;
+
+float Progress;
+
+float xMod;
+float yMod;
+float timer;
+float progress;
+
 struct VertexShaderInput
 {
-	float2 TextureCoordinates : TEXCOORD0;
+    float2 TextureCoordinates : TEXCOORD0;
     float4 Position : POSITION0;
     float4 Color : COLOR0;
 };
 
 struct VertexShaderOutput
 {
-	float2 TextureCoordinates : TEXCOORD0;
+    float2 TextureCoordinates : TEXCOORD0;
     float4 Position : SV_POSITION;
     float4 Color : COLOR0;
 };
+
 VertexShaderOutput MainVS(in VertexShaderInput input)
 {
-    VertexShaderOutput output = (VertexShaderOutput)0;
+    VertexShaderOutput output = (VertexShaderOutput) 0;
     float4 pos = mul(input.Position, WorldViewProjection);
     output.Position = pos;
     
     output.Color = input.Color;
 
-	output.TextureCoordinates = input.TextureCoordinates;
+    output.TextureCoordinates = input.TextureCoordinates;
 
     return output;
 };
-float4 White(VertexShaderOutput input) : COLOR0
+
+const float FadeOutRangeX = 1;
+const float FadeOutRangeY = 0.4f;
+float4 MainPS(VertexShaderOutput input) : COLOR0
 {
-    float2 coords = float2(input.TextureCoordinates.x,input.TextureCoordinates.y);
-    float spotColor = tex2D(voronoiSampler, float2(coords.x, 0.5f)).r;
-    float4 white = float4(1,1,1,1);
-    float lerper = pow(coords.y + 0.1f, 8);
-    if (lerper > 1)
-         input.Color *= lerp(white,float4(uColor, 0), lerper - 1);
-    else
-        input.Color *= lerp(float4(uColor, 0),white, lerper);
-    float lerper2 = pow(coords.y, spotColor * 4);
-    input.Color = lerp(float4(0,0,0,0), input.Color, lerper2);
-    return input.Color * 1.3f;
+    float4 color = input.Color;
+    float4 textureColor;
+    float strength = 1;
+    
+    //fade out based on position
+    if (input.TextureCoordinates.x + (1 - progress) < FadeOutRangeX)
+        strength *= pow(input.TextureCoordinates.x / FadeOutRangeX, 2);
+    
+    float yAbsDist = 1 - (2 * abs(input.TextureCoordinates.y - 0.5f));
+    if (yAbsDist < FadeOutRangeY)
+        strength *= pow(yAbsDist / FadeOutRangeY, 2);
+    
+    float2 baseTexCoords = float2((input.TextureCoordinates.x * xMod) - timer, input.TextureCoordinates.y * yMod);
+    float2 overlayTexCoords = baseTexCoords / 2;
+    
+    //add base texture color
+    textureColor = baseColor * tex2D(baseSampler, baseTexCoords).r;
+    
+    //add overlay color
+    textureColor = lerp(textureColor, overlayColor, tex2D(overlaySampler, overlayTexCoords).r);
+
+    return color * textureColor * strength;
 }
 
 technique BasicColorDrawing
 {
     pass DefaultPass
 	{
-		VertexShader = compile vs_2_0 MainVS();
-	}
-    pass MainPS
-    {
-        PixelShader = compile ps_2_0 White();
+        VertexShader = compile vs_2_0 MainVS();
+        PixelShader = compile ps_2_0 MainPS();
     }
 };

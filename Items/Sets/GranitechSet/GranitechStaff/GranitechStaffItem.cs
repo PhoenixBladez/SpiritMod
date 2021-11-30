@@ -1,9 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
@@ -14,16 +12,16 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 
 		public override void SetDefaults()
 		{
+			item.magic = true;
 			item.damage = 90;
-			item.Size = new Vector2(54, 56);
+			item.Size = new Vector2(76, 80);
 			item.useTime = item.useAnimation = 40;
 			item.reuseDelay = 20;
-			item.knockBack = 0f;
+			item.knockBack = 9f;
 			item.shootSpeed = 9;
 			item.noUseGraphic = true;
 			item.noMelee = true;
 			item.autoReuse = true;
-			item.ranged = true;
 			item.channel = true;
 			item.value = Item.sellPrice(0, 1, 32, 0);
 			item.rare = ItemRarityID.Orange;
@@ -38,7 +36,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 		{
 			type = ModContent.ProjectileType<GranitechStaffProjectile>();
 
-			Projectile.NewProjectileDirect(position, Vector2.Zero, type, damage, 0, player.whoAmI);
+			Projectile.NewProjectileDirect(position, Vector2.Zero, type, damage, knockBack, player.whoAmI);
 			return false;
 		}
 
