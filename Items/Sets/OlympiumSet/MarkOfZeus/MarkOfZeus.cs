@@ -92,7 +92,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 			if (player.channel && !firing) {
 				projectile.position = player.position + holdOffset;
 				if (Main.rand.Next(4) == 0)
-					Dust.NewDust(projectile.Center + ((projectile.rotation + 1.57f).ToRotationVector2() * Main.rand.Next(-30, 30)), 2, 2, DustID.Firework_Yellow);
+					Dust.NewDustDirect(projectile.Center + ((projectile.rotation + 1.57f).ToRotationVector2() * Main.rand.Next(-30, 30)), 2, 2, DustID.Firework_Yellow).noGravity = true;
 
 				if (Main.rand.Next(8) == 0)
 				{
@@ -264,7 +264,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
                 {
 					SpiritMod.primitives.CreateTrail(new MarkOfZeusPrimTrail(Main.projectile[lightningproj], 7 * (float)(Math.Sqrt(charge) / 3)));
                 }
-				Main.projectile[lightningproj].timeLeft = (int)(20 * Math.Sqrt(charge));
+				Main.projectile[lightningproj].timeLeft = (int)(30 * Math.Sqrt(charge));
             }
 			for (double i = 0; i < 6.28; i+= 0.15)
             {

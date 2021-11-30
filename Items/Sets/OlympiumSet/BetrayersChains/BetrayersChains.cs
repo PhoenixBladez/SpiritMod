@@ -147,6 +147,8 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
             player.heldProj = projectile.whoAmI;
             if (combo)
             {
+				Lighting.AddLight(projectile.Center + projectile.velocity, Color.OrangeRed.ToVector3() * 0.5f);
+				Dust.NewDustPerfect(projectile.Center + projectile.velocity + Main.rand.NextVector2Circular(15, 15), 6, Main.rand.NextVector2Circular(2, 2), 0, default, 1.15f);
                 player.itemTime = 15;
                 player.itemAnimation = 15;
             }
