@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Artemis's Hunt");
-			Tooltip.SetDefault("Hit enemies to mark them \n Right click to fire a volley of arrows at marked foes");
+			Tooltip.SetDefault("Hit enemies to mark them \nRight click to fire a volley of arrows at marked foes");
 			SpiritGlowmask.AddGlowMask(item.type, Texture + "_Glow");
 		}
 
@@ -417,12 +417,18 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 		public override Color? GetAlpha(Color lightColor) => Color.White;
 		public override void AI()
 		{
+			Lighting.AddLight(projectile.Center, new Color(48, 255, 176).ToVector3() * 0.3f);
 			counter += 0.025f;
 			if (target.active)
 			{
 				if (target.HasBuff(ModContent.BuffType<ArtemisMark>()))
-					projectile.timeLeft = 2;
-				projectile.Center = target.Center + new Vector2(0, (float)Math.Sin(counter) * 10);
+				{
+					projectile.scale = MathHelper.Clamp(counter * 3, 0, 1);
+					projectile.timeLeft = 12;
+				}
+				else
+					projectile.scale -= 0.083f;
+				projectile.Center = target.Center;
 			}
 			else
 				projectile.active = false;
@@ -435,7 +441,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 			float transparency = (float)Math.Pow(1 - progress, 2);
 			float scale = 1 + progress;
 
-			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, Color.White * transparency, projectile.rotation, tex.Size() / 2, scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, Color.White * transparency, projectile.rotation, tex.Size() / 2, scale * projectile.scale, SpriteEffects.None, 0f);
 			return true;
 		}
 	}
