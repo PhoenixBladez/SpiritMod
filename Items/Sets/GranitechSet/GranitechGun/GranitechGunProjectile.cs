@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 		const int ChargeUp = 16; //How long it takes to start up
 
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Granitech Blaster");
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Vector .109");
 
 		public override void SetDefaults()
 		{
@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			projectile.ranged = true;
 			projectile.aiStyle = -1;
 
-			drawHeldProjInFrontOfHeldItemAndArms = true;
+			drawHeldProjInFrontOfHeldItemAndArms = false;
 		}
 
 		public override bool CanDamage() => false;
@@ -38,6 +38,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 		{
 			Player p = Main.player[projectile.owner];
 			p.heldProj = projectile.whoAmI;
+			
 
 			if (p.whoAmI != Main.myPlayer) return; //mp check (hopefully)
 

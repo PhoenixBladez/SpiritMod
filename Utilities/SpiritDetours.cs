@@ -50,10 +50,40 @@ namespace SpiritMod.Utilities
 			On.Terraria.Main.DrawMap += Main_DrawMap;
 
 			Main.OnPreDraw += Main_OnPreDraw;
+			On.Terraria.Main.DrawWater += Main_DrawWater;
 
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
 			IL.Terraria.WorldGen.hardUpdateWorld += WorldGen_hardUpdateWorld;
 			//IL.Terraria.Main.DoDraw += Main_DoDraw;
+		}
+
+		public static void Unload()
+		{
+			On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
+			On.Terraria.Main.DrawNPCs -= Main_DrawNPCs;
+			On.Terraria.Main.DrawPlayers -= Main_DrawPlayers;
+			On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= Projectile_NewProjectile;
+			On.Terraria.Player.KeyDoubleTap -= Player_KeyDoubleTap;
+			On.Terraria.Main.DrawDust -= AddtiveCalls;
+			On.Terraria.Player.ToggleInv -= Player_ToggleInv;
+			On.Terraria.Main.DrawInterface -= DrawParticles;
+			On.Terraria.Localization.LanguageManager.GetTextValue_string -= LanguageManager_GetTextValue_string1;
+			On.Terraria.Main.DrawPlayerChat -= Main_DrawPlayerChat;
+
+			On.Terraria.Main.DrawNPCChatButtons -= Main_DrawNPCChatButtons;
+			On.Terraria.WorldGen.SpreadGrass -= WorldGen_SpreadGrass;
+
+			On.Terraria.NPC.SpawnOnPlayer -= SpawnOnPlayer;
+			On.Terraria.NPC.SpawnSkeletron -= SpawnSkeletron;
+			On.Terraria.NPC.SpawnWOF -= SpawnWOF;
+			On.Terraria.NPC.AI_084_LunaticCultist -= LunaticCultist;
+
+			Main.OnPreDraw -= Main_OnPreDraw;
+			On.Terraria.Main.DrawWater -= Main_DrawWater;
+
+			IL.Terraria.Player.ItemCheck -= Player_ItemCheck;
+			IL.Terraria.WorldGen.hardUpdateWorld -= WorldGen_hardUpdateWorld;
+			//IL.Terraria.Main.DoDraw -= Main_DoDraw;
 		}
 
 		private static void Main_DrawMap(On.Terraria.Main.orig_DrawMap orig, Main self)
@@ -127,32 +157,12 @@ namespace SpiritMod.Utilities
 			);
 		}
 
-		public static void Unload()
+		private static void Main_DrawWater(On.Terraria.Main.orig_DrawWater orig, Main self, bool bg, int Style, float Alpha)
 		{
-			On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
-			On.Terraria.Main.DrawNPCs -= Main_DrawNPCs;
-			On.Terraria.Main.DrawPlayers -= Main_DrawPlayers;
-			On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= Projectile_NewProjectile;
-			On.Terraria.Player.KeyDoubleTap -= Player_KeyDoubleTap;
-			On.Terraria.Main.DrawDust -= AddtiveCalls;
-			On.Terraria.Player.ToggleInv -= Player_ToggleInv;
-			On.Terraria.Main.DrawInterface -= DrawParticles;
-			On.Terraria.Localization.LanguageManager.GetTextValue_string -= LanguageManager_GetTextValue_string1;
-			On.Terraria.Main.DrawPlayerChat -= Main_DrawPlayerChat;
+			if (Main.LocalPlayer.ZoneBeach)
+				Alpha *= 0.7f; //Cute little effect to make the water seem more seethrough
 
-			On.Terraria.Main.DrawNPCChatButtons -= Main_DrawNPCChatButtons;
-			On.Terraria.WorldGen.SpreadGrass -= WorldGen_SpreadGrass;
-
-			On.Terraria.NPC.SpawnOnPlayer -= SpawnOnPlayer;
-			On.Terraria.NPC.SpawnSkeletron -= SpawnSkeletron;
-			On.Terraria.NPC.SpawnWOF -= SpawnWOF;
-			On.Terraria.NPC.AI_084_LunaticCultist -= LunaticCultist;
-
-			Main.OnPreDraw -= Main_OnPreDraw;
-
-			IL.Terraria.Player.ItemCheck -= Player_ItemCheck;
-			IL.Terraria.WorldGen.hardUpdateWorld -= WorldGen_hardUpdateWorld;
-			//IL.Terraria.Main.DoDraw -= Main_DoDraw;
+			orig(self, bg, Style, Alpha);
 		}
 
 		private static void Main_Update(On.Terraria.Main.orig_Update orig, Main self, GameTime gameTime)
