@@ -112,8 +112,8 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 
 				Vector2 position = Owner.MountedCenter + initialVelocity.RotatedBy(swingRadians / 2 * direction) * distance;
 				Projectile proj = Projectile.NewProjectileDirect(position, initialVelocity.RotatedBy(swingRadians / 2 * direction), 
-					ModContent.ProjectileType<GranitechSaber_Hologram>(), projectile.damage, projectile.knockBack, projectile.owner, direction);
-
+					ModContent.ProjectileType<GranitechSaber_Hologram>(), projectile.damage, projectile.knockBack, projectile.owner, direction, 0);
+				
 				//Initialize variables for the projectile
 				if(proj.modProjectile is GranitechSaber_Hologram holoSword)
 				{
@@ -121,6 +121,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 					holoSword.BasePosition = Owner.MountedCenter;
 					holoSword.SwingTime = (int)(swingTime * (1 + (distance / 250) + (swingRadians / SwingRadians))); //Slower than normal swing, based on distance and radians
 					holoSword.SwingRadians = swingRadians;
+					holoSword.Distance = distance;
 				}
 
 				//Sync modprojectile variable initializations for multiplayer
@@ -189,11 +190,11 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			effect.Parameters["overlayTexture"].SetValue(mod.GetTexture("Textures/GeometricTexture_1"));
 			effect.Parameters["overlayColor"].SetValue(new Color(99, 255, 229).ToVector4());
 
-			effect.Parameters["xMod"].SetValue(2); //scale with the total length of the strip
+			effect.Parameters["xMod"].SetValue(1.5f); //scale with the total length of the strip
 			effect.Parameters["yMod"].SetValue(2.5f);
 			 
 			float slashProgress = EaseFunction.EaseCircularInOut.Ease(Timer / swingTime);
-			effect.Parameters["timer"].SetValue(Main.GlobalTime * 4);
+			effect.Parameters["timer"].SetValue(-Main.GlobalTime * 6);
 			effect.Parameters["progress"].SetValue(slashProgress);
 
 			Vector2 pos = Owner.MountedCenter - Main.screenPosition;
