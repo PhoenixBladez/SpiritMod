@@ -10,7 +10,7 @@ using SpiritMod.Prim;
 
 namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 {
-    class MarkOfZeusPrimTrailTwo : PrimTrail
+    public class MarkOfZeusPrimTrailTwo : PrimTrail
     {
         public MarkOfZeusPrimTrailTwo(Projectile projectile, float width)
         {
@@ -102,23 +102,23 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
             {
                 OnDestroy();
             }
-            else
-            {
-                switch (Counter % 3)
-                {
-                    case 0:
-                        Points.Add(Entity.Center + (Main.rand.NextFloat(0.5f,1) * (Entity.velocity.RotatedBy(1.57f)) / 2));
-                        break;
-                    case 1:
-                        Points.Add(Entity.Center);
-                        break;
-                    case 2:
-                        Points.Add(Entity.Center + (Main.rand.NextFloat(0.5f,1) * (Entity.velocity.RotatedBy(-1.57f)) / 2));
-                        break;
-                }
-            }
         }
-        public override void OnDestroy()
+		public void AddPoints()
+		{
+			switch (Counter % 3)
+			{
+				case 0:
+					Points.Add(Entity.Center + (Main.rand.NextFloat(0.5f, 1) * (Entity.velocity.RotatedBy(1.57f)) / 2));
+					break;
+				case 1:
+					Points.Add(Entity.Center);
+					break;
+				case 2:
+					Points.Add(Entity.Center + (Main.rand.NextFloat(0.5f, 1) * (Entity.velocity.RotatedBy(-1.57f)) / 2));
+					break;
+			}
+		}
+		public override void OnDestroy()
         {
 			Destroyed = true;
             Width *= 0.85f;

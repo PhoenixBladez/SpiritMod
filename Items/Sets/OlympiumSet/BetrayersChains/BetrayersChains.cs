@@ -149,7 +149,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 				phantomProj.Size = projectile.Size;
 				phantomProj.active = true;
 				phantomProj.Center = projectile.Center + projectile.velocity - new Vector2(8, 8);
-				SpiritMod.TrailManager?.CreateTrail(phantomProj, new GradientTrail(new Color(252, 73, 3) * 0.5f, new Color(255, 160, 40) * 0.1f), new RoundCap(), new DefaultTrailPosition(), 40f, 400f, default);
+				SpiritMod.TrailManager?.CreateTrail(phantomProj, new GradientTrail(new Color(252, 73, 3) * 0.6f, new Color(255, 160, 40) * 0.3f), new RoundCap(), new DefaultTrailPosition(), 40f, 400f, default);
 			}
             // Face the projectile towards its movement direction, offset by 90 degrees counterclockwise because the sprite faces downward.
             projectile.rotation = projectile.velocity.ToRotation() -1.57f;

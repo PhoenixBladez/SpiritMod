@@ -148,11 +148,13 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 					if (Main.projectile[proj].modProjectile is MarkOfZeusProj2 modItem)
 					{
 						modItem.charge = counter;
+						if (Main.netMode != NetmodeID.Server)
+						{
+							MarkOfZeusPrimTrailTwo trail = new MarkOfZeusPrimTrailTwo(Main.projectile[proj], 4 * (float)(Math.Sqrt(counter) / 5));
+							modItem.trail = trail;
+							SpiritMod.primitives.CreateTrail(trail);
+						}
 					}
-					if (Main.netMode != NetmodeID.Server)
-                	{
-                    	SpiritMod.primitives.CreateTrail(new MarkOfZeusPrimTrailTwo(Main.projectile[proj], 4 * (float)(Math.Sqrt(counter) / 5)));
-                	}
 				}
 				projectile.active = false;
 			}
@@ -200,6 +202,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 	}
 	public class MarkOfZeusProj2 : ModProjectile
 	{
+		public MarkOfZeusPrimTrailTwo trail;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mark Of Zeus");
@@ -216,12 +219,11 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 			projectile.magic = true;
 			projectile.penetrate = 2;
 			projectile.timeLeft = 600;
-			projectile.extraUpdates = 1;
+			projectile.extraUpdates = 5;
 			projectile.light = 0;
 			aiType = ProjectileID.ThrowingKnife;
 			projectile.alpha = 255;
 		}
-
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			projectile.timeLeft = 0;
@@ -240,6 +242,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 
 		public override void AI()
 		{
+			trail?.AddPoints();
 			if (Main.rand.Next(3) == 0)
 			{
 				int timeLeft = Main.rand.Next(40, 100);
@@ -260,10 +263,15 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 			 for (double i = 0; i < 6.28; i += Main.rand.NextFloat(1f, 2f))
             {
                 int lightningproj = Projectile.NewProjectile(projectile.Center + projectile.velocity - (new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 5f), new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<MarkOfZeusProj3>(), projectile.damage, projectile.knockBack, projectile.owner);
-                if (Main.netMode != NetmodeID.Server)
-                {
-					SpiritMod.primitives.CreateTrail(new MarkOfZeusPrimTrail(Main.projectile[lightningproj], 4 * (float)(Math.Sqrt(charge) / 3)));
-                }
+				if (Main.projectile[lightningproj].modProjectile is MarkOfZeusProj3 modProj)
+				{
+					if (Main.netMode != NetmodeID.Server)
+					{
+						MarkOfZeusPrimTrail trail = new MarkOfZeusPrimTrail(Main.projectile[lightningproj], 4 * (float)(Math.Sqrt(charge) / 3));
+						modProj.trail = trail;
+						SpiritMod.primitives.CreateTrail(trail);
+					}
+				}
 				Main.projectile[lightningproj].timeLeft = (int)(30 * Math.Sqrt(charge));
             }
 			for (double i = 0; i < 6.28; i+= 0.15)
@@ -291,8 +299,8 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 	}
 	public class MarkOfZeusProj3 : ModProjectile
     {
-
-        public override void SetStaticDefaults()
+		public MarkOfZeusPrimTrail trail;
+		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mark of Zeus");
         }
@@ -310,7 +318,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
             projectile.damage = 0;
             projectile.timeLeft = 300;
             projectile.alpha = 255;
-            projectile.extraUpdates = 4;
+            projectile.extraUpdates = 12;
         }
 
         Vector2 initialVelocity = Vector2.Zero;
@@ -319,6 +327,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
         public int boost;
         public override void AI()
         {
+			trail?.AddPoints();
             if (initialVelocity == Vector2.Zero)
                 initialVelocity = projectile.velocity;
             if (projectile.timeLeft % 10 == 0)
