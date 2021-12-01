@@ -41,6 +41,7 @@ namespace SpiritMod.Items.Weapon.Magic.CreepingVine
 			item.shoot = ModContent.ProjectileType<CreepingVineProj>();
 			item.shootSpeed = 20f;
 			item.value = Item.sellPrice(0, 1, 0, 0);
+			item.mana = 20;
 		}
 	}
 	public class CreepingVineProj : ModProjectile
