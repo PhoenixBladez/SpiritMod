@@ -8,7 +8,11 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 {
 	public class GranitechSaberItem : ModItem
 	{
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Technobrand");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Technobrand");
+			Tooltip.SetDefault("Swinging creates additional holographic blades");
+		}
 
 		public override void SetDefaults()
 		{
@@ -16,7 +20,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			item.damage = 80;
 			item.Size = new Vector2(88, 92);
 			item.useTime = item.useAnimation = 18;
-			item.reuseDelay = 15;
+			item.reuseDelay = 20;
 			item.knockBack = 5f;
 			item.shootSpeed = 1;
 			item.noUseGraphic = true;

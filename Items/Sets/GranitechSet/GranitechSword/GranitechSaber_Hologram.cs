@@ -11,10 +11,11 @@ using SpiritMod.Particles;
 using SpiritMod.Utilities;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 {
-	public class GranitechSaber_Hologram : ModProjectile, IDrawAdditive
+	public class GranitechSaber_Hologram : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{
@@ -28,6 +29,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 		public Vector2 InitialVelocity = Vector2.Zero; //Starting velocity, used for determining swing arc direction
 		public Vector2 BasePosition = Vector2.Zero;
 		public float SwingRadians;
+		public float Distance;
 
 		public override void SetDefaults()
 		{
@@ -41,7 +43,6 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			projectile.localNPCHitCooldown = 20;
 			projectile.netUpdate = true;
 			projectile.ownerHitCheck = true;
-			projectile.hide = true;
 		}
 
 		private ref float SwingDirection => ref projectile.ai[0];
@@ -59,9 +60,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			progress = EaseFunction.EaseCircularInOut.Ease(progress);
 			projectile.velocity = InitialVelocity.RotatedBy(MathHelper.Lerp(SwingRadians / 2 * SwingDirection, -SwingRadians / 2 * SwingDirection, progress));
 
-			//Get current distance from base spinning point, then use that to calculate new position
-			float distance = Vector2.Distance(projectile.Center, BasePosition);
-			projectile.Center = BasePosition + projectile.velocity * distance;
+			projectile.Center = BasePosition + projectile.velocity * Distance;
 
 			projectile.alpha = (int)MathHelper.Lerp(0, 200, 1 - (float)Math.Sin((Timer / SwingTime) * MathHelper.Pi));
 
@@ -97,26 +96,30 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			return base.Colliding(projHitbox, targetHitbox);
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => HitEffect(projectile.Center, projectile.velocity);
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => HitEffect(target.Center);
 
-		public override void OnHitPvp(Player target, int damage, bool crit) => HitEffect(projectile.Center, projectile.velocity);
+		public override void OnHitPvp(Player target, int damage, bool crit) => HitEffect(target.Center);
 
-		private void HitEffect(Vector2 position, Vector2 direction)
+		public void HitEffect(Vector2 position)
 		{
 			if (Main.dedServ)
 				return;
 
-			if(_hitTimer == 0)
+			Vector2 newPos = Vector2.Lerp(projectile.Center, position, 0.5f);
+			Vector2 direction = Vector2.Normalize(newPos - BasePosition);
+			if (_hitTimer == 0)
 			{
+				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.4f), projectile.Center);
+
 				_hitTimer = MAX_HITTIMER;
 				ParticleHandler.SpawnParticle(new GranitechSaber_Hit(position, Main.rand.NextFloat(0.9f, 1.1f), direction.ToRotation()));
 			}
 
-			int numParticles = Main.rand.Next(5, 8);
+			int numParticles = Main.rand.Next(6, 9);
 			for (int i = 0; i < numParticles; i++)
 			{
 				Vector2 velocity = direction.RotatedByRandom(MathHelper.Pi / 6) * Main.rand.NextFloat(3, 20);
-				ParticleHandler.SpawnParticle(new GranitechParticle(position, velocity, Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(25, 132, 247), Main.rand.NextFloat(2f, 2.5f), 25));
+				ParticleHandler.SpawnParticle(new GranitechParticle(position, velocity, Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(25, 132, 247), Main.rand.NextFloat(2.5f, 3f), 25));
 			}
 		}
 
@@ -126,6 +129,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			writer.WriteVector2(InitialVelocity);
 			writer.WriteVector2(BasePosition);
 			writer.Write(SwingRadians);
+			writer.Write(Distance);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
@@ -134,62 +138,57 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			InitialVelocity = reader.ReadVector2();
 			BasePosition = reader.ReadVector2();
 			SwingRadians = reader.Read();
+			Distance = reader.ReadSingle();
 		}
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			if (projectile.timeLeft > 2) //bandaid fix for flickering
-				return;
+				return false;
 
 			float opacity = projectile.Opacity;
+			float xMod = (1 + (Distance / 250) + (SwingRadians / GranitechSaberProjectile.SwingRadians));
 			Effect effect = mod.GetEffect("Effects/GSaber");
 			effect.Parameters["baseTexture"].SetValue(mod.GetTexture("Textures/GeometricTexture_2"));
 			effect.Parameters["baseColor"].SetValue(new Color(25, 132, 247).ToVector4());
 			effect.Parameters["overlayTexture"].SetValue(mod.GetTexture("Textures/GeometricTexture_1"));
 			effect.Parameters["overlayColor"].SetValue(new Color(99, 255, 229).ToVector4());
 
-			effect.Parameters["xMod"].SetValue(2); //scale with the total length of the strip
+			effect.Parameters["xMod"].SetValue(1.5f * xMod); //scale with the total length of the strip
 			effect.Parameters["yMod"].SetValue(2.5f);
 
 			float slashProgress = EaseFunction.EaseCircularInOut.Ease(Timer / SwingTime);
-			effect.Parameters["timer"].SetValue(Main.GlobalTime * 2);
+			effect.Parameters["timer"].SetValue(-Main.GlobalTime * 6);
 			effect.Parameters["progress"].SetValue(slashProgress);
 
 			Vector2 pos = BasePosition - Main.screenPosition;
-			float distance = Vector2.Distance(projectile.Center, BasePosition);
 
-			for (int i = -1; i <= 1; i++)
+			List<PrimitiveSlashArc> slashArcs = new List<PrimitiveSlashArc>();
+			DrawAberration.DrawChromaticAberration(Vector2.UnitX, 4, delegate (Vector2 offset, Color colorMod)
 			{
-				Color aberrationColor = Color.White;
-				switch (i)
-				{
-					case -1:
-						aberrationColor = new Color(255, 0, 0, 0);
-						break;
-					case 0:
-						aberrationColor = new Color(0, 255, 0, 0);
-						break;
-					case 1:
-						aberrationColor = new Color(0, 0, 255, 0);
-						break;
-				}
-
-				float offset = i * 2;
 				PrimitiveSlashArc slash = new PrimitiveSlashArc
 				{
 					BasePosition = pos,
-					StartDistance = offset + distance - projectile.Size.Length()/2 * SwingDirection,
-					EndDistance = offset + distance + projectile.Size.Length() / 2 * SwingDirection,
+					StartDistance = offset.X + Distance - projectile.Size.Length() / 2 * SwingDirection,
+					EndDistance = offset.X + Distance + projectile.Size.Length() / 2 * SwingDirection,
 					AngleRange = new Vector2(SwingRadians / 2 * SwingDirection, -SwingRadians / 2 * SwingDirection),
 					DirectionUnit = InitialVelocity,
-					Color = aberrationColor * opacity * 0.33f,
+					Color = colorMod * opacity * 0.5f,
 					SlashProgress = slashProgress
 				};
+				slashArcs.Add(slash);
+			});
+			PrimitiveRenderer.DrawPrimitiveShapeBatched(slashArcs.ToArray(), effect);
 
-				PrimitiveRenderer.DrawPrimitiveShape(slash, effect);
-			}
+			Texture2D tex = Main.projectileTexture[projectile.type];
+			SpriteEffects spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-			projectile.QuickDraw(spriteBatch, drawColor: Color.White);
+			DrawAberration.DrawChromaticAberration(projectile.velocity, 3, delegate (Vector2 offset, Color colorMod)
+			{
+				spriteBatch.Draw(tex, projectile.Center + offset - Main.screenPosition, null, colorMod * opacity, projectile.rotation, tex.Size() / 2, projectile.scale, spriteEffects, 0);
+			});
+
+			return false;
 		}
 	}
 }
