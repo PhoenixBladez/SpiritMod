@@ -91,22 +91,23 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 		public override void Kill(int timeLeft)
 		{
 			//Main.PlaySound(SoundID.Item10, projectile.Center);
-			Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.66f), projectile.Center);
 
 			if (!Main.dedServ)
 			{
+				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.66f), projectile.Center);
+
 				ParticleHandler.SpawnParticle(new GranitechGunBurst(projectile.Center, Main.rand.NextFloat(0.9f, 1.1f), projectile.oldVelocity.ToRotation()));
 
 				for (int i = 0; i < 4; ++i)
 				{
 					Vector2 vel = Vector2.Normalize(projectile.oldVelocity).RotatedByRandom(MathHelper.ToRadians(30)) * Main.rand.NextFloat(6f, 10f) + (projectile.velocity * 0.8f);
-					ParticleHandler.SpawnParticle(new GranitechParticle(projectile.Center, vel, Main.rand.NextBool(2) ? new Color(222, 111, 127) : new Color(239, 241, 80), Main.rand.NextFloat(3f, 3.5f), 22));
+					ParticleHandler.SpawnParticle(new GranitechParticle(projectile.Center, vel, Main.rand.NextBool(2) ? new Color(255, 56, 85) : new Color(239, 241, 80), Main.rand.NextFloat(3f, 3.5f), 22));
 				}
 
 				for (int i = 0; i < 4; ++i)
 				{
 					Vector2 vel = Vector2.Normalize(projectile.oldVelocity).RotatedByRandom(MathHelper.ToRadians(180)) * Main.rand.NextFloat(6f, 10f) + (projectile.velocity * 0.4f);
-					ParticleHandler.SpawnParticle(new GranitechParticle(projectile.Center, vel, Main.rand.NextBool(2) ? new Color(222, 111, 127) : new Color(239, 241, 80), Main.rand.NextFloat(3f, 3.5f), 22));
+					ParticleHandler.SpawnParticle(new GranitechParticle(projectile.Center, vel, Main.rand.NextBool(2) ? new Color(255, 56, 85) : new Color(239, 241, 80), Main.rand.NextFloat(3f, 3.5f), 22));
 				}
 			}
 

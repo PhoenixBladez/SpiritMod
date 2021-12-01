@@ -152,6 +152,8 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			Vector2 direction = Owner.DirectionTo(newPos);
 			if(_hitTimer == 0)
 			{
+				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.4f), projectile.Center);
+
 				_hitTimer = MAX_HITTIMER;
 				ParticleHandler.SpawnParticle(new GranitechSaber_Hit(position, Main.rand.NextFloat(0.9f, 1.1f), direction.ToRotation()));
 			}

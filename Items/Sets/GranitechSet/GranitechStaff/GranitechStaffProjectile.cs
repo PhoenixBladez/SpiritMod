@@ -141,6 +141,8 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			if (Main.netMode == NetmodeID.Server)
 				return;
 
+			Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GranitechLaserBlast").WithPitchVariance(0.1f).WithVolume(0.8f), projectile.Center);
+
 			float beamLengthLerp = MathHelper.Clamp(BeamLength / 800f, 0, 1);
 			int maxRings = 3;
 			float minRingDist = 20 * beamLengthLerp;
@@ -237,7 +239,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			if (Main.netMode == NetmodeID.Server)
 				return;
 
-
+			Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.6f), target.Center);
 			float scale = Main.rand.NextFloat(0.8f, 1f);
 			DrawAberration.DrawChromaticAberration(BeamDirection, 2f, delegate (Vector2 offset, Color colorMod) 
 			{
