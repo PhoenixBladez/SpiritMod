@@ -31,7 +31,7 @@ namespace SpiritMod.Prim
 				if (i == 0)
 				{
 					widthVar = Width;
-					Color colorvar = Color.Lerp(Color, new Color(255, 160, 40), (i / (float)Points.Count));
+					Color colorvar = Color.Lerp(Color * 0.05f, new Color(255, 160, 40), (i / (float)Points.Count));
 					Vector2 normalAhead = CurveNormal(Points, i + 1);
 					Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
 					Vector2 secondDown = Points[i + 1] + normalAhead * widthVar;
@@ -44,7 +44,7 @@ namespace SpiritMod.Prim
 					if (i != Points.Count - 1)
 					{
 						widthVar = Width;
-						Color colorvar = Color.Lerp(Color, new Color(255, 160, 40), ((float)i / (float)Points.Count));
+						Color colorvar = Color.Lerp(Color * 0.05f, new Color(255, 160, 40), ((float)i / (float)Points.Count));
 						Vector2 normal = CurveNormal(Points, i);
 						Vector2 normalAhead = CurveNormal(Points, i + 1);
 						Vector2 firstUp = Points[i] - normal * widthVar;
