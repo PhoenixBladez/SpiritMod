@@ -151,7 +151,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 					}
 					if (Main.netMode != NetmodeID.Server)
                 	{
-                    	SpiritMod.primitives.CreateTrail(new MarkOfZeusPrimTrailTwo(Main.projectile[proj], 6 * (float)(Math.Sqrt(counter) / 5)));
+                    	SpiritMod.primitives.CreateTrail(new MarkOfZeusPrimTrailTwo(Main.projectile[proj], 4 * (float)(Math.Sqrt(counter) / 5)));
                 	}
 				}
 				projectile.active = false;
@@ -262,7 +262,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
                 int lightningproj = Projectile.NewProjectile(projectile.Center + projectile.velocity - (new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 5f), new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<MarkOfZeusProj3>(), projectile.damage, projectile.knockBack, projectile.owner);
                 if (Main.netMode != NetmodeID.Server)
                 {
-					SpiritMod.primitives.CreateTrail(new MarkOfZeusPrimTrail(Main.projectile[lightningproj], 7 * (float)(Math.Sqrt(charge) / 3)));
+					SpiritMod.primitives.CreateTrail(new MarkOfZeusPrimTrail(Main.projectile[lightningproj], 4 * (float)(Math.Sqrt(charge) / 3)));
                 }
 				Main.projectile[lightningproj].timeLeft = (int)(30 * Math.Sqrt(charge));
             }

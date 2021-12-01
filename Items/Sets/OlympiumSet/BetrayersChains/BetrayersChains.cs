@@ -6,6 +6,7 @@ using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Projectiles;
+using SpiritMod.Utilities;
 using SpiritMod.Prim;
 using SpiritMod.VerletChains;
 using System.Collections.Generic;
@@ -105,6 +106,10 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
         public Chain chain;
         public Vector2 spawnPos;
 
+		public FireChainPrimTrail trail;
+
+		Projectile phantomProj;
+
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Blades of Chaos");
         }
@@ -135,8 +140,17 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
             if (!primsCreated && combo)
             {
                 primsCreated = true;
-                SpiritMod.primitives.CreateTrail(new FireChainPrimTrail(projectile));
-            }
+				trail = new FireChainPrimTrail(projectile);
+				SpiritMod.primitives.CreateTrail(trail);
+
+				//not using itrail interface for reasons that make sense but i dont feel like explaining
+
+				phantomProj = new Projectile();
+				phantomProj.Size = projectile.Size;
+				phantomProj.active = true;
+				phantomProj.Center = projectile.Center + projectile.velocity - new Vector2(8, 8);
+				SpiritMod.TrailManager?.CreateTrail(phantomProj, new GradientTrail(new Color(252, 73, 3) * 0.5f, new Color(255, 160, 40) * 0.1f), new RoundCap(), new DefaultTrailPosition(), 40f, 400f, default);
+			}
             // Face the projectile towards its movement direction, offset by 90 degrees counterclockwise because the sprite faces downward.
             projectile.rotation = projectile.velocity.ToRotation() -1.57f;
 
@@ -147,10 +161,12 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
             player.heldProj = projectile.whoAmI;
             if (combo)
             {
+				phantomProj.Center = projectile.Center + projectile.velocity - new Vector2(8,8);
 				Lighting.AddLight(projectile.Center + projectile.velocity, Color.OrangeRed.ToVector3() * 0.5f);
-				Dust.NewDustPerfect(projectile.Center + projectile.velocity + Main.rand.NextVector2Circular(15, 15), 6, Main.rand.NextVector2Circular(2, 2), 0, default, 1.15f);
+				Dust.NewDustPerfect(projectile.Center + projectile.velocity + Main.rand.NextVector2Circular(15, 15), 6, Main.rand.NextVector2Circular(2, 2), 0, default, 1.15f).noGravity = true;
                 player.itemTime = 15;
                 player.itemAnimation = 15;
+				trail?.AddPoints();
             }
             else
             {
@@ -233,10 +249,16 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
             }
             return false;
         }
-		
+
+		public override void Kill(int timeLeft)
+		{
+			if (phantomProj != null)
+				phantomProj.active = false;
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-            chain.Draw(spriteBatch, ModContent.GetTexture(Texture + "_Chain"), Main.projectileTexture[projectile.type]);
+			chain.Draw(spriteBatch, ModContent.GetTexture(Texture + "_Chain"), Main.projectileTexture[projectile.type]);
 
 			return false;
 		}

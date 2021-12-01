@@ -2,14 +2,14 @@ sampler uImage0 : register(s0);
 sampler uImage1 : register(s1);
 matrix WorldViewProjection;
 texture uTexture;
-sampler textureSampler = sampler_state
-{
-    Texture = (uTexture);
-};
+sampler2D textureSampler = sampler_state { texture = <uTexture>; magfilter = LINEAR; minfilter = LINEAR; mipfilter = LINEAR; AddressU = wrap; AddressV = wrap; };
 bool flipCoords = false;
 bool additive = false;
+bool intensify = false;
 
 float progress;
+
+float repeats = 1;
 
 struct VertexShaderInput
 {
@@ -40,12 +40,15 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
 
 float4 White(VertexShaderOutput input) : COLOR0
 {
-    float2 coords = input.TextureCoordinates;
+    float2 coords = float2(input.TextureCoordinates.x * repeats, input.TextureCoordinates.y);
     if (flipCoords)
-        coords = float2(input.TextureCoordinates.y, input.TextureCoordinates.x);
+        coords = float2(input.TextureCoordinates.y * repeats, input.TextureCoordinates.x);
     
     float4 color = tex2D(textureSampler, coords);
-    
+
+    if (intensify)
+        return float4((color.xyz * 2) * input.Color * (1.0 + color.x * 2.0), color.x * input.Color.w);
+
     if (additive)
         color *= (color.r + color.g + color.b) / 3;
     
