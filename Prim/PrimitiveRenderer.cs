@@ -18,30 +18,12 @@ namespace SpiritMod.Prim
 		/// <param name="vertices"></param>
 		/// <param name="indeces"></param>
 		/// <param name="effect"></param>
-		public static void RenderPrimitives(VertexPositionColorTexture[] vertices, short[] indeces, Effect effect = null, PrimitiveType primitiveType = PrimitiveType.TriangleList)
+		public static void RenderPrimitives(VertexPositionColorTexture[] vertices, short[] indeces, PrimitiveType primitiveType = PrimitiveType.TriangleList)
 		{
 			if (vertices.Length == 0 || indeces.Length == 0)
 				return;
 
 			//Graphics.RasterizerState = RasterizerState.CullNone;
-
-			//If the inputted effect is null, use the static BasicEffect
-			if(effect == null)
-			{
-				BasicEffect basicEffect = SpiritMod.basicEffect;
-
-				foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
-					pass.Apply();
-			}
-
-			//Otherwise, set WorldViewProjection of the given effect, and apply all passes
-			else
-			{
-				Helpers.SetEffectMatrices(ref effect);
-
-				foreach (EffectPass pass in effect.CurrentTechnique.Passes)
-					pass.Apply();
-			}
 
 			//Determine the number of lines or triangles to draw, given the amount of indeces and type of primitives
 			int primitiveCount = 0;
@@ -73,9 +55,42 @@ namespace SpiritMod.Prim
 		/// <param name="effect"></param>
 		public static void DrawPrimitiveShape(IPrimitiveShape primitiveShape, Effect effect = null)
 		{
+			ApplyPrimitiveShader(effect);
 			primitiveShape.PrimitiveStructure(out VertexPositionColorTexture[] vertices, out short[] indeces);
 
-			RenderPrimitives(vertices, indeces, effect, primitiveShape.GetPrimitiveType);
+			RenderPrimitives(vertices, indeces, primitiveShape.GetPrimitiveType);
+		}
+
+		public static void DrawPrimitiveShapeBatched(IPrimitiveShape[] primitiveShapes, Effect effect = null)
+		{
+			ApplyPrimitiveShader(effect);
+			foreach (IPrimitiveShape primitiveShape in primitiveShapes)
+			{
+				primitiveShape.PrimitiveStructure(out VertexPositionColorTexture[] vertices, out short[] indeces);
+
+				RenderPrimitives(vertices, indeces, primitiveShape.GetPrimitiveType);
+			}
+		}
+
+		private static void ApplyPrimitiveShader(Effect effect = null)
+		{
+			//If the inputted effect is null, use the static BasicEffect
+			if (effect == null)
+			{
+				BasicEffect basicEffect = SpiritMod.basicEffect;
+
+				foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
+					pass.Apply();
+			}
+
+			//Otherwise, set WorldViewProjection of the given effect, and apply all passes
+			else
+			{
+				Helpers.SetEffectMatrices(ref effect);
+
+				foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+					pass.Apply();
+			}
 		}
 	}
 

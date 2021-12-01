@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod;
 using SpiritMod.Particles;
+using SpiritMod.Utilities;
 using System;
 using Terraria;
 
@@ -32,20 +33,17 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 		public override bool UseCustomDraw => true;
 
-		public override bool UseAdditiveBlend => true;
+		public override bool UseAdditiveBlend => false;
 
 		public override void CustomDraw(SpriteBatch spriteBatch)
 		{
 			Texture2D tex = ParticleHandler.GetTexture(Type);
 			var DrawFrame = new Rectangle(0, _frame * tex.Height / _numFrames, tex.Width, tex.Height / _numFrames);
 
-			for (int j = -1; j <= 1; j++) //repeat multiple times with different offset and color, for chromatic aberration effect
+			DrawAberration.DrawChromaticAberration(Vector2.UnitX.RotatedBy(Rotation), 1.5f, delegate (Vector2 offset, Color colorMod)
 			{
-				Vector2 posOffset = Vector2.UnitY.RotatedBy(Rotation) * j * 1.5f;
-				Color colorMod = (j == -1) ? new Color(255, 0, 0) : ((j == 0) ? new Color(0, 255, 0) : new Color(0, 0, 255));
-
-				spriteBatch.Draw(tex, Position + posOffset - Main.screenPosition, DrawFrame, colorMod, Rotation, DrawFrame.Size() / 2, Scale, (_direction > 0) ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
-			}
+				spriteBatch.Draw(tex, Position + offset - Main.screenPosition, DrawFrame, colorMod, Rotation, DrawFrame.Size() / 2, Scale, (_direction > 0) ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+			});
 		}
 	}
 }

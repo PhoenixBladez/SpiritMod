@@ -59,7 +59,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			Player player = Main.player[projectile.owner];
 			switch (AiState)
 			{
-				case STATE_SLOWDOWN:
+				case STATE_SLOWDOWN: //Slow down until it hits a stop, returning automatically after a given amount of time
 
 					projectile.alpha = Math.Max(projectile.alpha - 25, 0);
 					scaleMod = MathHelper.Lerp(scaleMod, 1f, 0.1f);
@@ -72,8 +72,9 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 					}
 					break;
 
-				case STATE_ANTICIPATION:
+				case STATE_ANTICIPATION: //Briefly move in opposite direction before dashing back to player
 
+					projectile.tileCollide = false;
 					projectile.alpha = Math.Max(projectile.alpha - 25, 0);
 					scaleMod = MathHelper.Lerp(scaleMod, 1f, 0.1f);
 					projectile.velocity = projectile.DirectionFrom(player.MountedCenter) * 4;
@@ -85,7 +86,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 					}
 					break;
 
-				case STATE_RETURN:
+				case STATE_RETURN: //Quickly return to player
 					projectile.tileCollide = false;
 
 					Vector2 desiredPosition = player.MountedCenter;
@@ -158,6 +159,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 
 		public void AdditiveCall(SpriteBatch sB)
 		{
+			//Colors used by the black hole
 			Color White = new Color(255, 251, 199) * 0.7f;
 			Color Yellow = new Color(255, 170, 0) * 0.6f;
 			Color Red = new Color(199, 0, 73) * 0.5f;
@@ -173,6 +175,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			sB.End(); sB.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, RasterizerState.CullNone, default, Main.GameViewMatrix.ZoomMatrix);
 			Texture2D tex = Main.projectileTexture[projectile.type];
 
+			//Set parameters for radial noise shader
 			Effect effect = SpiritMod.Instance.GetEffect("Effects/PortalShader");
 			effect.Parameters["PortalNoise"].SetValue(mod.GetTexture("Utilities/Noise/SpiralNoise"));
 			effect.Parameters["Timer"].SetValue(MathHelper.WrapAngle(Main.GlobalTime / 3));
@@ -180,6 +183,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			effect.Parameters["Rotation"].SetValue(projectile.rotation);
 			effect.CurrentTechnique.Passes[0].Apply();
 
+			//Draw layers of the black hole, in various colors and sizes
 			sB.Draw(tex, drawCenter, null, Magenta * projectile.Opacity, rotation, tex.Size() / 2, scale * 1.1f, SpriteEffects.None, 0);
 			sB.Draw(tex, drawCenter, null, Red * projectile.Opacity, rotation, tex.Size() / 2, scale, SpriteEffects.None, 0);
 			sB.Draw(tex, drawCenter, null, Yellow * projectile.Opacity, rotation, tex.Size() / 2, scale * 0.75f, SpriteEffects.None, 0);
@@ -192,6 +196,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			float flickerStrength = (((float)Math.Sin(Main.GlobalTime * 10) % 1) * 0.1f) + 1f;
 			Effect blurEffect = mod.GetEffect("Effects/BlurLine");
 
+			//Blur line below the circles
 			SquarePrimitive blurLine = new SquarePrimitive()
 			{
 				Position = projectile.Center - Main.screenPosition,
@@ -202,29 +207,31 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			};
 			PrimitiveRenderer.DrawPrimitiveShape(blurLine, blurEffect);
 
+			//Draw circles in the center of the black hole
+			CirclePrimitive[] circles = new CirclePrimitive[]
+			{
+				new CirclePrimitive() //white circle
+				{
+					Color = Color.White * projectile.Opacity,
+					Radius = 20,
+					Position = projectile.Center - Main.screenPosition,
+					ScaleModifier = scale,
+					MaxRadians = MathHelper.TwoPi,
+					Rotation = projectile.velocity.ToRotation()
+				},
+				new CirclePrimitive() //smaller black circle
+				{
+					Color = Color.Black * projectile.Opacity,
+					Radius = 16,
+					Position = projectile.Center - Main.screenPosition,
+					ScaleModifier = scale,
+					MaxRadians = MathHelper.TwoPi,
+					Rotation = projectile.velocity.ToRotation()
+				}
+			};
+
 			Effect circleAA = mod.GetEffect("Effects/CirclePrimitiveAA");
-			CirclePrimitive WCircle = new CirclePrimitive()
-			{
-				Color = Color.White * projectile.Opacity,
-				Radius = 20,
-				Position = projectile.Center - Main.screenPosition,
-				ScaleModifier = scale,
-				MaxRadians = MathHelper.TwoPi,
-				Rotation = projectile.velocity.ToRotation()
-			};
-			PrimitiveRenderer.DrawPrimitiveShape(WCircle, circleAA);
-
-			CirclePrimitive BCircle = new CirclePrimitive()
-			{
-				Color = Color.Black * projectile.Opacity,
-				Radius = 16,
-				Position = projectile.Center - Main.screenPosition,
-				ScaleModifier = scale,
-				MaxRadians = MathHelper.TwoPi,
-				Rotation = projectile.velocity.ToRotation()
-			};
-			PrimitiveRenderer.DrawPrimitiveShape(BCircle, circleAA);
-
+			PrimitiveRenderer.DrawPrimitiveShapeBatched(circles, circleAA);
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)

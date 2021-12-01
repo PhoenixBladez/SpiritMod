@@ -8,6 +8,7 @@ using Terraria.ID;
 using SpiritMod.Prim;
 using Terraria.ModLoader;
 using SpiritMod.Particles;
+using SpiritMod.Utilities;
 
 namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 {
@@ -150,11 +151,8 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			float maxRingSize = 2.5f;
 			float RingSpeed = 1.25f;
 
-			for (int j = -1; j <= 1; j++) //repeat multiple times with different offset and color, for chromatic aberration effect
+			DrawAberration.DrawChromaticAberration(BeamDirection, 2f, delegate (Vector2 offset, Color colorMod)
 			{
-				Vector2 posOffset = Vector2.Normalize(BeamDirection).RotatedBy(j * MathHelper.PiOver2) * 2f;
-				Color colorMod = (j == -1) ? new Color(255, 0, 0, 100) : ((j == 0) ? new Color(0, 255, 0, 100) : new Color(0, 0, 255, 100));
-
 				for (int i = 0; i < maxRings; i++) //multiple rings
 				{
 					float progress = i / (float)(maxRings - 1);
@@ -164,18 +162,25 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 					float speed = sizeModifier * RingSpeed;
 
 					Vector2 velNormal = Vector2.Normalize(BeamDirection);
-					Vector2 spawnPos = Vector2.Lerp(projectile.Center + StaffTipDirection + Vector2.Normalize(BeamDirection) * minRingDist, 
-						projectile.Center + StaffTipDirection + Vector2.Normalize(BeamDirection) * maxRingDist, progress) + posOffset;
+					Vector2 spawnPos = Vector2.Lerp(projectile.Center + StaffTipDirection + Vector2.Normalize(BeamDirection) * minRingDist,
+						projectile.Center + StaffTipDirection + Vector2.Normalize(BeamDirection) * maxRingDist, progress) + offset;
 
-					ParticleHandler.SpawnParticle(new PulseCircle(projectile, color * 0.4f, scale * 100, (int)(LASER_TIME * 0.66f), 
+					ParticleHandler.SpawnParticle(new PulseCircle(projectile, color * 0.4f, scale * 100, (int)(LASER_TIME * 0.66f),
 						PulseCircle.MovementType.OutwardsSquareRooted, spawnPos)
-						{
-							Angle = BeamDirection.ToRotation(),
-							ZRotation = 0.6f,
-							RingColor = color,
-							Velocity = velNormal * speed
-						});
+					{
+						Angle = BeamDirection.ToRotation(),
+						ZRotation = 0.6f,
+						RingColor = color,
+						Velocity = velNormal * speed
+					});
 				}
+			});
+
+			for (int j = -1; j <= 1; j++) //repeat multiple times with different offset and color, for chromatic aberration effect
+			{
+				Vector2 posOffset = Vector2.Normalize(BeamDirection).RotatedBy(j * MathHelper.PiOver2) * 2f;
+				Color colorMod = (j == -1) ? new Color(255, 0, 0, 100) : ((j == 0) ? new Color(0, 255, 0, 100) : new Color(0, 0, 255, 100));
+
 			}
 
 			ParallelParticles(projectile.Center + StaffTipDirection, BeamDirection * Main.rand.NextFloat(30, 40), 35, Main.rand.NextFloat(1.5f, 3f), Main.rand.Next(14, 18));
@@ -234,22 +239,19 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 
 
 			float scale = Main.rand.NextFloat(0.8f, 1f);
-			for (int j = -1; j <= 1; j++) //repeat multiple times with different offset and color, for chromatic aberration effect
+			DrawAberration.DrawChromaticAberration(BeamDirection, 2f, delegate (Vector2 offset, Color colorMod) 
 			{
-				Vector2 posOffset = Vector2.Normalize(BeamDirection).RotatedBy(j * MathHelper.PiOver2) * 2f;
-				Color colorMod = (j == -1) ? new Color(255, 0, 0, 100) : ((j == 0) ? new Color(0, 255, 0, 100) : new Color(0, 0, 255, 100));
-
 				Color color = new Color(99, 255, 229).MultiplyRGB(colorMod);
 
-				ParticleHandler.SpawnParticle(new PulseCircle(target.Center + posOffset, color * 0.4f, scale * 100, (int)(LASER_TIME * 0.66f),
+				ParticleHandler.SpawnParticle(new PulseCircle(target.Center + offset, color * 0.4f, scale * 100, (int)(LASER_TIME * 0.66f),
 					PulseCircle.MovementType.OutwardsSquareRooted)
-					{
-						Angle = BeamDirection.ToRotation(),
-						ZRotation = 0.6f,
-						RingColor = color,
-						Velocity = BeamDirection
+				{
+					Angle = BeamDirection.ToRotation(),
+					ZRotation = 0.6f,
+					RingColor = color,
+					Velocity = BeamDirection
 				});
-			}
+			});
 
 			ParallelParticles(target.Center, BeamDirection * Main.rand.NextFloat(10, 15), 25, Main.rand.NextFloat(1.5f, 2f), Main.rand.Next(7, 10));
 		}
@@ -322,49 +324,31 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 
 			float ColorLerp = PowF(2.5f);
 
-			for (int i = 0; i < 3; i++)
+			Color color = Color.Lerp(midBlue, darkBlue, ColorLerp);
+			color *= 1 - PowF(2.5f) * 0.33f;
+			color.A = 10;
+			Vector2 position = projectile.Center + StaffTipDirection + (BeamDirection * BeamLength / 2) - Main.screenPosition; //Center between staff tip and beam end
+
+			//Draw the beam and apply shader parameters
+			Effect beamEffect = mod.GetEffect("Effects/Laser");
+			beamEffect.Parameters["uTexture"].SetValue(mod.GetTexture("Textures/Trails/Trail_1"));
+			beamEffect.Parameters["Progress"].SetValue(Main.GlobalTime * 3f);
+			beamEffect.Parameters["xMod"].SetValue(BeamLength / 150f);
+			beamEffect.Parameters["yMod"].SetValue(2f);
+			beamEffect.CurrentTechnique.Passes[0].Apply();
+
+			SquarePrimitive beam = new SquarePrimitive
 			{
-				Color color = Color.Lerp(midBlue, darkBlue, ColorLerp);
+				Height = scale.Y,
+				Length = scale.X,
+				Rotation = BeamDirection.ToRotation(),
+				Position = position,
+				Color = color
+			};
 
-				Color aberrationColor = Color.White;
-				switch (i) //Switch between making the beam's color red, green, and blue
-				{
-					case 0:
-						aberrationColor = new Color(255, 0, 0);
-						break;
-					case 1:
-						aberrationColor = new Color(0, 255, 0);
-						break;
-					case 2:
-						aberrationColor = new Color(0, 0, 255);
-						break;
-				}
+			PrimitiveRenderer.DrawPrimitiveShape(beam, beamEffect); 
 
-				color = color.MultiplyRGB(Color.Lerp(aberrationColor, color, 0.25f));
-				Vector2 aberrationOffset = Vector2.UnitX.RotatedBy(BeamDirection.ToRotation() + (i - 1) * MathHelper.PiOver2) * 0.5f * MathHelper.Lerp(6, 1, PowF(0.5f)); //Offset each texture slightly
-				color *= 1 - PowF(2.5f) * 0.33f;
-				color.A = 10;
-				Vector2 position = projectile.Center + StaffTipDirection + (BeamDirection * BeamLength / 2) + aberrationOffset - Main.screenPosition; //Center between staff tip and beam end
-
-				Effect beamEffect = mod.GetEffect("Effects/Laser");
-				beamEffect.Parameters["uTexture"].SetValue(mod.GetTexture("Textures/Trails/Trail_1"));
-				beamEffect.Parameters["Progress"].SetValue(Main.GlobalTime * 3f);
-				beamEffect.Parameters["xMod"].SetValue(BeamLength / 150f);
-				beamEffect.Parameters["yMod"].SetValue(2f);
-				beamEffect.CurrentTechnique.Passes[0].Apply();
-
-				SquarePrimitive beam = new SquarePrimitive
-				{
-					Height = scale.Y,
-					Length = scale.X,
-					Rotation = BeamDirection.ToRotation(),
-					Position = position,
-					Color = color
-				};
-
-				PrimitiveRenderer.DrawPrimitiveShape(beam, beamEffect); 
-			}
-
+			//Draw a visual effect for hitting tiles
 			if (HittingTile)
 			{
 				float scaleMod = scale.Y / 60;
