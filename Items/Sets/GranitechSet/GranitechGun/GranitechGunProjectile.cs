@@ -88,7 +88,9 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 				bullet.spawnRings = true;
 
 			//Main.PlaySound(Terraria.ID.SoundID.Item11, projectile.Center);
-			Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/EnergyShoot").WithPitchVariance(0.1f).WithVolume(0.175f), pos);
+			if(!Main.dedServ)
+				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/EnergyShoot").WithPitchVariance(0.1f).WithVolume(0.25f), pos);
+
 			VFX(pos + muzzleOffset, baseVel * 0.2f);
 
 			GItem.UseAmmo(player, AmmoID.Bullet);

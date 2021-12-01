@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Particles;
+using SpiritMod.Utilities;
 using System;
 using Terraria;
 
@@ -79,7 +80,7 @@ namespace SpiritMod.Items.Sets.GranitechSet
 			opacity = (float)Math.Pow(1 - ((float)TimeActive / MaxTime), 0.5f);
 			Rotation = Velocity.ToRotation();
 
-			Velocity *= 0.9f;
+			Velocity *= 0.87f;
 			Scale *= 0.96f;
 
 			if (TimeActive >= MaxTime)
@@ -90,13 +91,10 @@ namespace SpiritMod.Items.Sets.GranitechSet
 		{
 			Texture2D baseTex = ParticleHandler.GetTexture(Type);
 
-			for (int j = -1; j <= 1; j++) //repeat multiple times with different offset and color, for chromatic aberration effect
+			DrawAberration.DrawChromaticAberration(Vector2.UnitX.RotatedBy(Rotation), 1.5f, delegate (Vector2 offset, Color colorMod)
 			{
-				Vector2 posOffset = Vector2.UnitX * j * 1.5f;
-				Color colorMod = (j == -1) ? new Color(255, 0, 0) : ((j == 0) ? new Color(0, 255, 0) : new Color(0, 0, 255));
-
-				spriteBatch.Draw(baseTex, Position + posOffset - Main.screenPosition, Frame, Color.MultiplyRGB(colorMod) * opacity, Rotation, Frame.Size() / 2f, Scale / 2f, SpriteEffects.None, 0);
-			}
+				spriteBatch.Draw(baseTex, Position + offset - Main.screenPosition, Frame, Color.MultiplyRGB(colorMod) * opacity, Rotation, Frame.Size() / 2, Scale / 2f, SpriteEffects.None, 0);
+			});
 		}
 	}
 }

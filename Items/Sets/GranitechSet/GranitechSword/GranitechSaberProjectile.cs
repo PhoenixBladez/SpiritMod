@@ -11,6 +11,7 @@ using SpiritMod.Particles;
 using SpiritMod.Utilities;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 {
@@ -49,7 +50,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 
 		public override bool AutoAimCursor() => false; //Only aim when first used
 
-		private const float SwingRadians = MathHelper.Pi * 0.75f; //Total radians of the sword's arc
+		public const float SwingRadians = MathHelper.Pi * 0.75f; //Total radians of the sword's arc
 		public override bool PreAI()
 		{
 			_hitTimer = Math.Max(_hitTimer - 1, 0);
@@ -101,16 +102,18 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			}
 
 			//Spawn 2 holographic sword projectiles through swing time
-			if(Timer % ((swingTime / 2) + 1) == 0)
+			if(Timer % ((swingTime / 2) + 1) == 0 && Owner == Main.LocalPlayer)
 			{
-				float distance = Main.rand.Next(80, 170); //Set distance from player 
+				float distance = Main.rand.Next(130, 180); //Set distance from player 
+				distance = MathHelper.Clamp(distance, 80, Owner.Distance(Main.MouseWorld));
+
 				float swingRadians = Main.rand.NextFloat(MathHelper.Pi * 0.7f, MathHelper.Pi); //Set the radians of the sword's swing
 				int direction = Main.rand.NextBool() ? -1 : 1; //Set swinging direction
 
 				Vector2 position = Owner.MountedCenter + initialVelocity.RotatedBy(swingRadians / 2 * direction) * distance;
 				Projectile proj = Projectile.NewProjectileDirect(position, initialVelocity.RotatedBy(swingRadians / 2 * direction), 
-					ModContent.ProjectileType<GranitechSaber_Hologram>(), projectile.damage, projectile.knockBack, projectile.owner, direction);
-
+					ModContent.ProjectileType<GranitechSaber_Hologram>(), projectile.damage, projectile.knockBack, projectile.owner, direction, 0);
+				
 				//Initialize variables for the projectile
 				if(proj.modProjectile is GranitechSaber_Hologram holoSword)
 				{
@@ -118,6 +121,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 					holoSword.BasePosition = Owner.MountedCenter;
 					holoSword.SwingTime = (int)(swingTime * (1 + (distance / 250) + (swingRadians / SwingRadians))); //Slower than normal swing, based on distance and radians
 					holoSword.SwingRadians = swingRadians;
+					holoSword.Distance = distance;
 				}
 
 				//Sync modprojectile variable initializations for multiplayer
@@ -136,26 +140,30 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.MountedCenter, Owner.MountedCenter + projectile.velocity * projectile.Size.Length());
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => HitEffect(projectile.Center, projectile.velocity);
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => HitEffect(target.Center);
 
-		public override void OnHitPvp(Player target, int damage, bool crit) => HitEffect(projectile.Center, projectile.velocity);
+		public override void OnHitPvp(Player target, int damage, bool crit) => HitEffect(target.Center);
 
-		private void HitEffect(Vector2 position, Vector2 direction)
+		public void HitEffect(Vector2 position)
 		{
 			if (Main.dedServ)
 				return;
 
+			Vector2 newPos = Vector2.Lerp(projectile.Center, position, 0.5f);
+			Vector2 direction = Owner.DirectionTo(newPos);
 			if(_hitTimer == 0)
 			{
+				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.4f), projectile.Center);
+
 				_hitTimer = MAX_HITTIMER;
 				ParticleHandler.SpawnParticle(new GranitechSaber_Hit(position, Main.rand.NextFloat(0.9f, 1.1f), direction.ToRotation()));
 			}
 
-			int numParticles = Main.rand.Next(5, 8);
+			int numParticles = Main.rand.Next(6, 9);
 			for (int i = 0; i < numParticles; i++)
 			{
 				Vector2 velocity = direction.RotatedByRandom(MathHelper.Pi / 6) * Main.rand.NextFloat(3, 20);
-				ParticleHandler.SpawnParticle(new GranitechParticle(position, velocity, Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(25, 132, 247), Main.rand.NextFloat(2f, 2.5f), 25));
+				ParticleHandler.SpawnParticle(new GranitechParticle(position, velocity, Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(25, 132, 247), Main.rand.NextFloat(2.5f, 3f), 25));
 			}
 		}
 
@@ -182,45 +190,30 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			effect.Parameters["overlayTexture"].SetValue(mod.GetTexture("Textures/GeometricTexture_1"));
 			effect.Parameters["overlayColor"].SetValue(new Color(99, 255, 229).ToVector4());
 
-			effect.Parameters["xMod"].SetValue(2); //scale with the total length of the strip
+			effect.Parameters["xMod"].SetValue(1.5f); //scale with the total length of the strip
 			effect.Parameters["yMod"].SetValue(2.5f);
 			 
 			float slashProgress = EaseFunction.EaseCircularInOut.Ease(Timer / swingTime);
-			effect.Parameters["timer"].SetValue(Main.GlobalTime * 2);
+			effect.Parameters["timer"].SetValue(-Main.GlobalTime * 6);
 			effect.Parameters["progress"].SetValue(slashProgress);
 
 			Vector2 pos = Owner.MountedCenter - Main.screenPosition;
-
-			for(int i = -1; i <= 1; i++)
+			List<PrimitiveSlashArc> slashArcs = new List<PrimitiveSlashArc>();
+			DrawAberration.DrawChromaticAberration(Vector2.UnitX, 2, delegate (Vector2 offset, Color colorMod)
 			{
-				Color aberrationColor = Color.White;
-				switch (i)
-				{
-					case -1:
-						aberrationColor = new Color(255, 0, 0, 0);
-						break;
-					case 0:
-						aberrationColor = new Color(0, 255, 0, 0);
-						break;
-					case 1:
-						aberrationColor = new Color(0, 0, 255, 0);
-						break;
-				}
-
-				float offset = i * 2;
 				PrimitiveSlashArc slash = new PrimitiveSlashArc
 				{
 					BasePosition = pos,
-					StartDistance = offset + projectile.Size.Length() * 0.33f,
-					EndDistance = offset + projectile.Size.Length(),
+					StartDistance = offset.X + projectile.Size.Length() * 0.33f,
+					EndDistance = offset.X + projectile.Size.Length(),
 					AngleRange = new Vector2(SwingRadians / 2 * SwingDirection, -SwingRadians / 2 * SwingDirection),
 					DirectionUnit = initialVelocity,
-					Color = aberrationColor * opacity,
+					Color = colorMod * opacity,
 					SlashProgress = slashProgress
 				};
-
-				PrimitiveRenderer.DrawPrimitiveShape(slash, effect);
-			}
+				slashArcs.Add(slash);
+			});
+			PrimitiveRenderer.DrawPrimitiveShapeBatched(slashArcs.ToArray(), effect);
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 			return base.PreDraw(spriteBatch, lightColor);
@@ -233,24 +226,10 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			Texture2D tex = ModContent.GetTexture(Texture + "_glow");
 			SpriteEffects spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-			for(int i = -1; i < 1; i++)
+			DrawAberration.DrawChromaticAberration(projectile.velocity, 2f, delegate (Vector2 offset, Color colorMod)
 			{
-				Vector2 offset = projectile.velocity.RotatedBy(MathHelper.PiOver2) * i * 2f;
-				Color aberrationColor = Color.White;
-				switch (i) //Switch between making the color red, green, and blue
-				{
-					case -1:
-						aberrationColor = new Color(255, 0, 0, 0);
-						break;
-					case 0:
-						aberrationColor = new Color(0, 255, 0, 0);
-						break;
-					case 1:
-						aberrationColor = new Color(0, 0, 255, 0);
-						break;
-				}
-				spriteBatch.Draw(tex, projectile.Center + offset - Main.screenPosition, null, aberrationColor * opacity, projectile.rotation, tex.Size() / 2, projectile.scale, spriteEffects, 0);
-			}
+				spriteBatch.Draw(tex, projectile.Center + offset - Main.screenPosition, null, colorMod * opacity, projectile.rotation, tex.Size() / 2, projectile.scale, spriteEffects, 0);
+			});
 		}
 	}
 }

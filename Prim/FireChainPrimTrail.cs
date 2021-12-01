@@ -3,24 +3,24 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
+using Terraria.ModLoader;
 using System;
 
 namespace SpiritMod.Prim
 {
-	class FireChainPrimTrail : PrimTrail
+	public class FireChainPrimTrail : PrimTrail
 	{
 		public FireChainPrimTrail(Projectile projectile)
 		{
-			Entity  = projectile;
+			Entity = projectile;
 			EntityType = projectile.type;
 			DrawType = PrimTrailManager.DrawProjectile;
 			Color = new Color(252, 73, 3);
-			Width = 13;
-			Cap = 20;
-			Pixellated = true;
+			Width = 20;
+			Cap = 40;
+			AlphaValue = 1f;
 		}
 
-		public override void SetDefaults() => AlphaValue = 1f;
 
 		public override void PrimStructure(SpriteBatch spriteBatch)
 		{
@@ -31,20 +31,20 @@ namespace SpiritMod.Prim
 				if (i == 0)
 				{
 					widthVar = Width;
-					Color colorvar = Color.Lerp(Color, new Color(255, 160, 40), (i / (float)Points.Count));
+					Color colorvar = Color.Lerp(Color * 0.05f, new Color(255, 160, 40), (i / (float)Points.Count));
 					Vector2 normalAhead = CurveNormal(Points, i + 1);
 					Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
 					Vector2 secondDown = Points[i + 1] + normalAhead * widthVar;
-					AddVertex(Points[i], colorvar * AlphaValue, Vector2.Zero);
-					AddVertex(secondUp, colorvar * AlphaValue, Vector2.Zero);
-					AddVertex(secondDown, colorvar * AlphaValue, Vector2.Zero);
+					AddVertex(Points[i], colorvar * AlphaValue, new Vector2(0, 0.5f));
+					AddVertex(secondUp, colorvar * AlphaValue, new Vector2((float)(i + 1) / (float)Points.Count, 0));
+					AddVertex(secondUp, colorvar * AlphaValue, new Vector2((float)(i + 1) / (float)Points.Count, 1));
 				}
 				else
 				{
 					if (i != Points.Count - 1)
 					{
 						widthVar = Width;
-						Color colorvar = Color.Lerp(Color, new Color(255, 160, 40), ((float)i / (float)Points.Count));
+						Color colorvar = Color.Lerp(Color * 0.05f, new Color(255, 160, 40), ((float)i / (float)Points.Count));
 						Vector2 normal = CurveNormal(Points, i);
 						Vector2 normalAhead = CurveNormal(Points, i + 1);
 						Vector2 firstUp = Points[i] - normal * widthVar;
@@ -64,7 +64,15 @@ namespace SpiritMod.Prim
 			}
 		}
 
-		public override void SetShaders() => PrepareShader(SpiritMod.ScreamingSkullTrail, "MainPS", Counter / 2);
+		public override void SetShaders()
+		{
+			Effect effect = SpiritMod.PrimitiveTextureMap;
+			effect.Parameters["uTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/FlameTrail"));
+			effect.Parameters["additive"].SetValue(true);
+			effect.Parameters["repeats"].SetValue(4);
+			effect.Parameters["intensify"].SetValue(true);
+			PrepareShader(effect, "MainPS", Counter);
+		}
 
 		public override void OnUpdate()
 		{
@@ -79,9 +87,8 @@ namespace SpiritMod.Prim
 
 			if ((!Entity.active && Entity != null) || Destroyed)
 				OnDestroy();
-
-			Points.Add(proj.position + proj.velocity);
 		}
+		public void AddPoints() => Points.Add(Entity.position + Entity.velocity);
 		public override void OnDestroy()
 		{
 			Destroyed = true;

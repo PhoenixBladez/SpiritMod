@@ -143,25 +143,15 @@ namespace SpiritMod.Skies.Starjinx
 
 
 				//Draw stars between furthest planet and middle planet
-				spriteBatch.End();
-				spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, RasterizerState.CullNone);
 
 				DrawStars(spriteBatch, Stars.Where(x => x.Parallax < PLANET_PARALLAX_MID).ToList(), Parallax);
-
-				spriteBatch.End();
-				spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone);
 
 				//Draw middle planet
 				DrawPlanet(screenCenter - new Vector2(700, 300), PLANET_PARALLAX_MID, 3, MathHelper.Pi / 9f, SpriteEffects.FlipHorizontally);
 
 				//Draw stars between middle planet and closest planet
-				spriteBatch.End();
-				spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, RasterizerState.CullNone);
 
 				DrawStars(spriteBatch, Stars.Where(x => x.Parallax >= PLANET_PARALLAX_MID).ToList(), Parallax);
-
-				spriteBatch.End();
-				spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone);
 
 				//Closest planet
 				DrawPlanet(screenCenter - new Vector2(0 , -150), PLANET_PARALLAX_CLOSE, 0, 0, SpriteEffects.None);
@@ -261,9 +251,13 @@ namespace SpiritMod.Skies.Starjinx
 
 			float TimeLerp = Time / (float)(Main.dayLength + Main.nightLength);
 			TimeLerp = MathHelper.Clamp((float)-Math.Sin(-(MathHelper.Pi / 8) + (TimeLerp * MathHelper.TwoPi)), 0.22f, 0.3f) * 2f;
+			Color starColor = Color.Lerp(Color, Color.White, 0.33f) * Opacity;
+			Color bloomColor = Color * Opacity * MathHelper.Lerp(0.7f, 1f, TimeLerp);
+			starColor.A = 0;
+			bloomColor.A = 0;
 
-			sB.Draw(BloomTexture, Position + ParallaxOffset * Parallax, null, Color * Opacity * MathHelper.Lerp(0.7f, 1f, TimeLerp), 0, BloomTexture.Size() / 2, Scale * 0.85f, SpriteEffects.None, 0);
-			sB.Draw(Texture, Position + ParallaxOffset * Parallax, null, Color.Lerp(Color, Color.White, 0.6f) * Opacity, 0, Texture.Size() / 2, Scale, SpriteEffects.None, 0);
+			sB.Draw(BloomTexture, Position + ParallaxOffset * Parallax, null, bloomColor, 0, BloomTexture.Size() / 2, Scale * 0.85f, SpriteEffects.None, 0);
+			sB.Draw(Texture, Position + ParallaxOffset * Parallax, null, starColor, 0, Texture.Size() / 2, Scale, SpriteEffects.None, 0);
 		}
 	}
 }

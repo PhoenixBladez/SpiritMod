@@ -2,12 +2,14 @@ sampler uImage0 : register(s0);
 sampler uImage1 : register(s1);
 matrix WorldViewProjection;
 texture uTexture;
-sampler textureSampler = sampler_state
-{
-    Texture = (uTexture);
-};
+sampler2D textureSampler = sampler_state { texture = <uTexture>; magfilter = LINEAR; minfilter = LINEAR; mipfilter = LINEAR; AddressU = wrap; AddressV = wrap; };
 bool flipCoords = false;
 bool additive = false;
+bool intensify = false;
+
+float progress;
+
+float repeats = 1;
 
 struct VertexShaderInput
 {
@@ -36,14 +38,17 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
     return output;
 };
 
-float4 MainPS(VertexShaderOutput input) : COLOR0
+float4 White(VertexShaderOutput input) : COLOR0
 {
-    float2 coords = input.TextureCoordinates;
+    float2 coords = float2(input.TextureCoordinates.x * repeats, input.TextureCoordinates.y);
     if (flipCoords)
-        coords = float2(input.TextureCoordinates.y, input.TextureCoordinates.x);
+        coords = float2(input.TextureCoordinates.y * repeats, input.TextureCoordinates.x);
     
     float4 color = tex2D(textureSampler, coords);
-    
+
+    if (intensify)
+        return float4((color.xyz * 2) * input.Color * (1.0 + color.x * 2.0), color.x * input.Color.w);
+
     if (additive)
         color *= (color.r + color.g + color.b) / 3;
     
@@ -52,9 +57,12 @@ float4 MainPS(VertexShaderOutput input) : COLOR0
 
 technique BasicColorDrawing
 {
-    pass PrimitiveTextureMap
-	{
+    pass DefaultPass
+    {
         VertexShader = compile vs_2_0 MainVS();
-        PixelShader = compile ps_2_0 MainPS();
+    }
+    pass MainPS
+    {
+        PixelShader = compile ps_2_0 White();
     }
 };

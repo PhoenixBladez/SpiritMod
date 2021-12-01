@@ -45,11 +45,8 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			if (spawnRings && projectile.ai[0]++ == 0 && !Main.dedServ)
 			{
 				int maxRings = 3;
-				for (int j = -1; j <= 1; j++) //repeat multiple times with different offset and color, for chromatic aberration effect
+				DrawAberration.DrawChromaticAberration(Vector2.Normalize(projectile.velocity), 1, delegate (Vector2 offset, Color colorMod)
 				{
-					Vector2 posOffset = Vector2.Normalize(projectile.velocity).RotatedBy(j * MathHelper.PiOver2) * 1f;
-					Color colorMod = (j == -1) ? new Color(255, 0, 0, 100) : ((j == 0) ? new Color(0, 255, 0, 100) : new Color(0, 0, 255, 100));
-
 					for (int i = 0; i < maxRings; i++) //multiple rings
 					{
 						float progress = i / (float)maxRings;
@@ -64,7 +61,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 							0.5f;
 
 						Vector2 velNormal = Vector2.Normalize(projectile.velocity);
-						Vector2 spawnPos = Vector2.Lerp(projectile.Center, projectile.Center + Vector2.Normalize(projectile.velocity) * 90, progress) + posOffset;
+						Vector2 spawnPos = Vector2.Lerp(projectile.Center, projectile.Center + Vector2.Normalize(projectile.velocity) * 90, progress) + offset;
 						ParticleHandler.SpawnParticle(new PulseCircle(spawnPos, color * 0.4f, scale * 100, 20, PulseCircle.MovementType.OutwardsSquareRooted)
 						{
 							Angle = projectile.velocity.ToRotation(),
@@ -73,7 +70,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 							Velocity = velNormal * speed
 						});
 					}
-				}
+				});
 			}
 
 			//accelerate over time, with a cap
@@ -94,22 +91,23 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 		public override void Kill(int timeLeft)
 		{
 			//Main.PlaySound(SoundID.Item10, projectile.Center);
-			Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.66f), projectile.Center);
 
 			if (!Main.dedServ)
 			{
+				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.66f), projectile.Center);
+
 				ParticleHandler.SpawnParticle(new GranitechGunBurst(projectile.Center, Main.rand.NextFloat(0.9f, 1.1f), projectile.oldVelocity.ToRotation()));
 
 				for (int i = 0; i < 4; ++i)
 				{
 					Vector2 vel = Vector2.Normalize(projectile.oldVelocity).RotatedByRandom(MathHelper.ToRadians(30)) * Main.rand.NextFloat(6f, 10f) + (projectile.velocity * 0.8f);
-					ParticleHandler.SpawnParticle(new GranitechParticle(projectile.Center, vel, Main.rand.NextBool(2) ? new Color(222, 111, 127) : new Color(239, 241, 80), Main.rand.NextFloat(3f, 3.5f), 22));
+					ParticleHandler.SpawnParticle(new GranitechParticle(projectile.Center, vel, Main.rand.NextBool(2) ? new Color(255, 56, 85) : new Color(239, 241, 80), Main.rand.NextFloat(3f, 3.5f), 22));
 				}
 
 				for (int i = 0; i < 4; ++i)
 				{
 					Vector2 vel = Vector2.Normalize(projectile.oldVelocity).RotatedByRandom(MathHelper.ToRadians(180)) * Main.rand.NextFloat(6f, 10f) + (projectile.velocity * 0.4f);
-					ParticleHandler.SpawnParticle(new GranitechParticle(projectile.Center, vel, Main.rand.NextBool(2) ? new Color(222, 111, 127) : new Color(239, 241, 80), Main.rand.NextFloat(3f, 3.5f), 22));
+					ParticleHandler.SpawnParticle(new GranitechParticle(projectile.Center, vel, Main.rand.NextBool(2) ? new Color(255, 56, 85) : new Color(239, 241, 80), Main.rand.NextFloat(3f, 3.5f), 22));
 				}
 			}
 
@@ -129,23 +127,19 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 		{
 			Texture2D glow = mod.GetTexture("Items/Sets/GranitechSet/GranitechGun/GranitechGunBullet_Glow");
 
-			//draw 3 times, with position and color offsets, for a chromatic aberration effect
-			for (int j = 1; j >= -1; j--)
+			DrawAberration.DrawChromaticAberration(Vector2.Normalize(projectile.velocity), aberrationOffset, delegate (Vector2 offset, Color colorMod)
 			{
-				Vector2 posOffset = Vector2.Normalize(projectile.velocity).RotatedBy(j * MathHelper.PiOver2) * aberrationOffset;
-				Color colorMod = (j == -1) ? new Color(255, 0, 0, 70) : ((j == 0) ? new Color(0, 255, 0, 70) : new Color(0, 0, 255, 70));
-
-				Vector2 drawPosition = projectile.Center + posOffset - Main.screenPosition;
+				Vector2 drawPosition = projectile.Center + offset - Main.screenPosition;
 				for (int i = 1; i < ProjectileID.Sets.TrailCacheLength[projectile.type]; i++)
 				{
 					float progress = (ProjectileID.Sets.TrailCacheLength[projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[projectile.type];
 					Color trailColor = Color.Lerp(new Color(222, 111, 127), new Color(178, 105, 140), progress).MultiplyRGBA(colorMod) * progress;
-					Vector2 trailPosition = projectile.oldPos[i] + posOffset + projectile.Size / 2 - Main.screenPosition;
+					Vector2 trailPosition = projectile.oldPos[i] + offset + projectile.Size / 2 - Main.screenPosition;
 					sb.Draw(glow, trailPosition, null, projectile.GetAlpha(trailColor), projectile.rotation, glow.Size() / 2, projectile.scale, SpriteEffects.None, 0f);
 				}
 
 				sb.Draw(Main.projectileTexture[projectile.type], drawPosition, null, projectile.GetAlpha(colorMod), projectile.rotation, glow.Size() / 2, projectile.scale, SpriteEffects.None, 0f);
-			}
+			});
 
 			return false;
 		}
@@ -166,19 +160,5 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			sb.Draw(bloomTex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(new Color(239, 241, 80)) * 0.33f, projectile.rotation, bloomTex.Size() / 2f,
 				new Vector2(0.22f, 0.17f) * projectile.scale, SpriteEffects.None, 0);
 		}
-
-		//public void DoTrailCreation(TrailManager tManager) { }// tManager.CreateTrail(projectile, new GranitechBulletTrail(new Color(255, 46, 122, 0)), new RoundCap(), new DefaultTrailPosition(), 4, 220);
-
-		//internal class GranitechBulletTrail : ITrailColor
-		//{
-		//	private Color _colour;
-
-		//	public GranitechBulletTrail(Color colour)
-		//	{
-		//		_colour = colour;
-		//	}
-
-		//	public Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points) => _colour;
-		//}
 	}
 }

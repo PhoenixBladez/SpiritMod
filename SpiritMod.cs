@@ -86,6 +86,7 @@ namespace SpiritMod
 		public static Effect ScreamingSkullTrail;
 		public static Effect RipperSlugShader;
 		public static Effect RepeatingTextureShader;
+		public static Effect PrimitiveTextureMap;
 		public static Effect EyeballShader;
 		public static Effect ArcLashShader;
 		public static Effect ConicalNoise;
@@ -858,6 +859,7 @@ namespace SpiritMod
 				ScreamingSkullTrail = Instance.GetEffect("Effects/ScreamingSkullTrail");
 				RipperSlugShader = Instance.GetEffect("Effects/RipperSlugShader");
 				RepeatingTextureShader = Instance.GetEffect("Effects/RepeatingTextureShader");
+				PrimitiveTextureMap = Instance.GetEffect("Effects/PrimitiveTextureMap");
 				EyeballShader = Instance.GetEffect("Effects/EyeballShader");
 				ArcLashShader = Instance.GetEffect("Effects/ArcLashShader");
 				ConicalNoise = Instance.GetEffect("Effects/ConicalNoise");
@@ -1083,6 +1085,7 @@ namespace SpiritMod
 			RipperSlugShader = null;
 			EyeballShader = null;
 			RepeatingTextureShader = null;
+			PrimitiveTextureMap = null;
 			ArcLashShader = null;
 			ConicalNoise = null;
 			JemShaders = null;

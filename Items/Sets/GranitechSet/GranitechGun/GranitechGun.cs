@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 		public override void SetDefaults()
 		{
-			item.damage = 37;
+			item.damage = 50;
 			item.width = 28;
 			item.height = 14;
 			item.useTime = item.useAnimation = 9;
