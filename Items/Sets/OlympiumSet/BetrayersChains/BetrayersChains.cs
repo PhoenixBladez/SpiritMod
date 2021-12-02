@@ -260,7 +260,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D tex = Main.extraTexture[55];
+			/*Texture2D tex = Main.extraTexture[55];
 			++visualTimer;
 			float amount = (visualTimer / 45f) % 1;
 			Color color2 = Color.White;
@@ -290,15 +290,15 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 
 					Main.spriteBatch.Draw(tex, pos - Main.screenPosition, rectangle, color2 * 0.75f, num2, new Vector2(tex.Width / 2, tex.Height / 8), MathHelper.Lerp(0.1f, 1.2f, ((10 - index) / 15f)), SpriteEffects.None, 0.0f);
 				}
-			}
+			}*/
 			chain.Draw(spriteBatch, ModContent.GetTexture(Texture + "_Chain"), Main.projectileTexture[projectile.type]);
 
-			if (combo)
+			/*if (combo)
 			{
 				pos = projectile.Center + projectile.velocity;
 				num2 = projectile.rotation;
 				Main.spriteBatch.Draw(tex, pos - Main.screenPosition, rectangle, color2 * 0.3f, num2, new Vector2(tex.Width / 2, tex.Height / 8), MathHelper.Lerp(0.1f, 1.2f, ((10) / 15f)), SpriteEffects.None, 0.0f);
-			}
+			}*/
 			return false;
 		}
 	}
