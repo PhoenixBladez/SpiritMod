@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 	public class Kelp : FloatingItem
 	{
 		public override float Weight => base.Weight * 0.9f;
-		public override float Bouyancy => base.Bouyancy * 1.05f;
+		public override float Bouyancy => base.Bouyancy * 1.15f;
 
 		public override void SetStaticDefaults()
 		{

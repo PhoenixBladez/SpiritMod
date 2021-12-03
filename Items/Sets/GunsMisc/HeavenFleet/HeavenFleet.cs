@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 		public override void SetDefaults()
 		{
 			item.channel = true;
-			item.damage = 62;
+			item.damage = 88;
 			item.ranged = true;
 			item.width = 24;
 			item.height = 24;
