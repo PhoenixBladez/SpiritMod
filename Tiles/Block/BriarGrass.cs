@@ -77,9 +77,12 @@ namespace SpiritMod.Tiles.Block
 				if (adjacents.Count > 0)
 				{
 					Point p = adjacents[Main.rand.Next(adjacents.Count)];
-					Framing.GetTileSafely(p.X, p.Y).type = (ushort)ModContent.TileType<BriarGrass>();
-					if (Main.netMode == NetmodeID.Server)
-						NetMessage.SendTileSquare(-1, p.X, p.Y, 1, TileChangeType.None);
+					if (HasOpening(p.X, p.Y))
+					{
+						Framing.GetTileSafely(p.X, p.Y).type = (ushort)ModContent.TileType<BriarGrass>();
+						if (Main.netMode == NetmodeID.Server)
+							NetMessage.SendTileSquare(-1, p.X, p.Y, 1, TileChangeType.None);
+					}
 				}
 			}
 		}
@@ -89,9 +92,18 @@ namespace SpiritMod.Tiles.Block
 			var p = new List<Point>();
 			for (int k = -1; k < 2; ++k)
 				for (int l = -1; l < 2; ++l)
-					if (Framing.GetTileSafely(i + k, j + l).active() && Framing.GetTileSafely(i + k, j + l).type == type)
+					if (!(l == 0 && k == 0) && Framing.GetTileSafely(i + k, j + l).active() && Framing.GetTileSafely(i + k, j + l).type == type)
 						p.Add(new Point(i + k, j + l));
 			return p;
+		}
+
+		private bool HasOpening(int i, int j)
+		{
+			for (int k = -1; k < 2; ++k)
+				for (int l = -1; l < 2; ++l)
+					if (!Framing.GetTileSafely(i + k, j + l).active())
+						return true;
+			return false;
 		}
 
 		public override int SaplingGrowthType(ref int style)
