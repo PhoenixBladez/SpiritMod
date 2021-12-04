@@ -1316,19 +1316,19 @@ namespace SpiritMod
 		public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
 		{
 			int Sunflowers = tasks.FindIndex(genpass => genpass.Name.Equals("Sunflowers"));
-			if (Sunflowers == -1) // Guide pass removed by some other mod.
-				return;
-
-			tasks.Insert(Sunflowers, new PassLegacy("SpiritMicros", SpiritGenPasses.MicrosPass));
+			if (Sunflowers != -1) //Add only if Sunflowers pass exists
+				tasks.Insert(Sunflowers, new PassLegacy("SpiritMicros", SpiritGenPasses.MicrosPass));
 
 			int FinalCleanup = tasks.FindIndex(genpass => genpass.Name.Equals("Final Cleanup"));
-			if (FinalCleanup == -1) // Shinies pass removed by some other mod.
-				return;
-
-			tasks.Insert(FinalCleanup + 1, new PassLegacy("Piles", SpiritGenPasses.PilesPass));
+			if (FinalCleanup != -1) //Add only if Final Cleanup exists...
+				tasks.Insert(FinalCleanup + 1, new PassLegacy("Piles", SpiritGenPasses.PilesPass));
 
 			int TrapsIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Traps"));
 			tasks.Insert(TrapsIndex + 2, new PassLegacy("Asteroids", SpiritGenPasses.AsteroidsPass));
+
+			int beachIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Beaches")); //Replace beach gen
+			if (beachIndex != -1)
+				tasks[beachIndex] = new PassLegacy("New Beach", OceanGeneration.GenerateOcean);
 		}
 
 		public override void PostWorldGen()

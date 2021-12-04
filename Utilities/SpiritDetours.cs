@@ -54,7 +54,6 @@ namespace SpiritMod.Utilities
 
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
 			IL.Terraria.WorldGen.hardUpdateWorld += WorldGen_hardUpdateWorld;
-			//IL.Terraria.Main.DoDraw += Main_DoDraw;
 		}
 
 		public static void Unload()
@@ -83,7 +82,6 @@ namespace SpiritMod.Utilities
 
 			IL.Terraria.Player.ItemCheck -= Player_ItemCheck;
 			IL.Terraria.WorldGen.hardUpdateWorld -= WorldGen_hardUpdateWorld;
-			//IL.Terraria.Main.DoDraw -= Main_DoDraw;
 		}
 
 		private static void Main_DrawMap(On.Terraria.Main.orig_DrawMap orig, Main self)
