@@ -36,9 +36,9 @@ namespace SpiritMod.NPCs.Automata
 			npc.damage = 70;
 			npc.defense = 30;
 			npc.lifeMax = 600;
-			npc.HitSound = SoundID.NPCHit6;
-			npc.DeathSound = SoundID.NPCDeath8;
-			npc.value = 10000f;
+			npc.HitSound = SoundID.NPCHit4;
+			npc.DeathSound = SoundID.NPCDeath14;
+			npc.value = 180f;
 			npc.knockBackResist = 0;
 			npc.noGravity = true;
 			initialDirection = (Main.rand.Next(2) * 2) - 1;

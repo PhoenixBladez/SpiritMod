@@ -2034,7 +2034,7 @@ namespace SpiritMod
 				else
 					SpiritMod.nighttimeAmbience.Stop();
 
-				if (player.ZoneBeach && player.ZoneDesert && player.ZoneOverworldHeight)
+				if (player.ZoneBeach && !player.wet && player.ZoneDesert && player.ZoneOverworldHeight)
 					SpiritMod.wavesAmbience.SetTo(Main.ambientVolume);
 				else
 					SpiritMod.wavesAmbience.Stop();

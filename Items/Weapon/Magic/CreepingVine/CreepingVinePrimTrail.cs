@@ -44,13 +44,7 @@ namespace SpiritMod.Items.Weapon.Magic.CreepingVine
             {
                 if (i == 0)
                 {
-                    widthVar = Width;
-                    Vector2 normalAhead = CurveNormal(Points, i + 1);
-                    Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
-                    Vector2 secondDown = Points[i + 1] + normalAhead * widthVar;
-                    //AddVertex(_points[i], _color * _alphaValue, Vector2.Zero);
-                    //AddVertex(secondUp, _color * _alphaValue, Vector2.Zero);
-                    //AddVertex(secondDown, _color * _alphaValue, Vector2.Zero);
+
                 }
                 else
                 {
@@ -67,13 +61,13 @@ namespace SpiritMod.Items.Weapon.Magic.CreepingVine
                         Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
                         Vector2 secondDown = Points[i + 1] + normalAhead * widthVar;
 
-                        AddVertex(firstDown, Color * AlphaValue, new Vector2((float)UVX, 1));
-                        AddVertex(firstUp, Color * AlphaValue, new Vector2((float)UVX, 0));
-                        AddVertex(secondDown, Color * AlphaValue, new Vector2((float)UVXNext, 1));
+                        AddVertex(firstDown, Lighting.GetColor((int)firstDown.X / 16, (int)firstDown.Y / 16) * AlphaValue, new Vector2((float)UVX, 1));
+                        AddVertex(firstUp, Lighting.GetColor((int)firstUp.X / 16, (int)firstUp.Y / 16) * AlphaValue, new Vector2((float)UVX, 0));
+                        AddVertex(secondDown, Lighting.GetColor((int)secondDown.X / 16, (int)secondDown.Y / 16) * AlphaValue, new Vector2((float)UVXNext, 1));
 
-                        AddVertex(secondUp, Color * AlphaValue, new Vector2((float)UVXNext, 0));
-                        AddVertex(secondDown, Color * AlphaValue, new Vector2((float)UVXNext, 1));
-                        AddVertex(firstUp, Color * AlphaValue, new Vector2((float)UVX, 0));
+                        AddVertex(secondUp, Lighting.GetColor((int)secondUp.X / 16, (int)secondUp.Y / 16) * AlphaValue, new Vector2((float)UVXNext, 0));
+                        AddVertex(secondDown, Lighting.GetColor((int)secondDown.X / 16, (int)secondDown.Y / 16) * AlphaValue, new Vector2((float)UVXNext, 1));
+                        AddVertex(firstUp, Lighting.GetColor((int)firstUp.X / 16, (int)firstUp.Y / 16) * AlphaValue, new Vector2((float)UVX, 0));
                         UVX = UVXNext;
                     }
                     else

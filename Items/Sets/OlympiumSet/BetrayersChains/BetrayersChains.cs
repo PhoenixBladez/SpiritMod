@@ -106,6 +106,8 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
         public Chain chain;
         public Vector2 spawnPos;
 
+		private int visualTimer;
+
 		public FireChainPrimTrail trail;
 
 		Projectile phantomProj;
@@ -162,7 +164,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
             if (combo)
             {
 				phantomProj.Center = projectile.Center + projectile.velocity - new Vector2(8,8);
-				Lighting.AddLight(projectile.Center + projectile.velocity, Color.OrangeRed.ToVector3() * 0.5f);
+				Lighting.AddLight(projectile.Center + projectile.velocity, Color.OrangeRed.ToVector3());
 				Dust.NewDustPerfect(projectile.Center + projectile.velocity + Main.rand.NextVector2Circular(15, 15), 6, Main.rand.NextVector2Circular(2, 2), 0, default, 1.15f).noGravity = true;
                 player.itemTime = 15;
                 player.itemAnimation = 15;
@@ -258,8 +260,45 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
+			/*Texture2D tex = Main.extraTexture[55];
+			++visualTimer;
+			float amount = (visualTimer / 45f) % 1;
+			Color color2 = Color.White;
+			int frameY = 0;
+			var pos = projectile.Center + projectile.velocity;
+			float num2 = projectile.rotation;
+			Rectangle rectangle = new Rectangle(0,0,1,1);
+
+			if (combo)
+			{
+				for (int index = 5; index >= 0; --index)
+				{
+					color2 = Color.Lerp(Color.Lerp(Color.Gold, Color.OrangeRed, amount), Color.Blue, index / 12f);
+
+					color2.A = (byte)(64.0 * amount);
+					color2.R = (byte)(color2.R * (10 - index) / 20);
+					color2.G = (byte)(color2.G * (10 - index) / 20);
+					color2.B = (byte)(color2.B * (10 - index) / 20);
+					color2.A = (byte)(color2.A * (10 - index) / 20);
+					color2 *= amount;
+
+					frameY = (((visualTimer / 2) % 4) - index) % 4;
+					if (frameY < 0)
+						frameY += 4;
+
+					rectangle = tex.Frame(1, 4, 0, frameY);
+
+					Main.spriteBatch.Draw(tex, pos - Main.screenPosition, rectangle, color2 * 0.75f, num2, new Vector2(tex.Width / 2, tex.Height / 8), MathHelper.Lerp(0.1f, 1.2f, ((10 - index) / 15f)), SpriteEffects.None, 0.0f);
+				}
+			}*/
 			chain.Draw(spriteBatch, ModContent.GetTexture(Texture + "_Chain"), Main.projectileTexture[projectile.type]);
 
+			/*if (combo)
+			{
+				pos = projectile.Center + projectile.velocity;
+				num2 = projectile.rotation;
+				Main.spriteBatch.Draw(tex, pos - Main.screenPosition, rectangle, color2 * 0.3f, num2, new Vector2(tex.Width / 2, tex.Height / 8), MathHelper.Lerp(0.1f, 1.2f, ((10) / 15f)), SpriteEffects.None, 0.0f);
+			}*/
 			return false;
 		}
 	}

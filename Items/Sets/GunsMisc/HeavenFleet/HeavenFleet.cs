@@ -12,13 +12,13 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Heavenfleet");
-			Tooltip.SetDefault("Converts regular bullets into bouncing stars \nHold down for a bigger blast");
+			Tooltip.SetDefault("Uses stars for ammo\nHold down for a bigger blast");
 		}
 
 		public override void SetDefaults()
 		{
 			item.channel = true;
-			item.damage = 62;
+			item.damage = 88;
 			item.ranged = true;
 			item.width = 24;
 			item.height = 24;

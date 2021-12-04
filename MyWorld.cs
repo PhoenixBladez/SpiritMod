@@ -12,6 +12,7 @@ using SpiritMod.Items.Sets.BriarChestLoot;
 using SpiritMod.Items.Sets.ToolsMisc.Evergreen;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.Items.Weapon.Magic.CreepingVine;
 using SpiritMod.Items.Books;
 using SpiritMod.Items.Books.MaterialPages;
 using SpiritMod.Items.Weapon.Thrown;
@@ -1397,7 +1398,7 @@ namespace SpiritMod
 				ItemType<Book_Gunslinger>()},
 				1, 0.33f), goldChests, 2);
 			AddToVanillaChest(new ChestInfo(ItemType<Book_LuminousArt>(), 1, 0.33f), waterChests, 2);
-			AddToVanillaChest(new ChestInfo(new int[] { ItemType<UnfellerOfEvergreens>(), ItemType<ToucaneItem>() }, 1, 0.4f), ivyChests, 1);
+			AddToVanillaChest(new ChestInfo(new int[] { ItemType<UnfellerOfEvergreens>(), ItemType<ToucaneItem>(), ItemType<CreepingVine>() }, 1, 0.4f), ivyChests, 1);
 
 			List<ChestInfo> PagodaPool = new List<ChestInfo> {
 				new ChestInfo(ItemType<JadeStaff>()),

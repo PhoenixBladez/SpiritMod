@@ -51,7 +51,7 @@ namespace SpiritMod.Mechanics.Boids
 
 		public void LoadContent()
 		{
-			const int AmbientFishTextureCount = 7;
+			const int AmbientFishTextureCount = 9;
 			int seed = (int)Main.GameUpdateCount;
 
 			int flocks = (seed % 8) + 6;

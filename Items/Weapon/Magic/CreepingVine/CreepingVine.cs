@@ -23,9 +23,9 @@ namespace SpiritMod.Items.Weapon.Magic.CreepingVine
 
 		public override void SetDefaults()
 		{
-			item.damage = 15;
+			item.damage = 17;
 			item.noMelee = true;
-			item.rare = ItemRarityID.LightRed;
+			item.rare = 2;
 			item.width = 18;
 			item.height = 18;
 			item.useTime = 30;
@@ -39,8 +39,9 @@ namespace SpiritMod.Items.Weapon.Magic.CreepingVine
 			item.autoReuse = false;
 			item.noUseGraphic = true;
 			item.shoot = ModContent.ProjectileType<CreepingVineProj>();
-			item.shootSpeed = 10f;
-			item.value = Item.sellPrice(0, 2, 0, 0);
+			item.shootSpeed = 20f;
+			item.value = Item.sellPrice(0, 1, 0, 0);
+			item.mana = 20;
 		}
 	}
 	public class CreepingVineProj : ModProjectile
@@ -110,6 +111,7 @@ namespace SpiritMod.Items.Weapon.Magic.CreepingVine
 					velocity.Normalize();
 					modproj2.moveDirection = velocity;
 				}
+				projectile.Center += projectile.velocity;
 				projectile.velocity = Vector2.Zero;
 			}
 			return false;
@@ -209,6 +211,7 @@ namespace SpiritMod.Items.Weapon.Magic.CreepingVine
 			{
 				projectile.velocity = speed * moveDirection;
 				projectile.velocity = Collide();
+				points.Add(projectile.Center);
 				trail._addPoints = true;
 			}
 			else
@@ -221,6 +224,16 @@ namespace SpiritMod.Items.Weapon.Magic.CreepingVine
 		protected virtual Vector2 Collide()
 		{
 			return Collision.noSlopeCollision(projectile.position, projectile.velocity, projectile.width, projectile.height, true, true);
+		}
+
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+		{
+			foreach (Vector2 point in points)
+			{
+				if (point.X > targetHitbox.Left && point.X < targetHitbox.Right && point.Y > targetHitbox.Top && point.Y < targetHitbox.Bottom)
+					return true;
+			}
+			return false;
 		}
 
 	}
