@@ -281,7 +281,7 @@ namespace SpiritMod.NPCs.HauntedTome
 			}
 
 			if(projectile.localAI[1] == 0 && Main.netMode != NetmodeID.Server) {
-				SpiritMod.primitives.CreateTrail(new SkullPrimTrail(projectile, Color.Green, (int)(15 * projectile.scale), (int)(20 * projectile.scale)));
+				SpiritMod.primitives.CreateTrail(new SkullPrimTrail(projectile, Color.Green, (int)(30 * projectile.scale), (int)(20 * projectile.scale)));
 				projectile.localAI[1]++;
 			}
 

@@ -11,6 +11,8 @@ float progress;
 
 float repeats = 1;
 
+float scroll = 0;
+
 struct VertexShaderInput
 {
 	float2 TextureCoordinates : TEXCOORD0;
@@ -40,7 +42,7 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
 
 float4 White(VertexShaderOutput input) : COLOR0
 {
-    float2 coords = float2(input.TextureCoordinates.x * repeats, input.TextureCoordinates.y);
+    float2 coords = float2((input.TextureCoordinates.x * repeats) + scroll, input.TextureCoordinates.y);
     if (flipCoords)
         coords = float2(input.TextureCoordinates.y * repeats, input.TextureCoordinates.x);
     

@@ -70,7 +70,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
 			if (!primsCreated) {
 				AdjustMagnitude(ref projectile.velocity);
 				primsCreated = true;
-				SpiritMod.primitives.CreateTrail(new SkullPrimTrail(projectile, Color.Green, 15));
+				SpiritMod.primitives.CreateTrail(new SkullPrimTrail(projectile, Color.Green, 30));
 			}
 			float distance = 800f;
 

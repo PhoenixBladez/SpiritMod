@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ModLoader;
 using System;
 
 namespace SpiritMod.Prim
@@ -40,9 +41,9 @@ namespace SpiritMod.Prim
 					Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
 					Vector2 secondDown = Points[i + 1] + normalAhead * widthVar;
 
-					AddVertex(Points[i], Color * AlphaValue, Vector2.Zero);
-					AddVertex(secondUp, Color * AlphaValue, Vector2.Zero);
-					AddVertex(secondDown, Color * AlphaValue, Vector2.Zero);
+					AddVertex(Points[i], Color * AlphaValue, new Vector2(0, 0.5f));
+					AddVertex(secondUp, Color * AlphaValue * ((i + 1) / (float)Points.Count), new Vector2((float)(i + 1) / (float)Points.Count, 0));
+					AddVertex(secondUp, Color * AlphaValue * ((i + 1) / (float)Points.Count), new Vector2((float)(i + 1) / (float)Points.Count, 1));
 				}
 				else {
 					if (i == Points.Count - 1)
@@ -57,19 +58,27 @@ namespace SpiritMod.Prim
 					Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
 					Vector2 secondDown = Points[i + 1] + normalAhead * widthVar;
 
-					AddVertex(firstDown, Color * AlphaValue, new Vector2(i / (float) Points.Count, 1));
-					AddVertex(firstUp, Color * AlphaValue, new Vector2(i / (float) Points.Count, 0));
-					AddVertex(secondDown, Color * AlphaValue, new Vector2((i + 1) / (float) Points.Count, 1));
+					AddVertex(firstDown, Color * AlphaValue * ((i) / (float)Points.Count), new Vector2(i / (float) Points.Count, 1));
+					AddVertex(firstUp, Color * AlphaValue * ((i) / (float)Points.Count), new Vector2(i / (float) Points.Count, 0));
+					AddVertex(secondDown, Color * AlphaValue * ((i + 1) / (float)Points.Count), new Vector2((i + 1) / (float) Points.Count, 1));
 
-					AddVertex(secondUp, Color * AlphaValue, new Vector2((i + 1) / (float) Points.Count, 0));
-					AddVertex(secondDown, Color * AlphaValue, new Vector2((i + 1) / (float) Points.Count, 1));
-					AddVertex(firstUp, Color * AlphaValue, new Vector2(i / (float) Points.Count, 0));
+					AddVertex(secondUp, Color * AlphaValue * ((i + 1) / (float)Points.Count), new Vector2((i + 1) / (float) Points.Count, 0));
+					AddVertex(secondDown, Color * AlphaValue * ((i + 1) / (float)Points.Count), new Vector2((i + 1) / (float) Points.Count, 1));
+					AddVertex(firstUp, Color * AlphaValue * ((i) / (float)Points.Count), new Vector2(i / (float) Points.Count, 0));
 				}
 			}
 		}
 
-		public override void SetShaders() => 
-			PrepareShader(SpiritMod.ScreamingSkullTrail, "MainPS", Counter / 2f);
+		public override void SetShaders()
+		{
+			Effect effect = SpiritMod.PrimitiveTextureMap;
+			effect.Parameters["uTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/FlameTrail"));
+			effect.Parameters["additive"].SetValue(true);
+			effect.Parameters["repeats"].SetValue(1);
+			effect.Parameters["intensify"].SetValue(true);
+			effect.Parameters["scroll"].SetValue(Counter * 0.05f);
+			PrepareShader(effect, "MainPS", Counter);
+		}
 
 		public override void OnUpdate()
 		{
