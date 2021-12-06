@@ -70,7 +70,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
 			if (!primsCreated) {
 				AdjustMagnitude(ref projectile.velocity);
 				primsCreated = true;
-				SpiritMod.primitives.CreateTrail(new SkullPrimTrail(projectile, Color.Green, 30));
+				SpiritMod.primitives.CreateTrail(new SkullPrimTrail(projectile, Color.DarkGreen, 30));
 			}
 			float distance = 800f;
 
@@ -117,6 +117,10 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
 			 Starjinx.YuyutsuShader.Parameters["color2"].SetValue(color2.ToVector4());
 			 Starjinx.YuyutsuShader.Parameters["noise"].SetValue(mod.GetTexture("Textures/noise"));
 			 Starjinx.YuyutsuShader.CurrentTechnique.Passes[0].Apply();*/
+			Color bloomColor = Color.DarkGreen;
+			bloomColor.A = 0;
+			Main.spriteBatch.Draw(ModContent.GetTexture("SpiritMod/Effects/Masks/Extra_49"), projectile.Center - Main.screenPosition, null, bloomColor, 0f, new Vector2(50,50), 0.35f, SpriteEffects.None, 0f);
+
 			Vector2 center = new Vector2((float)(Main.projectileTexture[projectile.type].Width / 2), (float)(Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type] / 2));
 			SpriteEffects spriteEffects3 = (projectile.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 			Texture2D texture = Main.projectileTexture[projectile.type];
