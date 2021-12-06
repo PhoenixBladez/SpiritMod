@@ -1326,9 +1326,12 @@ namespace SpiritMod
 			int TrapsIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Traps"));
 			tasks.Insert(TrapsIndex + 2, new PassLegacy("Asteroids", SpiritGenPasses.AsteroidsPass));
 
-			int beachIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Beaches")); //Replace beach gen
-			if (beachIndex != -1)
-				tasks[beachIndex] = new PassLegacy("New Beach", OceanGeneration.GenerateOcean);
+			if (GetInstance<SpiritClientConfig>().OceanShape != OceanGeneration.OceanShape.Default)
+			{
+				int beachIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Beaches")); //Replace beach gen
+				if (beachIndex != -1)
+					tasks[beachIndex] = new PassLegacy("New Beach", OceanGeneration.GenerateOcean);
+			}
 		}
 
 		public override void PostWorldGen()

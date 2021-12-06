@@ -1,3 +1,4 @@
+using SpiritMod.World;
 using System.ComponentModel;
 using Terraria.ModLoader.Config;
 
@@ -63,7 +64,11 @@ namespace SpiritMod.Utilities
 		[Tooltip("Enables the showing of titles when spawning a boss, or what bosses titles display for")]
 		[OptionStrings(new string[] { "Off", "Spirit Bosses Only", "Spirit and Vanilla Bosses Only", "All Applicable Bosses" })]
 		[DefaultValue("Spirit and Vanilla Bosses Only")]
-
 		public string DrawCondition { get; set; }
+
+		[Label("Ocean Generation Shape")]
+		[Tooltip("Modifies the Ocean generation in certain ways. Defaults to a Piecewise generation.")]
+		[DefaultValue(OceanGeneration.OceanShape.Piecewise)]
+		public OceanGeneration.OceanShape OceanShape { get; set; }
 	}
 }

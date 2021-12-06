@@ -1,7 +1,9 @@
-﻿using System;
+﻿using SpiritMod.Utilities;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
+using Terraria.ModLoader;
 using Terraria.World.Generation;
 
 namespace SpiritMod.World
@@ -34,8 +36,8 @@ namespace SpiritMod.World
 
 					int oceanTop;
 					for (oceanTop = 0; !Main.tile[initialWidth - 1, oceanTop].active(); oceanTop++)
-					{
-					}
+					{ } //Get top of ocean
+
 					num462 = oceanTop;
 					oceanTop += WorldGen.genRand.Next(1, 5);
 					for (int placeX = initialWidth - 1; placeX >= worldEdge; placeX--)
@@ -60,9 +62,9 @@ namespace SpiritMod.World
 						worldEdge = Main.maxTilesX - 275;
 
 					int oceanTop;
-					for (oceanTop = 0; !Main.tile[worldEdge, oceanTop].active(); oceanTop++)
-					{
-					}
+					for (oceanTop = 0; !Main.tile[initialWidth - 1, oceanTop].active(); oceanTop++)
+					{ } //Get top of ocean
+
 					num463 = oceanTop;
 					oceanTop += WorldGen.genRand.Next(1, 5);
 					for (int placeX = worldEdge; placeX < initialWidth; placeX++) //repeat X loop
@@ -109,10 +111,35 @@ namespace SpiritMod.World
 
 		private static float GetOceanSlope(int tilesFromInnerEdge)
 		{
-			const int SlopeSize = 15;
+			if (ModContent.GetInstance<SpiritClientConfig>().OceanShape == OceanShape.SlantedSine)
+			{
+				const int SlopeSize = 15;
+				const float Steepness = 0.8f;
 
-			//s_0sin(1/s_0 x) + x
-			return (SlopeSize * (float)Math.Sin((1f / SlopeSize) * tilesFromInnerEdge)) + tilesFromInnerEdge;
+				//(s_0s_1)sin(1/s_0 x) + (s_1)x
+				if (tilesFromInnerEdge > 234)
+					return (SlopeSize * Steepness * (float)Math.Sin((1f / SlopeSize) * 234)) + (Steepness * 234);
+				return (SlopeSize * Steepness * (float)Math.Sin((1f / SlopeSize) * tilesFromInnerEdge)) + (Steepness * tilesFromInnerEdge);
+			}
+			else
+			{
+				if (tilesFromInnerEdge < 75)
+					return (1 / 75f) * tilesFromInnerEdge * tilesFromInnerEdge;
+				else if (tilesFromInnerEdge < 125)
+					return 75;
+				else if (tilesFromInnerEdge < 175)
+					return (1 / 50f) * (float)Math.Pow(tilesFromInnerEdge - 125, 2) + 75;
+				else
+					return 125;
+			}
+		}
+
+		public enum OceanShape
+		{
+			Default = 0, //vanilla worldgen
+			SlantedSine, //Yuyu's initial sketch
+			Piecewise, //Musicano's original sketch
+			Piecewise_M, //Musicano's sketch with Sal/Yuyu's cubic modification
 		}
 	}
 }

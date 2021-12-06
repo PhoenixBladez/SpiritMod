@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Consumable.Quest
             item.width = 30;
 			item.height = 20;
 			item.value = Item.sellPrice(0, 2, 0, 0);
-            item.createTile = ModContent.TileType<Tiles.Furniture.AdvPaintings.GraniteMap>();
+            item.createTile = ModContent.TileType<Tiles.Furniture.Paintings.GraniteMap>();
             item.rare = -11;
 		}
 		public override void ModifyTooltips(List<TooltipLine> tooltips)

@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Consumable.Quest
 			item.height = 20;
 			item.value = Item.sellPrice(0, 2, 0, 0);
 			item.rare = -11;
-            item.createTile = ModContent.TileType<Tiles.Furniture.AdvPaintings.MushroomMap>();
+            item.createTile = ModContent.TileType<Tiles.Furniture.Paintings.MushroomMap>();
         }
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{

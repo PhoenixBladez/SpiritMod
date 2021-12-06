@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Consumable.Quest
             item.consumable = true;
             item.width = 30;
 			item.height = 20;
-            item.createTile = ModContent.TileType<Tiles.Furniture.AdvPaintings.HiveMap>();
+            item.createTile = ModContent.TileType<Tiles.Furniture.Paintings.HiveMap>();
             item.value = Item.sellPrice(0, 2, 0, 0);
 			item.rare = -11;
 		}

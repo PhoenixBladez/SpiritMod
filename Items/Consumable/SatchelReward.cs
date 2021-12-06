@@ -1,6 +1,6 @@
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Placeable.Furniture;
-using SpiritMod.Items.Placeable.Furniture.AdvPaintings;
+using SpiritMod.Items.Placeable.Furniture.Paintings;
 using SpiritMod.Items.Weapon.Thrown;
 using Terraria;
 using Terraria.ID;

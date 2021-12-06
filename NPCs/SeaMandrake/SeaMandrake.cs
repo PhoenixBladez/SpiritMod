@@ -23,6 +23,7 @@ namespace SpiritMod.NPCs.SeaMandrake
 			NPCID.Sets.TrailCacheLength[npc.type] = 20;
 			NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = 16;
@@ -40,6 +41,7 @@ namespace SpiritMod.NPCs.SeaMandrake
 			npc.HitSound = SoundID.NPCHit25;
 			npc.DeathSound = SoundID.NPCDeath28;
 		}
+
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];
@@ -57,10 +59,11 @@ namespace SpiritMod.NPCs.SeaMandrake
 				npc.velocity.X = 0f;
 
 			if (Vector2.Distance(npc.Center, Main.player[npc.target].Center) <= 155f && npc.wet && player.wet)
-				spawnInk();
+				SpawnInk();
 
 			if (npc.wet)
 				Movement();
+
 			if (!npc.wet && !player.wet)
 				npc.velocity.Y = 8f;
 
@@ -86,7 +89,6 @@ namespace SpiritMod.NPCs.SeaMandrake
 							r = 160;
 							g = 30;
 						}
-
 					}
 					else
 					{
@@ -269,7 +271,7 @@ namespace SpiritMod.NPCs.SeaMandrake
 			}
 		}
 
-		private void spawnInk()
+		private void SpawnInk()
 		{
 			npc.rotation = npc.velocity.X * 1.25f;
 			Player player = Main.player[npc.target];
@@ -297,18 +299,18 @@ namespace SpiritMod.NPCs.SeaMandrake
 				Main.dust[index2].alpha += Main.rand.Next(100);
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity *= 0.3f;
-				Main.dust[index2].velocity.X += (float)Main.rand.Next(-240, -180) * 0.025f * npc.velocity.X;
-				Main.dust[index2].velocity.Y -= (float)(0.4f + Main.rand.Next(-3, 14) * 0.15f);
+				Main.dust[index2].velocity.X += Main.rand.Next(-240, -180) * 0.025f * npc.velocity.X;
+				Main.dust[index2].velocity.Y -= (0.4f + Main.rand.Next(-3, 14) * 0.15f);
 				Main.dust[index2].fadeIn = (float)(0.25 + Main.rand.Next(10) * 0.15f);
 			}
 		}
+
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(25) == 0)
-			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("LuminanceSeacone"), 1);
-			}
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)
@@ -329,26 +331,30 @@ namespace SpiritMod.NPCs.SeaMandrake
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.AncientLight, 2.5f * hitDirection, -2.5f, 0, new Color(r, g, b), 0.7f);
 			}
 		}
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (NPC.CountNPCS(ModContent.NPCType<SeaMandrake>()) > 2)
 				return 0f;
 			return SpawnCondition.OceanMonster.Chance * 0.11f;
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) => false;
+
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			Vector2 vector2_3 = new Vector2((Main.npcTexture[npc.type].Width / 2), (Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
-			float addHeight = 13f;
+			Texture2D glowTex = mod.GetTexture("NPCs/SeaMandrake/SeaMandrake_Glow");
+			Vector2 texCentre = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
 			Color color1 = Lighting.GetColor((int)(npc.position.X + npc.width * 0.5) / 16, (int)((npc.position.Y + npc.height * 0.5) / 16.0));
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
-			var adjPos = new Vector2((-Main.npcTexture[npc.type].Width * npc.scale / 2.0f + vector2_3.X * npc.scale), (-Main.npcTexture[npc.type].Height * npc.scale / Main.npcFrameCount[npc.type] + 4.0f + vector2_3.Y * npc.scale) + addHeight + npc.gfxOffY);
-			Main.spriteBatch.Draw(mod.GetTexture("NPCs/SeaMandrake/SeaMandrake_Glow"), npc.Bottom - Main.screenPosition + adjPos, npc.frame, new Color(r - npc.alpha, byte.MaxValue - npc.alpha, g - npc.alpha, b - npc.alpha), npc.rotation, vector2_3, npc.scale, effects, 0.0f);
+			var adjPos = new Vector2((-Main.npcTexture[npc.type].Width * npc.scale / 2.0f + texCentre.X * npc.scale), (-Main.npcTexture[npc.type].Height * npc.scale / Main.npcFrameCount[npc.type] + 4.0f + texCentre.Y * npc.scale) + 13f + npc.gfxOffY);
+			Main.spriteBatch.Draw(glowTex, npc.Bottom - Main.screenPosition + adjPos, npc.frame, new Color(r - npc.alpha, byte.MaxValue - npc.alpha, g - npc.alpha, b - npc.alpha), npc.rotation, texCentre, npc.scale, effects, 0.0f);
 			float num = (float)(0.25 + (npc.GetAlpha(color1).ToVector3() + new Vector3(2.5f)).Length() * 0.25);
 			for (int index = 0; index < 8; ++index)
-				Main.spriteBatch.Draw(mod.GetTexture("NPCs/SeaMandrake/SeaMandrake_Glow"), npc.Bottom - Main.screenPosition + adjPos + npc.velocity.RotatedBy((double)index * 47079637050629) * num, npc.frame, new Color(r, g, b, 0), npc.rotation, vector2_3, npc.scale, effects, 0.0f);
+				Main.spriteBatch.Draw(glowTex, npc.Bottom - Main.screenPosition + adjPos + npc.velocity.RotatedBy((double)index * 7) * num, npc.frame, new Color(r, g, b, 0), npc.rotation, texCentre, npc.scale, effects, 0.0f);
 		}
+
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter++;

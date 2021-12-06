@@ -21,7 +21,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		private (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Consumable.Food.IceBerries>(), 4),
-			(ModContent.ItemType<Items.Placeable.Furniture.AdvPaintings.AdvPainting15>(), 1),
+			(ModContent.ItemType<Items.Placeable.Furniture.Paintings.AdvPainting15>(), 1),
 			(ModContent.ItemType<Items.Placeable.MusicBox.AuroraBox>(), 1),
 			(ModContent.ItemType<Items.Consumable.MapScroll>(), 2),
 			(Terraria.ID.ItemID.SilverCoin, 55)
