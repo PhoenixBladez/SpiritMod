@@ -42,8 +42,8 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
 			Player player = Main.player[projectile.owner];
 			projectile.frameCounter++;
 
-			if (Main.rand.Next(10) == 1)
-				Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(24,24), ModContent.DustType<ScreamingDust>(), Vector2.Zero);
+			/*if (Main.rand.Next(10) == 1)
+				Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(24,24), ModContent.DustType<ScreamingDust>(), Vector2.Zero);*/
 
 			if (mousePos == null) {
 				if (projectile.frameCounter % 16 == 0) {
