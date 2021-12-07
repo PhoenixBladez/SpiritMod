@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 
 		public override void SetDefaults()
 		{
-			item.damage = 46;
+			item.damage = 100;
 			item.melee = true;
 			item.width = 36;
 			item.height = 44;
