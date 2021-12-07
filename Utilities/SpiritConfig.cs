@@ -68,7 +68,7 @@ namespace SpiritMod.Utilities
 
 		[Label("Ocean Generation Shape")]
 		[Tooltip("Modifies the Ocean generation in certain ways. Defaults to a Piecewise generation.")]
-		[DefaultValue(OceanGeneration.OceanShape.Piecewise)]
+		[DefaultValue(OceanGeneration.OceanShape.Piecewise_V)]
 		public OceanGeneration.OceanShape OceanShape { get; set; }
 	}
 }
