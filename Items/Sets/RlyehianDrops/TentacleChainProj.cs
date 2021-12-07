@@ -103,8 +103,8 @@ namespace SpiritMod.Items.Sets.RlyehianDrops
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			// Spawns an explosion when it hits an NPC.
-			int cooldown = 3;
-			projectile.localNPCImmunity[target.whoAmI] = 6;
+			int cooldown = 10;
+			projectile.localNPCImmunity[target.whoAmI] = 10;
 			target.immune[projectile.owner] = cooldown;
 		}
 
