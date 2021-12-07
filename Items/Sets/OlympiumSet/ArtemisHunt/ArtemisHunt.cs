@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 		public override bool AltFunctionUse(Player player) => true;
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Artemis's Hunt");
+			DisplayName.SetDefault("Lokheira");
 			Tooltip.SetDefault("Hit enemies to mark them \nRight click to fire a volley of arrows at marked foes");
 			SpiritGlowmask.AddGlowMask(item.type, Texture + "_Glow");
 		}
