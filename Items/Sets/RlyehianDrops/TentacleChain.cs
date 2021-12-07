@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Sets.RlyehianDrops
 			item.damage = 23;
 			item.noUseGraphic = true;
 			item.shoot = ModContent.ProjectileType<TentacleChainProj>();
-			item.shootSpeed = 22f;
+			item.shootSpeed = 11f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.melee = true;
@@ -38,8 +38,21 @@ namespace SpiritMod.Items.Sets.RlyehianDrops
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			Vector2 direction9 = new Vector2(speedX, speedY).RotatedBy(Main.rand.NextFloat(-0.22f, 0.22f));
-			Projectile.NewProjectile(position, direction9, type, damage, knockBack, player.whoAmI, direction9.X, direction9.Y);
+			// How far out the inaccuracy of the shot chain can be.
+			float radius = 20f;
+			// Sets ai[1] to the following value to determine the firing direction.
+			// The smaller the value of NextFloat(), the more accurate the shot will be. The larger, the less accurate. This changes depending on your radius.
+			// NextBool().ToDirectionInt() will have a 50% chance to make it negative instead of positive.
+			// The Solar Eruption uses this calculation: Main.rand.NextFloat(0f, 0.5f) * Main.rand.NextBool().ToDirectionInt() * MathHelper.ToRadians(45f);
+			float direction = Main.rand.NextFloat(0.25f, 1f) * Main.rand.NextBool().ToDirectionInt() * MathHelper.ToRadians(radius);
+			Projectile projectile = Projectile.NewProjectileDirect(player.RotatedRelativePoint(player.MountedCenter), new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, direction);
+			// Extra logic for the chain to adjust to item stats, unlike the Solar Eruption.
+			if (projectile.modProjectile is TentacleChainProj modItem)
+			{
+				modItem.firingSpeed = item.shootSpeed * 2f;
+				modItem.firingAnimation = item.useAnimation * 3;
+				modItem.firingTime = item.useTime * 3;
+			}
 			return false;
 		}
 	}

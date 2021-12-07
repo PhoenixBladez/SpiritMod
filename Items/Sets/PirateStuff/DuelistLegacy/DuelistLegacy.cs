@@ -4,6 +4,7 @@ using SpiritMod.Dusts;
 using System;
 using SpiritMod.Utilities;
 using Terraria;
+using Terraria.Enums;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -38,13 +39,13 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 			item.knockBack = 10f;
 			item.value = Item.sellPrice(0, 1, 80, 0);
 			item.crit = 4;
-			item.rare = ItemRarityID.Blue;
+			item.rare = 5;
 			item.shootSpeed = 1f;
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<DuelistSlash>();
 			item.noUseGraphic = true;
 			item.noMelee = true;
-			item.autoReuse = true;
+			item.autoReuse = false;
 		}
 
 		public override bool CanUseItem(Player player)
@@ -181,6 +182,18 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 				return true;
 			return false;
 		}
+		public override bool? CanCutTiles()
+		{
+			return true;
+		}
+
+		// Plot a line from the start of the Solar Eruption to the end of it, to change the tile-cutting collision logic. (Don't change this.)
+		public override void CutTiles()
+		{
+			Vector2 lineDirection = rotation.ToRotationVector2();
+			DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
+			Utils.PlotTileLine(Player.Center, Player.Center + (lineDirection * projectile.width), projectile.height, DelegateMethods.CutTiles);
+		}
 		public override void AI()
 		{
 			projectile.velocity = Vector2.Zero;
@@ -235,6 +248,7 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 			{
 				Player.itemRotation -= 3.14f;
 			}
+			Player.itemRotation = MathHelper.WrapAngle(Player.itemRotation);
 
 			if (!Empowered)
 			{
@@ -470,6 +484,19 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 			return false;
 		}
 
+
+		public override bool? CanCutTiles()
+		{
+			return true;
+		}
+
+		// Plot a line from the start of the Solar Eruption to the end of it, to change the tile-cutting collision logic. (Don't change this.)
+		public override void CutTiles()
+		{
+			Vector2 lineDirection = projectile.rotation.ToRotationVector2();
+			DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
+			Utils.PlotTileLine(projectile.Center, projectile.Center + (lineDirection * projectile.width), projectile.height, DelegateMethods.CutTiles);
+		}
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			hitDirection = direction;
