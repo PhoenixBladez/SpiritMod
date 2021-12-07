@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Placeable;
 using SpiritMod.Particles;
 using SpiritMod.Tiles.Block;
@@ -50,7 +51,6 @@ namespace SpiritMod.Tiles
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			Item.NewItem(i * 16, j * 16, 0, 0, ModContent.ItemType<SuperSunFlowerItem>());
-
 			// no need to sync this back to clients
 			MyWorld.superSunFlowerPositions.Remove(new Point16(i + 1, j + 5));
 		}
@@ -66,15 +66,25 @@ namespace SpiritMod.Tiles
 				return;
 
 			if (Main.rand.NextBool(180) && !Main.gamePaused) {
-				GlowParticle particle = new GlowParticle(
+				var particle = new GlowParticle(
 					new Vector2(i, j).ToWorldCoordinates() + new Vector2(40f * (Main.rand.NextBool() ? 1 : -1), 30f * (Main.rand.NextBool() ? 1 : -1)),
 					Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.1f, 0.4f),
 					new Color(0.7f, 0.7f, 0.15f),
 					Main.rand.NextFloat(0.03f, 0.06f),
 					Main.rand.Next(180, 400));
-
 				ParticleHandler.SpawnParticle(particle);
 			}
+		}
+
+		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+		{
+			Tile tile = Framing.GetTileSafely(i, j);
+			Color colour = Color.White;
+
+			Texture2D glow = ModContent.GetTexture("SpiritMod/Tiles/SuperSunFlower_Glow");
+			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
+
+			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero + new Vector2(0, 12), new Rectangle(tile.frameX, tile.frameY, 16, 16), colour);
 		}
 	}
 }

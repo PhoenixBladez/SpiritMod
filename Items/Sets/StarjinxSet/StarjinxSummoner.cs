@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 
 			int width = 200 + (int)(((Main.maxTilesX / 4200f) - 1) * 75);
 			int x = MyWorld.asteroidSide == 0 ? (width * 16) + 80 : (Main.maxTilesX * 16) - ((width * 16) + 80);
-			Vector2 finalPos = GetOpenSpace(x, 1800);
+			Vector2 finalPos = GetOpenSpace(x, 1600);
 
 			if (finalPos != Vector2.Zero)
 			{
@@ -72,7 +72,9 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 				if (spawnPos.X < MinX) spawnPos.X = MinX;
 				if (spawnPos.Y < MinY) spawnPos.Y = MinY;
 
-				if (!Collision.SolidCollision(spawnPos - (temp.Size * 2), temp.width * 4, temp.height * 4))
+				const float SizeArea = 8;
+
+				if (!Collision.SolidCollision(spawnPos - (temp.Size * (SizeArea / 2)), (int)(temp.width * SizeArea), (int)(temp.height * SizeArea)))
 					return spawnPos;
 			}
 			return Vector2.Zero;

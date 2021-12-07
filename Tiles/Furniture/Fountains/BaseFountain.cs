@@ -14,13 +14,12 @@ namespace SpiritMod.Tiles.Furniture.Fountains
 		internal virtual int DropType => ModContent.ItemType<BriarFountainItem>();
 		internal virtual int WaterStyle => ModContent.GetInstance<ReachWaterStyle>().Type;
 
-
 		public sealed override void SetDefaults()
         {
             Main.tileFrameImportant[Type] = true;
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style5x4);
-            TileObjectData.newTile.Origin = new Point16(1, 1);
+            TileObjectData.newTile.Origin = new Point16(3, 2);
             TileObjectData.newTile.CoordinateHeights = new[] { 16, 16, 16, 16 };
             TileObjectData.addTile(Type);
 
