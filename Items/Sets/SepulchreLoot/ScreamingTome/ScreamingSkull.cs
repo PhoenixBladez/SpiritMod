@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Prim;
+using SpiritMod.Dusts;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -40,6 +41,9 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
 		{
 			Player player = Main.player[projectile.owner];
 			projectile.frameCounter++;
+
+			if (Main.rand.Next(10) == 1)
+				Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(24,24), ModContent.DustType<ScreamingDust>(), Vector2.Zero);
 
 			if (mousePos == null) {
 				if (projectile.frameCounter % 16 == 0) {
