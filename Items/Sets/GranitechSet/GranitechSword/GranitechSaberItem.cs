@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 		public override void SetDefaults()
 		{
 			item.melee = true;
-			item.damage = 80;
+			item.damage = 60;
 			item.Size = new Vector2(88, 92);
 			item.useTime = item.useAnimation = 18;
 			item.reuseDelay = 20;
