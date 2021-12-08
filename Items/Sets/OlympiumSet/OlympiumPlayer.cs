@@ -1,5 +1,4 @@
-﻿using SpiritMod.Buffs;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.OlympiumSet
@@ -20,10 +19,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet
 		public override void ModifyWeaponDamage(Item item, ref float add, ref float mult, ref float flat)
 		{
 			if (eleutherios)
-			{
 				mult += eleutheoriosStrength + 1;
-				Main.NewText(mult);
-			}
 		}
 	}
 }

@@ -8,8 +8,8 @@ namespace SpiritMod.Buffs
 	{
 		public override void SetDefaults()
 		{
-			DisplayName.SetDefault("Eleutherios BUff");
-			Description.SetDefault("Damage increased by x%");
+			DisplayName.SetDefault("Eleutherios' Strength");
+			Description.SetDefault("Damage increased by 0%");
 			Main.pvpBuff[Type] = true;
 			Main.buffNoTimeDisplay[Type] = false;
 		}
@@ -17,10 +17,6 @@ namespace SpiritMod.Buffs
 		public override void ModifyBuffTip(ref string tip, ref int rare) => //MIGHT be bad for MP but I don't know how to get player otherwise
 			tip = $"Damage increased by {System.Math.Truncate(Main.LocalPlayer.GetModPlayer<OlympiumPlayer>().eleutheoriosStrength * 100)}%";
 
-		public override void Update(Player player, ref int buffIndex)
-		{
-			int time = player.buffTime[buffIndex];
-			player.GetModPlayer<OlympiumPlayer>().eleutheoriosStrength = time * 0.025f / 60f;
-		}
+		public override void Update(Player player, ref int buffIndex) => player.GetModPlayer<OlympiumPlayer>().eleutheoriosStrength = player.buffTime[buffIndex] * 0.025f / 60f;
 	}
 }
