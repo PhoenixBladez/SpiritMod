@@ -186,20 +186,20 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
             Texture2D texture = Main.projectileTexture[projectile.type];
             if (player.direction == 1)
             {
-                Main.spriteBatch.Draw(texture, (player.Center - new Vector2(-6, 6)) - Main.screenPosition, null, lightColor, 0, new Vector2(texture.Width,0), projectile.scale, SpriteEffects.None, 0.0f);
+                Main.spriteBatch.Draw(texture, (player.MountedCenter - new Vector2(-6, 6)) - Main.screenPosition, null, lightColor, 0, new Vector2(texture.Width,0), projectile.scale, SpriteEffects.None, 0.0f);
                 if (charge > 60 && player.channel)
                 {
                     Texture2D texture2 = ModContent.GetTexture("SpiritMod/Items/Weapon/Swung/AnimeSword/TwinkleXLarge");
-                    Main.spriteBatch.Draw(texture2, (player.Center - new Vector2(-6, 6)) - Main.screenPosition, null, Color.White, charge / 40f, new Vector2(texture2.Width / 2,texture2.Height / 2), projectile.scale, SpriteEffects.None, 0.0f);
+                    Main.spriteBatch.Draw(texture2, (player.MountedCenter - new Vector2(-6, 6)) - Main.screenPosition, null, Color.White, charge / 40f, new Vector2(texture2.Width / 2,texture2.Height / 2), projectile.scale, SpriteEffects.None, 0.0f);
                 }
             }
             else
             {
-                Main.spriteBatch.Draw(texture, (player.Center - new Vector2(6, 6)) - Main.screenPosition, null, lightColor, 0, new Vector2(0,0), projectile.scale, SpriteEffects.FlipHorizontally, 0.0f);
+                Main.spriteBatch.Draw(texture, (player.MountedCenter - new Vector2(6, 6)) - Main.screenPosition, null, lightColor, 0, new Vector2(0,0), projectile.scale, SpriteEffects.FlipHorizontally, 0.0f);
                 if (charge > 60 && player.channel)
                 {
                     Texture2D texture2 = ModContent.GetTexture("SpiritMod/Items/Weapon/Swung/AnimeSword/TwinkleXLarge");
-                    Main.spriteBatch.Draw(texture2, (player.Center - new Vector2(-2, 6)) - Main.screenPosition, null, Color.White, charge / 40f, new Vector2(texture2.Width / 2,texture2.Height / 2), projectile.scale, SpriteEffects.None, 0.0f);
+                    Main.spriteBatch.Draw(texture2, (player.MountedCenter - new Vector2(-2, 6)) - Main.screenPosition, null, Color.White, charge / 40f, new Vector2(texture2.Width / 2,texture2.Height / 2), projectile.scale, SpriteEffects.None, 0.0f);
                 }
             }
             return false;
