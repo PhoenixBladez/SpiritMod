@@ -40,6 +40,7 @@ using SpiritMod.NPCs.AuroraStag;
 using SpiritMod.Particles;
 using SpiritMod.UI.QuestUI;
 using SpiritMod.Mechanics.QuestSystem;
+using SpiritMod.Mechanics.Boons;
 using System.Collections.Concurrent;
 using Terraria.DataStructures;
 using SpiritMod.Effects.Stargoop;
@@ -724,6 +725,8 @@ namespace SpiritMod
 
 		public override void Load()
 		{
+
+			BoonLoader.Load();
 			//Always keep this call in the first line of Load!
 			LoadReferences();
 			StructureLoader.Load(this);
@@ -1069,6 +1072,7 @@ namespace SpiritMod
 
 		public override void Unload()
 		{
+			BoonLoader.Unload();
 			nighttimeAmbience = null;
 			underwaterAmbience = null;
 			wavesAmbience = null;
