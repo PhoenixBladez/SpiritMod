@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Mechanics.BoonSystem
 {
-	public class Boon
+	public abstract class Boon
 	{
 		public NPC npc;
 
