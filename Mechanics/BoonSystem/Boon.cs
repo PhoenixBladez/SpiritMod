@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace SpiritMod.Mechanics.BoonSystem
 {
@@ -29,6 +30,19 @@ namespace SpiritMod.Mechanics.BoonSystem
 
 		public virtual void Death() { }
 
+		#endregion
+
+		#region helpers
+		protected void DrawSigil(SpriteBatch spriteBatch, Texture2D tex, float counter)
+		{
+			float progress = counter % 1;
+			float transparency = (float)Math.Pow(1 - progress, 2);
+			float scale = 1 + progress;
+
+			spriteBatch.Draw(tex, npc.Center - Main.screenPosition, null, Color.White * transparency, 0, tex.Size() / 2, npc.scale * scale, SpriteEffects.None, 0f);
+
+			spriteBatch.Draw(tex, npc.Center - Main.screenPosition, null, Color.White, 0, tex.Size() / 2, npc.scale, SpriteEffects.None, 0f);
+		}
 		#endregion
 	}
 }

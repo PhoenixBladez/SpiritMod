@@ -56,6 +56,8 @@ namespace SpiritMod.Mechanics.BoonSystem
 
 		private static Boon GetBoon(NPC npc)
 		{
+			if (Main.rand.Next(5) != 1)
+				return null;
 			List<Boon> possibleBoons = new List<Boon>();
 
 			foreach (Boon boon in BoonLoader.LoadedBoons)
