@@ -102,6 +102,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 
 		public void HitEffect(Vector2 position)
 		{
+			projectile.damage = (int)(projectile.damage * 0.75f);
 			if (Main.dedServ)
 				return;
 

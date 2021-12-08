@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			item.rare = ItemRarityID.Orange;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ProjectileID.PurificationPowder;
-			item.mana = 10;
+			item.mana = 60;
 		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(-6, 0);

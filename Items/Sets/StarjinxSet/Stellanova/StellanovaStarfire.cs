@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			projectile.hide = true;
 		}
 
-		public void DoTrailCreation(TrailManager tM) => tM.CreateCustomTrail(new FlameTrail(projectile, Yellow, Orange, Purple, 30 * projectile.scale, 12));
+		public void DoTrailCreation(TrailManager tM) => tM.CreateCustomTrail(new FlameTrail(projectile, Yellow, Orange, Purple, 28 * projectile.scale, 14));
 
 		private float CircleOffset;
 		private float CirclingSpeed;
