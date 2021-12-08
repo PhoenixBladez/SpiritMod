@@ -4,7 +4,7 @@ using Terraria.ModLoader.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace SpiritMod.Mechanics.Boons
+namespace SpiritMod.Mechanics.BoonSystem
 {
 	public class Boon
 	{
@@ -13,6 +13,8 @@ namespace SpiritMod.Mechanics.Boons
 		public virtual bool CanApply => false;
 
 		#region boon hooks
+
+		public virtual void SpawnIn() { } 
 
 		public virtual void PreDraw(SpriteBatch spriteBatch, Color lightColor) { }
 

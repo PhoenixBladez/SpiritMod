@@ -8,10 +8,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using SpiritMod.Mechanics.BoonSystem;
 
 namespace SpiritMod.NPCs.Automata
 {
-	public class AutomataSpinner : ModNPC
+	public class AutomataSpinner : ModNPC, IBoonable
 	{
 		public override void SetStaticDefaults()
 		{

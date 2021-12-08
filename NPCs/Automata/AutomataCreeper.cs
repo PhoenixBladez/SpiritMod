@@ -5,10 +5,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using System.Collections.Generic;
+using SpiritMod.Mechanics.BoonSystem;
 
 namespace SpiritMod.NPCs.Automata
 {
-	public class AutomataCreeper : ModNPC
+	public class AutomataCreeper : ModNPC, IBoonable
 	{
 
 		protected bool attacking = false;

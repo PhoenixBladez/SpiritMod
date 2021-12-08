@@ -3,7 +3,13 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace SpiritMod.Mechanics.Boons
+using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Collections.Generic;
+
+namespace SpiritMod.Mechanics.BoonSystem
 {
 	public class BoonNPC : GlobalNPC
 	{
@@ -50,8 +56,24 @@ namespace SpiritMod.Mechanics.Boons
 
 		private static Boon GetBoon(NPC npc)
 		{
-			Boon ret = new Boon();
+			List<Boon> possibleBoons = new List<Boon>();
+
+			foreach (Boon boon in BoonLoader.LoadedBoons)
+			{
+				if (boon.CanApply)
+				{
+					possibleBoons.Add(boon);
+				}
+			}
+
+			if (possibleBoons.Count == 0)
+				return null;
+
+			Boon referenceBoon = possibleBoons[Main.rand.Next(possibleBoons.Count)];
+			Boon ret = Activator.CreateInstance(referenceBoon.GetType()) as Boon;
+
 			ret.npc = npc;
+			ret.SpawnIn();
 			return ret;
 		}
 	}

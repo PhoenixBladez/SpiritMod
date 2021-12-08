@@ -40,7 +40,7 @@ using SpiritMod.NPCs.AuroraStag;
 using SpiritMod.Particles;
 using SpiritMod.UI.QuestUI;
 using SpiritMod.Mechanics.QuestSystem;
-using SpiritMod.Mechanics.Boons;
+using SpiritMod.Mechanics.BoonSystem;
 using System.Collections.Concurrent;
 using Terraria.DataStructures;
 using SpiritMod.Effects.Stargoop;
