@@ -22,13 +22,13 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
         {
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.autoReuse = true;
-            item.useTime = 12;
-			item.useAnimation = 12;
+            item.useTime = 14;
+			item.useAnimation = 14;
 			item.width = 38;
             item.height = 6;
-            item.damage = 53;
+            item.damage = 66;
             item.shoot = ModContent.ProjectileType<StellanovaStarfire>();
-            item.shootSpeed = 30f;
+            item.shootSpeed = 38f;
             item.noMelee = true;
             item.useAmmo = AmmoID.FallenStar;
             item.value = Item.sellPrice(silver: 55);

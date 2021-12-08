@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Mechanics.Trails;
 using SpiritMod.NPCs.Boss.SteamRaider;
 using SpiritMod.Prim;
 using SpiritMod.Utilities;

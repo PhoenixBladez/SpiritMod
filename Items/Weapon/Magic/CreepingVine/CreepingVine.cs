@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Magic.CreepingVine
 		{
 			item.damage = 17;
 			item.noMelee = true;
-			item.rare = 2;
+			item.rare = ItemRarityID.Green;
 			item.width = 18;
 			item.height = 18;
 			item.useTime = 30;

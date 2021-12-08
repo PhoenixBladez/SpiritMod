@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 			item.knockBack = 10f;
 			item.value = Item.sellPrice(0, 1, 80, 0);
 			item.crit = 4;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.shootSpeed = 1f;
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<DuelistSlash>();
@@ -289,6 +289,10 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
+			Color color = Color.White;
+			color.A = 120;
+			color *= 0.8f;
+
 			if (!Empowered)
 			{
 				Texture2D tex2 = Main.projectileTexture[projectile.type];
@@ -319,16 +323,16 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 			if (flip)
 			{
 				if (direction.X > 0)
-					spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, new Vector2(0, frameHeight / 2), projectile.scale, SpriteEffects.None, 0f);
+					spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, color, projectile.rotation, new Vector2(0, frameHeight / 2), projectile.scale, SpriteEffects.None, 0f);
 				else
-					spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), projectile.scale, SpriteEffects.FlipHorizontally, 0f);
+					spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, color, projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), projectile.scale, SpriteEffects.FlipHorizontally, 0f);
 			}
 			else
 			{
 				if (direction.X > 0)
-					spriteBatch.Draw(tex, projectile.Center - Main.screenPosition - (direction.RotatedBy(-1.57f) * 15), frame, Color.White, projectile.rotation, new Vector2(0, frameHeight / 2), projectile.scale, SpriteEffects.None, 0f);
+					spriteBatch.Draw(tex, projectile.Center - Main.screenPosition - (direction.RotatedBy(-1.57f) * 15), frame, color, projectile.rotation, new Vector2(0, frameHeight / 2), projectile.scale, SpriteEffects.None, 0f);
 				else
-					spriteBatch.Draw(tex, projectile.Center - Main.screenPosition - (direction.RotatedBy(-1.57f) * 15), frame, Color.White, projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), projectile.scale, SpriteEffects.FlipHorizontally, 0f);
+					spriteBatch.Draw(tex, projectile.Center - Main.screenPosition - (direction.RotatedBy(-1.57f) * 15), frame, color, projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), projectile.scale, SpriteEffects.FlipHorizontally, 0f);
 			}
 			return false;
 		}
@@ -415,6 +419,9 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 
 	internal class DuelistBlast : ModProjectile
 	{
+
+		protected virtual Color color => Color.White;
+
 		int direction = 0;
 		public override void SetStaticDefaults()
 		{
@@ -469,9 +476,9 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 			int frameHeight = tex.Height / Main.projFrames[projectile.type];
 			Rectangle frame = new Rectangle(0, frameHeight * projectile.frame, tex.Width, frameHeight);
 			if (direction == 1)
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, new Vector2(0, frameHeight / 2), projectile.scale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frame, color, projectile.rotation, new Vector2(0, frameHeight / 2), projectile.scale, SpriteEffects.None, 0f);
 			else
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), projectile.scale, SpriteEffects.FlipHorizontally, 0f);
+				spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frame, color, projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), projectile.scale, SpriteEffects.FlipHorizontally, 0f);
 			return false;
 		}
 
@@ -505,6 +512,7 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 
 	internal class DuelistBlastSpecial : DuelistBlast
 	{
+		protected override Color color => new Color(255, 255, 255, 120) * 0.8f;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Duelist's Legacy");
@@ -572,10 +580,14 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
+			Color color = Color.White;
+			color.A = 120;
+			color *= 0.8f;
+
 			Texture2D tex = Main.projectileTexture[projectile.type];
 			int frameHeight = tex.Height / Main.projFrames[projectile.type];
 			Rectangle frame = new Rectangle(0, frameHeight * projectile.frame, tex.Width, frameHeight);
-			spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, new Vector2(0, frameHeight / 2), projectile.scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frame, color, projectile.rotation, new Vector2(0, frameHeight / 2), projectile.scale, SpriteEffects.None, 0f);
 			return false;
 		}
 	}

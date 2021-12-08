@@ -2,6 +2,7 @@
 using System;
 using SpiritMod.Utilities;
 using Terraria.ModLoader;
+using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod.NPCs.Boss.Scarabeus
 {

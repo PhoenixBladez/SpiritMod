@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Mechanics.Trails;
 using SpiritMod.Utilities;
 using System;
 using Terraria;
@@ -8,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 {
-    public class QuasarOrbiter : ModProjectile, ITrailProjectile
+	public class QuasarOrbiter : ModProjectile, ITrailProjectile
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Quasar Orb");
 

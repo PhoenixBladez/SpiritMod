@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using SpiritMod.Utilities;
 using Terraria.Graphics.Shaders;
-
+using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 {
@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 			projectile.width = 22;
 			projectile.height = 22;
 			projectile.friendly = true;
-			projectile.penetrate = 3;
+			projectile.penetrate = 1;
 			projectile.rotation = Main.rand.NextFloat(MathHelper.Pi);
 			projectile.tileCollide = true;
 			projectile.timeLeft = 150;
@@ -59,10 +59,18 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 
 		public override void Kill(int timeLeft)
 		{
-			for (int k = 0; k < 3; k++)
+			if(timeLeft > 0) //Dying through pierce/tile collision rather than naturallyd
 			{
-				int d = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.DungeonSpirit, projectile.oldVelocity.X * 0.1f, projectile.oldVelocity.Y * 0.1f);
-				Main.dust[d].noGravity = true;
+				if (!Main.dedServ)
+					for (int i = 0; i < 6; i++)
+						Particles.ParticleHandler.SpawnParticle(new Particles.StarParticle(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.Pi / 8) * Main.rand.NextFloat(0.05f, 0.2f), 
+							Color.White, Color.Cyan, Main.rand.NextFloat(0.1f, 0.2f), 20));
+			}
+
+			for (int k = 0; k < 10; k++)
+			{
+				Dust d = Dust.NewDustPerfect(projectile.Center + (projectile.velocity / 10), DustID.DungeonSpirit, Main.rand.NextVector2Circular(2, 2) + (projectile.oldVelocity / 20), Scale : Main.rand.NextFloat(0.8f, 1.8f));
+				d.noGravity = true;
 			}
 		}
 

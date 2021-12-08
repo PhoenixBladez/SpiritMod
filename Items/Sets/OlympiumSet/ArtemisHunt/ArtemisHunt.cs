@@ -9,6 +9,7 @@ using SpiritMod.Prim;
 using SpiritMod.Particles;
 using System;
 using System.Linq;
+using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 {

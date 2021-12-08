@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 		protected override float chargeRate => 0.7f;
 		protected override int thrownProj => ModContent.ProjectileType<PossessedHammerProjReturning>();
 		protected override float damageMult => 1.25f;
-		protected override int throwSpeed => 36;
+		protected override int throwSpeed => 46;
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => damage = (int)(damage * 0.75f);
 
@@ -127,7 +127,7 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 				case STATE_THROWOUT:
 					AiTimer++;
 					projectile.rotation += projectile.velocity.X > 0 ? 0.2f : -0.2f;
-					projectile.velocity *= 0.945f;
+					projectile.velocity *= 0.96f;
 					target = Projectiles.ProjectileExtras.FindNearestNPC(projectile.Center, 200, false);
 					if (target != null)
 						projectile.velocity = projectile.velocity.Length() * Vector2.Normalize(Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center) * projectile.velocity.Length(), 0.15f));
@@ -156,13 +156,13 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 					if (target != null)
 						projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center), 0.08f);
 
-					if (AiTimer > 45)
+					if (AiTimer > 38)
 						SetAIState(STATE_FASTHOME);
 					break;
 				case STATE_FASTHOME:
 					AiTimer++;
 					if (projectile.velocity.Length() < 24)
-						projectile.velocity *= 1.06f;
+						projectile.velocity *= 1.1f;
 
 					_rotationSpeed = MathHelper.Lerp(_rotationSpeed, 0.1f, 0.2f);
 					target = Projectiles.ProjectileExtras.FindNearestNPC(projectile.Center, 600, false);

@@ -5,9 +5,10 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Utilities;
+using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod.NPCs.Boss.ReachBoss
-{   
+{
 	public class ReachBossFlower : ModProjectile, ITrailProjectile
 	{
 		int target;

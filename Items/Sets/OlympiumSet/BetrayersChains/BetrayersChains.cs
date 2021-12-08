@@ -6,10 +6,10 @@ using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Projectiles;
-using SpiritMod.Utilities;
 using SpiritMod.Prim;
 using SpiritMod.VerletChains;
 using System.Collections.Generic;
+using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 {
@@ -105,8 +105,6 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
         public bool combo = false;
         public Chain chain;
         public Vector2 spawnPos;
-
-		private int visualTimer;
 
 		public FireChainPrimTrail trail;
 

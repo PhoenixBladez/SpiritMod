@@ -5,11 +5,12 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using System.IO;
+using SpiritMod.Mechanics.BoonSystem;
 
 namespace SpiritMod.NPCs.StymphalianBat
 {
-    public class StymphalianBat : ModNPC
-    {
+    public class StymphalianBat : ModNPC, IBoonable
+	{
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stymphalian Bat");

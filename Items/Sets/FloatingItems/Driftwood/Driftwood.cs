@@ -57,7 +57,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Driftwood");
 			AddMapEntry(new Color(69, 54, 43), name);
-			dustType = 1;
+			dustType = DustID.Stone;
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
@@ -119,7 +119,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Driftwood");
 			AddMapEntry(new Color(69, 54, 43), name);
-			dustType = 1;
+			dustType = DustID.Stone;
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
@@ -181,7 +181,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Driftwood");
 			AddMapEntry(new Color(69, 54, 43), name);
-			dustType = 1;
+			dustType = DustID.Stone;
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{

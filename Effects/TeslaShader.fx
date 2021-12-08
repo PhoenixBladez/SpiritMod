@@ -4,7 +4,7 @@ float progress;
 float repeats;
 matrix WorldViewProjection;
 texture baseTexture;
-sampler2D baseSampler = sampler_state { texture = <baseTexture>; magfilter = LINEAR; minfilter = LINEAR; mipfilter = LINEAR; AddressU = wrap;};
+sampler2D baseSampler = sampler_state { texture = <baseTexture>; magfilter = LINEAR; minfilter = LINEAR; mipfilter = LINEAR; AddressU = wrap; AddressV = clamp; };
 
 texture vnoise;
 sampler vnoiseSampler = sampler_state

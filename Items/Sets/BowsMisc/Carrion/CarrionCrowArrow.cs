@@ -9,6 +9,7 @@ using System.IO;
 using SpiritMod.Projectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 {

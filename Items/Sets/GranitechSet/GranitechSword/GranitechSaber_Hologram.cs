@@ -53,6 +53,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 
 		public override void AI()
 		{
+			++Timer;
 			projectile.timeLeft = 2;
 
 			_hitTimer = Math.Max(_hitTimer - 1, 0);
@@ -85,7 +86,6 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 				}
 			}*/
 
-			++Timer;
 			if (Timer > SwingTime)
 				projectile.Kill();
 		}
@@ -102,6 +102,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 
 		public void HitEffect(Vector2 position)
 		{
+			projectile.damage = (int)(projectile.damage * 0.75f);
 			if (Main.dedServ)
 				return;
 

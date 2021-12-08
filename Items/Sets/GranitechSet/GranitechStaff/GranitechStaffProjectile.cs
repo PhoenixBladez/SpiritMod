@@ -77,7 +77,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 					ChannelKillCheck();
 					int ChargeTime = Owner.HeldItem.useTime; //Corresponds to player's held item's usetime, thus benefits from reforges as well
 
-					int ManaTickTime = ChargeTime / MANA_DRAIN_TICKS;
+					/*int ManaTickTime = ChargeTime / MANA_DRAIN_TICKS;
 					if(AiTimer % ManaTickTime == 0)
 					{
 						if (!Owner.CheckMana(Owner.HeldItem.mana, true))
@@ -85,7 +85,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 
 						Owner.manaRegenDelay = (int)Owner.maxRegenDelay; //Doesnt automatically do this when using checkmana 
 						return;
-					}
+					}*/
 
 					if(AiTimer > ChargeTime)
 					{

@@ -80,6 +80,10 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 		public override bool PreAI()
 		{
 			Player player = Main.player[projectile.owner];
+			player.itemTime = 2;
+			player.itemAnimation = 2;
+			player.heldProj = projectile.whoAmI;
+
 			if (!released)
 				return true;
 			stuckTimer--;

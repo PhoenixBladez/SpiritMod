@@ -40,6 +40,7 @@ using SpiritMod.NPCs.AuroraStag;
 using SpiritMod.Particles;
 using SpiritMod.UI.QuestUI;
 using SpiritMod.Mechanics.QuestSystem;
+using SpiritMod.Mechanics.BoonSystem;
 using System.Collections.Concurrent;
 using Terraria.DataStructures;
 using SpiritMod.Effects.Stargoop;
@@ -55,6 +56,7 @@ using SpiritMod.Mechanics.EventSystem;
 using static Terraria.ModLoader.Core.TmodFile;
 using SpiritMod.Skies.Starjinx;
 using SpiritMod.NPCs.StarjinxEvent;
+using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod
 {
@@ -277,7 +279,7 @@ namespace SpiritMod
 						break;
 					}
 
-					ITrailProjectile trailproj = (Main.projectile[projindex].modProjectile as ITrailProjectile);
+					IManualTrailProjectile trailproj = (Main.projectile[projindex].modProjectile as IManualTrailProjectile);
 					if (trailproj != null)
 						trailproj.DoTrailCreation(TrailManager);
 
@@ -723,6 +725,8 @@ namespace SpiritMod
 
 		public override void Load()
 		{
+
+			BoonLoader.Load();
 			//Always keep this call in the first line of Load!
 			LoadReferences();
 			StructureLoader.Load(this);
@@ -1068,6 +1072,7 @@ namespace SpiritMod
 
 		public override void Unload()
 		{
+			BoonLoader.Unload();
 			nighttimeAmbience = null;
 			underwaterAmbience = null;
 			wavesAmbience = null;

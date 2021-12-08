@@ -5,6 +5,7 @@ using Terraria.Graphics.Shaders;
 using SpiritMod.Utilities;
 using Terraria.ModLoader;
 using SpiritMod.Particles;
+using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod.Items.Sets.FlailsMisc.Revelation
 {

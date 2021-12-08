@@ -1,6 +1,6 @@
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Mechanics.Trails;
 using SpiritMod.Utilities;
 using System;
 using Terraria;

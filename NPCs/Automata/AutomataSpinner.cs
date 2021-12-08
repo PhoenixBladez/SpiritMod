@@ -8,10 +8,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using SpiritMod.Mechanics.BoonSystem;
 
 namespace SpiritMod.NPCs.Automata
 {
-	public class AutomataSpinner : ModNPC
+	public class AutomataSpinner : ModNPC, IBoonable
 	{
 		public override void SetStaticDefaults()
 		{
@@ -108,7 +109,7 @@ namespace SpiritMod.NPCs.Automata
 			int x = spawnInfo.spawnTileX;
 			int y = spawnInfo.spawnTileY;
 			int tile = (int)Main.tile[x, y].type;
-			return (tile == 367) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.3f : 0f;
+			return (tile == 367) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 1f : 0f;
 		}
 
         public void FrameControl()

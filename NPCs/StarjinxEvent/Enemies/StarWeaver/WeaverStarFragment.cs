@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Particles;
+using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 {

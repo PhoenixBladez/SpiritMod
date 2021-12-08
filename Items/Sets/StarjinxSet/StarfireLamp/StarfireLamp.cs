@@ -12,9 +12,12 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starfire Lantern");
-			Tooltip.SetDefault("Emits embers of cosmic energy\nRight click to illuminate an enemy\nEmbers lock on to illuminated enemies");
+			Tooltip.SetDefault($"Emits embers of cosmic energy\nRight click to illuminate an enemy for {(int)(item.mana * IlluminateManaRatio)} mana\nEmbers lock on to illuminated enemies");
 		}
 
+		private const int baseMana = 6;
+		private const int baseIlluminateMana = 50;
+		private float IlluminateManaRatio => baseIlluminateMana / (float)baseMana;
 		public override void SetDefaults()
         {
             item.damage = 56;
@@ -23,8 +26,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
             item.magic = true;
             item.width = 36;
             item.height = 40;
-			item.useTime = 9;
-            item.useAnimation = 9;
+			item.useTime = 12;
+            item.useAnimation = 12;
             item.useStyle = ItemUseStyleID.Stabbing;
             item.shoot = ModContent.ProjectileType<StarfireProj>();
             item.shootSpeed = 24f;
@@ -34,7 +37,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
             item.UseSound = SoundID.Item45.WithPitchVariance(0.2f).WithVolume(0.5f);
             item.value = Item.sellPrice(silver: 55);
             item.useTurn = false;
-            item.mana = 4;
+            item.mana = 6;
         }
 
 		public override bool AltFunctionUse(Player player) => true;
@@ -64,7 +67,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 			return true;
 		}
 
-		public override void ModifyManaCost(Player player, ref float reduce, ref float mult) => mult = (player.altFunctionUse == 2) ? 50/7f : 1;
+		public override void ModifyManaCost(Player player, ref float reduce, ref float mult) => mult = (player.altFunctionUse == 2) ? IlluminateManaRatio / (float)baseMana : 1;
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{

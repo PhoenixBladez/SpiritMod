@@ -10,10 +10,11 @@ using SpiritMod.Prim;
 using SpiritMod.Utilities;
 using SpiritMod;
 using SpiritMod.Projectiles;
+using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 {
-    public class JinxprobeEnergy : ModProjectile, ITrailProjectile
+	public class JinxprobeEnergy : ModProjectile, ITrailProjectile
     {
         public override void SetStaticDefaults()
         {
