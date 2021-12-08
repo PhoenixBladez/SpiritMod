@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mark Of Zeus");
-			Tooltip.SetDefault("Hold and release to throw\nHold it longer for more velocity and damage");
+			Tooltip.SetDefault("Hold and release to throw\nHold it longer for more velocity and damage\nConsumes 20 mana per second while charging");
 			//  SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Equipment/StarMap_Glow");
 		}
 
@@ -115,6 +115,8 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 						{
 							player.statMana -= 5;
 							player.manaRegenDelay = 60;
+							if (player.statMana <= 0)
+								Launch(player, direction);
 						}
 						else
 							firing = true;
@@ -141,21 +143,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 				trailcounter++;
 			}
 			else {
-				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 1);
-				if (projectile.owner == Main.myPlayer)
-				{
-					int proj = Projectile.NewProjectile(projectile.Center - (direction * 2), direction, ModContent.ProjectileType<MarkOfZeusProj2>(), (int)(projectile.damage * Math.Sqrt(counter) * 0.5f), projectile.knockBack, projectile.owner);
-					if (Main.projectile[proj].modProjectile is MarkOfZeusProj2 modItem)
-					{
-						modItem.charge = counter;
-						if (Main.netMode != NetmodeID.Server)
-						{
-							MarkOfZeusPrimTrailTwo trail = new MarkOfZeusPrimTrailTwo(Main.projectile[proj], 4 * (float)(Math.Sqrt(counter) / 5));
-							modItem.trail = trail;
-							SpiritMod.primitives.CreateTrail(trail);
-						}
-					}
-				}
+				Launch(player, direction);
 				projectile.active = false;
 			}
 			player.heldProj = projectile.whoAmI;
@@ -165,6 +153,25 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 			return true;
 		}
 		int flickerTime = 0;
+
+		private void Launch(Player player, Vector2 direction)
+		{
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 1);
+			if (projectile.owner == Main.myPlayer)
+			{
+				int proj = Projectile.NewProjectile(projectile.Center, direction, ModContent.ProjectileType<MarkOfZeusProj2>(), (int)(projectile.damage * Math.Sqrt(counter) * 0.5f), projectile.knockBack, projectile.owner);
+				if (Main.projectile[proj].modProjectile is MarkOfZeusProj2 modItem)
+				{
+					modItem.charge = counter;
+					if (Main.netMode != NetmodeID.Server)
+					{
+						MarkOfZeusPrimTrailTwo trail = new MarkOfZeusPrimTrailTwo(Main.projectile[proj], 4 * (float)(Math.Sqrt(counter) / 5));
+						modItem.trail = trail;
+						SpiritMod.primitives.CreateTrail(trail);
+					}
+				}
+			}
+		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			float growScale = growCounter > 10 ? 1 : (growCounter / 10f);
