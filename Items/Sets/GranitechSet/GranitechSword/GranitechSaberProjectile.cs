@@ -53,6 +53,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 		public const float SwingRadians = MathHelper.Pi * 0.75f; //Total radians of the sword's arc
 		public override bool PreAI()
 		{
+			Timer++;
 			_hitTimer = Math.Max(_hitTimer - 1, 0);
 			bool firstTick = projectile.timeLeft > 2; //Set to 2 on first tick of normal ai
 			if (firstTick) //Initialize total swing time and initial direction
@@ -102,7 +103,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			}
 
 			//Spawn 2 holographic sword projectiles through swing time
-			if(Timer % ((swingTime / 2) + 1) == 0 && Owner == Main.LocalPlayer)
+			if(Timer % (swingTime / 2) == 0 && Owner == Main.LocalPlayer)
 			{
 				float distance = Main.rand.Next(130, 180); //Set distance from player 
 				distance = MathHelper.Clamp(distance, 80, Owner.Distance(Main.MouseWorld));
@@ -131,7 +132,6 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 
 			Owner.reuseDelay = Owner.HeldItem.reuseDelay;
 
-			Timer++;
 			if (Timer > swingTime)
 				projectile.Kill();
 		}
@@ -183,7 +183,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 		{
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
-			float opacity = (float)Math.Pow(Math.Sin(Timer * MathHelper.Pi / swingTime), 0.75f) * 0.75f;
+			float opacity = (float)Math.Pow(Math.Sin(Timer * MathHelper.Pi / swingTime), 1.5f) * 0.75f;
 			Effect effect = mod.GetEffect("Effects/GSaber");
 			effect.Parameters["baseTexture"].SetValue(mod.GetTexture("Textures/GeometricTexture_2"));
 			effect.Parameters["baseColor"].SetValue(new Color(25, 132, 247).ToVector4());

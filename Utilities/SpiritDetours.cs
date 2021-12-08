@@ -17,6 +17,8 @@ using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Items.Sets.ToolsMisc.Evergreen;
 using SpiritMod.Mechanics.PortraitSystem;
 using SpiritMod.Mechanics.BackgroundSystem;
+using System.Collections.Generic;
+using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod.Utilities
 {
@@ -25,11 +27,12 @@ namespace SpiritMod.Utilities
 		public static void Initialize()
 		{
 			On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
+			On.Terraria.Main.DrawCachedProjs += Main_DrawCachedProjs;
 			On.Terraria.Main.DrawNPCs += Main_DrawNPCs;
 			On.Terraria.Main.DrawPlayers += Main_DrawPlayers;
 			On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile;
 			On.Terraria.Player.KeyDoubleTap += Player_KeyDoubleTap;
-			On.Terraria.Main.DrawDust += AddtiveCalls;
+			On.Terraria.Main.DrawDust += AdditiveCalls;
 			On.Terraria.Player.ToggleInv += Player_ToggleInv;
 			On.Terraria.Main.DrawInterface += DrawParticles;
 			On.Terraria.Localization.LanguageManager.GetTextValue_string += LanguageManager_GetTextValue_string1;
@@ -63,7 +66,7 @@ namespace SpiritMod.Utilities
 			On.Terraria.Main.DrawPlayers -= Main_DrawPlayers;
 			On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= Projectile_NewProjectile;
 			On.Terraria.Player.KeyDoubleTap -= Player_KeyDoubleTap;
-			On.Terraria.Main.DrawDust -= AddtiveCalls;
+			On.Terraria.Main.DrawDust -= AdditiveCalls;
 			On.Terraria.Player.ToggleInv -= Player_ToggleInv;
 			On.Terraria.Main.DrawInterface -= DrawParticles;
 			On.Terraria.Localization.LanguageManager.GetTextValue_string -= LanguageManager_GetTextValue_string1;
@@ -234,7 +237,7 @@ namespace SpiritMod.Utilities
 			}
 		}
 
-		private static void AddtiveCalls(On.Terraria.Main.orig_DrawDust orig, Main self)
+		private static void AdditiveCalls(On.Terraria.Main.orig_DrawDust orig, Main self)
 		{
 			AdditiveCallManager.DrawAdditiveCalls(Main.spriteBatch);
 			orig(self);
@@ -339,11 +342,19 @@ namespace SpiritMod.Utilities
 				SpiritMod.primitives.DrawTrailsNPC(Main.spriteBatch, Main.graphics.GraphicsDevice);
 			}
 		}
+
+		private static void Main_DrawCachedProjs(On.Terraria.Main.orig_DrawCachedProjs orig, Main self, List<int> projCache, bool startSpriteBatch)
+		{
+			if (!Main.dedServ && projCache == Main.instance.DrawCacheProjsBehindNPCs)
+				SpiritMod.TrailManager.DrawTrails(Main.spriteBatch, TrailLayer.UnderCachedProjsBehindNPC);
+
+			orig(self, projCache, startSpriteBatch);
+		}
 		private static void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
 		{
 			if (!Main.dedServ)
 			{
-				SpiritMod.TrailManager.DrawTrails(Main.spriteBatch);
+				SpiritMod.TrailManager.DrawTrails(Main.spriteBatch, TrailLayer.UnderProjectile);
 				SpiritMod.primitives.DrawTargetProj(Main.spriteBatch);
 			}
 			orig(self);
@@ -351,7 +362,7 @@ namespace SpiritMod.Utilities
 
 		private static void Main_DrawNPCs(On.Terraria.Main.orig_DrawNPCs orig, Main self, bool behindTiles)
 		{
-			if (!Main.dedServ) 
+			if (!Main.dedServ)
 				SpiritMod.primitives.DrawTargetNPC(Main.spriteBatch);
 
 			SpiritMod.Metaballs.DrawEnemyLayer(Main.spriteBatch);

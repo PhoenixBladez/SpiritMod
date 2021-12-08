@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using SpiritMod.Utilities;
 using Terraria.Graphics.Shaders;
-
+using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 {

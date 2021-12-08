@@ -23,8 +23,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
             item.magic = true;
             item.width = 36;
             item.height = 40;
-			item.useTime = 9;
-            item.useAnimation = 9;
+			item.useTime = 12;
+            item.useAnimation = 12;
             item.useStyle = ItemUseStyleID.Stabbing;
             item.shoot = ModContent.ProjectileType<StarfireProj>();
             item.shootSpeed = 24f;

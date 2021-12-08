@@ -6,6 +6,7 @@ using SpiritMod.Utilities;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod.Items.Sets.LaunchersMisc.IronBomber
 {

@@ -6,6 +6,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod.Projectiles.Magic
 {

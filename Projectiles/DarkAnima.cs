@@ -5,6 +5,7 @@ using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ModLoader;
 using System;
+using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod.Projectiles
 {

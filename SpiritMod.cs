@@ -55,6 +55,7 @@ using SpiritMod.Mechanics.EventSystem;
 using static Terraria.ModLoader.Core.TmodFile;
 using SpiritMod.Skies.Starjinx;
 using SpiritMod.NPCs.StarjinxEvent;
+using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod
 {
@@ -277,7 +278,7 @@ namespace SpiritMod
 						break;
 					}
 
-					ITrailProjectile trailproj = (Main.projectile[projindex].modProjectile as ITrailProjectile);
+					IManualTrailProjectile trailproj = (Main.projectile[projindex].modProjectile as IManualTrailProjectile);
 					if (trailproj != null)
 						trailproj.DoTrailCreation(TrailManager);
 

@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 			item.knockBack = 10f;
 			item.value = Item.sellPrice(0, 1, 80, 0);
 			item.crit = 4;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.shootSpeed = 1f;
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<DuelistSlash>();

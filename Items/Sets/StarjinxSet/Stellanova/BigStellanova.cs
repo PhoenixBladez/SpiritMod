@@ -9,6 +9,7 @@ using System.IO;
 using SpiritMod.Prim;
 using SpiritMod.VerletChains;
 using System.Collections.Generic;
+using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 {

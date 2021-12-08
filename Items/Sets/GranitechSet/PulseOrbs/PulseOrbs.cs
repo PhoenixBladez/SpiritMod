@@ -6,6 +6,7 @@ using SpiritMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod.Items.Sets.GranitechSet.PulseOrbs
 {

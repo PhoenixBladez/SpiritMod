@@ -4,6 +4,7 @@ using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod.Projectiles.Magic
 {

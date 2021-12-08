@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using SpiritMod.Utilities;
 using Terraria.ModLoader;
+using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod.Projectiles.Arrow
 {

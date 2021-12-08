@@ -65,7 +65,7 @@ float4 MainPS(VertexShaderOutput input) : COLOR0
     
     final.a *= (1 - input.TextureCoordinates.y)/2 + 0.5f;
 
-     return final;
+    return final;
 }
 
 technique BasicColorDrawing

@@ -1,6 +1,7 @@
 ﻿using Terraria.ModLoader;
 using SpiritMod.Utilities;
 using Microsoft.Xna.Framework;
+using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod.NPCs.Boss.SteamRaider
 {
