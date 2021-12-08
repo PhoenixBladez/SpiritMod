@@ -40,6 +40,7 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 		{
 			Player p = Main.player[projectile.owner];
 			p.heldProj = projectile.whoAmI;
+			GItem.ArmsTowardsMouse(p);
 
 			if (p.whoAmI != Main.myPlayer) return; //mp check (hopefully)
 

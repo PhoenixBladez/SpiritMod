@@ -25,10 +25,8 @@ namespace SpiritMod.Items
 		public override bool InstancePerEntity => true;
 		public override bool CloneNewInstances => true;
 
-		//bool CandyToolTip = false;
+        public GlyphType Glyph { get; private set; } = 0;
 
-		private GlyphType glyph = 0;
-		public GlyphType Glyph => glyph;
 		public override void SetDefaults(Item item)
 		{
 			if (item.type == ItemID.ArmoredCavefish) {
@@ -119,10 +117,10 @@ namespace SpiritMod.Items
         }
 		public void SetGlyph(Item item, GlyphType glyph)
 		{
-			if (this.glyph == glyph)
+			if (this.Glyph == glyph)
 				return;
 			AdjustStats(item, true);
-			this.glyph = glyph;
+			this.Glyph = glyph;
 			AdjustStats(item);
 		}
 
@@ -151,7 +149,7 @@ namespace SpiritMod.Items
 			float size = 0;
 			int tileBoost = 0;
 
-			switch (glyph) {
+			switch (Glyph) {
 				case GlyphType.Blaze:
 					velocity += 1;
 					damage += 0.03f;
@@ -198,12 +196,12 @@ namespace SpiritMod.Items
 			}
 		}
 
-		public override bool NeedsSaving(Item item) => glyph != GlyphType.None;
+		public override bool NeedsSaving(Item item) => Glyph != GlyphType.None;
 
 		public override TagCompound Save(Item item)
 		{
 			TagCompound data = new TagCompound();
-			data.Add("glyph", (int)glyph);
+			data.Add("glyph", (int)Glyph);
 			return data;
 		}
 
@@ -211,21 +209,21 @@ namespace SpiritMod.Items
 		{
 			GlyphType glyph = (GlyphType)data.GetInt("glyph");
 			if (glyph > GlyphType.None && glyph < GlyphType.Count)
-				this.glyph = glyph;
+				this.Glyph = glyph;
 			else
-				this.glyph = GlyphType.None;
+				this.Glyph = GlyphType.None;
 			AdjustStats(item);
 		}
 
-		public override void NetSend(Item item, BinaryWriter writer) => writer.Write((byte)glyph);
+		public override void NetSend(Item item, BinaryWriter writer) => writer.Write((byte)Glyph);
 
 		public override void NetReceive(Item item, BinaryReader reader)
 		{
 			GlyphType glyph = (GlyphType)reader.ReadByte();
 			if (glyph > GlyphType.None && glyph < GlyphType.Count)
-				this.glyph = glyph;
+				this.Glyph = glyph;
 			else
-				this.glyph = GlyphType.None;
+				this.Glyph = GlyphType.None;
 			AdjustStats(item);
 		}
 
@@ -269,7 +267,7 @@ namespace SpiritMod.Items
 		public override void ModifyWeaponDamage(Item item, Player player, ref float add, ref float mult, ref float flat)
 		{
 			MyPlayer spirit = player.GetModPlayer<MyPlayer>();
-			if (glyph == GlyphType.Phase) {
+			if (Glyph == GlyphType.Phase) {
 				float boost = 0.005f * spirit.SpeedMPH;
 				if (boost > 0.5f)
 					boost = 0.5f;
@@ -282,19 +280,19 @@ namespace SpiritMod.Items
 
 		public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
 		{
-			if (glyph == GlyphType.Unholy)
+			if (Glyph == GlyphType.Unholy)
 				Glyphs.UnholyGlyph.PlagueEffects(target, player.whoAmI, ref damage, crit);
-			else if (glyph == GlyphType.Phase)
+			else if (Glyph == GlyphType.Phase)
 				Glyphs.PhaseGlyph.PhaseEffects(player, ref damage, crit);
-			else if (glyph == GlyphType.Daze)
+			else if (Glyph == GlyphType.Daze)
 				Glyphs.DazeGlyph.Daze(target, ref damage);
-			else if (glyph == GlyphType.Radiant)
+			else if (Glyph == GlyphType.Radiant)
 				Glyphs.RadiantGlyph.DivineStrike(player, ref damage);
 		}
 
 		public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockBack, bool crit)
 		{
-			switch (glyph) {
+			switch (Glyph) {
 				case GlyphType.Frost:
 					Glyphs.FrostGlyph.CreateIceSpikes(player, target, crit);
 					break;
@@ -312,17 +310,17 @@ namespace SpiritMod.Items
 
 		public override void ModifyHitPvp(Item item, Player player, Player target, ref int damage, ref bool crit)
 		{
-			if (glyph == GlyphType.Phase)
+			if (Glyph == GlyphType.Phase)
 				Glyphs.PhaseGlyph.PhaseEffects(player, ref damage, crit);
-			else if (glyph == GlyphType.Daze)
+			else if (Glyph == GlyphType.Daze)
 				Glyphs.DazeGlyph.Daze(target, ref damage);
-			else if (glyph == GlyphType.Radiant)
+			else if (Glyph == GlyphType.Radiant)
 				Glyphs.RadiantGlyph.DivineStrike(player, ref damage);
 		}
 
 		public override void OnHitPvp(Item item, Player player, Player target, int damage, bool crit)
 		{
-			switch (glyph) {
+			switch (Glyph) {
 				case GlyphType.Sanguine:
 					Glyphs.SanguineGlyph.BloodCorruption(player, target, damage);
 					break;
@@ -336,7 +334,7 @@ namespace SpiritMod.Items
 		{
 			//First frame of useage
 			if (player.itemAnimation == player.itemAnimationMax - 1 && (player.reuseDelay > 0 || player.HeldItem.reuseDelay == 0)) {
-				if (glyph == GlyphType.Storm) {
+				if (Glyph == GlyphType.Storm) {
 					MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
 					Glyphs.StormGlyph.WindBurst(modPlayer, item);
 				}
@@ -399,13 +397,15 @@ namespace SpiritMod.Items
 		public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
 		{
 			bool insertStats = false;
-			if (glyph != GlyphType.None) {
+			if (Glyph != GlyphType.None) {
 				insertStats = true;
 
-				var lookup = Glyphs.GlyphBase.FromType(glyph);
+				var lookup = Glyphs.GlyphBase.FromType(Glyph);
 				if (lookup.Effect != null && lookup.Addendum != null) {
-					TooltipLine tip = new TooltipLine(mod, "Glyph", lookup.Effect);
-					tip.overrideColor = lookup.Color;
+					TooltipLine tip = new TooltipLine(mod, "Glyph", lookup.Effect)
+					{
+						overrideColor = lookup.Color
+					};
 					tooltips.Add(tip);
 					tip = new TooltipLine(mod, "GlyphAddendum", lookup.Addendum);
 					tooltips.Add(tip);
@@ -613,7 +613,7 @@ namespace SpiritMod.Items
 		private static readonly Vector2 SlotDimensions = new Vector2(52, 52);
 		public override void PostDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
 		{
-			if (glyph == GlyphType.None)
+			if (Glyph == GlyphType.None)
 				return;
 
 			float slotScale = 1f;
@@ -627,7 +627,7 @@ namespace SpiritMod.Items
 			Vector2 slotOrigin = position + frame.Size() * (.5f * slotScale);
 			slotOrigin -= SlotDimensions * (.5f * Main.inventoryScale);
 
-			Texture2D texture = Glyphs.GlyphBase.FromType(glyph).Overlay;
+			Texture2D texture = Glyphs.GlyphBase.FromType(Glyph).Overlay;
 			if (texture != null) {
 				Vector2 offset = SlotDimensions;
 				offset -= texture.Size();
@@ -643,8 +643,7 @@ namespace SpiritMod.Items
 			Color glowColor = new Color(250, 250, 250, item.alpha);
 			IGlowing glow = item.modItem as IGlowing;
 			if (glow != null) {
-				float bias = 0f;
-				Texture2D texture = glow.Glowmask(out bias);
+				Texture2D texture = glow.Glowmask(out float bias);
 				Color alpha = Color.Lerp(alphaColor, glowColor, bias);
 				Vector2 origin = new Vector2(texture.Width >> 1, texture.Height >> 1);
 				Vector2 position = item.position - Main.screenPosition;
@@ -653,8 +652,8 @@ namespace SpiritMod.Items
 				spriteBatch.Draw(texture, position, null, alpha, rotation, origin, scale, SpriteEffects.None, 0f);
 			}
 
-			if (glyph != GlyphType.None) {
-				Texture2D texture = Glyphs.GlyphBase.FromType(glyph).Overlay;
+			if (Glyph != GlyphType.None) {
+				Texture2D texture = Glyphs.GlyphBase.FromType(Glyph).Overlay;
 				if (texture != null) {
 					Vector2 position = item.position - Main.screenPosition;
 					position.X += (item.width >> 1);
@@ -717,6 +716,30 @@ namespace SpiritMod.Items
 				chance = CombineChances(chance, 0.2f);
 
 			return Main.rand.NextFloat(1f) > chance;
+		}
+
+		/// <summary>Aims the player's arms to the given radians. If no player is passed, assumes <see cref="Main.LocalPlayer"/>.</summary>
+		/// <param name="radians"></param>
+		/// <param name="p"></param>
+		public static void ArmsTowardsMouse(Player p = null)
+		{
+			if (p == null)
+				p = Main.LocalPlayer;
+
+			float radians = p.AngleTo(Main.MouseWorld) + MathHelper.PiOver2;
+			radians = Math.Abs(radians);
+
+			int FrameSize = 56;
+			bool WithinAngle(float target) => Math.Abs(target - radians) < MathHelper.PiOver4;
+
+			if (WithinAngle(MathHelper.PiOver4) || radians < MathHelper.PiOver4)
+				p.bodyFrame.Y = FrameSize * 2;
+			else if (WithinAngle(MathHelper.PiOver2))
+				p.bodyFrame.Y = FrameSize * 3;
+			else if (WithinAngle(MathHelper.PiOver4 * 3))
+				p.bodyFrame.Y = FrameSize * 4;
+			else if (WithinAngle(MathHelper.PiOver2 * 3))
+				p.bodyFrame.Y = FrameSize * 3;
 		}
 	}
 }

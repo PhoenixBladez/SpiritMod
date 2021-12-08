@@ -1,4 +1,3 @@
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs.Potion;
@@ -13,11 +12,7 @@ namespace SpiritMod.Items.Consumable.Potion
 {
 	public class MoonJellyDonut : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Moon Jelly Donut");
-		}
-
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Moon Jelly Donut");
 
 		public override void SetDefaults()
 		{
@@ -35,13 +30,9 @@ namespace SpiritMod.Items.Consumable.Potion
 			item.healLife = 180;
 			item.UseSound = SoundID.Item2;
 		}
-		public override bool CanUseItem(Player player)
-		{
-			if (player.FindBuffIndex(BuffID.PotionSickness) >= 0) {
-				return false;
-			}
-			return true;
-		}
+
+		public override bool CanUseItem(Player player) => player.FindBuffIndex(BuffID.PotionSickness) == -1;
+		public override void UpdateInventory(Player player) => item.healLife = 180; //update the heal life back to 180 for tooltip and quick heal purposes
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) //pulsating glow effect in world
 		{
@@ -78,9 +69,11 @@ namespace SpiritMod.Items.Consumable.Potion
 				SpriteEffects.None, 
 				0);
 		}
+
 		public override bool UseItem(Player player)
 		{
 			item.healLife = 0; //set item's heal life to 0 when actually used, so it doesnt heal player
+
 			if (!player.pStone)
 				player.AddBuff(BuffID.PotionSickness, 3600);
 			else
@@ -90,7 +83,6 @@ namespace SpiritMod.Items.Consumable.Potion
 			return true;
 		}
 
-		public override void UpdateInventory(Player player) => item.healLife = 180; //update the heal life back to 180 for tooltip and quick heal purposes
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
@@ -98,6 +90,7 @@ namespace SpiritMod.Items.Consumable.Potion
 				line.text = "Restores 225 life over 10 seconds";
 			}
 		}
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

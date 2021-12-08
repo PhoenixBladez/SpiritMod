@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Particles;
 using Terraria;
@@ -38,7 +39,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 		{
 			Player p = Main.player[projectile.owner];
 			p.heldProj = projectile.whoAmI;
-			
+			GItem.ArmsTowardsMouse(p);
 
 			if (p.whoAmI != Main.myPlayer) return; //mp check (hopefully)
 
@@ -112,10 +113,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 			_effect = Main.MouseWorld.X >= p.MountedCenter.X ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
-			float realRot = projectile.rotation; //Rotate towards mouse
-			if (_endCharge != -1) realRot = _finalRotation + MathHelper.Pi;
-			if (_effect == SpriteEffects.FlipHorizontally)
-				realRot -= MathHelper.Pi;
+			float realRot = GetRotation();
 
 			Vector2 drawPos = projectile.position - Main.screenPosition; //Draw position + charge shaking
 
@@ -156,6 +154,15 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			spriteBatch.Draw(glowmask, drawPos, frame, Color.White, realRot, new Vector2(42, 22), 1f, _effect, 1f);
 
 			return false;
+		}
+
+		private float GetRotation()
+		{
+			float rot = projectile.rotation; //Rotate towards mouse
+			if (_endCharge != -1) rot = _finalRotation + MathHelper.Pi;
+			if (_effect == SpriteEffects.FlipHorizontally)
+				rot -= MathHelper.Pi;
+			return rot;
 		}
 
 		public override void Kill(int timeLeft) //paranoia - I don't know if this is necessary
