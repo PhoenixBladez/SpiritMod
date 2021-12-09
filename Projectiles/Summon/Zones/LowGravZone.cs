@@ -90,7 +90,7 @@ namespace SpiritMod.Projectiles.Summon.Zones
         {
             for (int k = 0; k < 30; k++)
             {
-                Dust d = Dust.NewDustPerfect(projectile.Center, 131, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(6), 0, default, 0.5f);
+                Dust d = Dust.NewDustPerfect(projectile.Center, DustID.Firework_Blue, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(6), 0, default, 0.5f);
                 d.noGravity = true;
                 d.shader = GameShaders.Armor.GetSecondaryShader(87, Main.LocalPlayer);
             }

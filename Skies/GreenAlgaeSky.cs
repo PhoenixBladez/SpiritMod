@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.NPCs.StarjinxEvent;
 using System;
 using Terraria;
 using Terraria.Graphics;
@@ -26,7 +27,7 @@ namespace SpiritMod.Skies
 
 		public override void Update(GameTime gameTime)
 		{
-			if (this._isActive) {
+			if (this._isActive && !Main.LocalPlayer.GetModPlayer<StarjinxPlayer>().zoneStarjinxEvent) {
 				this._fadeOpacity = Math.Min(1f, 0.01f + this._fadeOpacity);
 			}
 			else {

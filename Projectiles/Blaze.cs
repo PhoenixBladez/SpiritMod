@@ -25,7 +25,6 @@ namespace SpiritMod.Projectiles
 			projectile.height = 18;
 			projectile.width = 10;
 			projectile.alpha = 50;
-			projectile.CloneDefaults(ProjectileID.BoneArrow);
 			projectile.extraUpdates = 1;
 		}
 
@@ -34,6 +33,8 @@ namespace SpiritMod.Projectiles
 
 		public override void AI()
 		{
+			projectile.velocity.Y += 0.15f;
+			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 			Lighting.AddLight(projectile.position, 0.4f, .12f, .036f);
 			Dust dust = Dust.NewDustDirect(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Flare, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			Dust dust2 = Dust.NewDustDirect(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Flare, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
