@@ -12,10 +12,26 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 
 		private float counter;
 
+		bool initialized = false;
+
+		private Projectile proj;
+
 		public override void AI()
 		{
 			Lighting.AddLight(npc.Center, Color.Blue.ToVector3() * 0.3f);
 			counter += 0.025f;
+			if (!initialized)
+			{
+				proj = Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, ModContent.ProjectileType<NemesisBoonSword>(), Main.expertMode ? (int)(npc.damage / 4) : npc.damage, 5, 255);
+				proj.ai[0] = npc.whoAmI;
+				initialized = true;
+			}
+		}
+
+		public override void OnDeath()
+		{
+			if (proj != null && proj.active)
+				proj.ai[1] = 1;
 		}
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
