@@ -4,6 +4,7 @@ using Terraria.ModLoader.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using SpiritMod.Items.Sets.OlympiumSet;
 
 namespace SpiritMod.Mechanics.BoonSystem
 {
@@ -44,6 +45,11 @@ namespace SpiritMod.Mechanics.BoonSystem
 			spriteBatch.Draw(tex, (npc.Top - new Vector2(0, tex.Height / 2)) - Main.screenPosition, null, Color.White * transparency, 0, tex.Size() / 2, npc.scale * scale * regularscale, SpriteEffects.None, 0f);
 
 			spriteBatch.Draw(tex, (npc.Top - new Vector2(0, tex.Height / 2)) - Main.screenPosition, null, Color.White, 0, tex.Size() / 2, npc.scale * regularscale, SpriteEffects.None, 0f);
+		}
+
+		protected void DropOlympium(int stack)
+		{
+			Item.NewItem(npc.Center, ModContent.ItemType<OlympiumToken>(), stack);
 		}
 		#endregion
 	}
