@@ -14,6 +14,7 @@ namespace SpiritMod.Items.Sets.DuskingDrops
 			DisplayName.SetDefault("Shadow Gauntlet");
 			Tooltip.SetDefault("Melee attacks may inflict Shadowflame\n10% increased melee damage and speed\nIncreases melee knockback");
 		}
+
 		public override void SetDefaults()
 		{
 			item.width = 16;
@@ -25,7 +26,6 @@ namespace SpiritMod.Items.Sets.DuskingDrops
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			player.GetSpiritPlayer().shadowGauntlet = true;
 			player.meleeSpeed += 0.1f;
 			player.meleeDamage += 0.1f;
 			player.kbGlove = true;

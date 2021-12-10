@@ -1,4 +1,3 @@
-using SpiritMod.Projectiles.Clubs;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

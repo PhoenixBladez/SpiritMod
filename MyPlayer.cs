@@ -188,10 +188,6 @@ namespace SpiritMod
 		public bool minior = false;
 
 		public double pressedSpecial;
-		float distYT = 0f;
-		float distXT = 0f;
-		float distY = 0f;
-		float distX = 0f;
 		public Entity LastEnemyHit = null;
 		public bool TiteRing = false;
 		public bool NebulaPearl = false;
@@ -231,7 +227,6 @@ namespace SpiritMod
 		public bool gasopodMinion = false;
 		public bool lunazoa = false;
 		public bool rogueCrest = false;
-		public bool cimmerianScepter = false;
 		public bool spellswordCrest = false;
 		public bool tankMinion = false;
 		public bool OG = false;
@@ -344,22 +339,11 @@ namespace SpiritMod
 		public bool marbleJustJumped;
 
 		// Accessory booleans.
-		public bool OriRing;
-		public bool SRingOn;
-		public bool goldenApple;
-		public bool hpRegenRing;
-		public bool bubbleShield;
 		public bool icySoul;
-		public bool mythrilCharm;
 		public bool infernalShield;
 		public bool seaSnailVenom;
-		public bool shadowGauntlet;
-		public bool amazonCharm;
-		public bool KingSlayerFlask;
 		public bool Resolve;
-		public bool hellCharm;
 		public bool bloodyBauble;
-		public bool twilightTalisman;
 		public bool MoonSongBlossom;
 		public bool HolyGrail;
 		public bool surferSet;
@@ -745,23 +729,15 @@ namespace SpiritMod
 
 		private void ResetAccBools()
 		{
-			OriRing = false;
-			SRingOn = false;
-			goldenApple = false;
 			mimicRepellent = false;
-			hpRegenRing = false;
 			forbiddenTome = false;
-			bubbleShield = false;
 			animusLens = false;
 			deathRose = false;
-			mythrilCharm = false;
-			KingSlayerFlask = false;
 			Resolve = false;
 			MoonSongBlossom = false;
 			HolyGrail = false;
 			infernalShield = false;
 			illusionistEye = false;
-			shadowGauntlet = false;
 			moonGauntlet = false;
 			unboundSoulMinion = false;
 			longFuse = false;
@@ -781,7 +757,6 @@ namespace SpiritMod
 			setbonus = null;
 			rogueCrest = false;
 			moonlightSack = false;
-			cimmerianScepter = false;
 			midasTouch = false;
 			seaSnailVenom = false;
 			spellswordCrest = false;
@@ -794,10 +769,8 @@ namespace SpiritMod
 			caltfist = false;
 			briarSlimePet = false;
 			firewall = false;
-			hellCharm = false;
 			bloodyBauble = false;
 			elderbarkWoodSet = false;
-			amazonCharm = false;
 			cleftHorn = false;
 			phantomPet = false;
 			throwerGlove = false;
@@ -810,9 +783,7 @@ namespace SpiritMod
 			silkenLegs = false;
 			astralSet = false;
 			mushroomPotion = false;
-			floranCharm = false;
 			ChaosCrystal = false;
-			twilightTalisman = false;
 			teslaCoil = false;
 			ToxicExtract = false;
 			shadowFang = false;
@@ -1215,44 +1186,6 @@ namespace SpiritMod
 			if (TiteRing && LastEnemyHit == victim && Main.rand.NextBool(10))
 				player.AddBuff(BuffID.ShadowDodge, 145);
 
-			if (hpRegenRing && LastEnemyHit == victim && Main.rand.NextBool(3))
-				player.AddBuff(BuffID.RapidHealing, 120);
-
-			if (OriRing && LastEnemyHit == victim && Main.rand.NextBool(10))
-			{
-				if (player.position.Y <= victim.position.Y)
-				{
-					float distanceX = player.position.X - victim.position.X;  // change myplayer to nearest player in full version
-					float distanceY = player.position.Y - victim.position.Y; // change myplayer to nearest player in full version
-					float angle = (float)Math.Atan(distanceX / distanceY);
-
-					distXT = (float)(Math.Sin(angle) * 300);
-					distYT = (float)(Math.Cos(angle) * 300);
-
-					distX = player.position.X - distXT;
-					distY = player.position.Y - distYT;
-				}
-
-				if (player.position.Y > victim.position.Y)
-				{
-					float distanceX = player.position.X - victim.position.X;  // change myplayer to nearest player in full version
-					float distanceY = player.position.Y - victim.position.Y; // change myplayer to nearest player in full version
-					float angle = (float)Math.Atan(distanceX / distanceY);
-
-					distXT = (float)(Math.Sin(angle) * 300);
-					distYT = (float)(Math.Cos(angle) * 300);
-
-					distX = (player.position.X + distXT);
-					distY = (player.position.Y + distYT);
-				}
-
-				Vector2 direction = Vector2.Normalize(victim.Center - player.Center) * 20f;
-
-				float A = Main.rand.Next(-100, 100) * 0.01f;
-				float B = Main.rand.Next(-100, 100) * 0.01f;
-
-				Projectile.NewProjectile(distX, distY, direction.X + A, direction.Y + B, ModContent.ProjectileType<OriPetal>(), 30, 1, player.whoAmI, 0f, 0f);
-			}
 			if (player.HeldItem.type == ModContent.ItemType<Items.Sets.TideDrops.Minifish>() && MinifishTimer <= 0)
 			{
 				MinifishTimer = 120;
@@ -1401,12 +1334,6 @@ namespace SpiritMod
 			if (gremlinBuff && item.melee)
 				target.AddBuff(BuffID.Poisoned, 120);
 
-			if (amazonCharm && item.melee && Main.rand.Next(10) == 0)
-				target.AddBuff(BuffID.Poisoned, 120);
-
-			if (hellCharm && item.melee && Main.rand.Next(10) == 0)
-				target.AddBuff(BuffID.OnFire, 120);
-
 			if (infernalFlame && item.melee && crit && Main.rand.NextBool(12))
 				Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PhoenixProjectile>(), 50, 4, Main.myPlayer);
 
@@ -1498,12 +1425,6 @@ namespace SpiritMod
 
 			if (geodeSet && crit && Main.rand.NextBool(5))
 				target.AddBuff(ModContent.BuffType<Buffs.Crystal>(), 180);
-
-			if (amazonCharm && Main.rand.Next(12) == 0)
-				target.AddBuff(BuffID.Poisoned, 120);
-
-			if (hellCharm && Main.rand.Next(12) == 0)
-				target.AddBuff(BuffID.OnFire, 120);
 
 			if (geodeRanged && proj.ranged && Main.rand.NextBool(24))
 			{
@@ -1716,18 +1637,6 @@ namespace SpiritMod
 				Main.PlaySound(SoundID.Item, player.position, 50);
 			}
 
-			if (SRingOn)
-			{
-				for (int h = 0; h < 3; h++)
-				{
-					Vector2 vel = new Vector2(0, -1);
-					float rand = Main.rand.NextFloat() * MathHelper.TwoPi;
-					vel = vel.RotatedBy(rand);
-					vel *= 2f;
-					Projectile.NewProjectile(Main.player[Main.myPlayer].Center, vel, ProjectileID.LostSoulFriendly, 45, 0, Main.myPlayer);
-				}
-			}
-
 			if (ChaosCrystal && Main.rand.Next(4) == 1)
 			{
 				bool canSpawn = false;
@@ -1838,46 +1747,10 @@ namespace SpiritMod
 					 Projectile.NewProjectile(Main.player[Main.myPlayer].Center, vel, ModContent.ProjectileType<SpiritShardFriendly>(), 250, 0, Main.myPlayer);
 				}
 			}
-
-			if (mythrilCharm && Main.rand.NextBool(2))
-			{
-				int mythrilCharmDamage = (int)(damage / 4);
-				if (mythrilCharmDamage < 1)
-					mythrilCharmDamage = 5;
-
-				var mythrilCharmCollision = new Rectangle((int)player.Center.X - 120, (int)player.Center.Y - 120, 240, 240);
-				for (int i = 0; i < Main.maxNPCs; ++i)
-					if (Main.npc[i].active && Main.npc[i].Hitbox.Intersects(mythrilCharmCollision))
-						Main.npc[i].StrikeNPCNoInteraction(mythrilCharmDamage, 0, 0);
-
-				for (int i = 0; i < 15; ++i)
-					Dust.NewDust(new Vector2(mythrilCharmCollision.X, mythrilCharmCollision.Y), mythrilCharmCollision.Width, mythrilCharmCollision.Height, DustID.LunarOre);
-			}
 		}
 
 		public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
 		{
-			if (SRingOn)
-			{
-				int newProj = Projectile.NewProjectile(player.Center, new Vector2(6, 6), ProjectileID.SpectreWrath, 40, 0f, Main.myPlayer);
-
-				int dist = 800;
-				int target = -1;
-				for (int i = 0; i < 200; ++i)
-				{
-					if (Main.npc[i].active && Main.npc[i].CanBeChasedBy(Main.projectile[newProj], false))
-					{
-						if ((Main.npc[i].Center - Main.projectile[newProj].Center).Length() < dist)
-						{
-							target = i;
-							break;
-						}
-					}
-				}
-
-				Main.projectile[newProj].ai[0] = target;
-			}
-
 			if (soulPotion && Main.rand.NextBool(5))
 				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<SoulPotionWard>(), 0, 0f, Main.myPlayer);
 
@@ -3159,9 +3032,6 @@ namespace SpiritMod
 			if (rogueCrest && player.ownedProjectileCounts[ModContent.ProjectileType<KnifeMinionProjectile>()] < 1)
 				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<KnifeMinionProjectile>(), (int)(5 * player.minionDamage), .5f, player.whoAmI);
 
-			if (cimmerianScepter && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Summon.CimmerianStaff.CimmerianScepterProjectile>()] < 1)
-				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.Summon.CimmerianStaff.CimmerianScepterProjectile>(), (int)(22 * player.minionDamage), 1.5f, player.whoAmI);
-
 			if (bowSummon && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Summon.BowSummon.BowSummon>()] < 1)
 				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.Summon.BowSummon.BowSummon>(), (int)(22 * player.minionDamage), 1.5f, player.whoAmI);
 
@@ -3603,20 +3473,6 @@ namespace SpiritMod
 				}
 			}
 
-			if (shadowGauntlet)
-			{
-				player.kbGlove = true;
-				player.meleeDamage += 0.07F;
-				player.meleeSpeed += 0.07F;
-			}
-
-			if (goldenApple)
-			{
-				int num2 = 20;
-				float num3 = (player.statLifeMax2 - player.statLife) / (float)player.statLifeMax2 * num2;
-				player.statDefense += (int)num3;
-			}
-
 			if (bubbleTimer > 0)
 				bubbleTimer--;
 
@@ -3859,12 +3715,6 @@ namespace SpiritMod
 			if (CursedPendant && Main.rand.NextBool(5))
 				target.AddBuff(BuffID.CursedInferno, 180);
 
-			if (shadowGauntlet && Main.rand.NextBool(2))
-				target.AddBuff(BuffID.ShadowFlame, 180);
-
-			if (twilightTalisman && Main.rand.NextBool(13))
-				target.AddBuff(BuffID.ShadowFlame, 180);
-
 			if (duskSet && item.magic && Main.rand.NextBool(4))
 				target.AddBuff(BuffID.ShadowFlame, 300);
 
@@ -3943,7 +3793,6 @@ namespace SpiritMod
 		public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			AddBuffWithCondition(icySoul && Main.rand.NextBool(6) && proj.magic, target, BuffID.Frostburn, 280);
-			AddBuffWithCondition((twilightTalisman && Main.rand.NextBool(15)) || (shadowGauntlet && proj.melee && Main.rand.NextBool(2)), target, BuffID.ShadowFlame, 180);
 			AddBuffWithCondition(poisonPotion && crit, target, ModContent.BuffType<FesteringWounds>(), 180);
 			AddBuffWithCondition(primalSet && Main.rand.NextBool(2) && (proj.magic || proj.melee), target, ModContent.BuffType<Afflicted>(), 120);
 			AddBuffWithCondition(duskSet && proj.magic && Main.rand.NextBool(4), target, BuffID.ShadowFlame, 300);
@@ -4402,12 +4251,6 @@ namespace SpiritMod
 			}
 
 			return Position;
-		}
-
-		public override void MeleeEffects(Item item, Rectangle hitbox)
-		{
-			if (shadowGauntlet && item.melee)
-				Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.Shadowflame);
 		}
 
 		public override void FrameEffects()

@@ -44,6 +44,7 @@ using static Terraria.ModLoader.ModContent;
 using Terraria.Localization;
 using SpiritMod.Tiles.Block;
 using SpiritMod.Tiles.Walls.Natural;
+using SpiritMod.Utilities;
 
 namespace SpiritMod.NPCs
 {
@@ -383,22 +384,6 @@ namespace SpiritMod.NPCs
 				damage = 3;
 			}
 
-			if (necrosis)
-			{
-				MyPlayer mp = Main.player[npc.target].GetSpiritPlayer();
-				drain = true;
-
-				if (mp.KingSlayerFlask)
-				{
-					npc.lifeRegen -= 36;
-					damage = 12;
-				}
-				else
-				{
-					npc.lifeRegen -= 30;
-					damage = 10;
-				}
-			}
 			if (holyBurn)
 			{
 				drain = true;
@@ -407,19 +392,9 @@ namespace SpiritMod.NPCs
 			}
 			if (pestilence)
 			{
-				MyPlayer mp = Main.player[npc.target].GetSpiritPlayer();
 				drain = true;
-
-				if (mp.KingSlayerFlask)
-				{
-					npc.lifeRegen -= 5;
-					damage = 3;
-				}
-				else
-				{
-					npc.lifeRegen -= 3;
-					damage = 3;
-				}
+				npc.lifeRegen -= 3;
+				damage = 3;
 			}
 			if (blaze)
 			{

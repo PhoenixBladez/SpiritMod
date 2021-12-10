@@ -23,7 +23,5 @@ namespace SpiritMod.Items.Accessory
 			item.rare = ItemRarityID.Orange;
 			item.accessory = true;
 		}
-
-		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetSpiritPlayer().cimmerianScepter = true;
 	}
 }

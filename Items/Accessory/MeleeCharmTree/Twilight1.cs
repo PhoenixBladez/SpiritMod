@@ -12,16 +12,14 @@ namespace SpiritMod.Items.Accessory.MeleeCharmTree
 			Tooltip.SetDefault("Increases melee speed by 5%\nIncreases damage reduction and damage dealt by 5%\nIncreases critical strike chance by 4%\nAttacks have a small chance of inflicting Shadowflame");
 		}
 
-
 		public override void SetDefaults()
 		{
-			base.item.width = 14;
-			base.item.height = 24;
-			base.item.rare = ItemRarityID.Orange;
-			base.item.UseSound = SoundID.Item11;
-			base.item.accessory = true;
-			base.item.value = Item.buyPrice(0, 2, 30, 0);
-			base.item.value = Item.sellPrice(0, 1, 6, 0);
+			item.width = 14;
+			item.height = 24;
+			item.rare = ItemRarityID.Orange;
+			item.UseSound = SoundID.Item11;
+			item.accessory = true;
+			item.value = Item.buyPrice(0, 2, 30, 0);
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
@@ -37,12 +35,11 @@ namespace SpiritMod.Items.Accessory.MeleeCharmTree
 			player.thrownCrit += 5;
 			player.endurance += 0.05f;
 			player.meleeSpeed += 0.05f;
-			player.GetSpiritPlayer().twilightTalisman = true;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(base.mod);
+			ModRecipe modRecipe = new ModRecipe(mod);
 			modRecipe.AddIngredient(ModContent.ItemType<YoyoCharm2>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<MCharm>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<DCharm>(), 1);

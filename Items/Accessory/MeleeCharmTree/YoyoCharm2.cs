@@ -23,11 +23,7 @@ namespace SpiritMod.Items.Accessory.MeleeCharmTree
 			base.item.value = Item.sellPrice(0, 0, 30, 0);
 		}
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			player.meleeSpeed += 0.07f;
-			player.GetSpiritPlayer().amazonCharm = true;
-		}
+		public override void UpdateAccessory(Player player, bool hideVisual) => player.meleeSpeed += 0.07f;
 
 		public override void AddRecipes()
 		{

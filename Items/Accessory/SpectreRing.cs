@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spectre Ring");
-			Tooltip.SetDefault("When hurt, you shoot a bolt of Spectre Energy to protect yourself!");
+			Tooltip.SetDefault("When hurt, you shoot a bolt of Spectre Energy to protect yourself.");
 		}
 
 
@@ -20,14 +20,9 @@ namespace SpiritMod.Items.Accessory
 			item.height = 18;
 			item.value = Item.buyPrice(0, 15, 0, 0);
 			item.rare = ItemRarityID.Yellow;
-
 			item.accessory = true;
 		}
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			player.GetSpiritPlayer().SRingOn = true;
-		}
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

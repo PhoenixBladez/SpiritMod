@@ -12,7 +12,6 @@ namespace SpiritMod.Items.Accessory
 			Tooltip.SetDefault("Increases defense as health decreases");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = 18;
@@ -25,9 +24,8 @@ namespace SpiritMod.Items.Accessory
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			float defBoost = (float)(player.statLifeMax2 - player.statLife) / (float)player.statLifeMax2 * 15f;
+			float defBoost = ((float)player.statLifeMax2 - player.statLife) / player.statLifeMax2 * 15f;
 			player.statDefense += (int)defBoost;
 		}
-
 	}
 }

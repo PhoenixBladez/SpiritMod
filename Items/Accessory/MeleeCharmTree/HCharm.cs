@@ -13,7 +13,6 @@ namespace SpiritMod.Items.Accessory.MeleeCharmTree
 			Tooltip.SetDefault("5% increased attack damage\nAttacks may burn enemies");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = 14;
@@ -32,7 +31,6 @@ namespace SpiritMod.Items.Accessory.MeleeCharmTree
 			player.rangedDamage += 0.05f;
 			player.minionDamage += 0.05f;
 			player.thrownDamage += 0.05f;
-			player.GetSpiritPlayer().hellCharm = true;
 		}
 
 		public override void AddRecipes()
