@@ -7,24 +7,28 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Utilities;
 using SpiritMod.Prim;
+using SpiritMod.Particles;
 
 namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 {
 	public class NemesisBoonSword : ModProjectile
 	{
 
-		private const int SWINGDURATION = 50;
+		private const int SWINGDURATION = 30;
 
 		private const float SWINGROTATION = 0.9f;
 
 		private const int SWINGDISTANCE = 110;
 
 		private const int NUMBEROFSWINGS = 3;
+
+
 		private NPC parent => Main.npc[(int)projectile.ai[0]];
+		private bool activated => projectile.ai[1] == 1;
+
+
 
 		private float swingSpeed = (SWINGROTATION * 2) / SWINGDURATION;
-
-		private bool activated => projectile.ai[1] == 1;
 
 		private float swingTimer = 0;
 
@@ -38,15 +42,16 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 
 		private float swingWindup = 0;
 
-		Vector2 swingDirection = Vector2.Zero;
+		private float slashProgress = 0;
 
-		Player player;
+		private float soundTimer = 0;
 
-		Vector2 swingBase = Vector2.Zero;
+		private Vector2 swingDirection = Vector2.Zero;
 
-		int flashCounter = 0;
+		private Player player;
 
-		float slashProgress = 0;
+		private Vector2 swingBase = Vector2.Zero;
+
 
 		public override void SetStaticDefaults()
 		{
@@ -88,8 +93,11 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 					float newRot = swingDirection.ToRotation() + SWINGROTATION + 1.57f;
 
 					float rotDif = ((((newRot - projectile.rotation) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
-					if (swingWindup > 75)
+					if (swingWindup > 60)
+					{
+						soundTimer = 10;
 						swinging = true;
+					}
 
 					if (Math.Abs(rotDif) > 0.1f)
 						projectile.rotation += rotDif / 15f;
@@ -102,10 +110,6 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 					offset *= 2;
 					projectile.velocity = swingDirection * (float)Math.Pow(Math.Abs(velLength - offset), 0.3f) * Math.Sign(velLength - offset);
 
-					if (swingWindup > 30)
-					{
-						flashCounter++;
-					}
 					if (swingWindup == 30)
 						Main.PlaySound(SoundID.NPCDeath7, projectile.Center);
 				}
@@ -115,7 +119,14 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 
 					swingTimer += swingSpeed;
 					if (swingTimer > 1 || swingTimer < 0)
+					{
+						soundTimer = 10;
 						swingSpeed *= -1;
+					}
+
+					soundTimer--;
+					if (soundTimer == 0)
+						Main.PlaySound(2, projectile.Center, 1);
 
 					float progress = swingTimer;
 					float oldProgress = EaseFunction.EaseCircularInOut.Ease(progress - swingSpeed);
@@ -124,6 +135,20 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 					projectile.velocity = swingDirection * 50 * (Math.Abs(oldProgress - progress));
 
 					projectile.rotation = swingDirection.ToRotation() + MathHelper.Lerp(SWINGROTATION, -SWINGROTATION, progress) + 1.57f;
+
+					if (Main.rand.Next(2) == 0)
+					{
+						int particleTimeleft = Main.rand.Next(30, 60);
+						StarParticle particle = new StarParticle(
+							projectile.Center + ((projectile.rotation - 1.57f).ToRotationVector2() * Main.rand.Next(70)) + Main.rand.NextVector2Circular(10, 10),
+							Vector2.Zero,
+							Color.SkyBlue,
+							Main.rand.NextFloat(0.1f, 0.2f),
+							particleTimeleft);
+
+						particle.TimeActive = (uint)particleTimeleft / 2;
+						ParticleHandler.SpawnParticle(particle);
+					}
 				}
 
 				projectile.Center = swingBase + ((projectile.rotation - 1.57f).ToRotationVector2() * SWINGDISTANCE * Math.Min(swingWindup / 30f, 1));
@@ -151,6 +176,29 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 			}
 		}
 
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+		{
+			float collisionPoint = 0;
+			return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + ((projectile.rotation - 1.57f).ToRotationVector2() * 70), projectile.width, ref collisionPoint);
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			for (int i = 0; i < 20; i++)
+			{
+				int particleTimeleft = Main.rand.Next(30, 60);
+				StarParticle particle = new StarParticle(
+					projectile.Center + ((projectile.rotation - 1.57f).ToRotationVector2() * Main.rand.Next(70)) + Main.rand.NextVector2Circular(10, 10),
+					Vector2.Zero,
+					Color.SkyBlue,
+					Main.rand.NextFloat(0.1f, 0.2f),
+					particleTimeleft);
+
+				particle.TimeActive = (uint)particleTimeleft / 2;
+				ParticleHandler.SpawnParticle(particle);
+			}
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Texture2D tex = Main.projectileTexture[projectile.type];
@@ -160,17 +208,7 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 			if (swinging)
 			{
 				spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-				Effect effect = mod.GetEffect("Effects/GSaber");
-				effect.Parameters["baseTexture"].SetValue(mod.GetTexture("Textures/GeometricTexture_2"));
-				effect.Parameters["baseColor"].SetValue(Color.Cyan.ToVector4());
-				effect.Parameters["overlayTexture"].SetValue(mod.GetTexture("Textures/GeometricTexture_1"));
-				effect.Parameters["overlayColor"].SetValue(Color.DarkBlue.ToVector4());
-
-				effect.Parameters["xMod"].SetValue(1.5f); //scale with the total length of the strip
-				effect.Parameters["yMod"].SetValue(2.5f);
-
-				effect.Parameters["timer"].SetValue(-Main.GlobalTime * 6);
-				effect.Parameters["progress"].SetValue(slashProgress);
+				Effect effect = mod.GetEffect("Effects/NemesisBoonShader");
 
 				List<PrimitiveSlashArc> slashArcs = new List<PrimitiveSlashArc>();
 				PrimitiveSlashArc slash = new PrimitiveSlashArc
@@ -180,11 +218,11 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 					EndDistance = SWINGDISTANCE + tex.Height,
 					AngleRange = new Vector2(SWINGROTATION * Math.Sign(swingSpeed), -SWINGROTATION * Math.Sign(swingSpeed)),
 					DirectionUnit = swingDirection,
-					Color = Color.Cyan * projectile.velocity.Length() * 0.3f,
-					SlashProgress = slashProgress
+					Color = Color.Cyan * projectile.velocity.Length() * 0.2f,
+					SlashProgress = Math.Sign(swingSpeed) == 1 ? slashProgress: 1 - slashProgress
 				};
 				slashArcs.Add(slash);
-				PrimitiveRenderer.DrawPrimitiveShapeBatched(slashArcs.ToArray(), SpiritMod.basicEffect.Clone());
+				PrimitiveRenderer.DrawPrimitiveShapeBatched(slashArcs.ToArray(), effect);
 
 				spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 

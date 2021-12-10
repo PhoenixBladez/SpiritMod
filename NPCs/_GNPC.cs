@@ -989,6 +989,7 @@ namespace SpiritMod.NPCs
 				DropLoot(150, 150, ItemType<Items.Accessory.RabbitFoot.Rabbit_Foot>(), npc, NPCID.Bunny);
 				DropLoot(150, 150, ItemType<WinterbornSculpture>(), npc, NPCType<Winterborn.WinterbornMelee>(), NPCType<WinterbornHerald.WinterbornMagic>());
 				DropLoot(5, 5, ItemType<Items.Consumable.Potion.BottomlessHealingPotion>(), npc, NPCID.Mimic);
+				DropLoot(5, 5, ItemType<Items.Sets.MagicMisc.MagicDeck.MagicDeck>(), npc, NPCID.Mimic);
 
 				if (player.ZoneSnow)
 					DropLoot(100, 100, ItemType<IceWheezerSculpture>(), npc, NPCType<Wheezer.Wheezer>());
