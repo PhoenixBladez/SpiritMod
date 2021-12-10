@@ -21,11 +21,14 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 		private const int SWINGDISTANCE = 110;
 
 		private const int NUMBEROFSWINGS = 3;
+
+
 		private NPC parent => Main.npc[(int)projectile.ai[0]];
+		private bool activated => projectile.ai[1] == 1;
+
+
 
 		private float swingSpeed = (SWINGROTATION * 2) / SWINGDURATION;
-
-		private bool activated => projectile.ai[1] == 1;
 
 		private float swingTimer = 0;
 
@@ -39,15 +42,16 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 
 		private float swingWindup = 0;
 
-		Vector2 swingDirection = Vector2.Zero;
+		private float slashProgress = 0;
 
-		Player player;
+		private float soundTimer = 0;
 
-		Vector2 swingBase = Vector2.Zero;
+		private Vector2 swingDirection = Vector2.Zero;
 
-		int flashCounter = 0;
+		private Player player;
 
-		float slashProgress = 0;
+		private Vector2 swingBase = Vector2.Zero;
+
 
 		public override void SetStaticDefaults()
 		{
@@ -90,7 +94,10 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 
 					float rotDif = ((((newRot - projectile.rotation) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
 					if (swingWindup > 60)
+					{
+						soundTimer = 10;
 						swinging = true;
+					}
 
 					if (Math.Abs(rotDif) > 0.1f)
 						projectile.rotation += rotDif / 15f;
@@ -103,10 +110,6 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 					offset *= 2;
 					projectile.velocity = swingDirection * (float)Math.Pow(Math.Abs(velLength - offset), 0.3f) * Math.Sign(velLength - offset);
 
-					if (swingWindup > 30)
-					{
-						flashCounter++;
-					}
 					if (swingWindup == 30)
 						Main.PlaySound(SoundID.NPCDeath7, projectile.Center);
 				}
@@ -116,7 +119,14 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 
 					swingTimer += swingSpeed;
 					if (swingTimer > 1 || swingTimer < 0)
+					{
+						soundTimer = 10;
 						swingSpeed *= -1;
+					}
+
+					soundTimer--;
+					if (soundTimer == 0)
+						Main.PlaySound(2, projectile.Center, 1);
 
 					float progress = swingTimer;
 					float oldProgress = EaseFunction.EaseCircularInOut.Ease(progress - swingSpeed);
@@ -164,6 +174,12 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 				projectile.Center = newPos;
 
 			}
+		}
+
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+		{
+			float collisionPoint = 0;
+			return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + ((projectile.rotation - 1.57f).ToRotationVector2() * 70), projectile.width, ref collisionPoint);
 		}
 
 		public override void Kill(int timeLeft)
