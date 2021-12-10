@@ -4016,6 +4016,7 @@ namespace SpiritMod
 				npc.StrikeNPC(damage / 3, 1f, 0, crit);
 			}
 		}
+
 		public void Yoraiz0rEye()
 		{
 			int index = 0 + player.bodyFrame.Y / 56;
