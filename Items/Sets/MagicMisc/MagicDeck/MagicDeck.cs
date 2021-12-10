@@ -47,6 +47,9 @@ namespace SpiritMod.Items.Sets.MagicMisc.MagicDeck
 
 	public class MagicDeckProj : ModProjectile
 	{
+		private const int NUMBEROFXFRAMES = 4;
+
+		private int xFrame = 0;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Magic Card");
@@ -60,7 +63,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.MagicDeck
 			projectile.hostile = false;
 			projectile.friendly = true;
 			projectile.width = projectile.height = 14;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 			projectile.frame = Main.rand.Next(4);
 		}
@@ -72,8 +75,28 @@ namespace SpiritMod.Items.Sets.MagicMisc.MagicDeck
 			counter++;
 			if (counter > 15)
 				projectile.alpha += 25;
-			if (projectile.alpha > 255 && projectile.timeLeft > 2)
-				projectile.timeLeft = 2;
+			if (projectile.alpha > 255)
+				projectile.active = false;
+
+			projectile.frameCounter++;
+			if (projectile.frameCounter % 2 == 0)
+				xFrame++;
+			xFrame %= NUMBEROFXFRAMES;
+		}
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D tex = Main.projectileTexture[projectile.type];
+			int frameWidth = tex.Width / NUMBEROFXFRAMES;
+			int frameHeight = tex.Height / Main.projFrames[projectile.type];
+			Rectangle frame = new Rectangle(frameWidth * xFrame, frameHeight * projectile.frame, frameWidth, frameHeight);
+			Vector2 origin = new Vector2(frameWidth / 2, frameHeight / 2);
+			for (int k = projectile.oldPos.Length - 1; k > 0; k--)
+			{
+				Vector2 drawPos = projectile.oldPos[k] + (new Vector2(projectile.width, projectile.height) / 2);
+				Color color = lightColor * (float)(((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length)) * (1 - (projectile.alpha / 255f));
+				spriteBatch.Draw(tex, drawPos - Main.screenPosition, frame, color, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+			}
+			return false;
 		}
 	}
 }
