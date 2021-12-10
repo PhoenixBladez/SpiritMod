@@ -15,6 +15,7 @@ namespace SpiritMod.Mechanics.BoonSystem
 		public static List<Boon> LoadedBoons = new List<Boon>();
 		public static void Load()
 		{
+			LoadedBoons = new List<Boon>();
 			foreach (Type type in SpiritMod.Instance.Code.GetTypes())
 			{
 				if (!type.IsAbstract && type.IsSubclassOf(typeof(Boon)))
@@ -25,9 +26,6 @@ namespace SpiritMod.Mechanics.BoonSystem
 			}
 		}
 
-		public static void Unload()
-		{
-			LoadedBoons = null;
-		}
+		public static void Unload() => LoadedBoons = null;
 	}
 }

@@ -39,9 +39,11 @@ namespace SpiritMod.Mechanics.BoonSystem
 			float transparency = (float)Math.Pow(1 - progress, 2);
 			float scale = 1 + progress;
 
-			spriteBatch.Draw(tex, npc.Center - Main.screenPosition, null, Color.White * transparency, 0, tex.Size() / 2, npc.scale * scale, SpriteEffects.None, 0f);
+			float regularscale = 0.6f;
 
-			spriteBatch.Draw(tex, npc.Center - Main.screenPosition, null, Color.White, 0, tex.Size() / 2, npc.scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(tex, (npc.Top - new Vector2(0, tex.Height / 2)) - Main.screenPosition, null, Color.White * transparency, 0, tex.Size() / 2, npc.scale * scale * regularscale, SpriteEffects.None, 0f);
+
+			spriteBatch.Draw(tex, (npc.Top - new Vector2(0, tex.Height / 2)) - Main.screenPosition, null, Color.White, 0, tex.Size() / 2, npc.scale * regularscale, SpriteEffects.None, 0f);
 		}
 		#endregion
 	}

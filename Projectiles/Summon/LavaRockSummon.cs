@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SpiritMod.Utilities;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -105,15 +106,8 @@ namespace SpiritMod.Projectiles.Summon
 				}
 
 				if (validTarget) {
-					const float Magnitude = 12f; //modify the speed the projectile are shot.  Lower number = slower projectile.
-
-					float velX = shootPosX - projectile.Center.X;
-					float velY = shootPosY - projectile.Center.Y;
-					float str = (float)Math.Sqrt(velX * velX + velY * velY);
-					str = Magnitude / str;
-					velX *= str;
-					velY *= str;
-					Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y, velX, velY, ModContent.ProjectileType<Blaze>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.Center, projectile.GetArcVel(new Vector2(shootPosX, shootPosY), 0.15f, heightabovetarget: 150), ModContent.ProjectileType<Blaze>(), 
+						projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 					projectile.ai[0] = 30f;
 					return;
 				}

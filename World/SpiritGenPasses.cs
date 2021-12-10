@@ -20,6 +20,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
+using SpiritMod.Items.Sets.FloranSet;
 
 namespace SpiritMod.World
 {
@@ -85,6 +86,62 @@ namespace SpiritMod.World
 			}
 		}
 		#endregion Spirit Micros
+
+		private static void BlacklistBriarBlocks(int maxTries, int width, int height, Rectangle randomizationRange, ref Point tileCheckPos, out bool failed)
+		{
+			int tries = 0;
+			failed = false;
+			int[] TileBlacklist = new int[]
+			{
+				ModContent.TileType<BriarGrass>(),
+				ModContent.TileType<FloranOreTile>(),
+				ModContent.TileType<BlastStone>()
+			};
+			int[] WallBlacklist = new int[]
+			{
+				ModContent.WallType<ReachWallNatural>(),
+				ModContent.WallType<ReachStoneWall>()
+			};
+			do
+			{
+				tileCheckPos.X = Main.rand.Next(randomizationRange.X, randomizationRange.X + randomizationRange.Width);
+				tileCheckPos.Y = Main.rand.Next(randomizationRange.Y, randomizationRange.Y + randomizationRange.Height);
+
+				int xDist = width; //Increased due to chance at second floor
+				int yDist = height; //Increased due to chance at second floor
+				int xCenter = tileCheckPos.X;
+				int yCenter = tileCheckPos.Y; //Shifted up due to chance at second floor
+
+				bool blackListedTile = false;
+				for (int i = -xDist / 2; i <= xDist / 2; i++)
+				{
+					for (int j = -yDist / 2; j <= yDist / 2; j++)
+					{
+						Tile tile = Framing.GetTileSafely(xCenter + i, yCenter + j);
+						if (TileBlacklist.Contains(tile.type) || WallBlacklist.Contains(tile.wall))
+						{
+							blackListedTile = true;
+							break;
+						}
+					}
+					if (blackListedTile)
+						break;
+				}
+
+				if (blackListedTile) //Keep going until blacklisted tiles are not hit
+				{
+					tries++;
+					if (tries >= maxTries) //If it tries too many times, break and cancel the generation, as to not softlock forever
+					{
+						failed = true;
+						break;
+					}
+					continue;
+				}
+
+				break;
+			} while (true);
+		}
 
 		#region Campsite
 		private static void GenerateCampsite()
@@ -401,17 +458,24 @@ namespace SpiritMod.World
 				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 			};
 
-			int hideoutX = (Main.spawnTileX + Main.rand.Next(-800, 800)); // from 50 since there's a unaccessible area at the world's borders
-			int hideoutY = Main.spawnTileY + Main.rand.Next(120, 400);
+			Point center = new Point();
+			int width = (StashRoomMain.GetLength(1) / 2) + 5;
+			int height = (StashRoomMain.GetLength(0) / 2) + 4;
+			Rectangle positionRange = new Rectangle(Main.spawnTileX - 800, Main.spawnTileY + 120, 1600, 280);
+			BlacklistBriarBlocks(80, width, height, positionRange, ref center, out bool failed);
+
+
+			if (failed) //Dont generate if tried too many times
+				return;
 
 			// place the hideout
 			if (WorldGen.genRand.Next(2) == 0)
-				PlaceGemStash(hideoutX, hideoutY, StashRoomMain, StashMainWalls, StashMainLoot);
+				PlaceGemStash(center.X, center.Y, StashRoomMain, StashMainWalls, StashMainLoot);
 			else
-				PlaceGemStash(hideoutX, hideoutY, StashRoomMain1, StashMainWalls, StashMainLoot1);
+				PlaceGemStash(center.X, center.Y, StashRoomMain1, StashMainWalls, StashMainLoot1);
 
 			if (WorldGen.genRand.Next(2) == 0)
-				PlaceGemStash(hideoutX + (Main.rand.Next(-5, 5)), hideoutY - 8, StashRoom1, Stash1Walls, Stash1Loot);
+				PlaceGemStash(center.X + (Main.rand.Next(-5, 5)), center.Y - 8, StashRoom1, Stash1Walls, Stash1Loot);
 		}
 
 		private static void PlaceGemStash(int i, int j, int[,] BlocksArray, int[,] WallsArray, int[,] LootArray)
