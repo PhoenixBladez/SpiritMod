@@ -43,6 +43,7 @@ using SpiritMod.Projectiles.Bullet;
 using System.Linq;
 using SpiritMod.Skies.Overlays;
 using SpiritMod.Effects.Waters.Reach;
+using SpiritMod.Items.Armor.StarjinxSet;
 
 namespace SpiritMod
 {
@@ -4619,7 +4620,7 @@ namespace SpiritMod
 
 		public override void OnMissingMana(Item item, int neededMana)
 		{
-			if (StarjinxSet && player.ownedProjectileCounts[mod.ProjectileType("Manajinx")] == 0)
+			if (StarjinxSet && player.ownedProjectileCounts[ModContent.ProjectileType<Manajinx>()] == 0)
 			{
 				Vector2 spawnpos = player.Center + Main.rand.NextVector2CircularEdge(Main.rand.Next(500, 600), Main.rand.Next(500, 600));
 				int spawntries = 0;
@@ -4633,7 +4634,7 @@ namespace SpiritMod
 				if (spawntries < 50)
 				{
 					Main.PlaySound(SoundID.Item9, spawnpos);
-					Projectile.NewProjectile(spawnpos, Vector2.Zero, mod.ProjectileType("Manajinx"), 0, 0, player.whoAmI);
+					Projectile.NewProjectile(spawnpos, Vector2.Zero, ModContent.ProjectileType<Manajinx>(), 0, 0, player.whoAmI);
 				}
 			}
 		}
