@@ -17,6 +17,7 @@
 		DestroySuperSunFlower,
 		BossTitle,
 		SpawnExplosiveBarrel,
-		StarjinxData
+		StarjinxData,
+		BoonData
 	}
 }

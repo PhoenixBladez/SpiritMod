@@ -13,6 +13,7 @@ namespace SpiritMod.Mechanics.BoonSystem
 	public static class BoonLoader
 	{
 		public static List<Boon> LoadedBoons = new List<Boon>();
+
 		public static void Load()
 		{
 			LoadedBoons = new List<Boon>();

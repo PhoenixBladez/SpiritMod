@@ -304,8 +304,11 @@ namespace SpiritMod
 				case MessageType.StarjinxData:
 
 					break;
+				case MessageType.BoonData:
+					Main.npc[reader.ReadUInt16()].GetGlobalNPC<BoonNPC>().currentBoon = BoonLoader.LoadedBoons[reader.ReadByte()];
+					break;
 				default:
-					Logger.Error("Unknown message (" + id + ")");
+					Logger.Error("Unknown net message (" + id + ")");
 					break;
 			}
 		}

@@ -2,12 +2,9 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
 using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Collections.Generic;
+using Terraria.ID;
 
 namespace SpiritMod.Mechanics.BoonSystem
 {
@@ -17,26 +14,29 @@ namespace SpiritMod.Mechanics.BoonSystem
 
 		public Boon currentBoon;
 
-
-
 		public override void SetDefaults(NPC npc)
 		{
-			if (npc.modNPC is IBoonable modNPC)
+			if (npc.modNPC is IBoonable)
 			{
 				currentBoon = GetBoon(npc);
+
+				if (Main.netMode == NetmodeID.MultiplayerClient) //Sync boon
+				{
+					int index = BoonLoader.LoadedBoons.IndexOf(currentBoon);
+					if (index != -1)
+						SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(4), (byte)MessageType.BoonData, (ushort)npc.whoAmI, (byte)index).Send();
+				}
 			}
 		}
 
 		#region boon hooks
 		public override void AI(NPC npc) => currentBoon?.AI();
+		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color color) => currentBoon?.PostDraw(spriteBatch, color);
+
 		public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Color color)
 		{
 			currentBoon?.PreDraw(spriteBatch, color);
 			return true;
-		}
-		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color color)
-		{
-			currentBoon?.PostDraw(spriteBatch, color);
 		}
 
 		public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
@@ -63,9 +63,7 @@ namespace SpiritMod.Mechanics.BoonSystem
 			foreach (Boon boon in BoonLoader.LoadedBoons)
 			{
 				if (boon.CanApply)
-				{
 					possibleBoons.Add(boon);
-				}
 			}
 
 			if (possibleBoons.Count == 0)
