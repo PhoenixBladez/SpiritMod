@@ -9,6 +9,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 {
 	public class Driftwood1Item : FloatingItem
 	{
+		public override float SpawnWeight => 0.9f;
 		public override float Weight => base.Weight * 0.9f;
 		public override float Bouyancy => base.Bouyancy * 1.05f;
 
@@ -33,6 +34,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			item.useTime = 10;
 		}
 	}
+
 	public class Driftwood1Tile : ModTile
 	{
 		public override void SetDefaults()
@@ -47,11 +49,11 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			TileObjectData.newTile.Width = 3;
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
 			TileObjectData.newTile.Direction = TileObjectDirection.PlaceLeft;
-			TileObjectData.newTile.StyleWrapLimit = 2; //not really necessary but allows me to add more subtypes of chairs below the example chair texture
-			TileObjectData.newTile.StyleMultiplier = 2; //same as above
+			TileObjectData.newTile.StyleWrapLimit = 2;
+			TileObjectData.newTile.StyleMultiplier = 2;
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
-			TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight; //allows me to place example chairs facing the same way as the player
+			TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
 			TileObjectData.addAlternate(1); //facing right will use the second texture style
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
@@ -59,16 +61,11 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			AddMapEntry(new Color(69, 54, 43), name);
 			dustType = DustID.Stone;
 		}
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<Driftwood1Item>());
 
-		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
-		{
-			offsetY = 2;
-		}
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<Driftwood1Item>());
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
 	}
+
 	public class Driftwood2Item : FloatingItem
 	{
 		public override float Weight => base.Weight * 0.9f;
@@ -95,6 +92,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			item.useTime = 10;
 		}
 	}
+
 	public class Driftwood2Tile : ModTile
 	{
 		public override void SetDefaults()
@@ -109,11 +107,11 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			TileObjectData.newTile.Width = 4;
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
 			TileObjectData.newTile.Direction = TileObjectDirection.PlaceLeft;
-			TileObjectData.newTile.StyleWrapLimit = 2; //not really necessary but allows me to add more subtypes of chairs below the example chair texture
-			TileObjectData.newTile.StyleMultiplier = 2; //same as above
+			TileObjectData.newTile.StyleWrapLimit = 2;
+			TileObjectData.newTile.StyleMultiplier = 2;
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
-			TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight; //allows me to place example chairs facing the same way as the player
+			TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
 			TileObjectData.addAlternate(1); //facing right will use the second texture style
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
@@ -121,16 +119,11 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			AddMapEntry(new Color(69, 54, 43), name);
 			dustType = DustID.Stone;
 		}
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<Driftwood2Item>());
 
-		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
-		{
-			offsetY = 2;
-		}
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<Driftwood2Item>());
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
 	}
+
 	public class Driftwood3Item : FloatingItem
 	{
 		public override float Weight => base.Weight * 0.9f;
@@ -157,6 +150,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			item.useTime = 10;
 		}
 	}
+
 	public class Driftwood3Tile : ModTile
 	{
 		public override void SetDefaults()
@@ -171,11 +165,11 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			TileObjectData.newTile.Width = 4;
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
 			TileObjectData.newTile.Direction = TileObjectDirection.PlaceLeft;
-			TileObjectData.newTile.StyleWrapLimit = 2; //not really necessary but allows me to add more subtypes of chairs below the example chair texture
-			TileObjectData.newTile.StyleMultiplier = 2; //same as above
+			TileObjectData.newTile.StyleWrapLimit = 2;
+			TileObjectData.newTile.StyleMultiplier = 2;
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
-			TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight; //allows me to place example chairs facing the same way as the player
+			TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
 			TileObjectData.addAlternate(1); //facing right will use the second texture style
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
@@ -183,14 +177,8 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			AddMapEntry(new Color(69, 54, 43), name);
 			dustType = DustID.Stone;
 		}
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<Driftwood3Item>());
 
-		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
-		{
-			offsetY = 2;
-		}
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<Driftwood3Item>());
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
 	}
 }

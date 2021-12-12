@@ -8,6 +8,7 @@ namespace SpiritMod.Items
 {
 	public abstract class FloatingItem : ModItem
 	{
+		public virtual float SpawnWeight => 1f;
 		public virtual float Bouyancy => -0.1f;
 		public virtual float Weight => 0.1f;
 

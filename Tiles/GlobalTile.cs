@@ -107,7 +107,6 @@ namespace SpiritMod.Tiles
 					WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Kelp2x3>());
 			}
 
-
 			if (type == TileID.Pearlstone && inLavaLayer)
 			{
 				if (WorldGen.genRand.NextBool(20) && !tileBelow.active() && !tileBelow.lava())
@@ -122,6 +121,7 @@ namespace SpiritMod.Tiles
 					}
 				}
 			}
+
 			if (type == TileID.CorruptGrass || type == TileID.Ebonstone)
 			{
 				if (MyWorld.CorruptHazards < 20)

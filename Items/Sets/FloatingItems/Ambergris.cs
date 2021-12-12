@@ -1,13 +1,11 @@
-using Microsoft.Xna.Framework;
-using SpiritMod.Tiles.Ambient.Kelp;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.FloatingItems
 {
 	public class Ambergris : FloatingItem
 	{
+		public override float SpawnWeight => 0.01f;
 		public override float Weight => base.Weight * 0.9f;
 		public override float Bouyancy => base.Bouyancy * 1.08f;
 
@@ -22,7 +20,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 			item.width = 30;
 			item.height = 24;
 			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.value = Terraria.Item.sellPrice(0, 15, 0, 0);
+			item.value = Item.sellPrice(0, 20, 0, 0);
 			item.rare = ItemRarityID.Orange;
 			item.maxStack = 999;
 		}

@@ -57,6 +57,7 @@ using static Terraria.ModLoader.Core.TmodFile;
 using SpiritMod.Skies.Starjinx;
 using SpiritMod.NPCs.StarjinxEvent;
 using SpiritMod.Mechanics.Trails;
+using SpiritMod.Items.Sets.FloatingItems;
 
 namespace SpiritMod
 {
@@ -728,8 +729,6 @@ namespace SpiritMod
 
 		public override void Load()
 		{
-
-			BoonLoader.Load();
 			//Always keep this call in the first line of Load!
 			LoadReferences();
 			StructureLoader.Load(this);
@@ -750,6 +749,7 @@ namespace SpiritMod
 				_lastViewPort = Main.graphics.GraphicsDevice.Viewport;
 			}
 			QuestManager.Load();
+			BoonLoader.Load();
 
 			SpiritDetours.Initialize();
 
