@@ -52,5 +52,10 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 			spriteBatch.Draw(tex2, ((npc.Top + new Vector2(0,15)) - new Vector2(0, frameHeight / 2)) - Main.screenPosition, null, glowColor * glowScale, 0, tex2.Size() / 2, npc.scale * 0.7f, SpriteEffects.None, 0f);
 			spriteBatch.Draw(tex, (npc.Top - new Vector2(0, frameHeight / 2)) - Main.screenPosition, frame, Color.White, 0, new Vector2(tex.Width, frameHeight) / 2, npc.scale, SpriteEffects.None, 0f);
 		}
+
+		public override void OnDeath()
+		{
+			DropOlympium(Main.rand.Next(3, 6));
+		}
 	}
 }
