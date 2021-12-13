@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using SpiritMod.Particles;
 
 namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 {
@@ -32,6 +33,19 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 			projectileCounter++;
 			if (projectileCounter % 160 == 0)
 			{
+				for (int i = 0; i < 15; i++)
+				{
+					Vector2 direction = Main.rand.NextVector2Circular(20, 20);
+					StarParticle particle = new StarParticle(
+					(npc.Center - new Vector2(0,40)) + direction,
+					direction * 0.15f,
+					new Color(48, 195, 43),
+					Main.rand.NextFloat(0.08f, 0.23f),
+					Main.rand.Next(20, 40));
+
+					ParticleHandler.SpawnParticle(particle);
+				}
+
 				for (int i = 0; i < 3; i++)
 					NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 40, ModContent.NPCType<AsclepiusBoonOrb>(), 0, npc.whoAmI, i * 2.08f);
 			}
