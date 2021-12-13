@@ -12,6 +12,7 @@ using SpiritMod.Tiles.Ambient.Kelp;
 using Microsoft.Xna.Framework;
 using SpiritMod.Tiles.Ambient.IceSculpture.Hostile;
 using SpiritMod.Tiles.Ambient.IceSculpture;
+using SpiritMod.Tiles.Ambient.Ocean;
 
 namespace SpiritMod.Tiles
 {
@@ -89,22 +90,30 @@ namespace SpiritMod.Tiles
 			Tile tile = Framing.GetTileSafely(i, j);
 			Tile tileBelow = Framing.GetTileSafely(i, j + 1);
 
-			if (sands.Contains(type) && inOcean && !Framing.GetTileSafely(i, j - 1).active() && Framing.GetTileSafely(i, j - 1).liquid > 155 && !Framing.GetTileSafely(i, j).topSlope()) //woo
+			if (sands.Contains(type) && inOcean && !Framing.GetTileSafely(i, j - 1).active() && !Framing.GetTileSafely(i, j).topSlope()) //woo
 			{
-				if (Main.rand.NextBool(25))
-					WorldGen.PlaceTile(i, j - 1, ModContent.TileType<OceanKelp>()); //Kelp spawning
+				if (Framing.GetTileSafely(i, j - 1).liquid > 200) //water stuff
+				{
+					if (Main.rand.NextBool(25))
+						WorldGen.PlaceTile(i, j - 1, ModContent.TileType<OceanKelp>()); //Kelp spawning
 
-				bool openSpace = !Framing.GetTileSafely(i, j - 2).active();
-				if (openSpace && Main.rand.NextBool(40)) //1x2 kelp
-					WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Kelp1x2>());
+					bool openSpace = !Framing.GetTileSafely(i, j - 2).active();
+					if (openSpace && Main.rand.NextBool(40)) //1x2 kelp
+						WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Kelp1x2>());
 
-				openSpace = !Framing.GetTileSafely(i + 1, j - 1).active() && !Framing.GetTileSafely(i + 1, j - 2).active() && !Framing.GetTileSafely(i, j - 2).active();
-				if (openSpace && Framing.GetTileSafely(i + 1, j).active() && Main.tileSolid[Framing.GetTileSafely(i + 1, j).type] && Framing.GetTileSafely(i + 1, j).topSlope() && Main.rand.NextBool(80)) //2x2 kelp
-					WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Kelp2x2>());
+					openSpace = !Framing.GetTileSafely(i + 1, j - 1).active() && !Framing.GetTileSafely(i + 1, j - 2).active() && !Framing.GetTileSafely(i, j - 2).active();
+					if (openSpace && Framing.GetTileSafely(i + 1, j).active() && Main.tileSolid[Framing.GetTileSafely(i + 1, j).type] && Framing.GetTileSafely(i + 1, j).topSlope() && Main.rand.NextBool(80)) //2x2 kelp
+						WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Kelp2x2>());
 
-				openSpace = !Framing.GetTileSafely(i + 1, j - 1).active() && !Framing.GetTileSafely(i + 1, j - 2).active() && !Framing.GetTileSafely(i, j - 2).active() && !Framing.GetTileSafely(i + 1, j - 3).active() && !Framing.GetTileSafely(i, j - 3).active();
-				if (openSpace && Framing.GetTileSafely(i + 1, j).active() && Main.tileSolid[Framing.GetTileSafely(i + 1, j).type] && Framing.GetTileSafely(i + 1, j).topSlope() && Main.rand.NextBool(90)) //2x3 kelp
-					WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Kelp2x3>());
+					openSpace = !Framing.GetTileSafely(i + 1, j - 1).active() && !Framing.GetTileSafely(i + 1, j - 2).active() && !Framing.GetTileSafely(i, j - 2).active() && !Framing.GetTileSafely(i + 1, j - 3).active() && !Framing.GetTileSafely(i, j - 3).active();
+					if (openSpace && Framing.GetTileSafely(i + 1, j).active() && Main.tileSolid[Framing.GetTileSafely(i + 1, j).type] && Framing.GetTileSafely(i + 1, j).topSlope() && Main.rand.NextBool(90)) //2x3 kelp
+						WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Kelp2x3>());
+				}
+				else
+				{
+					if (Main.rand.NextBool(9))
+						WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Seagrass>());
+				}
 			}
 
 			if (type == TileID.Pearlstone && inLavaLayer)
