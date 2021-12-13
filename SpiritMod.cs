@@ -860,6 +860,9 @@ namespace SpiritMod
 
 				Filters.Scene["SpiritMod:StarjinxBorderFade"] = new Filter(new StarjinxBorderShader(starjinxBorderEffect, "FadePS"), (EffectPriority)70);
 
+				Filters.Scene["SpiritMod:SurfaceWaterFX"] = new Filter(new ScreenShaderData(new Ref<Effect>(GetEffect("Effects/SurfaceWaterModifications/SurfaceWaterFX")), "PrimitivesPass"), EffectPriority.VeryHigh);
+				Filters.Scene["SpiritMod:SurfaceWaterFX"].Load();
+
 				StarjinxNoise = Instance.GetEffect("Effects/StarjinxNoise");
 				CircleNoise = Instance.GetEffect("Effects/CircleNoise");
 				StarfirePrims = Instance.GetEffect("Effects/StarfirePrims");
