@@ -20,6 +20,7 @@ using SpiritMod.Mechanics.BackgroundSystem;
 using System.Collections.Generic;
 using SpiritMod.Mechanics.Trails;
 using SpiritMod.Players;
+using SpiritMod.Effects.SurfaceWaterModifications;
 
 namespace SpiritMod.Utilities
 {
@@ -59,6 +60,8 @@ namespace SpiritMod.Utilities
 			IL.Terraria.Player.Hurt += Player_Hurt;
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
 			IL.Terraria.WorldGen.hardUpdateWorld += WorldGen_hardUpdateWorld;
+
+			SurfaceWaterModifications.Load();
 		}
 
 		public static void Unload()
@@ -89,6 +92,8 @@ namespace SpiritMod.Utilities
 
 			IL.Terraria.Player.ItemCheck -= Player_ItemCheck;
 			IL.Terraria.WorldGen.hardUpdateWorld -= WorldGen_hardUpdateWorld;
+
+			SurfaceWaterModifications.Unload();
 		}
 
 		private static void Main_DrawMap(On.Terraria.Main.orig_DrawMap orig, Main self)

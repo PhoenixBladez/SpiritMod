@@ -122,7 +122,6 @@ namespace SpiritMod.World
 			{
 				for (int j = bounds.Top; j < bounds.Bottom; ++j)
 				{
-					//161
 					int tilesFromInnerEdge = bounds.Right - i;
 					if (side == 1)
 						tilesFromInnerEdge = i - bounds.Left;
