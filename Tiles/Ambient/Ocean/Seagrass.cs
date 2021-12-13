@@ -28,9 +28,11 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			TileObjectData.addTile(Type);
 
 			dustType = DustID.JungleGrass;
-        }
+			soundType = SoundID.Grass;
 
-        public override void NumDust(int i, int j, bool fail, ref int num) => num = 3;
+		}
+
+		public override void NumDust(int i, int j, bool fail, ref int num) => num = 3;
         public override void SetSpriteEffects(int i, int j, ref SpriteEffects effects) => effects = (i % 2 == 0) ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
 		public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
@@ -42,7 +44,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			Vector2 TileOffset = Lighting.lightMode > 1 ? Vector2.Zero : Vector2.One * 12; //Draw offset
 			Vector2 drawPos = ((new Vector2(i + 0.4f, j + 1.15f) + TileOffset) * 16) - Main.screenPosition;
 
-			float rotation = (float)Math.Sin(Main.GlobalTime * 1.2f) * Main.windSpeed;
+			float rotation = (float)Math.Sin(Main.GlobalTime * 1.2f) * Main.windSpeed * .6f;
 
 			spriteBatch.Draw(Main.tileTexture[Type], drawPos, source, col, rotation, new Vector2(8, 16), 1f, SpriteEffects.None, 0f);
 			return false;

@@ -1859,7 +1859,7 @@ namespace SpiritMod
 			int y1 = (int)player.Center.Y / 16;
 			var config = ModContent.GetInstance<SpiritClientConfig>();
 
-			if (WorldGen.InWorld(x1, y1 - 16) && Framing.GetTileSafely(x1, y1 - 16).liquid == 255 && Framing.GetTileSafely(x1, y1).liquid == 255 && player.wet)
+			if (WorldGen.InWorld(x1, y1 - 26) && Framing.GetTileSafely(x1, y1 - 26).liquid == 255 && Framing.GetTileSafely(x1, y1).liquid == 255 && player.wet)
 				isFullySubmerged = true;
 			else
 				isFullySubmerged = false;
