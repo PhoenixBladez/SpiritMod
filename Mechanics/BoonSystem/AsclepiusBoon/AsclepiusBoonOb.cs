@@ -141,8 +141,8 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 			effect.CurrentTechnique.Passes[0].Apply();
 
 
-			float xscale = Math.Max(1, 2 - (counter / 40f));
-			float yscale = Math.Min(1, 0.5f + (counter / 80f));
+			float xscale = Math.Max(1, 1 + (npc.velocity.Length() / 10f));
+			float yscale = Math.Min(1, 1.5f - npc.velocity.Length() / 10f);
 			spriteBatch.Draw(tex, npc.Center - Main.screenPosition, null, Color.White * 0.8f, npc.rotation, origin, npc.scale * new Vector2(xscale, yscale), SpriteEffects.None, 0f);
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
