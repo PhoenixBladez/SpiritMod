@@ -57,7 +57,6 @@ namespace SpiritMod.Utilities
 			On.Terraria.Main.DrawWater += Main_DrawWater;
 
 			IL.Terraria.Player.Hurt += Player_Hurt;
-
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
 			IL.Terraria.WorldGen.hardUpdateWorld += WorldGen_hardUpdateWorld;
 		}
