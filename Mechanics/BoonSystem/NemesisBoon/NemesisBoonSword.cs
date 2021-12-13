@@ -136,7 +136,7 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 
 					projectile.rotation = swingDirection.ToRotation() + MathHelper.Lerp(SWINGROTATION, -SWINGROTATION, progress) + 1.57f;
 
-					if (Main.rand.Next(2) == 0)
+					/*if (Main.rand.Next(2) == 0)
 					{
 						int particleTimeleft = Main.rand.Next(30, 60);
 						StarParticle particle = new StarParticle(
@@ -148,7 +148,7 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 
 						particle.TimeActive = (uint)particleTimeleft / 2;
 						ParticleHandler.SpawnParticle(particle);
-					}
+					}*/
 				}
 
 				projectile.Center = swingBase + ((projectile.rotation - 1.57f).ToRotationVector2() * SWINGDISTANCE * Math.Min(swingWindup / 30f, 1));
@@ -184,18 +184,13 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 
 		public override void Kill(int timeLeft)
 		{
-			for (int i = 0; i < 20; i++)
+			Vector2 vector9 = projectile.position;
+			for (int num257 = 0; num257 < 25; num257++)
 			{
-				int particleTimeleft = Main.rand.Next(30, 60);
-				StarParticle particle = new StarParticle(
-					projectile.Center + ((projectile.rotation - 1.57f).ToRotationVector2() * Main.rand.Next(70)) + Main.rand.NextVector2Circular(10, 10),
-					Vector2.Zero,
-					Color.SkyBlue,
-					Main.rand.NextFloat(0.1f, 0.2f),
-					particleTimeleft);
+				int newDust = Dust.NewDust(projectile.Center + ((projectile.rotation - 1.57f).ToRotationVector2() * Main.rand.Next(70)) + Main.rand.NextVector2Circular(10, 10), projectile.width, projectile.height, 132, 0f, 0f, 0, default, 1f);
+				Main.dust[newDust].velocity *= .125f;
+				Main.dust[newDust].noGravity = true;
 
-				particle.TimeActive = (uint)particleTimeleft / 2;
-				ParticleHandler.SpawnParticle(particle);
 			}
 		}
 
@@ -259,7 +254,7 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 					color28 = projectile.GetAlpha(color28);
 					color28 *= 1.5f - num107;
 					color28 *= (float)Math.Pow((((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length) / 2), 1.5f);
-					Vector2 vector29 = drawPos + ((float)num103 / (float)num108 * 6.28318548f + projectile.rotation + num106).ToRotationVector2() * (1.5f * num107 + 2f) - Main.screenPosition + new Vector2(0, projectile.gfxOffY) - projectile.velocity * (float)num103;
+					Vector2 vector29 = drawPos + ((float)num103 / (float)num108 * 6.28318548f + projectile.rotation + num106).ToRotationVector2() * (1.5f * num107 + 3f) - Main.screenPosition + new Vector2(0, projectile.gfxOffY) - projectile.velocity * (float)num103;
 					spriteBatch.Draw(tex, vector29, null, color28 * .6f * transparency, oldRotation[k], origin, projectile.scale * scale, SpriteEffects.None, 0f);
 				}
 			}
