@@ -111,8 +111,8 @@ namespace SpiritMod.Tiles
 				}
 				else
 				{
-					if (Main.rand.NextBool(9))
-						WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Seagrass>());
+					if (Main.rand.NextBool(6))
+						WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Seagrass>(), true, true, -1, Main.rand.Next(16));
 				}
 			}
 

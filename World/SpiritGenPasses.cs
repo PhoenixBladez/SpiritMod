@@ -1374,6 +1374,7 @@ namespace SpiritMod.World
 				}
 			}
 
+			return;
 			//Ocean corals
 			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * 16.2f) * 6E-03); k++)
 			{ //I hate the usage of scientific notation here but for consistency's sake it stays

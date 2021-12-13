@@ -3,6 +3,10 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
+using Microsoft.Xna.Framework;
+using Terraria.ID;
+using SpiritMod.Tiles.Ambient.Corals;
+using SpiritMod.Tiles.Ambient.Kelp;
 
 namespace SpiritMod.World
 {
@@ -18,23 +22,18 @@ namespace SpiritMod.World
 		/// <param name="progress"></param>
 		public static void GenerateOcean(GenerationProgress progress)
 		{
-			int num462 = 0;
-			int num463 = 0;
-			int num464 = 20;
-			int num465 = Main.maxTilesX - 20;
+			//Basic Shape
 			progress.Message = Lang.gen[22].Value; //replace later
 
 			int dungeonSide = Main.dungeonX < Main.maxTilesX / 2 ? -1 : 1;
+			(Rectangle, Rectangle) oceanInfos = (new Rectangle(), new Rectangle());
 
-			void GenSingleOceanSingleStep(int initialWidth, int oceanTop, int worldEdge, int placeX, ref int tilesFromInnerEdge)
+			void GenSingleOceanSingleStep(int oceanTop, int placeX, ref int tilesFromInnerEdge)
 			{
 				tilesFromInnerEdge++;
 
 				float depth = GetOceanSlope(tilesFromInnerEdge);
 				depth += OceanSlopeRoughness();
-
-				if (tilesFromInnerEdge == 235)
-					num464 = placeX;
 
 				int num473 = WorldGen.genRand.Next(20, 28); //Sand lining is a bit thicker than vanilla
 				for (int placeY = 0; placeY < oceanTop + depth + num473; placeY++)
@@ -59,10 +58,14 @@ namespace SpiritMod.World
 					for (oceanTop = 0; !Main.tile[initialWidth - 1, oceanTop].active(); oceanTop++)
 					{ } //Get top of ocean
 
-					num462 = oceanTop;
 					oceanTop += WorldGen.genRand.Next(1, 5);
 					for (int placeX = initialWidth - 1; placeX >= worldEdge; placeX--)
-						GenSingleOceanSingleStep(initialWidth, oceanTop, worldEdge, placeX, ref tilesFromInnerEdge);
+						GenSingleOceanSingleStep(oceanTop, placeX, ref tilesFromInnerEdge);
+
+					oceanInfos.Item1.X = worldEdge;
+					oceanInfos.Item1.Y = oceanTop - 5;
+					oceanInfos.Item1.Width = initialWidth;
+					oceanInfos.Item1.Height = (int)GetOceanSlope(tilesFromInnerEdge) + 5;
 				}
 				else
 				{
@@ -73,18 +76,90 @@ namespace SpiritMod.World
 					for (oceanTop = 0; !Main.tile[worldEdge - 1, oceanTop].active(); oceanTop++)
 					{ } //Get top of ocean
 
-					num463 = oceanTop;
 					oceanTop += WorldGen.genRand.Next(1, 5);
 					for (int placeX = worldEdge; placeX < initialWidth; placeX++) //repeat X loop
-						GenSingleOceanSingleStep(initialWidth, oceanTop, worldEdge, placeX, ref tilesFromInnerEdge);
+						GenSingleOceanSingleStep(oceanTop, placeX, ref tilesFromInnerEdge);
+
+					oceanInfos.Item2.X = worldEdge;
+					oceanInfos.Item2.Y = oceanTop - 5;
+					oceanInfos.Item2.Width = initialWidth - worldEdge;
+					oceanInfos.Item2.Height = (int)GetOceanSlope(tilesFromInnerEdge) + 5;
 				}
 			}
 
-			//Not sure what these two do but I'll keep em for 0 reason
-			for (; !Main.tile[num464, num462].active(); num462++)
-			{ }
-			for (; !Main.tile[num465, num463].active(); num463++)
-			{ }
+			PopulateOcean(oceanInfos.Item1, 0);
+			PopulateOcean(oceanInfos.Item2, 1);
+		}
+
+		private static void PopulateOcean(Rectangle bounds, int side)
+		{
+			bool ValidGround(int i, int j, int width, int type = TileID.Sand)
+			{
+				for (int k = i; k < i + width; ++k)
+				{
+					Tile t = Framing.GetTileSafely(k, j);
+					if (!t.active() || t.type != type || t.topSlope())
+						return false;
+				}
+				return true;
+			}
+
+			bool OpenArea(int i, int j, int width, int height)
+			{
+				for (int k = i; k < i + width; ++k)
+				{
+					for (int l = j; l < j + height; ++l)
+					{
+						Tile t = Framing.GetTileSafely(k, l);
+						if (t.active() || t.liquid < 200)
+							return false;
+					}
+				}
+				return true;
+			}
+
+			for (int i = bounds.Left; i < bounds.Right; ++i)
+			{
+				for (int j = bounds.Top; j < bounds.Bottom; ++j)
+				{
+					//161
+					int tilesFromInnerEdge = bounds.Right - i;
+					if (side == 1)
+						tilesFromInnerEdge = i - bounds.Left;
+
+					if (WorldGen.genRand.NextBool(5) && tilesFromInnerEdge < 133 && ValidGround(i, j, 2, TileID.Sand) && OpenArea(i, j - 3, 2, 3))
+					{
+						int type = ModContent.TileType<Coral2x2>();
+
+						if (tilesFromInnerEdge > 75)
+						{
+							int choice = WorldGen.genRand.Next(3);
+							if (choice == 0)
+								type = ModContent.TileType<Kelp2x2>();
+							else if (choice == 1)
+								type = ModContent.TileType<Kelp2x3>();
+						}
+
+						int styleRange = type == ModContent.TileType<Coral2x2>() ? 3 : 1;
+						int offset = type == ModContent.TileType<Kelp2x3>() ? 3 : 2;
+
+						WorldGen.PlaceObject(i, j - offset, type, true, WorldGen.genRand.Next(styleRange));
+						NetMessage.SendObjectPlacment(-1, i, j, type, 0, 0, -1, -1);
+						continue;
+					}
+
+					if (WorldGen.genRand.Next(3) < 2 && tilesFromInnerEdge < 133 && ValidGround(i, j, 1, TileID.Sand))
+					{
+						int height = WorldGen.genRand.Next(4, 20);
+						int offset = 1;
+						while (OpenArea(i, j - offset, 1, 1) && height > 0)
+						{
+							WorldGen.PlaceTile(i, j - offset++, ModContent.TileType<OceanKelp>());
+							height--;
+						}
+					}
+				}
+			}
 		}
 
 		private static float OceanSlopeRoughness()
@@ -111,7 +186,7 @@ namespace SpiritMod.World
 			}
 			else if (placeY > oceanTop)
 			{
-				Main.tile[placeX, placeY].type = 53;
+				Main.tile[placeX, placeY].type = TileID.Sand;
 				Main.tile[placeX, placeY].active(active: true);
 			}
 			Main.tile[placeX, placeY].wall = 0;
@@ -188,6 +263,20 @@ namespace SpiritMod.World
 			Piecewise, //Musicano's original sketch
 			Piecewise_M, //Musicano's sketch with Sal/Yuyu's cubic modification
 			Piecewise_V, //My heavily modified piecewise with variable
+		}
+
+		public struct OceanInfo
+		{
+			public int Top;
+			public int Width;
+			public int Height;
+
+			public OceanInfo(int t, int w, int h)
+			{
+				Top = t;
+				Width = w;
+				Height = h;
+			}
 		}
 	}
 }
