@@ -65,7 +65,7 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 			{
 				float rotDifference = ((((npc.DirectionTo(target.Center).ToRotation() - npc.velocity.ToRotation()) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
 
-				float lerper = Math.Min(0.1f, (counter - STARTTIME) / 700f);
+				float lerper = (counter - STARTTIME) / 700f;
 				npc.velocity = npc.velocity.RotatedBy(rotDifference * lerper);
 				float velLength = npc.velocity.Length();
 				npc.velocity.Normalize();
