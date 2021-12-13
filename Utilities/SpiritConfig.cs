@@ -67,8 +67,13 @@ namespace SpiritMod.Utilities
 		public string DrawCondition { get; set; }
 
 		[Label("Ocean Generation Shape")]
-		[Tooltip("Modifies the Ocean generation in certain ways. Defaults to a Piecewise generation.")]
+		[Tooltip("Modifies the Ocean generation in certain ways. Defaults to a Piecewise_V generation - this is the intended shape, and changing this is only meant for novelty.")]
 		[DefaultValue(OceanGeneration.OceanShape.Piecewise_V)]
 		public OceanGeneration.OceanShape OceanShape { get; set; }
+
+		[Label("Ocean Water Style")]
+		[Tooltip("Modifies the Ocean's water to be much, much more see through and allows light to travel farther. NOTE: This will have a visual bug with the lighting system.")]
+		[DefaultValue(false)]
+		public bool OceanWaterStyleEnabled { get; set; }
 	}
 }

@@ -64,7 +64,8 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 		{
 			var effect = Filters.Scene["SpiritMod:SurfaceWaterFX"].GetShader().Shader;
 			effect.Parameters["transparency"].SetValue(Main.LocalPlayer.ZoneOverworldHeight || Main.LocalPlayer.ZoneSkyHeight ? 0.6f : 0.8f);
-			Main.spriteBatch.Begin(default, default, default, default, default, effect, Main.GameViewMatrix.ZoomMatrix);
+
+			Main.spriteBatch.Begin(default, BlendState.AlphaBlend, default, default, default, effect, Main.GameViewMatrix.ZoomMatrix);
 		}
 	}
 }

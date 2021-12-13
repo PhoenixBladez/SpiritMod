@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Terraria.ID;
 using SpiritMod.Tiles.Ambient.Corals;
 using SpiritMod.Tiles.Ambient.Kelp;
+using SpiritMod.Tiles.Ambient.Ocean;
 
 namespace SpiritMod.World
 {
@@ -65,7 +66,7 @@ namespace SpiritMod.World
 					oceanInfos.Item1.X = worldEdge;
 					oceanInfos.Item1.Y = oceanTop - 5;
 					oceanInfos.Item1.Width = initialWidth;
-					oceanInfos.Item1.Height = (int)GetOceanSlope(tilesFromInnerEdge) + 5;
+					oceanInfos.Item1.Height = (int)GetOceanSlope(tilesFromInnerEdge) + 20;
 				}
 				else
 				{
@@ -83,7 +84,7 @@ namespace SpiritMod.World
 					oceanInfos.Item2.X = worldEdge;
 					oceanInfos.Item2.Y = oceanTop - 5;
 					oceanInfos.Item2.Width = initialWidth - worldEdge;
-					oceanInfos.Item2.Height = (int)GetOceanSlope(tilesFromInnerEdge) + 5;
+					oceanInfos.Item2.Height = (int)GetOceanSlope(tilesFromInnerEdge) + 20;
 				}
 			}
 
@@ -126,13 +127,16 @@ namespace SpiritMod.World
 					if (side == 1)
 						tilesFromInnerEdge = i - bounds.Left;
 
-					if (WorldGen.genRand.NextBool(5) && tilesFromInnerEdge < 133 && ValidGround(i, j, 2, TileID.Sand) && OpenArea(i, j - 3, 2, 3))
+					if (WorldGen.genRand.NextBool(5) && ValidGround(i, j, 2, TileID.Sand) && OpenArea(i, j - 3, 2, 3))
 					{
 						int type = ModContent.TileType<Coral2x2>();
 
 						if (tilesFromInnerEdge > 75)
 						{
 							int choice = WorldGen.genRand.Next(3);
+							if (tilesFromInnerEdge > 161)
+								choice = WorldGen.genRand.Next(2);
+
 							if (choice == 0)
 								type = ModContent.TileType<Kelp2x2>();
 							else if (choice == 1)
@@ -143,6 +147,16 @@ namespace SpiritMod.World
 						int offset = type == ModContent.TileType<Kelp2x3>() ? 3 : 2;
 
 						WorldGen.PlaceObject(i, j - offset, type, true, WorldGen.genRand.Next(styleRange));
+						NetMessage.SendObjectPlacment(-1, i, j, type, 0, 0, -1, -1);
+						continue;
+					}
+
+					if (WorldGen.genRand.Next(5) < 2 && tilesFromInnerEdge > 133 && ValidGround(i, j, 1, TileID.Sand) && OpenArea(i, j - 3, 1, 3))
+					{
+						int type = WorldGen.genRand.NextBool(3) ? ModContent.TileType<HydrothermalVent1x3>() : ModContent.TileType<HydrothermalVent1x2>();
+						int offset = type == ModContent.TileType<HydrothermalVent1x2>() ? 2 : 3;
+
+						WorldGen.PlaceObject(i, j - offset, type, true, WorldGen.genRand.Next(2));
 						NetMessage.SendObjectPlacment(-1, i, j, type, 0, 0, -1, -1);
 						continue;
 					}
@@ -262,20 +276,6 @@ namespace SpiritMod.World
 			Piecewise, //Musicano's original sketch
 			Piecewise_M, //Musicano's sketch with Sal/Yuyu's cubic modification
 			Piecewise_V, //My heavily modified piecewise with variable
-		}
-
-		public struct OceanInfo
-		{
-			public int Top;
-			public int Width;
-			public int Height;
-
-			public OceanInfo(int t, int w, int h)
-			{
-				Top = t;
-				Width = w;
-				Height = h;
-			}
 		}
 	}
 }
