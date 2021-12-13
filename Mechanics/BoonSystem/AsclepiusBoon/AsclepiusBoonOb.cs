@@ -36,6 +36,7 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 		}
 		public override void AI()
 		{
+			npc.rotation = npc.velocity.ToRotation();
 			if (Main.rand.Next(8) == 1)
 			{
 				StarParticle particle = new StarParticle(
@@ -114,7 +115,6 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 
 			Vector2 origin = new Vector2(tex.Width / 2, tex.Height / 2);
 
-			spriteBatch.Draw(tex, npc.Center - Main.screenPosition, null, Color.White * 0.8f, npc.rotation, origin, npc.scale, SpriteEffects.None, 0f);
 			for (int k = npc.oldPos.Length - 1; k >= 0; k--)
 			{
 				float mult = (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length));
@@ -134,6 +134,18 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 					spriteBatch.Draw(tex, vector29, null, color28 * .6f, npc.rotation, origin, npc.scale * (float)Math.Sqrt(mult), SpriteEffects.None, 0f);
 				}
 			}
+
+			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+			Effect effect = mod.GetEffect("Effects/RotateSprite");
+			effect.Parameters["rotation"].SetValue(-npc.rotation);
+			effect.CurrentTechnique.Passes[0].Apply();
+
+
+			float xscale = Math.Max(1, 1 + (npc.velocity.Length() / 10f));
+			float yscale = Math.Min(1, 1.5f - npc.velocity.Length() / 10f);
+			spriteBatch.Draw(tex, npc.Center - Main.screenPosition, null, Color.White * 0.8f, npc.rotation, origin, npc.scale * new Vector2(xscale, yscale), SpriteEffects.None, 0f);
+
+			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
 			return false;
 		}
