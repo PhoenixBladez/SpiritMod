@@ -56,7 +56,7 @@ namespace SpiritMod.Tiles
 			return true;
 		}
 
-		public override bool Slope(int i, int j, int type) //POSSIBLY BREAKING CHANGE [!] - gabe
+		public override bool Slope(int i, int j, int type)
 		{
 			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
 			ushort flowerType = (ushort)ModContent.TileType<BloodBlossom>();

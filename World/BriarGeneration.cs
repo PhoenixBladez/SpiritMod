@@ -905,14 +905,14 @@ namespace SpiritMod.World
 
 		public override void PostWorldGen()
 		{
-			Tile testTile = Framing.GetTileSafely(_bbX, _testY);
+			Tile testTile = Framing.GetTileSafely(_bbX, _testY + 5);
 			while (WorldGen.SolidOrSlopedTile(testTile))
 			{
 				_testY--;
 				testTile = Framing.GetTileSafely(_bbX, _testY);
 			}
-			ushort bbossom = (ushort)ModContent.TileType<Tiles.BloodBlossom>();
-			for (int x = _bbX - 1; x <= _bbX + 1; x++)
+
+			for (int x = _bbX - 2; x <= _bbX + 2; x++)
 			{
 				//place tile below
 				Tile t = Framing.GetTileSafely(x, _testY + 1);
@@ -921,11 +921,11 @@ namespace SpiritMod.World
 				t.slope(0);
 
 				//clear space for blood blossom
-				for (int y = _testY - 1; y <= _testY; y++)
+				for (int y = _testY - 2; y <= _testY; y++)
 					WorldGen.KillTile(x, y);
 
 			}
-			WorldGen.PlaceObject(_bbX, _testY, bbossom);
+			WorldGen.Place3x2(_bbX, _testY, (ushort)ModContent.TileType<Tiles.BloodBlossom>());
 		}
 
 		private void DoFlowerOre(int x, int y, int k, int size = 10)
