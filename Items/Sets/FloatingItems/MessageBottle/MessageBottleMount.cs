@@ -55,7 +55,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.MessageBottle
 		{
 			if (player.wet)
 			{
-				mountData.runSpeed = 4;
+				mountData.runSpeed = 2;
 				player.velocity.Y = -2;
 				wetCounter = 15;
 			}
