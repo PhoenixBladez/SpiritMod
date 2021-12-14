@@ -17,6 +17,8 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 		const int STARTTIME = 35;
 
 		int counter;
+
+		bool canHome = true;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("");
@@ -62,7 +64,7 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 			}
 
 			var target = Main.npc.Where(n => n.active && Vector2.Distance(n.Center, npc.Center) < 600 && n.whoAmI != (int)npc.ai[0] && n.life < n.lifeMax && npc.type != n.type).OrderBy(n => Vector2.Distance(n.Center, npc.Center)).FirstOrDefault();
-			if (target != default)
+			if (target != default && canHome)
 			{
 				float rotDifference = ((((npc.DirectionTo(target.Center).ToRotation() - npc.velocity.ToRotation()) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
 
@@ -76,8 +78,10 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 				if (Vector2.Distance(target.Center, npc.Center) < 25)
 				{
 					npc.active = false;
-					target.life += 40;
-					target.HealEffect(40, true);
+					int heal = Math.Min(40, target.lifeMax - target.life);
+
+					target.life += heal;
+					target.HealEffect(heal, true);
 				}
 			}
 			else
@@ -86,6 +90,7 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 				npc.velocity = npc.velocity.RotatedBy(0.04f);
 				if (counter > STARTTIME + 50)
 				{
+					canHome = false;
 					npc.scale -= 0.07f;
 					if (npc.scale < 0.07f)
 						npc.active = false;

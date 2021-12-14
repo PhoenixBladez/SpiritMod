@@ -3,13 +3,23 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Linq;
 using SpiritMod.Particles;
 
 namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 {
 	public class AsclepiusBoon : Boon
 	{
-		public override bool CanApply => true;
+		public override bool CanApply
+		{
+			get
+			{
+				var npcsWithBoon = Main.npc.Where(n => n.active && n.GetGlobalNPC<BoonNPC>().currentBoon is AsclepiusBoon);
+				if (npcsWithBoon.Count() > 0)
+					return false;
+				return true;
+			}
+		}
 
 		private int frameCounter;
 
