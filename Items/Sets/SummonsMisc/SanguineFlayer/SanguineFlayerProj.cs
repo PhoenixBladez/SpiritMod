@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Projectiles.BaseProj;
 using System;
 using System.IO;
 using SpiritMod.Utilities;
@@ -281,6 +280,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 			Vector2 origin = new Vector2(projTexture.Width / 2, projTexture.Height);
 			SpriteEffects flip = (projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
+			lightColor = Lighting.GetColor((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f));
 			spriteBatch.Draw(projTexture, projBottom - Main.screenPosition, null, lightColor, newRotation, origin, projectile.scale, flip, 0);
 
 			return false;

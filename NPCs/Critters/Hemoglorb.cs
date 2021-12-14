@@ -3,7 +3,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -36,19 +35,13 @@ namespace SpiritMod.NPCs.Critters
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0) {
-                int d = 5;
+			if (npc.life <= 0)
                 for (int k = 0; k < 20; k++)
-                {
-                    Dust.NewDust(npc.position, npc.width, npc.height, d, 1.75f * hitDirection, -1.75f, 0, new Color(), 0.86f);
-                }
-            }
-			
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 1.75f * hitDirection, -1.75f, 0, new Color(), 0.86f);
 		}
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
-        {
-            return spawnInfo.player.ZoneCrimson && spawnInfo.player.ZoneOverworldHeight ? .03f : 0f;
-        }
+
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.player.ZoneCrimson && spawnInfo.player.ZoneOverworldHeight ? .03f : 0f;
+		public override void AI() => npc.spriteDirection = npc.direction;
 
 		public override void FindFrame(int frameHeight)
 		{
@@ -59,10 +52,6 @@ namespace SpiritMod.NPCs.Critters
 				int frame = (int)npc.frameCounter;
 				npc.frame.Y = frame * frameHeight;
 			}
-		}
-		public override void AI()
-		{
-			npc.spriteDirection = npc.direction;
 		}
 	}
 }

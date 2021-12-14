@@ -1,7 +1,4 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Backgrounds;
-using SpiritMod.Dusts;
-using SpiritMod.Gores;
 using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;

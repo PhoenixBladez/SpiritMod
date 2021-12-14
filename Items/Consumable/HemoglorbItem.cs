@@ -6,11 +6,7 @@ namespace SpiritMod.Items.Consumable
 {
 	public class HemoglorbItem : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Hemoglorb");
-		}
-
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Hemoglorb");
 
 		public override void SetDefaults()
 		{
@@ -33,6 +29,5 @@ namespace SpiritMod.Items.Consumable
 			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("Hemoglorb"));
 			return true;
 		}
-
 	}
 }

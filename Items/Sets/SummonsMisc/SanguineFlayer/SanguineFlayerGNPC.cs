@@ -1,13 +1,7 @@
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Projectiles.BaseProj;
 using System;
-using System.IO;
-using SpiritMod.Utilities;
-using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Particles;
 
 namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 {

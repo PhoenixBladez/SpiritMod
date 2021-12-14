@@ -48,7 +48,6 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 
 			if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
-
 			return false;
 		}
 
