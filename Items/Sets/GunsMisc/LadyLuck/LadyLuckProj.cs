@@ -57,11 +57,18 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
                     {
                         Vector2 direction = target.Center - proj.Center;
                         direction.Normalize();
-                        direction *= proj.velocity.Length();
+						float velocity = proj.velocity.Length();
+
+						direction *= velocity;
                         proj.velocity = direction;
                         proj.damage *= (int)(5.75f - projectile.penetrate);
 						SpiritMod.primitives.CreateTrail(new LLPrimTrail(proj, Color.Gold));
-                        proj.GetGlobalProjectile<LLProj>().shotFromGun = false;
+
+						proj.GetGlobalProjectile<LLProj>().hit = true;
+						proj.GetGlobalProjectile<LLProj>().target = target;
+						proj.GetGlobalProjectile<LLProj>().initialVel = velocity;
+
+						proj.GetGlobalProjectile<LLProj>().shotFromGun = false;
                     }
                     else
                         proj.velocity = proj.velocity.RotatedBy(Main.rand.NextFloat(6.28f));

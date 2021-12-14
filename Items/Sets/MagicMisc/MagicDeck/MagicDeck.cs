@@ -121,7 +121,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.MagicDeck
 				xFrame++;
 			xFrame %= NUMBEROFXFRAMES;
 
-			var target2 = Main.npc.Where(n => n.active && Vector2.Distance(n.Center, projectile.Center) < 200).OrderBy(n => Vector2.Distance(n.Center, projectile.Center)).FirstOrDefault();
+			var target2 = Main.npc.Where(n => n.active && n.CanBeChasedBy(projectile) && !n.townNPC && Vector2.Distance(n.Center, projectile.Center) < 200).OrderBy(n => Vector2.Distance(n.Center, projectile.Center)).FirstOrDefault();
 			if (target2 != default)
 			{
 				Vector2 direction = target2.Center - projectile.Center;

@@ -86,5 +86,22 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
 	{
 		public override bool InstancePerEntity => true;
 		public bool shotFromGun = false;
+
+		public bool hit = false;
+		public NPC target;
+		public float initialVel = 0f;
+
+		public override void AI(Projectile projectile)
+		{
+			if (!hit)
+				return;
+
+			if (!target.active)
+			{
+				hit = false;
+				return;
+			}
+			projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center) * initialVel, 0.1f);
+		}
 	}	
 }
