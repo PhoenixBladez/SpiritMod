@@ -138,7 +138,7 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 				case STATE_RETURN:
 					AiTimer++;
 					_glowOpacity = Math.Max(_glowOpacity - 0.1f, 0);
-					projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(Owner.Center) * 20, 0.1f);
+					projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(Owner.Center) * 20, 0.15f);
 					if (AiTimer > 60)
 						projectile.extraUpdates = 1;
 
@@ -209,7 +209,7 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 
 				NumHits++;
 				SetAIState(STATE_SLOWHOME);
-				projectile.velocity = -projectile.velocity.RotatedByRandom(MathHelper.Pi / 3) * 2;
+				projectile.velocity = -projectile.velocity.RotatedByRandom(MathHelper.Pi / 3) * 1.5f;
 				player.GetModPlayer<MyPlayer>().Shake += 8;
 			}
 		}

@@ -41,7 +41,7 @@ namespace SpiritMod
 			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, color ?? Color.White, rotation ?? projectile.rotation, frame.Size() / 2, projectile.scale, spriteEffects ?? (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
 		}
 
-		public static void QuickDrawTrail(this Projectile projectile, SpriteBatch spriteBatch, float Opacity = 0.5f, float? rotation = null, SpriteEffects? spriteEffects = null, Color? drawColor = null)
+		public static void QuickDrawTrail(this Projectile projectile, SpriteBatch spriteBatch, float baseOpacity = 0.5f, float? rotation = null, SpriteEffects? spriteEffects = null, Color? drawColor = null)
 		{
 			Texture2D tex = Main.projectileTexture[projectile.type];
 			Color color = drawColor ?? Lighting.GetColor((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16);
@@ -50,9 +50,12 @@ namespace SpiritMod
 
 			for (int i = 0; i < ProjectileID.Sets.TrailCacheLength[projectile.type]; i++)
 			{
-				float opacity = (ProjectileID.Sets.TrailCacheLength[projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[projectile.type];
-				opacity *= Opacity;
-				spriteBatch.Draw(tex, projectile.oldPos[i] + projectile.Size/2 - Main.screenPosition, projectile.DrawFrame(), projectile.GetAlpha(color) * opacity, rotation ?? projectile.oldRot[i], projectile.DrawFrame().Size() / 2, projectile.scale, spriteEffects ?? (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
+				float opacityMod = (ProjectileID.Sets.TrailCacheLength[projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[projectile.type];
+				opacityMod *= baseOpacity;
+				Vector2 drawPosition = projectile.oldPos[i] + (projectile.Size / 2) - Main.screenPosition;
+				spriteBatch.Draw(tex, drawPosition, projectile.DrawFrame(), projectile.GetAlpha(color) * opacityMod, 
+					rotation ?? projectile.oldRot[i], projectile.DrawFrame().Size() / 2, projectile.scale, 
+					spriteEffects ?? (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
 			}
 		}
 

@@ -22,12 +22,9 @@ namespace SpiritMod.NPCs.GraniTech
         float chargeUp = 0;
         float recoil = 0;
 
-        public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("GraniTec Turret");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("GraniTec Turret");
 
-        public override void SetDefaults()
+		public override void SetDefaults()
         {
             npc.width = 44; //Stats placeholder -->
             npc.height = 46;
@@ -148,18 +145,18 @@ namespace SpiritMod.NPCs.GraniTech
                     }
                     recoil *= 0.99f;
                     firing = false;
-                     for (int i = 0; i < Main.player.Length; i++)
-                    {
-                        Player player = Main.player[i];
-                        if (player.active)
-                        {
-                            float collisionPoint = 0f;
-                            if (Collision.CheckAABBvLineCollision(player.Hitbox.TopLeft(), player.Hitbox.Size(), laserOrigin, laserEdge, (npc.width + npc.height) * npc.scale * 3, ref collisionPoint)) {
-                                firing = true;
-                                break;
-                            }
-                        }
-                    }
+					for (int i = 0; i < Main.player.Length; i++)
+					{
+						Player player = Main.player[i];
+						if (player.active)
+						{
+							float collisionPoint = 0f;
+							if (Collision.CheckAABBvLineCollision(player.Hitbox.TopLeft(), player.Hitbox.Size(), laserOrigin, laserEdge, (npc.width + npc.height) * npc.scale * 3, ref collisionPoint)) {
+								firing = true;
+								break;
+							}
+						}
+					}
                 }
                 switch (BaseState) 
                 {
@@ -183,19 +180,19 @@ namespace SpiritMod.NPCs.GraniTech
                 }
             }
         }
+
         public override void NPCLoot()
         {
-             Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GraniTech/GraniteSentryGore1"), 1f);
-             Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GraniTech/GraniteSentryGore2"), 1f);
-             Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GraniTech/GraniteSentryGore3"), 1f);
-             Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GraniTech/GraniteSentryGore4"), 1f);
+			for(int i = 1; i <= 4; i++)
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot($"Gores/GraniTech/GraniteSentryGore{i}"), 1f);
         }
+
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			int x = spawnInfo.spawnTileX;
 			int y = spawnInfo.spawnTileY;
 			int tile = (int)Main.tile[x, y].type;
-			return (tile == 368) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.5f : 0f;
+			return (tile == 368) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.06f : 0f;
 
 		}
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -233,10 +230,7 @@ namespace SpiritMod.NPCs.GraniTech
     }
     public class GraniteSentryBolt : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Laser Bolt");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Laser Bolt");
 		public override void SetDefaults()
 		{
 			projectile.penetrate = 3;
