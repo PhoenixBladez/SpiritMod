@@ -22,6 +22,8 @@ namespace SpiritMod.NPCs.GraniTech
         float chargeUp = 0;
         float recoil = 0;
 
+		private List<(float, int)> laserRotations = new List<(float,int)>();
+
 		public override void SetStaticDefaults() => DisplayName.SetDefault("GraniTec Turret");
 
 		public override void SetDefaults()
@@ -110,7 +112,19 @@ namespace SpiritMod.NPCs.GraniTech
                     scanTimer+= 0.01f;
                 if (!firing)
                 {
-                    chargeUp = 0;
+					if (laserRotations == null)
+						laserRotations = new List<(float,int)>();
+
+					Vector2 delta = laserEdge - laserOrigin;
+					int length = (int)delta.Length();
+					float rotation = delta.ToRotation();
+					laserRotations.Add((rotation, length));
+
+					while (laserRotations.Count > 10)
+					{
+						laserRotations.RemoveAt(0);
+					}
+					chargeUp = 0;
                     for (int i = 0; i < Main.player.Length; i++)
                     {
                         Player player = Main.player[i];
@@ -127,6 +141,10 @@ namespace SpiritMod.NPCs.GraniTech
                 else
                 {
                     chargeUp++;
+					if (laserRotations != null)
+						if (laserRotations.Count > 0)
+							laserRotations.RemoveAt(0);
+
                     if (chargeUp > 20 && chargeUp % 6 == 0)
                     {
                         recoil = Main.rand.NextFloat(-0.1f,0.1f);
@@ -140,8 +158,8 @@ namespace SpiritMod.NPCs.GraniTech
                                 break;
                         }
                         Projectile.NewProjectile(laserOrigin, (npc.rotation + 3.14f).ToRotationVector2() * 20, ModContent.ProjectileType<GraniteSentryBolt>(), 40, 3, npc.target);
-
-                        Main.PlaySound(SoundID.Item, (int)npc.Center.X, (int)npc.Center.Y, 91, 0.5f, 0.5f);
+						laserRotations = null;
+						Main.PlaySound(SoundID.Item, (int)npc.Center.X, (int)npc.Center.Y, 91, 0.5f, 0.5f);
                     }
                     recoil *= 0.99f;
                     firing = false;
@@ -203,10 +221,31 @@ namespace SpiritMod.NPCs.GraniTech
             if (chargeUp < 20)
             {
                 Color laserColor = chargeUp % 10 > 5 ? Color.White : Color.Red;
-                  Main.spriteBatch.Draw(Main.magicPixel, laserOrigin - Main.screenPosition, new Rectangle(0, 0, 1, 1), laserColor * 0.65f, rotation, new Vector2(0f, 1f), new Vector2(length, 3 - (chargeUp / 6f)), SpriteEffects.None, 0f);
-            }
+                 Main.spriteBatch.Draw(Main.magicPixel, laserOrigin - Main.screenPosition, new Rectangle(0, 0, 1, 1), laserColor * 0.65f, rotation, new Vector2(0f, 1f), new Vector2(length, 3 - (chargeUp / 6f)), SpriteEffects.None, 0f);
 
-            Vector2 realPos = npc.position - Main.screenPosition;
+				if (laserRotations != null && laserRotations.Count > 3)
+				{
+					float oldRot = laserRotations[0].Item1;
+					int oldLength = laserRotations[0].Item2;
+					float rotDifference = ((((rotation - oldRot) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
+					if (rotDifference > 0)
+					{
+						for (float k = 0; k < rotDifference; k += 0.005f * Math.Sign(rotDifference))
+						{
+							DrawLaser(spriteBatch, laserColor * 0.65f, k, oldRot, rotation, rotDifference, oldLength, (int)length);
+						}
+					}
+					else
+					{
+						for (float k = rotDifference; k < 0; k -= 0.005f * Math.Sign(rotDifference))
+						{
+							DrawLaser(spriteBatch, laserColor * 0.65f, k, oldRot, rotation, rotDifference, oldLength, (int)length);
+						}
+					}
+				}
+			}
+
+			Vector2 realPos = npc.position - Main.screenPosition;
             if (BaseState == 1) //On ceiling
                 spriteBatch.Draw(Main.npcTexture[npc.type], realPos + new Vector2(44, 2), new Rectangle(0, 32, 44, 18), drawColor, (float)Math.PI, new Vector2(), 1f, SpriteEffects.None, 0f);
             if (BaseState == 2) //On ground
@@ -227,6 +266,17 @@ namespace SpiritMod.NPCs.GraniTech
             spriteBatch.Draw(Main.npcTexture[npc.type], realPos + new Vector2(22, 15), new Rectangle(0, 0, 44, 30), drawColor, rot, new Vector2(22, 15), 1f, s, 0f);
             return false;
         }
+
+		private void DrawLaser(SpriteBatch spriteBatch, Color laserColor, float k, float oldRot, float currentRotation, float rotDifference, int oldLength, int newLength)
+		{
+			float rot = k + oldRot;
+			float lerper = Math.Abs(k / rotDifference);
+			lerper *= lerper * lerper;
+			Color color = Color.Lerp(laserColor, new Color(255, 0, 0), (lerper * lerper) / 2);
+			color.A = 0;
+			float length = MathHelper.Lerp(oldLength, newLength, lerper);
+			spriteBatch.Draw(Main.magicPixel, laserOrigin - Main.screenPosition, new Rectangle(0, 0, 1, 1), color * lerper * 0.5f, rot, Vector2.Zero, new Vector2(length, 3), SpriteEffects.None, 0);
+		}
     }
     public class GraniteSentryBolt : ModProjectile
 	{
