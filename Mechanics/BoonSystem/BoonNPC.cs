@@ -16,7 +16,7 @@ namespace SpiritMod.Mechanics.BoonSystem
 
 		public override void SetDefaults(NPC npc)
 		{
-			if (npc.modNPC is IBoonable)
+			if (npc.modNPC is IBoonable || npc.type == NPCID.Medusa)
 			{
 				currentBoon = GetBoon(npc);
 
