@@ -73,7 +73,7 @@ namespace SpiritMod.NPCs.Critters
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.player.ZoneBeach && spawnInfo.water ? 0.0055f : 0f;
+			return spawnInfo.player.ZoneBeach && spawnInfo.water ? 0.0035f : 0f;
 		}
 
 	}

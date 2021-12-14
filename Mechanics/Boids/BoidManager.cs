@@ -57,9 +57,13 @@ namespace SpiritMod.Mechanics.Boids
 			int flocks = (seed % 8) + 6;
 			for (int i = 0; i < flocks; i++)
 			{
-				bool big = (seed + i) % 2 == 0;
+				int big = (seed + i) % 14;
 
 				Texture2D[] textures = new Texture2D[Main.rand.Next(1, 5)];
+				Texture2D[] sardineTexture = new Texture2D[] { SpiritMod.Instance.GetTexture($"Textures/AmbientFish/sardine") };
+				Texture2D[] shrimpTexture = new Texture2D[] { SpiritMod.Instance.GetTexture($"Textures/AmbientFish/shrimp") };
+
+
 				bool[] addedIDs = new bool[AmbientFishTextureCount];
 
 				for (int j = 0; j < textures.Length; ++j)
@@ -74,8 +78,14 @@ namespace SpiritMod.Mechanics.Boids
 					else
 						j--;
 				}
-
-				Flocks.Add(big ? new Flock(textures, 1f, Main.rand.Next(5, 20)) : new Flock(textures, 1f, Main.rand.Next(30, 60)));
+				if (big < 6)
+					Flocks.Add(new Flock(textures, 1f, Main.rand.Next(5, 20)));
+				if (big >= 6 && big < 11)
+					Flocks.Add(new Flock(textures, 1f, Main.rand.Next(30, 60)));
+				if (big >= 11 && big < 13)
+					Flocks.Add(new Flock(sardineTexture, .525f, 60));
+				if (big == 13)
+					Flocks.Add(new Flock(shrimpTexture, .8f, Main.rand.Next(30, 60)));
 			}
 
 			On.Terraria.Main.DrawWoF += Main_DrawWoF;

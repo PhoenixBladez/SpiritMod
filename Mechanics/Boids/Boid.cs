@@ -14,7 +14,7 @@ namespace SpiritMod.Mechanics.Boids
 
 		private const int SimulationDistance = 2500;
 
-        public Flock(Texture2D[] texs, float Scale = 1, float MaxFlockSize = 50)
+        public Flock(Texture2D[] texs, float Scale = 1, float MaxFlockSize = 60)
         {
 			if (texs != null) FlockTextures = texs;
 			else FlockTextures = new Texture2D[] { Main.magicPixel };
