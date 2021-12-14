@@ -221,7 +221,8 @@ namespace SpiritMod.NPCs.GraniTech
             if (chargeUp < 20)
             {
                 Color laserColor = chargeUp % 10 > 5 ? Color.White : Color.Red;
-                 Main.spriteBatch.Draw(Main.magicPixel, laserOrigin - Main.screenPosition, new Rectangle(0, 0, 1, 1), laserColor * 0.65f, rotation, new Vector2(0f, 1f), new Vector2(length, 3 - (chargeUp / 6f)), SpriteEffects.None, 0f);
+				laserColor.A = 0;
+                 Main.spriteBatch.Draw(Main.magicPixel, laserOrigin - Main.screenPosition, new Rectangle(0, 0, 1, 1), laserColor * 0.35f, rotation, new Vector2(0f, 1f), new Vector2(length, 2 - (chargeUp / 12f)), SpriteEffects.None, 0f);
 
 				if (laserRotations != null && laserRotations.Count > 3)
 				{
@@ -232,14 +233,14 @@ namespace SpiritMod.NPCs.GraniTech
 					{
 						for (float k = 0; k < rotDifference; k += 0.005f * Math.Sign(rotDifference))
 						{
-							DrawLaser(spriteBatch, laserColor * 0.65f, k, oldRot, rotation, rotDifference, oldLength, (int)length);
+							DrawLaser(spriteBatch, laserColor * 0.35f, k, oldRot, rotation, rotDifference, oldLength, (int)length);
 						}
 					}
 					else
 					{
 						for (float k = rotDifference; k < 0; k -= 0.005f * Math.Sign(rotDifference))
 						{
-							DrawLaser(spriteBatch, laserColor * 0.65f, k, oldRot, rotation, rotDifference, oldLength, (int)length);
+							DrawLaser(spriteBatch, laserColor * 0.35f, k, oldRot, rotation, rotDifference, oldLength, (int)length);
 						}
 					}
 				}
@@ -275,7 +276,7 @@ namespace SpiritMod.NPCs.GraniTech
 			Color color = Color.Lerp(laserColor, new Color(255, 0, 0), (lerper * lerper) / 2);
 			color.A = 0;
 			float length = MathHelper.Lerp(oldLength, newLength, lerper);
-			spriteBatch.Draw(Main.magicPixel, laserOrigin - Main.screenPosition, new Rectangle(0, 0, 1, 1), color * lerper * 0.5f, rot, Vector2.Zero, new Vector2(length, 3), SpriteEffects.None, 0);
+			spriteBatch.Draw(Main.magicPixel, laserOrigin - Main.screenPosition, new Rectangle(0, 0, 1, 1), color * lerper * 0.5f, rot, Vector2.Zero, new Vector2(length, 2), SpriteEffects.None, 0);
 		}
     }
     public class GraniteSentryBolt : ModProjectile
