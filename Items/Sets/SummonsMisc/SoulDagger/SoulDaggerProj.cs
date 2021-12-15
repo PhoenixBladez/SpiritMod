@@ -87,7 +87,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SoulDagger
 					phase = Phases.IDLE;
 					break;
 			}
-			projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(player.Center) * 10, 0.03f);
+			projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(player.Center - new Vector2(player.direction * 30, 0)) * 10, 0.03f);
 			projectile.rotation = projectile.velocity.X / 20f;
 			projectile.frameCounter++;
 			if (projectile.frameCounter % 3 == 2)
@@ -128,6 +128,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SoulDagger
 					projectile.frameCounter = 0;
 					projectile.Center = target.Center;
 					projectile.rotation = Main.rand.NextFloat(6.28f);
+					Projectile.NewProjectile(projectile.Center - (projectile.rotation.ToRotationVector2() * 150), (projectile.rotation + 1.57f).ToRotationVector2(), ModContent.ProjectileType<SoulDaggerSummon>(), 0, 0, player.whoAmI);
 				}
 				else
 					frameY++;
@@ -144,6 +145,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SoulDagger
 				{
 					projectile.Center = target.Center;
 					projectile.rotation = Main.rand.NextFloat(6.28f);
+					Projectile.NewProjectile(projectile.Center - (projectile.rotation.ToRotationVector2() * 150), (projectile.rotation + 1.57f).ToRotationVector2(), ModContent.ProjectileType<SoulDaggerSummon>(), 0, 0, player.whoAmI);
 					frameY = 0;
 					projectile.frameCounter = 0;
 				}
@@ -163,6 +165,8 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SoulDagger
 					phase = Phases.IDLE;
 					frameY = 0;
 					projectile.frameCounter = 0;
+					projectile.Center = player.Center + Main.rand.NextVector2Circular(80, 80);
+					Projectile.NewProjectile(projectile.Center, new Vector2(0, 1), ModContent.ProjectileType<SoulDaggerSummon>(), 0, 0, player.whoAmI);
 				}
 				else
 					frameY++;
@@ -170,8 +174,9 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SoulDagger
 		}
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
+			float collisionPoint = 0f;
 			if (phase == Phases.ATTACKING && frameY == 4)
-				return base.Colliding(projHitbox, targetHitbox);
+				return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center + (projectile.rotation.ToRotationVector2() * 150), projectile.Center - (projectile.rotation.ToRotationVector2() * 150), 30, ref collisionPoint);
 			return false;
 		}
 
@@ -187,5 +192,47 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SoulDagger
 		}
 
 		public override Color? GetAlpha(Color lightColor) => Color.White;
+	}
+	internal class SoulDaggerSummon : ModProjectile
+	{
+
+		protected virtual Color color => Color.White;
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Soul Dagger");
+			Main.projFrames[projectile.type] = 10;
+		}
+
+		public override void SetDefaults()
+		{
+			projectile.friendly = false;
+			projectile.ranged = true;
+			projectile.tileCollide = false;
+			projectile.Size = new Vector2(100, 100);
+			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 16;
+		}
+		public override void AI()
+		{
+			if (projectile.velocity != Vector2.Zero)
+				projectile.rotation = projectile.velocity.ToRotation() - 1.57f;
+			projectile.velocity = Vector2.Zero;
+			projectile.frameCounter++;
+			if (projectile.frameCounter % 3 == 0)
+				projectile.frame++;
+			if (projectile.frame >= Main.projFrames[projectile.type])
+				projectile.active = false;
+		}
+		public override Color? GetAlpha(Color lightColor) => Color.White;
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D tex = Main.projectileTexture[projectile.type];
+			int frameHeight = tex.Height / Main.projFrames[projectile.type];
+			Rectangle frame = new Rectangle(0, frameHeight * projectile.frame, tex.Width, frameHeight);
+			spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frame, color, projectile.rotation, new Vector2(0, frameHeight), projectile.scale, SpriteEffects.None, 0f);
+			return false;
+		}
 	}
 }
