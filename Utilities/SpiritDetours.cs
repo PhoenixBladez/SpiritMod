@@ -21,6 +21,9 @@ using System.Collections.Generic;
 using SpiritMod.Mechanics.Trails;
 using SpiritMod.Players;
 using SpiritMod.Effects.SurfaceWaterModifications;
+using SpiritMod.Items.Sets.FloatingItems.MessageBottle;
+using MonoMod.RuntimeDetour.HookGen;
+using System.Reflection;
 
 namespace SpiritMod.Utilities
 {
@@ -62,6 +65,7 @@ namespace SpiritMod.Utilities
 			IL.Terraria.WorldGen.hardUpdateWorld += WorldGen_hardUpdateWorld;
 
 			SurfaceWaterModifications.Load();
+			HookEndpointManager.Add<hook_NPCAI>(NPCAIMethod, (hook_NPCAI)NPCAIMod);
 		}
 
 		public static void Unload()
@@ -94,6 +98,32 @@ namespace SpiritMod.Utilities
 			IL.Terraria.WorldGen.hardUpdateWorld -= WorldGen_hardUpdateWorld;
 
 			SurfaceWaterModifications.Unload();
+			HookEndpointManager.Remove<hook_NPCAI>(NPCAIMethod, (hook_NPCAI)NPCAIMod);
+		}
+
+		private static readonly MethodInfo NPCAIMethod = typeof(NPCLoader).GetMethod(nameof(NPCLoader.NPCAI));
+		public delegate void orig_NPCAI(NPC npc);
+		public delegate void hook_NPCAI(orig_NPCAI orig, NPC npc);
+
+		/// <summary>Detour for NPCLoader.NPCAI; allows the Message in a Bottle mount to still have waterborne enemies target it when not "in" the water.</summary>
+		private static void NPCAIMod(orig_NPCAI orig, NPC npc)
+		{
+			bool removeWet = false;
+			Player target = null;
+
+			if (npc.target >= 0)
+			{
+				target = Main.player[npc.target];
+				removeWet = target.HasBuff(ModContent.BuffType<BottleMountBuff>()) && (target.velocity.Y == -target.gravity || target.velocity.Y == 0);
+			}
+
+			if (removeWet)
+				target.wet = true;
+
+			orig(npc);
+
+			if (removeWet)
+				target.wet = false;
 		}
 
 		private static void Main_DrawMap(On.Terraria.Main.orig_DrawMap orig, Main self)

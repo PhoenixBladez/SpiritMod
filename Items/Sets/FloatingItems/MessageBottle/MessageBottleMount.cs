@@ -15,25 +15,23 @@ namespace SpiritMod.Items.Sets.FloatingItems.MessageBottle
 		int wetCounter;
 		public override void SetDefaults()
 		{
+			mountData.buff = ModContent.BuffType<BottleMountBuff>();
 			mountData.spawnDust = 167;
 			mountData.spawnDustNoGravity = true;
-			mountData.buff = ModContent.BuffType<BottleMountBuff>();
 			mountData.heightBoost = 16;
 			mountData.fallDamage = 0f;
 			mountData.runSpeed = 0;
 			mountData.flightTimeMax = 0;
 			mountData.fatigueMax = 0;
 			mountData.jumpHeight = 0;
-			mountData.acceleration = 0.05f;
+			mountData.acceleration = 0f;
 			mountData.swimSpeed = 3;
-			mountData.jumpSpeed =0;
+			mountData.jumpSpeed = 0;
 			mountData.blockExtraJumps = true;
 			mountData.totalFrames = 1;
 			mountData.constantJump = true;
-			int[] array = new int[1];
-			array[0] = 12;
-			mountData.playerYOffsets = array;
-			mountData.yOffset = +5;
+			mountData.playerYOffsets = new int[] { 12 };
+			mountData.yOffset = 5;
 			mountData.xOffset = -15;
 			mountData.playerHeadOffset = 22;
 			mountData.standingFrameCount = 1;
@@ -46,29 +44,44 @@ namespace SpiritMod.Items.Sets.FloatingItems.MessageBottle
 			mountData.idleFrameDelay = 12;
 			mountData.idleFrameStart = 0;
 			mountData.idleFrameLoop = true;
-			if (Main.netMode != NetmodeID.Server) {
+			if (Main.netMode != NetmodeID.Server)
+			{
 				mountData.textureWidth = mountData.frontTexture.Width;
 				mountData.textureHeight = mountData.frontTexture.Height;
 			}
 		}
 		public override void UpdateEffects(Player player)
 		{
-			if (player.wet)
+			if (Framing.GetTileSafely(player.MountedCenter + new Vector2(0, 36)).liquid > 125)
 			{
-				mountData.runSpeed = 2;
-				player.velocity.Y = -2;
+				mountData.runSpeed = 6;
+				mountData.acceleration = 0.15f;
+
+				if (Framing.GetTileSafely(player.MountedCenter + new Vector2(0, 34)).liquid > 125)
+				{
+					player.velocity.Y -= player.gravity * 2.5f;
+					if (player.velocity.Y <= -12f)
+						player.velocity.Y = -12f;
+				}
+				else
+					player.velocity.Y = -player.gravity;
+
+				player.fishingSkill += 10;
+
 				wetCounter = 15;
 			}
 			else
 			{
 				wetCounter--;
+				mountData.acceleration = 0.05f;
+
+				player.gravity *= 1.5f;
 				if (wetCounter < 0)
 				{
 					player.velocity.X *= 0.9f;
-					mountData.runSpeed = 0;
+					mountData.runSpeed = 0.05f;
 				}
 			}
 		}
 	}
 }
-
