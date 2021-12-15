@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.MessageBottle
 		public override void SetDefaults()
 		{
 			mountData.buff = ModContent.BuffType<BottleMountBuff>();
-			mountData.spawnDust = 167;
+			mountData.spawnDust = 7;
 			mountData.spawnDustNoGravity = true;
 			mountData.heightBoost = 16;
 			mountData.fallDamage = 0f;

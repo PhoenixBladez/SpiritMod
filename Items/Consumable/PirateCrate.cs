@@ -85,10 +85,6 @@ namespace SpiritMod.Items.Consumable
 			int Coins = Main.rand.Next(10, 25);
 			for (int K = 0; K < Coins; K++)
 				player.QuickSpawnItem(ItemID.GoldCoin);
-
-			int num = Main.rand.Next(38, 77);
-			for (int j = 0; j < num; j++)
-				player.QuickSpawnItem(ModContent.ItemType<Items.Weapon.Thrown.ExplosiveRum.ExplosiveRum>());
 		}
 	}
 }

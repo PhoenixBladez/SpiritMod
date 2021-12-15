@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.MessageBottle
 {
 	public class MessageBottle : FloatingItem
 	{
-		public override float SpawnWeight => 0.05f;
+		public override float SpawnWeight => 0.02f;
 		public override float Weight => base.Weight * 0.9f;
 		public override float Bouyancy => base.Bouyancy * 1.08f;
 

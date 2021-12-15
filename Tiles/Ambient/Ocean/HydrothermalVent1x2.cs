@@ -49,7 +49,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 
 		public static void SpawnSmoke(Vector2 pos)
 		{
-			if (Main.rand.NextBool(40))
+			if (Main.rand.NextBool(16))
 			{
 				int type = 99;
 				Gore.NewGorePerfect(pos, new Vector2(0, Main.rand.NextFloat(-2.2f, -1.5f)), type, Main.rand.NextFloat(0.5f, 0.8f));
