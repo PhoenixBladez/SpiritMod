@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
+using System.Reflection;
 using Terraria;
 using Terraria.Graphics.Effects;
 
@@ -12,8 +13,24 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 	{
 		public static RenderTarget2D transparencyTarget = null;
 
-		public static void Load() => IL.Terraria.Main.DoDraw += AddWaterShader;
-		public static void Unload() => IL.Terraria.Main.DoDraw -= AddWaterShader;
+		public static void Load()
+		{
+			IL.Terraria.Main.DoDraw += AddWaterShader;
+			IL.Terraria.Lighting.doColors_Mode0_Swipe += ModifyLiquidLightDraw;
+		}
+
+		public static void Unload()
+		{
+			IL.Terraria.Main.DoDraw -= AddWaterShader;
+
+		}
+
+		private static void ModifyLiquidLightDraw(ILContext il)
+		{
+			ILCursor c = new ILCursor(il);
+
+			//c.Emit(OpCodes.Ldfld, typeof(Tile).GetField("negLight"));
+		}
 
 		/// <summary>MASSIVE thanks to Starlight River for the base of this IL edit.</summary>
 		private static void AddWaterShader(ILContext il)
@@ -66,6 +83,10 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			effect.Parameters["transparency"].SetValue(Main.LocalPlayer.ZoneOverworldHeight || Main.LocalPlayer.ZoneSkyHeight ? 0.6f : 0.8f);
 
 			Main.spriteBatch.Begin(default, BlendState.AlphaBlend, default, default, default, effect, Main.GameViewMatrix.ZoomMatrix);
+		}
+
+		internal static void ModifyBrightness(ref float scale)
+		{
 		}
 	}
 }

@@ -58,6 +58,7 @@ using SpiritMod.Skies.Starjinx;
 using SpiritMod.NPCs.StarjinxEvent;
 using SpiritMod.Mechanics.Trails;
 using SpiritMod.Items.Sets.FloatingItems;
+using SpiritMod.Effects.SurfaceWaterModifications;
 
 namespace SpiritMod
 {
@@ -698,6 +699,8 @@ namespace SpiritMod
 		{
 			if (Main.LocalPlayer.GetSpiritPlayer().ZoneReach && !Main.dayTime)
 				scale *= .95f;
+
+			SurfaceWaterModifications.ModifyBrightness(ref scale);
 		}
 
 		private static void SetGlyph(object[] args)

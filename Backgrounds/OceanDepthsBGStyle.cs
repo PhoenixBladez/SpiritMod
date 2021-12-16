@@ -5,7 +5,6 @@ namespace SpiritMod.Backgrounds
 {
 	public class OceanDepthsBGStyle : ModSurfaceBgStyle
 	{
-
 		public override int ChooseFarTexture() => mod.GetBackgroundSlot("Backgrounds/OceanUnderwaterBG3");
 
 		public override int ChooseMiddleTexture() => mod.GetBackgroundSlot("Backgrounds/OceanUnderwaterBG2");
@@ -13,7 +12,7 @@ namespace SpiritMod.Backgrounds
 		public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
 		{
 			scale *= .86f;
-			b -= 240;
+			b -= 300;
 			return mod.GetBackgroundSlot("Backgrounds/OceanUnderwaterBG1");
 		}
 
@@ -22,18 +21,19 @@ namespace SpiritMod.Backgrounds
 		// Use this to keep far Backgrounds like the mountains.
 		public override void ModifyFarFades(float[] fades, float transitionSpeed)
 		{
-			for (int i = 0; i < fades.Length; i++) {
-				if (i == Slot) {
+			for (int i = 0; i < fades.Length; i++)
+			{
+				if (i == Slot)
+				{
 					fades[i] += transitionSpeed;
-					if (fades[i] > 1f) {
+					if (fades[i] > 1f)
 						fades[i] = 1f;
-					}
 				}
-				else {
+				else
+				{
 					fades[i] -= transitionSpeed;
-					if (fades[i] < 0f) {
+					if (fades[i] < 0f)
 						fades[i] = 0f;
-					}
 				}
 			}
 		}

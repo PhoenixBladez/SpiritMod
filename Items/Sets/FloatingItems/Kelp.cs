@@ -25,7 +25,6 @@ namespace SpiritMod.Items.Sets.FloatingItems
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.value = 0;
 			item.rare = ItemRarityID.Blue;
-			item.createTile = ModContent.TileType<OceanKelp>();
 			item.maxStack = 999;
 			item.autoReuse = true;
 			item.consumable = true;
@@ -44,7 +43,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 				WorldGen.PlaceTile(tPos.X, tPos.Y, ModContent.TileType<OceanKelp>(), false, true);
 				return true;
 			}
-			return false;
+			return true;
 		}
 	}
 }
