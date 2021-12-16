@@ -9,7 +9,7 @@ float4 PixelShaderFunction(float4 screenSpace : TEXCOORD0) : COLOR0
     float luminosity = (((0.3 * color.r) + (0.59 * color.g) + (0.11 * color.b)) / 3);
     
     //color.rgb *= 0.8;
-    color.a *= sqrt(0.8 - (luminosity * 10));
+    color.a *= luminosity * 3;
     return color;
 }
 
