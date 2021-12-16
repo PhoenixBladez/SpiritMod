@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sunken Treasure");
-			Tooltip.SetDefault("'Perhaps it is still full of valuable treasure''");
+			Tooltip.SetDefault("Right-click to open\n'Perhaps it is still full of valuable treasure''");
 		}
 		public override void SetDefaults()
 		{
