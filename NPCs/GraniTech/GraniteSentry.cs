@@ -175,7 +175,16 @@ namespace SpiritMod.NPCs.GraniTech
                         Projectile.NewProjectile(laserOrigin, (npc.rotation + 3.14f).ToRotationVector2() * 20, ModContent.ProjectileType<GraniteSentryBolt>(), 40, 3, npc.target);
 						laserRotations = null;
 						Main.PlaySound(SoundID.Item, (int)npc.Center.X, (int)npc.Center.Y, 91, 0.5f, 0.5f);
-                    }
+
+						ParticleHandler.SpawnParticle(new PulseCircle(npc, new Color(25, 132, 247) * 0.4f, 100, 15,
+						PulseCircle.MovementType.OutwardsSquareRooted, npc.Center)
+						{
+							Angle = npc.rotation + 3.14f,
+							ZRotation = 0.6f,
+							RingColor = new Color(25, 132, 247),
+							Velocity = (npc.rotation + 3.14f).ToRotationVector2() * 4
+						});
+					}
                     recoil *= 0.99f;
                     firing = false;
 					for (int i = 0; i < Main.player.Length; i++)
@@ -294,7 +303,7 @@ namespace SpiritMod.NPCs.GraniTech
 			spriteBatch.Draw(Main.magicPixel, laserOrigin - Main.screenPosition, new Rectangle(0, 0, 1, 1), color * lerper * 0.5f, rot, Vector2.Zero, new Vector2(length, 2), SpriteEffects.None, 0);
 		}
     }
-    public class GraniteSentryBolt : ModProjectile
+    public class GraniteSentryBolt : ModProjectile,ITrailProjectile
 	{
 		private readonly Color lightCyan = new Color(99, 255, 229);
 		private readonly Color midBlue = new Color(25, 132, 247);
@@ -352,6 +361,11 @@ namespace SpiritMod.NPCs.GraniTech
 				}
 
 			return false;
+		}
+
+		public void DoTrailCreation(TrailManager tManager)
+		{
+			tManager.CreateTrail(projectile, new GradientTrail(lightCyan * 0.75f, midBlue * 0.4f), new RoundCap(), new DefaultTrailPosition(), 25f, 40f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
 		}
 
 		public override void Kill(int timeLeft)
