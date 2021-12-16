@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using SpiritMod.Utilities;
 using SpiritMod.Prim;
@@ -22,7 +23,7 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("");
-			NPCID.Sets.TrailCacheLength[npc.type] = 5;
+			NPCID.Sets.TrailCacheLength[npc.type] = 6;
 			NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
 		public override void SetDefaults()
@@ -39,17 +40,17 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 		public override void AI()
 		{
 			npc.rotation = npc.velocity.ToRotation();
-			if (Main.rand.Next(8) == 1)
+			/*if (Main.rand.Next(15) == 1)
 			{
 				StarParticle particle = new StarParticle(
 				npc.Center + Main.rand.NextVector2Circular(10, 10),
 				npc.velocity.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * 0.1f,
-				new Color(48, 195, 43),
-				Main.rand.NextFloat(0.08f, 0.23f),
+				new Color(49, 212, 76),
+				Main.rand.NextFloat(0.08f, 0.13f),
 				Main.rand.Next(20, 40));
 
 				ParticleHandler.SpawnParticle(particle);
-			}
+			}*/
 
 			if (counter == 0)
 				npc.velocity = npc.ai[1].ToRotationVector2() * 10;
@@ -79,6 +80,7 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 				{
 					npc.active = false;
 					int heal = Math.Min(40, target.lifeMax - target.life);
+					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 29).WithPitchVariance(0.2f).WithVolume(.65f), npc.Center);
 
 					target.life += heal;
 					target.HealEffect(heal, true);
@@ -107,9 +109,10 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 				StarParticle particle = new StarParticle(
 				npc.Center + direction,
 				direction * 0.15f,
-				new Color(48, 195, 43),
+				new Color(49, 212, 76),
 				Main.rand.NextFloat(0.08f, 0.23f),
 				Main.rand.Next(20, 40));
+				Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 3);
 
 				ParticleHandler.SpawnParticle(particle);
 			}
@@ -135,7 +138,7 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 					color28 = npc.GetAlpha(color28);
 					color28 *= 1.5f - num107;
 					color28 *= (float)Math.Pow((((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2), 1.5f);
-					Vector2 vector29 = drawPos + ((float)num103 / (float)num108 * 6.28318548f + npc.rotation + num106).ToRotationVector2() * (1.5f * num107 + 2f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * (float)num103;
+					Vector2 vector29 = drawPos + ((float)num103 / (float)num108 * 6.28318548f + npc.rotation + num106).ToRotationVector2() * (1.5f * num107 + 4f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * (float)num103;
 					spriteBatch.Draw(tex, vector29, null, color28 * .6f, npc.rotation, origin, npc.scale * (float)Math.Sqrt(mult), SpriteEffects.None, 0f);
 				}
 			}

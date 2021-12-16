@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.MessageBottle
 			item.height = 10;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.Orange;
+			item.rare = ItemRarityID.Blue;
 			item.maxStack = 1;
 			item.mountType = ModContent.MountType<MessageBottleMount>();
 			item.useTime = item.useAnimation = 20;

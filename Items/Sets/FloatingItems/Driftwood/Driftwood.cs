@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			item.height = 24;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.value = 0;
-			item.rare = ItemRarityID.Blue;
+			item.rare = ItemRarityID.White;
 			item.createTile = ModContent.TileType<Driftwood1Tile>();
 			item.maxStack = 999;
 			item.autoReuse = true;
@@ -83,7 +83,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			item.height = 24;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.value = 0;
-			item.rare = ItemRarityID.Blue;
+			item.rare = ItemRarityID.White;
 			item.createTile = ModContent.TileType<Driftwood2Tile>();
 			item.maxStack = 999;
 			item.autoReuse = true;
@@ -141,7 +141,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			item.height = 24;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.value = 0;
-			item.rare = ItemRarityID.Blue;
+			item.rare = ItemRarityID.White;
 			item.createTile = ModContent.TileType<Driftwood3Tile>();
 			item.maxStack = 999;
 			item.autoReuse = true;

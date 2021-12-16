@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -49,13 +50,13 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 					StarParticle particle = new StarParticle(
 					(npc.Center - new Vector2(0,40)) + direction,
 					direction * 0.15f,
-					new Color(48, 195, 43),
+					new Color(49, 212, 76),
 					Main.rand.NextFloat(0.08f, 0.23f),
 					Main.rand.Next(20, 40));
 
 					ParticleHandler.SpawnParticle(particle);
 				}
-
+				Main.PlaySound(SoundID.DD2_DarkMageCastHeal, npc.Center);
 				for (int i = 0; i < 3; i++)
 					NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 40, ModContent.NPCType<AsclepiusBoonOrb>(), 0, npc.whoAmI, i * 2.08f);
 			}
