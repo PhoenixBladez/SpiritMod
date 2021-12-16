@@ -21,5 +21,14 @@ namespace SpiritMod.Items.Material
 
 			item.maxStack = 999;
 		}
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.VialofVenom, 1);
+			recipe.AddIngredient(ItemID.Silk, 2);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this, 5);
+			recipe.AddRecipe();
+		}
 	}
 }

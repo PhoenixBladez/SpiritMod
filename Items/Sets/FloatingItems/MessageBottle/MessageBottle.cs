@@ -14,8 +14,8 @@ namespace SpiritMod.Items.Sets.FloatingItems.MessageBottle
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Message in a bottle");
-			Tooltip.SetDefault("Summons a raft mount \nIncreased fishing power while on the raft");
+			DisplayName.SetDefault("Message in a Bottle");
+			Tooltip.SetDefault("Summons a raft mount\nIncreased fishing power while on the raft");
 		}
 
 		public override void SetDefaults()
@@ -26,6 +26,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.MessageBottle
 			item.value = Item.sellPrice(0, 1, 0, 0);
 			item.rare = ItemRarityID.Blue;
 			item.maxStack = 1;
+			item.UseSound = SoundID.Item79;
 			item.mountType = ModContent.MountType<MessageBottleMount>();
 			item.useTime = item.useAnimation = 20;
 		}

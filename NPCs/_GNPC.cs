@@ -1020,7 +1020,6 @@ namespace SpiritMod.NPCs
 			DropLoot(1, 1, ItemType<BlueprintTwins>(), Main.rand.Next(2) + 1, npc, NPCID.Retinazer, NPCID.Spazmatism);
 			DropLoot(1, 1, ItemType<PrintProbe>(), Main.rand.Next(2) + 1, npc, NPCID.TheDestroyer);
 			DropLoot(50, 50, ItemType<ChaosCrystal>(), npc, NPCID.ChaosElemental);
-			DropLoot(225, 175, ItemType<Items.Sets.GunsMisc.LadyLuck.LadyLuck>(), npc, NPCID.PirateDeadeye);
 			DropLoot(120, 92, ItemType<Items.Weapon.Thrown.PiecesOfEight.PiecesOfEight>(), npc, NPCID.PirateDeckhand);
 			DropLoot(23, 23, ItemType<SaucerBeacon>(), npc, NPCID.MartianOfficer);
 			DropLoot(35, 35, ItemType<SnapperHat>(), npc, NPCID.Crawdad, NPCID.Crawdad2);
