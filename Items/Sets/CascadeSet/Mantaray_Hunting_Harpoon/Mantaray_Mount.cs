@@ -80,10 +80,13 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 			if (!player.wet)
 			{
 				mountData.usesHover = false;
+				mountData.acceleration = 0.05f;
+				mountData.dashSpeed = 0f;
+				mountData.runSpeed = 0.05f;
+				mountData.jumpHeight = 0;
 
 				if ((player.velocity.Y != 0 || player.oldVelocity.Y != 0))
 				{
-					mountData.dashSpeed = 0f;
 					int direction = (velocity == 0) ? 0 :
 						(player.direction == Math.Sign(player.velocity.X)) ? 1 : -1;
 					player.fullRotation = player.velocity.Y * 0.05f * player.direction * direction * mountData.jumpHeight / 14f;
@@ -93,7 +96,10 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 			}
 			else
 			{
+				mountData.jumpHeight = 10;
+				mountData.acceleration = 0.35f;
 				mountData.dashSpeed = 8f;
+				mountData.runSpeed = 8f;
 				outofWaterTimer = 0;
 				player.fullRotation = 0F;
 				mountData.usesHover = true;
