@@ -11,6 +11,8 @@ using Terraria.ID;
 using SpiritMod.Prim;
 using SpiritMod.Mechanics.Trails;
 using SpiritMod.Utilities;
+using SpiritMod.Particles;
+using SpiritMod.Items.Sets.GranitechSet;
 
 namespace SpiritMod.NPCs.GraniTech
 {
@@ -147,6 +149,17 @@ namespace SpiritMod.NPCs.GraniTech
 						if (laserRotations.Count > 0)
 							laserRotations.RemoveAt(0);
 
+					if (chargeUp == 20)
+					{
+						ParticleHandler.SpawnParticle(new PulseCircle(npc, new Color(25, 132, 247) * 0.4f, 175, 15,
+						PulseCircle.MovementType.OutwardsSquareRooted, npc.Center)
+						{
+							Angle = npc.rotation + 3.14f,
+							ZRotation = 0.6f,
+							RingColor = new Color(25, 132, 247),
+							Velocity = (npc.rotation + 3.14f).ToRotationVector2() * 5
+						});
+					}
                     if (chargeUp > 20 && chargeUp % 6 == 0)
                     {
                         recoil = Main.rand.NextFloat(-0.1f,0.1f);
@@ -283,6 +296,9 @@ namespace SpiritMod.NPCs.GraniTech
     }
     public class GraniteSentryBolt : ModProjectile
 	{
+		private readonly Color lightCyan = new Color(99, 255, 229);
+		private readonly Color midBlue = new Color(25, 132, 247);
+		private readonly Color darkBlue = new Color(20, 8, 189);
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Laser Bolt");
@@ -305,7 +321,13 @@ namespace SpiritMod.NPCs.GraniTech
 		public override void AI()
 		{
 			if (glow == 0)
+			{
+				for (int i = 0; i < 6; i++)
+				{
+					ParticleHandler.SpawnParticle(new GranitechParticle(projectile.Center + projectile.velocity, projectile.velocity.RotatedBy(Main.rand.NextFloat(-0.6f,0.6f)) * Main.rand.NextFloat(), Main.rand.NextBool() ? lightCyan : midBlue, Main.rand.NextFloat(0.75f, 1.25f), 30, Main.rand.Next(4)));
+				}
 				glow = Main.rand.NextFloat();
+			}
 			projectile.rotation = projectile.velocity.ToRotation() + 3.14f;
 		}
 
@@ -330,6 +352,14 @@ namespace SpiritMod.NPCs.GraniTech
 				}
 
 			return false;
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			for (int i = 0; i < 6; i++)
+			{
+				ParticleHandler.SpawnParticle(new GranitechParticle(projectile.Center, projectile.velocity.RotatedBy(Main.rand.NextFloat(-0.6f, 0.6f)) * Main.rand.NextFloat(), Main.rand.NextBool() ? lightCyan : midBlue, Main.rand.NextFloat(0.75f, 1.25f), 30, Main.rand.Next(4)));
+			}
 		}
 		public override Color? GetAlpha(Color lightColor) => new Color(99, 255, 229, 0);
 	}
