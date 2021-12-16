@@ -73,7 +73,6 @@ namespace SpiritMod.Mechanics.BoonSystem.HecateBoon
 				radius -= 1.5f;
 				if (radius <= MIN_RADIUS)
 				{
-					projectile.Kill();
 					//Dont shoot a projectile if the target no longer exists
 					if (Target == null || Target.dead || !Target.active)
 						return;
@@ -90,6 +89,8 @@ namespace SpiritMod.Mechanics.BoonSystem.HecateBoon
 							ParticleHandler.SpawnParticle(new HecateSpawnParticle(p, new Color(255, 106, 250), 0.5f, 40));
 						}
 					}
+
+					projectile.Kill();
 				}
 			}
 
