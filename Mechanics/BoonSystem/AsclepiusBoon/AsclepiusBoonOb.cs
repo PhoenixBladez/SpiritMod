@@ -16,6 +16,7 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 	public class AsclepiusBoonOrb : ModNPC
 	{
 		const int STARTTIME = 35;
+		public const float HOME_DISTANCE = 600f;
 
 		int counter;
 
@@ -64,17 +65,15 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 				return;
 			}
 
-			var target = Main.npc.Where(n => n.active && Vector2.Distance(n.Center, npc.Center) < 600 && n.whoAmI != (int)npc.ai[0] && n.life < n.lifeMax && npc.type != n.type).OrderBy(n => Vector2.Distance(n.Center, npc.Center)).FirstOrDefault();
+			var target = Main.npc.Where(n => n.active && Vector2.Distance(n.Center, npc.Center) < HOME_DISTANCE && n.whoAmI != (int)npc.ai[0] && n.life < n.lifeMax && npc.type != n.type).OrderBy(n => Vector2.Distance(n.Center, npc.Center)).FirstOrDefault();
 			if (target != default && canHome)
 			{
 				float rotDifference = ((((npc.DirectionTo(target.Center).ToRotation() - npc.velocity.ToRotation()) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
 
 				float lerper = (counter - STARTTIME) / 700f;
 				npc.velocity = npc.velocity.RotatedBy(rotDifference * lerper);
-				float velLength = npc.velocity.Length();
-				npc.velocity.Normalize();
-				npc.velocity *= MathHelper.Lerp(velLength, 10, lerper);
-				npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(target.Center) * 10, lerper / 5f);
+				npc.velocity = MathHelper.Lerp(npc.velocity.Length(), 10, lerper) * Vector2.Lerp(Vector2.Normalize(npc.velocity), npc.DirectionTo(target.Center) * 10, lerper / 5f);
+
 				npc.velocity += npc.DirectionTo(target.Center) * lerper;
 				if (Vector2.Distance(target.Center, npc.Center) < 25)
 				{
@@ -103,6 +102,10 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
+			if (Main.dedServ)
+				return;
+
+			Main.PlaySound(SoundID.Item27.WithPitchVariance(0.3f).WithVolume(0.6f), npc.Center);
 			for (int i = 0; i < 15; i++)
 			{
 				Vector2 direction = Main.rand.NextVector2Circular(20, 20);
@@ -149,8 +152,8 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 			effect.CurrentTechnique.Passes[0].Apply();
 
 
-			float xscale = Math.Max(1, 1 + (npc.velocity.Length() / 10f));
-			float yscale = Math.Min(1, 1.5f - npc.velocity.Length() / 10f);
+			float xscale = MathHelper.Clamp(1, 1 + (npc.velocity.Length() / 40f), 1.5f);
+			float yscale = MathHelper.Clamp(1, 1 - (npc.velocity.Length() / 40f), 0.66f);
 			spriteBatch.Draw(tex, npc.Center - Main.screenPosition, null, Color.White * 0.8f, npc.rotation, origin, npc.scale * new Vector2(xscale, yscale), SpriteEffects.None, 0f);
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);

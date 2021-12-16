@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 		}
 		public override void SetDefaults()
 		{
-			projectile.Size = Vector2.One * 32;
+			projectile.Size = Vector2.One * 24;
 			projectile.tileCollide = true;
 			projectile.hide = true;
 			//projectile.scale = 0.8f;
@@ -62,7 +62,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 				case STATE_SLOWDOWN: //Slow down until it hits a stop, returning automatically after a given amount of time
 
 					projectile.alpha = Math.Max(projectile.alpha - 25, 0);
-					scaleMod = MathHelper.Lerp(scaleMod, 1f, 0.1f);
+					scaleMod = MathHelper.Lerp(scaleMod, 0.66f, 0.1f);
+
 					projectile.velocity = Vector2.Lerp(projectile.velocity, Vector2.Zero, 0.03f);
 					if (Timer > SLOWDOWN_TIME)
 					{
@@ -76,7 +77,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 
 					projectile.tileCollide = false;
 					projectile.alpha = Math.Max(projectile.alpha - 25, 0);
-					scaleMod = MathHelper.Lerp(scaleMod, 1f, 0.1f);
+					scaleMod = MathHelper.Lerp(scaleMod, 0.66f, 0.1f);
 					projectile.velocity = projectile.DirectionFrom(player.MountedCenter) * 4;
 					if (Timer > ANTICIPATION_TIME)
 					{
@@ -115,14 +116,14 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 							projectile.Kill();
 					}
 					else
-						scaleMod = MathHelper.Lerp(scaleMod, 1f, 0.1f);
+						scaleMod = MathHelper.Lerp(scaleMod, 0.66f, 0.1f);
 
 					break;
 			}
 
 			//pulse in scale
 			if (Timer % 80 == 0)
-				scaleMod += 0.6f;
+				scaleMod += 0.4f;
 
 			power = MathHelper.Clamp(power, STARTPOWER, MAXPOWER);
 
@@ -131,12 +132,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			float speedboost = -1 - (0.5f / oldVelocity.Length());
-			if (projectile.velocity.X != oldVelocity.X)
-				projectile.velocity.X = oldVelocity.X * speedboost;
-
-			if (projectile.velocity.Y != oldVelocity.Y)
-				projectile.velocity.Y = oldVelocity.Y * speedboost;
+			projectile.Bounce(oldVelocity, 1f);
 
 			Main.PlaySound(SoundID.Item10, projectile.Center);
 			return false;

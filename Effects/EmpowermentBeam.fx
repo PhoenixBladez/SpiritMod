@@ -48,7 +48,7 @@ float4 MainPS(VertexShaderOutput input) : COLOR0
     strength *= pow(input.TextureCoordinates.y, 2); //Fade out based on how far down the pixel is
     strength *= 1.5f; //Static increase to color strength
     strength += strength * noise.r * input.TextureCoordinates.y; //Add in the noise
-    strength = min(strength, 1.15f); //Cap the strength at a certain value
+    strength = min(strength, 2f); //Cap the strength at a certain value
     
     float4 color;
     if (strength < 0.5f) //Interpolate from transparent to first used color if strength is low

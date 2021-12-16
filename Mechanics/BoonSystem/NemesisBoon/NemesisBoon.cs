@@ -10,19 +10,18 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 	{
 		public override bool CanApply => true;
 
-		private float counter;
-
 		bool initialized = false;
 
 		private Projectile proj;
 
+		public override string TexturePath => "SpiritMod/Mechanics/BoonSystem/NemesisBoon/NemesisBoon";
+
 		public override void AI()
 		{
 			Lighting.AddLight(npc.Center, Color.Blue.ToVector3() * 0.3f);
-			counter += 0.025f;
 			if (!initialized)
 			{
-				proj = Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, ModContent.ProjectileType<NemesisBoonSword>(), Main.expertMode ? (int)(npc.damage / 4) : npc.damage, 5, 255);
+				proj = Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, ModContent.ProjectileType<NemesisBoonSword>(), NPCUtils.ToActualDamage(npc.damage), 5, 255);
 				proj.ai[0] = npc.whoAmI;
 				initialized = true;
 			}
@@ -38,9 +37,11 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D tex = ModContent.GetTexture("SpiritMod/Mechanics/BoonSystem/NemesisBoon/NemesisBoon");
+			DrawBeam(new Color(134, 247, 245, 0), new Color(72, 165, 232, 0));
 
-			DrawSigil(spriteBatch, tex, counter);
+			DrawBloom(spriteBatch, new Color(76, 218, 237) * 0.33f, 0.5f);
+
+			DrawSigil(spriteBatch);
 		}
 	}
 }

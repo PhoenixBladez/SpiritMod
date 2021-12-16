@@ -75,9 +75,9 @@ namespace SpiritMod.Items.Sets.GranitechSet
 
 		public override void Update()
 		{
-			Lighting.AddLight(Position, Color.R / 255f, Color.G / 255f, Color.B / 255f);
-
 			opacity = (float)Math.Pow(1 - ((float)TimeActive / MaxTime), 0.5f);
+			Lighting.AddLight(Position, opacity * Color.R / 255f, opacity * Color.G / 255f, opacity * Color.B / 255f);
+
 			Rotation = Velocity.ToRotation();
 
 			Velocity *= 0.87f;

@@ -11,7 +11,7 @@ using SpiritMod.Particles;
 
 namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 {
-	public class NemesisBoonSword : ModProjectile
+	public class NemesisBoonSword : ModProjectile, IDrawAdditive
 	{
 
 		private const int SWINGDURATION = 30;
@@ -68,6 +68,8 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 			projectile.tileCollide = false;
 			projectile.hostile = false;
 			projectile.friendly = false;
+			projectile.hide = true;
+			projectile.ignoreWater = true;
 		}
 
 		public override void AI()
@@ -194,7 +196,7 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 			}
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
 			Texture2D tex = Main.projectileTexture[projectile.type];
 
@@ -202,10 +204,8 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 
 			if (swinging)
 			{
-				spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 				Effect effect = mod.GetEffect("Effects/NemesisBoonShader");
 
-				List<PrimitiveSlashArc> slashArcs = new List<PrimitiveSlashArc>();
 				PrimitiveSlashArc slash = new PrimitiveSlashArc
 				{
 					BasePosition = swingBase - Main.screenPosition,
@@ -216,12 +216,9 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 					Color = Color.Cyan * projectile.velocity.Length() * 0.2f,
 					SlashProgress = Math.Sign(swingSpeed) == 1 ? slashProgress: 1 - slashProgress
 				};
-				slashArcs.Add(slash);
-				PrimitiveRenderer.DrawPrimitiveShapeBatched(slashArcs.ToArray(), effect);
-
-				spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-
+				PrimitiveRenderer.DrawPrimitiveShape(slash, effect);
 			}
+
 			DrawSword(spriteBatch, tex, 1, 1);
 
 			if (swingWindup < 60 && swingWindup > 30)
@@ -231,8 +228,6 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 				float scale = 1 + progress;
 				DrawSword(spriteBatch, tex2, transparency, scale);
 			}
-
-			return false;
 		}
 
 		private void DrawSword(SpriteBatch spriteBatch, Texture2D tex, float transparency, float scale)
