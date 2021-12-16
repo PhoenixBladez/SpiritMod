@@ -74,11 +74,10 @@ namespace SpiritMod.Mechanics.BoonSystem.HecateBoon
 				if (radius <= MIN_RADIUS)
 				{
 					//Dont shoot a projectile if the target no longer exists
-					if (Target == null || Target.dead || !Target.active)
-						return;
+					bool playerUntargettable = (Target == null || Target.dead || !Target.active);
 
 					//Only make one projectile shot directly at the player, by checking if it's the first rune that was spawned in
-					if (RuneNumber == 0)
+					if (RuneNumber == 0 && !playerUntargettable)
 					{
 						Projectile p = Projectile.NewProjectileDirect(Parent.Center, Vector2.Zero, ModContent.ProjectileType<HecateBoonProj>(), 
 							NPCUtils.ToActualDamage(Parent.damage), 1, Main.myPlayer, Parent.target);
