@@ -9,6 +9,8 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using SpiritMod.Prim;
+using SpiritMod.Mechanics.Trails;
+using SpiritMod.Utilities;
 
 namespace SpiritMod.NPCs.GraniTech
 {
@@ -120,7 +122,7 @@ namespace SpiritMod.NPCs.GraniTech
 					float rotation = delta.ToRotation();
 					laserRotations.Add((rotation, length));
 
-					while (laserRotations.Count > 10)
+					while (laserRotations.Count > 16)
 					{
 						laserRotations.RemoveAt(0);
 					}
@@ -281,58 +283,54 @@ namespace SpiritMod.NPCs.GraniTech
     }
     public class GraniteSentryBolt : ModProjectile
 	{
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Laser Bolt");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Laser Bolt");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+		}
+
+		float glow = 0;
 		public override void SetDefaults()
 		{
 			projectile.penetrate = 3;
 			projectile.tileCollide = false;
 			projectile.hostile = true;
 			projectile.friendly = false;
-			projectile.width = projectile.height = 24;
+			projectile.width = 36;
+			projectile.height = 18;
 			projectile.tileCollide = true;
+			projectile.alpha = 0;
 		}
-		public Color color = Color.White;
 		public override void AI()
 		{
-			if (color == Color.White)
-			{
-				switch (Main.rand.Next(4))
-                {
-                    case 0:
-                        color = new Color(0,247,255,0);
-                        break;
-                    case 1:
-                        color = new Color(0,132,255,0);
-                        break;
-                    case 2:
-                        color = new Color(62,0,255,0);
-                        break;
-                    case 3:
-                        color = new Color(158,0,255,0);
-                        break;
-                }
-                color.A = 0;
-				for (int i = 0; i < 15; i++)
-				{
-					Dust dust = Dust.NewDustPerfect(projectile.Center + (projectile.velocity), 267, (projectile.velocity.RotatedBy(Main.rand.NextFloat(-1,1)) / 5f) * Main.rand.NextFloat(), 0, color);
-					dust.noGravity = !dust.noGravity;
-				}
-			}
-			Lighting.AddLight((int)((projectile.position.X + (float)(projectile.width / 2)) / 16f), (int)((projectile.position.Y + (float)(projectile.height / 2)) / 16f), color.R / 450f, color.G / 450f, color.B / 450f);
-			projectile.rotation = projectile.velocity.ToRotation();
+			if (glow == 0)
+				glow = Main.rand.NextFloat();
+			projectile.rotation = projectile.velocity.ToRotation() + 3.14f;
 		}
-		public override void Kill(int timeLeft)
-		{
-			for (int i = 0; i < 10; i++)
-			{
-				int dust = Dust.NewDust(projectile.position,projectile.width,projectile.height, DustID.RainbowMk2, 0, 0, 0, color);
-				Main.dust[dust].noGravity = !Main.dust[dust].noGravity;
-			}
-		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, null, color, projectile.rotation, Main.projectileTexture[projectile.type].Size() / 2, 1f, SpriteEffects.None, 0f);
+			Texture2D tex = Main.projectileTexture[projectile.type];
+
+			Vector2 origin = new Vector2(tex.Width / 2, tex.Height / 2);
+
+				Color color = Color.White;
+				float num108 = 4;
+				float num107 = (float)Math.Cos((double)((glow + Main.GlobalTime) % 1f / 1f * 6.28318548f)) / 3f + 0.25f;
+				float num106 = 0f;
+				Color color29 = new Color(110 - projectile.alpha, 31 - projectile.alpha, 255 - projectile.alpha, 0).MultiplyRGBA(color);
+				for (int num103 = 0; num103 < 4; num103++)
+				{
+					Color color28 = color29;
+					color28 = projectile.GetAlpha(color28);
+					color28 *= 1.5f - num107;
+					Vector2 vector29 = projectile.Center + ((float)num103 / (float)num108 * 6.28318548f + projectile.rotation + num106).ToRotationVector2() * (num107 + 1f) - Main.screenPosition + new Vector2(0, projectile.gfxOffY);
+					spriteBatch.Draw(tex, vector29, null, color28 * .8f, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+				}
+
 			return false;
 		}
+		public override Color? GetAlpha(Color lightColor) => new Color(99, 255, 229, 0);
 	}
 }

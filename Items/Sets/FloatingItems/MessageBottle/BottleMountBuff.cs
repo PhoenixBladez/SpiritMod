@@ -7,7 +7,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.MessageBottle
 	{
 		public override void SetDefaults()
 		{
-			DisplayName.SetDefault("Drakomire");
+			DisplayName.SetDefault("Raft");
 			Description.SetDefault("Sending out an SOS");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;

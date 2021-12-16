@@ -28,10 +28,10 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 			item.consumable = true;
 			item.maxStack = 999;
 			item.shoot = ModContent.ProjectileType<ExplosiveRumProj>();
-			item.useAnimation = 27;
-			item.useTime = 27;
+			item.useAnimation = 29;
+			item.useTime = 29;
 			item.shootSpeed = 10.5f;
-			item.damage = 43;
+			item.damage = 13;
 			item.knockBack = 1.5f;
 			item.value = Item.sellPrice(0, 0, 0, 50);
 			item.rare = ItemRarityID.LightRed;
@@ -139,7 +139,7 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 			{
 				lightUp = true;
 				Vector2 pos = projectile.Center + new Vector2(projectile.ai[0] * 20, 0);
-				Projectile.NewProjectile(pos, new Vector2(projectile.ai[0] * 0.25f, 15), ModContent.ProjectileType<RumFire>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0], projectile.ai[1] - 1);
+				Projectile.NewProjectile(pos, new Vector2(projectile.ai[0] * 0.25f, 15), ModContent.ProjectileType<RumFire>(), projectile.damage / 3 * 2, projectile.knockBack, projectile.owner, projectile.ai[0], projectile.ai[1] - 1);
 			}
 			if (lightUp)
 				Lighting.AddLight(projectile.Center, 245 * 0.00361f, 99 * 0.00361f, 66 * 0.00361f);

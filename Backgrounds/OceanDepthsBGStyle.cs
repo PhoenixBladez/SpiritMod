@@ -6,6 +6,7 @@ namespace SpiritMod.Backgrounds
 	public class OceanDepthsBGStyle : ModSurfaceBgStyle
 	{
 
+		public override int ChooseFarTexture() => mod.GetBackgroundSlot("Backgrounds/OceanUnderwaterBG3");
 
 		public override int ChooseMiddleTexture() => mod.GetBackgroundSlot("Backgrounds/OceanUnderwaterBG2");
 
