@@ -57,7 +57,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 				Main.spriteBatch.Draw(Main.waterTarget, Main.sceneWaterPos - Main.screenPosition, Color.White);
 
 			Main.spriteBatch.End();
-			Main.spriteBatch.Begin();
+			Main.spriteBatch.Begin(default, default, default, default, default, null, Main.GameViewMatrix.ZoomMatrix);
 		}
 
 		private static void SetShader()
