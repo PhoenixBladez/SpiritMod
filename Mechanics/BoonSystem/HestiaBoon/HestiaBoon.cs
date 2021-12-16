@@ -11,6 +11,8 @@ namespace SpiritMod.Mechanics.BoonSystem.HestiaBoon
 		public override bool CanApply => true;
 		public override string TexturePath => "SpiritMod/Mechanics/BoonSystem/HestiaBoon/HestiaBoon";
 
+		public override void SetStats() => npc.lifeMax = npc.life = (int)(npc.lifeMax * 1.5f);
+
 		public override void AI()
 		{
 			Lighting.AddLight(npc.Center, Color.Orange.ToVector3() * 0.3f);

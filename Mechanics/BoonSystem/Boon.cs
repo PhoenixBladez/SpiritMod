@@ -19,6 +19,8 @@ namespace SpiritMod.Mechanics.BoonSystem
 		#region boon hooks
 
 		public virtual void SpawnIn() { }
+
+		public virtual void SetStats() { }
 		public virtual string TexturePath => "";
 
 		public virtual Vector2 SigilPosition

@@ -16,6 +16,8 @@ namespace SpiritMod.Mechanics.BoonSystem.HecateBoon
 		private float projectileCounter;
 		private const float RUNE_INTERVAL = 300;
 
+		public override void SetStats() => npc.lifeMax = npc.life = (int)(npc.lifeMax * 1.5f);
+
 		public override void AI()
 		{
 			Lighting.AddLight(npc.Center, Color.Violet.ToVector3() * 0.3f);

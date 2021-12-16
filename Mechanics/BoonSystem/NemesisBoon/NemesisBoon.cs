@@ -16,6 +16,8 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 
 		public override string TexturePath => "SpiritMod/Mechanics/BoonSystem/NemesisBoon/NemesisBoon";
 
+		public override void SetStats() => npc.lifeMax = npc.life = (int)(npc.lifeMax * 1.5f);
+
 		public override void AI()
 		{
 			Lighting.AddLight(npc.Center, Color.Blue.ToVector3() * 0.3f);

@@ -308,6 +308,8 @@ namespace SpiritMod
 					break;
 				case MessageType.BoonData:
 					Main.npc[reader.ReadUInt16()].GetGlobalNPC<BoonNPC>().currentBoon = BoonLoader.LoadedBoons[reader.ReadByte()];
+					Main.npc[reader.ReadUInt16()].GetGlobalNPC<BoonNPC>().currentBoon.SpawnIn();
+					Main.npc[reader.ReadUInt16()].GetGlobalNPC<BoonNPC>().currentBoon.SetStats();
 					break;
 				default:
 					Logger.Error("Unknown net message (" + id + ")");

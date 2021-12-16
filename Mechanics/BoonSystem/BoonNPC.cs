@@ -26,6 +26,8 @@ namespace SpiritMod.Mechanics.BoonSystem
 					if (index != -1)
 						SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(4), (byte)MessageType.BoonData, (ushort)npc.whoAmI, (byte)index).Send();
 				}
+
+				currentBoon.SetStats();
 			}
 		}
 

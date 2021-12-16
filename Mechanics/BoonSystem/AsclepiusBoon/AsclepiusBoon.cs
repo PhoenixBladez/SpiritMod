@@ -22,6 +22,8 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 			}
 		}
 
+		public override void SetStats() => npc.lifeMax = npc.life = (int)(npc.lifeMax * 1.5f);
+
 		public override string TexturePath => "SpiritMod/Mechanics/BoonSystem/AsclepiusBoon/AsclepiusBoon";
 
 		private int frameCounter;
