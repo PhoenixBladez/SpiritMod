@@ -73,7 +73,7 @@ namespace SpiritMod.Utilities
 
 		[Label("Ocean Water Style")]
 		[Tooltip("Modifies the Ocean's water to be much, much more see through and allows light to travel farther. NOTE: This will have a visual bug with the lighting system.")]
-		[DefaultValue(false)]
+		[DefaultValue(true)]
 		public bool OceanWaterStyleEnabled { get; set; }
 	}
 }

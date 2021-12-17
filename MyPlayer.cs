@@ -1853,6 +1853,17 @@ namespace SpiritMod
 		int bloodTimer;
 		int MinifishTimer = 0;
 
+		/// <summary>Helper method that checks how far underwater the player is, continuously.</summary>
+		/// <param name="tileDepth">Depth in tiles for the player to be under.</param>
+		public bool Submerged(int tileDepth)
+		{
+			Point tPos = player.Center.ToTileCoordinates();
+			for (int i = 0; i < tileDepth; ++i)
+				if (!WorldGen.InWorld(tPos.X, tPos.Y - i) && Framing.GetTileSafely(tPos.X, tPos.Y - i).liquid < 255)
+					return false;
+			return true;
+		}
+
 		public override void PreUpdate()
 		{
 			int x1 = (int)player.Center.X / 16;

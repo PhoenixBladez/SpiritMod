@@ -16,7 +16,7 @@ namespace SpiritMod.Backgrounds
 			return mod.GetBackgroundSlot("Backgrounds/OceanUnderwaterBG1");
 		}
 
-		public override bool ChooseBgStyle() => !Main.gameMenu && Main.LocalPlayer.GetSpiritPlayer().isFullySubmerged && Main.LocalPlayer.ZoneBeach;
+		public override bool ChooseBgStyle() => !Main.gameMenu && Main.LocalPlayer.ZoneBeach && Main.LocalPlayer.GetSpiritPlayer().Submerged(10);
 
 		// Use this to keep far Backgrounds like the mountains.
 		public override void ModifyFarFades(float[] fades, float transitionSpeed)
