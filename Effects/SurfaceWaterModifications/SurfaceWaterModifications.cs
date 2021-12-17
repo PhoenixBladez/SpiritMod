@@ -17,6 +17,9 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 		{
 			IL.Terraria.Main.DoDraw += AddWaterShader;
 			IL.Terraria.Lighting.doColors_Mode0_Swipe += ModifyLiquidLightDraw;
+
+			IL.Terraria.Main.DrawTiles += Main_DrawTiles;
+			IL.Terraria.Main.DrawBlack += Main_DrawBlack;
 		}
 
 		public static void Unload()
@@ -87,6 +90,240 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 		internal static void ModifyBrightness(ref float scale)
 		{
+		}
+
+		// below is code for fixing the black tile rendering issue with slopes and transparency for the fake liquid that is drawn
+
+		private static void Main_DrawBlack(ILContext il)
+		{
+			ILCursor cursor = new ILCursor(il);
+			//PrintInstrs(il);
+
+			// get instruction post break
+			cursor.TryGotoNext(i => i.MatchLdsfld<Main>("blackTileTexture"));
+			cursor.TryGotoPrev(i => i.MatchSub());
+			cursor.Index -= 2;
+			ILLabel breakLabel = il.DefineLabel(cursor.Next);
+
+			cursor.Goto(0);
+
+			cursor.TryGotoNext(i => i.MatchCall<Lighting>("Brightness"));
+			cursor.Index -= 2;
+
+			ILLabel normal = il.DefineLabel(cursor.Next);
+
+			// load tile
+			cursor.Emit(OpCodes.Ldloc_S, (byte)13);
+			// get wall value
+			cursor.Emit(OpCodes.Ldfld, typeof(Tile).GetField("wall", BindingFlags.Public | BindingFlags.Instance));
+			// if there's a wall, continue on
+			cursor.Emit(OpCodes.Brtrue_S, normal);
+			// load tile
+			cursor.Emit(OpCodes.Ldloc_S, (byte)13);
+			// get slope value
+			cursor.Emit(OpCodes.Callvirt, typeof(Tile).GetMethod("slope", BindingFlags.Public | BindingFlags.Instance, Type.DefaultBinder, CallingConventions.HasThis, Type.EmptyTypes, null));
+			// if there's no slope, continue on
+			cursor.Emit(OpCodes.Brfalse_S, normal);
+			// load tile
+			cursor.Emit(OpCodes.Ldloc_S, (byte)13);
+			// get halfBrick value
+			cursor.Emit(OpCodes.Callvirt, typeof(Tile).GetMethod("halfBrick", BindingFlags.Public | BindingFlags.Instance, Type.DefaultBinder, CallingConventions.HasThis, Type.EmptyTypes, null));
+			// if there's halfbrick, continue on
+			cursor.Emit(OpCodes.Brtrue_S, normal);
+
+			// get x and y
+			cursor.Emit(OpCodes.Ldloc_S, (byte)11);
+			cursor.Emit(OpCodes.Ldloc_S, (byte)9);
+			// get brightness
+			cursor.Emit(OpCodes.Call, typeof(Lighting).GetMethod("Brightness", BindingFlags.Public | BindingFlags.Static));
+			cursor.Emit(OpCodes.Ldc_R4, 0f);
+			// if brightness is 0, continue on
+			cursor.Emit(OpCodes.Beq_S, normal);
+
+			cursor.Emit(OpCodes.Br, breakLabel);
+		}
+
+		private static void Main_DrawTiles(ILContext il)
+		{
+			ILCursor cursor = new ILCursor(il);
+			//PrintInstrs(il);
+
+			cursor.TryGotoNext(i => i.MatchLdsfld<Main>(nameof(Main.liquidTexture)));
+			cursor.TryGotoNext(i => i.MatchCallvirt<SpriteBatch>("Draw"));
+
+			// remove spritebatch draw
+			cursor.Index++;
+			ILLabel postDraw = il.DefineLabel(cursor.Next);
+
+			cursor.Index--;
+			// emit our custom code
+			for (int i = 0; i < 10; i++)
+			{
+				cursor.Emit(OpCodes.Pop);
+			}
+			cursor.Emit(OpCodes.Ldloc_S, (byte)16); // x
+			cursor.Emit(OpCodes.Ldloc_S, (byte)15); // y
+			cursor.Emit(OpCodes.Ldloc_S, (byte)151); // num116 (water style being used)
+			cursor.Emit(OpCodes.Ldloc_S, (byte)147); // flag7
+			cursor.Emit(OpCodes.Ldloc_S, (byte)148); // flag8
+			cursor.Emit(OpCodes.Ldloc_S, (byte)149); // flag9
+			cursor.Emit(OpCodes.Ldloc_S, (byte)150); // flag10
+			cursor.Emit(OpCodes.Ldloc_S, (byte)146); // num115 (some liquid amount thing)
+			cursor.EmitDelegate<Action<int, int, int, bool, bool, bool, bool, int>>(SlopeHalfBrickLiquidReplacement);
+
+			cursor.Emit(OpCodes.Br, postDraw);
+
+			//cursor.Emit(OpCodes.Ldc_R4, 0.65f);
+			//cursor.Emit(OpCodes.Stloc_S, (byte)159);
+		}
+
+		private static void SlopeHalfBrickLiquidReplacement(int x, int y, int style, bool flag7, bool flag8, bool flag9, bool flag10, int num115)
+		{
+			CodeFromSource(x, y, style, flag7, flag8, flag9, flag10, num115, out Vector2 vector247, out Rectangle rectangle4, out float gameAlpha);
+
+			Vector2 zero = new Vector2((float)Main.offScreenRange, (float)Main.offScreenRange);
+			if (Main.drawToScreen)
+			{
+				zero = Vector2.Zero;
+			}
+
+			Texture2D liquidTexture = Main.liquidTexture[style];
+			Vector2 vector248 = (vector247 - Main.screenPosition) + zero;
+
+			Vector2 tl = Main.sceneBackgroundPos;
+			Vector2 tile = new Vector2(x * 16f, y * 16f);
+			Vector2 pos = tile - tl;
+			Rectangle space = new Rectangle((int)pos.X, (int)pos.Y, 16, 16);
+
+			// if the tile above doesn't have full liquid, use the left or right one
+			if (Framing.GetTileSafely(x - 1, y).liquid > 0) space.X -= 16;
+			else if (Framing.GetTileSafely(x + 1, y).liquid > 0) space.X += 16;
+			else if (Framing.GetTileSafely(x, y - 1).liquid < 255) space.Y -= 16;
+
+			Main.spriteBatch.End();
+
+			var effect = Filters.Scene["SpiritMod:SurfaceWaterFX"].GetShader().Shader;
+			effect.Parameters["transparency"].SetValue(Main.LocalPlayer.ZoneOverworldHeight || Main.LocalPlayer.ZoneSkyHeight ? 0.6f : 0.8f);
+
+			Main.spriteBatch.Begin(default, BlendState.AlphaBlend, default, default, default, effect, Main.GameViewMatrix.ZoomMatrix);
+
+			Main.spriteBatch.Draw(Main.instance.backWaterTarget, vector248, space, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+
+			Main.spriteBatch.End();
+			Main.spriteBatch.Begin(default, default, default, default, default, null, Main.GameViewMatrix.ZoomMatrix);
+			//Main.spriteBatch.Draw(liquidTexture, vector248, rectangle4, color * gameAlpha, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+		}
+
+		private static void CodeFromSource(int x, int y, int style, bool flag7, bool flag8, bool flag9, bool flag10, int num115, out Vector2 vectorPosition, out Rectangle rectangle4, out float gameAlpha)
+		{
+			Tile tile = Framing.GetTileSafely(x, y);
+			Tile tile1 = Framing.GetTileSafely(x + 1, y);
+			Tile tile2 = Framing.GetTileSafely(x - 1, y);
+			Tile tile3 = Framing.GetTileSafely(x, y - 1);
+			Tile tile4 = Framing.GetTileSafely(x, y + 1);
+
+			vectorPosition = new Vector2((float)(x * 16), (float)(y * 16));
+			rectangle4 = new Rectangle(0, 4, 16, 16);
+			if (flag10 && flag7 | flag8)
+			{
+				flag7 = true;
+				flag8 = true;
+			}
+			if ((!flag9 || !flag7 && !flag8) && (!flag10 || !flag9))
+			{
+				if (flag9)
+				{
+					rectangle4 = new Rectangle(0, 4, 16, 4);
+					if (tile.halfBrick() || tile.slope() != 0)
+					{
+						rectangle4 = new Rectangle(0, 4, 16, 12);
+					}
+				}
+				else if (!flag10 || flag7 || flag8)
+				{
+					float single1 = (float)(256 - num115);
+					single1 /= 32f;
+					int num118 = 4;
+					if (tile3.liquid == 0 && !WorldGen.SolidTile(x, y - 1))
+					{
+						num118 = 0;
+					}
+					if (flag7 & flag8 || tile.halfBrick() || tile.slope() != 0)
+					{
+						vectorPosition = new Vector2((float)(x * 16), (float)(y * 16 + (int)single1 * 2));
+						rectangle4 = new Rectangle(0, num118, 16, 16 - (int)single1 * 2);
+					}
+					else if (!flag7)
+					{
+						vectorPosition = new Vector2((float)(x * 16 + 12), (float)(y * 16 + (int)single1 * 2));
+						rectangle4 = new Rectangle(0, num118, 4, 16 - (int)single1 * 2);
+					}
+					else
+					{
+						vectorPosition = new Vector2((float)(x * 16), (float)(y * 16 + (int)single1 * 2));
+						rectangle4 = new Rectangle(0, num118, 4, 16 - (int)single1 * 2);
+					}
+				}
+				else
+				{
+					vectorPosition = new Vector2((float)(x * 16), (float)(y * 16 + 12));
+					rectangle4 = new Rectangle(0, 4, 16, 4);
+				}
+			}
+			gameAlpha = 0.5f;
+			if (style == 1)
+			{
+				gameAlpha = 1f;
+			}
+			else if (style == 11)
+			{
+				gameAlpha *= 1.7f;
+				if (gameAlpha > 1f)
+				{
+					gameAlpha = 1f;
+				}
+			}
+			if ((double)y < Main.worldSurface || gameAlpha > 1f)
+			{
+				gameAlpha = 1f;
+				if (tile3.wall > 0 || tile2.wall > 0 || tile1.wall > 0 || tile4.wall > 0)
+				{
+					gameAlpha = 0.65f;
+				}
+				if (tile.wall > 0)
+				{
+					gameAlpha = 0.5f;
+				}
+			}
+			if (tile.halfBrick() && tile3.liquid > 0 && tile.wall > 0)
+			{
+				gameAlpha = 0f;
+			}
+		}
+
+		private static void PrintInstrs(ILContext il)
+		{
+			foreach (var instr in il.Instrs)
+			{
+				string s = "";
+				try
+				{
+					s = instr.ToString();
+				}
+				catch
+				{
+					if (instr.Operand is ILLabel label && label.Target != null)
+					{
+						SpiritMod.Instance.Logger.Debug(instr.OpCode + " IL_" + label.Target.Offset.ToString("x4"));
+					}
+					else
+					{
+						SpiritMod.Instance.Logger.Debug(instr.OpCode);
+					}
+					continue;
+				}
+				SpiritMod.Instance.Logger.Debug(s);
+			}
 		}
 	}
 }
