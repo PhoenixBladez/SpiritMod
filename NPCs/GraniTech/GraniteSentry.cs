@@ -13,18 +13,38 @@ using SpiritMod.Mechanics.Trails;
 using SpiritMod.Utilities;
 using SpiritMod.Particles;
 using SpiritMod.Items.Sets.GranitechSet;
+using System.IO;
 
 namespace SpiritMod.NPCs.GraniTech
 {
     class GraniteSentry : ModNPC
     {
         public float BaseState { get => npc.ai[0]; private set => npc.ai[0] = value; }
-        float scanTimer = 0;
-        bool firing = false;
-        Vector2 laserEdge = Vector2.Zero;
-        Vector2 laserOrigin = Vector2.Zero;
-        float chargeUp = 0;
-        float recoil = 0;
+        private float scanTimer = 0;
+		private bool _firing;
+        private bool Firing
+		{
+			get => _firing;
+			set
+			{
+				bool temp = _firing;
+				_firing = value;
+				if (temp != _firing)
+					npc.netUpdate = true;
+			}
+		}
+
+        private Vector2 laserEdge = Vector2.Zero;
+        private Vector2 laserOrigin = Vector2.Zero;
+        private float chargeUp = 0;
+        private float recoil = 0;
+
+		private const int STATE_SPAWNING = 0;
+		private const int STATE_ABOVE = 1;
+		private const int STATE_BELOW = 2;
+
+		private const int FIRING_CHARGE_TIME = 20;
+		private const int FIRING_SHOOT_TIME = 6;
 
 		private List<(float, int)> laserRotations = new List<(float,int)>();
 
@@ -48,182 +68,225 @@ namespace SpiritMod.NPCs.GraniTech
             Main.npcFrameCount[npc.type] = 3;
         }
 
-        const int GroundDistance = 80; //Distance it'll scan to look for a valid wall
+        private const int GroundDistance = 80; //Distance it'll scan to look for a valid wall
 
         public override void AI()
         {
-            if (BaseState == 0)
-            {
-                //lets hit that fat scan
-                bool[] validGrounds = new bool[4] { false, false, false, false };
-                for (int i = (int)(npc.position.Y / 16f); i < (int)(npc.position.Y / 16f) + GroundDistance; ++i) //above
-                    if (Framing.GetTileSafely((int)(npc.position.X / 16f), i).active() && Main.tileSolid[Framing.GetTileSafely((int)(npc.position.X / 16f), i).type])
-                        validGrounds[0] = true;
-                for (int i = (int)(npc.position.Y / 16f); i > (int)(npc.position.Y / 16f) - GroundDistance; --i) //below
-                    if (Framing.GetTileSafely((int)(npc.position.X / 16f), i).active() && Main.tileSolid[Framing.GetTileSafely((int)(npc.position.X / 16f), i).type])
-                        validGrounds[1] = true;
+			if (BaseState == STATE_SPAWNING)
+				Spawn();
 
-                for (int i = (int)(npc.position.X / 16f); i > (int)(npc.position.X / 16f) - GroundDistance; --i) //left
-                    if (Framing.GetTileSafely(i, (int)(npc.position.Y / 16f)).active() && Main.tileSolid[Framing.GetTileSafely(i, (int)(npc.position.Y / 16f)).type])
-                        validGrounds[2] = true;
-                for (int i = (int)(npc.position.X / 16f); i < (int)(npc.position.X / 16f) + GroundDistance; ++i) //right
-                    if (Framing.GetTileSafely(i, (int)(npc.position.Y / 16f)).active() && Main.tileSolid[Framing.GetTileSafely(i, (int)(npc.position.Y / 16f)).type])
-                        validGrounds[3] = true;
+			else
+			{
+				if (chargeUp <= 6)
+					scanTimer += 0.01f;
 
-                int index;
-                int safety = 0;
+				if (!Firing)
+					ScanningAI();
 
-                if (!validGrounds.Any(x => x))
-                    npc.active = false; //Delete me if I don't have anchoring
+				else
+					FiringAI();
 
-                do //Choose a random placement
-                {
-                    index = Main.rand.Next(2);
-                    safety++;
-                } while (validGrounds[index] && safety < 100);
+				switch (BaseState)
+				{
+					case 1: //above
+						laserOrigin = npc.Center - new Vector2(0, 6);
+						npc.rotation = (float)(Math.Sin(scanTimer + recoil) * MathHelper.PiOver2) - MathHelper.PiOver2;
+						break;
+					case 2: //below
+						laserOrigin = npc.Center - new Vector2(0, 6);
+						npc.rotation = (float)(Math.Sin(scanTimer + recoil) * MathHelper.PiOver2) + MathHelper.PiOver2;
+						break;
+				}
 
-                BaseState = index + 1; //woo I did it
-                //no you didn't you suck and i hate you :slight_smile:
-
-                switch (BaseState)
-                {
-                    case 1:
-                        for (int i = (int)(npc.position.Y / 16f); i > (int)(npc.position.Y / 16f) - GroundDistance; --i) //above
-                        {
-                            if (Framing.GetTileSafely((int)(npc.position.X / 16f), i).active() && Main.tileSolid[Framing.GetTileSafely((int)(npc.position.X / 16f), i).type])
-                            {
-                                npc.position.Y = (i * 16f) + 28;
-                                break;
-                            }
-                        }
-                        break;
-                    case 2:
-                        for (int i = (int)(npc.position.Y / 16f); i < (int)(npc.position.Y / 16f) + GroundDistance; ++i) //below
-                        {
-                            if (Framing.GetTileSafely((int)(npc.position.X / 16f), i).active() && Main.tileSolid[Framing.GetTileSafely((int)(npc.position.X / 16f), i).type])
-                            {
-                                npc.position.Y = ((i - 2) * 16f) - 8;
-                                break;
-                            }
-                        }
-                        break;
-                    default: break;
-                }
-            }
-            else 
-            {
-                if (chargeUp <= 6)
-                    scanTimer+= 0.01f;
-                if (!firing)
-                {
-					if (laserRotations == null)
-						laserRotations = new List<(float,int)>();
-
-					Vector2 delta = laserEdge - laserOrigin;
-					int length = (int)delta.Length();
-					float rotation = delta.ToRotation();
-					laserRotations.Add((rotation, length));
-
-					while (laserRotations.Count > 16)
+				for (int i = 0; i < 1600; i += 8)
+				{
+					Vector2 toLookAt = laserOrigin + ((npc.rotation.ToRotationVector2().RotatedBy(3.14f)) * i);
+					if (i >= 1590 || (Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).active() && Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16), (int)(toLookAt.Y / 16)).type]))
 					{
-						laserRotations.RemoveAt(0);
+						laserEdge = toLookAt;
+						break;
 					}
-					chargeUp = 0;
-                    for (int i = 0; i < Main.player.Length; i++)
-                    {
-                        Player player = Main.player[i];
-                        if (player.active)
-                        {
-                            float collisionPoint = 0f;
-                            if (Collision.CheckAABBvLineCollision(player.Hitbox.TopLeft(), player.Hitbox.Size(), laserOrigin, laserEdge, (npc.width + npc.height) * 0.5f * npc.scale, ref collisionPoint)) {
-                                firing = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    chargeUp++;
-					if (laserRotations != null)
-						if (laserRotations.Count > 0)
-							laserRotations.RemoveAt(0);
-
-					if (chargeUp == 20)
-					{
-						ParticleHandler.SpawnParticle(new PulseCircle(npc, new Color(25, 132, 247) * 0.4f, 175, 15,
-						PulseCircle.MovementType.OutwardsSquareRooted, npc.Center)
-						{
-							Angle = npc.rotation + 3.14f,
-							ZRotation = 0.6f,
-							RingColor = new Color(25, 132, 247),
-							Velocity = (npc.rotation + 3.14f).ToRotationVector2() * 5
-						});
-					}
-                    if (chargeUp > 20 && chargeUp % 6 == 0)
-                    {
-                        recoil = Main.rand.NextFloat(-0.1f,0.1f);
-                        switch (BaseState) 
-                        {
-                            case 1: //above
-                                npc.rotation = (float)(Math.Sin(scanTimer + recoil) * 1.57f) - 1.57f;
-                                break;
-                            case 2: //below
-                                npc.rotation = (float)(Math.Sin(scanTimer + recoil) * 1.57f) + 1.57f;
-                                break;
-                        }
-                        Projectile.NewProjectile(laserOrigin, (npc.rotation + 3.14f).ToRotationVector2() * 20, ModContent.ProjectileType<GraniteSentryBolt>(), 40, 3, npc.target);
-						laserRotations = null;
-						Main.PlaySound(SoundID.Item, (int)npc.Center.X, (int)npc.Center.Y, 91, 0.5f, 0.5f);
-
-						ParticleHandler.SpawnParticle(new PulseCircle(npc, new Color(25, 132, 247) * 0.4f, 100, 15,
-						PulseCircle.MovementType.OutwardsSquareRooted, npc.Center)
-						{
-							Angle = npc.rotation + 3.14f,
-							ZRotation = 0.6f,
-							RingColor = new Color(25, 132, 247),
-							Velocity = (npc.rotation + 3.14f).ToRotationVector2() * 4
-						});
-					}
-                    recoil *= 0.99f;
-                    firing = false;
-					for (int i = 0; i < Main.player.Length; i++)
-					{
-						Player player = Main.player[i];
-						if (player.active)
-						{
-							float collisionPoint = 0f;
-							if (Collision.CheckAABBvLineCollision(player.Hitbox.TopLeft(), player.Hitbox.Size(), laserOrigin, laserEdge, (npc.width + npc.height) * npc.scale * 3, ref collisionPoint)) {
-								firing = true;
-								break;
-							}
-						}
-					}
-                }
-                switch (BaseState) 
-                {
-                    case 1: //above
-                        laserOrigin = npc.Center - new Vector2(0, 6);
-                        npc.rotation = (float)(Math.Sin(scanTimer + recoil) * 1.57f) - 1.57f;
-                        break;
-                    case 2: //below
-                        laserOrigin = npc.Center - new Vector2(0, 6);
-                        npc.rotation = (float)(Math.Sin(scanTimer + recoil) * 1.57f) + 1.57f;
-                        break;
-                }
-                for (int i = 0; i < 1600; i += 8)
-                {
-                    Vector2 toLookAt = laserOrigin + ((npc.rotation.ToRotationVector2().RotatedBy(3.14f)) * i);
-                    if (i >= 1590 || (Framing.GetTileSafely((int)(toLookAt.X / 16),(int)(toLookAt.Y / 16)).active() && Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16),(int)(toLookAt.Y / 16)).type]))
-                    {
-                        laserEdge = toLookAt;
-                        break;
-                    }
-                }
-            }
+				}
+			}
         }
 
-        public override void NPCLoot()
+		private void Spawn()
+		{
+			//lets hit that fat scan
+			bool[] validGrounds = new bool[4] { false, false, false, false };
+			for(int j = -1; j <= 1; j += 2)
+			{
+				int arrayPos = (j == -1) ? 0 : 1;
+				Point tilePos = npc.position.ToTileCoordinates();
+				int dist = GroundDistance * j;
+				for (int i = tilePos.Y; i < tilePos.Y + dist; i += j) //above and below
+					if (Framing.GetTileSafely(tilePos.X, i).active() && Main.tileSolid[Framing.GetTileSafely(tilePos.X, i).type])
+						validGrounds[arrayPos] = true;
+
+				for (int i = tilePos.X; i > tilePos.X + dist; i += j) //left and right
+					if (Framing.GetTileSafely(i, tilePos.Y).active() && Main.tileSolid[Framing.GetTileSafely(i, tilePos.Y).type])
+						validGrounds[arrayPos + 2] = true;
+			}
+
+			int index;
+			int safety = 0;
+
+			if (!validGrounds.Any(x => x))
+				npc.active = false; //Delete me if I don't have anchoring
+
+			do //Choose a random placement
+			{
+				index = Main.rand.Next(2);
+				safety++;
+			} while (validGrounds[index] && safety < 100);
+
+			BaseState = index + 1; //woo I did it
+								   //no you didn't you suck and i hate you :slight_smile:
+
+			switch (BaseState)
+			{
+				case STATE_ABOVE:
+					for (int i = (int)(npc.position.Y / 16f); i > (int)(npc.position.Y / 16f) - GroundDistance; --i) //above
+					{
+						if (Framing.GetTileSafely((int)(npc.position.X / 16f), i).active() && Main.tileSolid[Framing.GetTileSafely((int)(npc.position.X / 16f), i).type])
+						{
+							npc.position.Y = (i * 16f) + 28;
+							break;
+						}
+					}
+					break;
+
+				case STATE_BELOW:
+					for (int i = (int)(npc.position.Y / 16f); i < (int)(npc.position.Y / 16f) + GroundDistance; ++i) //below
+					{
+						if (Framing.GetTileSafely((int)(npc.position.X / 16f), i).active() && Main.tileSolid[Framing.GetTileSafely((int)(npc.position.X / 16f), i).type])
+						{
+							npc.position.Y = ((i - 2) * 16f) - 8;
+							break;
+						}
+					}
+					break;
+
+				default: break;
+			}
+			npc.netUpdate = true;
+		}
+
+		private void ScanningAI()
+		{
+			if (laserRotations == null)
+				laserRotations = new List<(float, int)>();
+
+			Vector2 delta = laserEdge - laserOrigin;
+			int length = (int)delta.Length();
+			float rotation = delta.ToRotation();
+			laserRotations.Add((rotation, length));
+
+			while (laserRotations.Count > 16)
+				laserRotations.RemoveAt(0);
+
+			chargeUp = 0;
+			ScanPlayers();
+		}
+
+		private void FiringAI()
+		{
+			chargeUp++;
+			if (laserRotations != null)
+				if (laserRotations.Count > 0)
+					laserRotations.RemoveAt(0);
+
+			/*if (chargeUp == FIRING_CHARGE_TIME && !Main.dedServ)
+			{
+				ParticleHandler.SpawnParticle(new PulseCircle(npc, new Color(25, 132, 247) * 0.4f, 125, 15, PulseCircle.MovementType.OutwardsSquareRooted, laserOrigin)
+				{
+					Angle = npc.rotation + MathHelper.Pi,
+					ZRotation = 0.6f,
+					RingColor = new Color(25, 132, 247),
+					Velocity = -(npc.rotation + 3.14f).ToRotationVector2() * 5
+				});
+			}*/
+
+			//Once fully charged, shoot bullets every few ticks
+			if (chargeUp > FIRING_CHARGE_TIME && chargeUp % FIRING_SHOOT_TIME == 0)
+			{
+				//Fire bullets and recoil
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					recoil = Main.rand.NextFloat(-0.1f, 0.1f);
+					switch (BaseState)
+					{
+						case 1: //above
+							npc.rotation = (float)(Math.Sin(scanTimer + recoil) * MathHelper.PiOver2) - MathHelper.PiOver2;
+							break;
+
+						case 2: //below
+							npc.rotation = (float)(Math.Sin(scanTimer + recoil) * MathHelper.PiOver2) + MathHelper.PiOver2;
+							break;
+					}
+					Projectile.NewProjectile(laserOrigin, (npc.rotation + 3.14f).ToRotationVector2() * 20, ModContent.ProjectileType<GraniteSentryBolt>(),
+						NPCUtils.ToActualDamage(npc.damage), 3, npc.target);
+
+					laserRotations = null;
+					npc.netUpdate = true;
+				}
+
+				//Client side visuals and sound
+				if (Main.netMode != NetmodeID.Server)
+				{
+					Main.PlaySound(SoundID.Item, (int)npc.Center.X, (int)npc.Center.Y, 91, 0.5f, 0.5f);
+
+					Vector2 origin = laserOrigin + (npc.rotation + 3.14f).ToRotationVector2() * 20;
+					ParticleHandler.SpawnParticle(new PulseCircle(npc, new Color(25, 132, 247) * 0.4f, 100, 15, PulseCircle.MovementType.OutwardsSquareRooted, origin)
+					{
+						Angle = npc.rotation + MathHelper.Pi,
+						ZRotation = 0.6f,
+						RingColor = new Color(25, 132, 247),
+						Velocity = (npc.rotation + 3.14f).ToRotationVector2() * 3
+					});
+				}
+			}
+
+			recoil *= 0.99f;
+			Firing = false;
+			ScanPlayers(3);
+		}
+
+		private bool ScanPlayers(float widthMod = 1f)
+		{
+			for (int i = 0; i < Main.player.Length; i++)
+			{
+				Player player = Main.player[i];
+				if (player.active && !player.dead && player != null)
+				{
+					float collisionPoint = 0f;
+					if (Collision.CheckAABBvLineCollision(player.Hitbox.TopLeft(), player.Hitbox.Size(), laserOrigin, laserEdge, (npc.width + npc.height) * npc.scale * widthMod, ref collisionPoint))
+					{
+						Firing = true;
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.WriteVector2(laserEdge);
+			writer.WriteVector2(laserOrigin);
+			writer.Write(chargeUp);
+			writer.Write(recoil);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			laserEdge = reader.ReadVector2();
+			laserOrigin = reader.ReadVector2();
+			chargeUp = reader.ReadSingle();
+			recoil = reader.ReadSingle();
+		}
+
+		public override void NPCLoot()
         {
 			for(int i = 1; i <= 4; i++)
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot($"Gores/GraniTech/GraniteSentryGore{i}"), 1f);
@@ -239,44 +302,31 @@ namespace SpiritMod.NPCs.GraniTech
 		}
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Vector2 delta = laserEdge - laserOrigin;
-            float length = delta.Length();
-            float rotation = delta.ToRotation();
-            if (chargeUp < 20)
-            {
-                Color laserColor = chargeUp % 10 > 5 ? Color.White : Color.Red;
-				laserColor.A = 0;
-                 Main.spriteBatch.Draw(Main.magicPixel, laserOrigin - Main.screenPosition, new Rectangle(0, 0, 1, 1), laserColor * 0.35f, rotation, new Vector2(0f, 1f), new Vector2(length, 2 - (chargeUp / 12f)), SpriteEffects.None, 0f);
-
-				if (laserRotations != null && laserRotations.Count > 3)
-				{
-					float oldRot = laserRotations[0].Item1;
-					int oldLength = laserRotations[0].Item2;
-					float rotDifference = ((((rotation - oldRot) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
-					if (rotDifference > 0)
-					{
-						for (float k = 0; k < rotDifference; k += 0.005f * Math.Sign(rotDifference))
-						{
-							DrawLaser(spriteBatch, laserColor * 0.35f, k, oldRot, rotation, rotDifference, oldLength, (int)length);
-						}
-					}
-					else
-					{
-						for (float k = rotDifference; k < 0; k -= 0.005f * Math.Sign(rotDifference))
-						{
-							DrawLaser(spriteBatch, laserColor * 0.35f, k, oldRot, rotation, rotDifference, oldLength, (int)length);
-						}
-					}
-				}
+			DrawLaser(spriteBatch);
+			Texture2D npcGlow = ModContent.GetTexture(Texture + "_glow");
+			Vector2 realPos = npc.position - Main.screenPosition;
+			Vector2 offset;
+			Rectangle baseRect = new Rectangle(0, 32, 44, 18);
+			float baseRotation;
+            if (BaseState == STATE_ABOVE) //On ceiling
+			{
+				offset = new Vector2(44, 2);
+				baseRotation = MathHelper.Pi;
 			}
 
-			Vector2 realPos = npc.position - Main.screenPosition;
-            if (BaseState == 1) //On ceiling
-                spriteBatch.Draw(Main.npcTexture[npc.type], realPos + new Vector2(44, 2), new Rectangle(0, 32, 44, 18), drawColor, (float)Math.PI, new Vector2(), 1f, SpriteEffects.None, 0f);
-            if (BaseState == 2) //On ground
-                spriteBatch.Draw(Main.npcTexture[npc.type], realPos + new Vector2(0, 24), new Rectangle(0, 32, 44, 18), drawColor);
+			else //On ground
+			{
+				offset = new Vector2(0, 24);
+				baseRotation = 0;
+			}
 
-            float rot = npc.rotation; //Rotation
+			spriteBatch.Draw(Main.npcTexture[npc.type], realPos + offset, baseRect, drawColor, baseRotation, new Vector2(), npc.scale, SpriteEffects.None, 0f);
+			DrawAberration.DrawChromaticAberration(Vector2.UnitX, 2f, delegate (Vector2 aberrationOffset, Color colorMod)
+			{
+				spriteBatch.Draw(npcGlow, realPos + offset + aberrationOffset, baseRect, Color.White.MultiplyRGBA(colorMod), baseRotation, new Vector2(), npc.scale, SpriteEffects.None, 0f);
+			});
+
+			float rot = npc.rotation; //Rotation
             SpriteEffects s = SpriteEffects.None;
 
             if (BaseState == 1) s = SpriteEffects.FlipVertically;
@@ -288,34 +338,81 @@ namespace SpiritMod.NPCs.GraniTech
                 if (BaseState == 1) s = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
             }
 
-            spriteBatch.Draw(Main.npcTexture[npc.type], realPos + new Vector2(22, 15), new Rectangle(0, 0, 44, 30), drawColor, rot, new Vector2(22, 15), 1f, s, 0f);
-            return false;
+			Vector2 topOffset = new Vector2(22, 15);
+			Rectangle topRect = new Rectangle(0, 0, 44, 30);
+			Vector2 topOrigin = new Vector2(22, 15);
+
+			spriteBatch.Draw(Main.npcTexture[npc.type], realPos + topOffset, topRect, drawColor, rot, topOrigin, npc.scale, s, 0f);
+			DrawAberration.DrawChromaticAberration(Vector2.UnitX.RotatedBy(rot), 2f, delegate (Vector2 aberrationOffset, Color colorMod)
+			{
+				spriteBatch.Draw(npcGlow, realPos + topOffset + aberrationOffset, topRect, Color.White.MultiplyRGBA(colorMod), rot, topOrigin, npc.scale, s, 0f);
+			});
+
+			return false;
         }
 
-		private void DrawLaser(SpriteBatch spriteBatch, Color laserColor, float k, float oldRot, float currentRotation, float rotDifference, int oldLength, int newLength)
+		private void DrawLaser(SpriteBatch spriteBatch)
 		{
-			float rot = k + oldRot;
-			float lerper = Math.Abs(k / rotDifference);
-			lerper *= lerper * lerper;
-			Color color = Color.Lerp(laserColor, new Color(255, 0, 0), (lerper * lerper) / 2);
-			color.A = 0;
-			float length = MathHelper.Lerp(oldLength, newLength, lerper);
-			spriteBatch.Draw(Main.magicPixel, laserOrigin - Main.screenPosition, new Rectangle(0, 0, 1, 1), color * lerper * 0.5f, rot, Vector2.Zero, new Vector2(length, 2), SpriteEffects.None, 0);
+			void DrawLaserIndividual(Color laserColor, float opacity, float k, float oldRot, float rotDifference, int oldLength, int currentLength)
+			{
+				float rot = k + oldRot;
+				float lerper = Math.Abs(k / rotDifference);
+				lerper *= lerper * lerper;
+				Color color = Color.Lerp(laserColor, new Color(25, 132, 247), (lerper * lerper) / 2);
+				color.A = 0;
+				color *= opacity;
+				float newLength = MathHelper.Lerp(oldLength, currentLength, lerper);
+				spriteBatch.Draw(Main.magicPixel, laserOrigin - Main.screenPosition, new Rectangle(0, 0, 1, 1), color * lerper * 0.75f, rot, Vector2.Zero, new Vector2(newLength, 3), SpriteEffects.None, 0);
+			}
+
+			Vector2 delta = laserEdge - laserOrigin;
+			float length = delta.Length();
+			float rotation = delta.ToRotation();
+			if (chargeUp < FIRING_CHARGE_TIME)
+			{
+				float progress = chargeUp / FIRING_CHARGE_TIME;
+				//Cyan when about to fire, otherwise blue
+				Color laserColor = Color.Lerp(new Color(25, 132, 247), new Color(99, 255, 229), progress);
+				laserColor.A = 0;
+
+				//Increase in opacity when about to fire, and fluctuate over time
+				float opacity = MathHelper.Lerp(chargeUp / FIRING_CHARGE_TIME, 1, 0.12f);
+				opacity *= ((float)Math.Sin(Main.GlobalTime * 6) * 0.15f) + 1;
+				if (laserRotations != null && laserRotations.Count > 3)
+				{
+					float oldRot = laserRotations[0].Item1;
+					int oldLength = laserRotations[0].Item2;
+					float rotDifference = ((((rotation - oldRot) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
+					float step = 0.005f * Math.Sign(rotDifference);
+
+					if (rotDifference > 0)
+						for (float k = 0; k <= rotDifference; k += step)
+							DrawLaserIndividual(laserColor, opacity, k, oldRot, rotDifference, oldLength, (int)length);
+
+					else
+						for (float k = rotDifference; k <= 0; k -= step)
+							DrawLaserIndividual(laserColor, opacity, k, oldRot, rotDifference, oldLength, (int)length);
+				}
+				laserColor *= opacity;
+
+				spriteBatch.Draw(Main.magicPixel, laserOrigin - Main.screenPosition, new Rectangle(0, 0, 1, 1), laserColor, rotation, new Vector2(0f, 1f), new Vector2(length, 3 - (chargeUp / 24f)), SpriteEffects.None, 0f);
+			}
 		}
     }
-    public class GraniteSentryBolt : ModProjectile,ITrailProjectile
+
+    public class GraniteSentryBolt : ModProjectile, IDrawAdditive
 	{
 		private readonly Color lightCyan = new Color(99, 255, 229);
-		private readonly Color midBlue = new Color(25, 132, 247);
+		private readonly Color midBlue = new Color(25, 132, 247); 
 		private readonly Color darkBlue = new Color(20, 8, 189);
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Laser Bolt");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
 		}
 
-		float glow = 0;
+		private float glow = 0;
 		public override void SetDefaults()
 		{
 			projectile.penetrate = 3;
@@ -326,55 +423,54 @@ namespace SpiritMod.NPCs.GraniTech
 			projectile.height = 18;
 			projectile.tileCollide = true;
 			projectile.alpha = 0;
+			projectile.hide = true;
 		}
+
 		public override void AI()
 		{
 			if (glow == 0)
 			{
-				for (int i = 0; i < 6; i++)
-				{
-					ParticleHandler.SpawnParticle(new GranitechParticle(projectile.Center + projectile.velocity, projectile.velocity.RotatedBy(Main.rand.NextFloat(-0.6f,0.6f)) * Main.rand.NextFloat(), Main.rand.NextBool() ? lightCyan : midBlue, Main.rand.NextFloat(0.75f, 1.25f), 30, Main.rand.Next(4)));
-				}
+				for (int i = 0; i < 12; i++)
+					ParticleHandler.SpawnParticle(new GranitechParticle(projectile.Center + projectile.velocity, 
+						projectile.velocity.RotatedByRandom(MathHelper.Pi / 5) * Main.rand.NextFloat(0.66f), Main.rand.NextBool() ? lightCyan : midBlue, 
+						Main.rand.NextFloat(1f, 1.25f), 20));
+				
 				glow = Main.rand.NextFloat();
 			}
 			projectile.rotation = projectile.velocity.ToRotation() + 3.14f;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
+			Texture2D projTex = Main.projectileTexture[projectile.type];
+			int trailLength = ProjectileID.Sets.TrailCacheLength[projectile.type];
 
-			Vector2 origin = new Vector2(tex.Width / 2, tex.Height / 2);
-
-				Color color = Color.White;
-				float num108 = 4;
-				float num107 = (float)Math.Cos((double)((glow + Main.GlobalTime) % 1f / 1f * 6.28318548f)) / 3f + 0.25f;
-				float num106 = 0f;
-				Color color29 = new Color(110 - projectile.alpha, 31 - projectile.alpha, 255 - projectile.alpha, 0).MultiplyRGBA(color);
-				for (int num103 = 0; num103 < 4; num103++)
+			DrawAberration.DrawChromaticAberration(Vector2.Normalize(projectile.velocity), 2f, delegate(Vector2 offset, Color colorMod)
+			{
+				Color color = lightCyan.MultiplyRGB(colorMod);
+				for(int i = 0; i < trailLength; i++)
 				{
-					Color color28 = color29;
-					color28 = projectile.GetAlpha(color28);
-					color28 *= 1.5f - num107;
-					Vector2 vector29 = projectile.Center + ((float)num103 / (float)num108 * 6.28318548f + projectile.rotation + num106).ToRotationVector2() * (num107 + 1f) - Main.screenPosition + new Vector2(0, projectile.gfxOffY);
-					spriteBatch.Draw(tex, vector29, null, color28 * .8f, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
-				}
+					float progress = i / (float)trailLength;
+					float opacity = 1 - progress;
+					opacity *= 0.66f;
+					Color trailColor = Color.Lerp(midBlue, darkBlue, progress);
 
-			return false;
-		}
+					spriteBatch.Draw(projTex, projectile.oldPos[i] + (projectile.Size/2) + offset - Main.screenPosition, null, trailColor * opacity,
+						projectile.velocity.ToRotation(), projTex.Size() / 2, projectile.scale, SpriteEffects.None, 0);
+				};
 
-		public void DoTrailCreation(TrailManager tManager)
-		{
-			tManager.CreateTrail(projectile, new GradientTrail(lightCyan * 0.75f, midBlue * 0.4f), new RoundCap(), new DefaultTrailPosition(), 25f, 40f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
+				spriteBatch.Draw(projTex, projectile.Center + offset - Main.screenPosition, null, color, 
+					projectile.velocity.ToRotation(), projTex.Size() / 2, projectile.scale, SpriteEffects.None, 0);
+			});
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			for (int i = 0; i < 6; i++)
-			{
-				ParticleHandler.SpawnParticle(new GranitechParticle(projectile.Center, projectile.velocity.RotatedBy(Main.rand.NextFloat(-0.6f, 0.6f)) * Main.rand.NextFloat(), Main.rand.NextBool() ? lightCyan : midBlue, Main.rand.NextFloat(0.75f, 1.25f), 30, Main.rand.Next(4)));
-			}
+			for (int i = 0; i < 14; i++)
+				ParticleHandler.SpawnParticle(new GranitechParticle(projectile.Center, projectile.oldVelocity.RotatedByRandom(MathHelper.Pi / 12) * Main.rand.NextFloat(0.66f), 
+					Main.rand.NextBool() ? lightCyan : midBlue, Main.rand.NextFloat(1f, 1.25f), 20));
 		}
+
 		public override Color? GetAlpha(Color lightColor) => new Color(99, 255, 229, 0);
 	}
 }
