@@ -19,13 +19,15 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 			mountData.spawnDust = 103;
 			mountData.buff = mod.BuffType("Mantaray_Buff");
 			mountData.heightBoost = 14;
-			mountData.flightTimeMax = 99999;
-			mountData.fatigueMax = 99999;
+			mountData.flightTimeMax = 0;
+			mountData.fatigueMax = 0;
 			mountData.fallDamage = 0.0f;
 			mountData.usesHover = true;
 			mountData.runSpeed = 8f;
 			mountData.dashSpeed = 3f;
 			mountData.acceleration = 0.35f;
+			mountData.constantJump = false;
+
 			mountData.jumpHeight = 10;
 			mountData.jumpSpeed = 3f;
 			mountData.swimSpeed = 95f;
@@ -70,7 +72,6 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 			float velocity = Math.Abs(player.velocity.X);
 
 			float num1 = (float) player.velocity.X / mountData.dashSpeed;
-			int outofWaterTimer = 0;
 			if ((double) num1 > 0.95)
 			  num1 = .95f;
 			if ((double) num1 < -0.95)
@@ -79,11 +80,12 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 
 			if (!player.wet)
 			{
+				mountData.flightTimeMax = 0;
+				mountData.fatigueMax = 0;
 				mountData.usesHover = false;
 				mountData.acceleration = 0.05f;
 				mountData.dashSpeed = 0f;
 				mountData.runSpeed = 0.05f;
-				mountData.jumpHeight = 0;
 
 				if ((player.velocity.Y != 0 || player.oldVelocity.Y != 0))
 				{
@@ -96,11 +98,11 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 			}
 			else
 			{
-				mountData.jumpHeight = 10;
+				mountData.flightTimeMax = 9999;
+				mountData.fatigueMax = 9999;
 				mountData.acceleration = 0.35f;
 				mountData.dashSpeed = 8f;
 				mountData.runSpeed = 8f;
-				outofWaterTimer = 0;
 				player.fullRotation = 0F;
 				mountData.usesHover = true;
 

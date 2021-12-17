@@ -1143,7 +1143,22 @@ namespace SpiritMod.NPCs
 				NetMessage.BroadcastChatMessage(NetworkText.FromLiteral("The Spirits spread through the Land..."), Color.Orange, -1);
 			}
 		}
+		int timeAlive;
 
+		public override void PostAI(NPC npc)
+		{
+			Player closest = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)];
+
+			if (closest.ZoneBeach)
+            {
+				if (npc.type == NPCID.Zombie || npc.type == NPCID.BaldZombie || npc.type == NPCID.PincushionZombie || npc.type == NPCID.SlimedZombie || npc.type == NPCID.SwampZombie || npc.type == NPCID.TwiggyZombie)
+				{
+					timeAlive++;
+					if (timeAlive >= -1)
+						npc.Transform(NPCID.BlueSlime);
+                }
+            }
+	    }
 		public override void DrawEffects(NPC npc, ref Color drawColor)
 		{
 			if (sFracture && Main.rand.Next(2) == 0)
