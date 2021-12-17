@@ -9,20 +9,22 @@ namespace SpiritMod.Mechanics.BoonSystem.HestiaBoon
 	public class HestiaBoon : Boon
 	{
 		public override bool CanApply => true;
+		public override string TexturePath => "SpiritMod/Mechanics/BoonSystem/HestiaBoon/HestiaBoon";
 
-		private float counter;
+		public override void SetStats() => npc.lifeMax = npc.life = (int)(npc.lifeMax * 1.5f);
 
 		public override void AI()
 		{
 			Lighting.AddLight(npc.Center, Color.Orange.ToVector3() * 0.3f);
-			counter += 0.025f;
 		}
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D tex = ModContent.GetTexture("SpiritMod/Mechanics/BoonSystem/HestiaBoon/HestiaBoon");
+			DrawBeam(new Color(247, 195, 92, 0), new Color(247, 117, 42, 0));
 
-			DrawSigil(spriteBatch, tex, counter);
+			DrawBloom(spriteBatch, new Color(247, 195, 92) * 0.5f, 0.5f);
+
+			DrawSigil(spriteBatch);
 		}
 	}
 }

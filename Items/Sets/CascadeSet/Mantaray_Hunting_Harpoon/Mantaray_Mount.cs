@@ -1,6 +1,9 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -23,9 +26,9 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 			mountData.runSpeed = 8f;
 			mountData.dashSpeed = 3f;
 			mountData.acceleration = 0.35f;
-			mountData.jumpHeight = 4;
+			mountData.jumpHeight = 10;
 			mountData.jumpSpeed = 3f;
-			mountData.swimSpeed = 90f;
+			mountData.swimSpeed = 95f;
 			mountData.blockExtraJumps = true;
 			mountData.totalFrames = 7;
 			int[] numArray13 = new int[mountData.totalFrames];
@@ -63,8 +66,11 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
         }
  
         public override void UpdateEffects(Player player)
-        {
-            float num1 = (float) player.velocity.X / mountData.dashSpeed;
+		{
+			float velocity = Math.Abs(player.velocity.X);
+
+			float num1 = (float) player.velocity.X / mountData.dashSpeed;
+			int outofWaterTimer = 0;
 			if ((double) num1 > 0.95)
 			  num1 = .95f;
 			if ((double) num1 < -0.95)
@@ -72,8 +78,34 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 			float num2 = (float) (0.785398185253143 * (double) num1 / 2.0);
 
 			if (!player.wet)
-				player.mount.Dismount(player);
-			
+			{
+				mountData.usesHover = false;
+				mountData.acceleration = 0.05f;
+				mountData.dashSpeed = 0f;
+				mountData.runSpeed = 0.05f;
+				mountData.jumpHeight = 0;
+
+				if ((player.velocity.Y != 0 || player.oldVelocity.Y != 0))
+				{
+					int direction = (velocity == 0) ? 0 :
+						(player.direction == Math.Sign(player.velocity.X)) ? 1 : -1;
+					player.fullRotation = player.velocity.Y * 0.05f * player.direction * direction * mountData.jumpHeight / 14f;
+					player.fullRotationOrigin = (player.Hitbox.Size() + new Vector2(0, 42)) / 2;
+				}
+
+			}
+			else
+			{
+				mountData.jumpHeight = 10;
+				mountData.acceleration = 0.35f;
+				mountData.dashSpeed = 8f;
+				mountData.runSpeed = 8f;
+				outofWaterTimer = 0;
+				player.fullRotation = 0F;
+				mountData.usesHover = true;
+
+			}
+
 			player.gills = true;
         }
     }

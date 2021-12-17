@@ -5,18 +5,37 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using SpiritMod.Items.Sets.OlympiumSet;
+using SpiritMod.Prim;
 
 namespace SpiritMod.Mechanics.BoonSystem
 {
 	public abstract class Boon
 	{
 		public NPC npc;
+		public Texture2D Texture => ModContent.GetTexture(TexturePath);
 
 		public virtual bool CanApply => false;
 
 		#region boon hooks
 
-		public virtual void SpawnIn() { } 
+		public virtual void SpawnIn() { }
+
+		public virtual void SetStats() { }
+		public virtual string TexturePath => "";
+
+		public virtual Vector2 SigilPosition
+		{
+			get
+			{
+				//Hover up and down with sine function
+				float verticalOffset = 20;
+				verticalOffset *= (float)(Math.Sin(Timer * 2) * 0.33f) + 1;
+
+				return npc.Top - new Vector2(0, Texture.Height / 2) - Vector2.UnitY * verticalOffset;
+			}
+		}
+
+		public virtual float Timer => Main.GameUpdateCount / 40f;
 
 		public virtual void PreDraw(SpriteBatch spriteBatch, Color lightColor) { }
 
@@ -34,23 +53,55 @@ namespace SpiritMod.Mechanics.BoonSystem
 		#endregion
 
 		#region helpers
-		protected void DrawSigil(SpriteBatch spriteBatch, Texture2D tex, float counter)
+		protected void DrawBeam(Color lightColor, Color darkColor)
 		{
-			float progress = counter % 1;
+
+			Effect effect = SpiritMod.Instance.GetEffect("Effects/EmpowermentBeam");
+			effect.Parameters["uTexture"].SetValue(SpiritMod.Instance.GetTexture("Textures/Trails/Trail_2"));
+			effect.Parameters["progress"].SetValue(Main.GlobalTime / 3);
+			effect.Parameters["uColor"].SetValue(darkColor.ToVector4());
+			effect.Parameters["uSecondaryColor"].SetValue(lightColor.ToVector4());
+
+			Vector2 dist = SigilPosition - npc.Bottom;
+
+			TrianglePrimitive tri = new TrianglePrimitive()
+			{
+				TipPosition = SigilPosition - Main.screenPosition,
+				Rotation = MathHelper.PiOver2,
+				Height = 100 + dist.Length() * 1.5f,
+				Color = Color.White * 0.33f,
+				Width = 100 + ((npc.width + npc.height) * 0.5f)
+			};
+
+			PrimitiveRenderer.DrawPrimitiveShape(tri, effect);
+		}
+
+		protected void DrawBloom(SpriteBatch spriteBatch, Color color, float scale)
+		{
+			Texture2D glow = SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49");
+			color.A = 0;
+
+			float glowScale = 1 + ((float)Math.Sin(Timer) / 4);
+
+			spriteBatch.Draw(glow, SigilPosition - Main.screenPosition, null,
+				color * glowScale, 0, glow.Size() / 2, npc.scale * scale, SpriteEffects.None, 0f);
+		}
+
+		protected void DrawSigil(SpriteBatch spriteBatch)
+		{
+			float progress = Timer % 1;
 			float transparency = (float)Math.Pow(1 - progress, 2);
 			float scale = 1 + progress;
 
-			float regularscale = 0.6f;
+			float regularscale = 0.8f;
+			Color color = Color.White * npc.Opacity;
+			color.A = 100;
+			spriteBatch.Draw(Texture, SigilPosition - Main.screenPosition, null, color * transparency, 0, Texture.Size() / 2, npc.scale * scale * regularscale, SpriteEffects.None, 0f);
 
-			spriteBatch.Draw(tex, (npc.Top - new Vector2(0, tex.Height / 2)) - Main.screenPosition, null, Color.White * transparency, 0, tex.Size() / 2, npc.scale * scale * regularscale, SpriteEffects.None, 0f);
-
-			spriteBatch.Draw(tex, (npc.Top - new Vector2(0, tex.Height / 2)) - Main.screenPosition, null, Color.White, 0, tex.Size() / 2, npc.scale * regularscale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(Texture, SigilPosition - Main.screenPosition, null, color, 0, Texture.Size() / 2, npc.scale * regularscale, SpriteEffects.None, 0f);
 		}
 
-		protected void DropOlympium(int stack)
-		{
-			Item.NewItem(npc.Center, ModContent.ItemType<OlympiumToken>(), stack);
-		}
+		protected void DropOlympium(int stack) => Item.NewItem(npc.Center, ModContent.ItemType<OlympiumToken>(), stack);
 		#endregion
 	}
 }

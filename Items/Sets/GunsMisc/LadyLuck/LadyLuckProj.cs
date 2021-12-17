@@ -61,7 +61,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
 
 						direction *= velocity;
                         proj.velocity = direction;
-                        proj.damage *= (int)(5.75f - projectile.penetrate);
+                        proj.damage = (int)(proj.damage * (5.75f - projectile.penetrate));
 						SpiritMod.primitives.CreateTrail(new LLPrimTrail(proj, Color.Gold));
 
 						proj.GetGlobalProjectile<LLProj>().hit = true;

@@ -22,9 +22,14 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 			}
 		}
 
+		public override void SetStats() => npc.lifeMax = npc.life = (int)(npc.lifeMax * 1.5f);
+
+		public override string TexturePath => "SpiritMod/Mechanics/BoonSystem/AsclepiusBoon/AsclepiusBoon";
+
 		private int frameCounter;
 
 		private int frameY;
+		private const int NUM_FRAMES = 7;
 
 		private float bloomCounter = 0;
 
@@ -44,38 +49,63 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 			projectileCounter++;
 			if (projectileCounter % 160 == 0)
 			{
-				for (int i = 0; i < 15; i++)
+				//First, check if there's a potential damaged target to heal nearby
+				bool targetNearby = false;
+				for (int i = 0; i < Main.npc.Length; i++)
 				{
-					Vector2 direction = Main.rand.NextVector2Circular(20, 20);
-					StarParticle particle = new StarParticle(
-					(npc.Center - new Vector2(0,40)) + direction,
-					direction * 0.15f,
-					new Color(49, 212, 76),
-					Main.rand.NextFloat(0.08f, 0.23f),
-					Main.rand.Next(20, 40));
-
-					ParticleHandler.SpawnParticle(particle);
+					NPC n = Main.npc[i];
+					if (n.CanBeChasedBy(this) && n.active && n.Distance(npc.Center) < AsclepiusBoonOrb.HOME_DISTANCE && n.life < n.lifeMax && n.whoAmI != npc.whoAmI)
+						targetNearby = true;
 				}
-				Main.PlaySound(SoundID.DD2_DarkMageCastHeal, npc.Center);
-				for (int i = 0; i < 3; i++)
-					NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 40, ModContent.NPCType<AsclepiusBoonOrb>(), 0, npc.whoAmI, i * 2.08f);
+
+				//If there is, proceed and do visual effects
+				if (targetNearby)
+				{
+					if (!Main.dedServ)
+					{
+						for (int i = 0; i < 15; i++)
+						{
+							Vector2 direction = Main.rand.NextVector2Circular(20, 20);
+							StarParticle particle = new StarParticle(
+							(npc.Center - new Vector2(0, 40)) + direction,
+							direction * 0.15f,
+							new Color(49, 212, 76),
+							Main.rand.NextFloat(0.08f, 0.23f),
+							Main.rand.Next(20, 40));
+
+							ParticleHandler.SpawnParticle(particle);
+						}
+						Main.PlaySound(SoundID.DD2_DarkMageCastHeal, npc.Center);
+					}
+
+					for (int i = 0; i < 3; i++)
+					{
+						int n = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 40, ModContent.NPCType<AsclepiusBoonOrb>(), 0, npc.whoAmI, i * 2.08f);
+						if (Main.netMode != NetmodeID.SinglePlayer)
+							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, n);
+					}
+				}
 			}
 		}
 
+		//Shift the position downwards, to adjust for it using a vertical spritesheet
+		public override Vector2 SigilPosition => base.SigilPosition + (Vector2.UnitY * Texture.Height * 0.5f * (NUM_FRAMES - 1) / NUM_FRAMES);
+
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D tex = ModContent.GetTexture("SpiritMod/Mechanics/BoonSystem/AsclepiusBoon/AsclepiusBoon");
-			Texture2D tex2 = ModContent.GetTexture("SpiritMod/Mechanics/BoonSystem/AsclepiusBoon/AsclepiusBoon_Glow");
-			int frameHeight = tex.Height / 7;
-			Rectangle frame = new Rectangle(0, frameHeight * frameY, tex.Width, frameHeight);
+			DrawBeam(new Color(84, 247, 149, 0), new Color(15, 252, 74, 0));
 
-			Color glowColor = Color.Green;
-			glowColor.A = 0;
-			glowColor *= 0.75f;
+			DrawBloom(spriteBatch, Color.Green * 0.5f, 0.7f);
 
-			float glowScale = 1 + ((float)Math.Sin(bloomCounter) / 4);
-			spriteBatch.Draw(tex2, ((npc.Top + new Vector2(0,15)) - new Vector2(0, frameHeight / 2)) - Main.screenPosition, null, glowColor * glowScale, 0, tex2.Size() / 2, npc.scale * 0.7f, SpriteEffects.None, 0f);
-			spriteBatch.Draw(tex, (npc.Top - new Vector2(0, frameHeight / 2)) - Main.screenPosition, frame, Color.White, 0, new Vector2(tex.Width, frameHeight) / 2, npc.scale, SpriteEffects.None, 0f);
+			Color sigilColor = Color.White;
+			sigilColor.A = 180;
+			//Hardcoded origin point to center the texture properly
+			Vector2 origin = new Vector2(24, 48);
+
+			int frameHeight = Texture.Height / NUM_FRAMES;
+			Rectangle frame = new Rectangle(0, frameHeight * frameY, Texture.Width, frameHeight);
+			spriteBatch.Draw(Texture, SigilPosition - Main.screenPosition, frame, sigilColor, 0,
+				origin, npc.scale, SpriteEffects.None, 0f);
 		}
 
 		public override void OnDeath()
