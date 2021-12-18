@@ -205,12 +205,12 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 			transparencyEffect.Parameters["transparency"].SetValue(GetTransparency());
 
-			Main.spriteBatch.Begin(default, BlendState.AlphaBlend, default, default, default, transparencyEffect, Main.GameViewMatrix.ZoomMatrix);
+			Main.spriteBatch.Begin(default, BlendState.AlphaBlend, default, default, default, transparencyEffect);
 
 			Main.spriteBatch.Draw(Main.instance.backWaterTarget, drawPosition, space, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
 			Main.spriteBatch.End();
-			Main.spriteBatch.Begin(default, default, default, default, default, null, Main.GameViewMatrix.ZoomMatrix);
+			Main.spriteBatch.Begin();
 			//Main.spriteBatch.Draw(liquidTexture, vector248, rectangle4, color * gameAlpha, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
 
