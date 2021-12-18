@@ -6,6 +6,7 @@ using System;
 using System.Reflection;
 using Terraria;
 using Terraria.Graphics.Effects;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Effects.SurfaceWaterModifications
 {
@@ -76,7 +77,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 		private static void SetShader()
 		{
-			var effect = Filters.Scene["SpiritMod:SurfaceWaterFX"].GetShader().Shader;
+			var effect = ModContent.GetInstance<SpiritMod>().GetEffect("Effects/SurfaceWaterModifications/SurfaceWaterFX");
 			effect.Parameters["transparency"].SetValue(GetTransparency());
 
 			Main.spriteBatch.Begin(default, BlendState.AlphaBlend, default, default, default, effect, Main.GameViewMatrix.ZoomMatrix);
@@ -197,8 +198,8 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 			Main.spriteBatch.End();
 
-			var effect = Filters.Scene["SpiritMod:SurfaceWaterFX"].GetShader().Shader;
-			effect.Parameters["transparency"].SetValue(Main.LocalPlayer.ZoneOverworldHeight || Main.LocalPlayer.ZoneSkyHeight ? 0.6f : 0.8f);
+			var effect = ModContent.GetInstance<SpiritMod>().GetEffect("Effects/SurfaceWaterModifications/SurfaceWaterFX");
+			effect.Parameters["transparency"].SetValue(GetTransparency());
 
 			Main.spriteBatch.Begin(default, BlendState.AlphaBlend, default, default, default, effect, Main.GameViewMatrix.ZoomMatrix);
 

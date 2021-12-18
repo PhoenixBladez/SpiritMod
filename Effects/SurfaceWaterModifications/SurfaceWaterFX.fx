@@ -10,7 +10,7 @@ float4 PixelShaderFunction(float4 screenSpace : TEXCOORD0) : COLOR0
     
     //mb + (1-m)c
     float realLuminosity = (transparency * luminosity) * (1 - transparency);
-    color.a *= 1 - (luminosity * 1.8);
+    color.a *= 1 - (luminosity + 0);
     return color;
 }
 
