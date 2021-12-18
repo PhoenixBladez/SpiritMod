@@ -52,24 +52,29 @@ namespace SpiritMod.Items.Sets.FloatingItems.MessageBottle
 		}
 		public override void UpdateEffects(Player player)
 		{
-			if (Framing.GetTileSafely(player.MountedCenter + new Vector2(0, 36)).liquid > 125)
-			{
-				mountData.runSpeed = 6;
-				mountData.acceleration = 0.15f;
+			const float MaxSpeed = 12f;
 
-				Tile liquidTile = Framing.GetTileSafely(player.MountedCenter + new Vector2(0, 34));
-				liquidTile = Framing.GetTileSafely(player.MountedCenter + new Vector2(0, 34 - (6 + (liquidTile.liquid / 255f))));
-				if (liquidTile.liquid > 125)
+			if (Collision.WetCollision(player.position, player.width, player.height + 16))
+			{
+				mountData.runSpeed = 7;
+				mountData.acceleration = 0.075f;
+
+				if (Collision.WetCollision(player.position, player.width, player.height + 6))
 				{
 					player.velocity.Y -= player.gravity * 2.5f;
-					if (player.velocity.Y <= -12f)
-						player.velocity.Y = -12f;
+					if (player.velocity.Y <= -MaxSpeed)
+						player.velocity.Y = -MaxSpeed;
+
+					if (!Collision.WetCollision(player.position, player.width, (int)(player.height * 0.6f)))
+						player.velocity.Y *= 0.92f;
 				}
 				else
-					player.velocity.Y = -player.gravity;
+				{
+					if (player.velocity.Y > -MaxSpeed * 0.5f && player.velocity.Y < 0.5f)
+						player.velocity.Y = -player.gravity;
+				}
 
 				player.fishingSkill += 10;
-
 				wetCounter = 15;
 			}
 			else
