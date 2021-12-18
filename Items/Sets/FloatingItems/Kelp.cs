@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 
 			if (bel.active() && (bel.type == TileID.Sand || bel.type == ModContent.TileType<OceanKelp>()) && !cur.active() && cur.liquid > 100 && !bel.topSlope())
 			{
-				WorldGen.PlaceTile(tPos.X, tPos.Y - j, ModContent.TileType<OceanKelp>(), false, true);
+				WorldGen.PlaceTile(tPos.X, tPos.Y, ModContent.TileType<OceanKelp>(), false, true);
 				return true;
 			}
 			return true;
