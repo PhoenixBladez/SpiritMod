@@ -6,10 +6,11 @@ float4 PixelShaderFunction(float4 screenSpace : TEXCOORD0) : COLOR0
 {
     float2 st = screenSpace.xy;
     float4 color = tex2D(samplerTex, st);
-    float luminosity = (((0.3 * color.r) + (0.59 * color.g) + (0.11 * color.b)) / 3);
+    float luminosity = ((0.3 * color.r) + (0.59 * color.g) + (0.11 * color.b));
     
-    //color.rgb *= 0.8;
-    color.a *= luminosity * 3;
+    //mb + (1-m)c
+    float realLuminosity = (transparency * luminosity) * (1 - transparency);
+    color.a *= 1 - (luminosity * 1.8);
     return color;
 }
 
