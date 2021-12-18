@@ -1,14 +1,5 @@
 ﻿using Terraria.ModLoader;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.ModLoader.IO;
-using Terraria.GameInput;
 
 namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 {
@@ -24,7 +15,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
  
         public override void Update(Player player, ref int buffIndex)
         {
-            player.mount.SetMount(mod.MountType("Mantaray_Mount"), player);
+            player.mount.SetMount(ModContent.MountType<Mantaray_Mount>(), player);
             player.buffTime[buffIndex] = 10;
         }
     }

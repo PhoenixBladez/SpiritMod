@@ -1,11 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 {
@@ -15,9 +12,8 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 
         public override void SetDefaults()
         {
-			Player player = Main.player[Main.myPlayer];
 			mountData.spawnDust = 103;
-			mountData.buff = mod.BuffType("Mantaray_Buff");
+			mountData.buff = ModContent.BuffType<Mantaray_Buff>();
 			mountData.heightBoost = 14;
 			mountData.flightTimeMax = 0;
 			mountData.fatigueMax = 0;
@@ -27,16 +23,17 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 			mountData.dashSpeed = 3f;
 			mountData.acceleration = 0.35f;
 			mountData.constantJump = false;
-
 			mountData.jumpHeight = 10;
 			mountData.jumpSpeed = 3f;
 			mountData.swimSpeed = 95f;
 			mountData.blockExtraJumps = true;
 			mountData.totalFrames = 7;
-			int[] numArray13 = new int[mountData.totalFrames];
-			for (int index = 0; index < numArray13.Length; ++index)
-				numArray13[index] = 12;
-			mountData.playerYOffsets = numArray13;
+
+			int[] yOffsets = new int[mountData.totalFrames];
+			for (int index = 0; index < yOffsets.Length; ++index)
+				yOffsets[index] = 12;
+			mountData.playerYOffsets = yOffsets;
+
 			mountData.xOffset = -10;
 			mountData.bodyFrame = 3;
 			mountData.yOffset = 20;
@@ -60,6 +57,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 			mountData.swimFrameCount = 7;
 			mountData.swimFrameDelay = 12;
 			mountData.swimFrameStart = 0;
+
 			if (Main.netMode != NetmodeID.Server)
 			{
 				mountData.textureWidth = mountData.backTexture.Width;
@@ -69,18 +67,9 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
  
         public override void UpdateEffects(Player player)
 		{
-			float velocity = Math.Abs(player.velocity.X);
-
-			float num1 = (float) player.velocity.X / mountData.dashSpeed;
-			if ((double) num1 > 0.95)
-			  num1 = .95f;
-			if ((double) num1 < -0.95)
-			  num1 = -.95f;
-			float num2 = (float) (0.785398185253143 * (double) num1 / 2.0);
-
-			if (player.velocity.Y <= -mountData.runSpeed * 2)
-				player.velocity.Y = -mountData.runSpeed * 2;
-
+			const float MaxSpeed = 16;
+			if (player.velocity.Y <= -MaxSpeed)
+				player.velocity.Y = -MaxSpeed;
 
 			if (!player.wet)
 			{
@@ -90,28 +79,24 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 				mountData.dashSpeed = 0f;
 				mountData.runSpeed = 0.05f;
 
-				if ((player.velocity.Y != 0 || player.oldVelocity.Y != 0))
+				if (player.velocity.Y != 0 || player.oldVelocity.Y != 0)
 				{
-					int direction = (velocity == 0) ? 0 :
+					int direction = (Math.Abs(player.velocity.X) == 0) ? 0 :
 						(player.direction == Math.Sign(player.velocity.X)) ? 1 : -1;
 					player.fullRotation = player.velocity.Y * 0.05f * player.direction * direction * mountData.jumpHeight / 14f;
 					player.fullRotationOrigin = (player.Hitbox.Size() + new Vector2(0, 42)) / 2;
 				}
-
 			}
 			else
 			{
 				mountData.flightTimeMax = 9999;
 				mountData.fatigueMax = 9999;
-
 				mountData.acceleration = 0.15f;
 				mountData.dashSpeed = 3f;
 				mountData.runSpeed = 6f;
 				player.fullRotation = 0F;
 				mountData.usesHover = true;
-
 			}
-
 			player.gills = true;
         }
     }

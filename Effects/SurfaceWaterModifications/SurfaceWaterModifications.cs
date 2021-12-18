@@ -90,7 +90,10 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 		private static float GetTransparency()
 		{
-			return Main.LocalPlayer.ZoneOverworldHeight || Main.LocalPlayer.ZoneSkyHeight ? 1f : 0.5f;
+			bool aboveGround = Main.LocalPlayer.ZoneOverworldHeight || Main.LocalPlayer.ZoneSkyHeight;
+			if (Main.LocalPlayer.ZoneBeach)
+				return 1f;
+			return aboveGround ? 0.90f : 0.5f;
 		}
 
 		internal static void ModifyBrightness(ref float scale)
