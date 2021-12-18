@@ -16,7 +16,6 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 		public static void Load()
 		{
 			IL.Terraria.Main.DoDraw += AddWaterShader;
-			IL.Terraria.Lighting.doColors_Mode0_Swipe += ModifyLiquidLightDraw;
 
 			IL.Terraria.Main.DrawTiles += Main_DrawTiles;
 			IL.Terraria.Main.DrawBlack += Main_DrawBlack;
@@ -26,13 +25,8 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 		{
 			IL.Terraria.Main.DoDraw -= AddWaterShader;
 
-		}
-
-		private static void ModifyLiquidLightDraw(ILContext il)
-		{
-			ILCursor c = new ILCursor(il);
-
-			//c.Emit(OpCodes.Ldfld, typeof(Tile).GetField("negLight"));
+			IL.Terraria.Main.DrawTiles -= Main_DrawTiles;
+			IL.Terraria.Main.DrawBlack -= Main_DrawBlack;
 		}
 
 		/// <summary>MASSIVE thanks to Starlight River for the base of this IL edit.</summary>
@@ -93,7 +87,6 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 		}
 
 		// below is code for fixing the black tile rendering issue with slopes and transparency for the fake liquid that is drawn
-
 		private static void Main_DrawBlack(ILContext il)
 		{
 			ILCursor cursor = new ILCursor(il);
@@ -179,16 +172,13 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 		private static void SlopeHalfBrickLiquidReplacement(int x, int y, int style, bool flag7, bool flag8, bool flag9, bool flag10, int num115)
 		{
-			CodeFromSource(x, y, style, flag7, flag8, flag9, flag10, num115, out Vector2 vector247, out Rectangle rectangle4, out float gameAlpha);
+			CodeFromSource(x, y, style, flag7, flag8, flag9, flag10, num115, out Vector2 rawPosition, out Rectangle rectangle4, out float gameAlpha);
 
-			Vector2 zero = new Vector2((float)Main.offScreenRange, (float)Main.offScreenRange);
+			Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
 			if (Main.drawToScreen)
-			{
 				zero = Vector2.Zero;
-			}
 
-			Texture2D liquidTexture = Main.liquidTexture[style];
-			Vector2 vector248 = (vector247 - Main.screenPosition) + zero;
+			Vector2 drawPosition = (rawPosition - Main.screenPosition) + zero;
 
 			Vector2 tl = Main.sceneBackgroundPos;
 			Vector2 tile = new Vector2(x * 16f, y * 16f);
@@ -207,7 +197,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 			Main.spriteBatch.Begin(default, BlendState.AlphaBlend, default, default, default, effect, Main.GameViewMatrix.ZoomMatrix);
 
-			Main.spriteBatch.Draw(Main.instance.backWaterTarget, vector248, space, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(Main.instance.backWaterTarget, drawPosition, space, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
 			Main.spriteBatch.End();
 			Main.spriteBatch.Begin(default, default, default, default, default, null, Main.GameViewMatrix.ZoomMatrix);

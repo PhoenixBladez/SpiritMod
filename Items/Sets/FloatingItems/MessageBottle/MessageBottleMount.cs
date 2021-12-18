@@ -57,7 +57,9 @@ namespace SpiritMod.Items.Sets.FloatingItems.MessageBottle
 				mountData.runSpeed = 6;
 				mountData.acceleration = 0.15f;
 
-				if (Framing.GetTileSafely(player.MountedCenter + new Vector2(0, 34)).liquid > 125)
+				Tile liquidTile = Framing.GetTileSafely(player.MountedCenter + new Vector2(0, 34));
+				liquidTile = Framing.GetTileSafely(player.MountedCenter + new Vector2(0, 34 - (6 + (liquidTile.liquid / 255f))));
+				if (liquidTile.liquid > 125)
 				{
 					player.velocity.Y -= player.gravity * 2.5f;
 					if (player.velocity.Y <= -12f)

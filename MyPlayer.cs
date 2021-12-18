@@ -42,7 +42,6 @@ using Terraria.Graphics.Effects;
 using SpiritMod.Projectiles.Bullet;
 using System.Linq;
 using SpiritMod.Skies.Overlays;
-using SpiritMod.Effects.Waters.Reach;
 using SpiritMod.Items.Armor.StarjinxSet;
 
 namespace SpiritMod
@@ -1859,7 +1858,7 @@ namespace SpiritMod
 		{
 			Point tPos = player.Center.ToTileCoordinates();
 			for (int i = 0; i < tileDepth; ++i)
-				if (!WorldGen.InWorld(tPos.X, tPos.Y - i) && Framing.GetTileSafely(tPos.X, tPos.Y - i).liquid < 255)
+				if (!WorldGen.InWorld(tPos.X, tPos.Y - i) || Framing.GetTileSafely(tPos.X, tPos.Y - i).liquid < 255)
 					return false;
 			return true;
 		}
