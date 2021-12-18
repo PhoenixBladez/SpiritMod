@@ -17,6 +17,13 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 3;
 		public override string QuestCategory => "Slayer";
 
+		public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Accessory.KoiTotem>(), 1),
+			(Terraria.ID.ItemID.GoldCoin, 1)
+		};
+
 		private SlayerQuestVultureMatriarch()
         {
             _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.Vulture_Matriarch.Vulture_Matriarch>(), 1));
