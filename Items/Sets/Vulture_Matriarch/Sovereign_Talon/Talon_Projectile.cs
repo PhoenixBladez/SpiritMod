@@ -29,6 +29,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 			projectile.ignoreWater = true;
 			projectile.hide = true;
 			projectile.scale = 3f;
+			projectile.timeLeft = 600;
         }
 
 		public override void AI()
@@ -54,6 +55,11 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 				if (projectile.alpha >= 255)
 					projectile.Kill();
 			}
+			if (projectile.timeLeft >= 560)
+				projectile.tileCollide = false;
+			else
+				projectile.tileCollide = true;
+
 		}
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => damage = (int)(damage * projectile.scale * 1.5f);

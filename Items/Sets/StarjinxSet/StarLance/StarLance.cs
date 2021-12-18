@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarLance
 		{
 			item.damage = 65;
 			item.magic = true;
-			item.mana = 18;
+			item.mana = 9;
 			item.width = 40;
 			item.height = 40;
 			item.useTime = 10;

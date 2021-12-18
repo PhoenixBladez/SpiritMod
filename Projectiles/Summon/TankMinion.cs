@@ -132,7 +132,7 @@ namespace SpiritMod.Projectiles.Summon
 						projectile.frameCounter = 0;
 						projectile.frame = 7;
 
-						Projectile.NewProjectile(shootOffset, angleToTarget * shootVelocity, ProjectileID.RocketI, projectile.damage, 0, Main.myPlayer);
+						Projectile.NewProjectile(shootOffset, angleToTarget * shootVelocity, ModContent.ProjectileType<Projectiles.Bullet.TankRocket>(), projectile.damage, 0, Main.myPlayer);
 					}
 				}
 				else {

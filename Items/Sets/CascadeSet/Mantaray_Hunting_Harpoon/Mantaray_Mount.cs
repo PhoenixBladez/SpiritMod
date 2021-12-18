@@ -78,10 +78,13 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 			  num1 = -.95f;
 			float num2 = (float) (0.785398185253143 * (double) num1 / 2.0);
 
+			if (player.velocity.Y <= -mountData.runSpeed * 2)
+				player.velocity.Y = -mountData.runSpeed * 2;
+
+
 			if (!player.wet)
 			{
 				mountData.flightTimeMax = 0;
-				mountData.fatigueMax = 0;
 				mountData.usesHover = false;
 				mountData.acceleration = 0.05f;
 				mountData.dashSpeed = 0f;
@@ -100,9 +103,10 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 			{
 				mountData.flightTimeMax = 9999;
 				mountData.fatigueMax = 9999;
-				mountData.acceleration = 0.35f;
-				mountData.dashSpeed = 8f;
-				mountData.runSpeed = 8f;
+
+				mountData.acceleration = 0.15f;
+				mountData.dashSpeed = 3f;
+				mountData.runSpeed = 6f;
 				player.fullRotation = 0F;
 				mountData.usesHover = true;
 

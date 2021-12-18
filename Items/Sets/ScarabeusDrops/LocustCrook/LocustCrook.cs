@@ -233,7 +233,6 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.LocustCrook
 			projectile.width = projectile.height = 10;
 			projectile.minion = true;
 			projectile.friendly = true;
-			projectile.tileCollide = true;
 			projectile.penetrate = 1;
 			projectile.timeLeft = 90;
 			projectile.scale = 0.1f;
@@ -241,6 +240,11 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.LocustCrook
 
 		public override void AI()
 		{
+			if (projectile.timeLeft > 80)
+				projectile.tileCollide = false;
+            else
+				projectile.tileCollide = true;
+
 			projectile.scale = MathHelper.Lerp(projectile.scale, 1, 0.1f);
 			projectile.width = projectile.height = 10;
 
