@@ -13,6 +13,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 	public class SurfaceWaterModifications
 	{
 		public static RenderTarget2D transparencyTarget = null;
+		public static Effect transparencyEffect = null;
 
 		public static void Load()
 		{
@@ -20,6 +21,8 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 			IL.Terraria.Main.DrawTiles += Main_DrawTiles;
 			IL.Terraria.Main.DrawBlack += Main_DrawBlack;
+
+			transparencyEffect = ModContent.GetInstance<SpiritMod>().GetEffect("Effects/SurfaceWaterModifications/SurfaceWaterFX");
 		}
 
 		public static void Unload()
@@ -28,6 +31,8 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 			IL.Terraria.Main.DrawTiles -= Main_DrawTiles;
 			IL.Terraria.Main.DrawBlack -= Main_DrawBlack;
+
+			transparencyEffect = null;
 		}
 
 		/// <summary>MASSIVE thanks to Starlight River for the base of this IL edit.</summary>
@@ -77,10 +82,10 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 		private static void SetShader()
 		{
-			var effect = ModContent.GetInstance<SpiritMod>().GetEffect("Effects/SurfaceWaterModifications/SurfaceWaterFX");
-			effect.Parameters["transparency"].SetValue(GetTransparency());
+			transparencyEffect = ModContent.GetInstance<SpiritMod>().GetEffect("Effects/SurfaceWaterModifications/SurfaceWaterFX");
 
-			Main.spriteBatch.Begin(default, BlendState.AlphaBlend, default, default, default, effect, Main.GameViewMatrix.ZoomMatrix);
+			transparencyEffect.Parameters["transparency"].SetValue(GetTransparency());
+			Main.spriteBatch.Begin(default, BlendState.AlphaBlend, default, default, default, transparencyEffect, Main.GameViewMatrix.ZoomMatrix);
 		}
 
 		private static float GetTransparency()
@@ -184,7 +189,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			if (Main.drawToScreen)
 				zero = Vector2.Zero;
 
-			Vector2 drawPosition = (rawPosition - Main.screenPosition) + zero;
+			Vector2 drawPosition = rawPosition - Main.screenPosition + zero;
 
 			Vector2 tl = Main.sceneBackgroundPos;
 			Vector2 tile = new Vector2(x * 16f, y * 16f);
@@ -198,10 +203,9 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 			Main.spriteBatch.End();
 
-			var effect = ModContent.GetInstance<SpiritMod>().GetEffect("Effects/SurfaceWaterModifications/SurfaceWaterFX");
-			effect.Parameters["transparency"].SetValue(GetTransparency());
+			transparencyEffect.Parameters["transparency"].SetValue(GetTransparency());
 
-			Main.spriteBatch.Begin(default, BlendState.AlphaBlend, default, default, default, effect, Main.GameViewMatrix.ZoomMatrix);
+			Main.spriteBatch.Begin(default, BlendState.AlphaBlend, default, default, default, transparencyEffect, Main.GameViewMatrix.ZoomMatrix);
 
 			Main.spriteBatch.Draw(Main.instance.backWaterTarget, drawPosition, space, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
@@ -218,7 +222,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			Tile tile3 = Framing.GetTileSafely(x, y - 1);
 			Tile tile4 = Framing.GetTileSafely(x, y + 1);
 
-			vectorPosition = new Vector2((float)(x * 16), (float)(y * 16));
+			vectorPosition = new Vector2(x * 16, y * 16);
 			rectangle4 = new Rectangle(0, 4, 16, 16);
 			if (flag10 && flag7 | flag8)
 			{
@@ -231,38 +235,36 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 				{
 					rectangle4 = new Rectangle(0, 4, 16, 4);
 					if (tile.halfBrick() || tile.slope() != 0)
-					{
 						rectangle4 = new Rectangle(0, 4, 16, 12);
-					}
 				}
 				else if (!flag10 || flag7 || flag8)
 				{
-					float single1 = (float)(256 - num115);
+					float single1 = (256 - num115);
 					single1 /= 32f;
 					int num118 = 4;
+
 					if (tile3.liquid == 0 && !WorldGen.SolidTile(x, y - 1))
-					{
 						num118 = 0;
-					}
+
 					if (flag7 & flag8 || tile.halfBrick() || tile.slope() != 0)
 					{
-						vectorPosition = new Vector2((float)(x * 16), (float)(y * 16 + (int)single1 * 2));
+						vectorPosition = new Vector2(x * 16, y * 16 + (int)single1 * 2);
 						rectangle4 = new Rectangle(0, num118, 16, 16 - (int)single1 * 2);
 					}
 					else if (!flag7)
 					{
-						vectorPosition = new Vector2((float)(x * 16 + 12), (float)(y * 16 + (int)single1 * 2));
+						vectorPosition = new Vector2(x * 16 + 12, y * 16 + (int)single1 * 2);
 						rectangle4 = new Rectangle(0, num118, 4, 16 - (int)single1 * 2);
 					}
 					else
 					{
-						vectorPosition = new Vector2((float)(x * 16), (float)(y * 16 + (int)single1 * 2));
+						vectorPosition = new Vector2(x * 16, y * 16 + (int)single1 * 2);
 						rectangle4 = new Rectangle(0, num118, 4, 16 - (int)single1 * 2);
 					}
 				}
 				else
 				{
-					vectorPosition = new Vector2((float)(x * 16), (float)(y * 16 + 12));
+					vectorPosition = new Vector2(x * 16, y * 16 + 12);
 					rectangle4 = new Rectangle(0, 4, 16, 4);
 				}
 			}
@@ -279,22 +281,16 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 					gameAlpha = 1f;
 				}
 			}
-			if ((double)y < Main.worldSurface || gameAlpha > 1f)
+			if (y < Main.worldSurface || gameAlpha > 1f)
 			{
 				gameAlpha = 1f;
 				if (tile3.wall > 0 || tile2.wall > 0 || tile1.wall > 0 || tile4.wall > 0)
-				{
 					gameAlpha = 0.65f;
-				}
 				if (tile.wall > 0)
-				{
 					gameAlpha = 0.5f;
-				}
 			}
 			if (tile.halfBrick() && tile3.liquid > 0 && tile.wall > 0)
-			{
 				gameAlpha = 0f;
-			}
 		}
 
 		private static void PrintInstrs(ILContext il)
@@ -309,13 +305,9 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 				catch
 				{
 					if (instr.Operand is ILLabel label && label.Target != null)
-					{
 						SpiritMod.Instance.Logger.Debug(instr.OpCode + " IL_" + label.Target.Offset.ToString("x4"));
-					}
 					else
-					{
 						SpiritMod.Instance.Logger.Debug(instr.OpCode);
-					}
 					continue;
 				}
 				SpiritMod.Instance.Logger.Debug(s);

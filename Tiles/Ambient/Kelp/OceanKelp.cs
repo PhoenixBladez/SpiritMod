@@ -2,8 +2,11 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ObjectData;
 
 namespace SpiritMod.Tiles.Ambient.Kelp
 {
@@ -24,10 +27,15 @@ namespace SpiritMod.Tiles.Ambient.Kelp
             Main.tileSolid[Type] = false; //Non solid
             Main.tileMergeDirt[Type] = false; //Don't merge with dirt (or anything else ever)
             Main.tileBlockLight[Type] = false; //Don't block light
-            //Main.tileCut[Type] = true; //Cut by player projectiles and items
 			Main.tileFrameImportant[Type] = true;
 
-            AddMapEntry(new Color(21, 92, 19));
+			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
+			TileObjectData.newTile.WaterPlacement = LiquidPlacement.OnlyInLiquid;
+			TileObjectData.newTile.AnchorValidTiles = new int[] { TileID.Sand, TileID.Ebonsand, TileID.Crimsand, Type };
+			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.AlternateTile | AnchorType.SolidTile, 1, 0);
+			TileObjectData.addTile(Type);
+
+			AddMapEntry(new Color(21, 92, 19));
             dustType = DustID.Grass;
             soundType = SoundID.Grass;
         }

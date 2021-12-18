@@ -44,7 +44,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 				WorldGen.PlaceTile(tPos.X, tPos.Y, ModContent.TileType<OceanKelp>(), false, true);
 				return true;
 			}
-			return true;
+			return false;
 		}
 	}
 }
