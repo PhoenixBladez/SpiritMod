@@ -60,7 +60,7 @@ namespace SpiritMod.NPCs.Mechromancer
 			float num = 1f - (float)projectile.alpha / 255f;
 			num *= projectile.scale;
 
-			float num1 = 6f;
+			float num1 = 5.25f;
 			float num2 = 3f;
 			float num3 = 16f;
 			num1 = 9f;

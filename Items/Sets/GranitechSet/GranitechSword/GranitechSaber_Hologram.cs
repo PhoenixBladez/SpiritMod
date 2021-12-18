@@ -53,7 +53,12 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 
 		public override void AI()
 		{
+
 			++Timer;
+			if (Timer == 3)
+            {
+				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergySwordSlash").WithPitchVariance(0.4f).WithVolume(0.8f), projectile.Center);
+			}
 			projectile.timeLeft = 2;
 
 			_hitTimer = Math.Max(_hitTimer - 1, 0);
@@ -102,6 +107,8 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 
 		public void HitEffect(Vector2 position)
 		{
+			Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/GranitechImpact").WithPitchVariance(0.4f).WithVolume(0.4f), projectile.Center);
+
 			projectile.damage = (int)(projectile.damage * 0.75f);
 			if (Main.dedServ)
 				return;

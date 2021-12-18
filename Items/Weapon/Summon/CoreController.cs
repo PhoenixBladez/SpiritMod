@@ -57,6 +57,7 @@ namespace SpiritMod.Items.Weapon.Summon
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 12);
 			recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 5);
+			recipe.AddIngredient(ItemID.Ectoplasm, 1);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

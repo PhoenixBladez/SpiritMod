@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 		public override bool AltFunctionUse(Player player) => true;
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Lokheira");
+			DisplayName.SetDefault("Iokheira");
 			Tooltip.SetDefault("Hit enemies to mark them \nRight click to fire a volley of arrows at marked foes");
 			SpiritGlowmask.AddGlowMask(item.type, Texture + "_Glow");
 		}
@@ -31,8 +31,8 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 			item.ranged = true;
 			item.width = 20;
 			item.height = 38;
-			item.useTime = 18;
-			item.useAnimation = 18;
+			item.useTime = 24;
+			item.useAnimation = 24;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ProjectileID.Shuriken;
 			item.useAmmo = AmmoID.Arrow;

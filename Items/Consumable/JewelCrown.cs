@@ -34,12 +34,12 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool CanUseItem(Player player)
 		{
-			return !NPC.AnyNPCs(ModContent.NPCType<AncientFlyer>()) && player.ZoneSkyHeight;
+			return !NPC.AnyNPCs(ModContent.NPCType<AncientFlyer>()) && (player.ZoneOverworldHeight || player.ZoneSkyHeight);
 		}
 
 		public override bool UseItem(Player player)
 		{
-			if (player.ZoneSkyHeight) {
+			if (player.ZoneOverworldHeight || player.ZoneSkyHeight) {
 
 				if (Main.netMode == NetmodeID.SinglePlayer)
 					NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("AncientFlyer"));

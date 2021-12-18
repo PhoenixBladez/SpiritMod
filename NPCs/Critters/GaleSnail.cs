@@ -45,9 +45,5 @@ namespace SpiritMod.NPCs.Critters
         {
             return Main.raining && spawnInfo.player.ZoneOverworldHeight && !spawnInfo.player.ZoneSnow && !spawnInfo.player.ZoneCorrupt && !spawnInfo.player.ZoneCrimson && !spawnInfo.player.ZoneJungle && !spawnInfo.player.ZoneBeach? 0.0125f : 0f;
         }
-        public override void AI()
-		{
-			npc.spriteDirection = npc.direction;
-		}
 	}
 }
