@@ -1,0 +1,81 @@
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using SpiritMod.Items.Placeable.Furniture;
+using Terraria.Enums;
+using Terraria.ObjectData;
+using SpiritMod.Players;
+
+namespace SpiritMod.Items.Sets.FloatingItems
+{
+	public class FishLure : FloatingItem
+	{
+		public override float Weight => base.Weight * 0.9f;
+		public override float Bouyancy => base.Bouyancy * 1.08f;
+
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Fish Lure");
+			Tooltip.SetDefault("Can only be placed in water\nAttracts schools of fish to nearby waters");
+		}
+		public override void SetDefaults()
+		{
+			item.width = item.height = 16;
+			item.rare = ItemRarityID.Blue;
+			item.useStyle = ItemUseStyleID.SwingThrow;
+			item.consumable = true;
+			item.maxStack = 99;
+			item.createTile = ModContent.TileType<FishLureTile>();
+			item.useTime = item.useAnimation = 20;
+			item.useAnimation = 15;
+			item.useTime = 10;
+			item.noMelee = true;
+			item.autoReuse = false;
+		}
+		public override bool UseItem(Player player)
+		{
+			Point tPos = Main.MouseWorld.ToTileCoordinates();
+			Tile bel = Framing.GetTileSafely(tPos.X, tPos.Y + 1);
+			Tile cur = Framing.GetTileSafely(tPos.X, tPos.Y);
+
+			if (bel.active() && !cur.active() && cur.liquid > 100 && !bel.topSlope())
+			{
+				WorldGen.PlaceTile(tPos.X, tPos.Y, ModContent.TileType<FishLureTile>(), false, true);
+				return true;
+			}
+			return false;
+		}
+	}
+	public class FishLureTile : ModTile
+	{
+		public override void SetDefaults()
+		{
+			Main.tileSolid[Type] = false;
+			Main.tileSolidTop[Type] = false;
+			Main.tileFrameImportant[Type] = true;
+			Main.tileNoAttach[Type] = true;
+			Main.tileLavaDeath[Type] = true;
+			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
+			TileObjectData.addTile(Type);
+			ModTranslation name = CreateMapEntryName();
+			name.SetDefault("Bar");
+			drop = ModContent.ItemType<FishLure>();
+			AddMapEntry(new Color(200, 200, 200), name);
+		}
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		{
+			offsetY = 2;
+		}
+
+		public sealed override void NearbyEffects(int i, int j, bool closer)
+		{
+			Player player = Main.LocalPlayer;
+			MyPlayer modPlayer = player.GetSpiritPlayer();
+			if (closer)
+			{
+				modPlayer.nearLure = true;
+			}
+		}
+	}
+}
