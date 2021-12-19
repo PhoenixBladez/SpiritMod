@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
+using SpiritMod.Mechanics.OceanWavesSystem;
 using SpiritMod.Utilities;
 using System;
 using System.Reflection;
@@ -18,6 +19,9 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 		public static RenderTarget2D transparencyTarget = null;
 		public static Effect transparencyEffect = null;
 		public static Texture2D rippleTex = null;
+
+		public static int leftOceanHeight = 0;
+		public static int rightOceanHeight = 0;
 
 		public static ILog logger => ModContent.GetInstance<SpiritMod>().Logger;
 
@@ -46,6 +50,28 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			rippleTex = null;
 		}
 
+		internal static void PostLoad()
+		{
+			//Initialize ocean heights if they don't exist already
+			if (leftOceanHeight == 0)
+			{
+				var start = new Point(20, (int)(Main.maxTilesY * 0.35f));
+				while (Framing.GetTileSafely(start.X, start.Y).liquid < 200)
+					start.Y++;
+
+				leftOceanHeight = start.Y * 16;
+			}
+
+			if (rightOceanHeight == 0)
+			{
+				var start = new Point(Main.maxTilesX - 20, (int)(Main.maxTilesY * 0.35f));
+				while (Framing.GetTileSafely(start.X, start.Y).liquid < 200)
+					start.Y++;
+
+				rightOceanHeight = start.Y * 16;
+			}
+		}
+
 		private static void WaterShaderData_DrawWaves(ILContext il)
 		{
 			var c = new ILCursor(il);
@@ -68,6 +94,24 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 		private static void DoWaves(Vector2 offset)
 		{
+			if (leftOceanHeight == 0)
+			{
+				var start = new Point(20, (int)(Main.maxTilesY * 0.35f / 16f));
+				while (Framing.GetTileSafely(start.X, start.Y).liquid < 200)
+					start.Y++;
+
+				leftOceanHeight = start.Y * 16 - 18;
+			}
+
+			if (rightOceanHeight == 0)
+			{
+				var start = new Point(Main.maxTilesX - 20, (int)(Main.maxTilesY * 0.35f / 16f));
+				while (Framing.GetTileSafely(start.X, start.Y).liquid < 200)
+					start.Y++;
+
+				rightOceanHeight = start.Y * 16 - 18;
+			}
+
 			bool validPlayer = false;
 			(bool, bool) sides = (false, false);
 			for (int i = 0; i < Main.maxPlayers; ++i)
@@ -76,7 +120,8 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 				if (p.active && p.ZoneBeach)
 				{
 					validPlayer = true;
-					if (p.position.X < Main.maxTilesX / 2)
+
+					if (p.position.X / 16f < Main.maxTilesX / 2)
 						sides.Item1 = true;
 					else
 						sides.Item2 = true;
@@ -86,13 +131,17 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 				}
 			}
 
+			float Speed() => 0.75f + Main.rand.NextFloat(0, 0.25f); 
+
 			if (validPlayer) //Draw here to draw stuff only when there's a player at a beach
 			{
-				Color col = GetRippleColor();
-				Vector2 drawPos = Main.MouseWorld - offset;
-				Rectangle src = new Rectangle(1, 65, 62, 62);
-				Main.tileBatch.Draw(rippleTex, new Vector4(drawPos.X, drawPos.Y, 40, 40) * 0.25f, src, new VertexColors(col), src.Size() / 2f, SpriteEffects.None, 0f);
+				if (sides.Item1 && Main.GameUpdateCount % 50 == 0)
+					OceanWaveManager.AddWave(new OceanWaveManager.Wave(new Vector2(600, leftOceanHeight), new Vector2(10, 30), Main.rand.NextFloat(0.6f, 1f), Speed()));
+				if (sides.Item2 && Main.GameUpdateCount % 50 == 0)
+					OceanWaveManager.AddWave(new OceanWaveManager.Wave(new Vector2(Main.maxTilesX * 16 - 550, rightOceanHeight), new Vector2(10, 30), Main.rand.NextFloat(0.6f, 1f), Speed()));
 			}
+
+			OceanWaveManager.UpdateWaves(sides.Item1, sides.Item2, offset);
 		}
 
 		public static Color GetRippleColor()

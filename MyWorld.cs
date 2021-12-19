@@ -44,6 +44,7 @@ using SpiritMod.Mechanics.BackgroundSystem;
 using SpiritMod.Items.Sets.SummonsMisc.Toucane;
 using static Terraria.ModLoader.ModContent;
 using static SpiritMod.Utilities.ChestPoolUtils;
+using SpiritMod.Effects.SurfaceWaterModifications;
 
 namespace SpiritMod
 {
@@ -209,6 +210,9 @@ namespace SpiritMod
 				data.Add("backgroundItems", backgroundItems);
 			}
 			data.Add("asteroidSide", asteroidSide);
+
+			data.Add("leftOceanHeight", SurfaceWaterModifications.leftOceanHeight);
+			data.Add("rightOceanHeight", SurfaceWaterModifications.rightOceanHeight);
 			return data;
 		}
 
@@ -258,7 +262,12 @@ namespace SpiritMod
 
 			var bgItems = tag.GetList<TagCompound>("backgroundItems");
 			BackgroundItemManager.Load(bgItems);
+
 			asteroidSide = tag.Get<int>("asteroidSide");
+
+			SurfaceWaterModifications.leftOceanHeight = tag.Get<int>("leftOceanHeight");
+			SurfaceWaterModifications.rightOceanHeight = tag.Get<int>("rightOceanHeight");
+			SurfaceWaterModifications.PostLoad();
 		}
 
 		public override void LoadLegacy(BinaryReader reader)

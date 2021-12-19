@@ -54,7 +54,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 	{
 		public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
 		{
-			if (StarjinxEventWorld.StarjinxActive && player.HasBuff(ModContent.BuffType<Buffs.HighGravityBuff>()))
+			if (ModContent.GetInstance<StarjinxEventWorld>().StarjinxActive && player.HasBuff(ModContent.BuffType<Buffs.HighGravityBuff>()))
 				maxSpawns = 0;
 		}
 	}

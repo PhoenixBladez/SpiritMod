@@ -276,7 +276,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				if (finalPos.Y < 590 && direction.Y < 0)
 					direction.Y *= -1;
 
-				if (StarjinxEventWorld.StarjinxActive && Vector2.Distance(finalPos, player.GetModPlayer<StarjinxPlayer>().StarjinxPosition) > StarjinxMeteorite.EVENT_RADIUS - 50)
+				if (ModContent.GetInstance<StarjinxEventWorld>().StarjinxActive && Vector2.Distance(finalPos, player.GetModPlayer<StarjinxPlayer>().StarjinxPosition) > StarjinxMeteorite.EVENT_RADIUS - 50)
 				{ //Check for leaving event area
 					direction = Vector2.Normalize(player.GetModPlayer<StarjinxPlayer>().StarjinxPosition - startPos);
 					dist = maxDistance;
@@ -324,7 +324,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				if (finalPos.Y < 590 && direction.Y < 0)
 					direction.Y *= -1;
 
-				if (StarjinxEventWorld.StarjinxActive && Vector2.Distance(finalPos, player.GetModPlayer<StarjinxPlayer>().StarjinxPosition) > StarjinxMeteorite.EVENT_RADIUS)
+				if (ModContent.GetInstance<StarjinxEventWorld>().StarjinxActive && Vector2.Distance(finalPos, player.GetModPlayer<StarjinxPlayer>().StarjinxPosition) > StarjinxMeteorite.EVENT_RADIUS)
 				{ //Check for leaving event area
 					direction = Vector2.Normalize(player.GetModPlayer<StarjinxPlayer>().StarjinxPosition - startPos);
 					dist = 2;

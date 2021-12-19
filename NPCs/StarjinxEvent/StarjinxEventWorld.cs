@@ -9,8 +9,9 @@ namespace SpiritMod.NPCs.StarjinxEvent
 {
     public class StarjinxEventWorld : ModWorld
     {
-        public static bool StarjinxActive = false;
-        public static bool SpawnedStarjinx = false;
+        public bool StarjinxActive = false;
+        public bool SpawnedStarjinx = false;
+		public bool StarjinxDefeated = false;
 
 		//Synced between clients, used to calculate other variables and for drawing the ui
 		public static int MaxEnemies = 0;
@@ -21,9 +22,19 @@ namespace SpiritMod.NPCs.StarjinxEvent
         {
             return new TagCompound
             {
-                {"Starjinx Active?", StarjinxActive}
-            };
+                {"Starjinx Active?", StarjinxActive},
+				{"Starjinx Defeated?", StarjinxActive}
+			};
         }
+
+		public override void Load(TagCompound tag)
+		{
+			if (tag.ContainsKey("Starjinx Active?"))
+				StarjinxActive = tag.GetBool("Starjinx Active?");
+			if (tag.ContainsKey("Starjinx Defeated?"))
+				StarjinxDefeated = tag.GetBool("Starjinx Defeated?");
+			SpawnedStarjinx = false;
+		}
 
 		public override void Initialize()
 		{
@@ -56,13 +67,6 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 			SendInfoPacket();
 		}
-
-        public override void Load(TagCompound tag)
-        {
-            if (tag.ContainsKey("Starjinx Active?"))
-                StarjinxActive = tag.GetBool("Starjinx Active?");
-            SpawnedStarjinx = false;
-        }
 
 		//Edited from TideWorld's netcode handling
 		public static ModPacket CreateProgressPacket()

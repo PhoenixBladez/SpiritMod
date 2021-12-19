@@ -46,6 +46,7 @@ using SpiritMod.Tiles.Block;
 using SpiritMod.Tiles.Walls.Natural;
 using SpiritMod.Utilities;
 using SpiritMod.Items.Weapon.Magic.Rhythm.Anthem;
+using SpiritMod.Items.Placeable.Furniture.Paintings;
 
 namespace SpiritMod.NPCs
 {
@@ -701,6 +702,9 @@ namespace SpiritMod.NPCs
 			{
 				shop.item[nextSlot++].SetDefaults(ItemType<Canvas>(), false);
 				shop.item[nextSlot++].SetDefaults(ItemType<FloppaPainting>(), false);
+
+				if (GetInstance<StarjinxEvent.StarjinxEventWorld>().StarjinxDefeated)
+					shop.item[nextSlot++].SetDefaults(ItemType<ScrunklyPaintingItem>(), false);
 			}
 			else if (type == NPCID.Demolitionist)
 			{

@@ -217,7 +217,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 					spawnedComets = true;
 					npc.dontTakeDamage = true;
 
-					StarjinxEventWorld.StarjinxActive = true;
+					ModContent.GetInstance<StarjinxEventWorld>().StarjinxActive = true;
 
 					SpawnComets();
 				}
@@ -378,9 +378,11 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
         public override void NPCLoot()
         {
-            StarjinxEventWorld.StarjinxActive = false;
+			ModContent.GetInstance<StarjinxEventWorld>().StarjinxActive = false;
+			ModContent.GetInstance<StarjinxEventWorld>().StarjinxDefeated = true;
+			NetMessage.SendData(MessageID.WorldData);
 
-            int drops = Main.expertMode ? 9 : 7;
+			int drops = Main.expertMode ? 9 : 7;
             Item.NewItem(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), mod.ItemType("Starjinx"), Main.rand.Next(4, 6) * drops);
 
             Main.NewText("The asteroids return to their tranquil state...", 252, 150, 255);

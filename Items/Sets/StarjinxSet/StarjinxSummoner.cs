@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 			{
 				Main.NewText("An enchanted comet has appeared in the asteroid field!", 252, 150, 255);
 				NPC.NewNPC((int)finalPos.X, (int)finalPos.Y, ModContent.NPCType<StarjinxMeteorite>());
-				StarjinxEventWorld.SpawnedStarjinx = true;
+				ModContent.GetInstance<StarjinxEventWorld>().SpawnedStarjinx = true;
 			}
 			else
 				Main.NewText("A comet soars overhead...", 202, 100, 205);
