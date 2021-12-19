@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
+using SpiritMod.Players;
 
 namespace SpiritMod.Mechanics.Boids
 {
@@ -25,8 +26,10 @@ namespace SpiritMod.Mechanics.Boids
 			foreach (Flock fishflock in Flocks)
 				fishflock.Update();
 
+			Player player = Main.LocalPlayer;
+			MyPlayer modPlayer = player.GetSpiritPlayer();
 			//Test
-			if (Main.GameUpdateCount % SPAWNRATE > 38 && Main.LocalPlayer.ZoneBeach)
+			if ((Main.GameUpdateCount % SPAWNRATE > 38 && Main.LocalPlayer.ZoneBeach) || (Main.GameUpdateCount % SPAWNRATE > 32 && modPlayer.nearLure))
 			{
 				int flock = Main.rand.Next(0, Flocks.Count);
 				int fluff = 1000;
