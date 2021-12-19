@@ -275,7 +275,7 @@ namespace SpiritMod.World
 			SlantedSine, //Yuyu's initial sketch
 			Piecewise, //Musicano's original sketch
 			Piecewise_M, //Musicano's sketch with Sal/Yuyu's cubic modification
-			Piecewise_V, //My heavily modified piecewise with variable
+			Piecewise_V, //My heavily modified piecewise with variable height
 		}
 	}
 }

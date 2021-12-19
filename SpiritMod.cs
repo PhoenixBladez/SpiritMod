@@ -701,8 +701,6 @@ namespace SpiritMod
 		{
 			if (Main.LocalPlayer.GetSpiritPlayer().ZoneReach && !Main.dayTime)
 				scale *= .95f;
-
-			SurfaceWaterModifications.ModifyBrightness(ref scale);
 		}
 
 		private static void SetGlyph(object[] args)

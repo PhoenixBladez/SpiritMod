@@ -1,11 +1,14 @@
-﻿using Microsoft.Xna.Framework;
+﻿using log4net;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
+using SpiritMod.Utilities;
 using System;
 using System.Reflection;
 using Terraria;
-using Terraria.Graphics.Effects;
+using Terraria.GameContent.Shaders;
+using Terraria.Graphics;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Effects.SurfaceWaterModifications
@@ -14,15 +17,22 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 	{
 		public static RenderTarget2D transparencyTarget = null;
 		public static Effect transparencyEffect = null;
+		public static Texture2D rippleTex = null;
+
+		public static ILog logger => ModContent.GetInstance<SpiritMod>().Logger;
 
 		public static void Load()
 		{
-			IL.Terraria.Main.DoDraw += AddWaterShader;
+			IL.Terraria.Main.DoDraw += AddWaterShader; //Transparency shader
 
-			IL.Terraria.Main.DrawTiles += Main_DrawTiles;
-			IL.Terraria.Main.DrawBlack += Main_DrawBlack;
+			IL.Terraria.Main.DrawTiles += Main_DrawTiles; //Liquid slope fix (tentative)
+			IL.Terraria.Main.DrawBlack += Main_DrawBlack; //^^
+
+			IL.Terraria.GameContent.Shaders.WaterShaderData.QueueRipple_Vector2_Color_Vector2_RippleShape_float += IncreaseRippleSize; //Makes ripple bigger
+			IL.Terraria.GameContent.Shaders.WaterShaderData.DrawWaves += WaterShaderData_DrawWaves;
 
 			transparencyEffect = ModContent.GetInstance<SpiritMod>().GetEffect("Effects/SurfaceWaterModifications/SurfaceWaterFX");
+			rippleTex = Main.instance.OurLoad<Texture2D>("Images/Misc/Ripples");
 		}
 
 		public static void Unload()
@@ -33,6 +43,76 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			IL.Terraria.Main.DrawBlack -= Main_DrawBlack;
 
 			transparencyEffect = null;
+			rippleTex = null;
+		}
+
+		private static void WaterShaderData_DrawWaves(ILContext il)
+		{
+			var c = new ILCursor(il);
+
+			if (!c.TryGotoNext(x => x.MatchLdfld<WaterShaderData>("_useRippleWaves")))
+			{
+				logger.Debug("FAILED _useRippleWaves GOTO [SpiritMod.WaterShaderData.DrawWaves]");
+				return;
+			}
+
+			if (!c.TryGotoNext(x => x.MatchCallvirt(typeof(TileBatch).GetMethod("End"))))
+			{
+				logger.Debug("FAILED _useRippleWaves GOTO [SpiritMod.WaterShaderData.DrawWaves]");
+				return;
+			}
+
+			c.Emit(OpCodes.Ldloc_2);
+			c.EmitDelegate<Action<Vector2>>(DoWaves);
+		}
+
+		private static void DoWaves(Vector2 offset)
+		{
+			bool validPlayer = false;
+			(bool, bool) sides = (false, false);
+			for (int i = 0; i < Main.maxPlayers; ++i)
+			{
+				Player p = Main.player[i];
+				if (p.active && p.ZoneBeach)
+				{
+					validPlayer = true;
+					if (p.position.X < Main.maxTilesX / 2)
+						sides.Item1 = true;
+					else
+						sides.Item2 = true;
+
+					if (sides.Item1 && sides.Item2)
+						break;
+				}
+			}
+
+			if (validPlayer) //Draw here to draw stuff only when there's a player at a beach
+			{
+				Color col = GetRippleColor();
+				Vector2 drawPos = Main.MouseWorld - offset;
+				Rectangle src = new Rectangle(1, 65, 62, 62);
+				Main.tileBatch.Draw(rippleTex, new Vector4(drawPos.X, drawPos.Y, 40, 40) * 0.25f, src, new VertexColors(col), src.Size() / 2f, SpriteEffects.None, 0f);
+			}
+		}
+
+		public static Color GetRippleColor()
+		{
+			float num3 = 0.8f;
+
+			float g = num3 * 0.5f + 0.5f;
+			float mult = Math.Min(Math.Abs(num3), 1f);
+			return new Color(0.5f, g, 0f, 1f) * mult;
+		}
+
+		private static void IncreaseRippleSize(ILContext il)
+		{
+			var c = new ILCursor(il);
+
+			c.Emit(OpCodes.Ldarg_3);
+			c.Emit(OpCodes.Ldc_R4, 3f);
+			var vec2Mul = typeof(Vector2).GetMethod("op_Multiply", new Type[2] { typeof(Vector2), typeof(float) }, new ParameterModifier[] { new ParameterModifier(3) });
+			c.Emit(OpCodes.Call, vec2Mul);
+			c.Emit(OpCodes.Starg, 3);
 		}
 
 		/// <summary>MASSIVE thanks to Starlight River for the base of this IL edit.</summary>
@@ -90,14 +170,16 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 		private static float GetTransparency()
 		{
-			bool aboveGround = Main.LocalPlayer.ZoneOverworldHeight || Main.LocalPlayer.ZoneSkyHeight;
-			if (Main.LocalPlayer.ZoneBeach)
-				return 1f;
-			return aboveGround ? 0.90f : 0.5f;
-		}
+			var config = ModContent.GetInstance<SpiritClientConfig>().SurfaceWaterTransparency;
 
-		internal static void ModifyBrightness(ref float scale)
-		{
+			if (config == SpiritClientConfig.SurfaceTransparencyOption.Disabled)
+				return 0f;
+
+			bool aboveGround = Main.LocalPlayer.ZoneOverworldHeight || Main.LocalPlayer.ZoneSkyHeight;
+			if (aboveGround && Main.LocalPlayer.ZoneBeach && (config == SpiritClientConfig.SurfaceTransparencyOption.Ocean || config == SpiritClientConfig.SurfaceTransparencyOption.Both))
+				return 1f;
+
+			return aboveGround ? 0.3f : 0.5f;
 		}
 
 		// below is code for fixing the black tile rendering issue with slopes and transparency for the fake liquid that is drawn
@@ -153,7 +235,6 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 		private static void Main_DrawTiles(ILContext il)
 		{
 			ILCursor cursor = new ILCursor(il);
-			//PrintInstrs(il);
 
 			cursor.TryGotoNext(i => i.MatchLdsfld<Main>(nameof(Main.liquidTexture)));
 			cursor.TryGotoNext(i => i.MatchCallvirt<SpriteBatch>("Draw"));
@@ -165,9 +246,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			cursor.Index--;
 			// emit our custom code
 			for (int i = 0; i < 10; i++)
-			{
 				cursor.Emit(OpCodes.Pop);
-			}
 			cursor.Emit(OpCodes.Ldloc_S, (byte)16); // x
 			cursor.Emit(OpCodes.Ldloc_S, (byte)15); // y
 			cursor.Emit(OpCodes.Ldloc_S, (byte)151); // num116 (water style being used)
@@ -179,9 +258,6 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			cursor.EmitDelegate<Action<int, int, int, bool, bool, bool, bool, int>>(SlopeHalfBrickLiquidReplacement);
 
 			cursor.Emit(OpCodes.Br, postDraw);
-
-			//cursor.Emit(OpCodes.Ldc_R4, 0.65f);
-			//cursor.Emit(OpCodes.Stloc_S, (byte)159);
 		}
 
 		private static void SlopeHalfBrickLiquidReplacement(int x, int y, int style, bool flag7, bool flag8, bool flag9, bool flag10, int num115)
@@ -280,9 +356,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			{
 				gameAlpha *= 1.7f;
 				if (gameAlpha > 1f)
-				{
 					gameAlpha = 1f;
-				}
 			}
 			if (y < Main.worldSurface || gameAlpha > 1f)
 			{

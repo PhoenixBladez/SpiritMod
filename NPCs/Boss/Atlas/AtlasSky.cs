@@ -22,25 +22,11 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			}
 		}
 
-		private float GetIntensity()
-		{
-			if (this.UpdateAtlasIndex()) {
-				float x = 0f;
-				if (this.AtlasIndex != -1)
-					x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[this.AtlasIndex].Center);
-
-				return 1f - Utils.SmoothStep(3000f, 6000f, x);
-			}
-			return 0f;
-		}
-
-
 		public override Color OnTileColor(Color inColor)
 		{
 			float amt = intensity * .02f;
 			return inColor.MultiplyRGB(new Color(1f - amt, 1f - amt, 1f - amt));
 		}
-
 
 		private bool UpdateAtlasIndex()
 		{
@@ -70,29 +56,10 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			}
 		}
 
-		public override float GetCloudAlpha()
-		{
-			return 0f;
-		}
-
-		public override void Activate(Vector2 position, params object[] args)
-		{
-			isActive = true;
-		}
-
-		public override void Deactivate(params object[] args)
-		{
-			isActive = false;
-		}
-
-		public override void Reset()
-		{
-			isActive = false;
-		}
-
-		public override bool IsActive()
-		{
-			return isActive || intensity > 0f;
-		}
+		public override float GetCloudAlpha() => 0f;
+		public override void Activate(Vector2 position, params object[] args) => isActive = true;
+		public override void Deactivate(params object[] args) => isActive = false;
+		public override void Reset() => isActive = false;
+		public override bool IsActive() => isActive || intensity > 0f;
 	}
 }

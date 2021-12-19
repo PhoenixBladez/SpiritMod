@@ -8,7 +8,7 @@ namespace SpiritMod.Effects.Waters
 {
 	public class OceanWaterStyle : ModWaterStyle
 	{
-		public override bool ChooseWaterStyle() => ModContent.GetInstance<SpiritClientConfig>().OceanWaterStyleEnabled && Main.LocalPlayer.ZoneBeach;
+		public override bool ChooseWaterStyle() => Main.LocalPlayer.ZoneBeach;
 		public override int ChooseWaterfallStyle() => 0;
 		public override int GetSplashDust() => DustID.Water;
 		public override int GetDropletGore() => 706;

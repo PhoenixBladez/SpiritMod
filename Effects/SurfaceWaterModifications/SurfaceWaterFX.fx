@@ -8,7 +8,12 @@ float4 PixelShaderFunction(float4 screenSpace : TEXCOORD0) : COLOR0
     float4 color = tex2D(samplerTex, st);
     float luminosity = ((0.3 * color.r) + (0.59 * color.g) + (0.11 * color.b));
     
-    color.a *= 1 - ((luminosity * 3.5 * transparency) + 0.005);
+    float alpha = 1 - ((luminosity * 3.5 * transparency) + 0.005);
+    if (alpha < 0)
+        alpha = 0;
+    
+    if (transparency != 0 && color.g + 0.1 > color.r && color.b + 0.1 > color.r)
+        color.a *= alpha;
     return color;
 }
 

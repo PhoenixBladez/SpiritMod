@@ -71,9 +71,18 @@ namespace SpiritMod.Utilities
 		[DefaultValue(OceanGeneration.OceanShape.Piecewise_V)]
 		public OceanGeneration.OceanShape OceanShape { get; set; }
 
-		[Label("Ocean Water Style")]
-		[Tooltip("Modifies the Ocean's water to be much, much more see through and allows light to travel farther. NOTE: This will have a visual bug with the lighting system.")]
-		[DefaultValue(true)]
-		public bool OceanWaterStyleEnabled { get; set; }
+		public enum SurfaceTransparencyOption : int
+		{
+			Ocean,
+			Underworld,
+			Both,
+			Disabled
+		}
+
+		[ReloadRequired]
+		[Label("Transparent Surface Water")]
+		[Tooltip("Allows ocean water to be fully transparent")]
+		[DefaultValue(SurfaceTransparencyOption.Ocean)]
+		public SurfaceTransparencyOption SurfaceWaterTransparency { get; set; }
 	}
 }
