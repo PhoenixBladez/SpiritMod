@@ -429,6 +429,8 @@ namespace SpiritMod
 
 			bool showJellies = (player.ZoneOverworldHeight && MyWorld.jellySky) || NPC.AnyNPCs(ModContent.NPCType<MoonWizard>());
 
+			bool underwater = player.ZoneBeach && isFullySubmerged;
+
 			bool greenOcean = player.ZoneBeach && MyWorld.luminousType == 1 && MyWorld.luminousOcean;
 			bool blueOcean = player.ZoneBeach && MyWorld.luminousType == 2 && MyWorld.luminousOcean;
 			bool purpleOcean = player.ZoneBeach && MyWorld.luminousType == 3 && MyWorld.luminousOcean;
@@ -482,6 +484,8 @@ namespace SpiritMod
 			player.ManageSpecialBiomeVisuals("SpiritMod:PurpleAlgaeSky", purpleOcean);
 
 			player.ManageSpecialBiomeVisuals("SpiritMod:JellySky", showJellies);
+
+			player.ManageSpecialBiomeVisuals("SpiritMod:OceanFloorSky", underwater);
 
 			player.ManageSpecialBiomeVisuals("SpiritMod:SpiritUG1", region1);
 			player.ManageSpecialBiomeVisuals("SpiritMod:SpiritUG2", region2);
