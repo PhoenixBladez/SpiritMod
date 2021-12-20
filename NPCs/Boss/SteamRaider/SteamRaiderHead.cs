@@ -10,6 +10,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.NPCs.Boss.SteamRaider
 {
@@ -87,6 +88,15 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		{
 			npc.TargetClosest(true);
 			Player player = Main.player[npc.target];
+
+			for(int i = 0; i < Main.maxPlayers; i++)
+			{
+				if (i < Main.player.Length && Main.player[i] != null && Main.player[i].active && !Main.player[i].dead)
+				{
+					Main.player[i].AddBuff(ModContent.BuffType<StarplateGravity>(), 60);
+				}
+			}
+
 			/*if (crashY < npc.position.Y && charging)
 			{
 				 for (int i = 0; i < 40; i++)
