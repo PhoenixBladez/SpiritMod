@@ -14,46 +14,19 @@ namespace SpiritMod.Items.Accessory.Ukelele
 		{
 			DisplayName.SetDefault("Ukulele");
 			Tooltip.SetDefault("Hitting enemies has a chance to create a chain of lightning\n'...and his music was electric.'");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(4, 12));
+			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 8));
 		}
 
 		public override void SetDefaults()
 		{
-			item.width = 60;
-			item.height = 58;
+			item.width = 70;
+			item.height = 48;
 			item.value = Item.buyPrice(0, 3, 0, 0);
 			item.rare = ItemRarityID.LightRed;
 			item.accessory = true;
 		}
 
-		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
-		{
-			Lighting.AddLight(new Vector2(item.Center.X, item.Center.Y), 0.075f, 0.231f, 0.255f);
-
-			Rectangle frame = Main.itemTexture[item.type].Frame(1, 1, 0, 0);
-			var origin = new Vector2(Main.itemTexture[item.type].Width / 2, Main.itemTexture[item.type].Height / 2);
-			float cos = (float)(Math.Cos(Main.GlobalTime % 2.4 / 2.4 * MathHelper.TwoPi) / 1.0 + 0.5);
-			Texture2D texture = Main.itemTexture[item.type];
-			Color baseCol = new Color(sbyte.MaxValue - item.alpha, sbyte.MaxValue - item.alpha, sbyte.MaxValue - item.alpha, 0).MultiplyRGBA(Color.White);
-
-			for (int i = 0; i < 5; ++i)
-			{
-				Color drawCol = item.GetAlpha(baseCol) * 1f;
-				Vector2 gPos = item.Center + ((i / 5 * MathHelper.TwoPi) + rotation).ToRotationVector2() * 2f - Main.screenPosition - new Vector2(texture.Width, texture.Height) * item.scale / 2f + origin * item.scale + new Vector2(0.0f, -2f);
-				Main.spriteBatch.Draw(mod.GetTexture("Items/Accessory/Ukelele/Ukelele_Glow"), gPos, frame, drawCol, rotation, origin, item.scale, SpriteEffects.None, 0.0f);
-			}
-
-			for (int i = 0; i < 4; ++i)
-			{
-				Vector2 gPos = item.Center + ((i / 4 * MathHelper.TwoPi) + rotation).ToRotationVector2() * (float)(2.0 * cos + 2.0) - Main.screenPosition - new Vector2(texture.Width, texture.Height) * item.scale / 2f + origin * item.scale + new Vector2(0.0f, -2f);
-				Main.spriteBatch.Draw(mod.GetTexture("Items/Accessory/Ukelele/Ukelele_Glow"), gPos, frame, baseCol, rotation, origin, item.scale, SpriteEffects.None, 0.0f);
-			}
-
-			Vector2 glowPos = item.Center - Main.screenPosition - new Vector2(texture.Width, (texture.Height / 1)) * item.scale / 2f + origin * item.scale + new Vector2(0.0f, -2f);
-			Main.spriteBatch.Draw(mod.GetTexture("Items/Accessory/Ukelele/Ukelele_Glow"), glowPos, frame, baseCol, rotation, origin, item.scale, SpriteEffects.None, 0.0f);
-			return true;
-		}
-
+		public override void Update(ref float gravity, ref float maxFallSpeed) => Lighting.AddLight(item.Center, 0.075f, 0.231f, 0.255f);
 		public override Color? GetAlpha(Color lightColor) => Color.White;
 		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<UkelelePlayer>().active = true;
 	}
