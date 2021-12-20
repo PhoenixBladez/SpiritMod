@@ -1,6 +1,4 @@
 using SpiritMod.Items.Accessory;
-using SpiritMod.Items.Ammo.Arrow;
-using SpiritMod.Items.Material;
 using SpiritMod.Items.Pins;
 using SpiritMod.Items.Placeable.Furniture;
 using SpiritMod.Items.Sets.HuskstalkSet;
