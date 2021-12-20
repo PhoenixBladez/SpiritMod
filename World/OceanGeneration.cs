@@ -8,6 +8,10 @@ using Terraria.ID;
 using SpiritMod.Tiles.Ambient.Corals;
 using SpiritMod.Tiles.Ambient.Kelp;
 using SpiritMod.Tiles.Ambient.Ocean;
+using System.Collections.Generic;
+using Terraria.Utilities;
+using SpiritMod.Items.Sets.PirateStuff.DuelistLegacy;
+using SpiritMod.Items.Sets.GunsMisc.LadyLuck;
 
 namespace SpiritMod.World
 {
@@ -119,6 +123,8 @@ namespace SpiritMod.World
 				return true;
 			}
 
+			PlacePirateChest(side == 0 ? bounds.Right : bounds.Left);
+
 			for (int i = bounds.Left; i < bounds.Right; ++i)
 			{
 				for (int j = bounds.Top; j < bounds.Bottom; ++j)
@@ -173,6 +179,87 @@ namespace SpiritMod.World
 					}
 				}
 			}
+		}
+
+		private static void PlacePirateChest(int innerEdge)
+		{
+			int guaranteeChestX = innerEdge - WorldGen.genRand.Next(133, innerEdge - 40);
+			var chest = new Point(guaranteeChestX, (int)(Main.maxTilesY * 0.35f / 16f));
+			while (!WorldGen.SolidTile(chest.X, chest.Y - 1))
+				chest.Y++;
+			chest.Y--;
+
+			int BarStack() => WorldGen.genRand.Next(3, 7);
+
+			for (int i = 0; i < 3; ++i)
+			{
+				WorldGen.KillTile(chest.X + i, chest.Y + 1, false, false, true);
+				WorldGen.PlaceTile(chest.X + i, chest.Y + 1, TileID.Sand, true, false);
+				Framing.GetTileSafely(chest.X + i, chest.Y + 1).slope(0);
+			}
+
+			PlaceChest(chest.X, chest.Y - 1, ModContent.TileType<OceanPirateChest>(), 
+				new (int, int)[] //Primary items
+				{
+					(ModContent.ItemType<DuelistLegacy>(), 1), (ModContent.ItemType<LadyLuck>(), 1)
+				}, 
+				new (int, int)[] //Sub items (woo)
+				{   
+					(ItemID.GoldCoin, WorldGen.genRand.Next(12, 30)), (ItemID.Diamond, WorldGen.genRand.Next(12, 30)), (ItemID.GoldCrown, 1), (ItemID.GoldDust, WorldGen.genRand.Next()),
+					(ItemID.GoldChest, 1), (ItemID.GoldenChair, 1), (ItemID.GoldChandelier, 1), (ItemID.GoldenPlatform, WorldGen.genRand.Next(12, 18)), (ItemID.GoldenSink, 1), (ItemID.GoldenSofa, 1),
+					(ItemID.GoldenTable, 1), (ItemID.GoldenToilet, 1), (ItemID.GoldenWorkbench, 1), (ItemID.GoldenPiano, 1), (ItemID.GoldenLantern, 1), (ItemID.GoldenLamp, 1), (ItemID.GoldenDresser, 1),
+					(ItemID.GoldenDoor, 1), (ItemID.GoldenCrate, 1), (ItemID.GoldenClock, 1), (ItemID.GoldenChest, 1), (ItemID.GoldenCandle, WorldGen.genRand.Next(2, 4)), (ItemID.GoldenBookcase, 1),
+					(ItemID.GoldenBed, 1), (ItemID.GoldenBathtub, 1), (ItemID.MythrilBar, BarStack()), (ItemID.AdamantiteBar, BarStack()), (ItemID.CobaltBar, BarStack()),
+					(ItemID.TitaniumBar, BarStack()), (ItemID.PalladiumBar, BarStack()), (ItemID.OrichalcumBar, BarStack())
+				},
+				true, WorldGen.genRand, WorldGen.genRand.Next(15, 21), 0, true, 3, 3);
+
+			WorldGen.PlaceTile(chest.X, chest.Y - 2, TileID.Meteorite);
+		}
+
+		public static bool PlaceChest(int x, int y, int type, (int, int)[] mainItems, (int, int)[] subItems, bool noTypeRepeat = true, UnifiedRandom r = null, int subItemLength = 6, int style = 0, bool overRide = false, int width = 2, int height = 2)
+		{
+			r = r ?? Main.rand;
+
+			if (overRide)
+				for (int i = x; i < x + width; ++i)
+					for (int j = y; j < y + height; ++j)
+						WorldGen.KillTile(i, j - 1, false, false, true);
+
+			int ChestIndex = WorldGen.PlaceChest(x, y, (ushort)type, false, style);
+			if (ChestIndex != -1)
+			{
+				int main = r.Next(mainItems.Length);
+				Main.chest[ChestIndex].item[0].SetDefaults(mainItems[main].Item1);
+				Main.chest[ChestIndex].item[0].stack = mainItems[main].Item2;
+
+				int reps = 0;
+				var usedTypes = new List<int>();
+
+				for (int i = 0; i < subItemLength; ++i)
+				{
+				repeat:
+					if (reps > 50)
+					{
+						SpiritMod.Instance.Logger.Info("WARNING: Attempted to repeat item placement too often. Report to dev. [SPIRITMOD]");
+						break;
+					}
+
+					int sub = r.Next(subItems.Length);
+					int itemType = subItems[sub].Item1;
+					int itemStack = subItems[sub].Item2;
+
+					if (noTypeRepeat && usedTypes.Contains(itemType))
+						goto repeat;
+
+					usedTypes.Add(itemType);
+
+					Main.chest[ChestIndex].item[i + 1].SetDefaults(itemType);
+					Main.chest[ChestIndex].item[i + 1].stack = itemStack;
+				}
+				return true;
+			}
+			return false;
 		}
 
 		private static float OceanSlopeRoughness()

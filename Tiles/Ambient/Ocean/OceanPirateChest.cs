@@ -25,8 +25,8 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			Main.tileValue[Type] = 500;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.newTile.Origin = new Point16(0, 1);
-			TileObjectData.newTile.Height = 3;
-			TileObjectData.newTile.Width = 3;
+			TileObjectData.newTile.Height = 2;
+			TileObjectData.newTile.Width = 2;
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
 			TileObjectData.newTile.HookCheck = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
 			TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.AfterPlacement_Hook), -1, 0, false);
@@ -45,6 +45,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			chest = "Pirate Chest";
             TileID.Sets.HasOutlines[Type] = true;
         }
+
 		// Current animation is a little strange, needs some work 
 		//also currently uses the duelist's legacy as an unlock item lol
 		public override bool HasSmartInteract() => true;
@@ -57,23 +58,19 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 		{
 			Tile tile = Main.tile[i, j];
 			if (tile == null)
-			{
 				return name;
-			}
+
 			int left = i, top = j;
+
 			if (tile.frameX % 54 != 0)
-			{
 				left--;
-			}
+
 			if (tile.frameY != 0)
-			{
 				top--;
-			}
+
 			int chest = Chest.FindChest(left, top);
 			if (chest != -1 && Main.chest[chest].name != "")
-			{
 				name += ": " + Main.chest[chest].name;
-			}
 			return name;
 		}
 
@@ -88,15 +85,13 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			Player player = Main.LocalPlayer;
 			Tile tile = Main.tile[i, j];
 			Main.mouseRightRelease = false;
+
 			int left = i, top = j;
 			if (tile.frameX % 54 != 0)
-			{
 				left--;
-			}
 			if (tile.frameY != 0)
-			{
 				top--;
-			}
+
 			if (player.sign >= 0)
 			{
 				Main.PlaySound(SoundID.MenuClose);
@@ -136,19 +131,16 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 				if (isLocked)
 				{
 					int chestKey = mod.ItemType("DuelistLegacy");
-					for (int k = 0; k < 58; k++)
+					for (int k = 0; k < player.inventory.Length; k++)
 					{
 						if (player.inventory[k].type == chestKey && player.inventory[k].stack > 0 && Chest.Unlock(left, top))
 						{
 							player.inventory[k].stack--;
 							if (player.inventory[k].stack <= 0)
-							{
 								player.inventory[k].TurnToAir();
-							}
+
 							if (Main.netMode == NetmodeID.MultiplayerClient)
-							{
 								NetMessage.SendData(MessageID.Unlock, -1, -1, null, player.whoAmI, 1f, left, top);
-							}
 							break;
 						}
 					}
@@ -168,10 +160,10 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 						{
 							player.chest = chest;
 							Main.playerInventory = true;
+
 							if (PlayerInput.GrappleAndInteractAreShared)
-							{
 								PlayerInput.Triggers.JustPressed.Grapple = false;
-							}
+
 							Main.recBigList = false;
 							player.chestX = left;
 							player.chestY = top;
@@ -189,20 +181,18 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			Player player = Main.LocalPlayer;
 			Tile tile = Main.tile[i, j];
 			int left = i, top = j;
+
 			if (tile.frameX % 36 != 0)
-			{
 				left--;
-			}
+
 			if (tile.frameY != 0)
-			{
 				top--;
-			}
+
 			int chest = Chest.FindChest(left, top);
 			player.showItemIcon2 = -1;
+
 			if (chest < 0)
-			{
 				player.showItemIconText = Language.GetTextValue("LegacyChestType.0");
-			}
 			else
 			{
 				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Pirate Chest";

@@ -29,12 +29,6 @@ namespace SpiritMod.Tiles.Ambient.Kelp
             Main.tileBlockLight[Type] = false; //Don't block light
 			Main.tileFrameImportant[Type] = true;
 
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
-			TileObjectData.newTile.WaterPlacement = LiquidPlacement.OnlyInLiquid;
-			TileObjectData.newTile.AnchorValidTiles = new int[] { TileID.Sand, TileID.Ebonsand, TileID.Crimsand, Type };
-			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.AlternateTile | AnchorType.SolidTile, 1, 0);
-			TileObjectData.addTile(Type);
-
 			AddMapEntry(new Color(21, 92, 19));
             dustType = DustID.Grass;
             soundType = SoundID.Grass;

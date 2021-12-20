@@ -32,19 +32,19 @@ namespace SpiritMod.Items.Accessory.Ukelele
 	}
 
 	public class UkelelePlayer : ModPlayer
-    {
+	{
 		public bool active = false;
 		int overcharge = 0;
 
 		public override void ResetEffects()
-        {
-            active = false;
+		{
+			active = false;
 			if (overcharge > 0)
-			overcharge--;
-        }
+				overcharge--;
+		}
 
 		public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
-        {
+		{
 			if (active && proj.type != ModContent.ProjectileType<UkeleleProj>() && Main.rand.Next(4) == 0 && overcharge < 30)
 			{
 				Main.PlaySound(SoundID.Item, target.position, 12);
@@ -53,7 +53,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
 		}
 
 		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
-        {
+		{
 			if (active && Main.rand.Next(4) == 0 && overcharge < 30)
 			{
 				Main.PlaySound(SoundID.Item, target.position, 12);
@@ -75,8 +75,8 @@ namespace SpiritMod.Items.Accessory.Ukelele
 	}
 
 	public class UkeleleProj : ModProjectile
-    {
-        public NPC[] hit = new NPC[8];
+	{
+		public NPC[] hit = new NPC[8];
 		public NPC currentEnemy;
 		int animCounter = 5;
 
@@ -99,12 +99,14 @@ namespace SpiritMod.Items.Accessory.Ukelele
 			projectile.alpha = 255;
 		}
 
-		private int Mode {
+		private int Mode
+		{
 			get => (int)projectile.ai[0];
 			set => projectile.ai[0] = value;
 		}
 
-		private NPC Target {
+		private NPC Target
+		{
 			get => Main.npc[(int)projectile.ai[1]];
 			set => projectile.ai[1] = value.whoAmI;
 		}
@@ -117,19 +119,23 @@ namespace SpiritMod.Items.Accessory.Ukelele
 
 		public override void AI()
 		{
-			if (Mode == 0) {
+			if (Mode == 0)
+			{
 				SetOrigin(projectile.position);
 				Mode = 1;
 			}
-			else {
-				if (Mode == 2) {
+			else
+			{
+				if (Mode == 2)
+				{
 					projectile.extraUpdates = 0;
 					projectile.numUpdates = 0;
 				}
-				if (projectile.timeLeft < 300) {
+				if (projectile.timeLeft < 300)
+				{
 					animCounter--;
 					if (animCounter > 0)
-						projectile.Center = currentEnemy.Center; 
+						projectile.Center = currentEnemy.Center;
 					if (animCounter == 1)
 					{
 						NPC target = TargetNext(currentEnemy);
@@ -150,7 +156,8 @@ namespace SpiritMod.Items.Accessory.Ukelele
 		private void Trail(Vector2 from, Vector2 to)
 		{
 			float distance = Vector2.Distance(from, to);
-			for (float w = 0; w < 1; w += 2 / distance) {
+			for (float w = 0; w < 1; w += 2 / distance)
+			{
 				Vector2 c1 = Vector2.Lerp(from, to, 0.5f) - new Vector2(0, distance / 3);
 				Vector2 point = Helpers.TraverseBezier(from, to, c1, w);
 				int d = Dust.NewDust(point, 7, 7, DustID.Electric, 0f, 0f, 0, default, .3f * projectile.penetrate);
@@ -174,12 +181,15 @@ namespace SpiritMod.Items.Accessory.Ukelele
 			range *= range;
 			NPC target = null;
 			var center = projectile.Center;
-			for (int i = 0; i < 200; ++i) {
+			for (int i = 0; i < 200; ++i)
+			{
 				NPC npc = Main.npc[i];
 				//if npc is a valid target (active, not friendly, and not a critter)
-				if (npc != current && npc.CanBeChasedBy() && CanTarget(npc)) {
+				if (npc != current && npc.CanBeChasedBy() && CanTarget(npc))
+				{
 					float dist = Vector2.DistanceSquared(center, npc.Center);
-					if (dist < range) {
+					if (dist < range)
+					{
 						range = dist;
 						target = npc;
 					}
@@ -202,7 +212,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
 	}
 
 	public class UkeleleProjTwo : ModProjectile
-    {
+	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ukelele");
@@ -232,7 +242,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
 		{
 			Texture2D tex = Main.projectileTexture[projectile.type];
 			int frameHeight = tex.Height / 4;
-			sb.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0, projectile.gfxOffY), new Rectangle(0,projectile.frame * frameHeight,tex.Width, frameHeight), Color.White, projectile.rotation, new Vector2(tex.Width - (projectile.width / 2), frameHeight), projectile.scale, SpriteEffects.None, 0);
+			sb.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0, projectile.gfxOffY), new Rectangle(0, projectile.frame * frameHeight, tex.Width, frameHeight), Color.White, projectile.rotation, new Vector2(tex.Width - (projectile.width / 2), frameHeight), projectile.scale, SpriteEffects.None, 0);
 			return false;
 		}
 	}
