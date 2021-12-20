@@ -212,7 +212,7 @@ namespace SpiritMod.World
 					(ItemID.GoldenBed, 1), (ItemID.GoldenBathtub, 1), (ItemID.MythrilBar, BarStack()), (ItemID.AdamantiteBar, BarStack()), (ItemID.CobaltBar, BarStack()),
 					(ItemID.TitaniumBar, BarStack()), (ItemID.PalladiumBar, BarStack()), (ItemID.OrichalcumBar, BarStack())
 				},
-				true, WorldGen.genRand, WorldGen.genRand.Next(15, 21), 0, true, 2, 2);
+				true, WorldGen.genRand, WorldGen.genRand.Next(15, 21), 1, true, 2, 2);
 		}
 
 		public static bool PlaceChest(int x, int y, int type, (int, int)[] mainItems, (int, int)[] subItems, bool noTypeRepeat = true, UnifiedRandom r = null, int subItemLength = 6, int style = 0, bool overRide = false, int width = 2, int height = 2)

@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Sets.PirateStuff;
 using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
-using Terraria.GameContent.Achievements;
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.Localization;
@@ -23,11 +23,11 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileValue[Type] = 500;
+			TileID.Sets.HasOutlines[Type] = true;
+
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.newTile.Origin = new Point16(0, 1);
-			TileObjectData.newTile.Height = 2;
-			TileObjectData.newTile.Width = 2;
-			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
+			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
 			TileObjectData.newTile.HookCheck = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
 			TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.AfterPlacement_Hook), -1, 0, false);
 			TileObjectData.newTile.AnchorInvalidTiles = new int[] { 127 };
@@ -35,24 +35,26 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
 			TileObjectData.addTile(Type);
+
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Pirate Chest");
-			AddMapEntry(new Color(179, 146, 107), name, MapChestName);
+			AddMapEntry(new Color(161, 115, 54), name, MapChestName);
+			name = CreateMapEntryName(Name + "_Locked"); // With multiple map entries, you need unique translation keys.
+			name.SetDefault("Locked Pirate Chest");
+			AddMapEntry(new Color(87, 64, 31), name, MapChestName);
+
 			dustType = DustID.Dirt;
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Containers };
-			chestDrop = ModContent.ItemType<Items.Sets.PirateStuff.PirateChest>();
+			chestDrop = ModContent.ItemType<PirateChest>();
 			chest = "Pirate Chest";
-            TileID.Sets.HasOutlines[Type] = true;
         }
 
-		// Current animation is a little strange, needs some work 
-		//also currently uses the duelist's legacy as an unlock item lol
 		public override bool HasSmartInteract() => true;
 
 		public override ushort GetMapOption(int i, int j) => (ushort)(IsLockedChest(i, j) ? 1 : 0);
 
-		public override bool IsLockedChest(int i, int j) => Main.tile[i, j] != null && Main.tile[i, j].frameX / 54 == 2;
+		public override bool IsLockedChest(int i, int j) => Main.tile[i, j] != null && Main.tile[i, j].frameX > 18;
 
 		public string MapChestName(string name, int i, int j)
 		{
@@ -87,7 +89,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			Main.mouseRightRelease = false;
 
 			int left = i, top = j;
-			if (tile.frameX % 54 != 0)
+			if (tile.frameX % 36 != 0)
 				left--;
 			if (tile.frameY != 0)
 				top--;
@@ -99,12 +101,14 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 				Main.editSign = false;
 				Main.npcChatText = "";
 			}
+
 			if (Main.editChest)
 			{
 				Main.PlaySound(SoundID.MenuTick);
 				Main.editChest = false;
 				Main.npcChatText = "";
 			}
+
 			if (player.editedChestName)
 			{
 				NetMessage.SendData(MessageID.SyncPlayerChest, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f);
@@ -130,13 +134,16 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			{
 				if (isLocked)
 				{
-					int chestKey = mod.ItemType("DuelistLegacy");
+					int chestKey = ModContent.ItemType<PirateKey>();
 					for (int k = 0; k < player.inventory.Length; k++)
 					{
-						if (player.inventory[k].type == chestKey && player.inventory[k].stack > 0 && Chest.Unlock(left, top))
+						if (player.inventory[k].type == chestKey && player.inventory[k].stack > 0)
 						{
-							player.inventory[k].stack--;
-							if (player.inventory[k].stack <= 0)
+							for (int l = 0; l < 2; ++l) //Look into why Chest.Unlock(left, top) doesn't work???
+								for (int v = 0; v < 2; ++v)
+									Framing.GetTileSafely(left + l, top + v).frameX -= 36;
+
+							if (--player.inventory[k].stack <= 0)
 								player.inventory[k].TurnToAir();
 
 							if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -198,7 +205,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Pirate Chest";
 				if (player.showItemIconText == "Pirate Chest")
 				{
-					player.showItemIcon2 = IsLockedChest(left, top) ? mod.ItemType("DuelistLegacy") : mod.ItemType("DuelistLegacy");
+					player.showItemIcon2 = IsLockedChest(left, top) ? ModContent.ItemType<PirateKey>() : ModContent.ItemType<PirateChest>();
 					player.showItemIconText = "";
 				}
 			}
