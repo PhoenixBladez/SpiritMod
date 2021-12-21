@@ -54,6 +54,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 				int loot = Main.rand.Next(lootTable.Length);
 				player.QuickSpawnItem(lootTable[loot]);
 			}
+
 			if (Main.rand.Next(4) > 0)
 			{
 				int[] lootTable2 = {
@@ -64,12 +65,11 @@ namespace SpiritMod.Items.Sets.FloatingItems
 				};
 				int loot2 = Main.rand.Next(lootTable2.Length);
 				int Booty = Main.rand.Next(6, 10);
-				for (int j = 0; j < Booty; j++)
-				{
-					player.QuickSpawnItem(lootTable2[loot2]);
-				}
 
+				for (int j = 0; j < Booty; j++)
+					player.QuickSpawnItem(lootTable2[loot2]);
 			}
+
 			if (Main.rand.Next(6) == 1)
 			{
 				int Gems = Main.rand.Next(5, 7);
@@ -88,6 +88,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 					player.QuickSpawnItem(lootTable3[loot3]);
 				}
 			}
+
 			if (Main.rand.Next(2) == 0)
 			{
 				int Coins = Main.rand.Next(1, 3);
@@ -100,11 +101,13 @@ namespace SpiritMod.Items.Sets.FloatingItems
 				for (int K = 0; K < cobweb; K++)
 					player.QuickSpawnItem(ItemID.Cobweb);
 			}
+
 			int num = Main.rand.Next(50, 130);
 			for (int j = 0; j < num; j++)
 				player.QuickSpawnItem(ModContent.ItemType<Items.Weapon.Thrown.ExplosiveRum.ExplosiveRum>());
 		}
 	}
+
 	public class SunkenTreasureTile : ModTile
 	{
 		public override void SetDefaults()
@@ -126,15 +129,8 @@ namespace SpiritMod.Items.Sets.FloatingItems
 			dustType = -1;
 			AddMapEntry(new Color(133, 106, 56), name);
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
-		{
-			offsetY = 2;
-		}
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<SunkenTreasure>());
 
-		}
-
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<SunkenTreasure>());
 	}
 }

@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Sets.PirateStuff
 			item.useAnimation = 15;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.createTile = ModContent.TileType<OceanPirateChest>();
-			item.placeStyle = 1;
+			item.placeStyle = 0;
 			item.useTurn = true;
 			item.autoReuse = true;
 			item.consumable = true;

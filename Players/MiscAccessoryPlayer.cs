@@ -35,8 +35,8 @@ namespace SpiritMod.Players
 		public override void ModifyWeaponDamage(Item item, ref float add, ref float mult, ref float flat)
 		{
 			// Frost Giant Belt
-			if (HeldItemIsClub(player))
-				mult += item.knockBack / 5f;
+			if (player.AccessoryEquipped<FrostGiantBelt>() && HeldItemIsClub(player) && item.type == player.HeldItem.type)
+				mult += 1 + (item.knockBack / 30f);
 		}
 
 		public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)

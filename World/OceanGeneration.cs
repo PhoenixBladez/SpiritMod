@@ -124,6 +124,7 @@ namespace SpiritMod.World
 			}
 
 			PlacePirateChest(side == 0 ? bounds.Right : bounds.Left);
+			PlaceSunkenTreasure(side == 0 ? bounds.Right : bounds.Left);
 
 			for (int i = bounds.Left; i < bounds.Right; ++i)
 			{
@@ -178,6 +179,21 @@ namespace SpiritMod.World
 						}
 					}
 				}
+			}
+		}
+
+		private static void PlaceSunkenTreasure(int innerEdge)
+		{
+			int sunkenCount = WorldGen.genRand.Next(3);
+
+			for (int i = 0; i < sunkenCount; ++i)
+			{
+				int sunkenX = innerEdge - WorldGen.genRand.Next(133, innerEdge - 40);
+				var pos = new Point(sunkenX, (int)(Main.maxTilesY * 0.35f / 16f));
+				while (!WorldGen.SolidTile(pos.X, pos.Y - 1))
+					pos.Y++;
+
+
 			}
 		}
 

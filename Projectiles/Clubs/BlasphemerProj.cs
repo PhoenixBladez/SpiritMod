@@ -35,15 +35,15 @@ namespace SpiritMod.Projectiles.Clubs
         public override void SafeDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			int size = 84;
-			if (projectile.ai[0] >= chargeTime) {
+			if (projectile.ai[0] >= ChargeTime) {
 
-				Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, size * 2, size, size), Color.White * 0.9f, Truerotation, Origin, projectile.scale, Effects, 1);
+				Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, size * 2, size, size), Color.White * 0.9f, TrueRotation, Origin, projectile.scale, Effects, 1);
                 Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
 				for (int k = 0; k < projectile.oldPos.Length; k++)
                 {
                     Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
                     Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-                    spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, Truerotation, drawOrigin, projectile.scale, Effects, 0f);
+                    spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, TrueRotation, drawOrigin, projectile.scale, Effects, 0f);
                 }
             }
 		}

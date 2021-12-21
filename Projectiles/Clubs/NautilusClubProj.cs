@@ -37,10 +37,10 @@ namespace SpiritMod.Projectiles.Clubs
         public override void SafeDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             int size = 82;
-            if (projectile.ai[0] >= chargeTime)
+            if (projectile.ai[0] >= ChargeTime)
             {
 
-                Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, size * 2, size, size), Color.White * 0.9f, Truerotation, Origin, projectile.scale, Effects, 1);
+                Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, size * 2, size, size), Color.White * 0.9f, TrueRotation, Origin, projectile.scale, Effects, 1);
             }
         }
         public NautilusClubProj() : base(64, 21, 48, -1, 82, 6, 11, 1.9f, 17f){}
