@@ -82,7 +82,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 					}
 
 				}
-				direction = direction.RotatedBy(Main.rand.NextFloat(0 - ((float)Math.Sqrt(projectile.localAI[0]) / 80f), ((float)Math.Sqrt(projectile.localAI[0]) / 80f)));
+				direction = direction.RotatedBy(Main.rand.NextFloat(0 - ((float)Math.Sqrt(projectile.localAI[0]) / 300f), ((float)Math.Sqrt(projectile.localAI[0]) / 300f)));
 				player.itemRotation = direction.ToRotation();
 
 				if (player.direction != 1)
