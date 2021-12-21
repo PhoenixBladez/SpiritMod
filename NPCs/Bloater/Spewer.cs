@@ -22,10 +22,12 @@ namespace SpiritMod.NPCs.Bloater
 			npc.damage = 25;
 			npc.defense = 5;
 			npc.knockBackResist = 0.2f;
-			npc.value = 40;
+			npc.value = 90;
 			npc.lifeMax = 45;
 			npc.HitSound = SoundID.NPCHit18;
 			npc.DeathSound = SoundID.NPCDeath21;
+			npc.buffImmune[BuffID.Poisoned] = true;
+			npc.buffImmune[BuffID.Confused] = true;
 			npc.noGravity = true;
 			npc.noTileCollide = false;
 			banner = npc.type;

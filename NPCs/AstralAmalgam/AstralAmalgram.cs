@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.NPCs.AstralAmalgam
 {
@@ -27,6 +28,9 @@ namespace SpiritMod.NPCs.AstralAmalgam
 			npc.HitSound = SoundID.NPCHit3;
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.value = 210f;
+			npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
+			npc.buffImmune[BuffID.Poisoned] = true;
+			npc.buffImmune[BuffID.Confused] = true;
 			npc.knockBackResist = .40f;
 			npc.noTileCollide = true;
 			npc.noGravity = true;

@@ -20,6 +20,8 @@ namespace SpiritMod.NPCs.Alien
 			npc.damage = 70;
 			npc.defense = 30;
 			npc.lifeMax = 600;
+			npc.buffImmune[BuffID.Poisoned] = true;
+			npc.buffImmune[BuffID.WeaponImbueVenom] = true;
 			npc.HitSound = SoundID.NPCHit6;
 			npc.DeathSound = SoundID.NPCDeath8;
 			npc.value = 10000f;

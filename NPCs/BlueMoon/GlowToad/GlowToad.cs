@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Projectiles;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.NPCs.BlueMoon.GlowToad
 {
@@ -29,7 +30,9 @@ namespace SpiritMod.NPCs.BlueMoon.GlowToad
 			npc.lifeMax = 1080;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath5;
-			npc.value = 2000f;
+			npc.value = 600f;
+			npc.buffImmune[ModContent.BuffType<StarFlame>()] = true;
+			npc.buffImmune[BuffID.Confused] = true;
 			npc.knockBackResist = 0.5f;
 		}
 		public override void HitEffect(int hitDirection, double damage)

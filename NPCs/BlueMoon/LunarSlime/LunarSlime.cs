@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.NPCs.BlueMoon.LunarSlime
 {
@@ -34,6 +35,8 @@ namespace SpiritMod.NPCs.BlueMoon.LunarSlime
 			npc.aiStyle = 1;
 			npc.buffImmune[BuffID.Poisoned] = true;
 			npc.buffImmune[BuffID.Venom] = true;
+			npc.buffImmune[ModContent.BuffType<StarFlame>()] = true;
+
 			aiType = NPCID.BlueSlime;
 			animationType = NPCID.BlueSlime;
             banner = npc.type;
