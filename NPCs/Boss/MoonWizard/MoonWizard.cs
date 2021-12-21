@@ -33,7 +33,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 
 		public override void SetDefaults()
 		{
-			npc.lifeMax = 1600;
+			npc.lifeMax = 2000;
 			npc.defense = 10;
 			npc.value = 40000;
 			npc.aiStyle = -1;
