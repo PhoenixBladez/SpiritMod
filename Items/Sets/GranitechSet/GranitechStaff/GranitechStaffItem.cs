@@ -23,8 +23,8 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			item.noMelee = true;
 			item.autoReuse = true;
 			item.channel = true;
-			item.value = Item.sellPrice(0, 1, 32, 0);
-			item.rare = ItemRarityID.Orange;
+			item.rare = ItemRarityID.LightRed;
+			item.value = Item.sellPrice(gold: 2);
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ProjectileID.PurificationPowder;
 			item.mana = 60;

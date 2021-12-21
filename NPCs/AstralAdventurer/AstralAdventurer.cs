@@ -33,6 +33,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
 			npc.width = 30;
 			npc.height = 56;
 			npc.damage = 0;
+			npc.buffImmune[BuffID.OnFire] = true;
 			npc.lavaImmune = false;
 			npc.noTileCollide = false;
 			npc.noGravity = false;

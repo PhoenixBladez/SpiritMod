@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.NPCs.BlizzardBandit
 {
@@ -27,7 +28,10 @@ namespace SpiritMod.NPCs.BlizzardBandit
             npc.value = 65f;
             npc.knockBackResist = 0.7f;
             npc.width = 30;
-            npc.height = 54;
+			npc.buffImmune[BuffID.Frostburn] = true;
+			npc.buffImmune[ModContent.BuffType<MageFreeze>()] = true;
+			npc.buffImmune[ModContent.BuffType<CryoCrush>()] = true;
+			npc.height = 54;
             npc.damage = 15;
             npc.lavaImmune = false;
             npc.noTileCollide = false;

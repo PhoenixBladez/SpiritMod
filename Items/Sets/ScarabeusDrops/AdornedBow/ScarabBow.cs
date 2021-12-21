@@ -54,11 +54,11 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.AdornedBow
 		protected override void SetBowDefaults()
 		{
 			minDamage = 8;
-			maxDamage = 40;
+			maxDamage = 36;
 			minVelocity = 10;
 			maxVelocity = 18;
 			predictor = -1;
-			chargeRate = 0.02f;
+			chargeRate = 0.017f;
 			dechargeRate = 1f;
 		}
 

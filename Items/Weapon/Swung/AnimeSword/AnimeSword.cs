@@ -75,8 +75,8 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
                     charge++;
                 if (charge == 60)
                 {
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/slashdash"), projectile.Center);
-                    SpiritMod.primitives.CreateTrail(new AnimePrimTrail(projectile));
+					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/slashdash").WithPitchVariance(0.4f).WithVolume(0.4f), projectile.Center);
+					SpiritMod.primitives.CreateTrail(new AnimePrimTrail(projectile));
                 }
                 if (charge > 60 && charge < MAXCHARGE)
                 {

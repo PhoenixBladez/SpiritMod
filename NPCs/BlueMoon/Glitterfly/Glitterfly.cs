@@ -8,6 +8,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 {
@@ -35,6 +36,8 @@ namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 			npc.knockBackResist = 0.1f;
 
 			npc.noGravity = true;
+			npc.buffImmune[ModContent.BuffType<StarFlame>()] = true;
+			npc.buffImmune[BuffID.Confused] = true;
 
 			animationType = NPCID.Pixie;
 			npc.HitSound = SoundID.NPCHit44;
