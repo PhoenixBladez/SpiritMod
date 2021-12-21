@@ -134,7 +134,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 		/// </summary>
 		private void OnLaserFire()
 		{
-			Owner.GetModPlayer<MyPlayer>().Shake = 15;
+			Owner.GetModPlayer<MyPlayer>().Shake = 8;
 
 			projectile.velocity = (projectile.direction > 0) ? projectile.velocity.RotatedBy(-MathHelper.Pi / 5) : projectile.velocity.RotatedBy(MathHelper.Pi / 5); //recoil effect
 
