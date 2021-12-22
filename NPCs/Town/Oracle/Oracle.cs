@@ -20,7 +20,8 @@ namespace SpiritMod.NPCs.Town.Oracle
 
 		private ref float Timer => ref npc.ai[0];
 		private ref float AttackTimer => ref npc.ai[1];
-
+		private ref float MovementTimer => ref npc.ai[2];
+		private ref float MovementDir => ref npc.ai[3];
 
 		private ref Player NearestPlayer => ref Main.player[npc.target];
 
@@ -60,14 +61,86 @@ namespace SpiritMod.NPCs.Town.Oracle
 		public override void AI()
 		{
 			Timer++;
-			npc.velocity.Y = (float)Math.Sin(Timer * 0.02f) * 0.12f;
-
-			npc.TargetClosest(true);
+			npc.velocity.Y = (float)Math.Sin(Timer * 0.06f) * 0.4f;
 
 			if (npc.DistanceSQ(NearestPlayer.Center) < 400 * 400)
 				npc.spriteDirection = NearestPlayer.Center.X < npc.Center.X ? -1 : 1;
 
+			npc.TargetClosest(true);
+			Movement();
 			OffenseAbilities();
+		}
+
+		private void Movement()
+		{
+			const float MoveSpeed = 1f;
+
+			int tileDist = GetTileBelow(0, out bool liquid);
+
+			if (!liquid)
+			{
+				if ((npc.Center.Y / 16f) + 7 < tileDist)
+					npc.velocity.Y += 0.16f; //Grounds the NPC
+				if ((npc.Center.Y / 16f) > tileDist - 6)
+					npc.velocity.Y -= 0.16f; //Raises the NPC
+
+				GetTileBelow(-1, out bool left);
+				GetTileBelow(1, out bool right);
+
+				MovementTimer--;
+				if (MovementTimer < 0)
+				{
+					var options = new List<float>
+					{
+						0f
+					};
+
+					if (!left)
+						options.Add(-MoveSpeed);
+
+					if (!right)
+						options.Add(MoveSpeed);
+
+					if (MovementDir == 0)
+						MovementDir = Main.rand.Next(options);
+					else
+						MovementDir = 0f;
+
+					MovementTimer = MovementDir == 0f ? Main.rand.Next(200, 300) : Main.rand.Next(300, 400);
+				}
+
+				if (MovementDir < 0f && left)
+					MovementDir = 0f;
+				else if (MovementDir > 0f && right)
+					MovementDir = 0f;
+			}
+			else if (liquid)
+			{
+
+			}
+
+			npc.velocity.X = MovementDir;
+		}
+
+		private int GetTileBelow(int xOffset, out bool liquid)
+		{
+			int tileDist = (int)(npc.Center.Y / 16f);
+			liquid = true;
+
+			while (true)
+			{
+				tileDist++;
+
+				Tile t = Framing.GetTileSafely((int)(npc.Center.X / 16f) + xOffset, tileDist);
+				if (t.active() && Main.tileSolid[t.type])
+				{
+					liquid = false;
+					break;
+				}
+				else if (t.liquid > 155)
+					break;
+			}
+			return tileDist;
 		}
 
 		private void OffenseAbilities()
