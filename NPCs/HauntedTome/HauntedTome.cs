@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Prim;
+using SpiritMod.Buffs;
 using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
