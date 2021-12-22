@@ -35,8 +35,11 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			IL.Terraria.GameContent.Shaders.WaterShaderData.QueueRipple_Vector2_Color_Vector2_RippleShape_float += IncreaseRippleSize; //Makes ripple bigger
 			IL.Terraria.GameContent.Shaders.WaterShaderData.DrawWaves += WaterShaderData_DrawWaves;
 
-			transparencyEffect = ModContent.GetInstance<SpiritMod>().GetEffect("Effects/SurfaceWaterModifications/SurfaceWaterFX");
-			rippleTex = Main.instance.OurLoad<Texture2D>("Images/Misc/Ripples");
+			if (!Main.dedServ)
+			{
+				transparencyEffect = ModContent.GetInstance<SpiritMod>().GetEffect("Effects/SurfaceWaterModifications/SurfaceWaterFX");
+				rippleTex = Main.instance.OurLoad<Texture2D>("Images/Misc/Ripples");
+			}
 		}
 
 		public static void Unload()

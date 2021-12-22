@@ -31,24 +31,34 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		private static Texture2D EventIcon => SpiritMod.Instance.GetTexture("Textures/InvasionIcons/Starjinx_Icon");
 
 		//Array of textures used to draw the comets
-		private static readonly Texture2D[] Comets = new Texture2D[]
-		{
-			SpiritMod.Instance.GetTexture("Textures/InvasionIcons/Starjinx_CometS"),
-			SpiritMod.Instance.GetTexture("Textures/InvasionIcons/Starjinx_CometM"),
-			SpiritMod.Instance.GetTexture("Textures/InvasionIcons/Starjinx_CometL")
-		};
+		private static readonly Texture2D[] Comets;
 
 		private static Vector2 Size => new Vector2(220f, 60f);
 
-		private static readonly StarjinxUIComet[] UiComets = new StarjinxUIComet[]
+		private static readonly StarjinxUIComet[] UiComets;
+
+		static StarjinxUI()
 		{
-			new StarjinxUIComet(0, Comets[0]),
-			new StarjinxUIComet(1, Comets[0]),
-			new StarjinxUIComet(2, Comets[0]),
-			new StarjinxUIComet(3, Comets[1]),
-			new StarjinxUIComet(4, Comets[1]),
-			new StarjinxUIComet(5, Comets[2])
-		};
+			if (!Main.dedServ)
+			{
+				Comets = new Texture2D[]
+				{
+					SpiritMod.Instance.GetTexture("Textures/InvasionIcons/Starjinx_CometS"),
+					SpiritMod.Instance.GetTexture("Textures/InvasionIcons/Starjinx_CometM"),
+					SpiritMod.Instance.GetTexture("Textures/InvasionIcons/Starjinx_CometL")
+				};
+
+				UiComets = new StarjinxUIComet[]
+				{
+					new StarjinxUIComet(0, Comets[0]),
+					new StarjinxUIComet(1, Comets[0]),
+					new StarjinxUIComet(2, Comets[0]),
+					new StarjinxUIComet(3, Comets[1]),
+					new StarjinxUIComet(4, Comets[1]),
+					new StarjinxUIComet(5, Comets[2])
+				};
+			}
+		}
 
 		/// <summary>
 		/// Called during the world's initialization to reset certain values, that could otherwise linger unwantedly upon exiting a world and rejoining
