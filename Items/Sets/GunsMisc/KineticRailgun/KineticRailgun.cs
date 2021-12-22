@@ -184,6 +184,9 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 				int dust = Dust.NewDust(target.position, target.width, target.height, DustID.Electric);
 				Main.dust[dust].scale = 0.8f;
 			}
+
+			if (target.life <= 0)
+				Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<VortexExplosion>(), 0, 0);
 		}
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -230,6 +233,49 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 		}
 	}
 
+	internal class VortexExplosion : ModProjectile
+	{
+
+		int frameX = 0;
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Vortex Explosion");
+			Main.projFrames[projectile.type] = 7;
+		}
+
+		public override void SetDefaults()
+		{
+			projectile.friendly = false;
+			projectile.ranged = true;
+			projectile.tileCollide = false;
+			projectile.Size = new Vector2(166, 158);
+			projectile.penetrate = -1;
+		}
+		public override void AI()
+		{
+			if (projectile.frameCounter == 0)
+			{
+				frameX = Main.rand.Next(2);
+			}
+			projectile.velocity = Vector2.Zero;
+			projectile.frameCounter++;
+			if (projectile.frameCounter % 4 == 0)
+				projectile.frame++;
+			if (projectile.frame >= Main.projFrames[projectile.type])
+				projectile.active = false;
+
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D tex = Main.projectileTexture[projectile.type];
+			int frameHeight = tex.Height / Main.projFrames[projectile.type];
+			Rectangle frame = new Rectangle((tex.Width / 2) * frameX, frameHeight * projectile.frame, tex.Width / 2, frameHeight);
+				spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frame, lightColor, projectile.rotation, new Vector2(tex.Width / 4, frameHeight / 2), projectile.scale, SpriteEffects.None, 0f);
+			return false;
+		}
+		public override Color? GetAlpha(Color lightColor) => Color.White;
+	}
 	public class TeslaCannonGNPC : GlobalNPC
 	{
 		public override bool InstancePerEntity => true;
