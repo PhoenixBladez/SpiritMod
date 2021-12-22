@@ -30,6 +30,9 @@ namespace SpiritMod.NPCs.FallingAsteroid
 			npc.lavaImmune = true;
 			npc.noGravity = true;
 			npc.damage = 30;
+			npc.buffImmune[BuffID.OnFire] = true;
+			npc.buffImmune[BuffID.Confused] = true;
+			npc.buffImmune[BuffID.Poisoned] = true;
 			npc.HitSound = SoundID.NPCHit3;
 			npc.DeathSound = SoundID.NPCDeath43;
 		}

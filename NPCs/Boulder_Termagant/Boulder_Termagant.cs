@@ -36,6 +36,7 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 			npc.width = 50;
 			npc.height = 38;
 			npc.damage = 70;
+			npc.buffImmune[BuffID.Poisoned] = true;
 			npc.lavaImmune = false;
 			npc.noTileCollide = false;
 			npc.HitSound = new Terraria.Audio.LegacySoundStyle(3, 6);

@@ -26,6 +26,9 @@ namespace SpiritMod.NPCs.GladiatorSpirit
 			npc.lifeMax = 80;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath6;
+			npc.buffImmune[BuffID.Poisoned] = true;
+			npc.buffImmune[BuffID.Venom] = true;
+			npc.buffImmune[BuffID.Confused] = true;
 			npc.value = 220f;
 			npc.knockBackResist = .40f;
 			npc.noGravity = true;

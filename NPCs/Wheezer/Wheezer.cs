@@ -27,6 +27,7 @@ namespace SpiritMod.NPCs.Wheezer
 			npc.value = 120f;
 			npc.knockBackResist = .35f;
 			npc.aiStyle = 3;
+			npc.buffImmune[BuffID.Poisoned] = true;
 
 			aiType = NPCID.Skeleton;
 			banner = npc.type;

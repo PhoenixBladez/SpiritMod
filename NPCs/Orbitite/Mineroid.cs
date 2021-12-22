@@ -28,6 +28,8 @@ namespace SpiritMod.NPCs.Orbitite
 			npc.value = 110f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.buffImmune[BuffID.OnFire] = true;
+			npc.buffImmune[BuffID.Confused] = true;
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 44;
 			aiType = NPCID.FlyingAntlion;

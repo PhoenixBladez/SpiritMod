@@ -47,6 +47,9 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			npc.npcSlots = 15f;
 			npc.HitSound = SoundID.NPCHit31;
 			npc.DeathSound = SoundID.NPCDeath5;
+
+			npc.buffImmune[BuffID.Confused] = true;
+
 			bossBag = ModContent.ItemType<BagOScarabs>();
 		}
 

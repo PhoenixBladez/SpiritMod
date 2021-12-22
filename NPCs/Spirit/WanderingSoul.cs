@@ -35,6 +35,10 @@ namespace SpiritMod.NPCs.Spirit
 			aiType = NPCID.Wraith;
 			animationType = NPCID.Wraith;
 			npc.stepSpeed = .5f;
+			for (int k = 0; k < npc.buffImmune.Length; k++)
+			{
+				npc.buffImmune[k] = true;
+			}
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{

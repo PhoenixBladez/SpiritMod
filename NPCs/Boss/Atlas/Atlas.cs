@@ -46,6 +46,14 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			npc.knockBackResist = 0f;
 			npc.boss = true;
 			npc.timeLeft = NPC.activeTime * 30;
+
+			npc.buffImmune[BuffID.Confused] = true;
+			npc.buffImmune[BuffID.Poisoned] = true;
+			npc.buffImmune[BuffID.Venom] = true;
+			npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
+			npc.buffImmune[ModContent.BuffType<BCorrupt>()] = true;
+			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
+
 			npc.noGravity = true;
 			npc.alpha = 255;
 			npc.HitSound = SoundID.NPCHit7;

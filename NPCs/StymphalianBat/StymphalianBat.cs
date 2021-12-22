@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using System.IO;
+using SpiritMod.Buffs;
 using SpiritMod.Mechanics.BoonSystem;
 
 namespace SpiritMod.NPCs.StymphalianBat
@@ -32,8 +33,12 @@ namespace SpiritMod.NPCs.StymphalianBat
             npc.noTileCollide = false;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath4;
-
-        }
+			npc.buffImmune[BuffID.Poisoned] = true;
+			npc.buffImmune[BuffID.Venom] = true;
+			npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
+			npc.buffImmune[ModContent.BuffType<BCorrupt>()] = true;
+			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
+		}
 
         int frame;
 

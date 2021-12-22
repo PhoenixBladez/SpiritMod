@@ -22,6 +22,10 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			npc.damage = 45;
 			npc.knockBackResist = 0;
 			npc.DeathSound = SoundID.NPCDeath6;
+
+			npc.buffImmune[BuffID.Confused] = true;
+			npc.buffImmune[BuffID.ShadowFlame] = true;
+
 			npc.friendly = false;
 			npc.noGravity = true;
 			npc.noTileCollide = true;

@@ -35,6 +35,10 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			npc.lifeMax = 21000;
 			npc.knockBackResist = 0;
 			npc.boss = true;
+
+			npc.buffImmune[BuffID.Confused] = true;
+			npc.buffImmune[BuffID.ShadowFlame] = true;
+
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.npcSlots = 5;

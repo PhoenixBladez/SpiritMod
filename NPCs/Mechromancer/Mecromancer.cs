@@ -10,6 +10,7 @@ using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.NPCs.Mechromancer
 {
@@ -38,6 +39,9 @@ namespace SpiritMod.NPCs.Mechromancer
 			npc.lifeMax = 270;
 			npc.HitSound = SoundID.NPCHit40;
 			npc.DeathSound = SoundID.NPCDeath2;
+			npc.buffImmune[BuffID.OnFire] = true;
+			npc.buffImmune[BuffID.Confused] = true;
+			npc.buffImmune[ModContent.BuffType<ElectrifiedV2>()] = true;
 			npc.value = Item.buyPrice(0, 1, 38, 58);
 			npc.knockBackResist = 0.1f;
 			npc.noTileCollide = false;

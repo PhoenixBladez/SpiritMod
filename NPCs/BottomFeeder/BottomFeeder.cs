@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using SpiritMod.Items.Sets.BloodcourtSet;
 using Terraria.ModLoader;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.NPCs.BottomFeeder
 {
@@ -23,6 +24,10 @@ namespace SpiritMod.NPCs.BottomFeeder
 			npc.lifeMax = 175;
 			npc.HitSound = SoundID.NPCHit18;
 			npc.DeathSound = SoundID.NPCDeath5;
+
+			npc.buffImmune[ModContent.BuffType<BCorrupt>()] = true;
+			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
+
 			npc.value = 800f;
 			npc.knockBackResist = 0.34f;
 			npc.aiStyle = 3;

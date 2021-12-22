@@ -53,6 +53,10 @@ namespace SpiritMod.NPCs.Yurei
 			aiType = NPCID.FlyingAntlion;
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.YureiBanner>();
+			for (int k = 0; k < npc.buffImmune.Length; k++)
+			{
+				npc.buffImmune[k] = true;
+			}
 		}
 
 		public override void FindFrame(int frameHeight)

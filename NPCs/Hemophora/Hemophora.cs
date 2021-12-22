@@ -23,7 +23,8 @@ namespace SpiritMod.NPCs.Hemophora
             npc.damage = 10;
             npc.defense = 18;
             npc.lifeMax = 121;
-            npc.HitSound = SoundID.NPCHit1;
+			npc.buffImmune[BuffID.Poisoned] = true;
+			npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.value = 220f;
             npc.knockBackResist = .05f;

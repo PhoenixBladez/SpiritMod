@@ -29,6 +29,10 @@ namespace SpiritMod.NPCs.Festerfly
 			npc.value = 110f;
 			npc.noGravity = true;
 			npc.noTileCollide = false;
+
+			npc.buffImmune[BuffID.Confused] = true;
+
+
 			npc.knockBackResist = .45f;
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.FesterflyBanner>();

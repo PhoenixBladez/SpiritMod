@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using System.IO;
 using SpiritMod.World.Sepulchre;
 using System.Linq;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.NPCs.Enchanted_Armor
 {
@@ -45,6 +46,11 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 			npc.width = 30;
 			npc.height = 56;
 			npc.damage = 27;
+
+			npc.buffImmune[BuffID.Poisoned] = true;
+			npc.buffImmune[BuffID.OnFire] = true;
+			npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
+
 			npc.lavaImmune = true;
 			npc.noTileCollide = false;
 			npc.noGravity = false;

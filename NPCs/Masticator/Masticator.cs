@@ -30,6 +30,7 @@ namespace SpiritMod.NPCs.Masticator
 			npc.value = Item.buyPrice(0, 0, 0, 80);
 			npc.HitSound = SoundID.NPCHit19;
 			npc.DeathSound = SoundID.NPCDeath49;
+			npc.buffImmune[BuffID.Confused] = true;
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.MasticatorBanner>();
 		}

@@ -31,6 +31,10 @@ namespace SpiritMod.NPCs.ExplosiveBarrel
             npc.chaseable = false;
             npc.HitSound = SoundID.NPCHit4;
 			npc.friendly = false;
+			for (int k = 0; k < npc.buffImmune.Length; k++)
+			{
+				npc.buffImmune[k] = true;
+			}
 		}
 		public override void AI()
 		{

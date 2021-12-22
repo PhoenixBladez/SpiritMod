@@ -28,7 +28,9 @@ namespace SpiritMod.NPCs.ScreechOwl
 			npc.knockBackResist = .62f;
 			npc.aiStyle = -1;
             npc.noGravity = true;
-        }
+			npc.buffImmune[BuffID.Frostburn] = true;
+			npc.buffImmune[BuffID.Confused] = true;
+		}
         int frame = 0;
         public override void AI()
         {

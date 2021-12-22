@@ -30,6 +30,7 @@ namespace SpiritMod.NPCs.Cystal
 			npc.knockBackResist = 0.1f;
 			npc.width = 40;
 			npc.height = 40;
+			npc.buffImmune[BuffID.Confused] = true;
 			npc.damage = 20;
 			npc.lavaImmune = true;
 			npc.noGravity = true;

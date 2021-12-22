@@ -33,6 +33,9 @@ namespace SpiritMod.NPCs.Spirit
 			npc.knockBackResist = .35f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.lavaImmune = true;
+			npc.buffImmune[BuffID.OnFire] = true;
+
 		}
 
 		public override void NPCLoot()

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Armor.AstronautVanity;
 using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Buffs;
 using SpiritMod.Projectiles.Hostile;
 using System;
 using System.Security.Cryptography.X509Certificates;
@@ -70,7 +71,10 @@ namespace SpiritMod.NPCs.Shockhopper
 			npc.noTileCollide = false;
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.ShockhopperBanner>();
-
+			npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
+			npc.buffImmune[ModContent.BuffType<ElectrifiedV2>()] = true;
+			npc.buffImmune[BuffID.Poisoned] = true;
+			npc.buffImmune[BuffID.Confused] = true;
 			// start with 5 seconds to the first teleport
 			Timer = 300;
 		}
