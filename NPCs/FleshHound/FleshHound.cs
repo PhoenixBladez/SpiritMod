@@ -28,6 +28,8 @@ namespace SpiritMod.NPCs.FleshHound
 			npc.HitSound = SoundID.NPCHit6;
 			npc.DeathSound = SoundID.NPCDeath5;
 			npc.value = 180f;
+			npc.buffImmune[ModContent.BuffType<BCorrupt>()] = true;
+			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
 			npc.knockBackResist = .2f;
 			npc.aiStyle = 3;
 			aiType = NPCID.WalkingAntlion;

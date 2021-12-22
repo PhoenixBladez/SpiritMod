@@ -30,7 +30,10 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 
 			npc.noGravity = true;
 			npc.noTileCollide = true;
-
+			for (int k = 0; k < npc.buffImmune.Length; k++)
+			{
+				npc.buffImmune[k] = true;
+			}
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath5;
 		}

@@ -68,10 +68,5 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
             projectile.localNPCImmunity[target.whoAmI] = 40;
             target.immune[projectile.owner] = cooldown;
 		}
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) {
-			Vector2 dir = target.Center - projectile.Center;
-			hitDirection = Math.Sign(dir.X);
-			damage -= (int)dir.Length() * 4;
-        }
 	}
 }

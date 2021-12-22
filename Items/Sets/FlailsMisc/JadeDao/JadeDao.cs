@@ -136,6 +136,8 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 
 		public Vector2 CurrentBase = Vector2.Zero;
 
+		private int slamTimer = 0;
+
 		public override void AI()
 		{
 			if (projectile.timeLeft > 2) //Initialize chain control points on first tick, in case of projectile hooking in on first tick
@@ -180,7 +182,27 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			Vector2 position = Owner.MountedCenter;
 			float progress = ++Timer / SwingTime; //How far the projectile is through its swing
 			if (Slam)
+			{
+				slamTimer++;
 				progress = EaseFunction.EaseCubicInOut.Ease(progress);
+				if (progress > 0.15f && progress < 0.85f)
+				{
+					Vector2 vel = Vector2.Zero;
+					int timeLeft = Main.rand.Next(40, 100);
+
+					StarParticle particle = new StarParticle(
+					CurrentBase,
+					Main.rand.NextVector2Circular(1, 1),
+					Color.Lerp(new Color(106, 255, 35), new Color(18, 163, 85), Main.rand.NextFloat()),
+					Main.rand.NextFloat(0.1f, 0.2f),
+					timeLeft);
+					particle.TimeActive = (uint)(timeLeft / 2);
+					ParticleHandler.SpawnParticle(particle);
+				}
+			}
+
+			if (slamTimer == 5)
+				Main.PlaySound(SoundID.NPCDeath7, projectile.Center);
 
 			projectile.Center = position + GetSwingPosition(progress);
 			projectile.direction = projectile.spriteDirection = -Owner.direction * (Flip ? -1 : 1);
@@ -212,34 +234,21 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 
 			CurrentBase = projBottom + (newRotation - 1.57f).ToRotationVector2() * (projTexture.Height / 2);
 
-			oldRotation.Add(newRotation);
 			oldBase.Add(projBottom - Main.screenPosition);
 
-			if (oldRotation.Count > 8)
-				oldRotation.RemoveAt(0);
 			if (oldBase.Count > 8)
 				oldBase.RemoveAt(0);
 
 			if (!Slam)
 				return false;
 
-			for (int k = oldBase.Count - 1; k > 1; k--)
+			Texture2D whiteTexture = ModContent.GetTexture(Texture + "_White");
+			if (slamTimer < 20 && slamTimer > 5)
 			{
-				Vector2 drawPos = projectile.oldPos[k] + (new Vector2(projectile.width, projectile.height) / 2);
-				Color color = Color.White * (float)(((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length));
-				float num108 = 4;
-				float num107 = (float)Math.Cos((double)(Main.GlobalTime % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
-				float num106 = 0f;
-				Color color29 = new Color(Color.Green.R - projectile.alpha, Color.Green.G - projectile.alpha, Color.Green.B - projectile.alpha, 0).MultiplyRGBA(color);
-				for (int num103 = 0; num103 < 4; num103++)
-				{
-					Color color28 = color29;
-					color28 = projectile.GetAlpha(color28);
-					color28 *= 1.5f - num107;
-					color28 *= (float)Math.Pow((((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length) / 2), 1.5f);
-					Vector2 vector29 = drawPos + ((float)num103 / (float)num108 * 6.28318548f + projectile.rotation + num106).ToRotationVector2() * (1.5f * num107 + 3f) - Main.screenPosition + new Vector2(0, projectile.gfxOffY) - projectile.velocity * (float)num103;
-					spriteBatch.Draw(projTexture, oldBase[k], null, color28 * .6f, oldRotation[k], origin, projectile.scale, SpriteEffects.None, 0f);
-				}
+				float progress = (slamTimer - 5) / 15f;
+				float transparency = (float)Math.Pow(1 - progress, 2);
+				float scale = 1 + progress;
+				spriteBatch.Draw(whiteTexture, projBottom - Main.screenPosition, null, Color.White * transparency, newRotation, origin, projectile.scale * scale, flip, 0);
 			}
 			return false;
 		}
@@ -256,7 +265,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			if (Slam)
 				progress = EaseFunction.EaseCubicInOut.Ease(progress);
 
-			float angleMaxDeviation = MathHelper.Pi * 0.75f;
+			float angleMaxDeviation = MathHelper.Pi * 0.85f;
 			float angleOffset = Owner.direction * (Flip ? -1 : 1) * MathHelper.Lerp(angleMaxDeviation, -angleMaxDeviation / 4, progress);
 
 			_chainMidA = Owner.MountedCenter + GetSwingPosition(progress).RotatedBy(angleOffset) * Curvature;
@@ -316,8 +325,23 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 					ParticleHandler.SpawnParticle(line);
 
 				}
+
 				if (Slam)
+				{
 					Owner.GetModPlayer<MyPlayer>().Shake += 5;
+					for (int j = 0; j < 14; j++)
+					{
+						int timeLeft = Main.rand.Next(20, 40);
+
+						StarParticle particle = new StarParticle(
+						target.Center,
+						Main.rand.NextVector2Circular(10, 7),
+						Color.Lerp(new Color(106, 255, 35), new Color(18, 163, 85), Main.rand.NextFloat()),
+						Main.rand.NextFloat(0.15f, 0.3f),
+						timeLeft);
+						ParticleHandler.SpawnParticle(particle);
+					}
+				}
 			}
 		}
 

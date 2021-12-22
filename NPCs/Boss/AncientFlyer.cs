@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Buffs;
 using SpiritMod.Items.Sets.AvianDrops.ApostleArmor;
 using SpiritMod.Items.Sets.AvianDrops;
 using SpiritMod.Utilities;
@@ -41,6 +42,13 @@ namespace SpiritMod.NPCs.Boss
 			npc.lifeMax = 3100;
 			npc.knockBackResist = 0;
 			npc.boss = true;
+
+			npc.buffImmune[BuffID.Poisoned] = true;
+			npc.buffImmune[BuffID.Confused] = true;
+			npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
+			npc.buffImmune[ModContent.BuffType<BCorrupt>()] = true;
+			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
+
 			npc.noGravity = true;
 			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/AncientAvian");
 			npc.noTileCollide = true;

@@ -29,6 +29,7 @@ namespace SpiritMod.NPCs.DarkfeatherMage
             npc.knockBackResist = .05f;
             npc.noGravity = true;
 			npc.value = 1320f;
+			npc.buffImmune[BuffID.Confused] = true;
 			npc.noTileCollide = false;
 			npc.HitSound = SoundID.DD2_GoblinBomberDeath;
 			npc.DeathSound = SoundID.DD2_GoblinBomberHurt;

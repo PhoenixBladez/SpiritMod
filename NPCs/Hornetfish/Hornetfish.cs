@@ -25,6 +25,8 @@ namespace SpiritMod.NPCs.Hornetfish
 			npc.defense = 9;
 			npc.lifeMax = 100;
 			npc.noGravity = true;
+			npc.buffImmune[BuffID.Poisoned] = true;
+			npc.buffImmune[BuffID.Confused] = true;
 			npc.value = 100f;
 			npc.noTileCollide = false;
 			npc.HitSound = SoundID.NPCHit1;

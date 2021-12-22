@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.NPCs.CracklingCore
 {
@@ -28,6 +29,13 @@ namespace SpiritMod.NPCs.CracklingCore
 			npc.value = 360f;
 			npc.knockBackResist = .3f;
 			npc.aiStyle = 44;
+
+			npc.buffImmune[BuffID.Poisoned] = true;
+			npc.buffImmune[BuffID.Confused] = true;
+			npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
+			npc.buffImmune[ModContent.BuffType<BCorrupt>()] = true;
+			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
+
 			aiType = NPCID.FlyingAntlion;
             banner = npc.type;
             bannerItem = ModContent.ItemType<Items.Banners.CracklingCoreBanner>();

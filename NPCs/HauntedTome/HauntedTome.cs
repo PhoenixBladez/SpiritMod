@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Prim;
+using SpiritMod.Buffs;
 using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,12 @@ namespace SpiritMod.NPCs.HauntedTome
 			npc.defense = 8;
 			npc.noTileCollide = true;
 			npc.noGravity = true;
+			npc.buffImmune[ModContent.BuffType<BCorrupt>()] = true;
+			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
+			npc.buffImmune[BuffID.Confused] = true;
+			npc.buffImmune[BuffID.OnFire] = true;
+			npc.buffImmune[BuffID.Poisoned] = true;
+			npc.lavaImmune = true;
 			npc.aiStyle = -1;
 			npc.value = 600;
 			npc.knockBackResist = 1f;

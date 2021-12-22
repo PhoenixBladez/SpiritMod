@@ -44,10 +44,13 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			npc.damage = 30;
             npc.scale = 2f;
 			npc.lavaImmune = true;
+
             npc.buffImmune[BuffID.Poisoned] = true;
             npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
             npc.buffImmune[BuffID.Venom] = true;
-            npc.noGravity = true;
+			npc.buffImmune[BuffID.Confused] = true;
+
+			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit13;
 			npc.DeathSound = SoundID.NPCDeath2;

@@ -27,6 +27,8 @@ namespace SpiritMod.NPCs.Gloop
 			npc.noGravity = true;
 			npc.value = 90f;
 			npc.noTileCollide = true;
+			npc.buffImmune[BuffID.Poisoned] = true;
+			npc.buffImmune[BuffID.Confused] = true;
 			npc.HitSound = SoundID.DD2_GoblinHurt;
 			npc.DeathSound = SoundID.NPCDeath22;
 			npc.noGravity = true;

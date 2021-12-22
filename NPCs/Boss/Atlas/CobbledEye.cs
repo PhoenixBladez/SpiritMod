@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.NPCs.Boss.Atlas
 {
@@ -23,6 +24,14 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.damage = 80;
+
+			npc.buffImmune[BuffID.Confused] = true;
+			npc.buffImmune[BuffID.Poisoned] = true;
+			npc.buffImmune[BuffID.Venom] = true;
+			npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
+			npc.buffImmune[ModContent.BuffType<BCorrupt>()] = true;
+			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
+
 			npc.lifeMax = 2700;
 		}
 

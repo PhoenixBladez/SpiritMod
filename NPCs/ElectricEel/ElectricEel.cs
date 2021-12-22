@@ -4,6 +4,7 @@ using SpiritMod.Items.Weapon.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.NPCs.ElectricEel
 {
@@ -23,6 +24,7 @@ namespace SpiritMod.NPCs.ElectricEel
 			npc.defense = 10;
 			npc.lifeMax = 125;
 			npc.HitSound = SoundID.NPCHit1;
+			npc.buffImmune[ModContent.BuffType<ElectrifiedV2>()] = true;
 			npc.DeathSound = SoundID.NPCDeath5;
 			npc.value = 340f;
 			npc.knockBackResist = .35f;

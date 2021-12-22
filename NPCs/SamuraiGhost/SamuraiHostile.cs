@@ -52,7 +52,11 @@ namespace SpiritMod.NPCs.SamuraiGhost
 			npc.noTileCollide = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<Items.Banners.PhantomSamuraiBanner>();
-        }
+			for (int k = 0; k < npc.buffImmune.Length; k++)
+			{
+				npc.buffImmune[k] = true;
+			}
+		}
 		float frameCounter = 0;
 		public override void FindFrame(int frameHeight)
 		{

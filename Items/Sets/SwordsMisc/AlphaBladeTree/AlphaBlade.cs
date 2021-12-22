@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 			item.value = Terraria.Item.sellPrice(1, 0, 0, 0);
 			item.rare = 12;
 			item.UseSound = SoundID.Item1;
-			item.shoot = ModContent.ProjectileType<PestilentSwordProjectile>();
+			item.shoot = 1;
 			item.shootSpeed = 4f;
 			item.autoReuse = true;
 		}

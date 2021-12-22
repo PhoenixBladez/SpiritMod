@@ -31,6 +31,8 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			npc.lifeMax = 5500;
 			bossBag = ModContent.ItemType<InfernonBag>();
 			npc.aiStyle = -1;
+			npc.buffImmune[BuffID.OnFire] = true;
+			npc.buffImmune[BuffID.CursedInferno] = true;
 			npc.npcSlots = 10;
 			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Infernon");
 			npc.boss = true;

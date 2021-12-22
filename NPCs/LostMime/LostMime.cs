@@ -25,6 +25,7 @@ namespace SpiritMod.NPCs.LostMime
 			npc.value = 80f;
 			npc.knockBackResist = .25f;
 			npc.aiStyle = 3;
+			npc.buffImmune[BuffID.Confused] = true;
 			aiType = NPCID.SnowFlinx;
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.LostMimeBanner>();

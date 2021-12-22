@@ -32,6 +32,11 @@ namespace SpiritMod.NPCs.Automata
             npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.value = 180f;
+			npc.buffImmune[BuffID.Poisoned] = true;
+			npc.buffImmune[BuffID.Venom] = true;
+			npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
+			npc.buffImmune[ModContent.BuffType<BCorrupt>()] = true;
+			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
 			npc.knockBackResist = .25f;
 			npc.aiStyle = 3;
 			aiType = NPCID.WalkingAntlion;

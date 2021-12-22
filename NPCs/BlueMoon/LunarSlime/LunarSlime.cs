@@ -7,7 +7,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
-using SpiritMod.Buffs;
 
 namespace SpiritMod.NPCs.BlueMoon.LunarSlime
 {

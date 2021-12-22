@@ -28,6 +28,8 @@ namespace SpiritMod.NPCs.MoltenCore
 			npc.lavaImmune = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.buffImmune[BuffID.OnFire] = true;
+			npc.buffImmune[BuffID.Confused] = true;
 			npc.HitSound = SoundID.NPCHit3;
 			npc.DeathSound = SoundID.NPCDeath43;
 		}

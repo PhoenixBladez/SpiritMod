@@ -29,6 +29,8 @@ namespace SpiritMod.NPCs.HellEater
 			npc.lifeMax = 112;
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath6;
+			npc.buffImmune[BuffID.OnFire] = true;
+			npc.buffImmune[BuffID.Confused] = true;
 			npc.value = 300f;
 			npc.knockBackResist = .29f;
 			npc.aiStyle = 85;
