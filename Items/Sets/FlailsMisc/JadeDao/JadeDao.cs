@@ -87,16 +87,20 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 
 	public class JadeDaoProj : ModProjectile
 	{
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Sanguine Flayer");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Sanguine Flayer");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+		}
 
 		public override void SetDefaults()
 		{
 			projectile.friendly = true;
-			projectile.Size = new Vector2(55, 55);
+			projectile.Size = new Vector2(85, 85);
 			projectile.tileCollide = false;
 			projectile.ownerHitCheck = true;
 			projectile.ignoreWater = true;
-			projectile.hide = true;
 			projectile.penetrate = -1;
 			projectile.usesLocalNPCImmunity = true;
 		}
@@ -127,13 +131,22 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 		public bool Slam = false;
 		public bool PreSlam = false;
 
+		private List<float> oldRotation = new List<float>();
+		private List<Vector2> oldBase = new List<Vector2>();
+
+		public Vector2 CurrentBase = Vector2.Zero;
+
 		public override void AI()
 		{
 			if (projectile.timeLeft > 2) //Initialize chain control points on first tick, in case of projectile hooking in on first tick
 			{
 				_chainMidA = projectile.Center;
 				_chainMidB = projectile.Center;
+
+				SpiritMod.primitives.CreateTrail(new JadeDaoBasicTrail(projectile));
 			}
+
+			Lighting.AddLight(CurrentBase, new Color(54, 192, 98).ToVector3());
 			projectile.timeLeft = 2;
 
 			if (Slam)
@@ -176,8 +189,6 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 				projectile.Kill();
 		}
 
-		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI) => drawCacheProjsBehindNPCs.Add(index);
-
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			if (projectile.timeLeft > 2)
@@ -199,6 +210,37 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			lightColor = Lighting.GetColor((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f));
 			spriteBatch.Draw(projTexture, projBottom - Main.screenPosition, null, lightColor, newRotation, origin, projectile.scale, flip, 0);
 
+			CurrentBase = projBottom + (newRotation - 1.57f).ToRotationVector2() * (projTexture.Height / 2);
+
+			oldRotation.Add(newRotation);
+			oldBase.Add(projBottom - Main.screenPosition);
+
+			if (oldRotation.Count > 8)
+				oldRotation.RemoveAt(0);
+			if (oldBase.Count > 8)
+				oldBase.RemoveAt(0);
+
+			if (!Slam)
+				return false;
+
+			for (int k = oldBase.Count - 1; k > 1; k--)
+			{
+				Vector2 drawPos = projectile.oldPos[k] + (new Vector2(projectile.width, projectile.height) / 2);
+				Color color = Color.White * (float)(((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length));
+				float num108 = 4;
+				float num107 = (float)Math.Cos((double)(Main.GlobalTime % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
+				float num106 = 0f;
+				Color color29 = new Color(Color.Green.R - projectile.alpha, Color.Green.G - projectile.alpha, Color.Green.B - projectile.alpha, 0).MultiplyRGBA(color);
+				for (int num103 = 0; num103 < 4; num103++)
+				{
+					Color color28 = color29;
+					color28 = projectile.GetAlpha(color28);
+					color28 *= 1.5f - num107;
+					color28 *= (float)Math.Pow((((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length) / 2), 1.5f);
+					Vector2 vector29 = drawPos + ((float)num103 / (float)num108 * 6.28318548f + projectile.rotation + num106).ToRotationVector2() * (1.5f * num107 + 3f) - Main.screenPosition + new Vector2(0, projectile.gfxOffY) - projectile.velocity * (float)num103;
+					spriteBatch.Draw(projTexture, oldBase[k], null, color28 * .6f, oldRotation[k], origin, projectile.scale, SpriteEffects.None, 0f);
+				}
+			}
 			return false;
 		}
 
@@ -259,7 +301,9 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			if (Slam)
+			{
 				crit = true;
+			}
 			if (Collision.CheckAABBvAABBCollision(target.position, target.Size, projectile.position, projectile.Size))
 			{
 				damage = (int)(damage * 1.5f);
@@ -272,8 +316,11 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 					ParticleHandler.SpawnParticle(line);
 
 				}
+				if (Slam)
+					Owner.GetModPlayer<MyPlayer>().Shake += 5;
 			}
 		}
+
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(SwingTime);

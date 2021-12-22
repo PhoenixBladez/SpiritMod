@@ -2,6 +2,10 @@ sampler uImage0 : register(s0);
 sampler uImage1 : register(s1);
 matrix WorldViewProjection;
 
+float progress;
+
+float4 white = float4(1, 1, 1, 1);
+
 struct VertexShaderInput
 {
 	float2 TextureCoordinates : TEXCOORD0;
@@ -33,9 +37,9 @@ float4 White(VertexShaderOutput input) : COLOR0
 {
     float4 color;
     if (input.TextureCoordinates.y < 0.94f)
-        color = lerp(input.Color, float4(1, 1, 1, 1), pow(input.TextureCoordinates.y + 0.06f, 4.5f));
+        color = lerp(input.Color, white, pow(input.TextureCoordinates.y + 0.06f, 4.5f));
     else
-        color = lerp(float4(1, 1, 1, 1), float4(0, 0, 0, 0), (input.TextureCoordinates.y - 0.94f) / 0.06f);
+        color = lerp(white, float4(0, 0, 0, 0), (input.TextureCoordinates.y - 0.94f) / 0.06f);
     return (pow(input.TextureCoordinates.x, 2) * input.TextureCoordinates.y) * 4 * color;
 }
 
