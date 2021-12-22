@@ -99,7 +99,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 		{
 			if (leftOceanHeight == 0)
 			{
-				var start = new Point(20, (int)(Main.maxTilesY * 0.35f / 16f));
+				var start = new Point(70, (int)(Main.maxTilesY * 0.35f / 16f));
 				while (Framing.GetTileSafely(start.X, start.Y).liquid < 200)
 					start.Y++;
 
@@ -108,7 +108,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 			if (rightOceanHeight == 0)
 			{
-				var start = new Point(Main.maxTilesX - 20, (int)(Main.maxTilesY * 0.35f / 16f));
+				var start = new Point(Main.maxTilesX - 70, (int)(Main.maxTilesY * 0.35f / 16f));
 				while (Framing.GetTileSafely(start.X, start.Y).liquid < 200)
 					start.Y++;
 
