@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -10,10 +12,17 @@ namespace SpiritMod.NPCs.Town.Oracle
 	[AutoloadHead]
 	public class Oracle : ModNPC
 	{
-		public override string Texture => "SpiritMod/NPCs/Town/Oracle/Oracle";
+		public const int AuraRadius = 550;
+
+		private float RealAuraRadius => AuraRadius * RealAuraScale;
+		private float RealAuraScale => Math.Min(AttackTimer / 150f, 1f);
 		//public override string[] AltTextures => new string[] { "SpiritMod/NPCs/Town/Adventurer_Alt_1" };
 
 		private ref float Timer => ref npc.ai[0];
+		private ref float AttackTimer => ref npc.ai[1];
+
+
+		private ref Player NearestPlayer => ref Main.player[npc.target];
 
 		public override bool Autoload(ref string name)
 		{
@@ -51,9 +60,44 @@ namespace SpiritMod.NPCs.Town.Oracle
 		public override void AI()
 		{
 			Timer++;
-			npc.velocity.Y = (float)Math.Sin(Timer * 0.02f) * 0.25f;
+			npc.velocity.Y = (float)Math.Sin(Timer * 0.02f) * 0.12f;
 
 			npc.TargetClosest(true);
+
+			if (npc.DistanceSQ(NearestPlayer.Center) < 400 * 400)
+				npc.spriteDirection = NearestPlayer.Center.X < npc.Center.X ? -1 : 1;
+
+			OffenseAbilities();
+		}
+
+		private void OffenseAbilities()
+		{
+			bool enemyNearby = false;
+
+			for (int i = 0; i < Main.maxNPCs; ++i)
+			{
+				NPC cur = Main.npc[i];
+				if (cur.active && cur.CanBeChasedBy() && cur.DistanceSQ(npc.Center) < AuraRadius * AuraRadius) //Scan for NPCs
+				{
+					if (cur.DistanceSQ(npc.Center) < RealAuraRadius * RealAuraRadius) //Actually inflict damage to NPCs
+						cur.AddBuff(BuffID.OnFire, 2);
+
+					enemyNearby = true;
+				}
+			}
+
+			if (enemyNearby)
+				AttackTimer = Math.Min(AttackTimer + 1, 150);
+			else
+				AttackTimer = Math.Max(AttackTimer - 1, 0);
+		}
+
+		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			Texture2D aura = mod.GetTexture("NPCs/Town/Oracle/OracleAura");
+
+			Vector2 drawPosition = npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY);
+			spriteBatch.Draw(aura, drawPosition, null, Color.White, Timer * 0.2f, aura.Size() / 2f, RealAuraScale, SpriteEffects.None, 0f);
 		}
 
 		public override string GetChat()
@@ -80,10 +124,17 @@ namespace SpiritMod.NPCs.Town.Oracle
 				shop = true;
 		}
 
-		public override void SetupShop(Chest shop, ref int nextSlot)
+		public override void SetupShop(Chest shop, ref int nextSlot) //OlympiumToken
 		{
-			NPCUtils.AddItem(ref shop, ref nextSlot, ItemID.Meowmere, 1);
-			NPCUtils.AddItem(ref shop, ref nextSlot, ItemID.CelestialSigil, 99);
+			shop.item[nextSlot].SetDefaults(ItemID.Bananarang);
+			shop.item[nextSlot].shopCustomPrice = 3;
+			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
+			nextSlot++;
+
+			shop.item[nextSlot].SetDefaults(ItemID.LandMine);
+			shop.item[nextSlot].shopCustomPrice = 20;
+			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
+			nextSlot++;
 		}
 
 		public override void SetChatButtons(ref string button, ref string button2) => button = Language.GetTextValue("LegacyInterface.28");

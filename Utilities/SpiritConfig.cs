@@ -55,6 +55,11 @@ namespace SpiritMod.Utilities
 		[DefaultValue(true)]
 		public bool EnemyFishing { get; set; }
 
+		[Label("Bandit Hideout and Arcane Tower Generation")]
+		[Tooltip("Enables the generation of both the Bandit Hideout and Arcane Tower. Only one spawns per world by default.\nRecommended only for large worlds.")]
+		[DefaultValue(false)]
+		public bool DoubleHideoutGeneration { get; set; }
+
 		[Label("Falling Leaf Ambience")]
 		[Tooltip("Enables falling leaf ambience during Calm Nights or while in the Briar\nDisable this to prevent strange interactions while playing Terraria Overhaul.")]
 		[DefaultValue(true)]

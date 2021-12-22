@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SpiritMod.Utilities;
 using SpiritMod.Items.Sets.StarplateDrops;
 using SpiritMod.Items.Sets.GraniteSet;
 using SpiritMod.Items.Sets.MarbleSet;
@@ -46,17 +47,26 @@ namespace SpiritMod.World
 				if (WorldGen.genRand.Next(4) == 0)
 					GenerateCampsite();
 
-				if (Main.rand.Next(2) == 0)
+				if (ModContent.GetInstance<SpiritClientConfig>().DoubleHideoutGeneration)
 				{
 					new BanditHideout().Generate();
+					new GoblinTower().Generate();
 					MyWorld.gennedBandits = true;
+					MyWorld.gennedTower = true;
 				}
 				else
 				{
-					new GoblinTower().Generate();
-					MyWorld.gennedTower = true;
+					if (Main.rand.Next(2) == 0)
+					{
+						new BanditHideout().Generate();
+						MyWorld.gennedBandits = true;
+					}
+					else
+					{
+						new GoblinTower().Generate();
+						MyWorld.gennedTower = true;
+					}
 				}
-
 				int siz = (int)((Main.maxTilesX / 4200f) * 7);
 				int repeats = WorldGen.genRand.Next(siz, siz + 4);
 

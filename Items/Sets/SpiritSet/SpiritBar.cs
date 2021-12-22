@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -5,17 +6,13 @@ namespace SpiritMod.Items.Sets.SpiritSet
 {
 	public class SpiritBar : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Spirit Bar");
-		}
-
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Spirit Bar");
 
 		public override void SetDefaults()
 		{
 			item.width = 30;
 			item.height = 24;
-			item.value = 100;
+			item.value = Item.buyPrice(0, 2, 0, 0);
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.consumable = true;
 			item.rare = ItemRarityID.Pink;

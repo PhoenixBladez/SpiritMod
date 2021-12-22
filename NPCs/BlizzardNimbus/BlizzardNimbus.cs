@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.NPCs.BlizzardNimbus
 {
@@ -24,6 +25,10 @@ namespace SpiritMod.NPCs.BlizzardNimbus
 			npc.lifeMax = 220;
 			npc.knockBackResist = 0.3f;
 			npc.noGravity = true;
+			npc.buffImmune[BuffID.Frostburn] = true;
+			npc.buffImmune[ModContent.BuffType<MageFreeze>()] = true;
+			npc.buffImmune[ModContent.BuffType<CryoCrush>()] = true;
+			npc.buffImmune[BuffID.Confused] = true;
 			npc.value = Item.buyPrice(0, 0, 4, 0);
 			npc.HitSound = SoundID.NPCHit30;
 			npc.DeathSound = SoundID.NPCDeath49;

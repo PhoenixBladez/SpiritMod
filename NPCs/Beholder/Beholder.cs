@@ -9,6 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
 using SpiritMod.Utilities;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.NPCs.Beholder
 {
@@ -36,6 +37,7 @@ namespace SpiritMod.NPCs.Beholder
 			npc.knockBackResist = 0.35f;
 			npc.noTileCollide = true;
 			npc.noGravity = true;
+			npc.buffImmune[BuffID.Confused] = true;
 			npc.aiStyle = 14;
 			npc.noGravity = true;
 			aiType = NPCID.Slimer;

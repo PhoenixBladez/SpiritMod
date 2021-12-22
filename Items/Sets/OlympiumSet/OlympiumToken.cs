@@ -11,14 +11,12 @@ namespace SpiritMod.Items.Sets.OlympiumSet
 			Tooltip.SetDefault("May be of interest to a collector...");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = 24;
 			item.height = 24;
 			item.value = 0;
 			item.rare = ItemRarityID.LightRed;
-
 			item.maxStack = 999;
 		}
 	}

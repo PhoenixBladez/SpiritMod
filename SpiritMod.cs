@@ -59,6 +59,7 @@ using SpiritMod.NPCs.StarjinxEvent;
 using SpiritMod.Mechanics.Trails;
 using SpiritMod.Items.Sets.FloatingItems;
 using SpiritMod.Effects.SurfaceWaterModifications;
+using SpiritMod.Items.Sets.OlympiumSet;
 
 namespace SpiritMod
 {
@@ -146,6 +147,8 @@ namespace SpiritMod
 		private Vector2 _lastScreenSize;
 		private Vector2 _lastViewSize;
 		private Viewport _lastViewPort;
+
+		public static int OlympiumCurrencyID = 0;
 
 		/// <summary>Automatically returns false for every NPC ID inside of this list in <seealso cref="NPCs.GNPC.AllowTrickOrTreat(NPC)"/>.
 		/// Note that this should only be used in edge cases where an NPC is neither homeless nor has homeTileX/Y set.</summary>
@@ -765,6 +768,8 @@ namespace SpiritMod
 			// unless you know what you're doing.
 
 			Items.Halloween.CandyBag.Initialize();
+
+			OlympiumCurrencyID = CustomCurrencyManager.RegisterCurrency(new OlympiumCurrency(ModContent.ItemType<OlympiumToken>(), 999));
 
 			if (Main.netMode != NetmodeID.Server)
 			{

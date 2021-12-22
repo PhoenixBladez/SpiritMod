@@ -24,6 +24,7 @@ namespace SpiritMod.NPCs.Bloatfish
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.value = 90f;
+			npc.buffImmune[BuffID.Confused] = true;
 			npc.knockBackResist = 0.3f;
 			npc.aiStyle = 16;
 			npc.noGravity = true;

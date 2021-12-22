@@ -124,6 +124,7 @@ namespace SpiritMod.World
 			}
 
 			PlacePirateChest(side == 0 ? bounds.Right : bounds.Left);
+			PlaceSunkenTreasure(side == 0 ? bounds.Right : bounds.Left);
 
 			for (int i = bounds.Left; i < bounds.Right; ++i)
 			{
@@ -181,6 +182,21 @@ namespace SpiritMod.World
 			}
 		}
 
+		private static void PlaceSunkenTreasure(int innerEdge)
+		{
+			int sunkenCount = WorldGen.genRand.Next(3);
+
+			for (int i = 0; i < sunkenCount; ++i)
+			{
+				int sunkenX = innerEdge - WorldGen.genRand.Next(133, innerEdge - 40);
+				var pos = new Point(sunkenX, (int)(Main.maxTilesY * 0.35f / 16f));
+				while (!WorldGen.SolidTile(pos.X, pos.Y - 1))
+					pos.Y++;
+
+
+			}
+		}
+
 		private static void PlacePirateChest(int innerEdge)
 		{
 			int guaranteeChestX = innerEdge - WorldGen.genRand.Next(133, innerEdge - 40);
@@ -212,7 +228,7 @@ namespace SpiritMod.World
 					(ItemID.GoldenBed, 1), (ItemID.GoldenBathtub, 1), (ItemID.MythrilBar, BarStack()), (ItemID.AdamantiteBar, BarStack()), (ItemID.CobaltBar, BarStack()),
 					(ItemID.TitaniumBar, BarStack()), (ItemID.PalladiumBar, BarStack()), (ItemID.OrichalcumBar, BarStack())
 				},
-				true, WorldGen.genRand, WorldGen.genRand.Next(15, 21), 0, true, 2, 2);
+				true, WorldGen.genRand, WorldGen.genRand.Next(15, 21), 1, true, 2, 2);
 		}
 
 		public static bool PlaceChest(int x, int y, int type, (int, int)[] mainItems, (int, int)[] subItems, bool noTypeRepeat = true, UnifiedRandom r = null, int subItemLength = 6, int style = 0, bool overRide = false, int width = 2, int height = 2)

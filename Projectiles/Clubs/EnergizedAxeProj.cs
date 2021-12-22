@@ -30,14 +30,14 @@ namespace SpiritMod.Projectiles.Clubs
 		public override void SafeDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			int size = 60;
-			if (projectile.ai[0] >= chargeTime) {
+			if (projectile.ai[0] >= ChargeTime) {
 				
-				Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, size * 2, size, size), Color.White * 0.9f, Truerotation, Origin, projectile.scale, Effects, 1);
+				Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, size * 2, size, size), Color.White * 0.9f, TrueRotation, Origin, projectile.scale, Effects, 1);
 			}
 		}
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.ai[0] >= chargeTime)
+            if (projectile.ai[0] >= ChargeTime)
             {
                 Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
                 {

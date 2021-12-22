@@ -205,7 +205,7 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 			if (swinging)
 			{
 				Effect effect = mod.GetEffect("Effects/NemesisBoonShader");
-
+				effect.Parameters["white"].SetValue(Color.White.ToVector4());
 				PrimitiveSlashArc slash = new PrimitiveSlashArc
 				{
 					BasePosition = swingBase - Main.screenPosition,

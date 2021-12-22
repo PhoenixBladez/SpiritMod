@@ -8,6 +8,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.NPCs.BlueMoon.Bloomshroom
 {
@@ -29,6 +30,7 @@ namespace SpiritMod.NPCs.BlueMoon.Bloomshroom
 			npc.lifeMax = 600;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath16;
+			npc.buffImmune[ModContent.BuffType<StarFlame>()] = true;
 			npc.value = 600f;
 			npc.knockBackResist = .35f;
             banner = npc.type;

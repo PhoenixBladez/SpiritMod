@@ -16,8 +16,8 @@ namespace SpiritMod.Items.Sets.OlympiumSet.Eleutherios
 		{
 			item.width = 32;
 			item.height = 32;
-			item.value = Item.buyPrice(0, 5, 0, 0);
-			item.rare = ItemRarityID.Green;
+			item.rare = ItemRarityID.LightRed;
+			item.value = Item.sellPrice(gold: 2);
 			item.accessory = true;
 		}
 

@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.NPCs.BlueMoon.Lumantis
 {
@@ -26,6 +27,7 @@ namespace SpiritMod.NPCs.BlueMoon.Lumantis
 			npc.damage = 62;
 			npc.defense = 20;
 			npc.lifeMax = 560;
+			npc.buffImmune[ModContent.BuffType<StarFlame>()] = true;
 			npc.HitSound = SoundID.DD2_LightningBugHurt;
 			npc.DeathSound = SoundID.NPCDeath34;
 			npc.value = 760f;

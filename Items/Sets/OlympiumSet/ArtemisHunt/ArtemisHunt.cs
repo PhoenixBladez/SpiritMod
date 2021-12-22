@@ -37,7 +37,6 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 			item.shoot = ProjectileID.Shuriken;
 			item.useAmmo = AmmoID.Arrow;
 			item.knockBack = 3;
-			item.UseSound = SoundID.Item5;
 			item.rare = ItemRarityID.LightRed;
 			item.value = Item.sellPrice(gold: 2);
 			item.autoReuse = true;
@@ -52,6 +51,8 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 			}
 			if (type == ProjectileID.WoodenArrowFriendly)
 			{
+				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 5).WithPitchVariance(0.2f), player.Center);
+				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 20).WithPitchVariance(0.2f).WithVolume(.5f), player.Center);
 				type = ModContent.ProjectileType<ArtemisHuntArrow>();
 			}
 			return true;
@@ -241,6 +242,8 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 				shootCounter++;
 				if (shootCounter % SHOOTTIME == 0 && projectile.timeLeft > 30)
 				{
+					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 20).WithPitchVariance(0.2f), projectile.Center);
+
 					offsetAngle += SPREAD;
 					Projectile proj = Projectile.NewProjectileDirect(projectile.Center, direction.RotatedBy(offsetAngle) * 20, ModContent.ProjectileType<ArtemisHuntVolley>(), projectile.damage, projectile.knockBack, projectile.owner);
 

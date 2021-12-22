@@ -156,6 +156,25 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 						npc.DropItem(ModContent.ItemType<Items.Sets.GamblerChestLoot.RegalCane.RegalCane>(), 0.08f);
 						break;
 				}
+				string[] lootTable = { "DiverLegs", "DiverHead", "DiverBody", "AstronautBody", "AstronautHelm", "AstronautLegs", "BeekeeperBody", "BeekeeperHead", "BeekeeperLegs", 
+						"CapacitorBody", "CapacitorHead", "CapacitorLegs", "CenturionBody", "CenturionlLegs", "CenturionHead", "CommandoHead", "CommandoBody", "CommandoLegs", 
+						"CowboyBody", "CowboyLegs", "CowboyHead", "FreemanBody", "FreemanLegs", "FreemanHead", "GeodeHelmet", "GeodeChestplate", "GeodeLeggings", "SnowRangerBody", "SnowRangerHead", "SnowRangerLegs",
+						"JackBody", "JackLegs", "JackHead", "PlagueDoctorCowl", "PlagueDoctorRobe", "PlagueDoctorLegs", "ProtectorateBody", "ProtectorateLegs", "LeafPaddyHat", "PsychoMask", 
+						"OperativeBody", "OperativeHead", "OperativeLegs", "WitchBody", "WitchHead", "WitchLegs"};
+				int loot = Main.rand.Next(lootTable.Length);
+				if (Main.rand.Next(20) == 0)
+				{
+					npc.DropItem(mod.ItemType(lootTable[loot]));
+					for (int value = 0; value < 32; value++)
+					{
+						int num = Dust.NewDust(new Vector2(npc.Center.X, npc.Center.Y - 20), 50, 50, 173, 0f, -2f, 0, default, 2f);
+						Main.dust[num].noGravity = true;
+						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+						Main.dust[num].scale *= .35f;
+						Main.dust[num].fadeIn += .1f;
+					}
+				}
 				npc.active = false;
 				Main.PlaySound(SoundID.Item14, npc.Center);
 
