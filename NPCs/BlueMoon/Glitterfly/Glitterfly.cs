@@ -8,7 +8,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Buffs;
 
 namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 {

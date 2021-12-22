@@ -297,8 +297,6 @@ namespace SpiritMod
 		public bool reachSet;
 		public bool coralSet;
 		public bool leatherSet;
-		public bool witherSet;
-		public bool reaperSet;
 		public bool shadowSet;
 		public bool oceanSet;
 		public bool wayfarerSet;
@@ -316,7 +314,6 @@ namespace SpiritMod
 		public bool infernalSet;
 		public bool fierySet;
 		public bool starSet;
-		public bool magalaSet;
 		public bool clatterboneSet;
 		public bool ichorSet1;
 		public bool ichorSet2;
@@ -923,8 +920,6 @@ namespace SpiritMod
 			meleeshadowSet = false;
 			rangedshadowSet = false;
 			magicshadowSet = false;
-			witherSet = false;
-			reaperSet = false;
 			spiritSet = false;
 			coralSet = false;
 			ichorSet1 = false;
@@ -941,7 +936,6 @@ namespace SpiritMod
 			cryoSet = false;
 			frigidSet = false;
 			marbleSet = false;
-			magalaSet = false;
 			infernalSet = false;
 			clatterboneSet = false;
 			talonSet = false;
@@ -1312,14 +1306,9 @@ namespace SpiritMod
 			if (rangedshadowSet && Main.rand.NextBool(14) && item.ranged)
 				Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
 
-			if (reaperSet && Main.rand.NextBool(15))
-				target.AddBuff(ModContent.BuffType<FelBrand>(), 160);
 
 			if (midasTouch)
 				target.AddBuff(BuffID.Midas, 240);
-
-			if (magalaSet && Main.rand.NextBool(6))
-				target.AddBuff(ModContent.BuffType<FrenzyVirus>(), 240);
 
 			if (wheezeScale && Main.rand.NextBool(9) && item.melee)
 			{
@@ -1330,9 +1319,6 @@ namespace SpiritMod
 
 			if (ToxicExtract && Main.rand.NextBool(5) && item.magic)
 				target.AddBuff(BuffID.Venom, 240);
-
-			if (magalaSet && (item.magic || item.ranged || item.melee) && Main.rand.NextBool(14))
-				player.AddBuff(ModContent.BuffType<FrenzyVirus1>(), 240);
 
 			if (geodeSet && crit && Main.rand.NextBool(5))
 				target.AddBuff(ModContent.BuffType<Buffs.Crystal>(), 180);
@@ -1420,9 +1406,6 @@ namespace SpiritMod
 				}
 			}
 
-			if (reaperSet && Main.rand.NextBool(15))
-				target.AddBuff(ModContent.BuffType<FelBrand>(), 160);
-
 			if (KingRock && Main.rand.NextBool(5) && proj.magic)
 			{
 				Projectile.NewProjectile(player.position.X + Main.rand.Next(-350, 350), player.position.Y - 350, 0, 12, ModContent.ProjectileType<PrismaticBolt>(), 55, 0, Main.myPlayer);
@@ -1472,9 +1455,6 @@ namespace SpiritMod
 				Charger = 0;
 			}
 
-			if (magalaSet && (proj.melee || proj.minion || proj.magic || proj.ranged))
-				target.AddBuff(ModContent.BuffType<FrenzyVirus>(), 180);
-
 			if (timScroll && proj.magic)
 			{
 				switch (Main.rand.Next(12))
@@ -1508,12 +1488,6 @@ namespace SpiritMod
 			if (winterbornCharmMage && Main.rand.NextBool(9))
 				target.AddBuff(ModContent.BuffType<MageFreeze>(), 180);
 
-			if (putridSet && proj.ranged && ++Rangedhits >= 4)
-			{
-				Projectile.NewProjectile(proj.position, Vector2.Zero, ModContent.ProjectileType<CursedFlame>(), proj.damage, 0f, proj.owner);
-				Rangedhits = 0;
-			}
-
 			if (magicshadowSet && Main.rand.NextBool(10) && proj.magic)
 				Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
 
@@ -1531,9 +1505,6 @@ namespace SpiritMod
 
 			if (NebulaPearl && Main.rand.NextBool(8) && proj.magic)
 				Item.NewItem(target.Hitbox, 3454);
-
-			if (magalaSet && Main.rand.NextBool(6))
-				player.AddBuff(ModContent.BuffType<FrenzyVirus1>(), 240);
 
 			if (crystalFlower && target.life <= 0 && Main.rand.NextBool(12))
 				CrystalFlowerOnKillEffect(target);
@@ -2363,9 +2334,6 @@ namespace SpiritMod
 			if (phaseStacks > 3)
 				phaseStacks = 3;
 
-			if (flametrail && player.velocity.X != 0)
-				Projectile.NewProjectile(player.position.X, player.position.Y + 40, 0f, 0f, ModContent.ProjectileType<CursedFlameTrail>(), 35, 0f, player.whoAmI);
-
 			if (CrystalShield && player.velocity.X != 0 && Main.rand.NextBool(3))
 			{
 				if (player.velocity.X < 0)
@@ -3123,9 +3091,6 @@ namespace SpiritMod
 
 			if (cryoSet && player.ownedProjectileCounts[ModContent.ProjectileType<CryoProj>()] <= 1)
 				Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<CryoProj>(), 0, 0, player.whoAmI);
-
-			if (witherSet && player.ownedProjectileCounts[ModContent.ProjectileType<WitherOrb>()] <= 0)
-				Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<WitherOrb>(), 45, 0, player.whoAmI);
 
 			if (SoulStone && player.ownedProjectileCounts[ModContent.ProjectileType<StoneSpirit>()] < 1 && Main.rand.NextBool(2))
 				Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<StoneSpirit>(), 35, 0, player.whoAmI);
@@ -4576,13 +4541,6 @@ namespace SpiritMod
 
 						fierySetTimer = 480;
 					}
-				}
-
-
-				if (reaperSet && !player.HasBuff(ModContent.BuffType<FelCooldown>()))
-				{
-					player.AddBuff(ModContent.BuffType<FelCooldown>(), 2700);
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<FelProj>(), 0, 0, player.whoAmI);
 				}
 
 				if (bloodcourtSet && !player.HasBuff(ModContent.BuffType<CourtCooldown>()) && player.statLife > (int)(player.statLifeMax * .08f))
