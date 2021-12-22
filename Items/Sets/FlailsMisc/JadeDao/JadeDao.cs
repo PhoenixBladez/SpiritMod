@@ -136,6 +136,8 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 
 		public Vector2 CurrentBase = Vector2.Zero;
 
+		private int slamTimer = 0;
+
 		public override void AI()
 		{
 			if (projectile.timeLeft > 2) //Initialize chain control points on first tick, in case of projectile hooking in on first tick
@@ -178,9 +180,17 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 		{
 			projectile.rotation = projectile.AngleFrom(Owner.Center);
 			Vector2 position = Owner.MountedCenter;
-			float progress = ++Timer / SwingTime; //How far the projectile is through its swing
+			if (!Slam || slamTimer > 15)
+				++Timer;
+			float progress = Timer / SwingTime; //How far the projectile is through its swing
 			if (Slam)
+			{
+				slamTimer++;
 				progress = EaseFunction.EaseCubicInOut.Ease(progress);
+			}
+
+			if (slamTimer == 15)
+				Main.PlaySound(SoundID.NPCDeath7, projectile.Center);
 
 			projectile.Center = position + GetSwingPosition(progress);
 			projectile.direction = projectile.spriteDirection = -Owner.direction * (Flip ? -1 : 1);
@@ -241,6 +251,15 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 					spriteBatch.Draw(projTexture, oldBase[k], null, color28 * .6f, oldRotation[k], origin, projectile.scale, SpriteEffects.None, 0f);
 				}
 			}
+
+			Texture2D whiteTexture = ModContent.GetTexture(Texture + "_White");
+			if (slamTimer < 30 && slamTimer > 15)
+			{
+				float progress = (slamTimer - 15) / 15f;
+				float transparency = (float)Math.Pow(1 - progress, 2);
+				float scale = 1 + progress;
+				spriteBatch.Draw(whiteTexture, projBottom - Main.screenPosition, null, Color.White * transparency, newRotation, origin, projectile.scale * scale, flip, 0);
+			}
 			return false;
 		}
 
@@ -256,7 +275,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			if (Slam)
 				progress = EaseFunction.EaseCubicInOut.Ease(progress);
 
-			float angleMaxDeviation = MathHelper.Pi * 0.75f;
+			float angleMaxDeviation = MathHelper.Pi * 0.85f;
 			float angleOffset = Owner.direction * (Flip ? -1 : 1) * MathHelper.Lerp(angleMaxDeviation, -angleMaxDeviation / 4, progress);
 
 			_chainMidA = Owner.MountedCenter + GetSwingPosition(progress).RotatedBy(angleOffset) * Curvature;
