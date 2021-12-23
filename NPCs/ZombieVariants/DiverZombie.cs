@@ -52,9 +52,10 @@ namespace SpiritMod.NPCs.ZombieVariants
 			{
 				npc.noGravity = true;
 				npc.velocity.Y *= .9f;
+				npc.velocity.Y -= .09f;
 				npc.velocity.X *= .95f;
 				npc.rotation = npc.velocity.X * .1f;
-				if (frameTimer >= 4)
+				if (frameTimer >= 50)
 				{
 					frame++;
 					frameTimer = 0;
@@ -67,20 +68,23 @@ namespace SpiritMod.NPCs.ZombieVariants
 			else
 			{
 				npc.noGravity = false;
-				if (frameTimer >= 12)
+				if (npc.velocity.Y != 0)
 				{
-					frame++;
-					frameTimer = 0;
+					frame = 2;
 				}
-				if (frame > 2)
+				else
 				{
-					frame = 0;
+					if (frameTimer >= 12)
+					{
+						frame++;
+						frameTimer = 0;
+					}
+					if (frame > 2)
+					{
+						frame = 0;
+					}
 				}
 			}
-			if (npc.velocity.Y != 0)
-            {
-				frame = 2;
-            }
 		}
 		public override void FindFrame(int frameHeight)
 		{
