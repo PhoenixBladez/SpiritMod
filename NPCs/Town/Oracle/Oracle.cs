@@ -63,9 +63,6 @@ namespace SpiritMod.NPCs.Town.Oracle
 			Timer++;
 			npc.velocity.Y = (float)Math.Sin(Timer * 0.06f) * 0.4f;
 
-			if (npc.DistanceSQ(NearestPlayer.Center) < 400 * 400)
-				npc.spriteDirection = NearestPlayer.Center.X < npc.Center.X ? -1 : 1;
-
 			npc.TargetClosest(true);
 			Movement();
 			OffenseAbilities();
@@ -75,13 +72,21 @@ namespace SpiritMod.NPCs.Town.Oracle
 		{
 			const float MoveSpeed = 1f;
 
+			if (IsBeingTalkedTo())
+			{
+				npc.velocity.X *= 0.96f;
+				MovementTimer = 50;
+				MovementDir = 0f;
+				return;
+			}
+
 			int tileDist = GetTileBelow(0, out bool liquid);
 
 			if (!liquid)
 			{
-				if ((npc.Center.Y / 16f) + 7 < tileDist)
+				if ((npc.Center.Y / 16f) + 6 < tileDist)
 					npc.velocity.Y += 0.16f; //Grounds the NPC
-				if ((npc.Center.Y / 16f) > tileDist - 6)
+				if ((npc.Center.Y / 16f) > tileDist - 5)
 					npc.velocity.Y -= 0.16f; //Raises the NPC
 
 				GetTileBelow(-1, out bool left);
@@ -90,10 +95,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 				MovementTimer--;
 				if (MovementTimer < 0)
 				{
-					var options = new List<float>
-					{
-						0f
-					};
+					var options = new List<float> { 0f };
 
 					if (!left)
 						options.Add(-MoveSpeed);
@@ -114,12 +116,27 @@ namespace SpiritMod.NPCs.Town.Oracle
 				else if (MovementDir > 0f && right)
 					MovementDir = 0f;
 			}
-			else if (liquid)
+
+			npc.velocity.X = MovementDir == 0f ? npc.velocity.X * 0.98f : MovementDir;
+
+			if ((MovementDir == 0f && Math.Abs(npc.velocity.X) < 0.02f) || !IsBeingTalkedTo())
 			{
-
+				if (npc.DistanceSQ(NearestPlayer.Center) < 400 * 400)
+					npc.direction = npc.spriteDirection = NearestPlayer.Center.X < npc.Center.X ? -1 : 1;
 			}
+			else
+				npc.direction = npc.spriteDirection = npc.velocity.X < 0 ? -1 : 1;
+		}
 
-			npc.velocity.X = MovementDir;
+		public bool IsBeingTalkedTo()
+		{
+			for (int i = 0; i < Main.maxPlayers; ++i)
+			{
+				Player p = Main.player[i];
+				if (p.active && !p.dead && p.talkNPC == npc.whoAmI)
+					return true;
+			}
+			return false;
 		}
 
 		private int GetTileBelow(int xOffset, out bool liquid)
