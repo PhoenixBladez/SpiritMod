@@ -12,6 +12,7 @@ namespace SpiritMod.Mechanics.BoonSystem
 {
 	public static class BoonLoader
 	{
+		public static List<Type> LoadedBoonTypes = new List<Type>();
 		public static List<Boon> LoadedBoons = new List<Boon>();
 
 		public static void Load()
@@ -23,6 +24,7 @@ namespace SpiritMod.Mechanics.BoonSystem
 				{
 					var instance = Activator.CreateInstance(type);
 					LoadedBoons.Add(instance as Boon);
+					LoadedBoonTypes.Add(type);
 				}
 			}
 		}

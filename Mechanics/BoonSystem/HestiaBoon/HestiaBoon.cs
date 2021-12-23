@@ -12,6 +12,7 @@ namespace SpiritMod.Mechanics.BoonSystem.HestiaBoon
 	{
 		public override bool CanApply => true;
 		public override string TexturePath => "SpiritMod/Mechanics/BoonSystem/HestiaBoon/HestiaBoon";
+		public override Vector2 SigilSize => new Vector2(26, 34);
 
 		public override void SetStats() => npc.lifeMax = npc.life = (int)(npc.lifeMax * 1.5f);
 
@@ -66,7 +67,12 @@ namespace SpiritMod.Mechanics.BoonSystem.HestiaBoon
 		{
 			foreach(NPC myNPC in myNPCs)
 			{
-				myNPC.GetGlobalNPC<HestiaGlobalNPC>().drawHestiaRunes = false;
+				if (myNPC == null) continue;
+
+				var gnpc = myNPC.GetGlobalNPC<HestiaGlobalNPC>();
+				if (gnpc == null) continue;
+
+				gnpc.drawHestiaRunes = false;
 			}
 		}
 

@@ -132,11 +132,15 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 		private static void CheckBeachHeightsSet()
 		{
+			int maxYAllowed = Main.maxTilesY - 200;
 			if (leftOceanHeight == 0 || leftOceanHeight / 16f > Main.worldSurface)
 			{
 				var start = new Point(60, (int)(Main.maxTilesY * 0.35f / 16f));
 				while (Framing.GetTileSafely(start.X, start.Y).liquid < 255)
+				{
 					start.Y++;
+					if (start.Y > maxYAllowed) break;
+				}
 
 				leftOceanHeight = start.Y * 16 - 18;
 			}
@@ -145,7 +149,10 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			{
 				var start = new Point(Main.maxTilesX - 60, (int)(Main.maxTilesY * 0.35f / 16f));
 				while (Framing.GetTileSafely(start.X, start.Y).liquid < 255)
+				{
 					start.Y++;
+					if (start.Y > maxYAllowed) break;
+				}
 
 				rightOceanHeight = start.Y * 16 - 18;
 			}

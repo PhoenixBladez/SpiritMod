@@ -186,7 +186,10 @@ namespace SpiritMod.NPCs.Automata
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frame.Width = Main.npcTexture[npc.type].Width / 2;
+			// MULTIPLAYER FIX, textures arent loaded on server
+			// you might be able to use if (Main.dedServ) return; not sure tho
+			npc.frame.Width = 112 / 2;
+			//npc.frame.Width = Main.npcTexture[npc.type].Width / 2;
 			npc.frameCounter %= Main.npcFrameCount[npc.type];
 			int frame = (int)npc.frameCounter;
 			npc.frame.Y = frame * frameHeight;

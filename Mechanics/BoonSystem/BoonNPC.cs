@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria.ID;
+using System.Linq;
 
 namespace SpiritMod.Mechanics.BoonSystem
 {
@@ -16,18 +17,55 @@ namespace SpiritMod.Mechanics.BoonSystem
 
 		public override void SetDefaults(NPC npc)
 		{
+			if (Main.netMode == NetmodeID.MultiplayerClient)
+			{
+				return;
+				//TryHandlePackets();
+			}
+
+			// no weirdness while trying to setup content, please, thanks
+			if (!SpiritMod.Instance.FinishedContentSetup) return;
+
 			if (npc.modNPC is IBoonable || npc.type == NPCID.Medusa)
 			{
 				currentBoon = GetBoon(npc);
 
-				if (Main.netMode == NetmodeID.MultiplayerClient) //Sync boon
+				if (currentBoon == null) return;
+
+				if (Main.netMode == NetmodeID.Server) // if we're on server, send it to the clients
 				{
-					int index = BoonLoader.LoadedBoons.IndexOf(currentBoon);
+					// using IndexOf won't work, as a new index has been created using Activator.CreateInstance, which will have a different memory address
+					// temporary work around, get all the types of LoadedBoons and get the index from there
+					//int index = BoonLoader.LoadedBoons.IndexOf(currentBoon);
+					int index = BoonLoader.LoadedBoonTypes.IndexOf(currentBoon.GetType());
+
 					if (index != -1)
-						SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(4), (byte)MessageType.BoonData, (ushort)npc.whoAmI, (byte)index).Send();
+					{
+						int npcWhoAmI = -1;
+						for (int i = 0; i < 200; i++)
+						{
+							if (Main.npc[i] == npc)
+							{
+								npcWhoAmI = i;
+								break;
+							}
+						}
+
+						if (npcWhoAmI != -1)
+						{
+							SpiritMod.Instance.Logger.Debug($"writing new boon data, index: {npcWhoAmI} boonType: {index} which is {currentBoon.GetType().Name}");
+
+							SpiritMultiplayer.WriteToPacketAndSend(4, MessageType.BoonData, packet =>
+							{
+								packet.Write((ushort)npc.type);
+								packet.Write((ushort)npcWhoAmI);
+								packet.Write((byte)index);
+							});
+						}
+					}
 				}
 
-				currentBoon?.SetStats();
+				currentBoon.SetStats();
 			}
 		}
 
