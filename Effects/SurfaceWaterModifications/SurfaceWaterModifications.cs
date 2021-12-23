@@ -97,24 +97,6 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 		private static void DoWaves(Vector2 offset)
 		{
-			if (leftOceanHeight == 0)
-			{
-				var start = new Point(70, (int)(Main.maxTilesY * 0.35f / 16f));
-				while (Framing.GetTileSafely(start.X, start.Y).liquid < 200)
-					start.Y++;
-
-				leftOceanHeight = start.Y * 16 - 18;
-			}
-
-			if (rightOceanHeight == 0)
-			{
-				var start = new Point(Main.maxTilesX - 70, (int)(Main.maxTilesY * 0.35f / 16f));
-				while (Framing.GetTileSafely(start.X, start.Y).liquid < 200)
-					start.Y++;
-
-				rightOceanHeight = start.Y * 16 - 18;
-			}
-
 			bool validPlayer = false;
 			(bool, bool) sides = (false, false);
 			for (int i = 0; i < Main.maxPlayers; ++i)
@@ -123,6 +105,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 				if (p.active && p.ZoneBeach)
 				{
 					validPlayer = true;
+					CheckBeachHeightsSet();
 
 					if (p.position.X / 16f < Main.maxTilesX / 2)
 						sides.Item1 = true;
@@ -145,6 +128,27 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			}
 
 			OceanWaveManager.UpdateWaves(sides.Item1, sides.Item2, offset);
+		}
+
+		private static void CheckBeachHeightsSet()
+		{
+			if (leftOceanHeight == 0)
+			{
+				var start = new Point(70, (int)(Main.maxTilesY * 0.35f / 16f));
+				while (Framing.GetTileSafely(start.X, start.Y).liquid < 200)
+					start.Y++;
+
+				leftOceanHeight = start.Y * 16 - 18;
+			}
+
+			if (rightOceanHeight == 0)
+			{
+				var start = new Point(Main.maxTilesX - 70, (int)(Main.maxTilesY * 0.35f / 16f));
+				while (Framing.GetTileSafely(start.X, start.Y).liquid < 200)
+					start.Y++;
+
+				rightOceanHeight = start.Y * 16 - 18;
+			}
 		}
 
 		public static Color GetRippleColor()
