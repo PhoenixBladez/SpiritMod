@@ -168,10 +168,10 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 		private Vector2 GetSwingPosition(float progress)
 		{
 			//Starts at owner center, goes to peak range, then returns to owner center
-			float distance = MathHelper.Clamp(SwingDistance, THROW_RANGE * 0.33f, THROW_RANGE) * MathHelper.Lerp((float)Math.Sin(progress * MathHelper.Pi), 1, 0.04f);
-			distance = Math.Max(distance, projectile.height); //Dont be too close to player
+			float distance = MathHelper.Clamp(SwingDistance, THROW_RANGE * 0.1f, THROW_RANGE) * MathHelper.Lerp((float)Math.Sin(progress * MathHelper.Pi), 1, 0.04f);
+			distance = Math.Max(distance, 5); //Dont be too close to player
 
-			float angleMaxDeviation = MathHelper.Pi / 1.3f;
+			float angleMaxDeviation = MathHelper.Pi / 1.2f;
 			float angleOffset = Owner.direction * (Flip ? -1 : 1) * MathHelper.Lerp(-angleMaxDeviation, angleMaxDeviation, progress); //Moves clockwise if player is facing right, counterclockwise if facing left
 			return projectile.velocity.RotatedBy(angleOffset) * distance;
 		}
@@ -207,7 +207,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			projectile.Center = position + GetSwingPosition(progress);
 			projectile.direction = projectile.spriteDirection = -Owner.direction * (Flip ? -1 : 1);
 
-			if (Timer >= SwingTime - 2)
+			if (Timer >= SwingTime + 1)
 				projectile.Kill();
 		}
 
