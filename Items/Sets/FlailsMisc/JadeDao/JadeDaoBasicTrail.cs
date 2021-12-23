@@ -20,6 +20,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			Width = 20;
 			Cap = 10;
 			AlphaValue = 1f;
+			Counter = Main.rand.Next(100);
 		}
 
 
@@ -73,9 +74,10 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 
 		public override void SetShaders()
 		{
-			Effect effect = SpiritMod.Instance.GetEffect("Effects/NemesisBoonShader");
+			Effect effect = SpiritMod.Instance.GetEffect("Effects/JadeTrailShader");
 			effect.Parameters["white"].SetValue(new Color(106, 255, 35).ToVector4());
-			PrepareShader(effect, "MainPS", Counter);
+			effect.Parameters["vnoiseLooping"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/voronoiLooping"));
+			PrepareShader(effect, "MainPS", Counter * 0.01f);
 		}
 
 		public override void OnUpdate()
