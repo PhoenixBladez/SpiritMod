@@ -154,6 +154,8 @@ namespace SpiritMod
 		/// Note that this should only be used in edge cases where an NPC is neither homeless nor has homeTileX/Y set.</summary>
 		public readonly List<int> NPCCandyBlacklist = new List<int>();
 
+		public bool FinishedContentSetup { get; private set; }
+
 		public SpiritMod()
 		{
 			Instance = this;
@@ -167,6 +169,7 @@ namespace SpiritMod
 			return packet;
 		}
 
+		// this is alright, and i'll expand it so it can still be used, but really this shouldn't be used
 		public static ModPacket WriteToPacket(ModPacket packet, byte msg, params object[] param)
 		{
 			packet.Write(msg);
@@ -175,149 +178,24 @@ namespace SpiritMod
 			{
 				object obj = param[m];
 				if (obj is bool) packet.Write((bool)obj);
-				else
-				if (obj is byte) packet.Write((byte)obj);
-				else
-				if (obj is int) packet.Write((int)obj);
-				else
-				if (obj is float) packet.Write((float)obj);
+				else if (obj is byte) packet.Write((byte)obj);
+				else if (obj is int) packet.Write((int)obj);
+				else if (obj is float) packet.Write((float)obj);
+				else if (obj is double) packet.Write((double)obj);
+				else if (obj is short) packet.Write((short)obj);
+				else if (obj is ushort) packet.Write((ushort)obj);
+				else if (obj is sbyte) packet.Write((sbyte)obj);
+				else if (obj is uint) packet.Write((uint)obj);
+				else if (obj is decimal) packet.Write((decimal)obj);
+				else if (obj is long) packet.Write((long)obj);
+				else if (obj is string) packet.Write((string)obj);
 			}
 			return packet;
 		}
 
 		public override void HandlePacket(BinaryReader reader, int whoAmI)
 		{
-			MessageType id = (MessageType)reader.ReadByte();
-			byte player;
-			switch (id)
-			{
-				case MessageType.AuroraData:
-					MyWorld.auroraType = reader.ReadInt32();
-					break;
-				case MessageType.ProjectileData:
-					GlyphProj.ReceiveProjectileData(reader, whoAmI);
-					break;
-				case MessageType.Dodge:
-					player = reader.ReadByte();
-					byte type = reader.ReadByte();
-					if (Main.netMode == NetmodeID.Server)
-					{
-						ModPacket packet = GetPacket(MessageType.Dodge, 2);
-						packet.Write(player);
-						packet.Write(type);
-						packet.Send(-1, whoAmI);
-					}
-					if (type == 1)
-						Items.Glyphs.VeilGlyph.Block(Main.player[player]);
-					else
-						Logger.Error("Unknown message (2:" + type + ")");
-					break;
-				case MessageType.Dash:
-					player = reader.ReadByte();
-					DashType dash = (DashType)reader.ReadByte();
-					sbyte dir = reader.ReadSByte();
-					if (Main.netMode == NetmodeID.Server)
-					{
-						ModPacket packet = GetPacket(MessageType.Dash, 3);
-						packet.Write(player);
-						packet.Write((byte)dash);
-						packet.Write(dir);
-						packet.Send(-1, whoAmI);
-					}
-					Main.player[player].GetModPlayer<MyPlayer>().PerformDash(dash, dir, false);
-					break;
-				case MessageType.PlayerGlyph:
-					player = reader.ReadByte();
-					GlyphType glyph = (GlyphType)reader.ReadByte();
-					if (Main.netMode == NetmodeID.Server)
-					{
-						ModPacket packet = GetPacket(MessageType.PlayerGlyph, 2);
-						packet.Write(player);
-						packet.Write((byte)glyph);
-						packet.Send(-1, whoAmI);
-					}
-					if (player == Main.myPlayer)
-						break;
-					Main.player[player].GetModPlayer<MyPlayer>().glyph = glyph;
-					break;
-				case MessageType.BossSpawnFromClient:
-					if (Main.netMode == NetmodeID.Server)
-					{
-						player = reader.ReadByte();
-						int bossType = reader.ReadInt32();
-						int npcCenterX = reader.ReadInt32();
-						int npcCenterY = reader.ReadInt32();
-
-						if (NPC.AnyNPCs(bossType))
-						{
-							return;
-						}
-
-						WriteToPacket(GetPacket(), (byte)MessageType.BossTitle, bossType).Send();
-						int npcID = NPC.NewNPC(npcCenterX, npcCenterY, bossType);
-						Main.npc[npcID].Center = new Vector2(npcCenterX, npcCenterY);
-						Main.npc[npcID].netUpdate2 = true;
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", Main.npc[npcID].GetTypeNetName()), new Color(175, 75, 255));
-					}
-					break;
-				case MessageType.StartTide:
-					TideWorld.TheTide = true;
-					TideWorld.TideWaveIncrease();
-					break;
-				case MessageType.TideData:
-					TideWorld.HandlePacket(reader);
-					break;
-				case MessageType.TameAuroraStag:
-					int stagWhoAmI = reader.ReadInt32();
-
-					if (Main.netMode == NetmodeID.Server)
-						WriteToPacket(GetPacket(4), (byte)MessageType.TameAuroraStag, stagWhoAmI).Send();
-
-					(Main.npc[stagWhoAmI].modNPC as AuroraStag).TameAnimationTimer = AuroraStag.TameAnimationLength;
-					break;
-				case MessageType.SpawnTrail:
-					int projindex = reader.ReadInt32();
-
-					if (Main.netMode == NetmodeID.Server)
-					{ //if received by the server, send to all clients instead
-						WriteToPacket(GetPacket(), (byte)MessageType.SpawnTrail, projindex).Send();
-						break;
-					}
-
-					IManualTrailProjectile trailproj = (Main.projectile[projindex].modProjectile as IManualTrailProjectile);
-					if (trailproj != null)
-						trailproj.DoTrailCreation(TrailManager);
-
-					break;
-				case MessageType.PlaceSuperSunFlower:
-					MyWorld.superSunFlowerPositions.Add(new Point16(reader.ReadUInt16(), reader.ReadUInt16()));
-					break;
-				case MessageType.DestroySuperSunFlower:
-					MyWorld.superSunFlowerPositions.Remove(new Point16(reader.ReadUInt16(), reader.ReadUInt16()));
-					break;
-				case MessageType.BossTitle:
-					if (Main.netMode == NetmodeID.Server)
-					{ //if received by the server, send to all clients instead
-						WriteToPacket(GetPacket(), (byte)MessageType.BossTitle, reader.ReadInt32()).Send();
-						break;
-					}
-					BossTitles.SetNPCType(reader.ReadInt32());
-					break;
-				case MessageType.SpawnExplosiveBarrel: // this packet is only meant to be received by the server
-					NPC.NewNPC(reader.ReadInt32(), reader.ReadInt32(), ModContent.NPCType<ExplosiveBarrel>(), 0, 2, 1, 0, 0); // gets forwarded to all clients
-					break;
-				case MessageType.StarjinxData:
-
-					break;
-				case MessageType.BoonData:
-					Main.npc[reader.ReadUInt16()].GetGlobalNPC<BoonNPC>().currentBoon = BoonLoader.LoadedBoons[reader.ReadByte()];
-					Main.npc[reader.ReadUInt16()].GetGlobalNPC<BoonNPC>().currentBoon.SpawnIn();
-					Main.npc[reader.ReadUInt16()].GetGlobalNPC<BoonNPC>().currentBoon.SetStats();
-					break;
-				default:
-					Logger.Error("Unknown net message (" + id + ")");
-					break;
-			}
+			SpiritMultiplayer.HandlePacket(reader, whoAmI);
 		}
 
 		public override void UpdateMusic(ref int music, ref MusicPriority priority)
@@ -756,7 +634,7 @@ namespace SpiritMod
 			}
 			QuestManager.Load();
 			BoonLoader.Load();
-
+			SpiritMultiplayer.Load();
 			SpiritDetours.Initialize();
 
 			GlobalNoise = new PerlinNoise(Main.rand.Next());
@@ -1128,6 +1006,7 @@ namespace SpiritMod
 			QuestHUDHotkey = null;
 			EventManager.Unload();
 
+			SpiritMultiplayer.Unload();
 			AdditiveCallManager.Unload();
 			SpiritGlowmask.Unload();
 			StructureLoader.Unload();
@@ -1327,6 +1206,8 @@ namespace SpiritMod
 			BossChecklistDataHandler.RegisterSpiritData(this);
 
 			CrossModContent();
+
+			FinishedContentSetup = true;
 		}
 
 		private void CrossModContent()

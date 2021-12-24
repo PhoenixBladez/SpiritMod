@@ -12,6 +12,7 @@ namespace SpiritMod.Mechanics.BoonSystem.HecateBoon
 	{
 		public override bool CanApply => true;
 		public override string TexturePath => "SpiritMod/Mechanics/BoonSystem/HecateBoon/HecateBoon";
+		public override Vector2 SigilSize => new Vector2(30, 28);
 
 		private float projectileCounter;
 		private const float RUNE_INTERVAL = 300;

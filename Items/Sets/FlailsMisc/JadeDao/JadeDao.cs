@@ -35,14 +35,14 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			item.knockBack = 4f;
 			item.UseSound = SoundID.Item116;
 			item.shoot = ModContent.ProjectileType<JadeDaoProj>();
-			item.value = Item.sellPrice(gold: 2);
+			item.value = Item.sellPrice(gold: 10);
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.channel = true;
 			item.autoReuse = true;
 			item.melee = true;
-			item.damage = 50;
-			item.rare = ItemRarityID.LightRed;
+			item.damage = 60;
+			item.rare = ItemRarityID.LightPurple;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
@@ -168,10 +168,10 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 		private Vector2 GetSwingPosition(float progress)
 		{
 			//Starts at owner center, goes to peak range, then returns to owner center
-			float distance = MathHelper.Clamp(SwingDistance, THROW_RANGE * 0.33f, THROW_RANGE) * MathHelper.Lerp((float)Math.Sin(progress * MathHelper.Pi), 1, 0.04f);
-			distance = Math.Max(distance, projectile.height); //Dont be too close to player
+			float distance = MathHelper.Clamp(SwingDistance, THROW_RANGE * 0.1f, THROW_RANGE) * MathHelper.Lerp((float)Math.Sin(progress * MathHelper.Pi), 1, 0.04f);
+			distance = Math.Max(distance, 5); //Dont be too close to player
 
-			float angleMaxDeviation = MathHelper.Pi / 1.3f;
+			float angleMaxDeviation = MathHelper.Pi / 1.2f;
 			float angleOffset = Owner.direction * (Flip ? -1 : 1) * MathHelper.Lerp(-angleMaxDeviation, angleMaxDeviation, progress); //Moves clockwise if player is facing right, counterclockwise if facing left
 			return projectile.velocity.RotatedBy(angleOffset) * distance;
 		}
@@ -207,7 +207,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			projectile.Center = position + GetSwingPosition(progress);
 			projectile.direction = projectile.spriteDirection = -Owner.direction * (Flip ? -1 : 1);
 
-			if (Timer >= SwingTime - 2)
+			if (Timer >= SwingTime + 1)
 				projectile.Kill();
 		}
 
@@ -230,7 +230,9 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			SpriteEffects flip = (projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
 			lightColor = Lighting.GetColor((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f));
+
 			spriteBatch.Draw(projTexture, projBottom - Main.screenPosition, null, lightColor, newRotation, origin, projectile.scale, flip, 0);
+
 
 			CurrentBase = projBottom + (newRotation - 1.57f).ToRotationVector2() * (projTexture.Height / 2);
 
@@ -325,10 +327,14 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 					ParticleHandler.SpawnParticle(line);
 
 				}
-
+				float progress = Timer / SwingTime; //How far the projectile is through its swing
 				if (Slam)
+					progress = EaseFunction.EaseCubicInOut.Ease(progress);
+
+				if (Slam && progress > 0.4f && progress < 0.6f)
 				{
-					Owner.GetModPlayer<MyPlayer>().Shake += 5;
+					if (Owner.GetModPlayer<MyPlayer>().Shake < 5)
+						Owner.GetModPlayer<MyPlayer>().Shake += 5;
 					for (int j = 0; j < 14; j++)
 					{
 						int timeLeft = Main.rand.Next(20, 40);

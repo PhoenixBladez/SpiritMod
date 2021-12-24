@@ -52,7 +52,7 @@ namespace SpiritMod.NPCs.Bloater
 			float distance = (float)Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
 			npc.ai[1] += 1f;
 			if (distance < 240) {
-				if (npc.ai[1] >= 80 && npc.ai[1] <= 180) {
+				if (npc.ai[1] >= 120 && npc.ai[1] <= 180) {
 					if (Main.rand.NextBool(10) && Main.netMode != NetmodeID.MultiplayerClient) {
 						Main.PlaySound(SoundID.Item34, npc.Center);
 						Vector2 direction = Main.player[npc.target].Center - npc.Center;
@@ -70,11 +70,11 @@ namespace SpiritMod.NPCs.Bloater
 				int d = Dust.NewDust(npc.position, npc.width, npc.height + 10, DustID.Blood, 0, 1f, 0, new Color(), 0.7f);
 				Main.dust[d].velocity *= .1f;
 			}
-			if (npc.ai[1] == 80 && distance < 240) {
+			if (npc.ai[1] == 120 && distance < 240) {
 				Main.PlaySound(SoundID.NPCKilled, npc.Center, 13);
 				Main.PlaySound(SoundID.Zombie, npc.Center, 40);
 			}
-			if (npc.ai[1] > 60 && npc.ai[1] < 180) {
+			if (npc.ai[1] > 40 && npc.ai[1] < 180) {
 				if (distance < 240) {
 					float num395 = Main.mouseTextColor / 200f - 0.25f;
 					num395 *= 0.2f;

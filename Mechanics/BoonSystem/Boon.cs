@@ -22,6 +22,7 @@ namespace SpiritMod.Mechanics.BoonSystem
 
 		public virtual void SetStats() { }
 		public virtual string TexturePath => "";
+		public virtual Vector2 SigilSize => Vector2.Zero;
 
 		public virtual Vector2 SigilPosition
 		{
@@ -31,7 +32,7 @@ namespace SpiritMod.Mechanics.BoonSystem
 				float verticalOffset = 20;
 				verticalOffset *= (float)(Math.Sin(Timer * 2) * 0.33f) + 1;
 
-				return npc.Top - new Vector2(0, Texture.Height / 2) - Vector2.UnitY * verticalOffset;
+				return npc.Top - new Vector2(0, SigilSize.Y / 2) - Vector2.UnitY * verticalOffset;
 			}
 		}
 
