@@ -80,7 +80,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 				return;
 			}
 
-			int tileDist = GetTileBelow(0, out bool liquid);
+			int tileDist = GetTileAt(0, out bool liquid);
 
 			if (!liquid)
 			{
@@ -89,8 +89,8 @@ namespace SpiritMod.NPCs.Town.Oracle
 				if ((npc.Center.Y / 16f) > tileDist - 5)
 					npc.velocity.Y -= 0.16f; //Raises the NPC
 
-				GetTileBelow(-1, out bool left);
-				GetTileBelow(1, out bool right);
+				GetTileAt(-1, out bool left);
+				GetTileAt(1, out bool right);
 
 				MovementTimer--;
 				if (MovementTimer < 0)
@@ -139,14 +139,14 @@ namespace SpiritMod.NPCs.Town.Oracle
 			return false;
 		}
 
-		private int GetTileBelow(int xOffset, out bool liquid)
+		private int GetTileAt(int xOffset, out bool liquid, bool up = false)
 		{
 			int tileDist = (int)(npc.Center.Y / 16f);
 			liquid = true;
 
 			while (true)
 			{
-				tileDist++;
+				tileDist += up ? 1 : -1;
 
 				Tile t = Framing.GetTileSafely((int)(npc.Center.X / 16f) + xOffset, tileDist);
 				if (t.active() && Main.tileSolid[t.type])
