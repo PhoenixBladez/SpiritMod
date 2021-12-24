@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Particles;
 using System;
 
 namespace SpiritMod.Items.Weapon.Summon.StardustBomb
@@ -117,7 +118,21 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
 				if (npc.scale < 0.3f)
 				{
 					npc.active = false;
+					for (int j = 0; j < 14; j++)
+					{
+						int timeLeft = Main.rand.Next(20, 40);
+
+						StarParticle particle = new StarParticle(
+						npc.Center,
+						Main.rand.NextVector2Circular(10, 7),
+						Color.Cyan,
+						Main.rand.NextFloat(0.15f, 0.3f),
+						timeLeft);
+						ParticleHandler.SpawnParticle(particle);
+					}
 				}
+				else if (npc.scale > 1)
+					npc.scale = ((npc.scale - 1) / 2f) + 1;
 			}
 			else
 				npc.scale = MathHelper.Min(npc.ai[1] / 15f, 1);
@@ -163,14 +178,14 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
 
 			Color bloomColor = Color.Cyan;
 			bloomColor.A = 0;
-			Main.spriteBatch.Draw(mod.GetTexture("Effects/Masks/Extra_49"), (npc.Center - Main.screenPosition) + new Vector2(0, npc.gfxOffY), null, bloomColor, npc.rotation, new Vector2(50, 50), 0.45f * scale * npc.scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(mod.GetTexture("Effects/Masks/Extra_49"), (npc.Center - Main.screenPosition) + new Vector2(0, npc.gfxOffY), null, bloomColor, 0 - (npc.rotation / 2), new Vector2(50, 50), 0.45f * scale * npc.scale, SpriteEffects.None, 0f);
 
 			Main.spriteBatch.Draw(
                 mod.GetTexture("Items/Weapon/Summon/StardustBomb/StardustBombNPC_Star"),
 				npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY),
 				new Rectangle(0,0,48,52),
 				Color.White,
-				npc.rotation,
+				0 - (npc.rotation / 2),
 				new Vector2(28,26),
 				npc.scale * scale,
 				SpriteEffects.None, 0
