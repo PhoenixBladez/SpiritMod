@@ -25,9 +25,10 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
 			item.value = Item.sellPrice(0, 8, 0, 0);
 			item.rare = ItemRarityID.Red;
 			item.knockBack = 2.5f;
-			item.UseSound = SoundID.Item25;
+			item.UseSound = SoundID.Item20;
 			item.summon = true;
 			item.shootSpeed = 10f;
+			item.noUseGraphic = true;
 		}
 
 		public override void AddRecipes()
@@ -66,6 +67,10 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
 		int returnCounter;
 
 		int boomdamage;
+
+		float shrinkCounter = 0.25f;
+
+		bool shrinking;
         public override void SetDefaults()
         {
             npc.width = 158;
@@ -94,21 +99,34 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
 			returnCounter++;
 			if (returnCounter == 200)
 			{
-				Explode();
-				npc.active = false;
+				if (Explode())
+					npc.active = false;
+				else
+					shrinking = true;
 			}
-			npc.velocity *= 0.98f;
-			npc.rotation = npc.velocity.ToRotation() + 1.57f;
+			npc.velocity *= 0.97f;
+			npc.rotation += 0.03f;
 			Lighting.AddLight(npc.Center, Color.Cyan.R * 0.005f, Color.Cyan.G * 0.005f, Color.Cyan.B * 0.005f);
 			npc.ai[1]++;
 			if (npc.ai[1] == 20)
 				Main.PlaySound(SoundID.DD2_EtherianPortalIdleLoop, npc.Center);
+			if (shrinking)
+			{
+				shrinkCounter += 0.1f;
+				npc.scale = 0.75f + (float)(Math.Sin(shrinkCounter));
+				if (npc.scale < 0.3f)
+				{
+					npc.active = false;
+				}
+			}
+			else
+				npc.scale = MathHelper.Min(npc.ai[1] / 15f, 1);
 		}
 
-		private void Explode()
+		private bool Explode()
 		{
 			if (boomdamage == 0)
-				return;
+				return false;
 			Player player = Main.player[(int)npc.ai[0]];
 			Main.PlaySound(SoundID.Item92, npc.Center);
 			for (int i = 0; i < 2; i++)
@@ -122,6 +140,7 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
 			Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, mod.ProjectileType("StarShockwave"), (int)(boomdamage * player.minionDamage * 0.5f), 0, player.whoAmI);
 			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Thunder"), npc.Center);
 			SpiritMod.tremorTime = 15;
+			return true;
 		}
 
 		public override bool? CanBeHitByItem(Player player, Item item) => false;
@@ -140,14 +159,11 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-			float xscale = MathHelper.Clamp(1, 1 + (npc.velocity.Length() / 40f), 1.5f);
-			float yscale = MathHelper.Clamp(1, 1 - (npc.velocity.Length() / 40f), 0.66f);
-
-			Vector2 scale = new Vector2(yscale, xscale);
+			Vector2 scale = new Vector2(1,1);
 
 			Color bloomColor = Color.Cyan;
 			bloomColor.A = 0;
-			Main.spriteBatch.Draw(mod.GetTexture("Effects/Masks/Extra_49"), (npc.Center - Main.screenPosition) + new Vector2(0, npc.gfxOffY), null, bloomColor, npc.rotation, new Vector2(50, 50), 0.45f * scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(mod.GetTexture("Effects/Masks/Extra_49"), (npc.Center - Main.screenPosition) + new Vector2(0, npc.gfxOffY), null, bloomColor, npc.rotation, new Vector2(50, 50), 0.45f * scale * npc.scale, SpriteEffects.None, 0f);
 
 			Main.spriteBatch.Draw(
                 mod.GetTexture("Items/Weapon/Summon/StardustBomb/StardustBombNPC_Star"),
@@ -175,11 +191,7 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-
-			float xscale = MathHelper.Clamp(1, 1 + (npc.velocity.Length() / 40f), 1.5f);
-			float yscale = MathHelper.Clamp(1, 1 - (npc.velocity.Length() / 40f), 0.66f);
-
-			Vector2 scale = new Vector2(yscale, xscale);
+			Vector2 scale = new Vector2(1, 1);
 
 			float num107 = 0f;
 
@@ -209,5 +221,6 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
                 Main.spriteBatch.Draw(mod.GetTexture("Items/Weapon/Summon/StardustBomb/StardustBombNPC_Glow"), vector29, npc.frame, color28, npc.rotation, npc.frame.Size() / 2f, npc.scale * scale, spriteEffects3, 0f);
             }
 		}
+		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => false;
 	}
 }
