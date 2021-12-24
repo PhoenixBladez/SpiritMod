@@ -41,11 +41,6 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
             item.noUseGraphic = true;
         }
 
-		public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
-
 		public override bool CanUseItem(Player player)
 		{
 			for (int i = 0; i < 1000; ++i)
@@ -54,18 +49,6 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 				{
 					return false;
 				}
-			}
-			if (player.altFunctionUse == 2)
-			{
-				item.damage = 500;
-				item.shoot = ModContent.ProjectileType<RagingSunbladeProjAlt>();
-				item.useStyle = ItemUseStyleID.HoldingOut;
-			}
-			else
-			{
-				item.damage = 180;
-				item.shoot = ModContent.ProjectileType<RagingSunbladeProj>();
-				item.useStyle = ItemUseStyleID.SwingThrow;
 			}
 			return true;
 		}
@@ -146,7 +129,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 				if (charge > 60)
 				{
 					if (phantomProj == null)
-						phantomProj = Projectile.NewProjectileDirect(player.Center, player.DirectionTo(Main.MouseWorld) * 15, ModContent.ProjectileType<HeliosPhantomProj>(), 0, 0, player.whoAmI);
+						phantomProj = Projectile.NewProjectileDirect(player.Center, player.DirectionTo(Main.MouseWorld) * 15, ModContent.ProjectileType<HeliosPhantomProj>(), projectile.damage, 0, player.whoAmI);
 					primCenter = phantomProj.Center;
 					if (!phantomProj.active)
 						returned = true;
@@ -159,7 +142,14 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 				}
 			}
 			else
+			{
+				if (player.GetModPlayer<MyPlayer>().AnimeSword)
+				{
+					player.GetModPlayer<MyPlayer>().AnimeSword = false;
+					player.velocity = Vector2.Zero;
+				}
 				primCenter = player.Center;
+			}
             Vector2 direction = Main.MouseWorld - player.position;
             direction.Normalize();
             projectile.scale = MathHelper.Clamp(growCounter / 30f, 0, 1);
@@ -297,8 +287,6 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 	public class HeliosPhantomProj : ModProjectile
 	{
 
-		private Player player => Main.player[projectile.owner];
-
 		int pauseTimer = 40;
 
 		bool paused = false;
@@ -306,6 +294,10 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 		bool pausedBefore = false;
 
 		Vector2 oldVel = Vector2.Zero;
+
+		Player player => Main.player[projectile.owner];
+
+		private bool dashing = false;
 
 		public override void SetStaticDefaults()
 		{
@@ -330,6 +322,23 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 
 		public override bool PreAI()
 		{
+			if (Main.mouseRight && !dashing && player == Main.LocalPlayer)
+			{
+				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/slashdash").WithPitchVariance(0.4f).WithVolume(0.4f), player.Center);
+				dashing = true;
+				player.GetModPlayer<MyPlayer>().AnimeSword = true;
+				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HeliosDash>(), projectile.damage * 3, 0, player.whoAmI);
+			}
+			if (dashing)
+			{
+				player.velocity = player.DirectionTo(projectile.Center) * 80;
+				if (player.Distance(projectile.Center) < 100)
+				{
+					player.Center = projectile.Center;
+					player.velocity = Vector2.Zero;
+					player.GetModPlayer<MyPlayer>().AnimeSword = false;
+				}
+			}
 			if (!paused && projectile.velocity.Length() <= 3 && !pausedBefore)
 			{
 				paused = true;
@@ -350,82 +359,26 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 			return true;
 		}
 	}
-	public class RagingSunbladeProjAlt : ModProjectile
+	public class HeliosDash : ModProjectile
 	{
-		private const int CHARGETIME = 50;
-		private const int CHARGEDURATION = 15;
-
-		private const int FLASHTIME = 20;
-		private const int FLASHDURATION = 20;
-
-		private int counter;
-
 		private Player player => Main.player[projectile.owner];
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Anime Sword Proj");
-
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Helios");
 		public override void SetDefaults()
 		{
 			projectile.width = projectile.height = 180;
 			projectile.hostile = false;
 			projectile.melee = true;
 			projectile.aiStyle = -1;
-			projectile.friendly = false;
+			projectile.friendly = true;
 			projectile.penetrate = -1;
 			projectile.tileCollide = false;
+			projectile.hide = true;
 		}
-
 		public override void AI()
 		{
-
-			player.ChangeDir(Main.MouseWorld.X > player.Center.X ? 1 : -1);
-			projectile.timeLeft = 2;
-			projectile.rotation = player.DirectionTo(Main.MouseWorld).ToRotation() + 0.78f;
-			projectile.velocity = Vector2.Zero;
-			player.heldProj = projectile.whoAmI;
-			player.itemTime = 2;
-			player.itemAnimation = 2;
-			player.itemRotation = MathHelper.WrapAngle((projectile.rotation - 0.78f) + (projectile.direction < 0 ? MathHelper.Pi : 0));
 			projectile.Center = player.Center;
-			counter++;
-			projectile.scale = Math.Min(1, counter * 0.05f);
-			if (Main.mouseRight) //TODO: Sync in multiplayer
-			{
-				if (counter == FLASHTIME)
-					Main.PlaySound(SoundID.NPCDeath7, projectile.Center);
-				if (counter == CHARGETIME)
-				{
-					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/slashdash").WithPitchVariance(0.4f).WithVolume(0.4f), projectile.Center);
-				}
-				if (counter > CHARGETIME)
-				{
-					player.GetModPlayer<MyPlayer>().AnimeSword = true;
-					projectile.friendly = true;
-					player.velocity = player.DirectionTo(Main.MouseWorld) * 80;
-				}
-			}
-			else if (counter < CHARGETIME || counter > CHARGETIME + CHARGEDURATION)
+			if (!player.GetModPlayer<MyPlayer>().AnimeSword)
 				projectile.active = false;
-			if (counter > (CHARGETIME + CHARGEDURATION))
-			{
-				player.GetModPlayer<MyPlayer>().AnimeSword = false;
-				player.velocity = Vector2.Zero;
-				projectile.active = false;
-			}
-		}
-
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			Color color = lightColor;
-			Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], player.Center - Main.screenPosition, null, Color.White, projectile.rotation, new Vector2(Main.projectileTexture[projectile.type].Width / 2, Main.projectileTexture[projectile.type].Height / 2), projectile.scale, SpriteEffects.None, 0);
-			if (counter >= FLASHTIME && counter < FLASHTIME + FLASHDURATION)
-			{
-				float progress = (counter - FLASHTIME) / (float)FLASHDURATION;
-				float transparency = (float)Math.Pow(1 - progress, 2);
-				float scale = 1 + (progress / 2.0f);
-				Texture2D whiteTex = ModContent.GetTexture(Texture + "_White");
-				Main.spriteBatch.Draw(whiteTex, player.Center - Main.screenPosition, null, Color.White * transparency, projectile.rotation, new Vector2(Main.projectileTexture[projectile.type].Width / 2, Main.projectileTexture[projectile.type].Height / 2), projectile.scale * scale, SpriteEffects.None, 0);
-			}
-			return false;
 		}
 	}
 }
