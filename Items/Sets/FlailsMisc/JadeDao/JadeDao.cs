@@ -327,7 +327,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 					ParticleHandler.SpawnParticle(line);
 
 				}
-				float progress = ++Timer / SwingTime; //How far the projectile is through its swing
+				float progress = Timer / SwingTime; //How far the projectile is through its swing
 				if (Slam)
 					progress = EaseFunction.EaseCubicInOut.Ease(progress);
 
