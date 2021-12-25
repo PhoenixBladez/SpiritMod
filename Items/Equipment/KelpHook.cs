@@ -73,7 +73,7 @@ namespace SpiritMod.Items.Equipment
 
 		public override void GrapplePullSpeed(Player player, ref float speed)
 		{
-			int underwaterSpeed = Main.player[projectile.owner].wet ? 22 : 10;
+			int underwaterSpeed = Main.player[projectile.owner].wet ? 18 : 10;
 			speed = underwaterSpeed;
 		}
 

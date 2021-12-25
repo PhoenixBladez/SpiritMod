@@ -75,7 +75,7 @@ namespace SpiritMod.NPCs.Critters
 					dust.position.Y = dust.position.Y + ((Main.rand.Next(-50, 51) / 20) - 1.5f);
 					if (Main.dust[num].position != npc.Center)
 					{
-						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
+						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 3f;
 					}
 				}
 			}
