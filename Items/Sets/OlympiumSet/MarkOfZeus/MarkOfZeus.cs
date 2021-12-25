@@ -76,6 +76,10 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 		public override bool PreAI()
 		{
 			growCounter++;
+			if (growCounter == 10)
+            {
+				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/ElectricCharge").WithPitchVariance(0.4f).WithVolume(0.2f), projectile.Center);
+			}
 			Player player = Main.player[projectile.owner];
 			if (player.statMana <= 0)
 				projectile.Kill();
@@ -156,7 +160,8 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 
 		private void Launch(Player player, Vector2 direction)
 		{
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 1);
+			Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Thunder").WithPitchVariance(0.6f).WithVolume(0.6f), projectile.Center);
+
 			if (projectile.owner == Main.myPlayer)
 			{
 				int proj = Projectile.NewProjectile(projectile.Center, direction, ModContent.ProjectileType<MarkOfZeusProj2>(), (int)(projectile.damage * Math.Sqrt(counter) * 0.5f), projectile.knockBack, projectile.owner);
@@ -165,7 +170,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 					modItem.charge = counter;
 					if (Main.netMode != NetmodeID.Server)
 					{
-						MarkOfZeusPrimTrailTwo trail = new MarkOfZeusPrimTrailTwo(Main.projectile[proj], 4 * (float)(Math.Sqrt(counter) / 5));
+						MarkOfZeusPrimTrailTwo trail = new MarkOfZeusPrimTrailTwo(Main.projectile[proj], 2f * (float)(Math.Sqrt(counter) / 5));
 						modItem.trail = trail;
 						SpiritMod.primitives.CreateTrail(trail);
 					}
@@ -274,7 +279,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 				{
 					if (Main.netMode != NetmodeID.Server)
 					{
-						MarkOfZeusPrimTrail trail = new MarkOfZeusPrimTrail(Main.projectile[lightningproj], 4 * (float)(Math.Sqrt(charge) / 3));
+						MarkOfZeusPrimTrail trail = new MarkOfZeusPrimTrail(Main.projectile[lightningproj], 2f * (float)(Math.Sqrt(charge) / 3));
 						modProj.trail = trail;
 						SpiritMod.primitives.CreateTrail(trail);
 					}

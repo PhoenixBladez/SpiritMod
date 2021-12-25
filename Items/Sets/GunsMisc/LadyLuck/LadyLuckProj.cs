@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
             }
             if (Main.rand.Next(10) == 0)
                 Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.GoldCoin, 0, 0).velocity = Vector2.Zero;
-            Lighting.AddLight(projectile.Center, Color.Gold.R * 0.007f, Color.Gold.G * 0.007f, Color.Gold.B * 0.007f);
+            Lighting.AddLight(projectile.Center, Color.Gold.R * 0.0007f, Color.Gold.G * 0.0007f, Color.Gold.B * 0.0007f);
             cooldown--;
             Rectangle Hitbox = new Rectangle((int)projectile.Center.X - 30, (int)projectile.Center.Y - 30, 60, 60);
             var list = Main.projectile.Where(x => x.Hitbox.Intersects(Hitbox));
