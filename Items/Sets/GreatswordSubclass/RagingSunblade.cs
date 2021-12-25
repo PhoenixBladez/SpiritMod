@@ -8,6 +8,7 @@ using SpiritMod.Prim;
 using SpiritMod.Utilities;
 using System.Collections.Generic;
 using System.Linq;
+using SpiritMod.Particles;
 
 namespace SpiritMod.Items.Sets.GreatswordSubclass
 {
@@ -379,6 +380,15 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 			projectile.Center = player.Center;
 			if (!player.GetModPlayer<MyPlayer>().AnimeSword)
 				projectile.active = false;
+			else
+			{
+				for (int i = 0; i < 3; i++)
+				{
+					ImpactLine line = new ImpactLine(projectile.Center + Main.rand.NextVector2Circular(90, 90), Vector2.Normalize(player.velocity) * 0.5f, Color.Lerp(Color.Orange, Color.OrangeRed, Main.rand.NextFloat()), new Vector2(0.25f, Main.rand.NextFloat(0.5f, 1.5f)) * 5, 60);
+					line.TimeActive = 30;
+					ParticleHandler.SpawnParticle(line);
+				}
+			}
 		}
 	}
 }
