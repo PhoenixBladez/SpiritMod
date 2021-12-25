@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Sets.MarbleSet;
 using SpiritMod.Projectiles.Summon.Zones;
+using SpiritMod.Buffs.Zones;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -57,6 +58,8 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<DefenseZone>();
 			item.shootSpeed = 0f;
+			item.buffType = ModContent.BuffType<ShieldZoneTimer>();
+			item.buffTime = Projectile.SentryLifeTime;
 		}
         public override Vector2? HoldoutOffset()
         {

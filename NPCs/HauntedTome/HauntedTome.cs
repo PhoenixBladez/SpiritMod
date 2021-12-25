@@ -164,19 +164,21 @@ namespace SpiritMod.NPCs.HauntedTome
 			HauntedTome modnpc = npc.modNPC as HauntedTome;
 			npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
 
-			if (modnpc.AiTimer % 45 == 0) {
+				if (modnpc.AiTimer % 45 == 0) {
 				if (Main.netMode != NetmodeID.Server)
 					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/PaperRip"), npc.Center);
-
-				if (Main.netMode != NetmodeID.MultiplayerClient)
-					Projectile.NewProjectileDirect(npc.Center,
-									-Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 4) * 3,
-									ModContent.ProjectileType<HauntedPaperPlane>(),
-									NPCUtils.ToActualDamage(24, 1.25f),
-									1,
-									Main.myPlayer,
-									npc.whoAmI,
-									npc.target).netUpdate = true;
+				if (npc.DistanceSQ(player.Center) < 2000)
+				{
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+						Projectile.NewProjectileDirect(npc.Center,
+										-Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 4) * 3,
+										ModContent.ProjectileType<HauntedPaperPlane>(),
+										NPCUtils.ToActualDamage(24, 1.25f),
+										1,
+										Main.myPlayer,
+										npc.whoAmI,
+										npc.target).netUpdate = true;
+				}
 			}
 
 			if (modnpc.AiTimer > 360)

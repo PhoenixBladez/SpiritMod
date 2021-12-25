@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Material;
+using SpiritMod.Buffs.Zones;
 
 namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 {
@@ -60,6 +61,8 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<RepulsionZone>();
 			item.shootSpeed = 0f;
+			item.buffType = ModContent.BuffType<RepulsionZoneTimer>();
+			item.buffTime = Projectile.SentryLifeTime;
 		}
         public override Vector2? HoldoutOffset()
         {
