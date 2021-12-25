@@ -1495,7 +1495,7 @@ namespace SpiritMod
 			if (NebulaPearl && Main.rand.NextBool(8) && proj.magic)
 				Item.NewItem(target.Hitbox, 3454);
 
-			if (crystalFlower && target.life <= 0 && Main.rand.NextBool(12))
+			if (crystalFlower && target.life <= 0 && Main.rand.NextBool(7))
 				CrystalFlowerOnKillEffect(target);
 		}
 
@@ -1503,9 +1503,15 @@ namespace SpiritMod
 		{
 			Main.PlaySound(SoundID.Item107, target.Center);
 
-			int numProjectiles = Main.rand.Next(2, 5);
-			for (int i = 0; i < numProjectiles; ++i)
-				Projectile.NewProjectile(target.Center, new Vector2(Main.rand.NextFloat(3, 3), Main.rand.NextFloat(3, 1)), ProjectileID.UnholyArrow, 30, 0, player.whoAmI);
+			int numProjectiles = Main.rand.Next(3, 6);
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				for (int i = 0; i < numProjectiles; ++i)
+				{
+					int p = Projectile.NewProjectile(target.Center, new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(3, 1)), ModContent.ProjectileType<Items.Sets.AccessoriesMisc.CrystalFlower.CrystalFlowerProjectile>(), 30, 0, player.whoAmI);
+					Main.projectile[p].scale = Main.rand.NextFloat(.5f, .9f);
+				}
+			}
 		}
 
 		public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)

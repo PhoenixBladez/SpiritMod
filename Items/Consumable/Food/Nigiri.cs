@@ -6,12 +6,12 @@ using SpiritMod.Items.Consumable.Fish;
 
 namespace SpiritMod.Items.Consumable.Food
 {
-	public class Sushi : ModItem
+	public class Nigiri : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sushi");
-			Tooltip.SetDefault("Minor improvements to all stats\nProvides underwater breathing\n'Cold and fresh!'");
+			DisplayName.SetDefault("Nigiri");
+			Tooltip.SetDefault("Minor improvements to all stats\nProvides free movement in water\n'The perfect cut'");
 		}
 
 
@@ -34,13 +34,13 @@ namespace SpiritMod.Items.Consumable.Food
 		}
 		public override bool CanUseItem(Player player)
 		{
-			player.AddBuff(4, 1800);
+			player.AddBuff(BuffID.Flipper, 3600);
 			return true;
 		}
 		public override void AddRecipes()
 		{
 			ModRecipe recipe1 = new ModRecipe(mod);
-			recipe1.AddIngredient(ModContent.ItemType<Items.Sets.FloatingItems.Kelp>(), 5);
+			recipe1.AddIngredient(ModContent.ItemType<Items.Sets.FloatingItems.Kelp>(), 7);
 			recipe1.AddIngredient(ModContent.ItemType<RawFish>(), 1);
 			recipe1.AddTile(TileID.CookingPots);
 			recipe1.SetResult(this, 1);
