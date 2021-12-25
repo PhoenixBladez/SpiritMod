@@ -158,15 +158,6 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			}
 		}
 
-		public static Color GetRippleColor()
-		{
-			float num3 = 0.8f;
-
-			float g = num3 * 0.5f + 0.5f;
-			float mult = Math.Min(Math.Abs(num3), 1f);
-			return new Color(0.5f, g, 0f, 1f) * mult;
-		}
-
 		private static void IncreaseRippleSize(ILContext il)
 		{
 			var c = new ILCursor(il);
@@ -221,6 +212,17 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 			Main.spriteBatch.End();
 			Main.spriteBatch.Begin(default, default, default, default, default, null, Main.GameViewMatrix.ZoomMatrix);
+		}
+
+		/// <summary>Just a little test I did. Don't mind this. :)</summary>
+		private static void DrawReflectedPlayer()
+		{
+			Player plr = Main.LocalPlayer;
+			plr.direction = plr.direction == -1 ? 1 : -1;
+
+			Main.instance.DrawPlayer(plr, plr.position, MathHelper.Pi, new Vector2(plr.width / 2f, plr.height), 0);
+
+			plr.direction = plr.direction == -1 ? 1 : -1;
 		}
 
 		private static void SetShader()
