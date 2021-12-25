@@ -55,7 +55,7 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 			item.knockBack = 0;
 			item.value = 10000;
 			item.rare = ItemRarityID.Green;
-			item.reuseDelay = 300;
+			item.reuseDelay = 60;
 			item.UseSound = SoundID.DD2_EtherianPortalSpawnEnemy;
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<RepulsionZone>();

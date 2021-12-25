@@ -49,8 +49,8 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
                 {
                     for (int i = 0; i < 5; i++)
                         Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.GoldCoin).velocity *= 0.4f;
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/coinhit"), projectile.Center);
-                    projectile.velocity = proj.velocity / 2;
+					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Ricochet").WithPitchVariance(0.4f).WithVolume(0.6f), projectile.Center);
+					projectile.velocity = proj.velocity / 2;
                     float attackRange = 800;
                     NPC target = Main.npc.Where(n => n.CanBeChasedBy() && Vector2.Distance(n.Center, projectile.Center) < attackRange).OrderBy(n => n.life / n.lifeMax).FirstOrDefault();
                     if (target != default)

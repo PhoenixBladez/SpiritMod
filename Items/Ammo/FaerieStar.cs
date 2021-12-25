@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Ammo
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.FallenStar, 1);
-			recipe.AddIngredient(ItemID.PixieDust, 4);
+			recipe.AddIngredient(ItemID.PixieDust, 2);
 			recipe.AddTile(TileID.CrystalBall);
 			recipe.SetResult(this, 10);
 			recipe.AddRecipe();

@@ -28,7 +28,7 @@ namespace SpiritMod.Tiles.Ambient.Kelp
             Main.tileMergeDirt[Type] = false; //Don't merge with dirt (or anything else ever)
             Main.tileBlockLight[Type] = false; //Don't block light
 			Main.tileFrameImportant[Type] = true;
-
+			drop = ModContent.ItemType<Items.Sets.FloatingItems.Kelp>();
 			AddMapEntry(new Color(21, 92, 19));
             dustType = DustID.Grass;
             soundType = SoundID.Grass;
