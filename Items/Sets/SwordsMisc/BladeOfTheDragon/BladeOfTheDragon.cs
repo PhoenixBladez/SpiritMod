@@ -69,7 +69,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 			projectile.timeLeft = 240;
 		}
 
-        public readonly int MAXCHARGE = 55;
+        public readonly int MAXCHARGE = 50;
         public int charge = 0;
         int index = 0;
         NPC mostrecent;
@@ -93,7 +93,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
                 {
 					direction = Main.MouseWorld - (player.Center);
 					direction.Normalize();
-					direction *= 70f;
+					direction *= 60f;
 					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/slashdash").WithPitchVariance(0.4f).WithVolume(0.4f), projectile.Center);
 					SpiritMod.primitives.CreateTrail(new DragonPrimTrail(projectile));
                 }
