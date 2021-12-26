@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
         {
 			AlphaValue = 0.9f;
             Cap = 80;
-            Width = 2;
+            Width = 4;
             Pixellated = true;
         }
         public override void PrimStructure(SpriteBatch spriteBatch)

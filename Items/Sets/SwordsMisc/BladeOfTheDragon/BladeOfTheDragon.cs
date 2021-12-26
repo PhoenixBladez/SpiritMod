@@ -3,6 +3,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Utilities;
+using SpiritMod.Particles;
 
 namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 {
@@ -51,9 +53,18 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 	}
     public class BladeOfTheDragonProj : ModProjectile
     {
+		const int DISTANCE = 700;
+
         public NPC[] hit = new NPC[24];
 
 		Vector2 direction = Vector2.Zero;
+
+		Vector2 startPos = Vector2.Zero;
+
+		Vector2 endPos = Vector2.Zero;
+
+		Vector2 oldCenter = Vector2.Zero;
+
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Blade of the Dragon");
 
 		public override void SetDefaults()
@@ -69,7 +80,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 			projectile.timeLeft = 240;
 		}
 
-        public readonly int MAXCHARGE = 50;
+        public readonly int MAXCHARGE = 56;
         public int charge = 0;
         int index = 0;
         NPC mostrecent;
@@ -91,20 +102,45 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
                     charge++;
                 if (charge == 40)
                 {
+					startPos = player.Center;
 					direction = Main.MouseWorld - (player.Center);
 					direction.Normalize();
-					direction *= 60f;
+					direction *= DISTANCE;
+					endPos = player.Center + direction;
 					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/slashdash").WithPitchVariance(0.4f).WithVolume(0.4f), projectile.Center);
 					SpiritMod.primitives.CreateTrail(new DragonPrimTrail(projectile));
-                }
+					oldCenter = player.Center;
+
+				}
                 if (charge > 40 && charge < MAXCHARGE)
                 {
+					float progress = (float)(charge - 41) / (float)(MAXCHARGE - 41);
+					progress = EaseFunction.EaseCircularInOut.Ease(progress);
+
+					float nextProgress = (float)(charge - 40) / (float)(MAXCHARGE - 41);
+					nextProgress = EaseFunction.EaseCircularInOut.Ease(nextProgress);
+
+					Vector2 nextPoint = Vector2.Lerp(startPos, endPos, nextProgress);
+
+					Vector2 currentPoint = Vector2.Lerp(startPos, endPos, progress);
+
+					float oldSpeed = player.velocity.Length();
+					player.velocity = nextPoint - currentPoint;
+
 					player.GetModPlayer<MyPlayer>().AnimeSword = true;
-                    player.velocity = direction;
-                    for (int i = 0; i < Main.npc.Length; i++)
+
+					for (int i = 0; i < oldSpeed / 5f; i++)
+					{
+						ImpactLine line = new ImpactLine(Vector2.Lerp(oldCenter,projectile.Center,Main.rand.NextFloat()) + Main.rand.NextVector2Circular(35, 35), Vector2.Normalize(direction) * 0.5f, Color.Lerp(Color.Green, Color.White, Main.rand.NextFloat()), new Vector2(0.25f, Main.rand.NextFloat(0.5f, 1.5f)) * 3, 60);
+						line.TimeActive = 30;
+						ParticleHandler.SpawnParticle(line);
+					}
+					oldCenter = player.Center;
+					for (int i = 0; i < Main.npc.Length; i++)
                     {
                         NPC target = Main.npc[i];
-                        if (Collision.CheckAABBvAABBCollision(target.position, new Vector2(target.width, target.height), player.position - new Vector2(10, 0), new Vector2(player.width + 20, player.height)) && index < 23)
+						float collisionPoint = 0f;
+                        if (Collision.CheckAABBvLineCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), player.Center, player.oldPosition + (new Vector2(player.width, player.height) / 2), 40, ref collisionPoint) && index < 23)
                         {
 							if (player.HeldItem.modItem is BladeOfTheDragon modItem && !comboActivated)
 							{
@@ -186,8 +222,9 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             Player player = Main.player[projectile.owner];
+			float colissionPoint = 0f;
             if (charge > 40 && charge < MAXCHARGE)
-                return base.Colliding(projHitbox, targetHitbox);
+                return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), player.Center, player.oldPosition + (new Vector2(player.width,player.height) / 2), 60, ref colissionPoint);
             if (!(player.channel && projectile.timeLeft > 237))
                 return true;
             return false;
