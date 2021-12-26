@@ -90,10 +90,10 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            player.heldProj = projectile.whoAmI;
             projectile.Center = player.Center;
             if (player.channel && projectile.timeLeft > 237)
             {
+				player.heldProj = projectile.whoAmI;
 				player.itemTime = 5;
 				player.itemAnimation = 5;
 				projectile.timeLeft = 240;
@@ -125,16 +125,18 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 					Vector2 currentPoint = Vector2.Lerp(startPos, endPos, progress);
 
 					float oldSpeed = player.velocity.Length();
+
+					for (int i = 0; i < oldSpeed / 7f; i++)
+					{
+						ImpactLine line = new ImpactLine(Vector2.Lerp(oldCenter, projectile.Center, Main.rand.NextFloat()) + Main.rand.NextVector2Circular(35, 35), Vector2.Normalize(player.velocity) * 0.5f, Color.Lerp(Color.Green, Color.LightGreen, Main.rand.NextFloat()), new Vector2(0.25f, Main.rand.NextFloat(0.5f, 1.5f)) * 3, 60);
+						line.TimeActive = 30;
+						ParticleHandler.SpawnParticle(line);
+					}
+
 					player.velocity = nextPoint - currentPoint;
 
 					player.GetModPlayer<MyPlayer>().AnimeSword = true;
 
-					for (int i = 0; i < oldSpeed / 5f; i++)
-					{
-						ImpactLine line = new ImpactLine(Vector2.Lerp(oldCenter,projectile.Center,Main.rand.NextFloat()) + Main.rand.NextVector2Circular(35, 35), Vector2.Normalize(direction) * 0.5f, Color.Lerp(Color.Green, Color.White, Main.rand.NextFloat()), new Vector2(0.25f, Main.rand.NextFloat(0.5f, 1.5f)) * 3, 60);
-						line.TimeActive = 30;
-						ParticleHandler.SpawnParticle(line);
-					}
 					oldCenter = player.Center;
 					for (int i = 0; i < Main.npc.Length; i++)
                     {
@@ -253,7 +255,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 				if (player.direction == 1)
 				{
 					Main.spriteBatch.Draw(texture, (player.MountedCenter + new Vector2(6, 6)) - Main.screenPosition, null, lightColor, 0, new Vector2(texture.Width * 0.75f, texture.Height * 0.2f), projectile.scale, SpriteEffects.None, 0.0f);
-					if (charge > 40 && player.channel)
+					if (charge > 40 && player.channel && projectile.timeLeft > 237)
 					{
 						Texture2D texture2 = ModContent.GetTexture("SpiritMod/Items/Weapon/Swung/AnimeSword/TwinkleXLarge");
 						Main.spriteBatch.Draw(texture2, (player.MountedCenter + new Vector2(0, 6)) - Main.screenPosition, null, Color.White, charge / 40f, new Vector2(texture2.Width / 2, texture2.Height / 2), projectile.scale, SpriteEffects.None, 0.0f);
@@ -262,7 +264,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 				else
 				{
 					Main.spriteBatch.Draw(texture, (player.MountedCenter + new Vector2(6, 6)) - Main.screenPosition, null, lightColor, 0, new Vector2(texture.Width * 0.25f, texture.Height * 0.2f), projectile.scale, SpriteEffects.FlipHorizontally, 0.0f);
-					if (charge > 40 && player.channel)
+					if (charge > 40 && player.channel && projectile.timeLeft > 237)
 					{
 						Texture2D texture2 = ModContent.GetTexture("SpiritMod/Items/Weapon/Swung/AnimeSword/TwinkleXLarge");
 						Main.spriteBatch.Draw(texture2, (player.MountedCenter + new Vector2(0, 6)) - Main.screenPosition, null, Color.White, charge / 40f, new Vector2(texture2.Width / 2, texture2.Height / 2), projectile.scale, SpriteEffects.None, 0.0f);
