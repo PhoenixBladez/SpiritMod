@@ -81,10 +81,10 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
             Player player = Main.player[projectile.owner];
             player.heldProj = projectile.whoAmI;
             projectile.Center = player.Center;
-            if (player.channel && projectile.timeLeft > 239)
+            if (player.channel && projectile.timeLeft > 237)
             {
-				player.itemTime = 2;
-				player.itemAnimation = 2;
+				player.itemTime = 5;
+				player.itemAnimation = 5;
 				projectile.timeLeft = 240;
                 charge++;
                 if (charge < 40)
@@ -134,7 +134,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 					player.velocity = Vector2.Zero;
                     charge = MAXCHARGE + 1;
                 }
-                if (projectile.timeLeft % 5 == 0)
+                if (projectile.timeLeft % 3 == 0)
                 {
                     float mindist = 0;
                     NPC closest = null;
@@ -188,7 +188,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
             Player player = Main.player[projectile.owner];
             if (charge > 40 && charge < MAXCHARGE)
                 return base.Colliding(projHitbox, targetHitbox);
-            if (!(player.channel && projectile.timeLeft > 239))
+            if (!(player.channel && projectile.timeLeft > 237))
                 return true;
             return false;
 
@@ -197,7 +197,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
         public override bool? CanHitNPC(NPC target)
 		{
             Player player = Main.player[projectile.owner];
-            if ((player.channel && projectile.timeLeft > 239) || projectile.timeLeft > 5)
+            if ((player.channel && projectile.timeLeft > 237) || projectile.timeLeft > 5)
                 return false;
             foreach (var npc in hit)
 				if (target == npc)
@@ -211,7 +211,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 		{
 			Player player = Main.player[projectile.owner];
             Texture2D texture = Main.projectileTexture[projectile.type];
-			if (player.channel && projectile.timeLeft > 239)
+			if (player.channel && projectile.timeLeft > 237)
 			{
 				if (player.direction == 1)
 				{
