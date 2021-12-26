@@ -146,7 +146,10 @@ namespace SpiritMod.NPCs.Town.Oracle
 
 			while (true)
 			{
-				tileDist += up ? 1 : -1;
+				tileDist += !up ? 1 : -1;
+
+				if (tileDist < 20)
+					return -1;
 
 				Tile t = Framing.GetTileSafely((int)(npc.Center.X / 16f) + xOffset, tileDist);
 				if (t.active() && Main.tileSolid[t.type])
