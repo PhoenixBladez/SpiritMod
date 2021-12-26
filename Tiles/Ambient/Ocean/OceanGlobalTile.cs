@@ -49,7 +49,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 						if (k == i && l == j) continue; //Dont check myself
 
 						Tile cur = Framing.GetTileSafely(k, l);
-						if (woods.Contains(cur.type) && cur.liquid > 155 && cur.liquidType() == Tile.Liquid_Water && Main.rand.NextBool(6))
+						if (!cur.active() && woods.Contains(cur.type) && cur.liquid > 155 && cur.liquidType() == Tile.Liquid_Water && Main.rand.NextBool(6))
 							WorldGen.PlaceTile(k, l, ModContent.TileType<Mussel>());
 					}
 				}
