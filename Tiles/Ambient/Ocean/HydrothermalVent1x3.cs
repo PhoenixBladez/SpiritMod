@@ -11,10 +11,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 {
 	public class LargeVentItem : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Large Hydrothermal Vent");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Large Hydrothermal Vent");
 
 		public override void SetDefaults()
 		{
@@ -33,19 +30,21 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 
 		public override bool UseItem(Player player)
 		{
-			item.placeStyle = Main.rand.Next(0, 2);
+			item.placeStyle = Main.rand.Next(2);
 			return base.UseItem(player);
 		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.AshBlock, 20);
 			recipe.AddIngredient(ItemID.Obsidian, 1);
-			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
+			recipe.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}
 	}
+
 	public class HydrothermalVent1x3 : ModTile
 	{
 		public override void SetDefaults()
