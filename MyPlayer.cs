@@ -1139,10 +1139,6 @@ namespace SpiritMod
 				caughtType = ModContent.ItemType<SpiritKoi>();
 
 			float chance = 0.02f + Math.Min(player.fishingSkill / 10000, 0.02f);
-
-			if (modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextFloat() <= chance)
-				caughtType = ModContent.ItemType<Obolos>();
-
 			if (modPlayer.ZoneReach && Main.rand.NextBool(5))
 				caughtType = ModContent.ItemType<Items.Sets.BriarDrops.ReachFishingCatch>();
 

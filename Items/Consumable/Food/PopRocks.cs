@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Consumable.Food
 		public override bool CanUseItem(Player player)
 		{
 			player.AddBuff(BuffID.Shine, 7200);
-			return true;
+			return base.CanUseItem(player);
 		}
 	}
 }

@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 		public int combo;
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Jade Dao");
+			DisplayName.SetDefault("Jade Daos");
 			// Tooltip.SetDefault("Plugs into tiles, changing the chain into a shocking livewire");
 
 		}
