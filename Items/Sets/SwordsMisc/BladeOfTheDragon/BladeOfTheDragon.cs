@@ -172,7 +172,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 					player.velocity = Vector2.Zero;
                     charge = MAXCHARGE + 1;
                 }
-                if (projectile.timeLeft % 3 == 0)
+                if (projectile.timeLeft % 4 == 0)
                 {
                     float mindist = 0;
                     NPC closest = null;
@@ -207,7 +207,10 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 					{
 						mostrecent = closest;
 						if (mostrecent.active)
-							SpiritMod.primitives.CreateTrail(new DragonPrimTrailTwo(mostrecent));
+						{
+							//SpiritMod.primitives.CreateTrail(new DragonPrimTrailTwo(mostrecent));
+							Projectile.NewProjectile(mostrecent.Center, Vector2.Zero, ModContent.ProjectileType<DragonSlash>(), 0, 0, player.whoAmI, mostrecent.whoAmI);
+						}
 					}
 					else if (projectile.timeLeft > 15)
 					{
@@ -274,4 +277,49 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
             return false;
         }
     }
+	internal class DragonSlash : ModProjectile
+	{
+
+		int frameX = 0;
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Dragon Slash");
+			Main.projFrames[projectile.type] = 3;
+		}
+
+		public override void SetDefaults()
+		{
+			projectile.friendly = false;
+			projectile.ranged = true;
+			projectile.tileCollide = false;
+			projectile.Size = new Vector2(88, 123);
+			projectile.penetrate = -1;
+		}
+		public override void AI()
+		{
+			if (projectile.frameCounter == 0)
+			{
+				frameX = Main.rand.Next(2);
+				projectile.rotation = Main.rand.NextFloat(6.28f);
+			}
+			projectile.Center = Main.npc[(int)projectile.ai[0]].Center;
+			projectile.velocity = Vector2.Zero;
+			projectile.frameCounter++;
+			if (projectile.frameCounter % 7 == 0)
+				projectile.frame++;
+			if (projectile.frame >= Main.projFrames[projectile.type])
+				projectile.active = false;
+
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D tex = Main.projectileTexture[projectile.type];
+			int frameHeight = tex.Height / Main.projFrames[projectile.type];
+			Rectangle frame = new Rectangle((tex.Width / 2) * frameX, frameHeight * projectile.frame, tex.Width / 2, frameHeight);
+			spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, new Vector2(tex.Width / 4, frameHeight / 2), projectile.scale, SpriteEffects.None, 0f);
+			return false;
+		}
+		public override Color? GetAlpha(Color lightColor) => Color.White;
+	}
 }

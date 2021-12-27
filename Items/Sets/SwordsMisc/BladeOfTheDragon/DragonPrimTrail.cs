@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
         {
 			AlphaValue = 0.9f;
             Cap = 80;
-            Width = 4;
+            Width = 10;
             Pixellated = true;
         }
         public override void PrimStructure(SpriteBatch spriteBatch)
@@ -47,10 +47,10 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
                     Vector2 normalAhead = CurveNormal(Points, i + 1);
                     Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
                     Vector2 secondDown = Points[i + 1] + normalAhead * widthVar;
-                    AddVertex(Points[i], c1 * AlphaValue, new Vector2((float)Math.Sin(Counter / 20f), (float)Math.Sin(Counter / 20f)));
-                    AddVertex(secondUp, c1 * AlphaValue, new Vector2((float)Math.Sin(Counter / 20f), (float)Math.Sin(Counter / 20f)));
-                    AddVertex(secondDown, c1 * AlphaValue, new Vector2((float)Math.Sin(Counter / 20f), (float)Math.Sin(Counter / 20f)));
-                }
+					AddVertex(Points[i], c1 * AlphaValue, new Vector2(0, 0.5f));
+					AddVertex(secondUp, c1 * AlphaValue, new Vector2((float)(i + 1) / (float)Cap, 0));
+					AddVertex(secondUp, c1 * AlphaValue, new Vector2((float)(i + 1) / (float)Cap, 1));
+				}
                 else
                 {
                     if (i != Points.Count - 1)
@@ -84,13 +84,17 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
                 }
             }
         }
-       public override void SetShaders()
+		public override void SetShaders()
+		{
+			Effect effect = SpiritMod.PrimitiveTextureMap;
+			effect.Parameters["uTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/GlowTrail"));
+			effect.Parameters["additive"].SetValue(true);
+			effect.Parameters["intensify"].SetValue(true);
+			PrepareShader(effect, "MainPS", Counter);
+		}
+		public override void OnUpdate()
         {
-            PrepareBasicShader();
-        }
-        public override void OnUpdate()
-        {
-			if (!(Entity is Projectile projectile))
+			if (!(Entity is Projectile))
 				return;
 
 			Counter++;
