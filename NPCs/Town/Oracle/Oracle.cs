@@ -82,13 +82,10 @@ namespace SpiritMod.NPCs.Town.Oracle
 
 			int tileDist = GetTileAt(0, out bool liquid);
 
+			HandleFloatHeight(tileDist);
+
 			if (!liquid)
 			{
-				if ((npc.Center.Y / 16f) + 6 < tileDist)
-					npc.velocity.Y += 0.16f; //Grounds the NPC
-				if ((npc.Center.Y / 16f) > tileDist - 5)
-					npc.velocity.Y -= 0.16f; //Raises the NPC
-
 				GetTileAt(-1, out bool left);
 				GetTileAt(1, out bool right);
 
@@ -116,16 +113,67 @@ namespace SpiritMod.NPCs.Town.Oracle
 				else if (MovementDir > 0f && right)
 					MovementDir = 0f;
 			}
+			else
+				ScanForLand();
 
 			npc.velocity.X = MovementDir == 0f ? npc.velocity.X * 0.98f : MovementDir;
 
-			if ((MovementDir == 0f && Math.Abs(npc.velocity.X) < 0.02f) || !IsBeingTalkedTo())
+			if ((MovementDir == 0f && Math.Abs(npc.velocity.X) < 0.15f) || IsBeingTalkedTo())
 			{
 				if (npc.DistanceSQ(NearestPlayer.Center) < 400 * 400)
 					npc.direction = npc.spriteDirection = NearestPlayer.Center.X < npc.Center.X ? -1 : 1;
 			}
 			else
 				npc.direction = npc.spriteDirection = npc.velocity.X < 0 ? -1 : 1;
+		}
+
+		private void HandleFloatHeight(int tileDist)
+		{
+			int[] ceilingHeights = new int[5];
+			for (int i = -2; i < 3; ++i)
+				ceilingHeights[i + 2] = GetTileAt(-1, out _, true);
+
+			int avgCeilingHeight = 0;
+
+			for (int i = 0; i < ceilingHeights.Length; ++i)
+			{
+				if (ceilingHeights[i] == -1)
+					avgCeilingHeight += 10;
+				else
+					avgCeilingHeight += (int)(npc.Center.Y / 16f) - ceilingHeights[i];
+			}
+
+			avgCeilingHeight /= 5;
+			int adjustLevHeight = 5;
+
+			if (avgCeilingHeight <= 10)
+				adjustLevHeight = (int)(avgCeilingHeight * 0.25f);
+
+			if ((npc.Center.Y / 16f) + 6 + adjustLevHeight < tileDist)
+				npc.velocity.Y += 0.16f; //Grounds the NPC
+			if ((npc.Center.Y / 16f) > tileDist - (5 + adjustLevHeight))
+				npc.velocity.Y -= 0.16f; //Raises the NPC
+		}
+
+		private void ScanForLand()
+		{
+			const int SearchDist = 20;
+
+			int nearestTileDir = 1000;
+
+			for (int i = -SearchDist; i < SearchDist + 1; ++i)
+			{
+				GetTileAt(i, out bool liq);
+				int thisDist = (int)(npc.Center.X / 16f) + i;
+				if (!liq && Math.Abs((int)(npc.Center.X / 16f) - nearestTileDir) > Math.Abs((int)(npc.Center.X / 16f) - thisDist))
+					nearestTileDir = thisDist;
+			}
+
+			if (nearestTileDir != 1000)
+			{
+				int dir = (npc.Center.X / 16f) > nearestTileDir ? -1 : 1;
+				npc.velocity.X = dir * 1.15f;
+			}
 		}
 
 		public bool IsBeingTalkedTo()
