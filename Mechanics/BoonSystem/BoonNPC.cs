@@ -35,7 +35,7 @@ namespace SpiritMod.Mechanics.BoonSystem
 				if (Main.netMode == NetmodeID.SinglePlayer) //Check if any player has the boon increase buff
 				{
 					if (Main.LocalPlayer.HasBuff(ModContent.BuffType<OracleBoonBuff>()))
-						chance = 8;
+						chance = 5;
 				}
 				else
 				{
@@ -44,7 +44,7 @@ namespace SpiritMod.Mechanics.BoonSystem
 						Player p = Main.player[i];
 						if (p.active && !p.dead && p.HasBuff(ModContent.BuffType<OracleBoonBuff>()))
 						{
-							chance = 8;
+							chance = 5;
 							break;
 						}
 					}
