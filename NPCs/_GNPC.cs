@@ -823,7 +823,6 @@ namespace SpiritMod.NPCs
 							pool.Add(NPCType<BlueAlgae2>(), 3f);
 						if (MyWorld.luminousType == 3)
 							pool.Add(NPCType<PurpleAlgae2>(), 3f);
-						pool.Add(NPCType<SeaMandrake.SeaMandrake>(), .26f);
 					}
 				}
 			}
