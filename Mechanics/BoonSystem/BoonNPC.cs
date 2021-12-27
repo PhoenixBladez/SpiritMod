@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using Terraria.ID;
 using System.Linq;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.Mechanics.BoonSystem
 {
@@ -23,11 +24,35 @@ namespace SpiritMod.Mechanics.BoonSystem
 				//TryHandlePackets();
 			}
 
-			// no weirdness while trying to setup content, please, thanks
-			if (!SpiritMod.Instance.FinishedContentSetup) return;
+			// no weirdness while trying to setup content, please, thanks - and nothing should happen on the menu either
+			if (!SpiritMod.Instance.FinishedContentSetup || Main.gameMenu || Main.LocalPlayer == null)
+				return;
 
 			if (npc.modNPC is IBoonable || npc.type == NPCID.Medusa)
 			{
+				int chance = 15;
+
+				if (Main.netMode == NetmodeID.SinglePlayer) //Check if any player has the boon increase buff
+				{
+					if (Main.LocalPlayer.HasBuff(ModContent.BuffType<OracleBoonBuff>()))
+						chance = 8;
+				}
+				else
+				{
+					for (int i = 0; i < Main.maxPlayers; ++i)
+					{
+						Player p = Main.player[i];
+						if (p.active && !p.dead && p.HasBuff(ModContent.BuffType<OracleBoonBuff>()))
+						{
+							chance = 8;
+							break;
+						}
+					}
+				}
+
+				if (!Main.rand.NextBool(chance)) //Stop trying to add the boon if we don't pass the check
+					return;
+
 				currentBoon = GetBoon(npc);
 
 				if (currentBoon == null) return;
