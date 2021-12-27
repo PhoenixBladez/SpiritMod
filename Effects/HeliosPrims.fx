@@ -53,7 +53,7 @@ float4 Basic2(VertexShaderOutput input) : COLOR
     coords.x = ((coords.x - 0.5f) / 2.0f) + 0.5f;
     float4 color2 = tex2D(noiseSampler, coords);
 
-    return float4((color2.xyz * 2) * input.Color * (1.0 + color2.x * 2.0), color2.x * input.Color.w);
+    return float4((color2.xyz) * input.Color * (1.0 + color2.x * 2.0), color2.x * input.Color.w);
 }
 
 technique BasicColorDrawing
