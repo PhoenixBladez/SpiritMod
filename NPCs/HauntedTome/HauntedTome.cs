@@ -164,10 +164,9 @@ namespace SpiritMod.NPCs.HauntedTome
 			HauntedTome modnpc = npc.modNPC as HauntedTome;
 			npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
 
-			if (modnpc.AiTimer % 45 == 0) {
+				if (modnpc.AiTimer % 45 == 0) {
 				if (Main.netMode != NetmodeID.Server)
 					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/PaperRip"), npc.Center);
-
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 					Projectile.NewProjectileDirect(npc.Center,
 									-Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 4) * 3,

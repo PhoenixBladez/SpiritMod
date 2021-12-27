@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Consumable.Fish;
 
 namespace SpiritMod.Items.Consumable.Food
 {
@@ -10,7 +11,7 @@ namespace SpiritMod.Items.Consumable.Food
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sushi");
-			Tooltip.SetDefault("Minor improvements to all stats\n'Cold and fresh!'");
+			Tooltip.SetDefault("Minor improvements to all stats\nProvides underwater breathing\n'Cold and fresh!'");
 		}
 
 
@@ -35,6 +36,15 @@ namespace SpiritMod.Items.Consumable.Food
 		{
 			player.AddBuff(4, 1800);
 			return true;
+		}
+		public override void AddRecipes()
+		{
+			ModRecipe recipe1 = new ModRecipe(mod);
+			recipe1.AddIngredient(ModContent.ItemType<Items.Sets.FloatingItems.Kelp>(), 5);
+			recipe1.AddIngredient(ModContent.ItemType<RawFish>(), 1);
+			recipe1.AddTile(TileID.CookingPots);
+			recipe1.SetResult(this, 1);
+			recipe1.AddRecipe();
 		}
 	}
 }

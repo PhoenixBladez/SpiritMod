@@ -107,7 +107,7 @@ namespace SpiritMod.Projectiles.Clubs
 				PlayerHooks.ModifyWeaponDamage(player, player.HeldItem, ref add, ref damageMult, ref damageFlat);
 
 				minDamage = (int)(minDamage * damageMult) + (int)damageFlat;
-				maxDamage = (int)(maxDamage * 1 + ((damageMult - 1) / 6)) + (int)damageFlat;
+				maxDamage = (int)(maxDamage * (1 + ((damageMult - 1) / 6))) + (int)damageFlat;
 			}
 
 			radians = degrees * (Math.PI / 180);

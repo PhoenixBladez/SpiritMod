@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
             }
             if (Main.rand.Next(10) == 0)
                 Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.GoldCoin, 0, 0).velocity = Vector2.Zero;
-            Lighting.AddLight(projectile.Center, Color.Gold.R * 0.007f, Color.Gold.G * 0.007f, Color.Gold.B * 0.007f);
+            Lighting.AddLight(projectile.Center, Color.Gold.R * 0.0007f, Color.Gold.G * 0.0007f, Color.Gold.B * 0.0007f);
             cooldown--;
             Rectangle Hitbox = new Rectangle((int)projectile.Center.X - 30, (int)projectile.Center.Y - 30, 60, 60);
             var list = Main.projectile.Where(x => x.Hitbox.Intersects(Hitbox));
@@ -49,8 +49,8 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
                 {
                     for (int i = 0; i < 5; i++)
                         Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.GoldCoin).velocity *= 0.4f;
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/coinhit"), projectile.Center);
-                    projectile.velocity = proj.velocity / 2;
+					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Ricochet").WithPitchVariance(0.4f).WithVolume(0.6f), projectile.Center);
+					projectile.velocity = proj.velocity / 2;
                     float attackRange = 800;
                     NPC target = Main.npc.Where(n => n.CanBeChasedBy() && Vector2.Distance(n.Center, projectile.Center) < attackRange).OrderBy(n => n.life / n.lifeMax).FirstOrDefault();
                     if (target != default)

@@ -41,7 +41,7 @@ namespace SpiritMod.Tiles
 
 		public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
 		{
-			Tile tile = Main.tile[i, j];
+			Tile tile = Framing.GetTileSafely(i, j);
 			Point16 tileEntityPos = new Point16(i - tile.frameX / 18 % 2, j - tile.frameY / 18 % 2);
 
 			var tileEntity = TileEntity.ByPosition[tileEntityPos] as CrimsonPustuleTileEntity;
@@ -68,7 +68,8 @@ namespace SpiritMod.Tiles
 
 			ModContent.GetInstance<CrimsonPustuleTileEntity>().Place(i, j);
 
-			if (Main.netMode == NetmodeID.Server) {
+			if (Main.netMode == NetmodeID.Server)
+			{
 				NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, ModContent.TileEntityType<CrimsonPustuleTileEntity>(), 0f, 0, 0, 0);
 				NetMessage.SendTileSquare(-1, i, j, 2);
 			}
@@ -79,15 +80,14 @@ namespace SpiritMod.Tiles
 
 	public class CrimsonPustuleTileEntity : ModTileEntity
 	{
-		private static int startingCountdown = 100;
+		private const int StartingCountdown = 100;
+		private const int Damage = 180; // self explanatory
+		private const int Range = 80; // If a player enters this range, agitated becomes true. Entities within this range get hurt when the pustule explodes
 
 		private bool agitated; // True if the pustule is exploding
-		private int explodeCountdown = startingCountdown; // Decreases if agitated is true. Pustule explodes when this hits zero
-		private int pustuleDamage = 180; // self explanatory
-		private float pustuleRange = 80f; // If a player enters this range, agitated becomes true. Entities within this range get hurt when the pustule explodes
+		private int explodeCountdown = StartingCountdown; // Decreases if agitated is true. Pustule explodes when this hits zero
 
-		public float Pulse => Math.Abs((float)Math.Sin(0.0018 * (startingCountdown - explodeCountdown) * (startingCountdown - explodeCountdown)));
-		
+		public float Pulse => Math.Abs((float)Math.Sin(0.0018 * (StartingCountdown - explodeCountdown) * (StartingCountdown - explodeCountdown)));
 		public Vector2 PustuleWorldCenter => Position.ToWorldCoordinates(16, 16);
 
 		public override bool ValidTile(int i, int j)
@@ -102,11 +102,15 @@ namespace SpiritMod.Tiles
 		{
 			int detectionRange = 3 * 16;
 
-			if (!agitated) {
-				foreach (Player player in Main.player) {
-					if (Vector2.DistanceSquared(player.Center, PustuleWorldCenter) < detectionRange * detectionRange) {
+			if (!agitated)
+			{
+				foreach (Player player in Main.player)
+				{
+					if (Vector2.DistanceSquared(player.Center, PustuleWorldCenter) < detectionRange * detectionRange)
+					{
 						agitated = true;
 						NetMessage.SendData(MessageID.TileEntitySharing, -1, -1, null, ID, Position.X, Position.Y);
+						break;
 					}
 				}
 			}
@@ -136,12 +140,12 @@ namespace SpiritMod.Tiles
 		public void Explode()
 		{
 			foreach (Player player in Main.player)
-				if (player.active && !player.dead && player.DistanceSQ(PustuleWorldCenter) < pustuleRange * pustuleRange)
-					player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " was grotesquely detonated"), pustuleDamage, player.Center.X > PustuleWorldCenter.X ? -1 : 1);
+				if (player.active && !player.dead && player.DistanceSQ(PustuleWorldCenter) < Range * Range)
+					player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " was grotesquely detonated"), Damage, player.Center.X > PustuleWorldCenter.X ? -1 : 1);
 
 			foreach (NPC npc in Main.npc)
-				if (npc.DistanceSQ(PustuleWorldCenter) < pustuleRange * pustuleRange)
-					npc.StrikeNPC(pustuleDamage, 0f, npc.Center.X > PustuleWorldCenter.X ? -1 : 1);
+				if (npc.DistanceSQ(PustuleWorldCenter) < Range * Range)
+					npc.StrikeNPC(Damage, 0f, npc.Center.X > PustuleWorldCenter.X ? -1 : 1);
 
 			for (int i = 0; i < 30; i++)
 				Dust.NewDustDirect(PustuleWorldCenter, 6, 6, DustID.Blood, Main.rand.NextFloat(3f, 6f) * Main.rand.NextFloatDirection(), Main.rand.NextFloat(3f, 6f) * Main.rand.NextFloatDirection(), Scale: Main.rand.NextFloat(1f, 2f));
@@ -176,7 +180,8 @@ namespace SpiritMod.Tiles
 					if (Framing.GetTileSafely(x, y).active())
 						return;
 
-			if (Main.rand.NextBool(120)) { // TODO: maybe config for this random chance?
+			if (Main.rand.NextBool(120))
+			{ // TODO: maybe config for this random chance?
 				WorldGen.PlaceTile(i, j, TileID.Crimstone, forced: true);
 				WorldGen.PlaceTile(i + 1, j, TileID.Crimstone, forced: true);
 				CrimsonPustuleTile.Spawn(i, j - 2);

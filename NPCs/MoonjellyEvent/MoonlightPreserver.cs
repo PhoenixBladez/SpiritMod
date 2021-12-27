@@ -49,12 +49,15 @@ namespace SpiritMod.NPCs.MoonjellyEvent
                 d.noGravity = true;
             }
             if (npc.life <= 0) {
-                for (int i = 0; i < 5; i++)
-                {
-                    int p = Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-10, 10), npc.Center.Y + Main.rand.Next(-10, 10), Main.rand.NextFloat(-1.1f, 1.1f), Main.rand.NextFloat(-1.1f, 1.1f), ModContent.ProjectileType<JellyfishOrbiter>(), NPCUtils.ToActualDamage(11, 1.5f), 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
-                    Main.projectile[p].scale = Main.rand.NextFloat(.5f, .8f);
-                    Main.projectile[p].timeLeft = Main.rand.Next(75, 95);
-                }
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					for (int i = 0; i < 5; i++)
+					{
+						int p = Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-10, 10), npc.Center.Y + Main.rand.Next(-10, 10), Main.rand.NextFloat(-1.1f, 1.1f), Main.rand.NextFloat(-1.1f, 1.1f), ModContent.ProjectileType<JellyfishOrbiter>(), NPCUtils.ToActualDamage(11, 1.5f), 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
+						Main.projectile[p].scale = Main.rand.NextFloat(.5f, .8f);
+						Main.projectile[p].timeLeft = Main.rand.Next(75, 95);
+					}
+				}
                 for (int k = 0; k < 50; k++)
                 {
                     Dust d = Dust.NewDustPerfect(npc.Center, 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(7), 0, default, 0.95f);

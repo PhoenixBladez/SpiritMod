@@ -1,7 +1,4 @@
-﻿using SpiritMod.Buffs.Mount;
-using System;
-using Terraria;
-using Microsoft.Xna.Framework;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,9 +6,6 @@ namespace SpiritMod.Items.Sets.FloatingItems.MessageBottle
 {
 	public class MessageBottleMount : ModMountData
 	{
-		private const float damage = 15f;
-		private const float knockback = 2f;
-
 		int wetCounter;
 		public override void SetDefaults()
 		{
@@ -44,6 +38,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.MessageBottle
 			mountData.idleFrameDelay = 12;
 			mountData.idleFrameStart = 0;
 			mountData.idleFrameLoop = true;
+
 			if (Main.netMode != NetmodeID.Server)
 			{
 				mountData.textureWidth = mountData.frontTexture.Width;
@@ -54,7 +49,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.MessageBottle
 		{
 			const float MaxSpeed = 12f;
 
-			if (Collision.WetCollision(player.position, player.width, player.height + 16))
+			if (Collision.WetCollision(player.position, player.width, player.height + 16) && !Collision.LavaCollision(player.position, player.width, player.height + 16))
 			{
 				mountData.runSpeed = 7;
 				mountData.acceleration = 0.075f;
@@ -77,16 +72,24 @@ namespace SpiritMod.Items.Sets.FloatingItems.MessageBottle
 				player.fishingSkill += 10;
 				wetCounter = 15;
 			}
-			else
+			else 
 			{
+				if (Collision.LavaCollision(player.position, player.width, player.height + 16))
+					player.QuickMount();
+
 				wetCounter--;
 				mountData.acceleration = 0.05f;
 
 				player.gravity *= 1.5f;
 				if (wetCounter < 0)
 				{
-					player.velocity.X *= 0.9f;
-					mountData.runSpeed = 0.05f;
+					if (Collision.SolidCollision(player.position, player.width, player.height + 16))
+					{
+						player.velocity.X *= 0.92f;
+						mountData.runSpeed = 0.05f;
+					}
+					else
+						mountData.runSpeed = 7;
 				}
 			}
 		}

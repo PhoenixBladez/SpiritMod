@@ -89,8 +89,7 @@ namespace SpiritMod.NPCs.Yurei
         {
             if (Main.rand.NextBool(16))
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Ramen>());
-            if (Main.rand.NextBool(16))
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Sushi>());
+          
         }
         public override void AI()
 		{

@@ -11,6 +11,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 {
 	public class FishLure : FloatingItem
 	{
+		public virtual float SpawnWeight => .008f;
 		public override float Weight => base.Weight * 0.9f;
 		public override float Bouyancy => base.Bouyancy * 1.08f;
 
@@ -70,12 +71,14 @@ namespace SpiritMod.Items.Sets.FloatingItems
 
 		public sealed override void NearbyEffects(int i, int j, bool closer)
 		{
+			if (Framing.GetTileSafely(i, j + 1).liquid < 155 && Framing.GetTileSafely(i, j).liquid < 155) //Kill me if I'm thirsty (aka kill if there's no water)
+				WorldGen.KillTile(i, j);
 			Player player = Main.LocalPlayer;
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (closer)
-			{
 				modPlayer.nearLure = true;
-			}
+			else
+				modPlayer.nearLure = false;
 		}
 	}
 }

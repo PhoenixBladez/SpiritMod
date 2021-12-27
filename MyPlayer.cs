@@ -213,7 +213,6 @@ namespace SpiritMod
 
 		public bool gemPickaxe = false;
 		public int hexBowAnimationFrame;
-		public bool CrystalShield = false;
 		public bool carnivorousPlantMinion = false;
 		public bool skeletalonMinion = false;
 		public bool bowSummon = false;
@@ -248,14 +247,9 @@ namespace SpiritMod
 		public bool SwordPet = false;
 		public bool shadowPet = false;
 
-		public bool arcaneNecklace = false;
-		public bool manaShield = false;
-		public bool seraphimBulwark = false;
-
 		public bool strikeshield = false;
 
 		//Adventurer related
-
 		public float SpeedMPH { get; private set; }
 		public DashType ActiveDash { get; private set; }
 		public GlyphType glyph;
@@ -797,10 +791,6 @@ namespace SpiritMod
 			scarabCharm = false;
 			assassinMag = false;
 
-			arcaneNecklace = false;
-			manaShield = false;
-			seraphimBulwark = false;
-
 			jellynautHelm = false;
 			chitinSet = false;
 			ChitinDashTicks = Math.Max(ChitinDashTicks - 1, 0);
@@ -838,7 +828,6 @@ namespace SpiritMod
 			snapsporeMinion = false;
 			EaterSummon = false;
 			CreeperSummon = false;
-			CrystalShield = false;
 			bloodfireShield = false;
 			tankMinion = false;
 			Phantom = false;
@@ -1150,10 +1139,6 @@ namespace SpiritMod
 				caughtType = ModContent.ItemType<SpiritKoi>();
 
 			float chance = 0.02f + Math.Min(player.fishingSkill / 10000, 0.02f);
-
-			if (modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextFloat() <= chance)
-				caughtType = ModContent.ItemType<Obolos>();
-
 			if (modPlayer.ZoneReach && Main.rand.NextBool(5))
 				caughtType = ModContent.ItemType<Items.Sets.BriarDrops.ReachFishingCatch>();
 
@@ -1506,7 +1491,7 @@ namespace SpiritMod
 			if (NebulaPearl && Main.rand.NextBool(8) && proj.magic)
 				Item.NewItem(target.Hitbox, 3454);
 
-			if (crystalFlower && target.life <= 0 && Main.rand.NextBool(12))
+			if (crystalFlower && target.life <= 0 && Main.rand.NextBool(7))
 				CrystalFlowerOnKillEffect(target);
 		}
 
@@ -1514,9 +1499,15 @@ namespace SpiritMod
 		{
 			Main.PlaySound(SoundID.Item107, target.Center);
 
-			int numProjectiles = Main.rand.Next(2, 5);
-			for (int i = 0; i < numProjectiles; ++i)
-				Projectile.NewProjectile(target.Center, new Vector2(Main.rand.NextFloat(3, 3), Main.rand.NextFloat(3, 1)), ProjectileID.UnholyArrow, 30, 0, player.whoAmI);
+			int numProjectiles = Main.rand.Next(3, 6);
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				for (int i = 0; i < numProjectiles; ++i)
+				{
+					int p = Projectile.NewProjectile(target.Center, new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(3, 1)), ModContent.ProjectileType<Items.Sets.AccessoriesMisc.CrystalFlower.CrystalFlowerProjectile>(), 30, 0, player.whoAmI);
+					Main.projectile[p].scale = Main.rand.NextFloat(.5f, .9f);
+				}
+			}
 		}
 
 		public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
@@ -1573,28 +1564,6 @@ namespace SpiritMod
 
 			if (glyph == GlyphType.Daze && Main.rand.NextBool(2))
 				player.AddBuff(BuffID.Confused, 180);
-			if (manaShield)
-			{
-				damage -= (int)damage / 10;
-				if (player.statMana > (int)damage / 10 * 4)
-				{
-					if ((player.statMana - (int)damage / 10 * 4) > 0)
-						player.statMana -= (int)damage / 10 * 4;
-					else
-						player.statMana = 0;
-				}
-			}
-			if (seraphimBulwark)
-			{
-				damage -= (int)damage / 10;
-				if (player.statMana > (int)damage / 10)
-				{
-					if ((player.statMana - (int)damage / 10 * 4) > 0)
-						player.statMana -= (int)damage / 10;
-					else
-						player.statMana = 0;
-				}
-			}
 
 			if (rogueSet && !player.HasBuff(ModContent.BuffType<RogueCooldown>()))
 			{
@@ -2337,15 +2306,6 @@ namespace SpiritMod
 			}
 			if (phaseStacks > 3)
 				phaseStacks = 3;
-
-			if (CrystalShield && player.velocity.X != 0 && Main.rand.NextBool(3))
-			{
-				if (player.velocity.X < 0)
-					Projectile.NewProjectile(player.position.X, player.Center.Y, Main.rand.Next(6, 10), Main.rand.Next(-3, 3), ProjectileID.CrystalShard, 36, 0f, player.whoAmI);
-
-				if (player.velocity.X > 0)
-					Projectile.NewProjectile(player.position.X, player.Center.Y, Main.rand.Next(-10, -6), Main.rand.Next(-3, 3), ProjectileID.CrystalShard, 36, 0f, player.whoAmI);
-			}
 
 			if (player.HeldItem.type == mod.ItemType("Minifish"))
 				MinifishTimer--;

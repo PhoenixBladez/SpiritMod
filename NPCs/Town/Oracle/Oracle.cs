@@ -80,7 +80,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 				return;
 			}
 
-			int tileDist = GetTileBelow(0, out bool liquid);
+			int tileDist = GetTileAt(0, out bool liquid);
 
 			if (!liquid)
 			{
@@ -89,8 +89,8 @@ namespace SpiritMod.NPCs.Town.Oracle
 				if ((npc.Center.Y / 16f) > tileDist - 5)
 					npc.velocity.Y -= 0.16f; //Raises the NPC
 
-				GetTileBelow(-1, out bool left);
-				GetTileBelow(1, out bool right);
+				GetTileAt(-1, out bool left);
+				GetTileAt(1, out bool right);
 
 				MovementTimer--;
 				if (MovementTimer < 0)
@@ -139,14 +139,17 @@ namespace SpiritMod.NPCs.Town.Oracle
 			return false;
 		}
 
-		private int GetTileBelow(int xOffset, out bool liquid)
+		private int GetTileAt(int xOffset, out bool liquid, bool up = false)
 		{
 			int tileDist = (int)(npc.Center.Y / 16f);
 			liquid = true;
 
 			while (true)
 			{
-				tileDist++;
+				tileDist += !up ? 1 : -1;
+
+				if (tileDist < 20)
+					return -1;
 
 				Tile t = Framing.GetTileSafely((int)(npc.Center.X / 16f) + xOffset, tileDist);
 				if (t.active() && Main.tileSolid[t.type])
@@ -195,7 +198,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 			var options = new List<string>
 			{
 				$"The heavens have certainly spoken of you, {Main.LocalPlayer.name}.",
-				"The divinity I offer isn't for simple coin, traveller.",
+				"The divinity I offer isn't for any simple coin, traveler.",
 				"Have you caught wind of a man named Zagreus? ...nevermind.",
 				"Oh, how far I'd go for some ichor...",
 			};
@@ -216,13 +219,28 @@ namespace SpiritMod.NPCs.Town.Oracle
 
 		public override void SetupShop(Chest shop, ref int nextSlot) //OlympiumToken
 		{
-			shop.item[nextSlot].SetDefaults(ItemID.Bananarang);
-			shop.item[nextSlot].shopCustomPrice = 3;
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Sets.OlympiumSet.ArtemisHunt.ArtemisHunt>());
+			shop.item[nextSlot].shopCustomPrice = 25;
 			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
 			nextSlot++;
 
-			shop.item[nextSlot].SetDefaults(ItemID.LandMine);
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Sets.OlympiumSet.MarkOfZeus.MarkOfZeus>());
+			shop.item[nextSlot].shopCustomPrice = 25;
+			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
+			nextSlot++;
+
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Sets.OlympiumSet.BetrayersChains.BetrayersChains>());
+			shop.item[nextSlot].shopCustomPrice = 25;
+			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
+			nextSlot++;
+
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Sets.OlympiumSet.Eleutherios.Eleutherios>());
 			shop.item[nextSlot].shopCustomPrice = 20;
+			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
+			nextSlot++;
+
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Consumable.Potion.MirrorCoat>());
+			shop.item[nextSlot].shopCustomPrice = 2;
 			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
 			nextSlot++;
 		}
