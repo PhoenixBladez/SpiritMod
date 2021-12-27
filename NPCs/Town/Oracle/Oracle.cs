@@ -44,12 +44,6 @@ namespace SpiritMod.NPCs.Town.Oracle
 		{
 			DisplayName.SetDefault("Oracle");
 			Main.npcFrameCount[npc.type] = 1;
-			//NPCID.Sets.ExtraFramesCount[npc.type] = 9;
-			//NPCID.Sets.AttackFrameCount[npc.type] = 4;
-			//NPCID.Sets.DangerDetectRange[npc.type] = 500;
-			//NPCID.Sets.AttackType[npc.type] = 0;
-			//NPCID.Sets.AttackTime[npc.type] = 16;
-			//NPCID.Sets.AttackAverageChance[npc.type] = 30;
 		}
 
 		public override void SetDefaults()
@@ -65,6 +59,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.knockBackResist = 0f;
 			npc.noGravity = true;
+			npc.dontTakeDamage = true;
 		}
 
 		public override void AI()
@@ -382,5 +377,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 		}
 
 		public override void SetChatButtons(ref string button, ref string button2) => button = Language.GetTextValue("LegacyInterface.28");
+
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => Main.hardMode && !NPC.AnyNPCs(ModContent.NPCType<Oracle>()) && spawnInfo.marble ? 0.1f : 0f;
 	}
 }
