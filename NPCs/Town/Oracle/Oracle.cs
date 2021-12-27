@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Graphics;
+using SpiritMod.Buffs;
 using Terraria;
+using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.UI.Chat;
 
 namespace SpiritMod.NPCs.Town.Oracle
 {
@@ -18,10 +23,14 @@ namespace SpiritMod.NPCs.Town.Oracle
 		private float RealAuraScale => Math.Min(AttackTimer / 150f, 1f);
 		//public override string[] AltTextures => new string[] { "SpiritMod/NPCs/Town/Adventurer_Alt_1" };
 
-		private ref float Timer => ref npc.ai[0];
-		private ref float AttackTimer => ref npc.ai[1];
-		private ref float MovementTimer => ref npc.ai[2];
-		private ref float MovementDir => ref npc.ai[3];
+		private float timer = 0;
+		private float movementDir = 0;
+		private float movementTimer = 0;
+
+		public ref float Teleport => ref npc.ai[0];
+		public ref float AttackTimer => ref npc.ai[1];
+		public ref float TeleportX => ref npc.ai[2];
+		public ref float TeleportY => ref npc.ai[3];
 
 		private ref Player NearestPlayer => ref Main.player[npc.target];
 
@@ -60,8 +69,8 @@ namespace SpiritMod.NPCs.Town.Oracle
 
 		public override void AI()
 		{
-			Timer++;
-			npc.velocity.Y = (float)Math.Sin(Timer * 0.06f) * 0.4f;
+			timer++;
+			npc.velocity.Y = (float)Math.Sin(timer * 0.06f) * 0.4f;
 
 			npc.TargetClosest(true);
 			Movement();
@@ -75,9 +84,28 @@ namespace SpiritMod.NPCs.Town.Oracle
 			if (IsBeingTalkedTo())
 			{
 				npc.velocity.X *= 0.96f;
-				MovementTimer = 50;
-				MovementDir = 0f;
+				movementTimer = 50;
+				movementDir = 0f;
 				return;
+			}
+
+			if (Teleport-- > 0)
+			{
+				if (Teleport > 50)
+					AttackTimer--;
+
+				movementDir = 0f;
+				movementTimer = 100;
+
+				if (Teleport == 195 && Vector2.DistanceSquared(npc.Center, new Vector2(TeleportX, TeleportY)) > 1800 * 1800)
+					CombatText.NewText(new Rectangle((int)npc.Center.X, (int)npc.Center.Y - 40, npc.width, 20), Color.Red, "I sense a call...");
+
+				if (Teleport == 50)
+				{
+					npc.Center = new Vector2(TeleportX, TeleportY);
+
+					//add visuals
+				}
 			}
 
 			int tileDist = GetTileAt(0, out bool liquid);
@@ -89,8 +117,8 @@ namespace SpiritMod.NPCs.Town.Oracle
 				GetTileAt(-1, out bool left);
 				GetTileAt(1, out bool right);
 
-				MovementTimer--;
-				if (MovementTimer < 0)
+				movementTimer--;
+				if (movementTimer < 0)
 				{
 					var options = new List<float> { 0f };
 
@@ -100,25 +128,27 @@ namespace SpiritMod.NPCs.Town.Oracle
 					if (!right)
 						options.Add(MoveSpeed);
 
-					if (MovementDir == 0)
-						MovementDir = Main.rand.Next(options);
+					if (movementDir == 0)
+						movementDir = Main.rand.Next(options);
 					else
-						MovementDir = 0f;
+						movementDir = 0f;
 
-					MovementTimer = MovementDir == 0f ? Main.rand.Next(200, 300) : Main.rand.Next(300, 400);
+					movementTimer = movementDir == 0f ? Main.rand.Next(200, 300) : Main.rand.Next(300, 400);
+
+					NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI);
 				}
 
-				if (MovementDir < 0f && left)
-					MovementDir = 0f;
-				else if (MovementDir > 0f && right)
-					MovementDir = 0f;
+				if (movementDir < 0f && left)
+					movementDir = 0f;
+				else if (movementDir > 0f && right)
+					movementDir = 0f;
 			}
 			else
 				ScanForLand();
 
-			npc.velocity.X = MovementDir == 0f ? npc.velocity.X * 0.98f : MovementDir;
+			npc.velocity.X = movementDir == 0f ? npc.velocity.X * 0.98f : movementDir;
 
-			if ((MovementDir == 0f && Math.Abs(npc.velocity.X) < 0.15f) || IsBeingTalkedTo())
+			if ((movementDir == 0f && Math.Abs(npc.velocity.X) < 0.15f) || IsBeingTalkedTo())
 			{
 				if (npc.DistanceSQ(NearestPlayer.Center) < 400 * 400)
 					npc.direction = npc.spriteDirection = NearestPlayer.Center.X < npc.Center.X ? -1 : 1;
@@ -233,12 +263,63 @@ namespace SpiritMod.NPCs.Town.Oracle
 				AttackTimer = Math.Max(AttackTimer - 1, 0);
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(timer);
+			writer.Write(movementDir);
+			writer.Write(movementTimer);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			timer = reader.ReadSingle();
+			movementDir = reader.ReadSingle();
+			movementTimer = reader.ReadSingle();
+		}
+
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			Texture2D aura = mod.GetTexture("NPCs/Town/Oracle/OracleAura");
 
 			Vector2 drawPosition = npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY);
-			spriteBatch.Draw(aura, drawPosition, null, Color.White, Timer * 0.2f, aura.Size() / 2f, RealAuraScale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(aura, drawPosition, null, Color.White, timer * 0.2f, aura.Size() / 2f, RealAuraScale, SpriteEffects.None, 0f);
+		}
+
+		public static bool HoveringBuffButton = false;
+		public static void DrawBuffButton(int superColor, int numLines)
+		{
+			const string text = "Bless";
+
+			DynamicSpriteFont font = Main.fontMouseText;
+			Vector2 scale = new Vector2(0.9f);
+			Vector2 stringSize = ChatManager.GetStringSize(font, text, scale);
+			Vector2 position = new Vector2(180 + Main.screenWidth / 2 + stringSize.X - 20f, 130 + numLines * 30);
+			Color baseColor = new Color(superColor, (int)(superColor / 1.1), superColor / 2, superColor);
+			Vector2 mousePos = new Vector2(Main.mouseX, Main.mouseY);
+
+			if (mousePos.Between(position, position + stringSize * scale) && !PlayerInput.IgnoreMouseInterface) //Mouse hovers over button
+			{
+				Main.LocalPlayer.mouseInterface = true;
+				Main.LocalPlayer.releaseUseItem = true;
+				scale *= 1.1f;
+
+				if (!HoveringBuffButton)
+					Main.PlaySound(SoundID.MenuTick);
+
+				HoveringBuffButton = true;
+
+				if (Main.mouseLeft && Main.mouseLeftRelease) //If clicked on, give the player the buff.
+					Main.LocalPlayer.AddBuff(ModContent.BuffType<OracleBoonBuff>(), 3600 * 5);
+			}
+			else
+			{
+				if (HoveringBuffButton)
+					Main.PlaySound(SoundID.MenuTick);
+
+				HoveringBuffButton = false;
+			}
+
+			ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, font, text, position + new Vector2(16f, 14f), baseColor, 0f, stringSize * 0.5f, scale);
 		}
 
 		public override string GetChat()
@@ -249,6 +330,8 @@ namespace SpiritMod.NPCs.Town.Oracle
 				"The divinity I offer isn't for any simple coin, traveler.",
 				"Have you caught wind of a man named Zagreus? ...nevermind.",
 				"Oh, how far I'd go for some ichor...",
+				"I have a little scroll for sale, if you wish to find me elsewhere.",
+				"Not having eyes is a blessing from the gods when you work where I work."
 			};
 			return Main.rand.Next(options);
 		}
@@ -289,6 +372,11 @@ namespace SpiritMod.NPCs.Town.Oracle
 
 			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Consumable.Potion.MirrorCoat>());
 			shop.item[nextSlot].shopCustomPrice = 2;
+			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
+			nextSlot += 2;
+
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<OracleScripture>());
+			shop.item[nextSlot].shopCustomPrice = 1;
 			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
 			nextSlot++;
 		}

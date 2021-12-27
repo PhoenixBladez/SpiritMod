@@ -25,6 +25,7 @@ using SpiritMod.Items.Sets.FloatingItems.MessageBottle;
 using MonoMod.RuntimeDetour.HookGen;
 using System.Reflection;
 using SpiritMod.Items.Weapon.Summon.StardustBomb;
+using SpiritMod.NPCs.Town.Oracle;
 
 namespace SpiritMod.Utilities
 {
@@ -363,6 +364,9 @@ namespace SpiritMod.Utilities
 					ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, font, questText, position + new Vector2(16f, 14f), baseColor, 0f,
 						stringSize * 0.5f, scale * new Vector2(1f));
 				}
+
+				if (talkNPC.type == ModContent.NPCType<Oracle>())
+					Oracle.DrawBuffButton(superColor, numLines);
 			}
 			orig(superColor, chatColor, numLines, focusText, focusText3);
 		}
