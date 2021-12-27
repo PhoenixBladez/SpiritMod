@@ -9,10 +9,7 @@ sampler spotSampler = sampler_state
     Texture = (spotTexture);
 };
 texture noiseTexture;
-sampler noiseSampler = sampler_state
-{
-    Texture = (noiseTexture);
-};
+sampler2D noiseSampler = sampler_state { texture = <noiseTexture>; magfilter = LINEAR; minfilter = LINEAR; mipfilter = LINEAR; AddressU = wrap; AddressV = wrap; };
 float GetHeight(float2 Coord)
 {
     return tex2D(noiseSampler, Coord).r;
@@ -50,10 +47,11 @@ float4 Basic2(VertexShaderOutput input) : COLOR
     input.Color *= lerp(float4(0,0,0,0),float4(uColor, 0) * 10, lerper);
     input.Color *= sin(input.TextureCoordinates.x * 3.14f);
 
-    coords.x = ((coords.x - 0.5f) / 2.0f) + 0.5f;
+    coords.y = ((coords.y - 0.5f) / 2.0f) + 0.5f;
+    coords.x *= 5;
     float4 color2 = tex2D(noiseSampler, coords);
 
-    return float4((color2.xyz * 2) * input.Color * (1.0 + color2.x * 2.0), color2.x * input.Color.w);
+    return float4((color2.xyz) * input.Color * (1.0 + color2.x * 2.0), color2.x * input.Color.w);
 }
 
 technique BasicColorDrawing

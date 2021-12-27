@@ -87,7 +87,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 			projectile.ignoreWater = true;
 			projectile.aiStyle = -1;
 		}
-        float growCounter;
+        float growCounter = 20;
         double radians = 0;
         bool released = false;
 		bool returned = false;
@@ -110,7 +110,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
                 trail = new SolarSwordPrimTrail(projectile);
                 SpiritMod.primitives.CreateTrail(trail);
                 primsCreated = true;
-            }
+			}
 			if (charge >= 60)
 			{
 				if (flickerTime == 0)
@@ -153,7 +153,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 			}
             Vector2 direction = Main.MouseWorld - player.position;
             direction.Normalize();
-            projectile.scale = MathHelper.Clamp(growCounter / 30f, 0, 1);
+            projectile.scale = MathHelper.Clamp((growCounter - 20) / 30f, 0, 1);
 
             SpinBlade(0.3, 0.1);
 
@@ -225,35 +225,46 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
             }
         }
 
-        private void SpinBlade(double d1, double adder)
+        private void SpinBlade(double d1, double adder, bool grow = true)
         {
             Player player = Main.player[projectile.owner];
             for (double i = 0; i < d1; i+= adder)
             {
-                if (player.direction == 1)
-                    radians += adder;
-                else
-                    radians -= adder;
+				if (player.direction == 1)
+					radians += adder;
+				else
+					radians -= adder;
 
-                if (radians > 6.28)
-                    radians -= 6.28;
-                if (radians < -6.28)
-                    radians += 6.28;
-                if (growCounter < 60 && !released)
-                    growCounter+= (float)(adder / d1);
-                if (released && returned)
-                    growCounter-= (float)(adder / d1);
-                projectile.Center = primCenter + ((float)radians + 3.14f).ToRotationVector2() * 10 * growCounter / 6f;
-                trail.Points.Add(projectile.Center - primCenter);
-                if (Main.rand.Next(4) == 0)
-                {
-                    Dust dust = Dust.NewDustDirect(projectile.Center - new Vector2(projectile.width / 4, projectile.height / 4), projectile.width / 2, projectile.height / 2, DustID.Fire, ((float)radians + 3.14f).ToRotationVector2().X * growCounter / 6f, ((float)radians + 3.14f).ToRotationVector2().Y * growCounter / 6f);
-                    dust.scale = 1.5f;
-                    dust.noGravity = true;
-                    dust = Dust.NewDustDirect(primCenter - (((float)radians + 3.14f).ToRotationVector2() * 10 * growCounter / 6f) - new Vector2(projectile.width / 4, projectile.height / 4), projectile.width / 2, projectile.height / 2, DustID.Fire, ((float)radians + 3.14f).ToRotationVector2().X * growCounter / -6f, ((float)radians + 3.14f).ToRotationVector2().Y * growCounter / -2f);
-                    dust.scale = 1.5f;
-                    dust.noGravity = true;
-                }
+				if (radians > 6.28)
+					radians -= 6.28;
+				if (radians < -6.28)
+					radians += 6.28;
+
+				if (grow)
+				{
+					if (growCounter < 60 && !released)
+						growCounter += (float)(adder / d1) * 1.5f;
+					if (released && returned)
+						growCounter -= (float)(adder / d1);
+				}
+				if (player.channel)
+					projectile.Center = primCenter + ((float)radians + 3.14f).ToRotationVector2() * 110;
+				else
+					projectile.Center = primCenter + ((float)radians + 3.14f).ToRotationVector2() * 11 * growCounter / 6f;
+				trail.Points.Add(projectile.Center - primCenter);
+
+				if (grow)
+				{
+					if (Main.rand.Next(4) == 0)
+					{
+						Dust dust = Dust.NewDustDirect(projectile.Center - new Vector2(projectile.width / 4, projectile.height / 4), projectile.width / 2, projectile.height / 2, DustID.Fire, ((float)radians + 3.14f).ToRotationVector2().X * growCounter / 6f, ((float)radians + 3.14f).ToRotationVector2().Y * growCounter / 6f);
+						dust.scale = 1.5f;
+						dust.noGravity = true;
+						dust = Dust.NewDustDirect(primCenter - (((float)radians + 3.14f).ToRotationVector2() * 10 * growCounter / 6f) - new Vector2(projectile.width / 4, projectile.height / 4), projectile.width / 2, projectile.height / 2, DustID.Fire, ((float)radians + 3.14f).ToRotationVector2().X * growCounter / -6f, ((float)radians + 3.14f).ToRotationVector2().Y * growCounter / -2f);
+						dust.scale = 1.5f;
+						dust.noGravity = true;
+					}
+				}
             }
         }
 
