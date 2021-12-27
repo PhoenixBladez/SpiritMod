@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using SpiritMod.Mechanics.BoonSystem;
+using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Mechanics.Trails;
 using SpiritMod.NPCs.AuroraStag;
 using SpiritMod.NPCs.ExplosiveBarrel;
@@ -37,12 +38,14 @@ namespace SpiritMod
 
 		public static void Unload()
 		{
-			_waits = null;
 			Main.OnTick -= OnTick;
+			_waits = null;
 		}
 
 		public static void OnTick()
 		{
+			if (_waits == null) return;
+
 			for (int i = 0; i < _waits.Count; i++)
 			{
 				Wait wait = _waits[i];
@@ -83,11 +86,18 @@ namespace SpiritMod
 			return packet;
 		}
 
-		public static ModPacket WriteToPacket(int capacity, MessageType type, Action<ModPacket> beforeSend)
+		public static ModPacket WriteToPacket(int capacity, MessageType type)
 		{
 			ModPacket packet = SpiritMod.Instance.GetPacket(capacity);
 			packet.Write((byte)type);
-			beforeSend?.Invoke(packet);
+			return packet;
+		}
+
+		public static ModPacket WriteToPacket(int capacity, MessageType type, Action<ModPacket> action)
+		{
+			ModPacket packet = SpiritMod.Instance.GetPacket(capacity);
+			packet.Write((byte)type);
+			action?.Invoke(packet);
 			return packet;
 		}
 
@@ -237,6 +247,9 @@ namespace SpiritMod
 						Main.npc[index].GetGlobalNPC<BoonNPC>().currentBoon.SetStats();
 						SpiritMod.Instance.Logger.Debug($"current boon is now: {Main.npc[index].GetGlobalNPC<BoonNPC>().currentBoon.GetType().Name}");
 					});
+					break;
+				case MessageType.QuestData:
+					QuestManager.HandlePacket(reader, whoAmI);
 					break;
 				default:
 					SpiritMod.Instance.Logger.Error("Unknown net message (" + id + ")");
