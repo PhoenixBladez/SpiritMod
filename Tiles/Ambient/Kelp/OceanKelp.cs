@@ -209,7 +209,7 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 
 		public float GetOffset(int i, int j, int frameX, float sOffset = 0f)
 		{
-			float sin = (float)Math.Sin((Main.time + (i * 24) + (j * 19)) * (0.04f * (!Lighting.NotRetro ? 0f : 1)) + sOffset) * 2.3f;
+			float sin = (float)Math.Sin((Main.GameUpdateCount + (i * 24) + (j * 19)) * (0.04f * (!Lighting.NotRetro ? 0f : 1)) + sOffset) * 2.3f;
 			if (Framing.GetTileSafely(i, j + 1).type != Type) //Adjusts the sine wave offset to make it look nicer when closer to ground
 				sin *= 0.25f;
 			else if (Framing.GetTileSafely(i, j + 2).type != Type)

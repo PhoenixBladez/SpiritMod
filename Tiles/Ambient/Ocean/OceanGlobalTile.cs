@@ -44,7 +44,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 
 				for (int k = i - 1; k < i + 2; ++k)
 				{
-					for (int l = j - 1; l < j + 2; ++j)
+					for (int l = j - 1; l < j + 2; ++l)
 					{
 						if (k == i && l == j) continue; //Dont check myself
 
