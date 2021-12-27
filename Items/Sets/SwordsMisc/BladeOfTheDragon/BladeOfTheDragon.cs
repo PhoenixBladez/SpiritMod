@@ -1,6 +1,9 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
+using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Utilities;
@@ -136,6 +139,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 					player.velocity = nextPoint - currentPoint;
 
 					player.GetModPlayer<MyPlayer>().AnimeSword = true;
+					player.GetModPlayer<DragonPlayer>().DrawSparkle = true;
 
 					oldCenter = player.Center;
 					for (int i = 0; i < Main.npc.Length; i++)
@@ -251,13 +255,13 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Player player = Main.player[projectile.owner];
+			/*Player player = Main.player[projectile.owner];
             Texture2D texture = Main.projectileTexture[projectile.type];
 			if (player.channel && projectile.timeLeft > 237)
 			{
 				if (player.direction == 1)
 				{
-					Main.spriteBatch.Draw(texture, (player.MountedCenter + new Vector2(6, 6)) - Main.screenPosition, null, lightColor, 0, new Vector2(texture.Width * 0.75f, texture.Height * 0.2f), projectile.scale, SpriteEffects.None, 0.0f);
+					//Main.spriteBatch.Draw(texture, (player.MountedCenter + new Vector2(6, 6)) - Main.screenPosition, null, lightColor, 0, new Vector2(texture.Width * 0.75f, texture.Height * 0.2f), projectile.scale, SpriteEffects.None, 0.0f);
 					if (charge > 40 && player.channel && projectile.timeLeft > 237)
 					{
 						Texture2D texture2 = ModContent.GetTexture("SpiritMod/Items/Weapon/Swung/AnimeSword/TwinkleXLarge");
@@ -266,14 +270,14 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 				}
 				else
 				{
-					Main.spriteBatch.Draw(texture, (player.MountedCenter + new Vector2(6, 6)) - Main.screenPosition, null, lightColor, 0, new Vector2(texture.Width * 0.25f, texture.Height * 0.2f), projectile.scale, SpriteEffects.FlipHorizontally, 0.0f);
+					//Main.spriteBatch.Draw(texture, (player.MountedCenter + new Vector2(6, 6)) - Main.screenPosition, null, lightColor, 0, new Vector2(texture.Width * 0.25f, texture.Height * 0.2f), projectile.scale, SpriteEffects.FlipHorizontally, 0.0f);
 					if (charge > 40 && player.channel && projectile.timeLeft > 237)
 					{
 						Texture2D texture2 = ModContent.GetTexture("SpiritMod/Items/Weapon/Swung/AnimeSword/TwinkleXLarge");
 						Main.spriteBatch.Draw(texture2, (player.MountedCenter + new Vector2(0, 6)) - Main.screenPosition, null, Color.White, charge / 40f, new Vector2(texture2.Width / 2, texture2.Height / 2), projectile.scale, SpriteEffects.None, 0.0f);
 					}
 				}
-			}
+			}*/
             return false;
         }
     }
@@ -321,5 +325,79 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 			return false;
 		}
 		public override Color? GetAlpha(Color lightColor) => Color.White;
+	}
+
+	public class DragonPlayer : ModPlayer
+	{
+		public bool DrawSparkle;
+
+		public override void ResetEffects()
+		{
+			if (!player.channel)
+				DrawSparkle = false;
+		}
+		public override void ModifyDrawLayers(List<PlayerLayer> layers)
+		{
+			if (player.HeldItem.type == ModContent.ItemType<BladeOfTheDragon>())
+			{
+				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(mod.Name, "BladeOfTheDragonHeld",
+					delegate (PlayerDrawInfo info) {
+						DrawItem(mod.GetTexture("Items/Sets/SwordsMisc/BladeOfTheDragon/BladeOfTheDragon_held"), mod.GetTexture("Items/Sets/SwordsMisc/BladeOfTheDragon/BladeOfTheDragon_sparkle"), info);
+					}));
+			}
+		}
+
+		public void DrawItem(Texture2D texture, Texture2D sparkle, PlayerDrawInfo info)
+		{
+			Item item = info.drawPlayer.HeldItem;
+			if (info.shadow != 0f || info.drawPlayer.frozen || info.drawPlayer.dead || (info.drawPlayer.wet && item.noWet))
+				return;
+
+			Rectangle drawFrame = texture.Bounds;
+			int numFrames = 2;
+			drawFrame.Height /= numFrames;
+			drawFrame.Y = (drawFrame.Height) * (info.drawPlayer.channel ? 1 : 0);
+
+			Vector2 offset = new Vector2(6, texture.Height / (2 * numFrames));
+
+			ItemLoader.HoldoutOffset(info.drawPlayer.gravDir, item.type, ref offset);
+			Vector2 origin = new Vector2(texture.Width * 0.75f, texture.Height * 0.2f);
+
+			offset = new Vector2(6, offset.Y);
+			if (info.drawPlayer.direction == -1)
+			{
+				origin.X = texture.Width - origin.X;
+				offset.X = -6;
+			}
+
+
+			Main.playerDrawData.Add(new DrawData(
+				texture,
+				info.drawPlayer.Center - Main.screenPosition + offset,
+				drawFrame,
+				Lighting.GetColor((int)info.drawPlayer.Center.X / 16, (int)info.drawPlayer.Center.Y / 16),
+				0,
+				origin,
+				item.scale,
+				info.spriteEffects,
+				0
+			));
+
+			offset.X = 0;
+			if (info.drawPlayer.GetModPlayer<DragonPlayer>().DrawSparkle)
+			{
+				Main.playerDrawData.Add(new DrawData(
+					sparkle,
+					info.drawPlayer.Center - Main.screenPosition + offset - new Vector2(0, 9),
+					null,
+					Color.White,
+					Main.GlobalTime * 0.5f,
+					sparkle.Size() / 2,
+					item.scale,
+					SpriteEffects.None,
+					0
+				));
+			}
+		}
 	}
 }
