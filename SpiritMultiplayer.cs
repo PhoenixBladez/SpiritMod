@@ -248,9 +248,9 @@ namespace SpiritMod
 						SpiritMod.Instance.Logger.Debug($"current boon is now: {Main.npc[index].GetGlobalNPC<BoonNPC>().currentBoon.GetType().Name}");
 					});
 					break;
-				case MessageType.QuestData:
-					QuestManager.HandlePacket(reader, whoAmI);
-					break;
+				//case MessageType.QuestData:
+				//	QuestManager.HandlePacket(reader, whoAmI);
+				//	break;
 				default:
 					SpiritMod.Instance.Logger.Error("Unknown net message (" + id + ")");
 					break;
