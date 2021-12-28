@@ -246,19 +246,19 @@ namespace SpiritMod.NPCs.Town.Oracle
 				if (cur.active && cur.CanBeChasedBy() && cur.DistanceSQ(npc.Center) < AuraRadius * AuraRadius) //Scan for NPCs
 				{
 					if (cur.DistanceSQ(npc.Center) < RealAuraRadius * RealAuraRadius) //Actually inflict damage to NPCs
-						cur.AddBuff(ModContent.BuffType<Buffs.GreekFire>(), 2);
+						cur.AddBuff(ModContent.BuffType<GreekFire>(), 2);
 
 					enemyNearby = true;
 				}
 			}
 
-			if (enemyNearby) 
-			{
-				AttackTimer = (float)Math.Min(Math.Pow((AttackTimer + 1), 1.005f), 150);
-			}
+			if (enemyNearby)
+				AttackTimer = (float)Math.Min(Math.Pow(AttackTimer + 1, 1.005f), 150);
 			else
 			{
 				AttackTimer = (float)Math.Max(Math.Pow(AttackTimer, 0.991f), 0f);
+				if (AttackTimer < 2)
+					AttackTimer = 0;
 			}
 		}
 
@@ -279,50 +279,42 @@ namespace SpiritMod.NPCs.Town.Oracle
 		{
 			if (AttackTimer > 10)
 			{
-				float num108 = 4;
-				float num107 = (float)Math.Cos((double)(Main.GlobalTime % 2.4f / 2.4f * 6.28318548f)) + 0.5f;
-				float num106 = 0f;
+				float wave = (float)Math.Cos((Main.GlobalTime % 2.4f / 2.4f * MathHelper.TwoPi)) + 0.5f;
 
 				SpriteEffects spriteEffects3 = (npc.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-				Vector2 vector33 = new Vector2(npc.Center.X, npc.Center.Y - 18) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity;
-				Color color29 = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.LightGoldenrodYellow);
-				for (int num103 = 0; num103 < 4; num103++)
+				Color baseCol = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.LightGoldenrodYellow);
+
+				for (int i = 0; i < 4; i++)
 				{
-					Color color28 = color29;
-					color28 = npc.GetAlpha(color28);
-					color28 *= 1f - num107;
-					Vector2 vector29 = npc.Center + ((float)num103 / (float)num108 * 6.28318548f + npc.rotation + num106).ToRotationVector2() * (4f * num107 + 4f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * (float)num103;
-					Main.spriteBatch.Draw(Main.npcTexture[npc.type], vector29, npc.frame, color28, npc.rotation, npc.frame.Size() / 2f, npc.scale, spriteEffects3, 0f);
+					Color col = npc.GetAlpha(baseCol) * (1f - wave);
+					Vector2 drawPos = npc.Center + (i / 4f * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * (4f * wave + 4f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * i;
+					Main.spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, npc.frame, col, npc.rotation, npc.frame.Size() / 2f, npc.scale, spriteEffects3, 0f);
 				}
 			}
 			return true;
 		}
+
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			Texture2D aura = mod.GetTexture("NPCs/Town/Oracle/OracleAura");
 			Texture2D runes = mod.GetTexture("NPCs/Town/Oracle/RuneCircle");
 
-			float num108 = 4;
-			float num107 = (float)Math.Cos((double)(Main.GlobalTime % 2.4f / 2.4f * 6.28318548f)) + 0.5f;
-			float num106 = 0f;
+			float wave = (float)Math.Cos(Main.GlobalTime % 2.4f / 2.4f * MathHelper.TwoPi) + 0.5f;
 
-			SpriteEffects spriteEffects3 = (npc.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-			Vector2 vector33 = new Vector2(npc.Center.X, npc.Center.Y - 18) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity;
-			Color color29 = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.LightGoldenrodYellow);
-			for (int num103 = 0; num103 < 4; num103++)
+			SpriteEffects direction = (npc.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+			Color baseCol = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.LightGoldenrodYellow);
+
+			for (int i = 0; i < 4; i++)
 			{
-				Color color28 = color29;
-				color28 = npc.GetAlpha(color28);
-				color28 *= 1f - num107;
-				Vector2 vector29 = npc.Center + ((float)num103 / (float)num108 * 6.28318548f + npc.rotation + num106).ToRotationVector2() * (4f * num107 + 4f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * (float)num103;
-				spriteBatch.Draw(aura, vector29, null, color28, timer * 0.02f, aura.Size() / 2f, RealAuraScale, spriteEffects3, 0f);
-				spriteBatch.Draw(runes, vector29, null, color28, timer * -0.02f, aura.Size() / 2f, RealAuraScale * .5f, spriteEffects3, 0f);
-
+				Color col = npc.GetAlpha(baseCol) * (1f - wave);
+				Vector2 drawPos = npc.Center + (i / 4f * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * (4f * wave + 4f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * i;
+				spriteBatch.Draw(aura, drawPos, null, col, timer * 0.02f, aura.Size() / 2f, RealAuraScale, direction, 0f);
+				spriteBatch.Draw(runes, drawPos, null, col, timer * -0.02f, aura.Size() / 2f, RealAuraScale * .5f, direction, 0f);
 			}
-			Vector2 drawPosition = npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY);
 
-			spriteBatch.Draw(aura, drawPosition, null, color29, timer * 0.02f, aura.Size() / 2f, RealAuraScale, SpriteEffects.None, 0f);
-			spriteBatch.Draw(runes, drawPosition, null, color29, timer * -0.02f, aura.Size() / 2f, RealAuraScale * .5f, SpriteEffects.None, 0f);
+			Vector2 drawPosition = npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY);
+			spriteBatch.Draw(aura, drawPosition, null, baseCol, timer * 0.02f, aura.Size() / 2f, RealAuraScale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(runes, drawPosition, null, baseCol, timer * -0.02f, aura.Size() / 2f, RealAuraScale * .5f, SpriteEffects.None, 0f);
 
 		}
 
