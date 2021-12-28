@@ -174,10 +174,12 @@ namespace SpiritMod.NPCs.Town.Oracle
 			if (avgCeilingHeight <= 10)
 				adjustLevHeight = (int)(avgCeilingHeight * 0.25f);
 
+			adjustLevHeight -= 5;
+
 			if ((npc.Center.Y / 16f) + 6 + adjustLevHeight < tileDist)
-				npc.velocity.Y += 0.16f; //Grounds the NPC
+				npc.velocity.Y += 0.36f; //Grounds the NPC
 			if ((npc.Center.Y / 16f) > tileDist - (5 + adjustLevHeight))
-				npc.velocity.Y -= 0.16f; //Raises the NPC
+				npc.velocity.Y -= 0.36f; //Raises the NPC
 		}
 
 		private void ScanForLand()
@@ -279,7 +281,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 		{
 			if (AttackTimer > 10)
 			{
-				float wave = (float)Math.Cos((Main.GlobalTime % 2.4f / 2.4f * MathHelper.TwoPi)) + 0.5f;
+				float wave = (float)Math.Cos(Main.GlobalTime % 2.4f / 2.4f * MathHelper.TwoPi) + 0.5f;
 
 				SpriteEffects spriteEffects3 = (npc.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 				Color baseCol = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.LightGoldenrodYellow);
@@ -393,7 +395,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 				"I have lost track of time, and the gods refuse to tell me where it is!",
 				"Lorem ipsum dolor sit amet... Be patient, I'm not finished.",
 				"I am unable to die unless I am forgotten. I wonder who still remembers me...",
-				"What do you need? I have not all life. Oh, on second thought...",
+				"What do you need? I don't have unending time. Hm...on second thought...",
 				"I had all life to write a glorious tale, but I cannot get past 'the'.",
 				"Between you and me, reptiles cause me great distress.",
 				"I ponder about the presence of ambient song in the distance, yet cannot stop myself from indulging in it.",
