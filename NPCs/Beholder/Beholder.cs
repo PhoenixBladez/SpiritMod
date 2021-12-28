@@ -41,8 +41,8 @@ namespace SpiritMod.NPCs.Beholder
 			npc.aiStyle = 14;
 			npc.noGravity = true;
 			aiType = NPCID.Slimer;
-			banner = npc.type;
 			npc.rarity = 3;
+			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.BeholderBanner>();
 
 			npc.noTileCollide = true;

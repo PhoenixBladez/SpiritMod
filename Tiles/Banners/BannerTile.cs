@@ -284,7 +284,37 @@ namespace SpiritMod.Tiles.Banners
                 case 79:
                     item = "BloodGazerBanner";
                     break;
-                default:
+				case 80:
+					item = "CystalBanner";
+					break;
+				case 81:
+					item = "WildwoodWatcherBanner";
+					break;
+				case 82:
+					item = "MoltenCoreBanner";
+					break;
+				case 83:
+					item = "PokeyBanner";
+					break;
+				case 84:
+					item = "ScreechOwlBanner";
+					break;
+				case 85:
+					item = "ArachmatonBanner";
+					break;
+				case 86:
+					item = "AstralAdventurerBanner";
+					break;
+				case 87:
+					item = "TrochmatonBanner";
+					break;
+				case 88:
+					item = "ChestZombie";
+					break;
+				case 89:
+					item = "BoulderBehemothBanner";
+					break;
+				default:
 					return;
 			}
 			Item.NewItem(i * 16, j * 16, 16, 48, mod.ItemType(item));
@@ -537,7 +567,37 @@ namespace SpiritMod.Tiles.Banners
                     case 79:
                         type = "BloodGazer";
                         break;
-                    default:
+					case 80:
+						type = "Cystal";
+						break;
+					case 81:
+						type = "ReachObserver";
+						break;
+					case 82:
+						type = "Molten_Core";
+						break;
+					case 83:
+						type = "Pokey_Body";
+						break;
+					case 84:
+						type = "ScreechOwl";
+						break;
+					case 85:
+						type = "AutomataCreeper";
+						break;
+					case 86:
+						type = "AstralAdventurer";
+						break;
+					case 87:
+						type = "AutomataSpinner";
+						break;
+					case 88:
+						type = "Chest_Zombie";
+						break;
+					case 89:
+						type = "Boulder_Termagant";
+						break;
+					default:
 						return;
 				}
 				player.NPCBannerBuff[mod.NPCType(type)] = true;

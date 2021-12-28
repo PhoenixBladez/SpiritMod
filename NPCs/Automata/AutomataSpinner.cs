@@ -40,7 +40,9 @@ namespace SpiritMod.NPCs.Automata
 			npc.knockBackResist = .25f;
 			npc.aiStyle = 3;
 			aiType = NPCID.WalkingAntlion;
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.TrochmatonBanner>();
+		}
 		int timer;
 		int frame = 0;
 		int frameTimer;

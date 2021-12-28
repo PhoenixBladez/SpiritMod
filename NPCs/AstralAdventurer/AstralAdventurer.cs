@@ -39,6 +39,8 @@ namespace SpiritMod.NPCs.AstralAdventurer
 			npc.noGravity = false;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath1;
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.AstralAdventurerBanner>();
 		}
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = (int)(npc.lifeMax * bossLifeScale);
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)

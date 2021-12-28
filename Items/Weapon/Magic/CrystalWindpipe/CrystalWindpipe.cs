@@ -10,23 +10,23 @@ namespace SpiritMod.Items.Weapon.Magic.CrystalWindpipe
 {
 	public class CrystalWindpipe : ModItem
 	{
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Crystal Windpipe");
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Crystal Windchimes");
 
 		public override void SetDefaults()
 		{
-			item.damage = 50;
+			item.damage = 35;
 			item.magic = true;
 			item.mana = 11;
 			item.width = 40;
 			item.height = 40;
-			item.useTime = 10;
-			item.useAnimation = 10;
+			item.useTime = 12;
+			item.useAnimation = 12;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.noMelee = true;
 			item.knockBack = 2;
 			item.useTurn = false;
 			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.Green;
+			item.rare = ItemRarityID.LightRed;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<CrystalNote>();
 			item.shootSpeed = 13f;
@@ -94,14 +94,14 @@ namespace SpiritMod.Items.Weapon.Magic.CrystalWindpipe
 				float rotDifference = ((((initialSpeed.ToRotation() - initialAngle.ToRotation()) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
 				projectile.velocity = projectile.velocity.RotatedBy(rotDifference * veer);
 			}
-			else if (projectile.timeLeft > 70 && projectile.timeLeft < 80)
-            {
-				projectile.velocity *= .91f;
-            }
-			else if (projectile.timeLeft < 60)
+			else if (projectile.timeLeft < 70)
 			{
+				int num = 5;
+				if (projectile.timeLeft < 60)
+					num = 9;
+
 				Vector2 vector2_1 = player.Center;
-				Vector2 vector2_2 = Vector2.Normalize(vector2_1 - projectile.Center) * 9f;
+				Vector2 vector2_2 = Vector2.Normalize(vector2_1 - projectile.Center) * num;
 				projectile.velocity = vector2_2;
 				if (Vector2.Distance(projectile.Center, player.Center) <= 12.0)
 				{

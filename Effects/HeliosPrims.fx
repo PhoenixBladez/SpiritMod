@@ -46,6 +46,7 @@ float4 Basic2(VertexShaderOutput input) : COLOR
     float lerper = pow(sin(input.TextureCoordinates.y * 3.14f - 1.2f),50 + GetHeight(input.TextureCoordinates.x) * 50 - 25) + pow(sin(input.TextureCoordinates.x * 3.14f - 1.2f + (progress / 3 * progress / 3)), 30 + GetHeight(input.TextureCoordinates.y / 2 + progress) * 50 - 25);
     input.Color *= lerp(float4(0,0,0,0),float4(uColor, 0) * 10, lerper);
     input.Color *= sin(input.TextureCoordinates.x * 3.14f);
+    input.Color *= pow(1 - input.TextureCoordinates.y, 0.66f);
 
     coords.y = ((coords.y - 0.5f) / 2.0f) + 0.5f;
     coords.x *= 5;
