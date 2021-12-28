@@ -2,6 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.Enums;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using SpiritMod.Prim;
@@ -17,7 +18,8 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Helios");
-            SpiritGlowmask.AddGlowMask(item.type, Texture + "_glow");
+			Tooltip.SetDefault("Hold and release to throw \nRight click to dash to it, destroying everything in your path");
+			SpiritGlowmask.AddGlowMask(item.type, Texture + "_glow");
         }
 
         public override void SetDefaults()
@@ -132,7 +134,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 					if (phantomProj == null)
 						phantomProj = Projectile.NewProjectileDirect(player.Center, player.DirectionTo(Main.MouseWorld) * 15, ModContent.ProjectileType<HeliosPhantomProj>(), projectile.damage, 0, player.whoAmI);
 					primCenter = phantomProj.Center;
-					if (!phantomProj.active)
+					if (!phantomProj.active || !(phantomProj.modProjectile is HeliosPhantomProj))
 						returned = true;
 				}
 				else
@@ -282,7 +284,19 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 			return projHitbox.Intersects(targetHitbox);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool? CanCutTiles() => true;
+
+		// Plot a line from the start of the Solar Eruption to the end of it, to change the tile-cutting collision logic. (Don't change this.)
+		public override void CutTiles()
+		{
+			DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
+			for (float i = 0; i < 6.28f; i++)
+			{
+				Utils.PlotTileLine(primCenter, primCenter + (((float)radians - i).ToRotationVector2() * 110), projectile.width, DelegateMethods.CutTiles);
+			}
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Color color = lightColor;
             Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], primCenter - Main.screenPosition, null, Color.White, (float)radians + 3.9f, new Vector2(Main.projectileTexture[projectile.type].Width / 2, Main.projectileTexture[projectile.type].Height / 2), projectile.scale, SpriteEffects.None, 0);
@@ -344,7 +358,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 			if (dashing)
 			{
 				player.velocity = player.DirectionTo(projectile.Center) * 80;
-				if (player.Distance(projectile.Center) < 100)
+				if (player.Distance(projectile.Center) < 100 && ClearPath(projectile.Center, player.Center))
 				{
 					player.Center = projectile.Center;
 					player.velocity = Vector2.Zero;
@@ -367,6 +381,18 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 					paused = false;
 				}
 				return false;
+			}
+			return true;
+		}
+
+		private static bool ClearPath(Vector2 point1, Vector2 point2)
+		{
+			Vector2 distance = point1 - point2;
+			for (float i = 0; i < 1; i+= 8.0f / (distance.Length()))
+			{
+				Vector2 positionToCheck = point2 + (distance * i);
+				if (Main.tile[(int)(positionToCheck.X / 16), (int)(positionToCheck.Y / 16)].active())
+					return false;
 			}
 			return true;
 		}
