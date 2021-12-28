@@ -279,7 +279,12 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 			for (float i = 0; i < 6.28f; i++)
 			{
 				if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), primCenter, primCenter + (((float)radians - i).ToRotationVector2() * 110), projectile.width, ref collisionPoint))
+				{
+					Vector2 position = Vector2.Lerp(primCenter, primCenter + (((float)radians - i).ToRotationVector2() * 110), collisionPoint / 110.0f);
+					Main.PlaySound(2, position, 14);
+					Projectile.NewProjectile(position, Vector2.Zero, ProjectileID.SolarWhipSwordExplosion, 0, 0, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 					return true;
+				}
 			}
 			return projHitbox.Intersects(targetHitbox);
         }
