@@ -270,7 +270,11 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
             }
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockBack, ref bool crit, ref int hitDirection) => target.AddBuff(189, 180);
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockBack, ref bool crit, ref int hitDirection)
+		{
+			target.AddBuff(189, 180);
+			hitDirection = Math.Sign(target.Center.X - primCenter.X);
+		}
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
