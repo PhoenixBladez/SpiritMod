@@ -21,7 +21,6 @@ namespace SpiritMod.NPCs.Town.Oracle
 			item.value = Item.sellPrice(0, 0, 3, 0);
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = item.useAnimation = 50;
-            item.bait = 24;
 			item.noMelee = true;
 			item.autoReuse = true;
 			item.noUseGraphic = true;

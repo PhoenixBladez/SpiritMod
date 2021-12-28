@@ -33,7 +33,11 @@ namespace SpiritMod.Mechanics.BackgroundSystem.BGItem
 		public Vector2 DrawPosition { get; protected set; }
 
 		/// <summary>Center of the background item.</summary>
-		internal Vector2 Center => position + (source.Size() / 2);
+		internal Vector2 Center
+		{
+			get => position + (source.Size() / 2);
+			set => position = value + (source.Size() / 2);
+		}
 
 		/// <summary>Default with only a save/don't save value.</summary>
 		/// <param name="save">If this BGItem saves or not.</param>
@@ -91,8 +95,8 @@ namespace SpiritMod.Mechanics.BackgroundSystem.BGItem
 		/// <returns>Parallax value.</returns>
 		internal Vector2 GetParallax()
 		{
-			Vector2 pC = Main.LocalPlayer.Center + (Vector2.UnitY * Main.LocalPlayer.gfxOffY);
-			Vector2 offset = ((pC - position) * parallax);
+			Vector2 pC = Main.screenPosition;
+			Vector2 offset = (pC - position) * parallax;
 			return offset;
 		}
 
