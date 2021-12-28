@@ -30,6 +30,8 @@ namespace SpiritMod.NPCs.ChestZombie
 			npc.noTileCollide = false;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath2;
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.ChestZombieBanner>();
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => SpawnCondition.OverworldNightMonster.Chance * 0.011f;

@@ -94,14 +94,14 @@ namespace SpiritMod.Items.Weapon.Magic.CrystalWindpipe
 				float rotDifference = ((((initialSpeed.ToRotation() - initialAngle.ToRotation()) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
 				projectile.velocity = projectile.velocity.RotatedBy(rotDifference * veer);
 			}
-			else if (projectile.timeLeft > 70 && projectile.timeLeft < 80)
-            {
-				projectile.velocity *= .91f;
-            }
-			else if (projectile.timeLeft < 60)
+			else if (projectile.timeLeft < 70)
 			{
+				int num = 5;
+				if (projectile.timeLeft < 60)
+					num = 9;
+
 				Vector2 vector2_1 = player.Center;
-				Vector2 vector2_2 = Vector2.Normalize(vector2_1 - projectile.Center) * 9f;
+				Vector2 vector2_2 = Vector2.Normalize(vector2_1 - projectile.Center) * num;
 				projectile.velocity = vector2_2;
 				if (Vector2.Distance(projectile.Center, player.Center) <= 12.0)
 				{

@@ -51,6 +51,8 @@ namespace SpiritMod.NPCs.Automata
 			initialDirection = (Main.rand.Next(2) * 2) - 1;
 			moveDirection = new Vector2(initialDirection, 0);
 			npc.noTileCollide = true;
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.ArachmatonBanner>();
 		}
 
 		public override void AI()
