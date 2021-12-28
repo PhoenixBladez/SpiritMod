@@ -10,23 +10,23 @@ namespace SpiritMod.Items.Weapon.Magic.CrystalWindpipe
 {
 	public class CrystalWindpipe : ModItem
 	{
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Crystal Windpipe");
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Crystal Windchimes");
 
 		public override void SetDefaults()
 		{
-			item.damage = 50;
+			item.damage = 35;
 			item.magic = true;
 			item.mana = 11;
 			item.width = 40;
 			item.height = 40;
-			item.useTime = 10;
-			item.useAnimation = 10;
+			item.useTime = 12;
+			item.useAnimation = 12;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.noMelee = true;
 			item.knockBack = 2;
 			item.useTurn = false;
 			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.Green;
+			item.rare = ItemRarityID.LightRed;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<CrystalNote>();
 			item.shootSpeed = 13f;

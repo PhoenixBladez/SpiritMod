@@ -204,7 +204,6 @@ namespace SpiritMod.NPCs.Undead_Warlock
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 216, 1);
 			if (Main.rand.Next(10) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1304, 1);
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Undead_Warlock_Staff"));
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

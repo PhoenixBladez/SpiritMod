@@ -17,7 +17,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 	[AutoloadHead]
 	public class Oracle : ModNPC
 	{
-		public const int AuraRadius = 550;
+		public const int AuraRadius = 263;
 
 		private float RealAuraRadius => AuraRadius * RealAuraScale;
 		private float RealAuraScale => Math.Min(AttackTimer / 150f, 1f);
@@ -246,16 +246,20 @@ namespace SpiritMod.NPCs.Town.Oracle
 				if (cur.active && cur.CanBeChasedBy() && cur.DistanceSQ(npc.Center) < AuraRadius * AuraRadius) //Scan for NPCs
 				{
 					if (cur.DistanceSQ(npc.Center) < RealAuraRadius * RealAuraRadius) //Actually inflict damage to NPCs
-						cur.AddBuff(BuffID.OnFire, 2);
+						cur.AddBuff(ModContent.BuffType<Buffs.GreekFire>(), 2);
 
 					enemyNearby = true;
 				}
 			}
 
-			if (enemyNearby)
-				AttackTimer = Math.Min(AttackTimer + 1, 150);
+			if (enemyNearby) 
+			{
+				AttackTimer = (float)Math.Min(Math.Pow((AttackTimer + 1), 1.005f), 150);
+			}
 			else
-				AttackTimer = Math.Max(AttackTimer - 1, 0);
+			{
+				AttackTimer = (float)Math.Max(Math.Pow(AttackTimer, 0.991f), 0f);
+			}
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -271,13 +275,55 @@ namespace SpiritMod.NPCs.Town.Oracle
 			movementDir = reader.ReadSingle();
 			movementTimer = reader.ReadSingle();
 		}
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			if (AttackTimer > 10)
+			{
+				float num108 = 4;
+				float num107 = (float)Math.Cos((double)(Main.GlobalTime % 2.4f / 2.4f * 6.28318548f)) + 0.5f;
+				float num106 = 0f;
 
+				SpriteEffects spriteEffects3 = (npc.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+				Vector2 vector33 = new Vector2(npc.Center.X, npc.Center.Y - 18) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity;
+				Color color29 = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.LightGoldenrodYellow);
+				for (int num103 = 0; num103 < 4; num103++)
+				{
+					Color color28 = color29;
+					color28 = npc.GetAlpha(color28);
+					color28 *= 1f - num107;
+					Vector2 vector29 = npc.Center + ((float)num103 / (float)num108 * 6.28318548f + npc.rotation + num106).ToRotationVector2() * (4f * num107 + 4f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * (float)num103;
+					Main.spriteBatch.Draw(Main.npcTexture[npc.type], vector29, npc.frame, color28, npc.rotation, npc.frame.Size() / 2f, npc.scale, spriteEffects3, 0f);
+				}
+			}
+			return true;
+		}
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			Texture2D aura = mod.GetTexture("NPCs/Town/Oracle/OracleAura");
+			Texture2D runes = mod.GetTexture("NPCs/Town/Oracle/RuneCircle");
 
+			float num108 = 4;
+			float num107 = (float)Math.Cos((double)(Main.GlobalTime % 2.4f / 2.4f * 6.28318548f)) + 0.5f;
+			float num106 = 0f;
+
+			SpriteEffects spriteEffects3 = (npc.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+			Vector2 vector33 = new Vector2(npc.Center.X, npc.Center.Y - 18) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity;
+			Color color29 = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.LightGoldenrodYellow);
+			for (int num103 = 0; num103 < 4; num103++)
+			{
+				Color color28 = color29;
+				color28 = npc.GetAlpha(color28);
+				color28 *= 1f - num107;
+				Vector2 vector29 = npc.Center + ((float)num103 / (float)num108 * 6.28318548f + npc.rotation + num106).ToRotationVector2() * (4f * num107 + 4f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * (float)num103;
+				spriteBatch.Draw(aura, vector29, null, color28, timer * 0.02f, aura.Size() / 2f, RealAuraScale, spriteEffects3, 0f);
+				spriteBatch.Draw(runes, vector29, null, color28, timer * -0.02f, aura.Size() / 2f, RealAuraScale * .5f, spriteEffects3, 0f);
+
+			}
 			Vector2 drawPosition = npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY);
-			spriteBatch.Draw(aura, drawPosition, null, Color.White, timer * 0.2f, aura.Size() / 2f, RealAuraScale, SpriteEffects.None, 0f);
+
+			spriteBatch.Draw(aura, drawPosition, null, color29, timer * 0.02f, aura.Size() / 2f, RealAuraScale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(runes, drawPosition, null, color29, timer * -0.02f, aura.Size() / 2f, RealAuraScale * .5f, SpriteEffects.None, 0f);
+
 		}
 
 		public static bool HoveringBuffButton = false;
@@ -303,8 +349,29 @@ namespace SpiritMod.NPCs.Town.Oracle
 
 				HoveringBuffButton = true;
 
-				if (Main.mouseLeft && Main.mouseLeftRelease) //If clicked on, give the player the buff.
+				if (Main.mouseLeft && Main.mouseLeftRelease)
+				{
+					var options = new List<string>
+					{
+						"You wish for a challenge? I may stop you not, as it benefits us both. I do hope you're prepared!",
+						"I shall consult the gods about their boons - these monsters will become relentless, I hope you are aware.",
+						"You want me to call them what?! Such foul battle language, yet I will deliver the message. They won't be happy about this!",
+						"The boons cause slain foes to drop stronger tokens, yes, but do remember that the foes become stronger, too!",
+						"Do come back alive! I would enjoy hearing tales of your victories. Bring many tokens as well!"
+					};
+					for (int i = 0; i < 30; i++)
+					{
+						int num = Dust.NewDust(new Vector2(Main.LocalPlayer.Center.X + Main.rand.Next(-100, 100), Main.LocalPlayer.Center.Y + Main.rand.Next(-100, 100)), Main.LocalPlayer.width, Main.LocalPlayer.height, ModContent.DustType<Dusts.BlessingDust>(), 0f, -2f, 0, default, 2f);
+						Main.dust[num].noGravity = true;
+						Main.dust[num].scale = Main.rand.Next(70, 105) * 0.01f;
+						Main.dust[num].fadeIn = 1;
+					}
+					Main.npcChatText = Main.rand.Next(options);
+					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 29).WithPitchVariance(0.4f).WithVolume(.6f), Main.LocalPlayer.Center);
+					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 6).WithPitchVariance(0.4f).WithVolume(.2f), Main.LocalPlayer.Center);
+
 					Main.LocalPlayer.AddBuff(ModContent.BuffType<OracleBoonBuff>(), 3600 * 5);
+				}
 			}
 			else
 			{
@@ -326,14 +393,28 @@ namespace SpiritMod.NPCs.Town.Oracle
 				"Have you caught wind of a man named Zagreus? ...nevermind.",
 				"Oh, how far I'd go for some ichor...",
 				"I have a little scroll for sale, if you wish to find me elsewhere.",
-				"Not having eyes is a blessing from the gods when you work where I work."
+				"Not having eyes is a blessing from the gods when you work where I work.",
+				"Warm greetings, warrior. I sense power within you, perhaps I can aid in its growth. The creatures within these walls hold mighty tokens, in which I am interested. If you were to trade them with me, I would grant you a weapon enchanted by the gods themselves!",
+				"Ah, what I would give for some aged wine... Has Anthesteria arrived already?",
+				"My epic tale has no end, and may never have one!",
+				"Mythology? What part of this makes you believe it is a myth?",
+				"I have lost track of time, and the gods refuse to tell me where it is!",
+				"Lorem ipsum dolor sit amet... Be patient, I'm not finished.",
+				"I am unable to die unless I am forgotten. I wonder who still remembers me...",
+				"What do you need? I have not all life. Oh, on second thought...",
+				"I had all life to write a glorious tale, but I cannot get past 'the'.",
+				"Between you and me, reptiles cause me great distress.",
+				"I ponder about the presence of ambient song in the distance, yet cannot stop myself from indulging in it.",
+				"Boons? You want them? They're yours, my friend!",
+				"Ah, I see. Or do I? Intriguing, is it not?",
+				"The reason I float is simple - why should I not, if I can?"
 			};
 			return Main.rand.Next(options);
 		}
 
 		public override string TownNPCName()
 		{
-			string[] names = { "Wow", "If", "Only", "I", "Could", "Come", "Up", "With", "Names" };
+			string[] names = { "Pythia", "Cassandra", "Chrysame", "Eritha", "Theoclea", "Hypatia", "Themistoclea", "Phemonoe" };
 			return Main.rand.Next(names);
 		}
 
@@ -368,7 +449,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Consumable.Potion.MirrorCoat>());
 			shop.item[nextSlot].shopCustomPrice = 2;
 			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
-			nextSlot += 2;
+			nextSlot ++;
 
 			shop.item[nextSlot].SetDefaults(ModContent.ItemType<OracleScripture>());
 			shop.item[nextSlot].shopCustomPrice = 1;

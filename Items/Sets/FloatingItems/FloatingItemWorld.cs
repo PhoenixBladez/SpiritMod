@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 
 		public override void PreUpdate()
 		{
-			if (Main.rand.NextBool(1500))
+			if (Main.rand.NextBool(3500))
 			{
 				int x = Main.rand.Next(600, Main.maxTilesX);
 				if (Main.rand.NextBool(2))
