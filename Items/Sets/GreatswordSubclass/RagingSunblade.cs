@@ -286,7 +286,14 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 					return true;
 				}
 			}
-			return projHitbox.Intersects(targetHitbox);
+			if (projHitbox.Intersects(targetHitbox))
+			{
+				Vector2 position = projectile.Center;
+				Main.PlaySound(2, position, 14);
+				Projectile.NewProjectile(position, Vector2.Zero, ProjectileID.SolarWhipSwordExplosion, 0, 0, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+				return true;
+			}
+			return false;
         }
 
 		public override bool? CanCutTiles() => true;
