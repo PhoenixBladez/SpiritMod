@@ -401,11 +401,6 @@ namespace SpiritMod
 			{ AuroraOverlay.SPIRIT, 0 }
 		};
 
-		//public Dictionary<int, bool> fountainsActive = new Dictionary<int, bool>()
-		//{
-		//	{ ModContent.GetInstance<ReachWaterStyle>().Type, false }
-		//};
-
 		public Dictionary<string, int> fountainsActive = new Dictionary<string, int>()
 		{
 			{ "BRIAR", 0 }
@@ -1512,6 +1507,12 @@ namespace SpiritMod
 
 		public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
 		{
+			if (bubbleTimer > 0)
+				return false;
+
+			if (AnimeSword)
+				return false;
+
 			if (Main.rand.NextBool(5) && sepulchreCharm)
 			{
 				for (int k = 0; k < 5; k++)
@@ -1539,12 +1540,6 @@ namespace SpiritMod
 
 				return false;
 			}
-
-			if (bubbleTimer > 0)
-				return false;
-
-			if (AnimeSword)
-				return false;
 			return true;
 		}
 
@@ -2341,6 +2336,9 @@ namespace SpiritMod
 						hoveredStag = null;
 				}
 			}
+
+			if (AnimeSword)
+				player.maxFallSpeed = 2000f;
 		}
 
 		private float CalculateSpeed()
@@ -2724,12 +2722,14 @@ namespace SpiritMod
 
 			return DashType.None;
 		}
+
 		public override void UpdateEquips(ref bool wallSpeedBuff, ref bool tileSpeedBuff, ref bool tileRangeBuff)
 		{
 			player.wingTimeMax = (int)(player.wingTimeMax * WingTimeMaxMultiplier);
 			if (player.manaFlower)
 				player.manaFlower = !StarjinxSet;
 		}
+
 		public override void PostUpdateEquips()
 		{
 			if (player.ownedProjectileCounts[mod.ProjectileType("MiningHelmet")] < 1 && player.head == 11)

@@ -30,6 +30,8 @@ namespace SpiritMod.NPCs.ScreechOwl
             npc.noGravity = true;
 			npc.buffImmune[BuffID.Frostburn] = true;
 			npc.buffImmune[BuffID.Confused] = true;
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.ScreechOwlBanner>();
 		}
         int frame = 0;
         public override void AI()

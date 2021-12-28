@@ -32,8 +32,8 @@ namespace SpiritMod.NPCs.ZombieVariants
 		{
 			for (int k = 0; k < 20; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.78f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, 2.5f * hitDirection, -2.5f, 0, default, .54f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.78f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, .54f);
 			}
 			if (npc.life <= 0)
 			{
@@ -42,6 +42,7 @@ namespace SpiritMod.NPCs.ZombieVariants
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DiverZombie/DiverZombie3"), 1f);
 			}
 		}
+
 		int frameTimer;
 		int frame;
 		public override void AI()
@@ -60,10 +61,9 @@ namespace SpiritMod.NPCs.ZombieVariants
 					frame++;
 					frameTimer = 0;
 				}
+
 				if (frame > 3 || frame < 2)
-				{
 					frame = 2;
-				}
 			}
 			else
 			{
@@ -79,38 +79,29 @@ namespace SpiritMod.NPCs.ZombieVariants
 						frame++;
 						frameTimer = 0;
 					}
+
 					if (frame > 2)
-					{
 						frame = 0;
-					}
 				}
 			}
 		}
-		public override void FindFrame(int frameHeight)
-		{
-			npc.frame.Y = frameHeight * frame;
-		}
+
+		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
+
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(50) == 0)
-			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Shackle);
-			}
 			if (Main.rand.Next(250) == 0)
-			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.ZombieArm);
-			}
 			if (Main.rand.Next(100) == 0)
-			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Flipper);
-			}
+
 			string[] lootTable = { "DiverLegs", "DiverHead", "DiverBody" };
 			if (Main.rand.Next(65) == 0)
 			{
 				int loot = Main.rand.Next(lootTable.Length);
-				{
-					npc.DropItem(mod.ItemType(lootTable[loot]));
-				}
+				npc.DropItem(mod.ItemType(lootTable[loot]));
 			}
 		}
 	}

@@ -1,19 +1,13 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Dusts;
-using System;
-using System.Collections.Generic;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using System.Linq;
-using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod.NPCs.GlobalNPCs
 {
 	public class SnowBreathGlobalNPC : GlobalNPC
 	{
 		public override bool InstancePerEntity => true;
-		int timeAlive;
 
 		public override void PostAI(NPC npc)
 		{

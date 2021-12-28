@@ -11,13 +11,12 @@ namespace SpiritMod.Items.Accessory
 		{
 			DisplayName.SetDefault("Swiftness Rune");
 			Tooltip.SetDefault("Massively increases unassisted aerial agility");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVerticalRect(5, 5, new Rectangle(0, 2, 28, 38)));
 		}
 
 		public override void SetDefaults()
 		{
 			item.width = 28;
-			item.height = 38;
+			item.height = 28;
 			item.value = Item.buyPrice(gold: 5);
 			item.rare = ItemRarityID.Green;
 			item.accessory = true;

@@ -2,6 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.Enums;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using SpiritMod.Prim;
@@ -17,7 +18,8 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Helios");
-            SpiritGlowmask.AddGlowMask(item.type, Texture + "_glow");
+			Tooltip.SetDefault("Hold and release to throw \nRight click to dash to it, destroying everything in your path");
+			SpiritGlowmask.AddGlowMask(item.type, Texture + "_glow");
         }
 
         public override void SetDefaults()
@@ -87,7 +89,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 			projectile.ignoreWater = true;
 			projectile.aiStyle = -1;
 		}
-        float growCounter;
+        float growCounter = 20;
         double radians = 0;
         bool released = false;
 		bool returned = false;
@@ -110,7 +112,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
                 trail = new SolarSwordPrimTrail(projectile);
                 SpiritMod.primitives.CreateTrail(trail);
                 primsCreated = true;
-            }
+			}
 			if (charge >= 60)
 			{
 				if (flickerTime == 0)
@@ -132,7 +134,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 					if (phantomProj == null)
 						phantomProj = Projectile.NewProjectileDirect(player.Center, player.DirectionTo(Main.MouseWorld) * 15, ModContent.ProjectileType<HeliosPhantomProj>(), projectile.damage, 0, player.whoAmI);
 					primCenter = phantomProj.Center;
-					if (!phantomProj.active)
+					if (!phantomProj.active || !(phantomProj.modProjectile is HeliosPhantomProj))
 						returned = true;
 				}
 				else
@@ -153,7 +155,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 			}
             Vector2 direction = Main.MouseWorld - player.position;
             direction.Normalize();
-            projectile.scale = MathHelper.Clamp(growCounter / 30f, 0, 1);
+            projectile.scale = MathHelper.Clamp((growCounter - 20) / 30f, 0, 1);
 
             SpinBlade(0.3, 0.1);
 
@@ -225,39 +227,54 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
             }
         }
 
-        private void SpinBlade(double d1, double adder)
+        private void SpinBlade(double d1, double adder, bool grow = true)
         {
             Player player = Main.player[projectile.owner];
             for (double i = 0; i < d1; i+= adder)
             {
-                if (player.direction == 1)
-                    radians += adder;
-                else
-                    radians -= adder;
+				if (player.direction == 1)
+					radians += adder;
+				else
+					radians -= adder;
 
-                if (radians > 6.28)
-                    radians -= 6.28;
-                if (radians < -6.28)
-                    radians += 6.28;
-                if (growCounter < 60 && !released)
-                    growCounter+= (float)(adder / d1);
-                if (released && returned)
-                    growCounter-= (float)(adder / d1);
-                projectile.Center = primCenter + ((float)radians + 3.14f).ToRotationVector2() * 10 * growCounter / 6f;
-                trail.Points.Add(projectile.Center - primCenter);
-                if (Main.rand.Next(4) == 0)
-                {
-                    Dust dust = Dust.NewDustDirect(projectile.Center - new Vector2(projectile.width / 4, projectile.height / 4), projectile.width / 2, projectile.height / 2, DustID.Fire, ((float)radians + 3.14f).ToRotationVector2().X * growCounter / 6f, ((float)radians + 3.14f).ToRotationVector2().Y * growCounter / 6f);
-                    dust.scale = 1.5f;
-                    dust.noGravity = true;
-                    dust = Dust.NewDustDirect(primCenter - (((float)radians + 3.14f).ToRotationVector2() * 10 * growCounter / 6f) - new Vector2(projectile.width / 4, projectile.height / 4), projectile.width / 2, projectile.height / 2, DustID.Fire, ((float)radians + 3.14f).ToRotationVector2().X * growCounter / -6f, ((float)radians + 3.14f).ToRotationVector2().Y * growCounter / -2f);
-                    dust.scale = 1.5f;
-                    dust.noGravity = true;
-                }
+				if (radians > 6.28)
+					radians -= 6.28;
+				if (radians < -6.28)
+					radians += 6.28;
+
+				if (grow)
+				{
+					if (growCounter < 60 && !released)
+						growCounter += (float)(adder / d1) * 1.5f;
+					if (released && returned)
+						growCounter -= (float)(adder / d1);
+				}
+				if (player.channel)
+					projectile.Center = primCenter + ((float)radians + 3.14f).ToRotationVector2() * 110;
+				else
+					projectile.Center = primCenter + ((float)radians + 3.14f).ToRotationVector2() * 11 * growCounter / 6f;
+				trail.Points.Add(projectile.Center - primCenter);
+
+				if (grow)
+				{
+					if (Main.rand.Next(4) == 0)
+					{
+						Dust dust = Dust.NewDustDirect(projectile.Center - new Vector2(projectile.width / 4, projectile.height / 4), projectile.width / 2, projectile.height / 2, DustID.Fire, ((float)radians + 3.14f).ToRotationVector2().X * growCounter / 6f, ((float)radians + 3.14f).ToRotationVector2().Y * growCounter / 6f);
+						dust.scale = 1.5f;
+						dust.noGravity = true;
+						dust = Dust.NewDustDirect(primCenter - (((float)radians + 3.14f).ToRotationVector2() * 10 * growCounter / 6f) - new Vector2(projectile.width / 4, projectile.height / 4), projectile.width / 2, projectile.height / 2, DustID.Fire, ((float)radians + 3.14f).ToRotationVector2().X * growCounter / -6f, ((float)radians + 3.14f).ToRotationVector2().Y * growCounter / -2f);
+						dust.scale = 1.5f;
+						dust.noGravity = true;
+					}
+				}
             }
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockBack, ref bool crit, ref int hitDirection) => target.AddBuff(189, 180);
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockBack, ref bool crit, ref int hitDirection)
+		{
+			target.AddBuff(189, 180);
+			hitDirection = Math.Sign(target.Center.X - primCenter.X);
+		}
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
@@ -266,12 +283,36 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 			for (float i = 0; i < 6.28f; i++)
 			{
 				if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), primCenter, primCenter + (((float)radians - i).ToRotationVector2() * 110), projectile.width, ref collisionPoint))
+				{
+					Vector2 position = Vector2.Lerp(primCenter, primCenter + (((float)radians - i).ToRotationVector2() * 110), collisionPoint / 110.0f);
+					Main.PlaySound(2, position, 14);
+					Projectile.NewProjectile(position, Vector2.Zero, ProjectileID.SolarWhipSwordExplosion, 0, 0, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 					return true;
+				}
 			}
-			return projHitbox.Intersects(targetHitbox);
+			if (projHitbox.Intersects(targetHitbox))
+			{
+				Vector2 position = projectile.Center;
+				Main.PlaySound(2, position, 14);
+				Projectile.NewProjectile(position, Vector2.Zero, ProjectileID.SolarWhipSwordExplosion, 0, 0, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+				return true;
+			}
+			return false;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool? CanCutTiles() => true;
+
+		// Plot a line from the start of the Solar Eruption to the end of it, to change the tile-cutting collision logic. (Don't change this.)
+		public override void CutTiles()
+		{
+			DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
+			for (float i = 0; i < 6.28f; i++)
+			{
+				Utils.PlotTileLine(primCenter, primCenter + (((float)radians - i).ToRotationVector2() * 110), projectile.width, DelegateMethods.CutTiles);
+			}
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Color color = lightColor;
             Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], primCenter - Main.screenPosition, null, Color.White, (float)radians + 3.9f, new Vector2(Main.projectileTexture[projectile.type].Width / 2, Main.projectileTexture[projectile.type].Height / 2), projectile.scale, SpriteEffects.None, 0);
@@ -333,7 +374,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 			if (dashing)
 			{
 				player.velocity = player.DirectionTo(projectile.Center) * 80;
-				if (player.Distance(projectile.Center) < 100)
+				if (player.Distance(projectile.Center) < 100 && ClearPath(projectile.Center, player.Center))
 				{
 					player.Center = projectile.Center;
 					player.velocity = Vector2.Zero;
@@ -356,6 +397,18 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 					paused = false;
 				}
 				return false;
+			}
+			return true;
+		}
+
+		private static bool ClearPath(Vector2 point1, Vector2 point2)
+		{
+			Vector2 distance = point1 - point2;
+			for (float i = 0; i < 1; i+= 8.0f / (distance.Length()))
+			{
+				Vector2 positionToCheck = point2 + (distance * i);
+				if (Main.tile[(int)(positionToCheck.X / 16), (int)(positionToCheck.Y / 16)].active())
+					return false;
 			}
 			return true;
 		}

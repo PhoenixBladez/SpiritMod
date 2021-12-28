@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 {
 	public class FishLure : FloatingItem
 	{
-		public virtual float SpawnWeight => .008f;
+		public override float SpawnWeight => .008f;
 		public override float Weight => base.Weight * 0.9f;
 		public override float Bouyancy => base.Bouyancy * 1.08f;
 
@@ -20,6 +20,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 			DisplayName.SetDefault("Fish Lure");
 			Tooltip.SetDefault("Can only be placed in water\nAttracts schools of fish to nearby waters");
 		}
+
 		public override void SetDefaults()
 		{
 			item.width = item.height = 16;
@@ -34,6 +35,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 			item.noMelee = true;
 			item.autoReuse = false;
 		}
+
 		public override bool UseItem(Player player)
 		{
 			Point tPos = Main.MouseWorld.ToTileCoordinates();
@@ -48,6 +50,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 			return false;
 		}
 	}
+
 	public class FishLureTile : ModTile
 	{
 		public override void SetDefaults()
@@ -64,10 +67,8 @@ namespace SpiritMod.Items.Sets.FloatingItems
 			drop = ModContent.ItemType<FishLure>();
 			AddMapEntry(new Color(200, 200, 200), name);
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
-		{
-			offsetY = 2;
-		}
+
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
 
 		public sealed override void NearbyEffects(int i, int j, bool closer)
 		{

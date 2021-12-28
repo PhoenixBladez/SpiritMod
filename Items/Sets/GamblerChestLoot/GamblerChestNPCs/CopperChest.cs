@@ -74,7 +74,6 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 				if (counter <= 50 && counter % 10 == 0)
 				{
 					int itemid;
-					int item = 0;
 					float val = Main.rand.NextFloat();
 					if (val < .454f)
 						itemid = ItemID.CopperCoin;
@@ -83,7 +82,7 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 					else
 						itemid = ItemID.GoldCoin;
 
-					item = Item.NewItem(npc.Center, Vector2.Zero, itemid, 1);
+					int item = Item.NewItem(npc.Center, Vector2.Zero, itemid, 1);
 					Main.item[item].velocity = Vector2.UnitY.RotatedBy(Main.rand.NextFloat(1.57f, 4.71f)) * 4;
 					Main.item[item].velocity.Y /= 2;
 					if (Main.netMode != NetmodeID.SinglePlayer)
@@ -102,7 +101,7 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 						npc.DropItem(mod.ItemType(lootTable[loot]));
 						for (int value = 0; value < 32; value++)
 						{
-							int num = Dust.NewDust(new Vector2(npc.Center.X, npc.Center.Y - 20), 50, 50, 173, 0f, -2f, 0, default, 2f);
+							int num = Dust.NewDust(new Vector2(npc.Center.X, npc.Center.Y - 20), 50, 50, DustID.ShadowbeamStaff, 0f, -2f, 0, default, 2f);
 							Main.dust[num].noGravity = true;
 							Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 							Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -116,6 +115,7 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 					npc.DropItem(ItemID.AngelStatue, 0.05f);
 					npc.DropItem(ModContent.ItemType<Champagne.Champagne>(), 0.04f, Main.rand.Next(1, 3));
 					npc.DropItem(ModContent.ItemType<Mystical_Dice>(), 0.01f);
+
 					switch (Main.rand.NextBool())
 					{ //mutually exclusive
 						case true:
@@ -125,8 +125,6 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 							npc.DropItem(ModContent.ItemType<RegalCane.RegalCane>(), 0.01f);
 							break;
 					}
-
-
 				}
 			}
 		}
@@ -137,7 +135,6 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 				npc.rotation = 0;
 				npc.frame.Y = frameHeight;
 				counter = 100;
-				//Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<CopperChestTop>(), 0, 0, npc.target, npc.position.X, npc.position.Y);
 			}
 		}
 	}

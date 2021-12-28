@@ -63,12 +63,10 @@ namespace SpiritMod.Items.Equipment
 		public override void NumGrappleHooks(Player player, ref int numHooks) => numHooks = 1;
 
 
-		bool retracting = false;
 		public override void GrappleRetreatSpeed(Player player, ref float speed)
 		{
 			int retreatSpeed = Main.player[projectile.owner].wet ? 17 : 12;
 			speed = retreatSpeed;
-			retracting = true;
 		}
 
 		public override void GrapplePullSpeed(Player player, ref float speed)

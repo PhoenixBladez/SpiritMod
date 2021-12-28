@@ -79,10 +79,10 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 			if (!Framing.GetTileSafely(i, j - 1).active() && Main.rand.Next(4) == 0 && t.liquid > 155 && t.frameX < 36 && t.frameY < 108) //Grows the kelp
 			{
 				int height = 1;
+
 				while (Framing.GetTileSafely(i, j + height).active() && Framing.GetTileSafely(i, j + height).type == Type)
-				{
 					height++;
-				}
+
 				if (height < Main.rand.Next(17, 23))
 					WorldGen.PlaceTile(i, j - 1, Type, true, false);
 			}

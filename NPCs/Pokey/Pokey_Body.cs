@@ -33,7 +33,9 @@ namespace SpiritMod.NPCs.Pokey
             {
                 npc.frame.Y = 32;
             }
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.PokeyBanner>();
+		}
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = 75;
 

@@ -32,6 +32,8 @@ namespace SpiritMod.NPCs.Reach
 			npc.aiStyle = 44;
 			npc.noGravity = true;
 			aiType = NPCID.FlyingFish;
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.WildwoodWatcherBanner>();
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

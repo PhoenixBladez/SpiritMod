@@ -13,21 +13,25 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 {
     class DragonPrimTrailTwo : PrimTrail
     {
+		Vector2 start = Vector2.Zero;
+		Vector2 end = Vector2.Zero;
 		public DragonPrimTrailTwo(NPC npc)
 		{
 			Entity = npc;
 			EntityType = npc.type;
 			DrawType = PrimTrailManager.DrawProjectile;
 			angle = Main.rand.NextFloat(6.28f);
-			Points.Add(Entity.Center + (angle.ToRotationVector2() * Entity.height * 1.5f));
+			start = Entity.Center + (angle.ToRotationVector2() * Entity.height * 1.5f);
+			end = Entity.Center + ((angle + 3.14f).ToRotationVector2() * Entity.height * 1.5f);
+			for (float i = 0; i < 1; i += 0.025f)
+				Points.Add(Vector2.Lerp(start, end, i));
 		}
 
 		public override void SetDefaults()
         {
             AlphaValue = 0.9f;
             Cap = 80;
-            Width = 5;
-            Pixellated = true;
+            Width = 20;
         }
         float angle;
         public override void PrimStructure(SpriteBatch spriteBatch)
@@ -68,13 +72,13 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
                         Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
                         Vector2 secondDown = Points[i + 1] + normalAhead * widthVar;
 
-                        AddVertex(firstDown, c * AlphaValue, new Vector2((i / Cap), 1));
-                        AddVertex(firstUp, c * AlphaValue, new Vector2((i / Cap), 0));
-                        AddVertex(secondDown, CBT * AlphaValue, new Vector2((i + 1) / Cap, 1));
+                        AddVertex(firstDown, c * AlphaValue, new Vector2((float)(i / (float)Cap), 1));
+						AddVertex(firstUp, c * AlphaValue, new Vector2((float)(i / (float)Cap), 0));
+						AddVertex(secondDown, c * AlphaValue, new Vector2((float)(i + 1) / (float)Cap, 1));
 
-                        AddVertex(secondUp, CBT * AlphaValue, new Vector2((i + 1) / Cap, 0));
-                        AddVertex(secondDown, CBT * AlphaValue, new Vector2((i + 1) / Cap, 1));
-                        AddVertex(firstUp, c * AlphaValue, new Vector2((i / Cap), 0));
+						AddVertex(secondUp, c * AlphaValue, new Vector2((float)(i + 1) / (float)Cap, 0));
+						AddVertex(secondDown, c * AlphaValue, new Vector2((float)(i + 1) / (float)Cap, 1));
+						AddVertex(firstUp, c * AlphaValue, new Vector2((float)(i / (float)Cap), 0));
                     }
                     else
                     {
@@ -83,14 +87,16 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
                 }
             }
         }
-       public override void SetShaders()
+		public override void SetShaders()
+		{
+			Effect effect = SpiritMod.PrimitiveTextureMap;
+			effect.Parameters["uTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/GlowTrail"));
+			effect.Parameters["additive"].SetValue(true);
+			effect.Parameters["intensify"].SetValue(true);
+			PrepareShader(effect, "MainPS", Counter);
+		}
+		public override void OnUpdate()
         {
-            PrepareBasicShader();
-        }
-        public override void OnUpdate()
-        {
-            if (Counter == 1)
-                 Points.Add(Entity.Center + ((angle + 3.14f).ToRotationVector2() * Entity.height * 1.5f));
             Counter++;
             PointCount = Points.Count() * 6;
             OnDestroy();

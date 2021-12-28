@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 			item.height = 24;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.consumable = true;
-			item.rare = 0;
+			item.rare = ItemRarityID.White;
 			item.maxStack = 999;
 			item.createTile = TileID.LargePiles;
 			item.autoReuse = true;
@@ -24,6 +24,7 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 		}
 		public virtual void SafeSetDefaults() { }
 	}
+
 	public abstract class DefaultLargePile2 : ModItem
 	{
 		public override void SetDefaults()
@@ -32,7 +33,7 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 			item.height = 24;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.consumable = true;
-			item.rare = 0;
+			item.rare = ItemRarityID.White;
 			item.maxStack = 999;
 			item.createTile = TileID.LargePiles2;
 			item.autoReuse = true;
@@ -43,10 +44,10 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 		}
 		public virtual void SafeSetDefaults() { }
 	}
+
 	public class SkeletonPile : DefaultLargePile1
 	{
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Skeleton Pile");
-
 
 		public override void AddRecipes()
 		{
@@ -56,21 +57,18 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}
+
 		public override bool UseItem(Player player)
 		{
 			item.placeStyle = Main.rand.Next(0, 7);
 			return base.UseItem(player);
-
 		}
 	}
+
 	public class StonePile : DefaultLargePile1
 	{
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Stone Rubble");
-
-        public override void SafeSetDefaults()
-        {
-			item.placeStyle = 7;
-		}
+		public override void SafeSetDefaults() => item.placeStyle = 7;
 
 		public override void AddRecipes()
 		{
@@ -80,20 +78,18 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}
+
 		public override bool UseItem(Player player)
 		{
 			item.placeStyle = Main.rand.Next(7, 13);
 			return base.UseItem(player);
 		}
 	}
+
 	public class StonePileHelmet : DefaultLargePile1
 	{
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Helmet Rubble");
-
-		public override void SafeSetDefaults()
-		{
-			item.placeStyle = 13;
-		}
+		public override void SafeSetDefaults() => item.placeStyle = 13;
 
 		public override void AddRecipes()
 		{
@@ -104,14 +100,11 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 			recipe.AddRecipe();
 		}
 	}
+
 	public class StonePilePickaxe : DefaultLargePile1
 	{
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Mining Rubble");
-
-		public override void SafeSetDefaults()
-		{
-			item.placeStyle = 14;
-		}
+		public override void SafeSetDefaults() => item.placeStyle = 14;
 
 		public override void AddRecipes()
 		{
@@ -139,14 +132,12 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 			recipe.AddRecipe();
 		}
 	}
+
 	public class WoodRuinPile : DefaultLargePile1
 	{
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Ruined Furniture");
+		public override void SafeSetDefaults() => item.placeStyle = 22;
 
-		public override void SafeSetDefaults()
-		{
-			item.placeStyle = 22;
-		}
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -155,6 +146,7 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}
+
 		public override bool UseItem(Player player)
 		{
 			item.placeStyle = Main.rand.Next(22, 24);
