@@ -29,8 +29,8 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			item.width = 16;
 			item.height = 16;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useTime = 28;
-			item.useAnimation = 28;
+			item.useTime = 32;
+			item.useAnimation = 32;
 			item.shootSpeed = 1f;
 			item.knockBack = 4f;
 			item.UseSound = SoundID.Item116;
@@ -57,8 +57,8 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			Projectile proj = Projectile.NewProjectileDirect(position, direction, type, damage, knockBack, player.whoAmI);
 			if (proj.modProjectile is JadeDaoProj modProj)
 			{
-				modProj.SwingTime = (int)(item.useTime) * (slam ? 2 : 1);
-				modProj.SwingDistance = player.Distance(Main.MouseWorld) * distanceMult;
+				modProj.SwingTime = (int)(item.useTime * (slam ? 1.75f : 1));
+				modProj.SwingDistance = 700 * distanceMult;
 				modProj.Curvature = 0.33f * curvatureMult;
 				modProj.Flip = combo % 2 == 1;
 				modProj.Slam = slam;
@@ -69,8 +69,8 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 				Projectile proj2 = Projectile.NewProjectileDirect(position, direction, type, damage, knockBack, player.whoAmI);
 				if (proj2.modProjectile is JadeDaoProj modProj2)
 				{
-					modProj2.SwingTime = (int)(item.useTime) * (slam ? 2 : 1);
-					modProj2.SwingDistance = player.Distance(Main.MouseWorld) * distanceMult;
+					modProj2.SwingTime = (int)(item.useTime * (slam ? 1.75f : 1));
+					modProj2.SwingDistance = 700 * distanceMult;
 					modProj2.Curvature = 0.33f * curvatureMult;
 					modProj2.Flip = combo % 2 == 0;
 					modProj2.Slam = slam;
@@ -169,7 +169,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 		{
 			//Starts at owner center, goes to peak range, then returns to owner center
 			float distance = MathHelper.Clamp(SwingDistance, THROW_RANGE * 0.1f, THROW_RANGE) * MathHelper.Lerp((float)Math.Sin(progress * MathHelper.Pi), 1, 0.04f);
-			distance = Math.Max(distance, 5); //Dont be too close to player
+			distance = Math.Max(distance, 65); //Dont be too close to player
 
 			float angleMaxDeviation = MathHelper.Pi / 1.2f;
 			float angleOffset = Owner.direction * (Flip ? -1 : 1) * MathHelper.Lerp(-angleMaxDeviation, angleMaxDeviation, progress); //Moves clockwise if player is facing right, counterclockwise if facing left
@@ -200,6 +200,8 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 					ParticleHandler.SpawnParticle(particle);
 				}
 			}
+			else
+				progress = EaseFunction.EaseQuadOut.Ease(progress);
 
 			if (slamTimer == 5)
 				Main.PlaySound(SoundID.NPCDeath7, projectile.Center);
@@ -207,7 +209,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			projectile.Center = position + GetSwingPosition(progress);
 			projectile.direction = projectile.spriteDirection = -Owner.direction * (Flip ? -1 : 1);
 
-			if (Timer >= SwingTime + 1)
+			if (Timer >= SwingTime)
 				projectile.Kill();
 		}
 
@@ -219,7 +221,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			Texture2D projTexture = Main.projectileTexture[projectile.type];
 
 			//End control point for the chain
-			Vector2 projBottom = projectile.Center + new Vector2(0, projTexture.Height / 2).RotatedBy(projectile.rotation) * 0.75f;
+			Vector2 projBottom = projectile.Center + new Vector2(0, projTexture.Height / 2).RotatedBy(projectile.rotation + MathHelper.PiOver2) * 0.75f;
 			DrawChainCurve(spriteBatch, projBottom, out Vector2[] chainPositions);
 
 			//Adjust rotation to face from the last point in the bezier curve
@@ -264,6 +266,8 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 
 			if (Slam)
 				progress = EaseFunction.EaseCubicInOut.Ease(progress);
+			else
+				progress = EaseFunction.EaseQuadOut.Ease(progress);
 
 			float angleMaxDeviation = MathHelper.Pi * 0.85f;
 			float angleOffset = Owner.direction * (Flip ? -1 : 1) * MathHelper.Lerp(angleMaxDeviation, -angleMaxDeviation / 4, progress);
@@ -273,7 +277,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 
 			BezierCurve curve = new BezierCurve(new Vector2[] { Owner.MountedCenter, _chainMidA, _chainMidB, projBottom });
 
-			int numPoints = 20; //Should make dynamic based on curve length, but I'm not sure how to smoothly do that while using a bezier curve
+			int numPoints = 30; //Should make dynamic based on curve length, but I'm not sure how to smoothly do that while using a bezier curve
 			chainPositions = curve.GetPoints(numPoints).ToArray();
 
 			//Draw each chain segment, skipping the very first one, as it draws partially behind the player

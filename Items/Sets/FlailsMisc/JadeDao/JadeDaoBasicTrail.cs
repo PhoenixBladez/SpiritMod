@@ -77,7 +77,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			Effect effect = SpiritMod.Instance.GetEffect("Effects/JadeTrailShader");
 			effect.Parameters["white"].SetValue(new Color(106, 255, 35).ToVector4());
 			effect.Parameters["vnoiseLooping"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/voronoiLooping"));
-			PrepareShader(effect, "MainPS", Counter * 0.01f);
+			PrepareShader(effect, "MainPS", -Main.GlobalTime);
 		}
 
 		public override void OnUpdate()
@@ -105,7 +105,8 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 		public override void OnDestroy()
 		{
 			Destroyed = true;
-			Width *= 0.8f;
+			Width *= 0.75f;
+			AlphaValue *= 0.9f;
 			Width += ((float)Math.Sin(Counter * 2) * 0.3f);
 			if (Width < 0.05f)
 				Dispose();

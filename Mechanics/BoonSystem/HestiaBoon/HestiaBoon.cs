@@ -66,7 +66,8 @@ namespace SpiritMod.Mechanics.BoonSystem.HestiaBoon
 		{
 			foreach(NPC myNPC in myNPCs)
 			{
-				myNPC.GetGlobalNPC<HestiaGlobalNPC>().drawHestiaRunes = false;
+				if(myNPC != null)
+					myNPC.GetGlobalNPC<HestiaGlobalNPC>().drawHestiaRunes = false;
 			}
 		}
 
