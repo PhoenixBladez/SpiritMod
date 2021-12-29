@@ -60,6 +60,7 @@ using SpiritMod.Mechanics.Trails;
 using SpiritMod.Items.Sets.FloatingItems;
 using SpiritMod.Effects.SurfaceWaterModifications;
 using SpiritMod.Items.Sets.OlympiumSet;
+using SpiritMod.Mechanics.Coverings;
 
 namespace SpiritMod
 {
@@ -68,6 +69,8 @@ namespace SpiritMod
 		internal UserInterface BookUserInterface;
 		public static QuestBookUI QuestBookUIState;
 		public static QuestHUD QuestHUD;
+
+		public static CoveringsManager Coverings;
 
 		public static ModHotKey QuestBookHotkey;
 		public static ModHotKey QuestHUDHotkey;
@@ -636,6 +639,8 @@ namespace SpiritMod
 			BoonLoader.Load();
 			SpiritMultiplayer.Load();
 			SpiritDetours.Initialize();
+			Coverings = new CoveringsManager();
+			Coverings.Load(this);
 
 			GlobalNoise = new PerlinNoise(Main.rand.Next());
 
@@ -1005,6 +1010,8 @@ namespace SpiritMod
 			QuestBookHotkey = null;
 			QuestHUDHotkey = null;
 			EventManager.Unload();
+			Coverings.Unload();
+			Coverings = null;
 
 			SpiritMultiplayer.Unload();
 			AdditiveCallManager.Unload();
