@@ -1120,6 +1120,23 @@ namespace SpiritMod.World
 				}
 				chestTries++;
 			}
+
+			// super lazy basic smoothing pass
+			ushort asteroidType = (ushort)ModContent.TileType<Asteroid>();
+			ushort junkType = (ushort)ModContent.TileType<SpaceJunkTile>();
+			for (int smoothX = i - width; smoothX < i + width; smoothX++)
+			{
+				for (int smoothY = j - height; smoothY < j + height; smoothY++)
+				{
+					if (!WorldGen.InWorld(smoothX, smoothY)) continue;
+
+					Tile tile = Framing.GetTileSafely(smoothX, smoothY);
+					if (tile.active() && (tile.type == junkType || tile.type == asteroidType) && WorldGen.genRand.Next(2) == 0)
+					{
+						Tile.SmoothSlope(smoothX, smoothY);
+					}
+				}
+			}
 		}
 
 		private static void PlaceBlob(int x, int y, float xsize, float ysize, int size, int type, int roundness, bool placewall = false, int walltype = 0)
