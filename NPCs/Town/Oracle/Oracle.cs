@@ -34,6 +34,8 @@ namespace SpiritMod.NPCs.Town.Oracle
 
 		private ref Player NearestPlayer => ref Main.player[npc.target];
 
+		private Rectangle[] runeSources = null;
+
 		public override bool Autoload(ref string name)
 		{
 			name = "Oracle";
@@ -43,7 +45,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Oracle");
-			Main.npcFrameCount[npc.type] = 1;
+			Main.npcFrameCount[npc.type] = 4;
 		}
 
 		public override void SetDefaults()
@@ -60,6 +62,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 			npc.knockBackResist = 0f;
 			npc.noGravity = true;
 			npc.dontTakeDamage = true;
+			npc.immortal = true;
 		}
 
 		public override void AI()
@@ -254,13 +257,16 @@ namespace SpiritMod.NPCs.Town.Oracle
 				}
 			}
 
+			if (float.IsNaN(AttackTimer))
+				AttackTimer = 0;
+
 			if (enemyNearby)
 				AttackTimer = (float)Math.Min(Math.Pow(AttackTimer + 1, 1.005f), 150);
 			else
 			{
 				AttackTimer = (float)Math.Max(Math.Pow(AttackTimer, 0.991f), 0f);
-				if (AttackTimer < 2)
-					AttackTimer = 0;
+				if (AttackTimer < 10)
+					AttackTimer--;
 			}
 		}
 
@@ -277,6 +283,23 @@ namespace SpiritMod.NPCs.Town.Oracle
 			movementDir = reader.ReadSingle();
 			movementTimer = reader.ReadSingle();
 		}
+
+		public override void FindFrame(int frameHeight)
+		{
+			npc.frameCounter += 6;
+			if (AttackTimer > 2)
+				npc.frameCounter += 2;
+
+			if (npc.frameCounter > 42)
+			{
+				npc.frame.Y += frameHeight;
+				if (npc.frame.Y >= frameHeight * 4)
+					npc.frame.Y = 0;
+
+				npc.frameCounter = 0;
+			}
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			if (AttackTimer > 10)
@@ -299,7 +322,16 @@ namespace SpiritMod.NPCs.Town.Oracle
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			Texture2D aura = mod.GetTexture("NPCs/Town/Oracle/OracleAura");
-			Texture2D runes = mod.GetTexture("NPCs/Town/Oracle/RuneCircle");
+
+			if (runeSources == null) //Initialize runeSources
+			{
+				Rectangle IndividualRuneSource() => new Rectangle(0, 32 * Main.rand.Next(8), 32, 32);
+
+				runeSources = new Rectangle[8];
+
+				for (int i = 0; i < runeSources.Length; ++i)
+					runeSources[i] = IndividualRuneSource();
+			}
 
 			float wave = (float)Math.Cos(Main.GlobalTime % 2.4f / 2.4f * MathHelper.TwoPi) + 0.5f;
 
@@ -311,13 +343,44 @@ namespace SpiritMod.NPCs.Town.Oracle
 				Color col = npc.GetAlpha(baseCol) * (1f - wave);
 				Vector2 drawPos = npc.Center + (i / 4f * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * (4f * wave + 4f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * i;
 				spriteBatch.Draw(aura, drawPos, null, col, timer * 0.02f, aura.Size() / 2f, RealAuraScale, direction, 0f);
-				spriteBatch.Draw(runes, drawPos, null, col, timer * -0.02f, aura.Size() / 2f, RealAuraScale * .5f, direction, 0f);
+				DrawRuneCircle(spriteBatch, i, col, wave);
+				DrawLetter(spriteBatch, i, col, wave);
 			}
 
 			Vector2 drawPosition = npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY);
 			spriteBatch.Draw(aura, drawPosition, null, baseCol, timer * 0.02f, aura.Size() / 2f, RealAuraScale, SpriteEffects.None, 0f);
-			spriteBatch.Draw(runes, drawPosition, null, baseCol, timer * -0.02f, aura.Size() / 2f, RealAuraScale * .5f, SpriteEffects.None, 0f);
+			DrawRuneCircle(spriteBatch, -1, baseCol);
+			DrawLetter(spriteBatch, -1, baseCol);
+		}
 
+		private void DrawRuneCircle(SpriteBatch spriteBatch, int i, Color col, float wave = 0f)
+		{
+			Texture2D runes = mod.GetTexture("NPCs/Town/Oracle/OracleRunes");
+
+			Vector2 drawPos = npc.Center + (i / 4f * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * (4f * wave + 4f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * i;
+			if (i == -1)
+				drawPos = npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY);
+
+			void DrawIndividualRune(int offset)
+			{
+				Vector2 circleOffset = new Vector2(0, 88 * RealAuraScale).RotatedBy((-timer * 0.02f) + (MathHelper.PiOver4 * offset));
+				spriteBatch.Draw(runes, drawPos + circleOffset, runeSources[offset], col, 0f, new Vector2(16), RealAuraScale * 0.9f, SpriteEffects.None, 0f);
+			}
+
+			for (int j = 0; j < 8; ++j)
+				DrawIndividualRune(j);
+		}
+
+		private void DrawLetter(SpriteBatch spriteBatch, int i, Color col, float wave = 0f)
+		{
+			Texture2D letter = mod.GetTexture("NPCs/Town/Oracle/OracleAuraLetter");
+
+			Vector2 drawPos = npc.Center + (i / 4f * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * (4f * wave + 4f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * i;
+			if (i == -1)
+				drawPos = npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY);
+
+			Vector2 circleOffset = new Vector2(0, 228 * RealAuraScale).RotatedBy(timer * 0.02f);
+			spriteBatch.Draw(letter, drawPos + circleOffset, null, col, 0f, letter.Size() / 2f, RealAuraScale, SpriteEffects.None, 0f);
 		}
 
 		public static bool HoveringBuffButton = false;
@@ -418,7 +481,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 				shop = true;
 		}
 
-		public override void SetupShop(Chest shop, ref int nextSlot) //OlympiumToken
+		public override void SetupShop(Chest shop, ref int nextSlot)
 		{
 			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Sets.OlympiumSet.ArtemisHunt.ArtemisHunt>());
 			shop.item[nextSlot].shopCustomPrice = 25;

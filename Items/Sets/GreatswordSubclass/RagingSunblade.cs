@@ -285,7 +285,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 				if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), primCenter, primCenter + (((float)radians - i).ToRotationVector2() * 110), projectile.width, ref collisionPoint))
 				{
 					Vector2 position = Vector2.Lerp(primCenter, primCenter + (((float)radians - i).ToRotationVector2() * 110), collisionPoint / 110.0f);
-					Main.PlaySound(2, position, 14);
+					Main.PlaySound(SoundID.Item, position, 14);
 					Projectile.NewProjectile(position, Vector2.Zero, ProjectileID.SolarWhipSwordExplosion, 0, 0, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 					return true;
 				}
@@ -293,7 +293,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 			if (projHitbox.Intersects(targetHitbox))
 			{
 				Vector2 position = projectile.Center;
-				Main.PlaySound(2, position, 14);
+				Main.PlaySound(SoundID.Item, position, 14);
 				Projectile.NewProjectile(position, Vector2.Zero, ProjectileID.SolarWhipSwordExplosion, 0, 0, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 				return true;
 			}
