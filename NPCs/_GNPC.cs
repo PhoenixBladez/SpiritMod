@@ -684,6 +684,11 @@ namespace SpiritMod.NPCs
 				if (Main.LocalPlayer.GetSpiritPlayer().ZoneReach)
 					shop.item[nextSlot++].SetDefaults(ItemType<Items.Placeable.Tiles.BriarGrassSeeds>(), false);
 			}
+			else if (type == NPCID.Wizard)
+			{
+				shop.item[nextSlot++].SetDefaults(ItemType<Items.Consumable.SurrenderBell>(), false);
+				shop.item[nextSlot++].shopCustomPrice = 300000;
+			}
 			else if (type == NPCID.Steampunker)
 			{
 				shop.item[nextSlot++].SetDefaults(ItemType<Items.Ammo.SpiritSolution>());
@@ -754,6 +759,12 @@ namespace SpiritMod.NPCs
 			{
 				maxSpawns = (int)(maxSpawns * 1.18f);
 				spawnRate = 2;
+			}
+			if (player.GetSpiritPlayer().oliveBranchBuff)
+			{
+				spawnRate = (int)(spawnRate * 4.5f);
+				maxSpawns = (int)(maxSpawns * .5f);
+
 			}
 		}
 
