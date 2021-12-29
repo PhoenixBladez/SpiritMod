@@ -314,6 +314,27 @@ namespace SpiritMod.Tiles.Banners
 				case 89:
 					item = "BoulderBehemothBanner";
 					break;
+				case 90:
+					item = "FallingAsteroidBanner";
+					break;
+				case 91:
+					item = "GoblinGrenadierBanner";
+					break;
+				case 92:
+					item = "BlazingSkullBanner";
+					break;
+				case 93:
+					item = "StymphalianBatBanner";
+					break;
+				case 94:
+					item = "SkeletonBruteBanner";
+					break;
+				case 95:
+					item = "DraugrBanner";
+					break;
+				case 96:
+					item = "PirateLobberBanner";
+					break;
 				default:
 					return;
 			}
@@ -596,6 +617,27 @@ namespace SpiritMod.Tiles.Banners
 						break;
 					case 89:
 						type = "Boulder_Termagant";
+						break;
+					case 90:
+						type = "Falling_Asteroid";
+						break;
+					case 91:
+						type = "Goblin_Grenadier";
+						break;
+					case 92:
+						type = "BlazingSkull";
+						break;
+					case 93:
+						type = "StymphalianBat";
+						break;
+					case 94:
+						type = "Skeleton_Brute";
+						break;
+					case 95:
+						type = "Enchanted_Armor";
+						break;
+					case 96:
+						type = "PirateLobber";
 						break;
 					default:
 						return;

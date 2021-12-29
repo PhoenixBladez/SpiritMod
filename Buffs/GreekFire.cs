@@ -33,10 +33,12 @@ namespace SpiritMod.Buffs
 				npc.lifeRegen -= 12;
 				npc.defense = (int)(npc.defense * 0.95f);
 
-					ParticleHandler.SpawnParticle(new FireParticle(new Vector2(npc.Center.X + Main.rand.Next(-10, 10), npc.Center.Y + Main.rand.Next(-10, 10)), new Vector2(0, Main.rand.NextFloat(-3.5f, -1.5f)),
+				if (Main.rand.NextBool(3))
+					ParticleHandler.SpawnParticle(new FireParticle(new Vector2(npc.Center.X + Main.rand.Next(-10, 10), npc.Center.Y + Main.rand.Next(-10, 10)), new Vector2(Main.rand.NextFloat(-1.5f, 1.5f), Main.rand.NextFloat(-4.5f, -2.5f)),
 						Blue, Orange, Main.rand.NextFloat(0.25f, 0.75f), 30, delegate (Particle p)
 						{
 							p.Velocity *= 0.93f;
+							p.Velocity.Y += .0125f;
 						}));
 			}
 		}

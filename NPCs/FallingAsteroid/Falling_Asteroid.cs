@@ -35,6 +35,8 @@ namespace SpiritMod.NPCs.FallingAsteroid
 			npc.buffImmune[BuffID.Poisoned] = true;
 			npc.HitSound = SoundID.NPCHit3;
 			npc.DeathSound = SoundID.NPCDeath43;
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.FallingAsteroidBanner>();
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(24, 60 * 3);

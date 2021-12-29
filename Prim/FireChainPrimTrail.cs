@@ -88,7 +88,12 @@ namespace SpiritMod.Prim
 			if ((!Entity.active && Entity != null) || Destroyed)
 				OnDestroy();
 		}
-		public void AddPoints() => Points.Add(Entity.position + Entity.velocity);
+		public void AddPoints()
+		{
+			var proj = Entity as Projectile;
+			var modproj = proj.modProjectile as BetrayersChainsProj;
+			Points.Add(modproj.CurrentBase);
+		}
 		public override void OnDestroy()
 		{
 			Destroyed = true;
