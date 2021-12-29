@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			item.channel = true;
 			item.autoReuse = true;
 			item.melee = true;
-			item.damage = 60;
+			item.damage = 70;
 			item.rare = ItemRarityID.LightPurple;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

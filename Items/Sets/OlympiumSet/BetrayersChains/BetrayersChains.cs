@@ -1,20 +1,23 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
-using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Projectiles;
-using SpiritMod.Prim;
-using SpiritMod.VerletChains;
+using System;
+using System.IO;
+using SpiritMod.Utilities;
+using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Particles;
 using System.Collections.Generic;
 using SpiritMod.Mechanics.Trails;
+using SpiritMod.Mechanics.Trails.CustomTrails;
+using SpiritMod.Projectiles;
+using SpiritMod.Prim;
 
 namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 {
 	public class BetrayersChains : ModItem
 	{
+		int combo;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blades of Chaos");
@@ -22,233 +25,320 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 
 		}
 
-		public override void SetDefaults() {
-            item.width = 16;
-            item.height = 16;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useAnimation = 60;
-            item.useTime = 60;
-            item.shootSpeed = 4f;
-            item.knockBack = 4f;
-            item.UseSound = SoundID.Item116;
-            item.shoot = ModContent.ProjectileType<BetrayersChainsProj>();
-            item.value = Item.sellPrice(gold: 2);
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.autoReuse = true;
-            item.melee = true;
-            item.damage = 50;
-            item.rare = ItemRarityID.LightRed;
-        }
-        int combo;
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
-            // How far out the inaccuracy of the shot chain can be.
-            float radius = 2f;
-            // Sets ai[1] to the following value to determine the firing direction.
-            // The smaller the value of NextFloat(), the more accurate the shot will be. The larger, the less accurate. This changes depending on your radius.
-            // NextBool().ToDirectionInt() will have a 50% chance to make it negative instead of positive.
-            // The Solar Eruption uses this calculation: Main.rand.NextFloat(0f, 0.5f) * Main.rand.NextBool().ToDirectionInt() * MathHelper.ToRadians(45f);
-            float offset = Main.rand.NextFloat(0.25f, 1f);
-            bool directionbool = Main.rand.NextBool();
-            float direction = offset * directionbool.ToDirectionInt() * radius;
-            Projectile projectile = Projectile.NewProjectileDirect(player.RotatedRelativePoint(player.MountedCenter), new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, direction);
-            // Extra logic for the chain to adjust to item stats, unlike the Solar Eruption.
-            if (projectile.modProjectile is BetrayersChainsProj modProj)
-            {
-                switch (combo % 3)
-                {
-                    case 0:
-                            modProj.firingSpeed = item.shootSpeed * 3f * Main.rand.NextFloat(1, 1.5f);
-                            modProj.firingAnimation = item.useAnimation * 0.66f;
-                            modProj.firingTime = item.useTime * 0.66f;
-                            modProj.InitializeChain(player.MountedCenter);
-                            break;
-                    case 1:
-                            modProj.firingSpeed = item.shootSpeed * 3f * Main.rand.NextFloat(1, 1.5f);
-                            modProj.firingAnimation = item.useAnimation * 0.66f;
-                            modProj.firingTime = item.useTime * 0.66f;
-                            modProj.InitializeChain(player.MountedCenter);
-                            break;
-                    case 2:
-                            modProj.firingSpeed = item.shootSpeed * 2.6f * Main.rand.NextFloat(1, 1.5f);
-                            modProj.firingAnimation = item.useAnimation;
-                            modProj.firingTime = item.useTime;
-                            modProj.combo = true;
-                            modProj.InitializeChain(player.MountedCenter);
-                            direction = offset * (!directionbool).ToDirectionInt() * radius;
-							projectile.damage *= 2;
-                            projectile = Projectile.NewProjectileDirect(player.RotatedRelativePoint(player.MountedCenter), new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, direction);
-                            // Extra logic for the chain to adjust to item stats, unlike the Solar Eruption.
-                            if (projectile.modProjectile is BetrayersChainsProj modItem2)
-                            {
-                                modItem2.firingSpeed = item.shootSpeed * 2.6f * Main.rand.NextFloat(1, 1.5f);
-                                modItem2.firingAnimation = item.useAnimation;
-                                modItem2.firingTime = item.useTime;
-                                modItem2.combo = true;
-								projectile.damage *= 2;
-                                modItem2.InitializeChain(player.MountedCenter);
-                            }
-                            break;
-                }
-            }
-            combo++;
-            return false;
-        }
+		public override void SetDefaults()
+		{
+			item.width = 16;
+			item.height = 16;
+			item.useStyle = ItemUseStyleID.HoldingOut;
+			item.useTime = 26;
+			item.useAnimation = 26;
+			item.shootSpeed = 1f;
+			item.knockBack = 4f;
+			item.UseSound = SoundID.Item116;
+			item.shoot = ModContent.ProjectileType<BetrayersChainsProj>();
+			item.value = Item.sellPrice(gold: 2);
+			item.noMelee = true;
+			item.noUseGraphic = true;
+			item.channel = true;
+			item.autoReuse = true;
+			item.melee = true;
+			item.damage = 50;
+			item.rare = ItemRarityID.LightRed;
+		}
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			combo++;
+
+			float distanceMult = Main.rand.NextFloat(0.8f, 1.2f);
+			float curvatureMult = 0.7f;
+
+			bool slam = combo % 3 == 2;
+
+			Vector2 direction = new Vector2(speedX, speedY).RotatedBy(Main.rand.NextFloat(-0.2f, 0.2f));
+			Projectile proj = Projectile.NewProjectileDirect(position, direction, type, damage, knockBack, player.whoAmI);
+			if (proj.modProjectile is BetrayersChainsProj modProj)
+			{
+				modProj.SwingTime = (int)((item.useTime) * (slam ? 1.8f : 1));
+				modProj.SwingDistance = player.Distance(Main.MouseWorld) * distanceMult;
+				modProj.Curvature = 0.33f * curvatureMult;
+				modProj.Flip = combo % 2 == 1;
+				modProj.Slam = slam;
+				modProj.PreSlam = combo % 3 == 1;
+			}
+			if (slam)
+			{
+				Projectile proj2 = Projectile.NewProjectileDirect(position, direction, type, damage, knockBack, player.whoAmI);
+				if (proj2.modProjectile is BetrayersChainsProj modProj2)
+				{
+					modProj2.SwingTime = (int)(item.useTime * 1.8f);
+					modProj2.SwingDistance = player.Distance(Main.MouseWorld) * distanceMult;
+					modProj2.Curvature = 0.33f * curvatureMult;
+					modProj2.Flip = combo % 2 == 0;
+					modProj2.Slam = slam;
+				}
+			}
+
+			if (Main.netMode != NetmodeID.SinglePlayer)
+				NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
+			return false;
+		}
+
+		public override float UseTimeMultiplier(Player player) => base.UseTimeMultiplier(player) * player.meleeSpeed; //Scale with melee speed buffs, like whips
 	}
+
 	public class BetrayersChainsProj : ModProjectile
 	{
-		public Vector2 chainHeadPosition;
-        public float firingSpeed;
-        public float firingAnimation;
-        public float firingTime;
-        public bool combo = false;
-        public Chain chain;
-        public Vector2 spawnPos;
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Blades of Chaos");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+		}
+
+		public override void SetDefaults()
+		{
+			projectile.friendly = true;
+			projectile.Size = new Vector2(85, 85);
+			projectile.tileCollide = false;
+			projectile.ownerHitCheck = true;
+			projectile.ignoreWater = true;
+			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+		}
+
+		private Player Owner => Main.player[projectile.owner];
+
+		public int SwingTime;
+		public float SwingDistance;
+		public float Curvature;
+
+		public ref float Timer => ref projectile.ai[0];
+		public ref float AiState => ref projectile.ai[1];
+
+
+		private Vector2 returnPosOffset; //The position of the projectile when it starts returning to the player from being hooked
+		private Vector2 npcHookOffset = Vector2.Zero; //Used to determine the offset from the hooked npc's center
+		private float npcHookRotation; //Stores the projectile's rotation when hitting an npc
+		private NPC hookNPC; //The npc the projectile is hooked into
+
+		public const float THROW_RANGE = 250; //Peak distance from player when thrown out, in pixels
+		public const float HOOK_MAXRANGE = 700; //Maximum distance between owner and hooked enemies before it automatically rips out
+		public const int HOOK_HITTIME = 30; //Time between damage ticks while hooked in
+		public const int RETURN_TIME = 6; //Time it takes for the projectile to return to the owner after being ripped out
+
+		private int _flashTime;
+
+		public bool Flip = false;
+		public bool Slam = false;
+		public bool PreSlam = false;
+
+		private List<float> oldRotation = new List<float>();
+		private List<Vector2> oldBase = new List<Vector2>();
+
+		public Vector2 CurrentBase = Vector2.Zero;
+
+		private int slamTimer = 0;
 
 		public FireChainPrimTrail trail;
-
 		Projectile phantomProj;
 
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Blades of Chaos");
-        }
+		public override void AI()
+		{
+			if (projectile.timeLeft > 2) //Initialize chain control points on first tick, in case of projectile hooking in on first tick
+			{
+				_chainMidA = projectile.Center;
+				_chainMidB = projectile.Center;
+				CurrentBase = Owner.Center;
 
-        public override void SetDefaults() {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.extraUpdates = 1;
-            projectile.ownerHitCheck = true;
-        }
+				if (Slam)
+				{
+					trail = new FireChainPrimTrail(projectile);
+					SpiritMod.primitives.CreateTrail(trail);
 
-		public void InitializeChain(Vector2 position) => chain = new Chain(6, 20, position, new ChainPhysics(0.95f, 0.5f, 0.4f), true, true);
+					//not using itrail interface for reasons that make sense but i dont feel like explaining
 
-		// This projectile uses advanced calculation for its motion.
-		bool primsCreated = false;
-        public override void AI() {
-            Player player = Main.player[projectile.owner];
-            if (chainHeadPosition == Vector2.Zero)
-            {
-                chainHeadPosition = player.Center;
-            }
-            if (!primsCreated && combo)
-            {
-                primsCreated = true;
-				trail = new FireChainPrimTrail(projectile);
-				SpiritMod.primitives.CreateTrail(trail);
-
-				//not using itrail interface for reasons that make sense but i dont feel like explaining
-
-				phantomProj = new Projectile();
-				phantomProj.Size = projectile.Size;
-				phantomProj.active = true;
-				phantomProj.Center = projectile.Center + projectile.velocity - new Vector2(8, 8);
-				SpiritMod.TrailManager?.CreateTrail(phantomProj, new GradientTrail(new Color(252, 73, 3) * 0.6f, new Color(255, 160, 40) * 0.3f), new RoundCap(), new DefaultTrailPosition(), 40f, 400f, default);
+					phantomProj = new Projectile();
+					phantomProj.Size = projectile.Size;
+					phantomProj.active = true;
+					phantomProj.Center = CurrentBase;
+					SpiritMod.TrailManager?.CreateTrail(phantomProj, new GradientTrail(new Color(252, 73, 3) * 0.6f, new Color(255, 160, 40) * 0.3f), new RoundCap(), new DefaultTrailPosition(), 40f, 400f, default);
+				}
 			}
-            // Face the projectile towards its movement direction, offset by 90 degrees counterclockwise because the sprite faces downward.
-            projectile.rotation = projectile.velocity.ToRotation() -1.57f;
-
-            // Constantly set the chain's timeLeft to 2 so that it doesn't die.
-            projectile.spriteDirection = projectile.direction;
-            projectile.timeLeft = 2;
-            player.ChangeDir(projectile.direction);
-            player.heldProj = projectile.whoAmI;
-            if (combo)
-            {
-				phantomProj.Center = projectile.Center + projectile.velocity - new Vector2(8,8);
-				Lighting.AddLight(projectile.Center + projectile.velocity, Color.OrangeRed.ToVector3());
-				Dust.NewDustPerfect(projectile.Center + projectile.velocity + Main.rand.NextVector2Circular(15, 15), 6, Main.rand.NextVector2Circular(2, 2), 0, default, 1.15f).noGravity = true;
-                player.itemTime = 15;
-                player.itemAnimation = 15;
+			if (Slam)
+			{
+				phantomProj.Center = CurrentBase;
 				trail?.AddPoints();
-            }
-            else
-            {
-                player.itemTime = 2;
-                player.itemAnimation = 2;
-            }
-            player.itemRotation = (projectile.velocity * projectile.direction).ToRotation();
+			}
+			Lighting.AddLight(CurrentBase, Color.Orange.ToVector3());
+			projectile.timeLeft = 2;
 
-            // Use one of the projectile's localAI slot as a cooldown timer for spawning explosions. When an explosion is spawned, this gets set to 4, so it takes 4 ticks to reach 0 again.
-            if (projectile.localAI[1] > 0f)
-                projectile.localAI[1] -= 1f;
+			if (Slam)
+				Owner.itemTime = Owner.itemAnimation = 40;
+			else if (PreSlam)
+				Owner.itemTime = Owner.itemAnimation = 5;
 
-            // The projectile's swerving motion.
-            
-            // If this localAI slot is 0, meaning it doesn't have an assigned value, then set it to the projectile's rotation so that we can get the rotation it had on its first tick of being spawned.
-            if (projectile.localAI[0] == 0f)
-                projectile.localAI[0] = projectile.rotation;
+			ThrowOutAI();
 
-            // If localAI[0] (the localAI slot we use to store initial rotation)'s X value is greater than 0, then direction is 1. Otherwise, -1.
-            float direction = (projectile.localAI[0].ToRotationVector2().X >= 0f).ToDirectionInt();
+			if (!Slam)
+				Owner.itemRotation = MathHelper.WrapAngle(Owner.AngleTo(projectile.Center) - (Owner.direction < 0 ? MathHelper.Pi : 0));
+			else
+				Owner.itemRotation = MathHelper.WrapAngle(Owner.AngleTo(Main.MouseWorld) - (Owner.direction < 0 ? MathHelper.Pi : 0));
+			_flashTime = Math.Max(_flashTime - 1, 0);
+		}
 
-            // Use a sine calculation to rotate the Solar Eruption around to form an ovular motion.
-            Vector2 rotation = (direction * (projectile.ai[0] / firingAnimation * MathHelper.ToRadians(360f) + MathHelper.ToRadians(-90f))).ToRotationVector2();
-            rotation.Y *= (float)Math.Sin(projectile.ai[1]);
+		private Vector2 GetSwingPosition(float progress)
+		{
+			//Starts at owner center, goes to peak range, then returns to owner center
+			float distance = MathHelper.Clamp(SwingDistance, THROW_RANGE * 0.1f, THROW_RANGE) * MathHelper.Lerp((float)Math.Sin(progress * MathHelper.Pi), 1, 0.04f);
+			distance = Math.Max(distance, 5); //Dont be too close to player
 
-            rotation = rotation.RotatedBy(projectile.localAI[0]);
+			float angleMaxDeviation = MathHelper.Pi / 1.2f;
+			float angleOffset = Owner.direction * (Flip ? -1 : 1) * MathHelper.Lerp(-angleMaxDeviation, angleMaxDeviation, progress); //Moves clockwise if player is facing right, counterclockwise if facing left
+			return projectile.velocity.RotatedBy(angleOffset) * distance;
+		}
 
-            // Use the ai[0] slot as a timer to increment how long the projectile has been alive.
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] < firingTime) {
-                projectile.velocity += (firingSpeed * rotation).RotatedBy(MathHelper.ToRadians(90f));
-            }
-            else {
-                // If past the firingTime variable we set in the item's Shoot() hook, kill it.
-                projectile.Kill();
-            }
+		private void ThrowOutAI()
+		{
+			projectile.rotation = projectile.AngleFrom(Owner.Center);
+			Vector2 position = Owner.MountedCenter;
+			float progress = ++Timer / SwingTime; //How far the projectile is through its swing
+			if (Slam)
+			{
+				slamTimer++;
+				progress = EaseFunction.EaseCubicInOut.Ease(progress);
+				if (progress > 0.15f && progress < 0.85f)
+					Dust.NewDustPerfect(projectile.Center + projectile.velocity + Main.rand.NextVector2Circular(15, 15), 6, Main.rand.NextVector2Circular(2, 2), 0, default, 1.15f).noGravity = true;
+			}
 
-            // Manages the positioning for the chain's handle.
-            Vector2 offset = Main.OffsetsPlayerOnhand[player.bodyFrame.Y / 56] * 2f;
+			if (slamTimer == 5)
+				Main.PlaySound(SoundID.NPCDeath7, projectile.Center);
 
-            // Flip the offset horizontally if the player is facing left instead of right.
-            if (player.direction == -1) {
-                offset.X = player.bodyFrame.Width - offset.X;
-            }
-            // Flip the offset vetically if the player is using gravity (such as a Gravity Globe or Gravitation Potion.)
-            if (player.gravDir == -1f) {
-                offset.Y = player.bodyFrame.Height - offset.Y;
-            }
-            // This line is a custom offset that you can change to move the handle around. Default is 0f, 0f. This projectile uses 4f, -6f.
-            offset += new Vector2(4f, -6f) * new Vector2(player.direction, player.gravDir);
-            offset -= new Vector2(player.bodyFrame.Width - projectile.width, player.bodyFrame.Height - 42) * 0.5f;
-            projectile.Center = player.RotatedRelativePoint(player.position + offset) - projectile.velocity;
+			projectile.Center = position + GetSwingPosition(progress);
+			projectile.direction = projectile.spriteDirection = -Owner.direction * (Flip ? -1 : 1);
 
-            chain.Update(player.MountedCenter - new Vector2(0,1), projectile.Center + projectile.velocity * 2);
-        }
+			if (Timer >= SwingTime + 1)
+				projectile.Kill();
+		}
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
-            int cooldown = 10;
-            projectile.localNPCImmunity[target.whoAmI] = 20;
-            target.immune[projectile.owner] = cooldown;
-            if (combo)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			if (projectile.timeLeft > 2)
+				return false;
+
+			Texture2D projTexture = Main.projectileTexture[projectile.type];
+
+			//End control point for the chain
+			Vector2 projBottom = projectile.Center + new Vector2(0, projTexture.Height / 2).RotatedBy(projectile.rotation) * 0.75f;
+			DrawChainCurve(spriteBatch, projBottom, out Vector2[] chainPositions);
+
+			//Adjust rotation to face from the last point in the bezier curve
+			float newRotation = (projBottom - chainPositions[chainPositions.Length - 2]).ToRotation() + MathHelper.PiOver2;
+
+			//Draw from bottom center of texture
+			Vector2 origin = new Vector2(projTexture.Width / 2, projTexture.Height);
+			SpriteEffects flip = (projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+			lightColor = Lighting.GetColor((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f));
+
+			spriteBatch.Draw(projTexture, projBottom - Main.screenPosition, null, lightColor, newRotation, origin, projectile.scale, flip, 0);
+
+
+			CurrentBase = projBottom + (newRotation - 1.57f).ToRotationVector2() * (projTexture.Height / 2);
+
+			oldBase.Add(projBottom - Main.screenPosition);
+
+			if (oldBase.Count > 8)
+				oldBase.RemoveAt(0);
+
+			if (!Slam)
+				return false;
+
+			Texture2D whiteTexture = ModContent.GetTexture(Texture + "_White");
+			if (slamTimer < 20 && slamTimer > 5)
+			{
+				float progress = (slamTimer - 5) / 15f;
+				float transparency = (float)Math.Pow(1 - progress, 2);
+				float scale = 1 + progress;
+				spriteBatch.Draw(whiteTexture, projBottom - Main.screenPosition, null, Color.White * transparency, newRotation, origin, projectile.scale * scale, flip, 0);
+			}
+			return false;
+		}
+
+		//Control points for drawing chain bezier, update slowly when hooked in
+		private Vector2 _chainMidA;
+		private Vector2 _chainMidB;
+		private void DrawChainCurve(SpriteBatch spriteBatch, Vector2 projBottom, out Vector2[] chainPositions)
+		{
+			Texture2D chainTex = ModContent.GetTexture(Texture + "_Chain");
+
+			float progress = Timer / SwingTime;
+
+			if (Slam)
+				progress = EaseFunction.EaseCubicInOut.Ease(progress);
+
+			float angleMaxDeviation = MathHelper.Pi * 0.85f;
+			float angleOffset = Owner.direction * (Flip ? -1 : 1) * MathHelper.Lerp(angleMaxDeviation, -angleMaxDeviation / 4, progress);
+
+			_chainMidA = Owner.MountedCenter + GetSwingPosition(progress).RotatedBy(angleOffset) * Curvature;
+			_chainMidB = Owner.MountedCenter + GetSwingPosition(progress).RotatedBy(angleOffset / 2) * Curvature * 2.5f;
+
+			BezierCurve curve = new BezierCurve(new Vector2[] { Owner.MountedCenter, _chainMidA, _chainMidB, projBottom });
+
+			int numPoints = 20; //Should make dynamic based on curve length, but I'm not sure how to smoothly do that while using a bezier curve
+			chainPositions = curve.GetPoints(numPoints).ToArray();
+
+			//Draw each chain segment, skipping the very first one, as it draws partially behind the player
+			for (int i = 1; i < numPoints; i++)
+			{
+				Vector2 position = chainPositions[i];
+
+				float rotation = (chainPositions[i] - chainPositions[i - 1]).ToRotation() - MathHelper.PiOver2; //Calculate rotation based on direction from last point
+				float yScale = Vector2.Distance(chainPositions[i], chainPositions[i - 1]) / chainTex.Height; //Calculate how much to squash/stretch for smooth chain based on distance between points
+
+				Vector2 scale = new Vector2(1, yScale); // Stretch/Squash chain segment
+				Color chainLightColor = Lighting.GetColor((int)position.X / 16, (int)position.Y / 16); //Lighting of the position of the chain segment
+				Vector2 origin = new Vector2(chainTex.Width / 2, chainTex.Height); //Draw from center bottom of texture
+				spriteBatch.Draw(chainTex, position - Main.screenPosition, null, chainLightColor, rotation, origin, scale, SpriteEffects.None, 0);
+			}
+		}
+
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+		{
+			BezierCurve curve = new BezierCurve(new Vector2[] { Owner.MountedCenter, _chainMidA, _chainMidB, projectile.Center });
+
+			int numPoints = 32;
+			Vector2[] chainPositions = curve.GetPoints(numPoints).ToArray();
+			float collisionPoint = 0;
+			for (int i = 1; i < numPoints; i++)
+			{
+				Vector2 position = chainPositions[i];
+				Vector2 previousPosition = chainPositions[i - 1];
+				if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), position, previousPosition, 6, ref collisionPoint))
+					return true;
+			}
+			return base.Colliding(projHitbox, targetHitbox);
+		}
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			if (Slam)
+			{
+				crit = true;
 				target.AddBuff(BuffID.OnFire, 180);
-        }
+			}
+			if (Collision.CheckAABBvAABBCollision(target.position, target.Size, projectile.position, projectile.Size))
+			{
+				damage = (int)(damage * 1.3f);
+				for (int i = 0; i < 8; i++)
+				{
+					Vector2 vel = Main.rand.NextFloat(6.28f).ToRotationVector2();
+					vel *= Main.rand.NextFloat(2, 5);
+					ImpactLine line = new ImpactLine(target.Center - (vel * 10), vel, Color.Lerp(Color.Orange, Color.Red, Main.rand.NextFloat()), new Vector2(0.25f, Main.rand.NextFloat(0.75f, 1.75f) * 1.5f), 70);
+					line.TimeActive = 30;
+					ParticleHandler.SpawnParticle(line);
 
-        // Set to true so the projectile can break tiles like grass, pots, vines, etc.
-        public override bool? CanCutTiles() => true;
-
-        // Plot a line from the start of the Solar Eruption to the end of it, to change the tile-cutting collision logic. (Don't change this.)
-        public override void CutTiles() {
-            DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity, (projectile.width + projectile.height) * 0.5f * projectile.scale, DelegateMethods.CutTiles);
-        }
-
-        // Plot a line from the start of the Solar Eruption to the end of it, and check if any hitboxes are intersected by it for the entity collision logic. (Don't change this.)
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
-            // Custom collision so all chains across the flail can cause impact.
-            float collisionPoint = 0f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity, (projectile.width + projectile.height) * 0.5f * projectile.scale, ref collisionPoint)) {
-                return true;
-            }
-            return false;
-        }
+				}
+			}
+		}
 
 		public override void Kill(int timeLeft)
 		{
@@ -256,48 +346,33 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 				phantomProj.active = false;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void SendExtraAI(BinaryWriter writer)
 		{
-			/*Texture2D tex = Main.extraTexture[55];
-			++visualTimer;
-			float amount = (visualTimer / 45f) % 1;
-			Color color2 = Color.White;
-			int frameY = 0;
-			var pos = projectile.Center + projectile.velocity;
-			float num2 = projectile.rotation;
-			Rectangle rectangle = new Rectangle(0,0,1,1);
+			writer.Write(SwingTime);
+			writer.Write(SwingDistance);
+			writer.WriteVector2(returnPosOffset);
+			writer.WriteVector2(npcHookOffset);
+			writer.Write(npcHookRotation);
 
-			if (combo)
-			{
-				for (int index = 5; index >= 0; --index)
-				{
-					color2 = Color.Lerp(Color.Lerp(Color.Gold, Color.OrangeRed, amount), Color.Blue, index / 12f);
+			if (hookNPC == default(NPC)) //Write a -1 instead if the npc isnt set
+				writer.Write(-1);
+			else
+				writer.Write(hookNPC.whoAmI);
+		}
 
-					color2.A = (byte)(64.0 * amount);
-					color2.R = (byte)(color2.R * (10 - index) / 20);
-					color2.G = (byte)(color2.G * (10 - index) / 20);
-					color2.B = (byte)(color2.B * (10 - index) / 20);
-					color2.A = (byte)(color2.A * (10 - index) / 20);
-					color2 *= amount;
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			SwingTime = reader.ReadInt32();
+			SwingDistance = reader.ReadSingle();
+			returnPosOffset = reader.ReadVector2();
+			npcHookOffset = reader.ReadVector2();
+			npcHookRotation = reader.ReadSingle();
 
-					frameY = (((visualTimer / 2) % 4) - index) % 4;
-					if (frameY < 0)
-						frameY += 4;
-
-					rectangle = tex.Frame(1, 4, 0, frameY);
-
-					Main.spriteBatch.Draw(tex, pos - Main.screenPosition, rectangle, color2 * 0.75f, num2, new Vector2(tex.Width / 2, tex.Height / 8), MathHelper.Lerp(0.1f, 1.2f, ((10 - index) / 15f)), SpriteEffects.None, 0.0f);
-				}
-			}*/
-			chain.Draw(spriteBatch, ModContent.GetTexture(Texture + "_Chain"), Main.projectileTexture[projectile.type]);
-
-			/*if (combo)
-			{
-				pos = projectile.Center + projectile.velocity;
-				num2 = projectile.rotation;
-				Main.spriteBatch.Draw(tex, pos - Main.screenPosition, rectangle, color2 * 0.3f, num2, new Vector2(tex.Width / 2, tex.Height / 8), MathHelper.Lerp(0.1f, 1.2f, ((10) / 15f)), SpriteEffects.None, 0.0f);
-			}*/
-			return false;
+			int whoAmI = reader.ReadInt32(); //Read the whoami value sent
+			if (whoAmI == -1) //If its a -1, sync that the npc hasn't been set yet
+				hookNPC = default;
+			else
+				hookNPC = Main.npc[whoAmI];
 		}
 	}
 }
