@@ -166,7 +166,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				GetArchon().SetRandomEnchantment();
 				CombatText.NewText(npc.getRect(), Color.Gold, $"Enchant moment - we got {GetArchon().enchantment}");
 			}
-			else if (timers["ENCHANT"] >= EnchantMaxTime)
+			else if (timers["ENCHANT"] >= EnchantMaxTime && !GetArchon().waitingOnAttack)
 			{
 				GetArchon().stage = Archon.Archon.EnchantAttackStage;
 				stage = ArchonAttackStage;

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 {
@@ -39,10 +40,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		internal Enchantment enchantment = Enchantment.None;
 
 		// Attacks
+		internal bool waitingOnAttack = false;
 		private AttackType attack = AttackType.None;
+		private int realDamage = 0;
+		private float attackTimeMax = 0;
 
 		private Vector2 cachedSlashPos = new Vector2();
-		private float slashTimeMax = 0;
 
 		// Misc
 		private readonly Dictionary<string, int> timers = new Dictionary<string, int>() { { "ENCHANT", 0 }, { "ATTACK", 0 } };
@@ -57,7 +60,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		{
 			npc.width = 136;
 			npc.height = 128;
-			npc.damage = 0;
+			npc.damage = 20;
 			npc.defense = 28;
 			npc.lifeMax = 1200;
 			npc.aiStyle = -1;
@@ -75,13 +78,15 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			if (Background == null) //init stuff
 			{
 				Background = new ArchonBG(npc.Center, npc);
-
 				BackgroundItemManager.AddItem(Background);
 			}
 			//ArchonLiving = NPC.AnyNPCs(ModContent.NPCType<Archon>());
 
 			npc.TargetClosest(true);
 			npc.dontTakeDamage = !inFG;
+
+			if (realDamage > 0)
+				npc.damage = realDamage;
 
 			if (transitionFG)
 			{
@@ -156,7 +161,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 					break;
 			}
 
-			if (timers["ENCHANT"] == EnchantMaxTime)
+			if (timers["ENCHANT"] == EnchantMaxTime && !waitingOnAttack)
 			{
 				stage = VulnerableStage;
 				timers["ENCHANT"] = 0;
@@ -175,8 +180,45 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				case AttackType.TeleportSlash:
 					SlashAttack();
 					break;
+				case AttackType.Cast:
+					CastAttack();
+					break;
 				default:
 					break;
+			}
+		}
+
+		private void CastAttack()
+		{
+			float AnimationWaitThreshold = 0.8f;
+
+			waitingOnAttack = true;
+			npc.rotation = MathHelper.Lerp(npc.rotation, 0f, 0.2f);
+			npc.velocity *= 0.95f;
+
+			if (timers["ATTACK"] == (int)(attackTimeMax * AnimationWaitThreshold)) //Wait for animation to finish then shoot
+			{
+				if (enchantment == Enchantment.Starlight)
+				{
+					Vector2 baseVel = npc.DirectionTo(Target.Center) * 38;
+
+					int reps = Main.rand.Next(5, 8);
+					for (int i = 0; i < reps; ++i)
+					{
+						int p = Projectile.NewProjectile(npc.Center, baseVel.RotatedByRandom(0.4f) * Main.rand.NextFloat(0.75f, 1.1f), 
+							ModContent.ProjectileType<Items.Sets.GunsMisc.HeavenFleet.HeavenfleetStar>(), 20, 1f);
+						Main.projectile[p].hostile = true;
+						Main.projectile[p].friendly = false;
+					}
+				}
+			}
+			else if (timers["ATTACK"] >= attackTimeMax)
+			{
+				timers["ATTACK"] = 0;
+				attack = AttackType.None;
+				waitingOnAttack = false;
+
+				realDamage = 0;
 			}
 		}
 
@@ -185,32 +227,40 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			const float AnticipationThreshold = 0.1f;
 			const float BeginAttackThreshold = 0.3f;
 
-			if (timers["ATTACK"] == (int)(slashTimeMax * AnticipationThreshold)) //Start slash anticipation
+			if (timers["ATTACK"] == (int)(attackTimeMax * AnticipationThreshold)) //Teleport & start slash anticipation
 			{
+				waitingOnAttack = true;
 				npc.Center = Target.Center + new Vector2(0, Main.rand.Next(300, 400)).RotatedByRandom(MathHelper.Pi);
 				cachedSlashPos = npc.Center - (npc.DirectionFrom(Target.Center) * npc.Distance(Target.Center) * 2);
 			}
-			else if (timers["ATTACK"] > slashTimeMax * AnticipationThreshold && timers["ATTACK"] < slashTimeMax * BeginAttackThreshold)
+			else if (timers["ATTACK"] > attackTimeMax * AnticipationThreshold && timers["ATTACK"] < attackTimeMax * BeginAttackThreshold)
 			{
-				float mult = (slashTimeMax * BeginAttackThreshold) - timers["ATTACK"];
+				float mult = (attackTimeMax * BeginAttackThreshold) - timers["ATTACK"];
 				npc.velocity = -npc.DirectionTo(cachedSlashPos) * 0.5f * mult;
 				npc.rotation = MathHelper.Lerp(npc.rotation, npc.AngleTo(cachedSlashPos), 0.2f);
 			}
-			else if (timers["ATTACK"] >= (int)(slashTimeMax * BeginAttackThreshold))
+			else if (timers["ATTACK"] >= (int)(attackTimeMax * BeginAttackThreshold))
 			{
-				npc.Center = Vector2.Lerp(npc.Center, cachedSlashPos, 0.1f);
-				npc.damage = 20;
+				npc.Center = Vector2.Lerp(npc.Center, cachedSlashPos, 0.075f);
+
+				if (npc.DistanceSQ(cachedSlashPos) > 10 * 10)
+					realDamage = 20;
+				else
+					realDamage = 0;
 			}
 
-			if (timers["ATTACK"] >= slashTimeMax)
+			if (timers["ATTACK"] >= attackTimeMax)
 			{
 				timers["ATTACK"] = 0;
 				attack = AttackType.None;
+				waitingOnAttack = false;
 
 				npc.velocity = Vector2.Zero;
-				npc.damage = 0;
+				realDamage = 0;
 			}
 		}
+
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => realDamage > 0;
 
 		#region Drawing
 		public void AdditiveCall(SpriteBatch sB)
@@ -223,7 +273,19 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		{
 			if (!inFG) //if not in foreground stop drawing
 				return false;
-			return true;
+
+			float realRot = npc.rotation;
+			SpriteEffects effect = SpriteEffects.None;
+
+			if (npc.rotation < -MathHelper.PiOver2 || npc.rotation > MathHelper.PiOver2)
+			{
+				realRot -= MathHelper.Pi;
+				effect = SpriteEffects.FlipHorizontally;
+			}
+
+			Color col = Lighting.GetColor((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f));
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, col, realRot, npc.frame.Size() / 2f, 1f, effect, 0f);
+			return false;
 		}
 		#endregion
 
@@ -231,17 +293,26 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		{
 			None = 0,
 			TeleportSlash = 1,
+			Cast = 2,
 		}
 
 		public void SetupRandomAttack()
 		{
-			attack = AttackType.TeleportSlash;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
+			attack = (AttackType)(Main.rand.Next((int)AttackType.Cast) + 1);
 
 			if (attack == AttackType.TeleportSlash)
 			{
-				slashTimeMax = 160;
+				attackTimeMax = 160; //Default slash time
 				if (enchantment == Enchantment.Meteor)
-					slashTimeMax = 200; //Meteor slash is slower
+					attackTimeMax = 200; //Meteor slash is slower
+			}
+			else if (attack == AttackType.Cast)
+			{
+				attackTimeMax = 80; //Starlight cast time
+				if (enchantment == Enchantment.Meteor)
+					attackTimeMax = 100; //Meteor cast
+				else if (enchantment == Enchantment.Void)
+					attackTimeMax = 200; //Void cast
 			}
 		}
 

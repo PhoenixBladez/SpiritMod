@@ -32,6 +32,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			NPCID.Sets.TrailCacheLength[npc.type] = 5;
 			NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
+
 		public override void SetDefaults()
 		{
 			npc.width = 64;
