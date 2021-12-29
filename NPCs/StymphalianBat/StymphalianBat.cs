@@ -38,6 +38,8 @@ namespace SpiritMod.NPCs.StymphalianBat
 			npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
 			npc.buffImmune[ModContent.BuffType<BCorrupt>()] = true;
 			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.StymphalianBatBanner>();
 		}
 
         int frame;
