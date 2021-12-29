@@ -102,7 +102,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			}
 
 			if(spawnedComets)
-			{
+			{ 
 				for (int i = 0; i < Main.maxPlayers; i++) //Check if players are in range
 				{
 					Player player = Main.player[i];
@@ -214,6 +214,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 				if (validPlayer)
 				{
+					InitializeTempTiles();
+
 					spawnedComets = true;
 					npc.dontTakeDamage = true;
 
@@ -226,6 +228,17 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			musicVolume = MathHelper.Clamp(musicVolume, 0, 1); //Just in case, been getting some debug messages about value not being valid
 			Main.musicFade[Main.curMusic] = musicVolume; 
         }
+
+		private void InitializeTempTiles()
+		{
+			Point origin = npc.Center.ToTileCoordinates();
+
+			for (int i = 0; i < 12; ++i)
+			{
+				Point offset = new Vector2(0, Main.rand.Next(25, 70)).RotatedByRandom(MathHelper.Pi).ToPoint();
+				WorldGen.TileRunner(origin.X + offset.X, origin.Y + offset.Y, Main.rand.Next(6, 14), 8, ModContent.TileType<SjinxTempTile>(), true, 0, 0, false, false);
+			}
+		}
 
 		private void SpawnComets()
 		{

@@ -34,19 +34,12 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 
 		public override bool UseItem(Player player)
 		{
+			int centreX = Main.maxTilesX * 8;
+			Vector2 finalPos = GetOpenSpace(centreX, (int)(Main.worldSurface * 0.35f));
 
-			int width = 200 + (int)(((Main.maxTilesX / 4200f) - 1) * 75);
-			int x = MyWorld.asteroidSide == 0 ? (width * 16) + 80 : (Main.maxTilesX * 16) - ((width * 16) + 80);
-			Vector2 finalPos = GetOpenSpace(x, 1600);
-
-			if (finalPos != Vector2.Zero)
-			{
-				Main.NewText("An enchanted comet has appeared in the asteroid field!", 252, 150, 255);
-				NPC.NewNPC((int)finalPos.X, (int)finalPos.Y, ModContent.NPCType<StarjinxMeteorite>());
-				ModContent.GetInstance<StarjinxEventWorld>().SpawnedStarjinx = true;
-			}
-			else
-				Main.NewText("A comet soars overhead...", 202, 100, 205);
+			Main.NewText("An enchanted comet has appeared in the asteroid field!", 252, 150, 255);
+			NPC.NewNPC((int)finalPos.X, (int)finalPos.Y, ModContent.NPCType<StarjinxMeteorite>());
+			ModContent.GetInstance<StarjinxEventWorld>().SpawnedStarjinx = true;
 			return true;
 		}
 
@@ -72,7 +65,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 				if (spawnPos.X < MinX) spawnPos.X = MinX;
 				if (spawnPos.Y < MinY) spawnPos.Y = MinY;
 
-				const float SizeArea = 8;
+				const float SizeArea = 30;
 
 				if (!Collision.SolidCollision(spawnPos - (temp.Size * (SizeArea / 2)), (int)(temp.width * SizeArea), (int)(temp.height * SizeArea)))
 					return spawnPos;
