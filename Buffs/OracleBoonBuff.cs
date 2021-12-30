@@ -7,8 +7,8 @@ namespace SpiritMod.Buffs
 	{
 		public override void SetDefaults()
 		{
-			DisplayName.SetDefault("Witness");
-			Description.SetDefault("The gods look down upon you");
+			DisplayName.SetDefault("Heresy");
+			Description.SetDefault("The gods accept your challenge\nEnchanted enemies appear more often");
 		}
 	}
 }

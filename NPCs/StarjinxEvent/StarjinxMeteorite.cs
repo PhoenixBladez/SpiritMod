@@ -233,10 +233,48 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		{
 			Point origin = npc.Center.ToTileCoordinates();
 
-			for (int i = 0; i < 12; ++i)
+			//for (int i = 0; i < 12; ++i)
+			//{
+			//	Point offset = new Vector2(0, Main.rand.Next(25, 70)).RotatedByRandom(MathHelper.Pi).ToPoint();
+			//	WorldGen.TileRunner(origin.X + offset.X, origin.Y + offset.Y, Main.rand.Next(6, 14), 8, ModContent.TileType<SjinxTempTile>(), true, 0, 0, false, false);
+			//}
+
+			void PlacePlatform(Point centre)
 			{
-				Point offset = new Vector2(0, Main.rand.Next(25, 70)).RotatedByRandom(MathHelper.Pi).ToPoint();
-				WorldGen.TileRunner(origin.X + offset.X, origin.Y + offset.Y, Main.rand.Next(6, 14), 8, ModContent.TileType<SjinxTempTile>(), true, 0, 0, false, false);
+				int width = 16;
+
+				for (int i = -width; i < width; ++i)
+				{
+					int x = centre.X + i;
+					for (int j = 0; j < (width / 2f) - (Math.Abs(i) / 2f); ++j)
+					{
+						int y = centre.Y + j;
+						WorldGen.PlaceTile(x, y, ModContent.TileType<SjinxTempTile>(), true, true, -1, 0);
+					}
+				}
+			}
+
+			PlacePlatform(new Point(origin.X - 60, origin.Y));
+			PlacePlatform(new Point(origin.X + 60, origin.Y));
+			PlacePlatform(new Point(origin.X, origin.Y + 35));
+		}
+
+		private void KillTempTiles()
+		{
+			int width = EVENT_RADIUS / 16;
+			Point centre = npc.Center.ToTileCoordinates();
+
+			for (int i = -width; i < width; ++i)
+			{
+				int x = centre.X + i;
+				for (int j = -width; j < width; ++j)
+				{
+					int y = centre.Y + j;
+
+					Tile t = Framing.GetTileSafely(x, y);
+					if (Vector2.Distance(new Vector2(x, y), centre.ToVector2()) < width && t.active() && t.type == ModContent.TileType<SjinxTempTile>())
+						WorldGen.KillTile(x, y, false, false, true);
+				}
 			}
 		}
 
@@ -391,6 +429,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
         public override void NPCLoot()
         {
+			KillTempTiles();
+
 			ModContent.GetInstance<StarjinxEventWorld>().StarjinxActive = false;
 			ModContent.GetInstance<StarjinxEventWorld>().StarjinxDefeated = true;
 			NetMessage.SendData(MessageID.WorldData);

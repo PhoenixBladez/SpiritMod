@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 
 		public override bool UseItem(Player player)
 		{
-			int centreX = Main.maxTilesX * 8;
+			int centreX = (Main.maxTilesX * 8) + Main.rand.Next(-Main.maxTilesX, Main.maxTilesX);
 			Vector2 finalPos = GetOpenSpace(centreX, (int)(Main.worldSurface * 0.35f));
 
 			Main.NewText("An enchanted comet has appeared in the asteroid field!", 252, 150, 255);

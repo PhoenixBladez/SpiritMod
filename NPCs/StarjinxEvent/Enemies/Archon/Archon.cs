@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Mechanics.BackgroundSystem;
+using SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -39,13 +40,20 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		// Enchantment
 		internal Enchantment enchantment = Enchantment.None;
 
-		// Attacks
+		// ATTACKS --------------------
 		internal bool waitingOnAttack = false;
 		private AttackType attack = AttackType.None;
 		private int realDamage = 0;
 		private float attackTimeMax = 0;
 
+		// Basic Slash
 		private Vector2 cachedSlashPos = new Vector2();
+
+		// Starlight Constellation
+		private List<StarThread> threads = new List<StarThread>();
+		private int currentThread = 0;
+		private float currentThreadMaxProgress = 0f;
+		private float currentThreadProgress = 0f;
 
 		// Misc
 		private readonly Dictionary<string, int> timers = new Dictionary<string, int>() { { "ENCHANT", 0 }, { "ATTACK", 0 } };
@@ -161,6 +169,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 					break;
 			}
 
+			npc.velocity.Y = (float)Math.Sin(timers["ENCHANT"] * 0.1f) * 0.2f;
+
 			if (timers["ENCHANT"] == EnchantMaxTime && !waitingOnAttack)
 			{
 				stage = VulnerableStage;
@@ -183,8 +193,75 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				case AttackType.Cast:
 					CastAttack();
 					break;
+				case AttackType.StarlightConstellation:
+					StarlightConstellationAttack();
+					break;
 				default:
 					break;
+			}
+		}
+
+		private void StarlightConstellationAttack()
+		{
+			const float MaxSetupThreadsThreshold = 0.25f;
+			const float SetupThreadsThreshold = 0.05f;
+
+			waitingOnAttack = true;
+
+			foreach (StarThread thread in threads)
+				thread.Update();
+
+			foreach (StarThread thread in threads.ToArray())
+				if (thread.Counter > thread.Duration)
+					threads.Remove(thread);
+
+			if (timers["ATTACK"] % (int)(attackTimeMax * SetupThreadsThreshold) == 0 && timers["ATTACK"] <= (int)(attackTimeMax * MaxSetupThreadsThreshold)) //Setup threads
+			{
+				Vector2 startPos = npc.Center;
+				if (threads.Count > 0)
+					startPos = threads[threads.Count - 1].EndPoint;
+
+				Vector2 endPoint = GetThreadEndPoint(threads.Count == 0);
+				threads.Add(new StarThread(startPos, endPoint));
+			}
+			else if (timers["ATTACK"] > attackTimeMax * MaxSetupThreadsThreshold && timers["ATTACK"] <= attackTimeMax)
+			{
+				npc.Center = Vector2.Lerp(npc.Center, threads[currentThread].EndPoint, currentThreadProgress);
+				currentThreadProgress += 1 / (attackTimeMax * MaxSetupThreadsThreshold / 5);
+
+				if (currentThreadProgress > 1f)
+				{
+					currentThread++;
+					currentThreadProgress = 0;
+
+					if (currentThread >= threads.Count)
+					{
+						timers["ATTACK"] = (int)attackTimeMax;
+						currentThread = 0;
+					}
+				}
+			}
+			else if (timers["ATTACK"] >= attackTimeMax)
+			{
+				threads.Clear();
+				timers["ATTACK"] = 0;
+				attack = AttackType.None;
+				waitingOnAttack = false;
+
+				realDamage = 0;
+			}
+		}
+
+		private Vector2 GetThreadEndPoint(bool start)
+		{
+			if (start)
+				return npc.Center - (npc.DirectionFrom(Target.Center) * 600);
+			else
+			{
+				Vector2 nextPos = threads[threads.Count - 1].EndPoint;
+				Vector2 toPlayer = Vector2.Normalize(Target.Center - nextPos) * Main.rand.Next(300, 450);
+				Vector2 offset = toPlayer.RotatedByRandom(MathHelper.PiOver4);
+				return nextPos + offset;
 			}
 		}
 
@@ -205,7 +282,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 					int reps = Main.rand.Next(5, 8);
 					for (int i = 0; i < reps; ++i)
 					{
-						int p = Projectile.NewProjectile(npc.Center, baseVel.RotatedByRandom(0.4f) * Main.rand.NextFloat(0.75f, 1.1f), 
+						int p = Projectile.NewProjectile(npc.Center, baseVel.RotatedByRandom(0.8f) * Main.rand.NextFloat(0.75f, 1.1f), 
 							ModContent.ProjectileType<Items.Sets.GunsMisc.HeavenFleet.HeavenfleetStar>(), 20, 1f);
 						Main.projectile[p].hostile = true;
 						Main.projectile[p].friendly = false;
@@ -267,6 +344,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		{
 			if (!inFG) //if not in foreground stop drawing
 				return;
+
+			DrawThreads(sB);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -287,18 +366,39 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, col, realRot, npc.frame.Size() / 2f, 1f, effect, 0f);
 			return false;
 		}
+
+		internal const float THREADGROWLERP = 30; //How many frames does it take for threads to fade in/out?
+		internal const int DISTANCEFROMPLAYER = 300; //How far does the spider have to be from the player to turn around?
+
+		private void DrawThreads(SpriteBatch spriteBatch)
+		{
+			if (threads.Count == 0 || attack != AttackType.StarlightConstellation)
+				return;
+
+			Texture2D tex = SpiritMod.Instance.GetTexture("Textures/Trails/Trail_4");
+			Vector2 threadScale = new Vector2(1 / (float)tex.Width, 30 / (float)tex.Height); //Base scale of the thread based on the texture's size, stretched horizontally depending on thread length
+			foreach (StarThread thread in threads)
+			{
+				float length = Math.Min(thread.Counter / THREADGROWLERP, (thread.Duration - thread.Counter) / THREADGROWLERP);
+				length = Math.Min(length, 1);
+				spriteBatch.Draw(tex, thread.StartPoint - Main.screenPosition, null, Color.SteelBlue * length, (thread.EndPoint - thread.StartPoint).ToRotation(), new Vector2(0f, tex.Height / 2),
+					threadScale * new Vector2(thread.Length, 1), SpriteEffects.None, 0f);
+			}
+		}
 		#endregion
 
 		public enum AttackType : int
 		{
 			None = 0,
-			TeleportSlash = 1,
-			Cast = 2,
+			Reset = 1,
+			TeleportSlash = 2,
+			Cast = 3,
+			StarlightConstellation = 4,
 		}
 
 		public void SetupRandomAttack()
 		{
-			attack = (AttackType)(Main.rand.Next((int)AttackType.Cast) + 1);
+			attack = AttackType.StarlightConstellation;// (AttackType)(Main.rand.Next((int)AttackType.Cast) + 1);
 
 			if (attack == AttackType.TeleportSlash)
 			{
@@ -314,6 +414,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				else if (enchantment == Enchantment.Void)
 					attackTimeMax = 200; //Void cast
 			}
+			else if (attack == AttackType.StarlightConstellation)
+				attackTimeMax = 400;
 		}
 
 		public enum Enchantment : int

@@ -15,14 +15,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
 
-			AddMapEntry(new Color(173, 216, 230));
+			AddMapEntry(new Color(85, 36, 255));
 			dustType = DustID.Water_Space;
-		}
-
-		public override void NearbyEffects(int i, int j, bool closer)
-		{
-			if (!NPC.AnyNPCs(ModContent.NPCType<StarjinxMeteorite>()))
-				WorldGen.KillTile(i, j);
 		}
 	}
 }
