@@ -127,6 +127,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 						int d7 = Dust.NewDust(southPosFar, 2, 2, DustID.GoldCoin, 0, 0);
 						Main.dust[d7].noGravity = true;
 					}
+					Main.PlaySound(SoundID.DD2_DarkMageCastHeal, npc.Center);
 				}
 			}
 

@@ -21,7 +21,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 			item.rare = ItemRarityID.LightRed;
 			item.maxStack = 1;
 			item.value = Item.sellPrice(0, 0, 3, 0);
-			item.useStyle = ItemUseStyleID.SwingThrow;
+			item.useStyle = ItemUseStyleID.HoldingUp;
 			item.useTime = item.useAnimation = 50;
 			item.noMelee = true;
 			item.autoReuse = true;
@@ -42,7 +42,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 
 					int glyphnum = Main.rand.Next(10);
 					DustHelper.DrawDustImage(new Vector2(player.Center.X, player.Center.Y - 25), ModContent.DustType<Dusts.MarbleDust>(), 0.05f, "SpiritMod/Effects/Glyphs/Glyph" + glyphnum, 1f);
-					Main.PlaySound(SoundID.DD2_DarkMageCastHeal, player.Center);
+					Main.PlaySound(SoundID.DD2_DarkMageHealImpact, player.Center);
 
 
 					return true;
