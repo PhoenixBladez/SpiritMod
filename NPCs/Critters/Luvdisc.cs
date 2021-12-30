@@ -34,6 +34,7 @@ namespace SpiritMod.NPCs.Critters
 			npc.npcSlots = 0;
 			npc.dontCountMe = true;
 			aiType = NPCID.Goldfish;
+			npc.dontTakeDamageFromHostiles = false;
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{

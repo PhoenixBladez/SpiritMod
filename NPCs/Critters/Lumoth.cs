@@ -34,6 +34,7 @@ namespace SpiritMod.NPCs.Critters
 			npc.noGravity = true;
 			aiType = NPCID.Firefly;
 			Main.npcFrameCount[npc.type] = 4;
+			npc.dontTakeDamageFromHostiles = false;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

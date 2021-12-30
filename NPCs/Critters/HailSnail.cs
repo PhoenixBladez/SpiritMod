@@ -30,7 +30,8 @@ namespace SpiritMod.NPCs.Critters
 			npc.npcSlots = 0;
 			aiType = NPCID.Snail;
             animationType = NPCID.Snail;
-        }
+			npc.dontTakeDamageFromHostiles = false;
+		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

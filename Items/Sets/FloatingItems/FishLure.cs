@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 			Tile bel = Framing.GetTileSafely(tPos.X, tPos.Y + 1);
 			Tile cur = Framing.GetTileSafely(tPos.X, tPos.Y);
 
-			if (bel.active() && !cur.active() && cur.liquid > 100 && !bel.topSlope())
+			if (WorldGen.SolidTile(tPos.X, tPos.Y + 1) && bel.active() && !cur.active() && cur.liquid > 100 && !bel.topSlope())
 			{
 				WorldGen.PlaceTile(tPos.X, tPos.Y, ModContent.TileType<FishLureTile>(), false, true);
 				return true;

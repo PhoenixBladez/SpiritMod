@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Consumable.Potion
 		{
 			item.width = 20;
 			item.height = 30;
-			item.rare = ItemRarityID.Pink;
+			item.rare = ItemRarityID.LightRed;
 			item.maxStack = 30;
 
 			item.useStyle = ItemUseStyleID.EatingUsing;

@@ -38,8 +38,8 @@ namespace SpiritMod.Items.Sets.FloatingItems
 
 		public override void RightClick(Player player)
 		{
-			if (Main.rand.Next(3) > 0)
-			{ 
+			if (Main.rand.Next(3) == 0)
+			{
 				int[] lootTable = {
 					ItemID.FishHook,
 					ItemID.ShipsWheel,
@@ -55,7 +55,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 				player.QuickSpawnItem(lootTable[loot]);
 			}
 
-			if (Main.rand.Next(4) > 0)
+			if (Main.rand.Next(4) == 0)
 			{
 				int[] lootTable2 = {
 					ItemID.GoldBar,
@@ -96,15 +96,13 @@ namespace SpiritMod.Items.Sets.FloatingItems
 					player.QuickSpawnItem(ItemID.GoldCoin);
 			}
 			else
-            {
-				int cobweb = Main.rand.Next(20, 35);
+			{
+				int cobweb = Main.rand.Next(8, 12);
 				for (int K = 0; K < cobweb; K++)
 					player.QuickSpawnItem(ItemID.Cobweb);
 			}
+			Item.NewItem(player.Center, Vector2.Zero, ModContent.ItemType<Items.Weapon.Thrown.ExplosiveRum.ExplosiveRum>(), Main.rand.Next(45, 70));
 
-			int num = Main.rand.Next(50, 130);
-			for (int j = 0; j < num; j++)
-				player.QuickSpawnItem(ModContent.ItemType<Items.Weapon.Thrown.ExplosiveRum.ExplosiveRum>());
 		}
 	}
 

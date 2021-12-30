@@ -235,6 +235,7 @@ namespace SpiritMod
 		public bool Flayer = false;
 		public int soulSiphon;
 		public bool maskPet = false;
+		public bool oliveBranchBuff = false;
 		public bool phantomPet = false;
 		public bool lanternPet = false;
 		public bool leatherHood = false;
@@ -743,6 +744,7 @@ namespace SpiritMod
 
 		private void ResetMiscVariables()
 		{
+			oliveBranchBuff = false;
 			MetalBand = false;
 			strikeshield = false;
 			KoiTotem = false;

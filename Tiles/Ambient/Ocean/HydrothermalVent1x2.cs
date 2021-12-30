@@ -6,6 +6,7 @@ using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using System;
 
 namespace SpiritMod.Tiles.Ambient.Ocean
 {
@@ -78,11 +79,61 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 
 		public override void NearbyEffects(int i, int j, bool closer)
 		{
+			var config = ModContent.GetInstance<Utilities.SpiritClientConfig>();
 
 			Tile t = Framing.GetTileSafely(i, j);
 
 			if (t.frameY == 0)
 				SpawnSmoke(new Vector2(i - 0.75f, j) * 16);
+
+			if (config.VentCritters)
+			{
+				if (t.liquid > 155)
+				{
+					int npcIndex = -1;
+					if (Main.rand.NextBool(2200))
+					{
+						if (NPC.MechSpawn((float)i * 16, (float)j * 16, ModContent.NPCType<NPCs.Critters.TinyCrab>()))
+							npcIndex = NPC.NewNPC(i * 16, j * 16, ModContent.NPCType<NPCs.Critters.TinyCrab>());
+					}
+					if (npcIndex >= 0)
+					{
+						Main.npc[npcIndex].value = 0f;
+						Main.npc[npcIndex].npcSlots = 0f;
+
+					}
+					int npcIndex1 = -1;
+					if (!Framing.GetTileSafely(i + 1, j).active() && !Framing.GetTileSafely(i - 1, j).active() && !Framing.GetTileSafely(i + 2, j).active() && !Framing.GetTileSafely(i - 2, j).active())
+					{
+						if (Main.rand.NextBool(300))
+						{
+							if (NPC.MechSpawn((float)i * 16, (float)j * 16, ModContent.NPCType<NPCs.Critters.Crinoid>()))
+								npcIndex1 = NPC.NewNPC(i * 16, j * 16, ModContent.NPCType<NPCs.Critters.Crinoid>());
+						}
+					}
+					if (npcIndex1 >= 0)
+					{
+						Main.npc[npcIndex1].value = 0f;
+						Main.npc[npcIndex1].npcSlots = 0f;
+
+					}
+					int npcIndex2 = -1;
+					if (!Framing.GetTileSafely(i + 1, j).active() && !Framing.GetTileSafely(i - 1, j).active())
+					{
+						if (Main.rand.NextBool(85))
+						{
+							if (NPC.MechSpawn((float)i * 16, (float)j * 16, ModContent.NPCType<NPCs.Critters.TubeWorm>()))
+								npcIndex2 = NPC.NewNPC(i * 16, j * 16, ModContent.NPCType<NPCs.Critters.TubeWorm>());
+						}
+					}
+					if (npcIndex2 >= 0)
+					{
+						Main.npc[npcIndex2].value = 0f;
+						Main.npc[npcIndex2].npcSlots = 0f;
+
+					}
+				}
+			}
 		}
 
 		public static void SpawnSmoke(Vector2 pos)

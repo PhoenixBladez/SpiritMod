@@ -90,19 +90,44 @@ namespace SpiritMod.NPCs.Town.Oracle
 			if (Teleport-- > 0)
 			{
 				if (Teleport > 50)
+				{
+					npc.alpha += 2;
 					AttackTimer--;
+				}
 
 				movementDir = 0f;
 				movementTimer = 100;
 
-				if (Teleport == 195 && Vector2.DistanceSquared(npc.Center, new Vector2(TeleportX, TeleportY)) > 1800 * 1800)
-					CombatText.NewText(new Rectangle((int)npc.Center.X, (int)npc.Center.Y - 40, npc.width, 20), Color.Red, "I sense a call...");
+				if (Teleport == 195)
+					CombatText.NewText(new Rectangle((int)npc.Center.X, (int)npc.Center.Y - 40, npc.width, 20), Color.LightGoldenrodYellow, "I sense a call...");
 
 				if (Teleport == 50)
 				{
 					npc.Center = new Vector2(TeleportX, TeleportY);
+					npc.alpha = 0;
+					float swirlSize = 1.664f;
+					float degrees = 0;
+					float Closeness = 50f;
+					degrees += 2.5f;
+					for (float swirlDegrees = degrees; swirlDegrees < 160 + degrees; swirlDegrees += 7f)
+					{
+						Closeness -= swirlSize; //It closes in
+						double radians = swirlDegrees * (Math.PI / 180); //convert to radians
 
-					//add visuals
+						Vector2 eastPosFar = npc.Center + new Vector2(Closeness * (float)Math.Sin(radians), Closeness * (float)Math.Cos(radians));
+						Vector2 westPosFar = npc.Center - new Vector2(Closeness * (float)Math.Sin(radians), Closeness * (float)Math.Cos(radians));
+						Vector2 northPosFar = npc.Center + new Vector2(Closeness * (float)Math.Sin(radians + 1.57), Closeness * (float)Math.Cos(radians + 1.57));
+						Vector2 southPosFar = npc.Center - new Vector2(Closeness * (float)Math.Sin(radians + 1.57), Closeness * (float)Math.Cos(radians + 1.57));
+						int d4 = Dust.NewDust(eastPosFar, 2, 2, DustID.GoldCoin, 0, 0);
+						Main.dust[d4].noGravity = true;
+						int d5 = Dust.NewDust(westPosFar, 2, 2, DustID.GoldCoin, 0, 0);
+						Main.dust[d5].noGravity = true;
+						int d6 = Dust.NewDust(northPosFar, 2, 2, DustID.GoldCoin, 0, 0);
+						Main.dust[d6].noGravity = true;
+						int d7 = Dust.NewDust(southPosFar, 2, 2, DustID.GoldCoin, 0, 0);
+						Main.dust[d7].noGravity = true;
+					}
+					Main.PlaySound(SoundID.DD2_DarkMageCastHeal, npc.Center);
 				}
 			}
 
@@ -302,7 +327,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			if (AttackTimer > 10)
+			if (AttackTimer > 10 || Teleport > 50)
 			{
 				float wave = (float)Math.Cos(Main.GlobalTime % 2.4f / 2.4f * MathHelper.TwoPi) + 0.5f;
 
@@ -412,7 +437,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 					{
 						"You wish for a challenge? I may stop you not, as it benefits us both. I do hope you're prepared!",
 						"I shall consult the gods about their boons - these monsters will become relentless, I hope you are aware.",
-						"You want me to call them what?! Such foul battle language, yet I will deliver the message. They won't be happy about this!",
+						"You want me to call them what?! Such foul battle language, yet I will deliver the message. The Gods won't be happy about this!",
 						"The boons cause slain foes to drop stronger tokens, yes, but do remember that the foes become stronger, too!",
 						"Do come back alive! I would enjoy hearing tales of your victories. Bring many tokens as well!"
 					};
@@ -423,6 +448,8 @@ namespace SpiritMod.NPCs.Town.Oracle
 						Main.dust[num].scale = Main.rand.Next(70, 105) * 0.01f;
 						Main.dust[num].fadeIn = 1;
 					}
+					int glyphnum = Main.rand.Next(10);
+					DustHelper.DrawDustImage(new Vector2(Main.LocalPlayer.Center.X, Main.LocalPlayer.Center.Y - 25), ModContent.DustType<Dusts.MarbleDust>(), 0.05f, "SpiritMod/Effects/Glyphs/Glyph" + glyphnum, 1f);
 					Main.npcChatText = Main.rand.Next(options);
 					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 29).WithPitchVariance(0.4f).WithVolume(.6f), Main.LocalPlayer.Center);
 					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 6).WithPitchVariance(0.4f).WithVolume(.2f), Main.LocalPlayer.Center);
@@ -507,6 +534,11 @@ namespace SpiritMod.NPCs.Town.Oracle
 			shop.item[nextSlot].shopCustomPrice = 2;
 			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
 			nextSlot ++;
+
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Consumable.OliveBranch>());
+			shop.item[nextSlot].shopCustomPrice = 2;
+			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
+			nextSlot++;
 
 			shop.item[nextSlot].SetDefaults(ModContent.ItemType<OracleScripture>());
 			shop.item[nextSlot].shopCustomPrice = 1;

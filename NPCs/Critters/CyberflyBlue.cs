@@ -19,8 +19,8 @@ namespace SpiritMod.NPCs.Critters
 
 		public override void SetDefaults()
 		{
-			npc.width = 12;
-			npc.height = 12;
+			npc.width = 18;
+			npc.height = 18;
 			npc.damage = 0;
 			npc.defense = 0;
 			npc.lifeMax = 5;
@@ -32,6 +32,8 @@ namespace SpiritMod.NPCs.Critters
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 64;
 			npc.npcSlots = 0;
+			npc.friendly = true;
+			npc.dontTakeDamageFromHostiles = false;
 			npc.noGravity = true;
 			aiType = NPCID.Firefly;
 			Main.npcFrameCount[npc.type] = 2;

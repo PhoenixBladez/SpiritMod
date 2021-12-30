@@ -34,6 +34,7 @@ namespace SpiritMod.NPCs.Critters
             npc.noGravity = false; ;
 			aiType = NPCID.Grubby;
 			Main.npcFrameCount[npc.type] = 4;
+			npc.dontTakeDamageFromHostiles = false;
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{

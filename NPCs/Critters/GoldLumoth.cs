@@ -34,9 +34,10 @@ namespace SpiritMod.NPCs.Critters
             npc.noGravity = true;
             aiType = NPCID.Firefly;
             Main.npcFrameCount[npc.type] = 4;
-        }
+			npc.dontTakeDamageFromHostiles = false;
+		}
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
