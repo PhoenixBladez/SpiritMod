@@ -30,6 +30,7 @@ namespace SpiritMod.NPCs.Critters
 			npc.aiStyle = 0;
 			npc.npcSlots = 0;
 			npc.noGravity = false;
+			npc.dontTakeDamageFromHostiles = false;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

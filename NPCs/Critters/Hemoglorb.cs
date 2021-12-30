@@ -32,6 +32,7 @@ namespace SpiritMod.NPCs.Critters
             npc.noGravity = false; ;
 			aiType = NPCID.Snail;
 			Main.npcFrameCount[npc.type] = 7;
+			npc.dontTakeDamageFromHostiles = false;
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{

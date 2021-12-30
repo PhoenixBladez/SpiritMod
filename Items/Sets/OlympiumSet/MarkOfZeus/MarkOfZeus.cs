@@ -111,7 +111,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 				}
 
 				if (counter < 15) {
-					counter += 0.15f;
+					counter += 0.30f;
 					manaCounter++;
 					if (manaCounter % 7 == 0)
 					{

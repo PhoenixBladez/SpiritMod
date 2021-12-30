@@ -32,7 +32,7 @@ namespace SpiritMod.NPCs.Critters
 			npc.aiStyle = 0;
 			npc.npcSlots = 0;
 			npc.alpha = 255;
-			aiType = NPCID.BoundGoblin;
+			aiType = NPCID.WebbedStylist;
         }
 		bool hasPicked = false;
 		int pickedType;

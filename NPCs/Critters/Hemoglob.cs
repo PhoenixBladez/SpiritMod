@@ -34,6 +34,7 @@ namespace SpiritMod.NPCs.Critters
             npc.noGravity = false; ;
 			aiType = NPCID.Bunny;
 			Main.npcFrameCount[npc.type] = 7;
+			npc.dontTakeDamageFromHostiles = false;
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
