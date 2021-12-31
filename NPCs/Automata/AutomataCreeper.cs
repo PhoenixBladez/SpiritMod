@@ -8,6 +8,7 @@ using System.IO;
 using System.Collections.Generic;
 using SpiritMod.Mechanics.BoonSystem;
 using SpiritMod.Buffs;
+using Terraria.Audio;
 
 namespace SpiritMod.NPCs.Automata
 {
@@ -186,7 +187,27 @@ namespace SpiritMod.NPCs.Automata
 			npc.velocity = SPEED * moveDirection;
 			npc.velocity = Collide();
 		}
-
+		public override void HitEffect(int hitDirection, double damage)
+		{
+			for (int k = 0; k < 10; k++)
+			{
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Sunflower, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Wraith, 2.5f * hitDirection, -2.5f, 0, default, Main.rand.NextFloat(.45f, .55f));
+			}
+			if (npc.life <= 0)
+			{
+				Main.PlaySound(new LegacySoundStyle(4, 6).WithPitchVariance(0.2f), npc.Center);
+				for (int i = 0; i < 4; ++i)
+				{
+					Gore.NewGore(npc.position, new Vector2(npc.velocity.X * .5f, npc.velocity.Y * .5f), 99);
+				}
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AutomataCreeper/AutomataCreeper1"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AutomataCreeper/AutomataCreeper2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AutomataCreeper/AutomataCreeper3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AutomataCreeper/AutomataCreeper4"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AutomataCreeper/AutomataCreeper5"), 1f);
+			}
+		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation % 6.28f, npc.frame.Size() / 2, npc.scale, initialDirection != 1 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
@@ -311,6 +332,7 @@ namespace SpiritMod.NPCs.Automata
 		{
 			return Collision.noSlopeCollision(projectile.position, projectile.velocity, projectile.width, projectile.height, true, true);
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);

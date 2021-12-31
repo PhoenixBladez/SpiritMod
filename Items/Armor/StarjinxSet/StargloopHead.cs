@@ -28,6 +28,7 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 		}
 		public override void DrawHair(ref bool drawHair, ref bool drawAltHair) => drawHair = drawAltHair = false;
 		public override bool DrawHead() => false;
+		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor) => color = Color.White * 0f;
 		public override void UpdateVanity(Player player, EquipType type)
 		{
 			float dir = Main.rand.NextFloat(-2f, -1.14f);

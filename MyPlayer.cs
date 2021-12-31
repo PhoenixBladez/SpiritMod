@@ -722,6 +722,7 @@ namespace SpiritMod
 
 		private void ResetAccBools()
 		{
+			crystalFlower = false;
 			mimicRepellent = false;
 			forbiddenTome = false;
 			animusLens = false;
