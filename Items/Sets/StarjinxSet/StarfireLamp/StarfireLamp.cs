@@ -102,7 +102,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 				return false;
 			}
 
-			starfireLampPlayer.AttackingTime = 1;
+			starfireLampPlayer.GlowmaskOpacity = 1;
 
 			//Adjust position to account for hold style
 			position.Y += 26;

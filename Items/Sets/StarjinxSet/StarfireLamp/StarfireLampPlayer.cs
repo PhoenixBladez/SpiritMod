@@ -10,35 +10,70 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 {
+	/// <summary>
+	/// Modplayer class handling the custom drawing information relating to Starfire Lantern, and for storing the current NPC targetted by the player with the weapon.
+	/// </summary>
 	public class StarfireLampPlayer : ModPlayer
 	{
+		//The location of the held texture, used for drawing and determining bounds of the drawing rectangle
+		private static string TexturePath => "Items/Sets/StarjinxSet/StarfireLamp/StarfireLantern_held";
+		private string GlowmaskPath => TexturePath + "Glow";
+
+		//How long the twinkling effect on use lasts
 		public int TwinkleTime { get; set; }
 		public const int MaxTwinkleTime = 12;
 
+		//The npc targetted to be focused by homing shots
 		public NPC LampTargetNPC { get; set; }
 		public int LampTargetTime { get; set; }
 		public const int MaxTargetTime = 480;
-		public float AttackingTime { get; set; }
+
+		//The opacity of the animated glowmask, set to 1 on weapon use and fades out over time
+		public float GlowmaskOpacity { get; set; }
+
+		//Where the origin of the texture is drawn
+		private Vector2 GetHoldPosition => player.MountedCenter + new Vector2(player.direction * player.width / 2, 0);
+		private Vector2 Origin => new Vector2(38, 18);
+
+		//The amount of frames used for the animation
+		private const int NumFrames = 6;
+
+		//The current frame being drawn, currently based on game time as to constantly increase
+		private int CurFrame => (int)((Main.GlobalTime * 11) % NumFrames);
+		private bool HoldingLamp => player.HeldItem.type == ModContent.ItemType<StarfireLamp>();
+
+		//The rectangle of the texture currently being drawn
+		private Rectangle DrawRectangle
+		{
+			get
+			{
+				Texture2D texture = mod.GetTexture(TexturePath);
+				Rectangle drawRect = texture.Bounds;
+				drawRect.Height /= NumFrames;
+				drawRect.Y = CurFrame * drawRect.Height;
+				return drawRect;
+			}
+		}
 
 		public override void Initialize()
 		{
 			TwinkleTime = 0;
 			LampTargetNPC = null;
 			LampTargetTime = 0;
-			AttackingTime = 0;
+			GlowmaskOpacity = 0;
 		}
 
-		private bool HoldingLamp => player.HeldItem.type == ModContent.ItemType<StarfireLamp>();
 		public override void PreUpdate()
 		{
 			TwinkleTime = Math.Max(TwinkleTime - 1, 0);
 			LampTargetTime = Math.Max(LampTargetTime - 1, 0);
 
+			//Fade out over time, instantly if not holding lamp
 			if (HoldingLamp)
-				AttackingTime = Math.Max(AttackingTime - 0.035f, 0);
+				GlowmaskOpacity = Math.Max(GlowmaskOpacity - 0.035f, 0);
 
 			else
-				AttackingTime = 0;
+				GlowmaskOpacity = 0;
 
 			//Check if the target npc is still active and targettable, if not, set to null and reset target time
 			if (LampTargetNPC != null)
@@ -51,66 +86,53 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 				LampTargetNPC = null;
 		}
 
+		//Add drawing methods to the lists of player layers if the lamp is being held
 		public override void PostUpdate()
 		{
 			if (HoldingLamp)
-				player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawBeam(sB); }, ExtraDrawOnPlayer.DrawType.Additive);
+				player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawAdditiveLayer(sB); }, ExtraDrawOnPlayer.DrawType.Additive);
 		}
-
 		public override void ModifyDrawLayers(List<PlayerLayer> layers)
 		{
-			if(player.HeldItem.type == ModContent.ItemType<StarfireLamp>())
-			{
+			if(HoldingLamp)
 				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(mod.Name, "StarfireLampHeld",
-					delegate (PlayerDrawInfo info) { DrawItem(mod.GetTexture("Items/Sets/StarjinxSet/StarfireLamp/StarfireLantern_held"),
-						mod.GetTexture("Items/Sets/StarjinxSet/StarfireLamp/StarfireLantern_heldGlow"), info); }));
-			}
+					delegate (PlayerDrawInfo info) { DrawItem(info); }));
 		}
 
-		private Vector2 GetHoldPosition => player.MountedCenter + new Vector2(player.direction * player.width / 2, 0);
-		private Vector2 Origin => new Vector2(38, 18);
+		//Prevent the texture from being drawn if the player is dead or under other conditions where held items would typically not be drawn
+		private bool CanDraw => player.shadow == 0f && !player.frozen && !player.dead;
 
-		public void DrawItem(Texture2D texture, Texture2D glow, PlayerDrawInfo info)
+		public void DrawItem(PlayerDrawInfo info)
 		{
-			Item item = info.drawPlayer.HeldItem;
-			if (info.shadow != 0f || info.drawPlayer.frozen || info.drawPlayer.dead)
+			if (!CanDraw)
 				return;
 
-			int numFrames = 6;
-			int currentFrame = (int)((Main.GlobalTime * 11) % numFrames);
-			Rectangle drawRect = texture.Bounds;
-			drawRect.Height /= numFrames;
-			drawRect.Y = currentFrame * drawRect.Height;
-
+			Texture2D texture = mod.GetTexture(TexturePath);
 			Vector2 drawPosition = GetHoldPosition - Main.screenPosition;
+			Color lightColor = Lighting.GetColor(GetHoldPosition.ToTileCoordinates().X, GetHoldPosition.ToTileCoordinates().Y);
 
-			Main.playerDrawData.Add(new DrawData(
-				texture,
-				drawPosition,
-				drawRect,
-				Lighting.GetColor((drawPosition + Main.screenPosition).ToTileCoordinates().X, (drawPosition + Main.screenPosition).ToTileCoordinates().Y),
-				0,
-				Origin,
-				item.scale,
-				info.spriteEffects,
-				0));
+			Main.playerDrawData.Add(new DrawData(texture, drawPosition, DrawRectangle, lightColor, 0, Origin, player.HeldItem.scale, info.spriteEffects, 0));
+			DrawTwinkle(info);
+		}
 
-			if(TwinkleTime > 0)
+		private void DrawTwinkle(PlayerDrawInfo info)
+		{
+			if (TwinkleTime > 0)
 			{
 				float rotation = player.direction * (TwinkleTime / (float)MaxTwinkleTime) * MathHelper.Pi;
 				float opacity = 0.8f * (MaxTwinkleTime - Math.Abs((MaxTwinkleTime / 2) - TwinkleTime)) / (MaxTwinkleTime / 2);
-				Vector2 scale = new Vector2(1, 0.6f) * ((MaxTwinkleTime / 2) - Math.Abs((MaxTwinkleTime/2) - TwinkleTime)) / (MaxTwinkleTime / 2);
+				Vector2 scale = new Vector2(1, 0.6f) * ((MaxTwinkleTime / 2) - Math.Abs((MaxTwinkleTime / 2) - TwinkleTime)) / (MaxTwinkleTime / 2);
 				Texture2D startex = Main.extraTexture[89];
 				Vector2 twinkleOffset = new Vector2(0, 26);
 
 				DrawData data = new DrawData(
 					 startex,
-					 drawPosition + twinkleOffset,
+					 GetHoldPosition - Main.screenPosition + twinkleOffset,
 					 null,
 					 new Color(255, 147, 113) * opacity,
 					 rotation,
 					 startex.Size() / 2,
-					 item.scale * scale,
+					 player.HeldItem.scale * scale,
 					 info.spriteEffects,
 					 0);
 
@@ -121,72 +143,48 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 			}
 		}
 
-		public void DrawBeam(SpriteBatch sB)
+		public void DrawAdditiveLayer(SpriteBatch sB)
 		{
 			if (player.frozen || player.dead)
 				return;
 
-			Texture2D glow = mod.GetTexture("Items/Sets/StarjinxSet/StarfireLamp/StarfireLantern_heldGlow");
+			Texture2D glow = mod.GetTexture(GlowmaskPath);
 			Vector2 drawPosition = GetHoldPosition - Main.screenPosition;
-			float Timer = 0.15f;
 			Item item = player.HeldItem;
+			SpriteEffects flip = player.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
-			int numFrames = 6;
-			int currentFrame = (int)((Main.GlobalTime * 11) % numFrames);
-			Rectangle drawRect = glow.Bounds;
-			drawRect.Height /= numFrames;
-			drawRect.Y = currentFrame * drawRect.Height;
-
-			for (int i = 0; i < 8; i++)
+			PulseDraw.DrawPulseEffect(0.5f, 8, 8, delegate (Vector2 posOffset, float opacityMod)
 			{
-				Vector2 pulseoffset = Vector2.UnitX.RotatedBy(MathHelper.TwoPi * i / 8f) * Math.Max(Timer, 0) * 8;
-				sB.Draw(
-				 glow,
-				 drawPosition + pulseoffset,
-				 drawRect,
-				 Color.White * Math.Max(1 - Timer, 0) * AttackingTime * 0.5f,
-				 0,
-				 Origin,
-				 item.scale,
-				 player.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
-				 0);
-			}
+				sB.Draw(glow, drawPosition + posOffset, DrawRectangle, Color.White * opacityMod * GlowmaskOpacity * 0.5f, 0, Origin, item.scale, flip, 0);
+			});
 
-			sB.Draw(
-				 glow,
-				 drawPosition,
-				 drawRect,
-				 Color.White * AttackingTime,
-				 0,
-				 Origin,
-				 item.scale,
-				 player.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
-				 0);
+			sB.Draw(glow, drawPosition, DrawRectangle, Color.White * GlowmaskOpacity, 0, Origin, item.scale, flip, 0);
 
+			DrawBeams(sB);
+		}
+
+		private void DrawBeams(SpriteBatch sB)
+		{
 			if (LampTargetNPC == null || LampTargetTime == 0)
 				return;
 
-			//Texture2D star = mod.GetTexture("Effects/Masks/Star");
 			Texture2D beam = mod.GetTexture("Effects/Mining_Helmet");
 
 
-			Color color = Color.Lerp(SpiritMod.StarjinxColor(Main.GameUpdateCount / 12f) , Color.White, 0.5f);
+			Color color = Color.Lerp(SpiritMod.StarjinxColor(Main.GameUpdateCount / 12f), Color.White, 0.5f);
 
 			float halfTargetTime = MaxTargetTime / 2f;
 			float starOpacity = Math.Min(2 * ((halfTargetTime - Math.Abs(halfTargetTime - LampTargetTime)) / halfTargetTime), 0.7f);
-			float beamOpacity = Math.Max((15f - Math.Abs(15f - (MaxTargetTime - LampTargetTime))) / 15f, starOpacity);
-			Vector2 beamOffset = new Vector2(0, 26);
-			Vector2 dist = LampTargetNPC.Center - (drawPosition + beamOffset + Main.screenPosition);
-
-			//sB.Draw(star, LampTargetNPC.Center - Main.screenPosition, null, color * starOpacity, Main.GameUpdateCount / 24f, star.Size() / 2, 1f, SpriteEffects.None, 0);
-			//sB.Draw(star, LampTargetNPC.Center - Main.screenPosition, null, color * starOpacity * 0.8f, -Main.GameUpdateCount / 24f, star.Size() / 2, 0.8f, SpriteEffects.None, 0);
+			float baseOpacity = Math.Max((15f - Math.Abs(15f - (MaxTargetTime - LampTargetTime))) / 15f, starOpacity);
+			Vector2 position = GetHoldPosition + new Vector2(0, 26);
+			Vector2 dist = LampTargetNPC.Center - position;
 
 			for (int i = -1; i <= 1; i++)
 			{
 				float rot = dist.ToRotation();
 				Vector2 offset = (i == 0) ? Vector2.Zero : Vector2.UnitX.RotatedBy(rot + MathHelper.PiOver4 * i) * 4;
-				float opacity = (i == 0) ? 1f : 0.5f;
-				sB.Draw(beam, drawPosition + offset + beamOffset, null, color * beamOpacity * opacity, rot + MathHelper.PiOver2, new Vector2(beam.Width / 2f, beam.Height * 0.58f), new Vector2(1, (dist.Length() * 1.2f) / (beam.Height / 2f)), SpriteEffects.None, 0);
+				float opacityMod = (i == 0) ? 1f : 0.5f;
+				sB.Draw(beam, position - Main.screenPosition + offset, null, color * baseOpacity * opacityMod, rot + MathHelper.PiOver2, new Vector2(beam.Width / 2f, beam.Height * 0.58f), new Vector2(1, (dist.Length() * 1.2f) / (beam.Height / 2f)), SpriteEffects.None, 0);
 			}
 		}
 	}
