@@ -10,8 +10,6 @@ namespace SpiritMod.NPCs.AncientApostle
 {
 	public class BoneHarpy : ModNPC
 	{
-		int moveSpeed = 0;
-		int moveSpeedY = 0;
 
 		public override void SetStaticDefaults()
 		{
@@ -39,7 +37,11 @@ namespace SpiritMod.NPCs.AncientApostle
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.AncientApostleBanner>();
 		}
-		int counter;
+
+		private ref float moveSpeed => ref npc.ai[1];
+		private ref float moveSpeedY => ref npc.ai[2];
+		private ref float counter => ref npc.ai[3];
+
 		public override void AI()
 		{
 			if(counter == 0) {
@@ -96,6 +98,7 @@ namespace SpiritMod.NPCs.AncientApostle
 				}	
 			}
 		}
+
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

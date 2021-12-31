@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
 using Terraria.DataStructures;
+using System.IO;
 
 namespace SpiritMod.NPCs.AntlionAssassin
 {
@@ -40,7 +41,7 @@ namespace SpiritMod.NPCs.AntlionAssassin
 				return SpawnCondition.OverworldDayDesert.Chance * 1.145f;
 			return 0;
 		}
-		int timer;
+		int invisibilityTimer;
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 11; k++)
@@ -80,11 +81,11 @@ namespace SpiritMod.NPCs.AntlionAssassin
 		{
 			npc.spriteDirection = npc.direction;
 			npc.alpha++;
-			timer++;
-			if (timer >= 500)
+			invisibilityTimer++;
+			if (invisibilityTimer >= 500)
 			{
 				for (int k = 0; k < 11; k++)
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedBrown, npc.direction, -1f, 1, default, .61f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedBrown, npc.direction, -1f, 1, default, .61f);
 				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 6);
 				int ing = Gore.NewGore(npc.position, npc.velocity, 825);
 				Main.gore[ing].timeLeft = 130;
@@ -93,7 +94,7 @@ namespace SpiritMod.NPCs.AntlionAssassin
 				int ing2 = Gore.NewGore(npc.position, npc.velocity, 827);
 				Main.gore[ing2].timeLeft = 130;
 				npc.alpha = 0;
-				timer = 0;
+				invisibilityTimer = 0;
 			}
 		}
 
@@ -101,8 +102,10 @@ namespace SpiritMod.NPCs.AntlionAssassin
 		{
 			for (int k = 0; k < 11; k++)
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedBrown, npc.direction, -1f, 1, default, .61f);
+
 			if (npc.alpha >= 220)
 				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 6);
+
 			int ing = Gore.NewGore(npc.position, npc.velocity, 825);
 			Main.gore[ing].timeLeft = 50;
 			Main.gore[ing].scale = Main.rand.NextFloat(.5f, .9f);
@@ -113,7 +116,7 @@ namespace SpiritMod.NPCs.AntlionAssassin
 			Main.gore[ing2].timeLeft = 50;
 			Main.gore[ing].scale = Main.rand.NextFloat(.5f, .9f);
 			npc.alpha = 0;
-			timer = 0;
+			invisibilityTimer = 0;
 			npc.alpha = 0;
 		}
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
@@ -129,8 +132,16 @@ namespace SpiritMod.NPCs.AntlionAssassin
 			int ing2 = Gore.NewGore(npc.position, npc.velocity, 827);
 			Main.gore[ing2].timeLeft = 130;
 			npc.alpha = 0;
-			timer = 0;
+			invisibilityTimer = 0;
 			npc.alpha = 0;
+		}
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(invisibilityTimer);
+		}
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			invisibilityTimer = reader.ReadInt32();
 		}
 		public override void NPCLoot()
 		{

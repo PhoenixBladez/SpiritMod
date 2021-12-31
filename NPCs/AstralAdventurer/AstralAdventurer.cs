@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.DataStructures;
@@ -63,6 +64,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
 				weaponTimer = 0;
 				projectileTimer = 0;
 				pickedWeapon = Main.rand.Next(10000) < 5000 ? 1 : 0;
+				npc.netUpdate = true;
 			}
 			
 			if (flyingTimer > 240)
@@ -96,23 +98,26 @@ namespace SpiritMod.NPCs.AstralAdventurer
                 }
                 if (projectileTimer >= 110 && projectileTimer % 12 == 0)
                 {
-					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 34, 1f, 0f);
-					projectileTimer++;
-					if (projectileTimer >= 150)
-						projectileTimer = 0;
-					float num5 = 6f;
-					Vector2 vector2 = new Vector2(npc.Center.X + 30 *-npc.spriteDirection, npc.position.Y + (float)npc.height * 0.5f);
-					float num6 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector2.X;
-					float num7 = Math.Abs(num6) * 0.1f;
-					float num8 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector2.Y - num7;
-					float num14 = (float)Math.Sqrt((double)num6 * (double)num6 + (double)num8 * (double)num8);
-					npc.netUpdate = true;
-					float num15 = num5 / num14;
-					float num16 = num6 * num15;
-					float SpeedY = num8 * num15;
-					int p = Projectile.NewProjectile(vector2.X, vector2.Y, num16, SpeedY, ProjectileID.FlamesTrap, 8, 0.0f, Main.myPlayer, 0.0f, 0.0f);
-					Main.projectile[p].friendly = false;
-					Main.projectile[p].hostile = true;
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 34, 1f, 0f);
+						projectileTimer++;
+						if (projectileTimer >= 150)
+							projectileTimer = 0;
+						float num5 = 6f;
+						Vector2 vector2 = new Vector2(npc.Center.X + 30 * -npc.spriteDirection, npc.position.Y + (float)npc.height * 0.5f);
+						float num6 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector2.X;
+						float num7 = Math.Abs(num6) * 0.1f;
+						float num8 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector2.Y - num7;
+						float num14 = (float)Math.Sqrt((double)num6 * (double)num6 + (double)num8 * (double)num8);
+						npc.netUpdate = true;
+						float num15 = num5 / num14;
+						float num16 = num6 * num15;
+						float SpeedY = num8 * num15;
+						int p = Projectile.NewProjectile(vector2.X, vector2.Y, num16, SpeedY, ProjectileID.FlamesTrap, 8, 0.0f, Main.myPlayer, 0.0f, 0.0f);
+						Main.projectile[p].friendly = false;
+						Main.projectile[p].hostile = true;
+					}
 				}
 			}
 			else
@@ -516,6 +521,22 @@ namespace SpiritMod.NPCs.AstralAdventurer
 			Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AstralAdventurer/AstralAdventurerGore4"), 1f);
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(pickedWeapon);
+			writer.Write(flyingTimer);
+			writer.Write(pickedWeapon);
+			writer.Write(projectileTimer);
+			writer.Write(propelled);
+		}
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			pickedWeapon = reader.ReadInt32();
+			flyingTimer = reader.ReadInt32();
+			projectileTimer = reader.ReadInt32();
+			weaponTimer = reader.ReadInt32();
+			propelled = reader.ReadBoolean();
+		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => SpawnCondition.Meteor.Chance * 0.05f;
 
 		public override void FindFrame(int frameHeight)

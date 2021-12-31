@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using System.IO;
 
 using Terraria;
 using Terraria.ID;
@@ -53,6 +54,14 @@ namespace SpiritMod.NPCs.BlazingRattler
 			if (Main.rand.Next(6) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Placeable.Furniture.SkullPile>());
 		}
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(hitCounter);
+		}
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			hitCounter = reader.ReadInt32();
+		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			npc.scale -= .02f;
@@ -70,7 +79,8 @@ namespace SpiritMod.NPCs.BlazingRattler
 				dir.X *= 4f;
 				dir.Y *= 4f;
 				bool expertMode = Main.expertMode;
-				for (int i = 0; i < 1; ++i) {
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
 					Main.PlaySound(SoundID.Item20, npc.Center);
 					float A = (float)Main.rand.Next(-200, 200) * 0.01f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.01f;

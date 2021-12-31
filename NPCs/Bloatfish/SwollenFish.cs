@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using System.IO;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
 
@@ -113,6 +114,18 @@ namespace SpiritMod.NPCs.Bloatfish
                     Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bloatfish/Bloatfish4"), 1f);
                 }
 			}
+		}
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(frame);
+			writer.Write(timer);
+			writer.Write(dashtimer);
+		}
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			frame = reader.ReadInt32();
+			timer = reader.ReadInt32();
+			dashtimer = reader.ReadInt32();
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

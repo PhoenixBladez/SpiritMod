@@ -85,22 +85,22 @@ namespace SpiritMod.NPCs.Critters
 		{
             if (npc.life <= 0)
             {
-				for (int i = 0; i < 3; i++)
+				for (int i = 0; i < 6; i++)
 				{
 					if (pickedType == 0)
 					{
-						Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crionid/PinkCrionid1"), Main.rand.NextFloat(.5f, 1f));
-						Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crionid/PinkCrionid2"), Main.rand.NextFloat(.5f, 1f));
+						Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crionid/PinkCrionid1"), Main.rand.NextFloat(.5f, 1.2f));
+						Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crionid/PinkCrionid2"), Main.rand.NextFloat(.5f, 1.2f));
 					}
 					if (pickedType == 1)
 					{
-						Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crionid/RedCrionid1"), Main.rand.NextFloat(.5f, 1f));
-						Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crionid/RedCrionid2"), Main.rand.NextFloat(.5f, 1f));
+						Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crionid/RedCrionid1"), Main.rand.NextFloat(.5f, 1.2f));
+						Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crionid/RedCrionid2"), Main.rand.NextFloat(.5f, 1.2f));
 					}
 					if (pickedType == 2)
 					{
-						Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crionid/YellowCrionid1"), Main.rand.NextFloat(.5f, 1f));
-						Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crionid/YellowCrionid2"), Main.rand.NextFloat(.5f, 1f));
+						Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crionid/YellowCrionid1"), Main.rand.NextFloat(.5f, 1.2f));
+						Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crionid/YellowCrionid2"), Main.rand.NextFloat(.5f, 1.2f));
 					}
 
 				}

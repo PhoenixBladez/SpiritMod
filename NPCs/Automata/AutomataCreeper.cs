@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using SpiritMod.Mechanics.BoonSystem;
 using SpiritMod.Buffs;
@@ -54,7 +55,20 @@ namespace SpiritMod.NPCs.Automata
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.ArachmatonBanner>();
 		}
-
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(attacking);
+			writer.Write(initialDirection);
+			writer.Write(aiCounter);
+			writer.Write(shot);
+		}
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			attacking = reader.ReadBoolean();
+			initialDirection = reader.ReadInt32();
+			aiCounter = reader.ReadInt32();
+			shot = reader.ReadBoolean();
+		}
 		public override void AI()
 		{
 			aiCounter++;

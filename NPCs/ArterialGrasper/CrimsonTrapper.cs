@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Hostile;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -124,7 +125,14 @@ namespace SpiritMod.NPCs.ArterialGrasper
 				}
 			}
 		}
-
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(spawnedHooks);
+		}
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			spawnedHooks = reader.ReadBoolean();
+		}
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.15f;

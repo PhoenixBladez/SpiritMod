@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Accessory;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,12 +13,15 @@ namespace SpiritMod.NPCs.AstralAmalgam
 {
 	public class AstralAmalgram : ModNPC
 	{
+		private bool hasSpawnedBoys = false;
+		private static int[] SpawnTiles = { };
+		private ref float chargetimer => ref npc.ai[2];
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Astral Amalgam");
 			Main.npcFrameCount[npc.type] = 4;
 		}
-		private bool hasSpawnedBoys = false;
 		public override void SetDefaults()
 		{
 			npc.width = 60;
@@ -39,8 +43,7 @@ namespace SpiritMod.NPCs.AstralAmalgam
 
 		}
 
-		private static int[] SpawnTiles = { };
-		int chargetimer = 0;
+
 		public override void AI()
 		{
 			float num395 = Main.mouseTextColor / 200f - 0.35f;
@@ -147,11 +150,20 @@ namespace SpiritMod.NPCs.AstralAmalgam
 					NPC shield = Main.npc[latestNPC];
 					shield.ai[3] = npc.whoAmI;
 					shield.ai[1] = I * 120;
+					shield.netUpdate = true;
 				}
 				hasSpawnedBoys = true;
 			}
 		}
-        public override void FindFrame(int frameHeight)
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(hasSpawnedBoys);
+		}
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			hasSpawnedBoys = reader.ReadBoolean();
+		}
+		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.12f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -163,8 +164,21 @@ namespace SpiritMod.NPCs.BlizzardBandit
                 }
             }
             npc.frame.Y = frameHeight * frame;
-        }
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(timer);
+			writer.Write(shooting);
+			writer.Write(gettingballs);
+		}
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			timer = reader.ReadInt32();
+			shooting = reader.ReadBoolean();
+			gettingballs = reader.ReadBoolean();
+		}
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             return spawnInfo.player.ZoneSnow && spawnInfo.player.ZoneOverworldHeight && Main.dayTime && !spawnInfo.playerSafe ? 0.0895f : 0f;
         }

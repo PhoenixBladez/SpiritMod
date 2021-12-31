@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Sets.MarbleSet;
 using SpiritMod.Items.Weapon.Yoyo;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -16,6 +17,14 @@ namespace SpiritMod.NPCs.Beholder
 	[AutoloadBossHead]
 	public class Beholder : ModNPC, IBCRegistrable
 	{
+
+		public int dashTimer;
+		int frame = 0;
+		int timer = 0;
+		int shootTimer = 0;
+		bool manaSteal = false;
+		int manaStealTimer;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Beholder");
@@ -47,10 +56,6 @@ namespace SpiritMod.NPCs.Beholder
 
 			npc.noTileCollide = true;
 		}
-		public int dashTimer;
-		int frame = 0;
-		int timer = 0;
-		int shootTimer = 0;
 		public override bool PreAI()
 		{
 			Player player = Main.player[npc.target];
@@ -95,8 +100,6 @@ namespace SpiritMod.NPCs.Beholder
 			npc.spriteDirection = npc.direction;
 			return true;
 		}
-		bool manaSteal = false;
-		int manaStealTimer;
 		public override void AI()
 		{
 			npc.spriteDirection = npc.direction;
@@ -203,6 +206,25 @@ namespace SpiritMod.NPCs.Beholder
 				manaSteal = false;
 				manaStealTimer = 0;
 			}
+		}
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(dashTimer);
+			writer.Write(frame);
+			writer.Write(timer);
+			writer.Write(shootTimer);
+			writer.Write(manaSteal);
+			writer.Write(manaStealTimer);
+		}
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			dashTimer = reader.ReadInt32();
+			frame = reader.ReadInt32();
+			timer = reader.ReadInt32();
+			shootTimer = reader.ReadInt32();
+			manaSteal = reader.ReadBoolean();
+			manaStealTimer = reader.ReadInt32();
+
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
