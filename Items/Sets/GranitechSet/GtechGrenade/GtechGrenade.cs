@@ -107,7 +107,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 				Color glowColor = new Color(127 - projectile.alpha, 127 - projectile.alpha, 127 - projectile.alpha, 0).MultiplyRGBA(Color.LightBlue);
 				glowColor = projectile.GetAlpha(glowColor);
 				glowColor *= 1.5f - time;
-				Vector2 glowCenter = projectile.Center + ((i * 1.57f).ToRotationVector2() * (2f * time + 1f));
+				Vector2 glowCenter = projectile.Center + ((i * 1.57f).ToRotationVector2() * (2f * time));
 				spriteBatch.Draw(tex, glowCenter - Main.screenPosition, frame, glowColor, projectile.rotation, new Vector2(tex.Width, frameHeight) / 2, projectile.scale, SpriteEffects.None, 0f);
 			}
 	
