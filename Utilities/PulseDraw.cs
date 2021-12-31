@@ -9,7 +9,9 @@ namespace SpiritMod.Utilities
 		public delegate void DelegateAction(Vector2 positionOffset, float opacityMod);
 
 		/// <summary>
-		/// Helper method for the pulsing spritebatch effect.
+		/// <br>Helper method for the pulsing spritebatch effect. </br>
+		/// <br>Inputted timer will automatically be converted to a sine-based timer. </br>
+		/// <br>Strength refers to the constant that the vector offset for the textures is multiplied by. </br>
 		/// </summary>
 		/// <param name="timerInput"></param>
 		/// <param name="numToDraw"></param>
