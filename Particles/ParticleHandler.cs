@@ -152,7 +152,7 @@ namespace SpiritMod.Particles
 		internal static void DrawAllParticles(SpriteBatch spriteBatch)
 		{
 			foreach (Particle particle in particles) {
-				if (particle == null || particle is ScreenParticle && ModContent.GetInstance<SpiritClientConfig>().Particles == false)
+				if (particle == null || particle is ScreenParticle && ModContent.GetInstance<SpiritClientConfig>().ForegroundParticles == false)
 					continue;
 				
 				if (particle.UseAdditiveBlend)

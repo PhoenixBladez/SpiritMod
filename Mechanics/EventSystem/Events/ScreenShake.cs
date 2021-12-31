@@ -10,6 +10,7 @@ using SpiritMod.Utilities;
 using SpiritMod.Mechanics.EventSystem.Controllers;
 
 using Terraria;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.EventSystem.Events
 {
@@ -36,7 +37,7 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			{
 				return new CameraController.CameraPointData(
 					(Main.screenPosition + new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f) + // center screen +
-					Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi).ToRotationVector2() * _distance); // random offset
+					Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi).ToRotationVector2() * _distance * ModContent.GetInstance<SpiritClientConfig>().ScreenShake); // random offset
 			};
 
 			public RandomRelativePoint(float distance)

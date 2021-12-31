@@ -176,7 +176,6 @@ namespace SpiritMod
 							return;
 						}
 
-						WriteToPacket(SpiritMod.Instance.GetPacket(), (byte)MessageType.BossTitle, bossType).Send();
 						int npcID = NPC.NewNPC(npcCenterX, npcCenterY, bossType);
 						Main.npc[npcID].Center = new Vector2(npcCenterX, npcCenterY);
 						Main.npc[npcID].netUpdate2 = true;
@@ -217,14 +216,6 @@ namespace SpiritMod
 					break;
 				case MessageType.DestroySuperSunFlower:
 					MyWorld.superSunFlowerPositions.Remove(new Point16(reader.ReadUInt16(), reader.ReadUInt16()));
-					break;
-				case MessageType.BossTitle:
-					if (Main.netMode == NetmodeID.Server)
-					{ //if received by the server, send to all clients instead
-						WriteToPacket(SpiritMod.Instance.GetPacket(), (byte)MessageType.BossTitle, reader.ReadInt32()).Send();
-						break;
-					}
-					BossTitles.SetNPCType(reader.ReadInt32());
 					break;
 				case MessageType.SpawnExplosiveBarrel: // this packet is only meant to be received by the server
 					NPC.NewNPC(reader.ReadInt32(), reader.ReadInt32(), ModContent.NPCType<ExplosiveBarrel>(), 0, 2, 1, 0, 0); // gets forwarded to all clients

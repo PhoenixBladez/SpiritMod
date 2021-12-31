@@ -1547,8 +1547,8 @@ namespace SpiritMod
 
 		public override void ModifyScreenPosition()
 		{
-			Main.screenPosition.Y += Main.rand.Next(-Shake, Shake);
-			Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
+			Main.screenPosition.Y += Main.rand.Next(-Shake, Shake) * ModContent.GetInstance<SpiritClientConfig>().ScreenShake;
+			Main.screenPosition.X += Main.rand.Next(-Shake, Shake) * ModContent.GetInstance<SpiritClientConfig>().ScreenShake;
 			if (Shake > 0) { Shake--; }
 		}
 

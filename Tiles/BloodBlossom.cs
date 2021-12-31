@@ -67,7 +67,6 @@ namespace SpiritMod.Tiles
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				Main.NewText("The Vinewrath Bane has awoken!", 175, 75, 255, true);
-				BossTitles.SyncNPCType(ModContent.NPCType<ReachBoss>());
 				int npcID = NPC.NewNPC((int)p.Center.X + 600, (int)p.Center.Y + 600, ModContent.NPCType<ReachBoss>());
 				Main.npc[npcID].netUpdate2 = true;
 			}

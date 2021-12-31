@@ -153,7 +153,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 			Item item = player.HeldItem;
 			SpriteEffects flip = player.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
-			PulseDraw.DrawPulseEffect(0.5f, 8, 8, delegate (Vector2 posOffset, float opacityMod)
+			PulseDraw.DrawPulseEffect((float)Math.Asin(-0.6), 8, 12, delegate (Vector2 posOffset, float opacityMod)
 			{
 				sB.Draw(glow, drawPosition + posOffset, DrawRectangle, Color.White * opacityMod * GlowmaskOpacity * 0.5f, 0, Origin, item.scale, flip, 0);
 			});

@@ -49,11 +49,6 @@ namespace SpiritMod.Utilities
 			On.Terraria.Main.DrawNPCChatButtons += Main_DrawNPCChatButtons;
 			On.Terraria.WorldGen.SpreadGrass += WorldGen_SpreadGrass;
 
-			On.Terraria.NPC.SpawnOnPlayer += SpawnOnPlayer;
-			On.Terraria.NPC.SpawnSkeletron += SpawnSkeletron;
-			On.Terraria.NPC.SpawnWOF += SpawnWOF;
-			On.Terraria.NPC.AI_084_LunaticCultist += LunaticCultist;
-
 			On.Terraria.Main.DrawBackgroundBlackFill += Main_DrawBackgroundBlackFill; //BackgroundItemManager.Draw()
 			On.Terraria.Main.Update += Main_Update; //BackgroundItemManager.Update()
 
@@ -86,11 +81,6 @@ namespace SpiritMod.Utilities
 
 			On.Terraria.Main.DrawNPCChatButtons -= Main_DrawNPCChatButtons;
 			On.Terraria.WorldGen.SpreadGrass -= WorldGen_SpreadGrass;
-
-			On.Terraria.NPC.SpawnOnPlayer -= SpawnOnPlayer;
-			On.Terraria.NPC.SpawnSkeletron -= SpawnSkeletron;
-			On.Terraria.NPC.SpawnWOF -= SpawnWOF;
-			On.Terraria.NPC.AI_084_LunaticCultist -= LunaticCultist;
 
 			Main.OnPreDraw -= Main_OnPreDraw;
 			On.Terraria.Main.DrawWater -= Main_DrawWater;
@@ -226,31 +216,6 @@ namespace SpiritMod.Utilities
 
 			if (Main.playerLoaded && BackgroundItemManager.Loaded && !Main.gameMenu)
 				BackgroundItemManager.Draw(); //Draw all background items
-		}
-
-		private static void SpawnOnPlayer(On.Terraria.NPC.orig_SpawnOnPlayer orig, int plr, int type)
-		{
-			orig(plr, type);
-			BossTitles.SyncNPCType(type);
-		}
-
-		private static void SpawnSkeletron(On.Terraria.NPC.orig_SpawnSkeletron orig)
-		{
-			orig();
-			BossTitles.SyncNPCType(NPCID.SkeletronHead);
-		}
-
-		private static void SpawnWOF(On.Terraria.NPC.orig_SpawnWOF orig, Vector2 pos)
-		{
-			orig(pos);
-			BossTitles.SyncNPCType(NPCID.WallofFlesh);
-		}
-
-		private static void LunaticCultist(On.Terraria.NPC.orig_AI_084_LunaticCultist orig, NPC self)
-		{
-			if (self.type == NPCID.CultistBoss && self.ai[0] == -1 && self.ai[1] >= 360 && self.localAI[2] != 13) //conditions for its laugh when starting the fight
-				BossTitles.SyncNPCType(NPCID.CultistBoss);
-			orig(self);
 		}
 
 		private static void Main_DrawPlayerChat(On.Terraria.Main.orig_DrawPlayerChat orig, Main self)

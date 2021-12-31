@@ -368,7 +368,6 @@ namespace SpiritMod
 			ashRain = false;
 			dayTimeLast = Main.dayTime;
 			dayTimeSwitched = false;
-			BossTitles.Reset();
 			if (!Main.dedServ)
 				AdditiveCallManager.Load();
 

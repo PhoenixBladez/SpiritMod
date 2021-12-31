@@ -281,7 +281,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
             return false;
         }
     }
-	internal class DragonSlash : ModProjectile
+	internal class DragonSlash : ModProjectile, IDrawAdditive
 	{
 
 		int frameX = 0;
@@ -298,6 +298,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 			projectile.tileCollide = false;
 			projectile.Size = new Vector2(88, 123);
 			projectile.penetrate = -1;
+			projectile.hide = true;
 		}
 		public override void AI()
 		{
@@ -309,20 +310,32 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 			projectile.Center = Main.npc[(int)projectile.ai[0]].Center;
 			projectile.velocity = Vector2.Zero;
 			projectile.frameCounter++;
-			if (projectile.frameCounter % 7 == 0)
+			if (projectile.frameCounter % 5 == 0)
 				projectile.frame++;
 			if (projectile.frame >= Main.projFrames[projectile.type])
 				projectile.active = false;
 
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public void AdditiveCall(SpriteBatch sB)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			int frameHeight = tex.Height / Main.projFrames[projectile.type];
-			Rectangle frame = new Rectangle((tex.Width / 2) * frameX, frameHeight * projectile.frame, tex.Width / 2, frameHeight);
-			spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, new Vector2(tex.Width / 4, frameHeight / 2), projectile.scale, SpriteEffects.None, 0f);
-			return false;
+			//Adjust framing due to secondary column
+			Rectangle frame = projectile.DrawFrame();
+			frame.Width /= 2;
+			frame.X = frame.Width * frameX;
+
+			void Draw(Vector2 offset, float opacity)
+			{
+				sB.Draw(Main.projectileTexture[projectile.type], projectile.Center + offset - Main.screenPosition, frame, 
+					Color.White * opacity, projectile.rotation, frame.Size() / 2, projectile.scale, SpriteEffects.None, 0);
+			}
+
+
+			PulseDraw.DrawPulseEffect((float)Math.Asin(-0.6), 8, 12, delegate (Vector2 posOffset, float opacityMod)
+			{
+				Draw(posOffset, opacityMod * 0.33f);
+			});
+			Draw(Vector2.Zero, 1);
 		}
 		public override Color? GetAlpha(Color lightColor) => Color.White;
 	}

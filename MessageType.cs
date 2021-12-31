@@ -15,7 +15,6 @@
 		SpawnTrail,
 		PlaceSuperSunFlower,
 		DestroySuperSunFlower,
-		BossTitle,
 		SpawnExplosiveBarrel,
 		StarjinxData,
 		BoonData

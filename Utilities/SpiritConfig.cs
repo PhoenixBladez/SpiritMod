@@ -1,5 +1,7 @@
 using SpiritMod.World;
 using System.ComponentModel;
+using System.Runtime.Serialization;
+using Terraria;
 using Terraria.ModLoader.Config;
 
 namespace SpiritMod.Utilities
@@ -9,15 +11,24 @@ namespace SpiritMod.Utilities
 	{
 		public override ConfigScope Mode => ConfigScope.ClientSide;
 
-        [Label("Screen Distortion")]
+
+		[Label("Screenshake")]
+		[Tooltip("Modifies the intensity of screenshake applied by content within the mod.\nSet to 0 to completely disable.")]
+		[Range(0f, 1f)]
+		[Increment(.01f)]
+		[DefaultValue(1f)]
+		[Slider]
+		public float ScreenShake { get; set; }
+
+		[Label("Screen Distortion")]
         [Tooltip("Enables screen distortion while in the Spirit Biome or when fighting the Starplate Voyager")]
         [DefaultValue(true)]
         public bool DistortionConfig { get; set; }
 
-		[Label("Extra Particles")]
+		[Label("Foreground Particles")]
 		[Tooltip("Enables extra particles in the foreground under certain conditions")]
 		[DefaultValue(true)]
-		public bool Particles { get; set; }
+		public bool ForegroundParticles { get; set; }
 
 		[Label("Quick Sell Feature")]
 		[Tooltip("Enables the quick-sell feature, which allows for easily selling all unwanted items to NPCs")]
@@ -65,12 +76,6 @@ namespace SpiritMod.Utilities
 		[DefaultValue(true)]
 		public bool LeafFall { get; set; }
 
-		[Label("Boss Titles")]
-		[Tooltip("Enables the showing of titles when spawning a boss, or what bosses titles display for")]
-		[OptionStrings(new string[] { "Off", "Spirit Bosses Only", "Spirit and Vanilla Bosses Only", "All Applicable Bosses" })]
-		[DefaultValue("Spirit and Vanilla Bosses Only")]
-		public string DrawCondition { get; set; }
-
 		[Label("Ocean Generation Shape")]
 		[Tooltip("Modifies the Ocean generation in certain ways. Defaults to a Piecewise_V generation - this is the intended shape, and changing this is only meant for novelty")]
 		[DefaultValue(OceanGeneration.OceanShape.Piecewise_V)]
@@ -94,5 +99,8 @@ namespace SpiritMod.Utilities
 		[Tooltip("Enables the spawning of numerous critters around Hydrothermal Vents\nThese critters do not interfere with regular enemy spawnrates")]
 		[DefaultValue(true)]
 		public bool VentCritters { get; set; }
+
+		[OnDeserialized]
+		internal void OnDeserializedMethod(StreamingContext context) => ScreenShake = Utils.Clamp(ScreenShake, 0f, 1f);
 	}
 }

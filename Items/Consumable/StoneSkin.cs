@@ -42,7 +42,6 @@ namespace SpiritMod.Items.Consumable
 			Main.PlaySound(SoundID.Roar, (int)player.Center.X, (int)player.Center.Y, 0);
 			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 600, ModContent.NPCType<Atlas>());
 
-			BossTitles.SyncNPCType(ModContent.NPCType<Atlas>());
 			Main.NewText("The earth is trembling!", 255, 60, 255);
 			return true;
 		}
