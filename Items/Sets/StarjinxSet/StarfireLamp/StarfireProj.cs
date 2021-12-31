@@ -101,7 +101,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 						AiState = HomingAccelerate;
 						break;
 					}
-					projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(Target.Center) * 3, 0.2f);
+					projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(Target.Center) * 2, 0.22f);
 					break;
 				case HomingAccelerate:
 					if (projectile.velocity.Length() < 24)

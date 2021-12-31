@@ -45,7 +45,7 @@ float4 White(VertexShaderOutput input) : COLOR0
 {
     float4 color;
 
-    float stretch = 4.5f - (4 * tex2D(vnoiseSampler, float2(progress, input.TextureCoordinates.y / 2.0f)).r);
+    float stretch = 4.5f - (3 * tex2D(vnoiseSampler, float2(progress + (input.TextureCoordinates.x) / 3, input.TextureCoordinates.y / 1.5f)).r);
 
     float4 edge = lerp(float4(1, 1, 1, 1), white, input.TextureCoordinates.x);
     if (input.TextureCoordinates.y < 0.94f)

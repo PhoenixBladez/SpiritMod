@@ -26,28 +26,31 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
             item.magic = true;
             item.width = 36;
             item.height = 40;
-			item.useTime = 12;
-            item.useAnimation = 12;
+			item.useTime = 7;
+            item.useAnimation = 35;
+			item.reuseDelay = 24;
             item.useStyle = ItemUseStyleID.Stabbing;
             item.shoot = ModContent.ProjectileType<StarfireProj>();
             item.shootSpeed = 24f;
             item.knockBack = 3f;
             item.autoReuse = true;
             item.rare = ItemRarityID.Pink;
-            item.UseSound = SoundID.Item45.WithPitchVariance(0.2f).WithVolume(0.5f);
             item.value = Item.sellPrice(silver: 55);
             item.useTurn = false;
             item.mana = 6;
-        }
+			item.holdStyle = 1;
+		}
 
 		public override bool AltFunctionUse(Player player) => true;
 
 		public override bool CanUseItem(Player player)
 		{
-			if(player.altFunctionUse == 2)
+
+			if (player.altFunctionUse == 2)
 			{
-				item.useTime = 30;
-				item.useAnimation = 30;
+				item.useTime = item.useAnimation;
+				item.reuseDelay = 0;
+
 				NPC mousehovernpc = null; //see if an npc is intersecting the mouse
 				foreach (NPC npc in Main.npc.Where(x => x.active && x.CanBeChasedBy(player) && x != null))
 				{
@@ -62,8 +65,9 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 
 				return true;
 			}
-			item.useTime = 9;
-			item.useAnimation = 9;
+			item.useTime = item.useAnimation / 5;
+			item.reuseDelay = 24;
+
 			return true;
 		}
 
@@ -73,6 +77,10 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 		{
 			StarfireLampPlayer starfireLampPlayer = player.GetModPlayer<StarfireLampPlayer>();
 			starfireLampPlayer.TwinkleTime = StarfireLampPlayer.MaxTwinkleTime;
+
+			//Done here to be on use rather than on animation start
+			if (!Main.dedServ)
+				Main.PlaySound(SoundID.Item45.WithPitchVariance(0.2f).WithVolume(0.5f), player.Center);
 
 			if (player.altFunctionUse == 2)
 			{
@@ -94,7 +102,11 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 				return false;
 			}
 
-			position.Y -= 60;
+			starfireLampPlayer.AttackingTime = 1;
+
+			//Adjust position to account for hold style
+			position.Y += 26;
+			position.X += 18 * player.direction;
 
 			Vector2 vel = Vector2.Normalize(Main.MouseWorld - position).RotatedByRandom(MathHelper.Pi / 20) * item.shootSpeed;
 			speedX = vel.X;

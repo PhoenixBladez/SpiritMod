@@ -4,6 +4,8 @@ using SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder;
 using SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid;
 using SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver;
 using SpiritMod.Particles;
+using SpiritMod.Prim;
+using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +15,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Comets
 {
-	public class SmallComet : ModNPC
+	public class SmallComet : ModNPC, IDrawAdditive
 	{
 		public override sealed bool CloneNewInstances => true;
 
@@ -257,6 +259,17 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 
         public float Timer => Main.GlobalTime + TimerOffset; //Used to offset the beam/sine wave motion
 
+		public float DeathGlowStrength
+		{
+			get
+			{
+				float strength = 1 - (npc.life / (float)npc.lifeMax);
+				strength = EaseFunction.EaseQuadInOut.Ease(strength);
+				strength *= (float)(Math.Sin(Main.GlobalTime * 6) * 0.1f) + 1;
+				strength *= 0.6f;
+				return strength;
+			}
+		}
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             var center = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
@@ -266,14 +279,47 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
             Color col = npc.GetAlpha(baseCol) * 0.6f;
 
 			SpriteEffects effects = npc.spriteDirection > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, null, npc.GetAlpha(Color.Lerp(drawColor, Color.White, 0.5f)), npc.rotation, center, 1, effects, 0f);
-			spriteBatch.Draw(ModContent.GetTexture($"SpiritMod/NPCs/StarjinxEvent/Comets/{Size}CometGlow"), npc.Center - Main.screenPosition, null, col * glowOpacity, npc.rotation, center, 1, effects, 0f);
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, null, npc.GetAlpha(Color.Lerp(drawColor, Color.White, 0.5f)), npc.rotation, center, npc.scale, effects, 0f);
+			spriteBatch.Draw(ModContent.GetTexture($"SpiritMod/NPCs/StarjinxEvent/Comets/{Size}CometGlow"), npc.Center - Main.screenPosition, null, col * glowOpacity, npc.rotation, center, npc.scale, effects, 0f);
             for (int i = 0; i < 6; i++)
             {
                 var drawPos = npc.Center + ((i / 6f) * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * (4f * cos + 2f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * i;
 				spriteBatch.Draw(ModContent.GetTexture($"SpiritMod/NPCs/StarjinxEvent/Comets/{Size}CometGlow"), drawPos, npc.frame, col * glowOpacity * (1f - cos), npc.rotation, npc.frame.Size() / 2f, npc.scale, effects, 0f);
             }
+
 			return false;
+		}
+
+		public void AdditiveCall(SpriteBatch sB)
+		{
+			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D texture = Main.npcTexture[npc.type];
+			Vector2 scale = texture.Size() / bloom.Size();
+			scale *= 3;
+
+			sB.Draw(bloom, npc.Center - Main.screenPosition, null, Color.White * DeathGlowStrength, 0, bloom.Size() / 2, scale, SpriteEffects.None, 0);
+
+			//Dont draw blur line if not vulnerable, to reduce unnecessary shader applications
+			if (!npc.dontTakeDamage)
+			{
+				float blurLength = MathHelper.Lerp(texture.Width * 3, texture.Width * 4, DeathGlowStrength);
+				float blurWidth = MathHelper.Lerp(texture.Height / 5, texture.Height / 4, DeathGlowStrength);
+
+				Effect blurEffect = mod.GetEffect("Effects/BlurLine");
+				SquarePrimitive blurLine = new SquarePrimitive()
+				{
+					Position = npc.Center - Main.screenPosition,
+					Height = blurWidth,
+					Length = blurLength,
+					Rotation = npc.rotation,
+					Color = Color.White * DeathGlowStrength * 0.75f
+				};
+
+				PrimitiveRenderer.DrawPrimitiveShape(blurLine, blurEffect);
+			}
+
+			SpriteEffects effects = npc.spriteDirection > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			sB.Draw(ModContent.GetTexture($"SpiritMod/NPCs/StarjinxEvent/Comets/{Size}Comet_mask"), npc.Center - Main.screenPosition, null, Color.White * DeathGlowStrength, npc.rotation, texture.Size()/2, npc.scale, effects, 0f);
 		}
 
 		private Color EnergyColor => Color.Lerp(SpiritMod.StarjinxColor(Timer * 0.8f), Color.White, 0.33f);

@@ -56,10 +56,6 @@ namespace SpiritMod.Items.Consumable.Potion
 			Main.buffNoTimeDisplay[Type] = false;
 		}
 
-		public override void Update(Player player, ref int buffIndex)
-		{
-			player.buffImmune[BuffID.Stoned] = true;
-
-		}
+		public override void Update(Player player, ref int buffIndex) => player.buffImmune[BuffID.Stoned] = true;
 	}
 }
