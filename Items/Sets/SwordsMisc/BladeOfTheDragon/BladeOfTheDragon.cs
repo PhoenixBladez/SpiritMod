@@ -18,13 +18,13 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blade of the Dragon");
-            Tooltip.SetDefault("Hold and release to slice through nearby enemies");
+            Tooltip.SetDefault("Hold and release to slice through nearby enemies \nBuild up a combo be repeatedly hitting enemies");
         }
 
         public override void SetDefaults()
         {
             item.channel = true;
-            item.damage = 80;
+            item.damage = 100;
             item.width = 60;
             item.height = 60;
             item.useTime = 60;
@@ -36,9 +36,9 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
             item.noMelee = true;
             item.knockBack = 1;
             item.useTurn = false;
-            item.value = Terraria.Item.sellPrice(0, 0, 90, 0);
-            item.rare = ItemRarityID.Orange;
-            item.autoReuse = false;
+			item.value = Item.sellPrice(gold: 10);
+			item.rare = ItemRarityID.LightPurple;
+			item.autoReuse = false;
             item.shoot = mod.ProjectileType("BladeOfTheDragonProj");
             item.shootSpeed = 6f;
             item.noUseGraphic = true;
@@ -58,8 +58,6 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
     {
 		const int DISTANCE = 700;
 
-        public NPC[] hit = new NPC[24];
-
 		Vector2 direction = Vector2.Zero;
 
 		Vector2 startPos = Vector2.Zero;
@@ -67,6 +65,8 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 		Vector2 endPos = Vector2.Zero;
 
 		Vector2 oldCenter = Vector2.Zero;
+
+		bool comboActivated;
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Blade of the Dragon");
 
@@ -85,10 +85,6 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 
         public readonly int MAXCHARGE = 56;
         public int charge = 0;
-        int index = 0;
-        NPC mostrecent;
-
-		bool comboActivated = false;
 
         public override void AI()
         {
@@ -142,89 +138,22 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 					player.GetModPlayer<DragonPlayer>().DrawSparkle = true;
 
 					oldCenter = player.Center;
-					for (int i = 0; i < Main.npc.Length; i++)
-                    {
-                        NPC target = Main.npc[i];
-						float collisionPoint = 0f;
-                        if (Collision.CheckAABBvLineCollision(target.Hitbox.TopLeft(), target.Hitbox.Size(), player.Center, player.oldPosition + (new Vector2(player.width, player.height) / 2), 40, ref collisionPoint) && index < 23)
-                        {
-							if (player.HeldItem.modItem is BladeOfTheDragon modItem && !comboActivated)
-							{
-								comboActivated = true;
-								modItem.combo++;
-							}
-                            bool inlist = false;
-                            foreach (var npc in hit)
-				                if (target == npc)
-                                    inlist = true;
-                            if (!inlist)
-                                hit[index++] = target;
-                        }
-                    }
                 }
                 if (charge == MAXCHARGE)
                 {
 					player.GetModPlayer<MyPlayer>().AnimeSword = false;
 					player.velocity = Vector2.Zero;
+					projectile.Kill();
                 }
             }
             else
             {
-                if (charge > 40 && charge < MAXCHARGE)
-                {
+				if (charge > 40 && charge < MAXCHARGE)
+				{
 					player.GetModPlayer<MyPlayer>().AnimeSword = false;
 					player.velocity = Vector2.Zero;
-                    charge = MAXCHARGE + 1;
-                }
-                if (projectile.timeLeft % 4 == 0)
-                {
-                    float mindist = 0;
-                    NPC closest = null;
-                    foreach (var npc in hit)
-                    {
-                        if (npc != null)
-                        {
-                            if (npc.active && (!npc.townNPC || !npc.friendly))
-                            {
-                                float distance = (npc.Center - projectile.Center).Length();
-                                if (mostrecent == null)
-                                {
-                                    if (distance > mindist)
-                                    {
-                                        closest = npc;
-                                        mindist = distance;
-                                    }
-                                }
-                                else
-                                {
-                                    float maxdistance = (mostrecent.Center - projectile.Center).Length();
-                                    if (distance > mindist && distance < maxdistance)
-                                    {
-                                        closest = npc;
-                                        mindist = distance;
-                                    }
-                                }
-                            }
-                        }
-                    }
-					if (closest != null)
-					{
-						mostrecent = closest;
-						if (mostrecent.active)
-						{
-							//SpiritMod.primitives.CreateTrail(new DragonPrimTrailTwo(mostrecent));
-							Projectile.NewProjectile(mostrecent.Center, Vector2.Zero, ModContent.ProjectileType<DragonSlash>(), 0, 0, player.whoAmI, mostrecent.whoAmI);
-						}
-					}
-					else if (projectile.timeLeft > 15)
-					{
-						if (player.HeldItem.modItem is BladeOfTheDragon modItem && !comboActivated)
-						{
-							modItem.combo = 0;
-						}
-						projectile.timeLeft = 15;
-					}
-                }
+				}
+				projectile.Kill();
             }
         }
 
@@ -234,24 +163,29 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 			float colissionPoint = 0f;
             if (charge > 40 && charge < MAXCHARGE)
                 return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), player.Center, player.oldPosition + (new Vector2(player.width,player.height) / 2), 60, ref colissionPoint);
-            if (!(player.channel && projectile.timeLeft > 237))
-                return true;
             return false;
 
         }
 
         public override bool? CanHitNPC(NPC target)
 		{
-            Player player = Main.player[projectile.owner];
-            if ((player.channel && projectile.timeLeft > 237) || projectile.timeLeft > 5)
-                return false;
-            foreach (var npc in hit)
-				if (target == npc)
-					return base.CanHitNPC(target);
+            if (charge > 40 && charge < MAXCHARGE)
+				return base.CanHitNPC(target);
 			return false;
         }
 
-		public override void Kill(int timeLeft) => Main.player[projectile.owner].GetModPlayer<MyPlayer>().AnimeSword = false;
+		public override void Kill(int timeLeft)
+		{
+			Player player = Main.player[projectile.owner];
+			if (player.HeldItem.modItem is BladeOfTheDragon modItem)
+			{
+				if (!comboActivated)
+					modItem.combo = 0;
+				else
+					modItem.combo++;
+			}
+			Main.player[projectile.owner].GetModPlayer<MyPlayer>().AnimeSword = false;
+		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
@@ -280,7 +214,13 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 			}*/
             return false;
         }
-    }
+
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			comboActivated = true;
+			Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DragonSlash>(), 0, 0, projectile.whoAmI, target.whoAmI);
+		}
+	}
 	internal class DragonSlash : ModProjectile, IDrawAdditive
 	{
 
