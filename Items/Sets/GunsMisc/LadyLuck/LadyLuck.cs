@@ -53,7 +53,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
 			{
 				Vector2 direction = new Vector2(speedX, speedY);
 
-				int p = Projectile.NewProjectile(position + (direction * 2.5f) + (direction.RotatedBy(-1.57f * player.direction) * -.12f), direction, ModContent.ProjectileType<LadyLuckFlash>(), 0, 0, player.whoAmI);
+				int p = Projectile.NewProjectile(position + (direction * 2.65f) + (direction.RotatedBy(-1.57f * player.direction) * -.02f), direction, ModContent.ProjectileType<LadyLuckFlash>(), 0, 0, player.whoAmI);
 				Main.projectile[p].frame = Main.rand.Next(0, 3);
 				Gore.NewGore(player.Center, new Vector2(player.direction * -1, -0.5f) * 4, mod.GetGoreSlot("Gores/BulletCasing"), 1f);
 				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);

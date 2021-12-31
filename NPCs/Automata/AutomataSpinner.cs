@@ -60,7 +60,7 @@ namespace SpiritMod.NPCs.Automata
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for (int k = 0; k < 20; k++) {
+			for (int k = 0; k < 10; k++) {
 	            Dust.NewDust(npc.position, npc.width, npc.height, DustID.Sunflower, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
 				 Dust.NewDust(npc.position, npc.width, npc.height, DustID.Wraith, 2.5f * hitDirection, -2.5f, 0, default, Main.rand.NextFloat(.45f, .55f));
 			}

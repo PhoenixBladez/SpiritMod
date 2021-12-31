@@ -132,19 +132,22 @@ namespace SpiritMod.NPCs.Hookbat
             if (npc.ai[1] == 1f)
             {
                 frame = 4;
-				if (npc.ai[2] == 0)
-                {
-                    direction.Normalize();
-                    Main.PlaySound(SoundID.DD2_WyvernDiveDown, npc.Center);
-                    direction.X *= Main.rand.Next(14, 17);
-                    direction.Y *= Main.rand.Next(19, 27);
-                    npc.velocity.X = direction.X;
-                    npc.velocity.Y = direction.Y;
-                    npc.ai[2]++;
-                }
-				else
-                    npc.velocity.Y -= .0625f;
-
+				int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
+				if (distance < 400)
+				{
+					if (npc.ai[2] == 0)
+					{
+						direction.Normalize();
+						Main.PlaySound(SoundID.DD2_WyvernDiveDown, npc.Center);
+						direction.X *= Main.rand.Next(14, 17);
+						direction.Y *= Main.rand.Next(19, 27);
+						npc.velocity.X = direction.X;
+						npc.velocity.Y = direction.Y;
+						npc.ai[2]++;
+					}
+					else
+						npc.velocity.Y -= .0625f;
+				}
 				if (npc.ai[0] > 235)
                 {
                     npc.ai[0] = 0f;

@@ -15,6 +15,7 @@ using SpiritMod.Items.Placeable.Furniture;
 using SpiritMod.Items.Placeable.IceSculpture;
 using SpiritMod.Items.Sets.FrigidSet;
 using SpiritMod.Items.Sets.FlailsMisc.JadeDao;
+using SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Yoyo;
@@ -730,6 +731,8 @@ namespace SpiritMod.NPCs
 				shop[nextSlot++] = ItemType<Anthem>();
 			if (Main.rand.NextBool(8) && NPC.downedPlantBoss) //Add Jade dao to shop
 				shop[nextSlot++] = ItemType<JadeDao>();
+			if (Main.rand.NextBool(8) && NPC.downedPlantBoss) //Add Jade dao to shop
+				shop[nextSlot++] = ItemType<BladeOfTheDragon>();
 		}
 
 		public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
