@@ -32,6 +32,8 @@ namespace SpiritMod.NPCs.MoltenCore
 			npc.buffImmune[BuffID.Confused] = true;
 			npc.HitSound = SoundID.NPCHit3;
 			npc.DeathSound = SoundID.NPCDeath43;
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.MoltenCoreBanner>();
 		}
 		public override void OnHitPlayer (Player target, int damage, bool crit)
 		{

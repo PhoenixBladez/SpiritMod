@@ -34,6 +34,8 @@ namespace SpiritMod.NPCs.SkeletonBrute
 			npc.alpha = 0;
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath2;
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.SkeletonBruteBanner>();
 		}
 
 		public override void AI()

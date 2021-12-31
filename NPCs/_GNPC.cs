@@ -14,6 +14,7 @@ using SpiritMod.Items.Pets;
 using SpiritMod.Items.Placeable.Furniture;
 using SpiritMod.Items.Placeable.IceSculpture;
 using SpiritMod.Items.Sets.FrigidSet;
+using SpiritMod.Items.Sets.FlailsMisc.JadeDao;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Yoyo;
@@ -48,6 +49,7 @@ using SpiritMod.Utilities;
 using SpiritMod.Items.Weapon.Magic.Rhythm.Anthem;
 using SpiritMod.Items.Placeable.Furniture.Paintings;
 using SpiritMod.Items.Sets.PirateStuff;
+using SpiritMod.Items.Accessory.MageTree;
 
 namespace SpiritMod.NPCs
 {
@@ -116,6 +118,7 @@ namespace SpiritMod.NPCs
 			}
 			else
 				voidInfluence = false;
+
 			sanguinePrev = sanguineBleed;
 			bloodInfused = false;
 			sanguineBleed = false;
@@ -681,6 +684,11 @@ namespace SpiritMod.NPCs
 				if (Main.LocalPlayer.GetSpiritPlayer().ZoneReach)
 					shop.item[nextSlot++].SetDefaults(ItemType<Items.Placeable.Tiles.BriarGrassSeeds>(), false);
 			}
+			else if (type == NPCID.Wizard)
+			{
+				shop.item[nextSlot++].SetDefaults(ItemType<Items.Consumable.SurrenderBell>(), false);
+				shop.item[nextSlot++].shopCustomPrice = 300000;
+			}
 			else if (type == NPCID.Steampunker)
 			{
 				shop.item[nextSlot++].SetDefaults(ItemType<Items.Ammo.SpiritSolution>());
@@ -720,6 +728,8 @@ namespace SpiritMod.NPCs
 		{
 			if (Main.rand.NextBool(15)) //Add Anthem to travelling shop
 				shop[nextSlot++] = ItemType<Anthem>();
+			if (Main.rand.NextBool(8) && NPC.downedPlantBoss) //Add Jade dao to shop
+				shop[nextSlot++] = ItemType<JadeDao>();
 		}
 
 		public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
@@ -749,6 +759,12 @@ namespace SpiritMod.NPCs
 			{
 				maxSpawns = (int)(maxSpawns * 1.18f);
 				spawnRate = 2;
+			}
+			if (player.GetSpiritPlayer().oliveBranchBuff)
+			{
+				spawnRate = (int)(spawnRate * 4.5f);
+				maxSpawns = (int)(maxSpawns * .5f);
+
 			}
 		}
 
@@ -818,7 +834,6 @@ namespace SpiritMod.NPCs
 							pool.Add(NPCType<BlueAlgae2>(), 3f);
 						if (MyWorld.luminousType == 3)
 							pool.Add(NPCType<PurpleAlgae2>(), 3f);
-						pool.Add(NPCType<SeaMandrake.SeaMandrake>(), .26f);
 					}
 				}
 			}
@@ -968,7 +983,7 @@ namespace SpiritMod.NPCs
 				}
 			}
 
-			if (player.GetSpiritPlayer().arcaneNecklace && Main.rand.Next(5) == 0 && !npc.friendly && player.HeldItem.magic && player.statMana < player.statManaMax2)
+			if (player.AccessoryEquipped<ArcaneNecklace>() && Main.rand.Next(5) == 0 && !npc.friendly && player.HeldItem.magic && player.statMana < player.statManaMax2)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Star);
 
 			if (player.GetSpiritPlayer().ZoneAsteroid && Main.rand.Next(50) == 0)
@@ -1149,22 +1164,6 @@ namespace SpiritMod.NPCs
 				NetMessage.BroadcastChatMessage(NetworkText.FromLiteral("The Spirits spread through the Land..."), Color.Orange, -1);
 			}
 		}
-		int timeAlive;
-
-		public override void PostAI(NPC npc)
-		{
-			Player closest = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)];
-
-			if (closest.ZoneBeach)
-            {
-				if (npc.type == NPCID.Zombie || npc.type == NPCID.BaldZombie || npc.type == NPCID.PincushionZombie || npc.type == NPCID.SlimedZombie || npc.type == NPCID.SwampZombie || npc.type == NPCID.TwiggyZombie)
-				{
-					timeAlive++;
-					if (timeAlive >= -1)
-						npc.Transform(NPCID.BlueSlime);
-                }
-            }
-	    }
 		public override void DrawEffects(NPC npc, ref Color drawColor)
 		{
 			if (sFracture && Main.rand.Next(2) == 0)

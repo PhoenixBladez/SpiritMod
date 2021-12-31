@@ -88,6 +88,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarLance
 
 		public override void AI()
 		{
+			Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 0.054F * 3, 0.027F * 3, 0.135F * 3);
+
 			if (!initialized)
 			{
 				if (projectile.frame == 10 && Main.rand.Next(5) != 1)

@@ -7,9 +7,8 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Accessory.MeleeCharmTree;
 using SpiritMod.Items.Sets.DuskingDrops;
-using System;
-using SpiritMod.Projectiles;
 using SpiritMod.Projectiles.Summon.CimmerianStaff;
+using SpiritMod.Items.Accessory.MageTree;
 
 namespace SpiritMod.Players
 {
@@ -46,21 +45,14 @@ namespace SpiritMod.Players
 				target.AddBuff(BuffID.ShadowFlame, 180);
 		}
 
-		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
-		{
-			OnHitNPCWithAnything(item, target, damage, knockback, crit);
-		}
+		public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit) => OnHitNPCWithAnything(proj, target, damage, knockback, crit);
+		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit) => OnHitNPCWithAnything(item, target, damage, knockback, crit);
 
 		public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			// Twilight Talisman & Shadow Gauntlet
 			bool shadowFlameCondition = (player.AccessoryEquipped<Twilight1>() && Main.rand.NextBool(15)) || (player.AccessoryEquipped<ShadowGauntlet>() && proj.melee && Main.rand.NextBool(2));
 			AddBuffWithCondition(shadowFlameCondition, target, BuffID.ShadowFlame, 180);
-		}
-
-		public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
-		{
-			OnHitNPCWithAnything(proj, target, damage, knockback, crit);
 		}
 
 		public void OnHitNPCWithAnything(Entity weapon, NPC target, int damage, float knockback, bool crit)
@@ -78,10 +70,6 @@ namespace SpiritMod.Players
 				if ((weapon is Item i && i.melee) || weapon is Projectile)
 					target.AddBuff(BuffID.Poisoned, 120);
 			}
-		}
-
-		public override void OnHitAnything(float x, float y, Entity victim)
-		{
 		}
 
 		private void AddBuffWithCondition(bool condition, NPC p, int id, int ticks) { if (condition) p.AddBuff(id, ticks); }
@@ -122,6 +110,19 @@ namespace SpiritMod.Players
 					Projectile.NewProjectile(Main.player[Main.myPlayer].Center, vel, ProjectileID.LostSoulFriendly, 45, 0, Main.myPlayer);
 				}
 			}
+
+			// Mana Shield & Seraphim Bulwark
+			if (player.AccessoryEquipped<ManaShield>() || player.AccessoryEquipped<SeraphimBulwark>())
+			{
+				damage -= (int)damage / 10;
+				if (player.statMana > (int)damage / 10 * 4)
+				{
+					if ((player.statMana - (int)damage / 10 * 4) > 0)
+						player.statMana -= (int)damage / 10 * 4;
+					else
+						player.statMana = 0;
+				}
+			}
 		}
 
 		public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
@@ -144,7 +145,6 @@ namespace SpiritMod.Players
 						}
 					}
 				}
-
 				Main.projectile[newProj].ai[0] = target;
 			}
 		}

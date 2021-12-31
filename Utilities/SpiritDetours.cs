@@ -24,6 +24,8 @@ using SpiritMod.Effects.SurfaceWaterModifications;
 using SpiritMod.Items.Sets.FloatingItems.MessageBottle;
 using MonoMod.RuntimeDetour.HookGen;
 using System.Reflection;
+using SpiritMod.Items.Weapon.Summon.StardustBomb;
+using SpiritMod.NPCs.Town.Oracle;
 
 namespace SpiritMod.Utilities
 {
@@ -63,6 +65,7 @@ namespace SpiritMod.Utilities
 			IL.Terraria.Player.Hurt += Player_Hurt;
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
 			IL.Terraria.WorldGen.hardUpdateWorld += WorldGen_hardUpdateWorld;
+			IL.Terraria.Main.DrawMouseOver += Main_DrawMouseOver;
 
 			SurfaceWaterModifications.Load();
 			HookEndpointManager.Add<hook_NPCAI>(NPCAIMethod, (hook_NPCAI)NPCAIMod);
@@ -93,9 +96,9 @@ namespace SpiritMod.Utilities
 			On.Terraria.Main.DrawWater -= Main_DrawWater;
 
 			IL.Terraria.Player.Hurt -= Player_Hurt;
-
 			IL.Terraria.Player.ItemCheck -= Player_ItemCheck;
 			IL.Terraria.WorldGen.hardUpdateWorld -= WorldGen_hardUpdateWorld;
+			IL.Terraria.Main.DrawMouseOver -= Main_DrawMouseOver;
 
 			SurfaceWaterModifications.Unload();
 			HookEndpointManager.Remove<hook_NPCAI>(NPCAIMethod, (hook_NPCAI)NPCAIMod);
@@ -361,6 +364,9 @@ namespace SpiritMod.Utilities
 					ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, font, questText, position + new Vector2(16f, 14f), baseColor, 0f,
 						stringSize * 0.5f, scale * new Vector2(1f));
 				}
+
+				if (talkNPC.type == ModContent.NPCType<Oracle>())
+					Oracle.DrawBuffButton(superColor, numLines);
 			}
 			orig(superColor, chatColor, numLines, focusText, focusText3);
 		}
@@ -648,6 +654,28 @@ namespace SpiritMod.Utilities
 			c.Emit(OpCodes.Ldc_I4_1); //Only difference is this pushes 1, because this is vertical knockback
 			c.EmitDelegate<KnockbackMultiplierDelegate>(MiscAccessoryPlayer.KnockbackMultiplier);
 			c.Emit(OpCodes.Mul);
+		}
+
+		private static void Main_DrawMouseOver(ILContext il)
+		{
+			ILCursor c = new ILCursor(il);
+
+			for (int i = 0; i < 3; ++i)
+				if (!c.TryGotoNext(x => x.MatchStfld<Player>("showItemIcon"))) //match stfld for showItemIcon 3 times for the right call
+					return;
+
+			c.Index -= 5;
+			c.Emit(OpCodes.Ldsfld, typeof(Main).GetField("npc")); //Push the current NPC to the stack -->
+			c.Emit(OpCodes.Ldloc_S, (byte)8);
+			c.Emit(OpCodes.Ldelem_Ref); // <--
+			c.EmitDelegate<Func<bool, NPC, bool>>(CheckDrawLife); //And make a hook for overriding if the life stat draws
+		}
+
+		private static bool CheckDrawLife(bool flag, NPC self)
+		{
+			if (self.type == ModContent.NPCType<StardustBombNPC>())
+				return false;
+			return flag;
 		}
 	}
 }

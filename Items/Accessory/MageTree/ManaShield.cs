@@ -1,7 +1,4 @@
-
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using SpiritMod.Items.Accessory.Leather;
 using Terraria.ModLoader;
@@ -17,7 +14,6 @@ namespace SpiritMod.Items.Accessory.MageTree
 			Tooltip.SetDefault("Increases maximum mana by 20\nAbsorbs 10% of the damage dealt by enemies\nThis damage is converted into a loss of mana instead\nThe amount of mana lost is equal to 4x the damage absorbed");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = 36;
@@ -26,11 +22,9 @@ namespace SpiritMod.Items.Accessory.MageTree
 			item.rare = ItemRarityID.Green;
 			item.accessory = true;
 		}
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			player.GetSpiritPlayer().manaShield = true;
-			player.statManaMax2 += 20;
-		}
+
+		public override void UpdateAccessory(Player player, bool hideVisual) => player.statManaMax2 += 20;
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -40,7 +34,6 @@ namespace SpiritMod.Items.Accessory.MageTree
             recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
-
 		}
 	}
 }

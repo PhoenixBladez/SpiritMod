@@ -288,7 +288,7 @@ namespace SpiritMod.NPCs.GraniTech
 
 		public override void NPCLoot()
         {
-			for(int i = 1; i <= 4; i++)
+			for(int i = 1; i <= 2; i++)
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot($"Gores/GraniTech/GraniteSentryGore{i}"), 1f);
         }
 

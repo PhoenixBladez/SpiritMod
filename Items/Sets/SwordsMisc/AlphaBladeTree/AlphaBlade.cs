@@ -1,6 +1,4 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Items.Material;
-using SpiritMod.Projectiles.Sword;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,10 +24,10 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 			item.useAnimation = 16;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 6;
-			item.value = Terraria.Item.sellPrice(1, 0, 0, 0);
+			item.value = Item.sellPrice(1, 0, 0, 0);
 			item.rare = 12;
 			item.UseSound = SoundID.Item1;
-			item.shoot = 1;
+			item.shoot = ProjectileID.WoodenArrowFriendly;
 			item.shootSpeed = 4f;
 			item.autoReuse = true;
 		}

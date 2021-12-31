@@ -56,6 +56,8 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 			npc.noGravity = false;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath6;
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.DraugrBanner>();
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)

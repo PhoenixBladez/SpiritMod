@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Material;
+using SpiritMod.Buffs.Zones;
 
 namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 {
@@ -55,11 +56,13 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 			item.knockBack = 0;
 			item.value = 10000;
 			item.rare = ItemRarityID.Green;
-			item.reuseDelay = 300;
+			item.reuseDelay = 60;
 			item.UseSound = SoundID.DD2_EtherianPortalSpawnEnemy;
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<RepulsionZone>();
 			item.shootSpeed = 0f;
+			item.buffType = ModContent.BuffType<RepulsionZoneTimer>();
+			item.buffTime = Projectile.SentryLifeTime;
 		}
         public override Vector2? HoldoutOffset()
         {

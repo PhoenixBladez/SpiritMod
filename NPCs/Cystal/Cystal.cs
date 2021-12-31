@@ -37,6 +37,8 @@ namespace SpiritMod.NPCs.Cystal
 			npc.noTileCollide = true;
 			npc.HitSound = new Terraria.Audio.LegacySoundStyle(42, 193);
 			npc.DeathSound = new Terraria.Audio.LegacySoundStyle(42, 182);
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.CystalBanner>();
 		}
 
 		public override void AI()

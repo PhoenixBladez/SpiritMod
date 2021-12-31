@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using Terraria.Utilities;
 using SpiritMod.Items.Sets.PirateStuff.DuelistLegacy;
 using SpiritMod.Items.Sets.GunsMisc.LadyLuck;
+using SpiritMod.Items.Sets.FloatingItems;
 
 namespace SpiritMod.World
 {
@@ -22,6 +23,7 @@ namespace SpiritMod.World
 
 		private static int _roughTimer = 0;
 		private static float _rough = 0f;
+		private static (Rectangle, Rectangle) _oceanInfos = (new Rectangle(), new Rectangle());
 
 		/// <summary>Generates the Ocean ("Beaches"). Heavily based on vanilla code.</summary>
 		/// <param name="progress"></param>
@@ -31,7 +33,6 @@ namespace SpiritMod.World
 			progress.Message = Lang.gen[22].Value; //replace later
 
 			int dungeonSide = Main.dungeonX < Main.maxTilesX / 2 ? -1 : 1;
-			(Rectangle, Rectangle) oceanInfos = (new Rectangle(), new Rectangle());
 
 			void GenSingleOceanSingleStep(int oceanTop, int placeX, ref int tilesFromInnerEdge)
 			{
@@ -67,10 +68,10 @@ namespace SpiritMod.World
 					for (int placeX = initialWidth - 1; placeX >= worldEdge; placeX--)
 						GenSingleOceanSingleStep(oceanTop, placeX, ref tilesFromInnerEdge);
 
-					oceanInfos.Item1.X = worldEdge;
-					oceanInfos.Item1.Y = oceanTop - 5;
-					oceanInfos.Item1.Width = initialWidth;
-					oceanInfos.Item1.Height = (int)GetOceanSlope(tilesFromInnerEdge) + 20;
+					_oceanInfos.Item1.X = worldEdge;
+					_oceanInfos.Item1.Y = oceanTop - 5;
+					_oceanInfos.Item1.Width = initialWidth;
+					_oceanInfos.Item1.Height = (int)GetOceanSlope(tilesFromInnerEdge) + 20;
 				}
 				else
 				{
@@ -85,15 +86,15 @@ namespace SpiritMod.World
 					for (int placeX = worldEdge; placeX < initialWidth; placeX++) //repeat X loop
 						GenSingleOceanSingleStep(oceanTop, placeX, ref tilesFromInnerEdge);
 
-					oceanInfos.Item2.X = worldEdge;
-					oceanInfos.Item2.Y = oceanTop - 5;
-					oceanInfos.Item2.Width = initialWidth - worldEdge;
-					oceanInfos.Item2.Height = (int)GetOceanSlope(tilesFromInnerEdge) + 20;
+					_oceanInfos.Item2.X = worldEdge;
+					_oceanInfos.Item2.Y = oceanTop - 5;
+					_oceanInfos.Item2.Width = initialWidth - worldEdge;
+					_oceanInfos.Item2.Height = (int)GetOceanSlope(tilesFromInnerEdge) + 20;
 				}
 			}
 
-			PopulateOcean(oceanInfos.Item1, 0);
-			PopulateOcean(oceanInfos.Item2, 1);
+			PopulateOcean(_oceanInfos.Item1, 0);
+			PopulateOcean(_oceanInfos.Item2, 1);
 		}
 
 		private static void PopulateOcean(Rectangle bounds, int side)
@@ -123,8 +124,8 @@ namespace SpiritMod.World
 				return true;
 			}
 
-			PlacePirateChest(side == 0 ? bounds.Right : bounds.Left);
-			PlaceSunkenTreasure(side == 0 ? bounds.Right : bounds.Left);
+			PlacePirateChest(side == 0 ? bounds.Right : bounds.Left, side);
+			PlaceSunkenTreasure(side == 0 ? bounds.Right : bounds.Left, side);
 
 			for (int i = bounds.Left; i < bounds.Right; ++i)
 			{
@@ -134,31 +135,57 @@ namespace SpiritMod.World
 					if (side == 1)
 						tilesFromInnerEdge = i - bounds.Left;
 
-					if (WorldGen.genRand.NextBool(5) && ValidGround(i, j, 2, TileID.Sand) && OpenArea(i, j - 3, 2, 3))
+					int coralChance = 0;
+					if (tilesFromInnerEdge < 133) //First slope (I hope)
+						coralChance = 3;
+					else if (tilesFromInnerEdge < 161)
+						coralChance = 12;
+
+					//Coral multitiles
+					if (coralChance > 0 && WorldGen.genRand.NextBool(coralChance) && ValidGround(i, j, 2, TileID.Sand) && OpenArea(i, j - 3, 2, 3))
 					{
 						int type = ModContent.TileType<Coral2x2>();
 
-						if (tilesFromInnerEdge > 75)
-						{
-							int choice = WorldGen.genRand.Next(3);
-							if (tilesFromInnerEdge > 161)
-								choice = WorldGen.genRand.Next(2);
-
-							if (choice == 0)
-								type = ModContent.TileType<Kelp2x2>();
-							else if (choice == 1)
-								type = ModContent.TileType<Kelp2x3>();
-						}
-
-						int styleRange = type == ModContent.TileType<Coral2x2>() ? 3 : 1;
-						int offset = type == ModContent.TileType<Kelp2x3>() ? 3 : 2;
-
-						WorldGen.PlaceObject(i, j - offset, type, true, WorldGen.genRand.Next(styleRange));
+						WorldGen.PlaceObject(i, j - 2, type, true, WorldGen.genRand.Next(3));
 						NetMessage.SendObjectPlacment(-1, i, j, type, 0, 0, -1, -1);
 						continue;
 					}
 
-					if (WorldGen.genRand.Next(5) < 2 && tilesFromInnerEdge > 133 && ValidGround(i, j, 1, TileID.Sand) && OpenArea(i, j - 3, 1, 3))
+					int kelpChance = 0;
+					if (tilesFromInnerEdge < 100) //First slope (I hope)
+						kelpChance = 10;
+					else if (tilesFromInnerEdge < 140)
+						kelpChance = 5;
+
+					//Kelp multitile
+					if (kelpChance > 0 && WorldGen.genRand.NextBool(kelpChance * 2) && ValidGround(i, j, 2, TileID.Sand) && OpenArea(i, j - 3, 2, 3))
+					{
+						int type = ModContent.TileType<Kelp2x3>();
+
+						int choice = WorldGen.genRand.Next(2);
+						if (choice == 0)
+							type = ModContent.TileType<Kelp2x2>();
+
+						int offset = type == ModContent.TileType<Kelp2x3>() ? 3 : 2;
+
+						WorldGen.PlaceObject(i, j - offset, type, true, 0);
+						NetMessage.SendObjectPlacment(-1, i, j, type, 0, 0, -1, -1);
+						continue;
+					}
+
+					//Kelp multitile (small)
+					if (kelpChance > 0 && WorldGen.genRand.NextBool(kelpChance * 2) && ValidGround(i, j, 2, TileID.Sand) && OpenArea(i, j - 2, 1, 2))
+					{
+						int type = ModContent.TileType<Kelp1x2>();
+
+						WorldGen.PlaceObject(i, j - 2, type, true, 0);
+						WorldGen.PlaceTile(i, j, TileID.Sand);
+						NetMessage.SendObjectPlacment(-1, i, j, type, 0, 0, -1, -1);
+						continue;
+					}
+
+					//Hydrothermal vents
+					if (WorldGen.genRand.Next(7) < 2 && tilesFromInnerEdge > 143 && ValidGround(i, j, 1, TileID.Sand) && OpenArea(i, j - 3, 1, 3))
 					{
 						int type = WorldGen.genRand.NextBool(3) ? ModContent.TileType<HydrothermalVent1x3>() : ModContent.TileType<HydrothermalVent1x2>();
 						int offset = type == ModContent.TileType<HydrothermalVent1x2>() ? 2 : 3;
@@ -168,11 +195,12 @@ namespace SpiritMod.World
 						continue;
 					}
 
-					if (WorldGen.genRand.Next(3) < 2 && tilesFromInnerEdge < 133 && ValidGround(i, j, 1, TileID.Sand))
+					//Growing kelp
+					if (WorldGen.genRand.Next(5) < 2 && tilesFromInnerEdge < 133 && ValidGround(i, j, 1, TileID.Sand))
 					{
-						int height = WorldGen.genRand.Next(4, 20);
+						int height = WorldGen.genRand.Next(6, 23) + 2;
 						int offset = 1;
-						while (OpenArea(i, j - offset, 1, 1) && height > 0)
+						while (!Framing.GetTileSafely(i, j - offset).active() && Framing.GetTileSafely(i, j - offset).liquid > 155 && height > 0)
 						{
 							WorldGen.PlaceTile(i, j - offset++, ModContent.TileType<OceanKelp>());
 							height--;
@@ -182,24 +210,49 @@ namespace SpiritMod.World
 			}
 		}
 
-		private static void PlaceSunkenTreasure(int innerEdge)
+		private static int GetTileAt(int x, int y)
+		{
+			int tileDist = y;
+
+			while (true)
+			{
+				tileDist++;
+
+				Tile t = Framing.GetTileSafely(x, tileDist);
+				if (t.active() && Main.tileSolid[t.type])
+					break;
+			}
+			return tileDist;
+		}
+
+		private static void PlaceSunkenTreasure(int innerEdge, int side)
 		{
 			int sunkenCount = WorldGen.genRand.Next(3);
 
 			for (int i = 0; i < sunkenCount; ++i)
 			{
 				int sunkenX = innerEdge - WorldGen.genRand.Next(133, innerEdge - 40);
+				if (side == 1)
+					sunkenX = innerEdge + WorldGen.genRand.Next(133, Main.maxTilesX - innerEdge - 40);
+
 				var pos = new Point(sunkenX, (int)(Main.maxTilesY * 0.35f / 16f));
-				while (!WorldGen.SolidTile(pos.X, pos.Y - 1))
+				while (!WorldGen.SolidTile(pos.X, pos.Y))
 					pos.Y++;
 
+				for (int j = pos.X; j < pos.X + 3; ++j)
+					for (int k = pos.Y - 1; k < pos.Y + 1; ++k)
+						WorldGen.KillTile(j, k, false, false, true);
 
+				WorldGen.PlaceObject(pos.X, pos.Y, ModContent.TileType<SunkenTreasureTile>());
 			}
 		}
 
-		private static void PlacePirateChest(int innerEdge)
+		private static void PlacePirateChest(int innerEdge, int side)
 		{
-			int guaranteeChestX = innerEdge - WorldGen.genRand.Next(133, innerEdge - 40);
+			int guaranteeChestX = innerEdge - WorldGen.genRand.Next(120, innerEdge - 40);
+			if (side == 1)
+				guaranteeChestX = innerEdge + WorldGen.genRand.Next(120, Main.maxTilesX - innerEdge - 40);
+
 			var chest = new Point(guaranteeChestX, (int)(Main.maxTilesY * 0.35f / 16f));
 			while (!WorldGen.SolidTile(chest.X, chest.Y - 1))
 				chest.Y++;
@@ -207,14 +260,14 @@ namespace SpiritMod.World
 
 			int BarStack() => WorldGen.genRand.Next(3, 7);
 
-			for (int i = 0; i < 3; ++i)
+			for (int i = 0; i < 2; ++i)
 			{
 				WorldGen.KillTile(chest.X + i, chest.Y + 1, false, false, true);
-				WorldGen.PlaceTile(chest.X + i, chest.Y + 1, TileID.Sand, true, false);
+				WorldGen.PlaceTile(chest.X + i, chest.Y + 1, TileID.HardenedSand, true, false);
 				Framing.GetTileSafely(chest.X + i, chest.Y + 1).slope(0);
 			}
 
-			PlaceChest(chest.X, chest.Y - 1, ModContent.TileType<OceanPirateChest>(), 
+			PlaceChest(chest.X, chest.Y, ModContent.TileType<OceanPirateChest>(), 
 				new (int, int)[] //Primary items
 				{
 					(ModContent.ItemType<DuelistLegacy>(), 1), (ModContent.ItemType<LadyLuck>(), 1)
@@ -300,7 +353,10 @@ namespace SpiritMod.World
 			}
 			else if (placeY > oceanTop)
 			{
-				Main.tile[placeX, placeY].type = TileID.Sand;
+				if (placeY < oceanTop + depth + 8)
+					Main.tile[placeX, placeY].type = TileID.Sand;
+				else
+					Main.tile[placeX, placeY].type = TileID.HardenedSand;
 				Main.tile[placeX, placeY].active(active: true);
 			}
 			Main.tile[placeX, placeY].wall = 0;

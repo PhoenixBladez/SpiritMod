@@ -4,6 +4,7 @@ using SpiritMod.Projectiles.Summon.Zones;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Buffs.Zones;
 
 namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 {
@@ -56,6 +57,8 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<SlowZone>();
 			item.shootSpeed = 0f;
+			item.buffType = ModContent.BuffType<CryoZoneTimer>();
+			item.buffTime = Projectile.SentryLifeTime;
 		}
         public override Vector2? HoldoutOffset()
         {

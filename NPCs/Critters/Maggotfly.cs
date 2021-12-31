@@ -34,8 +34,9 @@ namespace SpiritMod.NPCs.Critters
 			npc.noGravity = true;
 			aiType = NPCID.Firefly;
 			Main.npcFrameCount[npc.type] = 2;
+			npc.dontTakeDamageFromHostiles = false;
 		}
-        public override void HitEffect(int hitDirection, double damage)
+		public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
             {

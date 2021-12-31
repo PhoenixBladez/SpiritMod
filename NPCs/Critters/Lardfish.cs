@@ -32,6 +32,7 @@ namespace SpiritMod.NPCs.Critters
 			npc.noGravity = true;
 			npc.npcSlots = 0;
 			aiType = NPCID.Goldfish;
+			npc.dontTakeDamageFromHostiles = false;
 		}
 		public override void AI()
         {

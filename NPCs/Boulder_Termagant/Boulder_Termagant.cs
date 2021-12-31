@@ -41,6 +41,8 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 			npc.noTileCollide = false;
 			npc.HitSound = new Terraria.Audio.LegacySoundStyle(3, 6);
 			npc.DeathSound = new Terraria.Audio.LegacySoundStyle(4, 5);
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.BoulderBehemothBanner>();
 		}
 
 		public override bool? CanBeHitByProjectile(Projectile projectile)

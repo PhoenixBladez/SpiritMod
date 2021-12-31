@@ -13,7 +13,7 @@ namespace SpiritMod.NPCs.FleshHound
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Flesh Hound");
-			Main.npcFrameCount[npc.type] = 10;
+			Main.npcFrameCount[npc.type] = 6;
 			NPCID.Sets.TrailCacheLength[npc.type] = 3;
 			NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
@@ -47,9 +47,6 @@ namespace SpiritMod.NPCs.FleshHound
 			}
 			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hound1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hound2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hound2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hound2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hound2"), 1f);
 				for (int k = 0; k < 40; k++) {
 					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection * 2.5f, -1f, 0, default, Main.rand.NextFloat(.45f, 1.15f));
@@ -90,7 +87,7 @@ namespace SpiritMod.NPCs.FleshHound
 				npc.netUpdate = true;
 			}
 			if (timer == 400 && Main.netMode != NetmodeID.MultiplayerClient) {
-				num34616 = .95f;
+				num34616 = .55f;
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				direction.X = direction.X * Main.rand.Next(7, 9);
@@ -104,7 +101,7 @@ namespace SpiritMod.NPCs.FleshHound
 				npc.knockBackResist = 0f;
 			}
 			else {
-				num34616 = .55f;
+				num34616 = .25f;
 			}
 			if (timer >= 551) {
 				timer = 0;

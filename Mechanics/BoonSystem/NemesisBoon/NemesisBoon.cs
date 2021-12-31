@@ -15,6 +15,7 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 		private Projectile proj;
 
 		public override string TexturePath => "SpiritMod/Mechanics/BoonSystem/NemesisBoon/NemesisBoon";
+		public override Vector2 SigilSize => new Vector2(22, 36);
 
 		public override void SetStats() => npc.lifeMax = npc.life = (int)(npc.lifeMax * 1.5f);
 

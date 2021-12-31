@@ -27,6 +27,7 @@ namespace SpiritMod.NPCs.Critters
 			npc.DeathSound = SoundID.NPCDeath1;
 			Main.npcCatchable[npc.type] = true;
 			npc.catchItem = (short)ModContent.ItemType<BlossmoonItem>();
+			npc.dontTakeDamageFromHostiles = false;
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 0;
 			npc.npcSlots = 0;

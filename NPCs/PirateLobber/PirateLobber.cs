@@ -28,6 +28,8 @@ namespace SpiritMod.NPCs.PirateLobber
 
 			npc.buffImmune[20] = true;
 			npc.buffImmune[31] = false;
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.PirateLobberBanner>();
 		}
 
 		int frame = 0;

@@ -14,7 +14,6 @@ namespace SpiritMod.Items.Pets
 		{
 			DisplayName.SetDefault("Jelly Peace Candle");
 			Tooltip.SetDefault("Summons a peaceful jellyfish");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 8));
 		}
 
 		public override void SetDefaults()

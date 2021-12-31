@@ -30,6 +30,11 @@ namespace SpiritMod.Tiles.Ambient.HangingChimes
 			if (tile.active() && tile.type == Type) {
 				WorldGen.KillTile(i, j + 1);
 			}
+			if (Main.rand.NextBool(500))
+            {
+				Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<Items.Weapon.Magic.CrystalWindpipe.CrystalWindpipe>());
+
+			}
 		}
 
 		public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)

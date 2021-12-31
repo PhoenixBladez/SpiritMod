@@ -29,18 +29,21 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
             item.noMelee = true;
             item.knockBack = 1;
             item.useTurn = false;
-            item.value = Terraria.Item.sellPrice(0, 0, 90, 0);
+            item.value = Item.sellPrice(0, 0, 90, 0);
             item.rare = ItemRarityID.Orange;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("AnimeSwordProj");
             item.shootSpeed = 6f;
             item.noUseGraphic = true;
         }
+
 		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 	}
+
     public class AnimeSwordProj : ModProjectile
     {
         public NPC[] hit = new NPC[12];
+
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Anime Sword Proj");
 
 		public override void SetDefaults()
@@ -67,23 +70,24 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
             player.itemTime = 2;
             player.itemAnimation = 2;
             projectile.Center = player.Center;
+
             if (player.channel)
             {
                 projectile.timeLeft = 120;
                 charge++;
                 if (charge < 60)
                     charge++;
+
                 if (charge == 60)
                 {
-					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/slashdash").WithPitchVariance(0.4f).WithVolume(0.4f), projectile.Center);
+					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/slashdash").WithPitchVariance(0.4f).WithVolume(0.4f), projectile.Center);
 					SpiritMod.primitives.CreateTrail(new AnimePrimTrail(projectile));
                 }
+
                 if (charge > 60 && charge < MAXCHARGE)
                 {
 					player.GetModPlayer<MyPlayer>().AnimeSword = true;
-                    Vector2 direction = Main.MouseWorld - (player.Center);
-			        direction.Normalize();
-			        direction *= 45f;
+                    Vector2 direction = Vector2.Normalize(Main.MouseWorld - player.Center) * 45f;
                     player.velocity = direction;
                     for (int i = 0; i < Main.npc.Length; i++)
                     {
@@ -94,15 +98,17 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
                             foreach (var npc in hit)
 				                if (target == npc)
                                     inlist = true;
+
                             if (!inlist)
                                 hit[index++] = target;
                         }
                     }
                 }
+
                 if (charge == MAXCHARGE)
                 {
 					player.GetModPlayer<MyPlayer>().AnimeSword = false;
-					player.velocity = Vector2.Zero;
+					player.velocity *= 0.001f;
                 }
             }
             else
@@ -113,6 +119,7 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 					player.velocity = Vector2.Zero;
                     charge = MAXCHARGE + 1;
                 }
+
                 if (projectile.timeLeft % 5 == 0)
                 {
                     float mindist = 0;
@@ -144,6 +151,7 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
                             }
                         }
                     }
+
                     if (closest != null)
                     {
                         mostrecent = closest;
@@ -164,7 +172,6 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
             if (!player.channel)
                 return true;
             return false;
-
         }
 
         public override bool? CanHitNPC(NPC target)

@@ -128,7 +128,7 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 
 					soundTimer--;
 					if (soundTimer == 0)
-						Main.PlaySound(2, projectile.Center, 1);
+						Main.PlaySound(SoundID.Item, projectile.Center, 1);
 
 					float progress = swingTimer;
 					float oldProgress = EaseFunction.EaseCircularInOut.Ease(progress - swingSpeed);
@@ -189,7 +189,7 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 			Vector2 vector9 = projectile.position;
 			for (int num257 = 0; num257 < 25; num257++)
 			{
-				int newDust = Dust.NewDust(projectile.Center + ((projectile.rotation - 1.57f).ToRotationVector2() * Main.rand.Next(70)) + Main.rand.NextVector2Circular(10, 10), projectile.width, projectile.height, 132, 0f, 0f, 0, default, 1f);
+				int newDust = Dust.NewDust(projectile.Center + ((projectile.rotation - 1.57f).ToRotationVector2() * Main.rand.Next(70)) + Main.rand.NextVector2Circular(10, 10), projectile.width, projectile.height, DustID.Firework_Blue, 0f, 0f, 0, default, 1f);
 				Main.dust[newDust].velocity *= .125f;
 				Main.dust[newDust].noGravity = true;
 

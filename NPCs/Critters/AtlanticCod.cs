@@ -27,6 +27,7 @@ namespace SpiritMod.NPCs.Critters
 			npc.catchItem = (short)ItemID.AtlanticCod;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
+			npc.dontTakeDamageFromHostiles = false;
 			npc.knockBackResist = .35f;
 			npc.aiStyle = 16;
 			npc.noGravity = true;

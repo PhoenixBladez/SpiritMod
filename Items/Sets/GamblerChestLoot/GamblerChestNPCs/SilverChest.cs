@@ -103,22 +103,15 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 				if (counter < 50 && counter % 3 == 0)
 				{
 					int itemid;
-					int item = 0;
 					float val = Main.rand.NextFloat();
 					if (val < .577f)
-					{
 						itemid = ItemID.CopperCoin;
-					}
 					else if (val < 0.988f)
-					{
 						itemid = ItemID.SilverCoin;
-					}
 					else
-					{
 						itemid = ItemID.GoldCoin;
-					}
 
-					item = Item.NewItem(npc.Center, Vector2.Zero, itemid, 1);
+					int item = Item.NewItem(npc.Center, Vector2.Zero, itemid, 1);
 					Main.item[item].velocity = Vector2.UnitY.RotatedBy(Main.rand.NextFloat(1.57f, 4.71f)) * 4;
 					Main.item[item].velocity.Y /= 2;
 					if (Main.netMode != NetmodeID.SinglePlayer)
@@ -127,19 +120,20 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 
 				if (counter == 25)
 				{
-					npc.DropItem(ModContent.ItemType<Items.Sets.GamblerChestLoot.Jem.Jem>(), 0.005f);
-					npc.DropItem(ModContent.ItemType<Items.Consumable.Food.GoldenCaviar>(), 0.07f);
-					npc.DropItem(ModContent.ItemType<Items.Sets.GamblerChestLoot.FunnyFirework.FunnyFirework>(), 0.07f, Main.rand.Next(5, 9));
+					npc.DropItem(ModContent.ItemType<Jem.Jem>(), 0.005f);
+					npc.DropItem(ModContent.ItemType<Consumable.Food.GoldenCaviar>(), 0.07f);
+					npc.DropItem(ModContent.ItemType<FunnyFirework.FunnyFirework>(), 0.07f, Main.rand.Next(5, 9));
 					npc.DropItem(ItemID.AngelStatue, 0.03f);
-					npc.DropItem(ModContent.ItemType<Items.Sets.GamblerChestLoot.Champagne.Champagne>(), 0.06f, Main.rand.Next(1, 3));
+					npc.DropItem(ModContent.ItemType<Champagne.Champagne>(), 0.06f, Main.rand.Next(1, 3));
 					npc.DropItem(ModContent.ItemType<Mystical_Dice>(), 0.04f);
+
 					switch (Main.rand.NextBool())
 					{ //mutually exclusive
 						case true:
-							npc.DropItem(ModContent.ItemType<Items.Sets.GamblerChestLoot.GildedMustache.GildedMustache>(), 0.03f);
+							npc.DropItem(ModContent.ItemType<GildedMustache.GildedMustache>(), 0.03f);
 							break;
 						case false:
-							npc.DropItem(ModContent.ItemType<Items.Sets.GamblerChestLoot.RegalCane.RegalCane>(), 0.03f);
+							npc.DropItem(ModContent.ItemType<RegalCane.RegalCane>(), 0.03f);
 							break;
 					}
 					string[] lootTable = { "DiverLegs", "DiverHead", "DiverBody", "AstronautBody", "AstronautHelm", "AstronautLegs", "BeekeeperBody", "BeekeeperHead", "BeekeeperLegs", "CapacitorBody", "CapacitorHead", "CapacitorLegs", "CenturionBody", "CenturionlLegs", "CenturionHead", "CommandoHead", "CommandoBody", "CommandoLegs", 
@@ -147,12 +141,13 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 						"JackBody", "JackLegs", "JackHead", "PlagueDoctorCowl", "PlagueDoctorRobe", "PlagueDoctorLegs", "ProtectorateBody", "ProtectorateLegs", "LeafPaddyHat", "PsychoMask", 
 						"OperativeBody", "OperativeHead", "OperativeLegs", "WitchBody", "WitchHead", "WitchLegs"};
 					int loot = Main.rand.Next(lootTable.Length);
+
 					if (Main.rand.Next(100) == 0)
 					{
 						npc.DropItem(mod.ItemType(lootTable[loot]));
 						for (int value = 0; value < 32; value++)
 						{
-							int num = Dust.NewDust(new Vector2(npc.Center.X, npc.Center.Y - 20), 50, 50, 173, 0f, -2f, 0, default, 2f);
+							int num = Dust.NewDust(new Vector2(npc.Center.X, npc.Center.Y - 20), 50, 50, DustID.ShadowbeamStaff, 0f, -2f, 0, default, 2f);
 							Main.dust[num].noGravity = true;
 							Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 							Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;

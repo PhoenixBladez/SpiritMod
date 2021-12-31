@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using static SpiritMod.NPCUtils;
 using static Terraria.ModLoader.ModContent;
 using Terraria.Localization;
+using Microsoft.Xna.Framework;
 
 namespace SpiritMod.NPCs.Town
 {
@@ -193,6 +194,33 @@ namespace SpiritMod.NPCs.Town
 		{
 			multiplier = 8f;
 			randomOffset = 2f;
+		}
+		public override void HitEffect(int hitDirection, double damage)
+		{
+			if (npc.life <= 0)
+			{
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gambler/Gambler1"));
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gambler/Gambler2"));
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gambler/Gambler3"));
+				for (int numGore = 0; numGore < 15; numGore++)
+                {
+					int g = Gore.NewGore(npc.position, npc.velocity * Main.rand.NextFloat(0.5f, 1.3f), mod.GetGoreSlot("Gores/GamblerCash"));
+					Main.gore[g].scale = Main.rand.NextFloat(.5f, 1f);
+				}
+				for (int num621 = 0; num621 < 14; num621++)
+				{
+					int num = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<Dusts.CoinDust>(), 0f, -2f, 0, default, 1.2f);
+					Main.dust[num].scale = Main.rand.NextFloat(.8f, 1.2f);
+					Main.dust[num].noGravity = true;
+					Dust dust = Main.dust[num];
+					dust.position.X = dust.position.X + ((Main.rand.Next(-50, 51) / 20) - 1.5f);
+					dust.position.Y = dust.position.Y + ((Main.rand.Next(-50, 51) / 20) - 1.5f);
+					if (Main.dust[num].position != npc.Center)
+					{
+						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 3f;
+					}
+				}
+			}
 		}
 	}
 }

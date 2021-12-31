@@ -150,10 +150,10 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 				switch (Main.rand.NextBool())
 				{ //mutually exclusive
 					case true:
-						npc.DropItem(ModContent.ItemType<Items.Sets.GamblerChestLoot.GildedMustache.GildedMustache>(), 0.08f);
+						npc.DropItem(ModContent.ItemType<GildedMustache.GildedMustache>(), 0.08f);
 						break;
 					case false:
-						npc.DropItem(ModContent.ItemType<Items.Sets.GamblerChestLoot.RegalCane.RegalCane>(), 0.08f);
+						npc.DropItem(ModContent.ItemType<RegalCane.RegalCane>(), 0.08f);
 						break;
 				}
 				string[] lootTable = { "DiverLegs", "DiverHead", "DiverBody", "AstronautBody", "AstronautHelm", "AstronautLegs", "BeekeeperBody", "BeekeeperHead", "BeekeeperLegs", 
@@ -167,7 +167,7 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 					npc.DropItem(mod.ItemType(lootTable[loot]));
 					for (int value = 0; value < 32; value++)
 					{
-						int num = Dust.NewDust(new Vector2(npc.Center.X, npc.Center.Y - 20), 50, 50, 173, 0f, -2f, 0, default, 2f);
+						int num = Dust.NewDust(new Vector2(npc.Center.X, npc.Center.Y - 20), 50, 50, DustID.ShadowbeamStaff, 0f, -2f, 0, default, 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -178,10 +178,10 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 				npc.active = false;
 				Main.PlaySound(SoundID.Item14, npc.Center);
 
-				Gore.NewGore(npc.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, mod.GetGoreSlot("Gores/GamblerChests/PlatinumChestGore1"), 1f);
-				Gore.NewGore(npc.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, mod.GetGoreSlot("Gores/GamblerChests/PlatinumChestGore2"), 1f);
-				Gore.NewGore(npc.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, mod.GetGoreSlot("Gores/GamblerChests/PlatinumChestGore3"), 1f);
-				Gore.NewGore(npc.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, mod.GetGoreSlot("Gores/GamblerChests/PlatinumChestGore4"), 1f);
+				Gore.NewGore(npc.Center, Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * 7, mod.GetGoreSlot("Gores/GamblerChests/PlatinumChestGore1"), 1f);
+				Gore.NewGore(npc.Center, Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * 7, mod.GetGoreSlot("Gores/GamblerChests/PlatinumChestGore2"), 1f);
+				Gore.NewGore(npc.Center, Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * 7, mod.GetGoreSlot("Gores/GamblerChests/PlatinumChestGore3"), 1f);
+				Gore.NewGore(npc.Center, Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * 7, mod.GetGoreSlot("Gores/GamblerChests/PlatinumChestGore4"), 1f);
 			}
 			if (counter > 0)
 			{

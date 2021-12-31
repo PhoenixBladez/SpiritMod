@@ -41,11 +41,10 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 			item.crit = 4;
 			item.rare = ItemRarityID.Pink;
 			item.shootSpeed = 1f;
-			item.autoReuse = false;
+			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<DuelistSlash>();
 			item.noUseGraphic = true;
 			item.noMelee = true;
-			item.autoReuse = false;
 		}
 
 		public override bool CanUseItem(Player player)
@@ -202,6 +201,8 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 		}
 		public override void AI()
 		{
+			Lighting.AddLight(projectile.position, Color.Cyan.ToVector3() * 0.5f);
+
 			projectile.velocity = Vector2.Zero;
 			Player.itemTime = Player.itemAnimation = 5;
 			Player.heldProj = projectile.whoAmI;

@@ -213,7 +213,6 @@ namespace SpiritMod
 
 		public bool gemPickaxe = false;
 		public int hexBowAnimationFrame;
-		public bool CrystalShield = false;
 		public bool carnivorousPlantMinion = false;
 		public bool skeletalonMinion = false;
 		public bool bowSummon = false;
@@ -236,6 +235,7 @@ namespace SpiritMod
 		public bool Flayer = false;
 		public int soulSiphon;
 		public bool maskPet = false;
+		public bool oliveBranchBuff = false;
 		public bool phantomPet = false;
 		public bool lanternPet = false;
 		public bool leatherHood = false;
@@ -248,14 +248,9 @@ namespace SpiritMod
 		public bool SwordPet = false;
 		public bool shadowPet = false;
 
-		public bool arcaneNecklace = false;
-		public bool manaShield = false;
-		public bool seraphimBulwark = false;
-
 		public bool strikeshield = false;
 
 		//Adventurer related
-
 		public float SpeedMPH { get; private set; }
 		public DashType ActiveDash { get; private set; }
 		public GlyphType glyph;
@@ -406,11 +401,6 @@ namespace SpiritMod
 			{ AuroraOverlay.PUMPKINMOON, 0 }, { AuroraOverlay.FROSTMOON, 0 }, { AuroraOverlay.BLUEMOON, 0 },
 			{ AuroraOverlay.SPIRIT, 0 }
 		};
-
-		//public Dictionary<int, bool> fountainsActive = new Dictionary<int, bool>()
-		//{
-		//	{ ModContent.GetInstance<ReachWaterStyle>().Type, false }
-		//};
 
 		public Dictionary<string, int> fountainsActive = new Dictionary<string, int>()
 		{
@@ -754,6 +744,7 @@ namespace SpiritMod
 
 		private void ResetMiscVariables()
 		{
+			oliveBranchBuff = false;
 			MetalBand = false;
 			strikeshield = false;
 			KoiTotem = false;
@@ -797,10 +788,6 @@ namespace SpiritMod
 			scarabCharm = false;
 			assassinMag = false;
 
-			arcaneNecklace = false;
-			manaShield = false;
-			seraphimBulwark = false;
-
 			jellynautHelm = false;
 			chitinSet = false;
 			ChitinDashTicks = Math.Max(ChitinDashTicks - 1, 0);
@@ -838,7 +825,6 @@ namespace SpiritMod
 			snapsporeMinion = false;
 			EaterSummon = false;
 			CreeperSummon = false;
-			CrystalShield = false;
 			bloodfireShield = false;
 			tankMinion = false;
 			Phantom = false;
@@ -1150,10 +1136,6 @@ namespace SpiritMod
 				caughtType = ModContent.ItemType<SpiritKoi>();
 
 			float chance = 0.02f + Math.Min(player.fishingSkill / 10000, 0.02f);
-
-			if (modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextFloat() <= chance)
-				caughtType = ModContent.ItemType<Obolos>();
-
 			if (modPlayer.ZoneReach && Main.rand.NextBool(5))
 				caughtType = ModContent.ItemType<Items.Sets.BriarDrops.ReachFishingCatch>();
 
@@ -1506,7 +1488,7 @@ namespace SpiritMod
 			if (NebulaPearl && Main.rand.NextBool(8) && proj.magic)
 				Item.NewItem(target.Hitbox, 3454);
 
-			if (crystalFlower && target.life <= 0 && Main.rand.NextBool(12))
+			if (crystalFlower && target.life <= 0 && Main.rand.NextBool(7))
 				CrystalFlowerOnKillEffect(target);
 		}
 
@@ -1514,13 +1496,25 @@ namespace SpiritMod
 		{
 			Main.PlaySound(SoundID.Item107, target.Center);
 
-			int numProjectiles = Main.rand.Next(2, 5);
-			for (int i = 0; i < numProjectiles; ++i)
-				Projectile.NewProjectile(target.Center, new Vector2(Main.rand.NextFloat(3, 3), Main.rand.NextFloat(3, 1)), ProjectileID.UnholyArrow, 30, 0, player.whoAmI);
+			int numProjectiles = Main.rand.Next(3, 6);
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				for (int i = 0; i < numProjectiles; ++i)
+				{
+					int p = Projectile.NewProjectile(target.Center, new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(3, 1)), ModContent.ProjectileType<Items.Sets.AccessoriesMisc.CrystalFlower.CrystalFlowerProjectile>(), 30, 0, player.whoAmI);
+					Main.projectile[p].scale = Main.rand.NextFloat(.5f, .9f);
+				}
+			}
 		}
 
 		public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
 		{
+			if (bubbleTimer > 0)
+				return false;
+
+			if (AnimeSword)
+				return false;
+
 			if (Main.rand.NextBool(5) && sepulchreCharm)
 			{
 				for (int k = 0; k < 5; k++)
@@ -1548,12 +1542,6 @@ namespace SpiritMod
 
 				return false;
 			}
-
-			if (bubbleTimer > 0)
-				return false;
-
-			if (AnimeSword)
-				return false;
 			return true;
 		}
 
@@ -1573,28 +1561,6 @@ namespace SpiritMod
 
 			if (glyph == GlyphType.Daze && Main.rand.NextBool(2))
 				player.AddBuff(BuffID.Confused, 180);
-			if (manaShield)
-			{
-				damage -= (int)damage / 10;
-				if (player.statMana > (int)damage / 10 * 4)
-				{
-					if ((player.statMana - (int)damage / 10 * 4) > 0)
-						player.statMana -= (int)damage / 10 * 4;
-					else
-						player.statMana = 0;
-				}
-			}
-			if (seraphimBulwark)
-			{
-				damage -= (int)damage / 10;
-				if (player.statMana > (int)damage / 10)
-				{
-					if ((player.statMana - (int)damage / 10 * 4) > 0)
-						player.statMana -= (int)damage / 10;
-					else
-						player.statMana = 0;
-				}
-			}
 
 			if (rogueSet && !player.HasBuff(ModContent.BuffType<RogueCooldown>()))
 			{
@@ -1870,70 +1836,74 @@ namespace SpiritMod
 				Main.dust[index].velocity += player.velocity;
 			}
 
-			if (!NPC.AnyNPCs(ModContent.NPCType<Scarabeus>()))
-				SpiritMod.scarabWings.Halt();
-
-			if (config.AmbientSounds)
+			// ambient sounds are client-side only
+			if (!Main.dedServ)
 			{
-				if (!Main.dayTime && !player.ZoneSnow
-					&& player.ZoneOverworldHeight
-					&& !Main.dayTime
-					&& !player.ZoneCorrupt
-					&& !player.ZoneCrimson
-					&& !player.ZoneJungle
-					&& !player.ZoneBeach
-					&& !player.ZoneHoly
-					&& !player.ZoneDesert
-					&& !Main.raining
-					&& !Main.bloodMoon && !ZoneReach && !ZoneSpirit)
+				if (!NPC.AnyNPCs(ModContent.NPCType<Scarabeus>()))
+					SpiritMod.scarabWings.Halt();
+
+				if (config.AmbientSounds)
 				{
-					if (Framing.GetTileSafely(x1, y1 + 1).wall == 0 && Framing.GetTileSafely(x1, y1).wall == 0)
-						SpiritMod.nighttimeAmbience.SetTo(Main.ambientVolume);
+					if (!Main.dayTime && !player.ZoneSnow
+						&& player.ZoneOverworldHeight
+						&& !Main.dayTime
+						&& !player.ZoneCorrupt
+						&& !player.ZoneCrimson
+						&& !player.ZoneJungle
+						&& !player.ZoneBeach
+						&& !player.ZoneHoly
+						&& !player.ZoneDesert
+						&& !Main.raining
+						&& !Main.bloodMoon && !ZoneReach && !ZoneSpirit)
+					{
+						if (Framing.GetTileSafely(x1, y1 + 1).wall == 0 && Framing.GetTileSafely(x1, y1).wall == 0)
+							SpiritMod.nighttimeAmbience.SetTo(Main.ambientVolume);
+						else
+							SpiritMod.nighttimeAmbience.Stop();
+					}
 					else
 						SpiritMod.nighttimeAmbience.Stop();
-				}
-				else
-					SpiritMod.nighttimeAmbience.Stop();
 
-				if (player.ZoneBeach && !player.wet && player.ZoneDesert && player.ZoneOverworldHeight)
-					SpiritMod.wavesAmbience.SetTo(Main.ambientVolume);
-				else
-					SpiritMod.wavesAmbience.Stop();
+					if (player.ZoneBeach && !player.wet && player.ZoneDesert && player.ZoneOverworldHeight)
+						SpiritMod.wavesAmbience.SetTo(Main.ambientVolume);
+					else
+						SpiritMod.wavesAmbience.Stop();
 
-				if (player.ZoneDesert && player.ZoneOverworldHeight && !Sandstorm.Happening && !Main.raining && !player.ZoneBeach)
-				{
-					if (Framing.GetTileSafely(x1, y1 + 1).wall == 0 && Framing.GetTileSafely(x1, y1).wall == 0)
-						SpiritMod.desertWind.SetTo(Main.ambientVolume);
+					if (player.ZoneDesert && player.ZoneOverworldHeight && !Sandstorm.Happening && !Main.raining && !player.ZoneBeach)
+					{
+						if (Framing.GetTileSafely(x1, y1 + 1).wall == 0 && Framing.GetTileSafely(x1, y1).wall == 0)
+							SpiritMod.desertWind.SetTo(Main.ambientVolume);
+						else
+							SpiritMod.desertWind.Stop();
+					}
 					else
 						SpiritMod.desertWind.Stop();
-				}
-				else
-					SpiritMod.desertWind.Stop();
 
-				if ((ZoneReach || player.ZoneJungle) && player.ZoneOverworldHeight && !Main.raining)
-				{
-					if (Framing.GetTileSafely(x1, y1 + 1).wall == 0 && Framing.GetTileSafely(x1, y1).wall == 0)
-						SpiritMod.lightWind.SetTo(Main.ambientVolume);
+					if ((ZoneReach || player.ZoneJungle) && player.ZoneOverworldHeight && !Main.raining)
+					{
+						if (Framing.GetTileSafely(x1, y1 + 1).wall == 0 && Framing.GetTileSafely(x1, y1).wall == 0)
+							SpiritMod.lightWind.SetTo(Main.ambientVolume);
+						else
+							SpiritMod.lightWind.Stop();
+					}
 					else
 						SpiritMod.lightWind.Stop();
+
+					if (player.ZoneRockLayerHeight)
+						SpiritMod.caveAmbience.SetTo(Main.ambientVolume);
+					else
+						SpiritMod.caveAmbience.Stop();
+
+					if (player.ZoneDungeon || player.ZoneRockLayerHeight && Framing.GetTileSafely(x1, y1 + 1).wall == ModContent.WallType<SepulchreWallTile>() && Framing.GetTileSafely(x1, y1).wall == ModContent.WallType<SepulchreWallTile>())
+						SpiritMod.spookyAmbience.SetTo(Main.ambientVolume);
+					else
+						SpiritMod.spookyAmbience.Stop();
+
+					if (Framing.GetTileSafely(x1, y1 - 1).liquid == 255 && Framing.GetTileSafely(x1, y1).liquid == 255 && player.wet)
+						SpiritMod.underwaterAmbience.SetTo(Main.ambientVolume);
+					else
+						SpiritMod.underwaterAmbience.Stop();
 				}
-				else
-					SpiritMod.lightWind.Stop();
-
-				if (player.ZoneRockLayerHeight)
-					SpiritMod.caveAmbience.SetTo(Main.ambientVolume);
-				else
-					SpiritMod.caveAmbience.Stop();
-
-				if (player.ZoneDungeon || player.ZoneRockLayerHeight && Framing.GetTileSafely(x1, y1 + 1).wall == ModContent.WallType<SepulchreWallTile>() && Framing.GetTileSafely(x1, y1).wall == ModContent.WallType<SepulchreWallTile>())
-					SpiritMod.spookyAmbience.SetTo(Main.ambientVolume);
-				else
-					SpiritMod.spookyAmbience.Stop();
-
-				if (Framing.GetTileSafely(x1, y1 - 1).liquid == 255 && Framing.GetTileSafely(x1, y1).liquid == 255 && player.wet)
-					SpiritMod.underwaterAmbience.SetTo(Main.ambientVolume);
-				else
-					SpiritMod.underwaterAmbience.Stop();
 			}
 
 			if (!player.ZoneOverworldHeight)
@@ -2334,15 +2304,6 @@ namespace SpiritMod
 			if (phaseStacks > 3)
 				phaseStacks = 3;
 
-			if (CrystalShield && player.velocity.X != 0 && Main.rand.NextBool(3))
-			{
-				if (player.velocity.X < 0)
-					Projectile.NewProjectile(player.position.X, player.Center.Y, Main.rand.Next(6, 10), Main.rand.Next(-3, 3), ProjectileID.CrystalShard, 36, 0f, player.whoAmI);
-
-				if (player.velocity.X > 0)
-					Projectile.NewProjectile(player.position.X, player.Center.Y, Main.rand.Next(-10, -6), Main.rand.Next(-3, 3), ProjectileID.CrystalShard, 36, 0f, player.whoAmI);
-			}
-
 			if (player.HeldItem.type == mod.ItemType("Minifish"))
 				MinifishTimer--;
 			else
@@ -2377,6 +2338,9 @@ namespace SpiritMod
 						hoveredStag = null;
 				}
 			}
+
+			if (AnimeSword)
+				player.maxFallSpeed = 2000f;
 		}
 
 		private float CalculateSpeed()
@@ -2760,12 +2724,14 @@ namespace SpiritMod
 
 			return DashType.None;
 		}
+
 		public override void UpdateEquips(ref bool wallSpeedBuff, ref bool tileSpeedBuff, ref bool tileRangeBuff)
 		{
 			player.wingTimeMax = (int)(player.wingTimeMax * WingTimeMaxMultiplier);
 			if (player.manaFlower)
 				player.manaFlower = !StarjinxSet;
 		}
+
 		public override void PostUpdateEquips()
 		{
 			if (player.ownedProjectileCounts[mod.ProjectileType("MiningHelmet")] < 1 && player.head == 11)

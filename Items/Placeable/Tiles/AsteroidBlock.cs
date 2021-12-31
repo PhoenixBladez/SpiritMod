@@ -11,8 +11,7 @@ namespace SpiritMod.Items.Placeable.Tiles
 	{
 		public override void SetStaticDefaults()
 		{
-			Tooltip.SetDefault("'Ore-rich space debris'\nCan be used with an extractinator");
-            ItemID.Sets.ExtractinatorMode[item.type] = item.type;
+			Tooltip.SetDefault("'Ore-rich space debris'");
         }
 
 		public override void SetDefaults()
@@ -28,11 +27,5 @@ namespace SpiritMod.Items.Placeable.Tiles
 			item.consumable = true;
 			item.createTile = ModContent.TileType<Asteroid>();
 		}
-		
-		public override void ExtractinatorUse(ref int resultType, ref int resultStack)
-        {
-            resultType = Main.rand.Next(new int[] { 11, 12, 13, 14, 699, 700, 701, 702, 999, 182, 178, 179, 177, 180, 181 });
-            resultStack = Main.rand.Next(2, 4);
-        }
     }
 }

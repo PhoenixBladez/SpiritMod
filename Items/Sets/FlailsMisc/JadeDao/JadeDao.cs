@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 		public int combo;
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Jade Dao");
+			DisplayName.SetDefault("Jade Daos");
 			// Tooltip.SetDefault("Plugs into tiles, changing the chain into a shocking livewire");
 
 		}
@@ -35,14 +35,14 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			item.knockBack = 4f;
 			item.UseSound = SoundID.Item116;
 			item.shoot = ModContent.ProjectileType<JadeDaoProj>();
-			item.value = Item.sellPrice(gold: 2);
+			item.value = Item.sellPrice(gold: 10);
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.channel = true;
 			item.autoReuse = true;
 			item.melee = true;
-			item.damage = 50;
-			item.rare = ItemRarityID.LightRed;
+			item.damage = 70;
+			item.rare = ItemRarityID.LightPurple;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
@@ -232,7 +232,9 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			SpriteEffects flip = (projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
 			lightColor = Lighting.GetColor((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f));
+
 			spriteBatch.Draw(projTexture, projBottom - Main.screenPosition, null, lightColor, newRotation, origin, projectile.scale, flip, 0);
+
 
 			CurrentBase = projBottom + (newRotation - 1.57f).ToRotationVector2() * (projTexture.Height / 2);
 
@@ -329,10 +331,14 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 					ParticleHandler.SpawnParticle(line);
 
 				}
-
+				float progress = Timer / SwingTime; //How far the projectile is through its swing
 				if (Slam)
+					progress = EaseFunction.EaseCubicInOut.Ease(progress);
+
+				if (Slam && progress > 0.4f && progress < 0.6f)
 				{
-					Owner.GetModPlayer<MyPlayer>().Shake += 5;
+					if (Owner.GetModPlayer<MyPlayer>().Shake < 5)
+						Owner.GetModPlayer<MyPlayer>().Shake += 5;
 					for (int j = 0; j < 14; j++)
 					{
 						int timeLeft = Main.rand.Next(20, 40);

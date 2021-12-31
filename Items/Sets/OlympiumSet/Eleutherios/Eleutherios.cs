@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.Eleutherios
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Eleutherios");
-			Tooltip.SetDefault("Reduces healing item effectiveness by 15%\nUsing a healing item gives a temporary damage bonus that decays to 0 over 15 seconds,\ninitial strength depends on the healing value of the consumable");
+			Tooltip.SetDefault("Reduces healing item effectiveness by 15%\nUsing a healing item gives a temporary damage bonus that decays to 0 over 15 seconds,\nInitial strength depends on the healing value of the consumable");
 		}
 
 		public override void SetDefaults()

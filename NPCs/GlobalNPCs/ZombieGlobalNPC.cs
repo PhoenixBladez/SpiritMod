@@ -1,12 +1,7 @@
-using Microsoft.Xna.Framework;
 using SpiritMod.NPCs.ZombieVariants;
-using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Linq;
-using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod.NPCs.GlobalNPCs
 {
@@ -36,13 +31,9 @@ namespace SpiritMod.NPCs.GlobalNPCs
 					}
 				}
             }
-			if (npc.type >= 430 && npc.type <= 436) //All armed zombies (this felt less clunky than typing out each ID)
-            {
-				if (timeAlive == 1)
-				{
-					npc.Transform(ModContent.NPCType<TridentZombie>());
-				}
-			}
+
+			if (npc.type >= NPCID.ArmedZombie && npc.type <= NPCID.ArmedZombieCenx && timeAlive == 1) //All armed zombies (this felt less clunky than typing out each ID)
+				npc.Transform(ModContent.NPCType<TridentZombie>());
 	    }
 	}
 }

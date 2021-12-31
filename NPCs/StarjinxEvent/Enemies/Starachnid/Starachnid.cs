@@ -78,8 +78,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		private float speed = 2; //The walking speed of the spider
 		private int threadCounter = 0; //How long has it been since last star?
 
-		private const float THREADGROWLERP = 30; //How many frames does it take for threads to fade in/out?
-		private const int DISTANCEFROMPLAYER = 300; //How far does the spider have to be from the player to turn around?
+		internal const float THREADGROWLERP = 30; //How many frames does it take for threads to fade in/out?
+		internal const int DISTANCEFROMPLAYER = 300; //How far does the spider have to be from the player to turn around?
 
 		private int seed; // The seed shared between the server and clients for the starachshit
 		private bool seedInitialized;

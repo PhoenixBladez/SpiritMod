@@ -1,0 +1,23 @@
+using Terraria;
+using Terraria.ModLoader;
+
+namespace SpiritMod.Buffs
+{
+	public class OliveBranchBuff : ModBuff
+	{
+		public override void SetDefaults()
+		{
+			DisplayName.SetDefault("Olive Branch");
+			Description.SetDefault("'Make peace with your enemies'");
+			Main.debuff[Type] = true;
+			Main.pvpBuff[Type] = true;
+			Main.buffNoTimeDisplay[Type] = false;
+		}
+
+		public override void Update(Player player, ref int buffIndex)
+		{
+			MyPlayer modPlayer = player.GetSpiritPlayer();
+			player.GetModPlayer<MyPlayer>().oliveBranchBuff = true;
+		}
+	}
+}
