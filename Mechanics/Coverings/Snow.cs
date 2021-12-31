@@ -19,7 +19,8 @@ namespace SpiritMod.Mechanics.Coverings
 
         public override void StaticLoad()
         {
-            _texture = Mod.GetTexture("Mechanics/Coverings/Snow");
+			if (Main.netMode != NetmodeID.Server)
+				_texture = Mod.GetTexture("Mechanics/Coverings/Snow");
         }
 
         public override bool IsValidAt(int x, int y)

@@ -226,9 +226,16 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			}
 			else if (timers["ATTACK"] > attackTimeMax * MaxSetupThreadsThreshold && timers["ATTACK"] <= attackTimeMax)
 			{
-				npc.Center = Vector2.Lerp(npc.Center, threads[currentThread].EndPoint, currentThreadProgress);
-				currentThreadProgress += 1 / (attackTimeMax * MaxSetupThreadsThreshold / 5);
+				realDamage = 20;
 
+				npc.Center = Vector2.Lerp(npc.Center, threads[currentThread].EndPoint, currentThreadProgress);
+				currentThreadProgress += 1 / (attackTimeMax * MaxSetupThreadsThreshold / 3f);
+
+				float finalRot = (threads[currentThread].EndPoint - threads[currentThread].StartPoint).ToRotation();
+				if (currentThread == threads.Count - 1)
+					finalRot = 0;
+				npc.rotation = MathHelper.Lerp(npc.rotation, finalRot, 0.15f);
+				
 				if (currentThreadProgress > 1f)
 				{
 					currentThread++;
@@ -247,6 +254,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				timers["ATTACK"] = 0;
 				attack = AttackType.None;
 				waitingOnAttack = false;
+				npc.rotation = 0f;
 
 				realDamage = 0;
 			}
@@ -368,7 +376,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		}
 
 		internal const float THREADGROWLERP = 30; //How many frames does it take for threads to fade in/out?
-		internal const int DISTANCEFROMPLAYER = 300; //How far does the spider have to be from the player to turn around?
 
 		private void DrawThreads(SpriteBatch spriteBatch)
 		{

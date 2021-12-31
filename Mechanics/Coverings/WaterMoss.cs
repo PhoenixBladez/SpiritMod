@@ -1,9 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Terraria;
+using Terraria.ID;
 
 namespace SpiritMod.Mechanics.Coverings
 {
@@ -14,7 +11,8 @@ namespace SpiritMod.Mechanics.Coverings
 
         public override void StaticLoad()
         {
-            _texture = Mod.GetTexture("Mechanics/Coverings/WaterMoss");
+			if (Main.netMode != NetmodeID.Server)
+				_texture = Mod.GetTexture("Mechanics/Coverings/WaterMoss");
         }
     }
 }
