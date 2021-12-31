@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
         public override void SetDefaults()
         {
             item.channel = true;
-            item.damage = 80;
+            item.damage = 100;
             item.width = 60;
             item.height = 60;
             item.useTime = 60;
@@ -148,6 +148,11 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
             }
             else
             {
+				if (charge > 40 && charge < MAXCHARGE)
+				{
+					player.GetModPlayer<MyPlayer>().AnimeSword = false;
+					player.velocity = Vector2.Zero;
+				}
 				projectile.Kill();
             }
         }
