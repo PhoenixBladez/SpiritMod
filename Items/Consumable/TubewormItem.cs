@@ -4,11 +4,11 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Consumable
 {
-	public class TinyCrabItem : ModItem
+	public class TubewormItem : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Palecrab");
+			DisplayName.SetDefault("Tubeworm");
 		}
 
 
@@ -17,11 +17,11 @@ namespace SpiritMod.Items.Consumable
 			item.width = item.height = 20;
 			item.rare = ItemRarityID.Blue;
 			item.maxStack = 99;
-			item.value = Item.sellPrice(0, 0, 0, 20);
+			item.value = Item.sellPrice(0, 0, 0, 2);
 			item.noUseGraphic = true;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = item.useAnimation = 20;
-            item.bait = 15;
+            item.bait = 8;
 			item.noMelee = true;
 			item.consumable = true;
 			item.autoReuse = true;
@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool UseItem(Player player)
 		{
-			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("TinyCrab"));
+			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("TubeWorm"));
 			return true;
 		}
 
