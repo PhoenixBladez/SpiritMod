@@ -15,6 +15,9 @@ namespace SpiritMod.Items.Sets.SpiritSet
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
+
+			TileID.Sets.Ore[Type] = true;
+
 			drop = ModContent.ItemType<SpiritOre>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Spirit Ore");

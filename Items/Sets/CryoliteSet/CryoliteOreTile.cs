@@ -16,6 +16,9 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 			Main.tileMerge[Type][TileID.SnowBlock] = true;
 			Main.tileBlockLight[Type] = true;  //true for block to emit light
 			Main.tileLighted[Type] = true;
+
+			TileID.Sets.Ore[Type] = true;
+
 			drop = ModContent.ItemType<CryoliteOre>();   //put your CustomBlock name
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Cryolite Ore");

@@ -13,14 +13,16 @@ namespace SpiritMod.Items.Sets.FloranSet
 			Main.tileSpelunker[Type] = true;
 			Main.tileSolid[Type] = true;
 			Main.tileBlockLight[Type] = true;
-			drop = ModContent.ItemType<FloranOre>();   //put your CustomBlock name
+
+			TileID.Sets.Ore[Type] = true;
+
+			drop = ModContent.ItemType<FloranOre>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Floran Ore");
 			AddMapEntry(new Color(30, 200, 25), name);
 			soundType = SoundID.Tink;
 			dustType = DustID.GrassBlades;
 			minPick = 40;
-
 		}
 	}
 }
