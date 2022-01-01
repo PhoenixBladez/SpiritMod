@@ -7,28 +7,29 @@ using Terraria.ModLoader;
 using System.Linq;
 using SpiritMod.Dusts;
 using SpiritMod.Items.Material;
+using SpiritMod.Utilities;
 
 namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 {
 	public class GtechGrenade : ModItem
 	{
-		public override void SetStaticDefaults() => DisplayName.SetDefault("GTech Grenade");
+		public override void SetStaticDefaults() => DisplayName.SetDefault("G-TEK Grenade");
 
 		public override void SetDefaults()
 		{
 			item.damage = 60;
-			item.ranged = true;
 			item.width = 40;
 			item.height = 40;
-			item.useTime = 60;
-			item.useAnimation = 60;
+			item.useTime = 20;
+			item.useAnimation = 20;
+			item.reuseDelay = 40;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.noMelee = true;
 			item.knockBack = 2;
 			item.useTurn = false;
 			item.value = Item.sellPrice(0, 5, 0, 0);
 			item.rare = ItemRarityID.LightRed;
-			item.UseSound = SoundID.Item20;
+			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<GtechGrenadeProj>();
 			item.shootSpeed = 15;
@@ -101,15 +102,11 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, lightColor, projectile.rotation, new Vector2(tex.Width, frameHeight) / 2, projectile.scale, SpriteEffects.None, 0f);
 
 			tex = ModContent.GetTexture(Texture + "_Glow");
-			float time = (float)Math.Cos((double)(Main.GlobalTime % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
-			for (int i = 0; i < 4; i++)
+			DrawAberration.DrawChromaticAberration(Vector2.UnitY, 2f, delegate (Vector2 offset, Color colorMod)
 			{
-				Color glowColor = new Color(127 - projectile.alpha, 127 - projectile.alpha, 127 - projectile.alpha, 0).MultiplyRGBA(Color.LightBlue);
-				glowColor = projectile.GetAlpha(glowColor);
-				glowColor *= 1.5f - time;
-				Vector2 glowCenter = projectile.Center + ((i * 1.57f).ToRotationVector2() * (2f * time));
-				spriteBatch.Draw(tex, glowCenter - Main.screenPosition, frame, glowColor, projectile.rotation, new Vector2(tex.Width, frameHeight) / 2, projectile.scale, SpriteEffects.None, 0f);
-			}
+				spriteBatch.Draw(tex, projectile.Center + offset - Main.screenPosition, frame, Color.White.MultiplyRGBA(colorMod),
+					projectile.rotation, projectile.DrawFrame().Size() / 2, projectile.scale, SpriteEffects.None, 0);
+			});
 	
 			return false;
 		}
