@@ -160,28 +160,34 @@ namespace SpiritMod.Particles
 				else
 					batchedAlphaBlendParticles.Add(particle);
 			}
-
 			spriteBatch.End();
 
-			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, null, null, Main.GameViewMatrix.ZoomMatrix);
+			if (batchedAlphaBlendParticles.Count > 0)
+			{
+				spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, null, null, Main.GameViewMatrix.ZoomMatrix);
 
-			foreach (Particle particle in batchedAlphaBlendParticles)
-				if (particle.UseCustomDraw)
-					particle.CustomDraw(spriteBatch);
-			    else
-					spriteBatch.Draw(particleTextures[particle.Type], particle.Position - Main.screenPosition, null, particle.Color, particle.Rotation, particle.Origin, particle.Scale * Main.GameViewMatrix.Zoom, SpriteEffects.None, 0f);
+				foreach (Particle particle in batchedAlphaBlendParticles)
+					if (particle.UseCustomDraw)
+						particle.CustomDraw(spriteBatch);
+					else
+						spriteBatch.Draw(particleTextures[particle.Type], particle.Position - Main.screenPosition, null, particle.Color, particle.Rotation, particle.Origin, particle.Scale * Main.GameViewMatrix.Zoom, SpriteEffects.None, 0f);
 
-			spriteBatch.End();
+				spriteBatch.End();
+			}
 
-			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, null, null, Main.GameViewMatrix.ZoomMatrix);
+			if(batchedAdditiveBlendParticles.Count > 0)
+			{
+				spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, null, null, Main.GameViewMatrix.ZoomMatrix);
 
-			foreach (Particle particle in batchedAdditiveBlendParticles)
-				if (particle.UseCustomDraw)
-					particle.CustomDraw(spriteBatch);
-				else
-					spriteBatch.Draw(particleTextures[particle.Type], particle.Position - Main.screenPosition, null, particle.Color, particle.Rotation, particle.Origin, particle.Scale * Main.GameViewMatrix.Zoom, SpriteEffects.None, 0f);
+				foreach (Particle particle in batchedAdditiveBlendParticles)
+					if (particle.UseCustomDraw)
+						particle.CustomDraw(spriteBatch);
+					else
+						spriteBatch.Draw(particleTextures[particle.Type], particle.Position - Main.screenPosition, null, particle.Color, particle.Rotation, particle.Origin, particle.Scale * Main.GameViewMatrix.Zoom, SpriteEffects.None, 0f);
 
-			spriteBatch.End();
+				spriteBatch.End();
+			}
+
 
 			batchedAlphaBlendParticles.Clear();
 			batchedAdditiveBlendParticles.Clear();
