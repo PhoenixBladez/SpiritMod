@@ -37,18 +37,27 @@ namespace SpiritMod.Prim
 
 		public void DrawTrailsNPC(SpriteBatch spriteBatch, GraphicsDevice gD)
 		{
-			RenderTargetBinding[] bindings = gD.GetRenderTargets();
-
-			gD.SetRenderTarget(primTargetNPC);
-			gD.Clear(Color.Transparent);
-			spriteBatch.Begin();
-			foreach (PrimTrail trail in _trails.ToArray().Where(x => x.DrawType == DrawNPC)) {
+			List<PrimTrail> pixelTrails = new List<PrimTrail>();
+			foreach (PrimTrail trail in _trails.ToArray().Where(x => x.DrawType == DrawNPC))
 				if (trail.Pixellated && !trail.Disabled)
+					pixelTrails.Add(trail);
+
+			if (pixelTrails.Count > 0)
+			{
+				RenderTargetBinding[] bindings = gD.GetRenderTargets();
+
+				gD.SetRenderTarget(primTargetProjectile);
+				gD.Clear(Color.Transparent);
+				spriteBatch.Begin();
+
+				foreach (PrimTrail trail in pixelTrails)
 					trail.Draw();
+
+				spriteBatch.End();
+				gD.SetRenderTargets(bindings);
 			}
-			spriteBatch.End();
-			gD.SetRenderTargets(bindings);
 		}
+
 		public void DrawTargetNPC(SpriteBatch spriteBatch)
 		{
 			if (primTargetNPC != null)
@@ -60,18 +69,27 @@ namespace SpiritMod.Prim
 		}
 		public void DrawTrailsProj(SpriteBatch spriteBatch, GraphicsDevice gD)
 		{
-			RenderTargetBinding[] bindings = gD.GetRenderTargets();
-
-			gD.SetRenderTarget(primTargetProjectile);
-			gD.Clear(Color.Transparent);
-			spriteBatch.Begin();
-			foreach (PrimTrail trail in _trails.ToArray().Where(x => x.DrawType == DrawProjectile)) {
+			List<PrimTrail> pixelTrails = new List<PrimTrail>();
+			foreach (PrimTrail trail in _trails.ToArray().Where(x => x.DrawType == DrawProjectile))
 				if (trail.Pixellated && !trail.Disabled)
+					pixelTrails.Add(trail);
+
+			if(pixelTrails.Count > 0)
+			{
+				RenderTargetBinding[] bindings = gD.GetRenderTargets();
+
+				gD.SetRenderTarget(primTargetProjectile);
+				gD.Clear(Color.Transparent);
+				spriteBatch.Begin();
+
+				foreach (PrimTrail trail in pixelTrails)
 					trail.Draw();
+
+				spriteBatch.End();
+				gD.SetRenderTargets(bindings);
 			}
-			spriteBatch.End();
-			gD.SetRenderTargets(bindings);
 		}
+
 		public void DrawTargetProj(SpriteBatch spriteBatch)
 		{
 			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);

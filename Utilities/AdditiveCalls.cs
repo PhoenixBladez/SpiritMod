@@ -15,29 +15,36 @@ namespace SpiritMod
 
 		public static void DrawAdditiveCalls(SpriteBatch sb)
 		{
-			Main.spriteBatch.Begin(default, BlendState.Additive, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
-
+			List<IDrawAdditive> CallList = new List<IDrawAdditive>();
 			//NPCs and Projectiles have the luxury of getting AutoLoaded into the batch
 
-			foreach (Projectile p in Main.projectile) {
+			foreach (Projectile p in Main.projectile)
+			{
 				var mP = p.modProjectile;
-				if (mP is IDrawAdditive && p.active) {
-					(mP as IDrawAdditive).AdditiveCall(Main.spriteBatch);
-				}
+				if (mP is IDrawAdditive && p.active)
+					CallList.Add(mP as IDrawAdditive);
 			}
 
-			foreach (NPC n in Main.npc) {
+			foreach (NPC n in Main.npc)
+			{
 				var nP = n.modNPC;
-				if (nP is IDrawAdditive && n.active) {
-					(nP as IDrawAdditive).AdditiveCall(Main.spriteBatch);
-				}
+				if (nP is IDrawAdditive && n.active)
+					CallList.Add(nP as IDrawAdditive);
 			}
 			// Custom Additive calls do not. Use this for particles and such
 
-			for (int i = 0; i < MaxCalls; i++) {
-				if (AdditiveCalls[i] != null) AdditiveCalls[i].AdditiveCall(sb);
+			for (int i = 0; i < MaxCalls; i++)
+				if (AdditiveCalls[i] != null) CallList.Add(AdditiveCalls[i]);
+
+			//Only restart spritebatch if needed
+			if(CallList.Count > 0)
+			{
+				Main.spriteBatch.Begin(default, BlendState.Additive, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
+				foreach (IDrawAdditive drawAdditive in CallList)
+					drawAdditive.AdditiveCall(sb);
+
+				Main.spriteBatch.End();
 			}
-			Main.spriteBatch.End();
 		}
 		//Use this return to Dispose
 		public static int ManualAppend(IDrawAdditive IDA)
