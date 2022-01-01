@@ -22,13 +22,13 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
         {
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.autoReuse = true;
-            item.useTime = 14;
-			item.useAnimation = 14;
+            item.useTime = 20;
+			item.useAnimation = 20;
 			item.width = 38;
             item.height = 6;
-            item.damage = 66;
+            item.damage = 80;
             item.shoot = ModContent.ProjectileType<StellanovaStarfire>();
-            item.shootSpeed = 38f;
+            item.shootSpeed = StellanovaStarfire.MAX_SPEED;
             item.noMelee = true;
             item.useAmmo = AmmoID.FallenStar;
             item.value = Item.sellPrice(silver: 55);
@@ -41,7 +41,6 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			item.channel = true;
 		}
 
-		public override Vector2? HoldoutOffset() => new Vector2(-20, -10);
 		public override bool AltFunctionUse(Player player) => true;
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, item, ModContent.GetTexture(Texture + "_glow"), rotation, scale);
 		public override bool ConsumeAmmo(Player player) => Main.rand.NextBool();

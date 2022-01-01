@@ -19,6 +19,10 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Starfire");
 
 		private const int MAXTIMELEFT = 120;
+		public const float MAX_SPEED = 40f;
+		private const float MED_SPEED = 18f;
+		private const float MIN_SPEED = 5f;
+
 		private readonly Color Yellow = new Color(242, 240, 134);
 		private readonly Color Orange = new Color(255, 98, 74);
 		private readonly Color Purple = new Color(255, 0, 144);
@@ -48,12 +52,11 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 
 		public override void AI()
         {
-
 			if (projectile.timeLeft == MAXTIMELEFT)
 			{
 				CircleOffset = Main.rand.Next(360);
-				CirclingSpeed = Main.rand.NextFloat(6, 8) * (Main.rand.NextBool() ? -1 : 1);
-				CircleSize = Main.rand.NextFloat(3, 4);
+				CirclingSpeed = Main.rand.NextFloat(4, 5) * (Main.rand.NextBool() ? -1 : 1);
+				CircleSize = Main.rand.NextFloat(8, 9);
 
 				projectile.netUpdate = true;
 			}
@@ -63,12 +66,16 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			if (projectile.timeLeft <= fadeOutTime)
 				projectile.alpha = Math.Min(projectile.alpha + (255 / fadeOutTime), 255);
 
-			if (projectile.velocity.Length() > 20)
-				projectile.velocity *= 0.97f;
+			//If projectile is above the medium speed, slow down more harshly, and slow down constantly while above the minimum speed
+			if (projectile.velocity.Length() > MED_SPEED)
+				projectile.velocity *= 0.98f;
 
-			//Add circular movement to the projectiles
+			if (projectile.velocity.Length() > MIN_SPEED)
+				projectile.velocity *= 0.985f;
+
+			//Add circular movement to the projectiles, based on how slowly they're moving
 			Vector2 circularVelocity = Vector2.UnitX.RotatedBy(MathHelper.ToRadians((projectile.timeLeft + CircleOffset) * CirclingSpeed)) * CircleSize;
-			projectile.position += circularVelocity;
+			projectile.position += circularVelocity * (float)Math.Pow(1 - (projectile.velocity.Length() / MAX_SPEED), 2f);
 
 			projectile.rotation += 0.15f * (Math.Sign(projectile.velocity.X) > 0 ? 1 : -1);
 
