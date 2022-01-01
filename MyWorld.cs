@@ -267,7 +267,6 @@ namespace SpiritMod
 
 			SurfaceWaterModifications.leftOceanHeight = tag.Get<int>("leftOceanHeight");
 			SurfaceWaterModifications.rightOceanHeight = tag.Get<int>("rightOceanHeight");
-			SurfaceWaterModifications.PostLoad();
 		}
 
 		public override void LoadLegacy(BinaryReader reader)

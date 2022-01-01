@@ -53,28 +53,6 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			rippleTex = null;
 		}
 
-		internal static void PostLoad()
-		{
-			//Initialize ocean heights if they don't exist already
-			if (leftOceanHeight == 0)
-			{
-				var start = new Point(20, (int)(Main.maxTilesY * 0.35f));
-				while (Framing.GetTileSafely(start.X, start.Y).liquid < 200)
-					start.Y++;
-
-				leftOceanHeight = start.Y * 16;
-			}
-
-			if (rightOceanHeight == 0)
-			{
-				var start = new Point(Main.maxTilesX - 20, (int)(Main.maxTilesY * 0.35f));
-				while (Framing.GetTileSafely(start.X, start.Y).liquid < 200)
-					start.Y++;
-
-				rightOceanHeight = start.Y * 16;
-			}
-		}
-
 		private static void WaterShaderData_DrawWaves(ILContext il)
 		{
 			var c = new ILCursor(il);
@@ -142,7 +120,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 					if (start.Y > maxYAllowed) break;
 				}
 
-				leftOceanHeight = start.Y * 16 - 18;
+				leftOceanHeight = start.Y * 16 - (int)(18 * (Framing.GetTileSafely(start.X, start.Y).liquid / 255f));
 			}
 
 			if (rightOceanHeight == 0 || rightOceanHeight / 16f > Main.worldSurface)
@@ -154,7 +132,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 					if (start.Y > maxYAllowed) break;
 				}
 
-				rightOceanHeight = start.Y * 16 - 18;
+				rightOceanHeight = start.Y * 16 - (int)(18 * (Framing.GetTileSafely(start.X, start.Y).liquid / 255f));
 			}
 		}
 

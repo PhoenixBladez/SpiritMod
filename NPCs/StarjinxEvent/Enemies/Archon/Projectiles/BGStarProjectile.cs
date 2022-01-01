@@ -1,21 +1,21 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using SpiritMod.Utilities;
-using Terraria.Graphics.Shaders;
 using SpiritMod.Mechanics.Trails;
+using SpiritMod.Utilities;
+using Terraria;
+using Terraria.Graphics.Shaders;
+using Terraria.ID;
+using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
+namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon.Projectiles
 {
-	public class HeavenfleetStar : ModProjectile, ITrailProjectile
+	class BGStarProjectile : ModProjectile, ITrailProjectile
 	{
 		public override void SetStaticDefaults()
 		{
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-			DisplayName.SetDefault("Heaven Fleet");
+			DisplayName.SetDefault("Fleeing Star");
 		}
 
 		public override void SetDefaults()
@@ -40,36 +40,35 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 
 		public override void AI()
 		{
-			projectile.rotation += .05f*projectile.velocity.X;
+			projectile.rotation += .05f * projectile.velocity.X;
 			projectile.ai[0] += .0205f;
 			for (int i = 0; i < 2; i++)
 			{
 				int num = Dust.NewDust(projectile.Center, 6, 6, DustID.FireworkFountain_Blue, 0f, 0f, 0, default, .65f);
-				Main.dust[num].position = projectile.Center - projectile.velocity / num * (float)i;
+				Main.dust[num].position = projectile.Center - projectile.velocity / num * i;
 
 				Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(27, Main.LocalPlayer);
 				Main.dust[num].velocity = projectile.velocity;
 				Main.dust[num].scale = MathHelper.Clamp(projectile.ai[0], .015f, 1.25f);
 				Main.dust[num].noGravity = true;
-				Main.dust[num].fadeIn = (float)(110 + projectile.owner);
+				Main.dust[num].fadeIn = 110;
 			}
-			projectile.velocity *= .96f;
 			projectile.velocity.Y += .016f;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			if(timeLeft > 0) //Dying through pierce/tile collision rather than naturally
+			if (timeLeft > 0) //Dying through pierce/tile collision rather than naturally
 			{
 				if (!Main.dedServ)
 					for (int i = 0; i < 6; i++)
-						Particles.ParticleHandler.SpawnParticle(new Particles.StarParticle(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.Pi / 8) * Main.rand.NextFloat(0.05f, 0.2f), 
+						Particles.ParticleHandler.SpawnParticle(new Particles.StarParticle(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.Pi / 8) * Main.rand.NextFloat(0.05f, 0.2f),
 							Color.White, Color.Cyan, Main.rand.NextFloat(0.1f, 0.2f), 20));
 			}
 
 			for (int k = 0; k < 10; k++)
 			{
-				Dust d = Dust.NewDustPerfect(projectile.Center + (projectile.velocity / 10), DustID.DungeonSpirit, Main.rand.NextVector2Circular(2, 2) + (projectile.oldVelocity / 20), Scale : Main.rand.NextFloat(0.8f, 1.8f));
+				Dust d = Dust.NewDustPerfect(projectile.Center + (projectile.velocity / 10), DustID.DungeonSpirit, Main.rand.NextVector2Circular(2, 2) + (projectile.oldVelocity / 20), Scale: Main.rand.NextFloat(0.8f, 1.8f));
 				d.noGravity = true;
 			}
 		}
@@ -80,7 +79,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 			for (int k = 0; k < projectile.oldPos.Length; k++)
 			{
 				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-				Color color = projectile.GetAlpha(Color.White * .65f) * ((float)(projectile.oldPos.Length - k) / projectile.oldPos.Length);
+				Color color = projectile.GetAlpha(Color.White * .65f) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
 				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
 			}
 

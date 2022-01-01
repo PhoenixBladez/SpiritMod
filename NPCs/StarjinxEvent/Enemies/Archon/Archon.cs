@@ -12,7 +12,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 {
 	public class Archon : SpiritNPC, IDrawAdditive
 	{
-		// Consts
+		// CONSTS ----------
 
 		// FG/BG Related
 		public const int MaxForegroundTransitionTime = 1200;
@@ -52,7 +52,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		// Starlight Constellation
 		private List<StarThread> threads = new List<StarThread>();
 		private int currentThread = 0;
-		private float currentThreadMaxProgress = 0f;
 		private float currentThreadProgress = 0f;
 
 		// Misc
@@ -196,8 +195,27 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				case AttackType.StarlightConstellation:
 					StarlightConstellationAttack();
 					break;
+				case AttackType.StarlightShootingStar:
+					StarlightShootingStarAttack();
+					break;
 				default:
 					break;
+			}
+		}
+
+		private void StarlightShootingStarAttack()
+		{
+			const float CastWaitThreshold = 0.4f;
+
+			if (timers["ATTACK"] == (int)(attackTimeMax * CastWaitThreshold)) //Setup threads
+			{
+				//Projectile.NewProjectile();
+			}
+			else if (timers["ATTACK"] >= attackTimeMax)
+			{
+				timers["ATTACK"] = 0;
+				attack = AttackType.None;
+				waitingOnAttack = false;
 			}
 		}
 
@@ -401,11 +419,20 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			TeleportSlash = 2,
 			Cast = 3,
 			StarlightConstellation = 4,
+			StarlightShootingStar = 5,
 		}
 
 		public void SetupRandomAttack()
 		{
-			attack = AttackType.StarlightConstellation;// (AttackType)(Main.rand.Next((int)AttackType.Cast) + 1);
+			var choices = new List<AttackType>() { AttackType.TeleportSlash, AttackType.Cast }; //These two are always options
+
+			if (enchantment == Enchantment.Starlight)
+			{
+				choices.Add(AttackType.StarlightConstellation);
+				choices.Add(AttackType.StarlightShootingStar);
+			}
+
+			attack = AttackType.StarlightShootingStar; //Main.rand.Next(choices);
 
 			if (attack == AttackType.TeleportSlash)
 			{
@@ -423,6 +450,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			}
 			else if (attack == AttackType.StarlightConstellation)
 				attackTimeMax = 400;
+			else if (attack == AttackType.StarlightShootingStar)
+				attackTimeMax = Main.rand.Next(80, 90);
 		}
 
 		public enum Enchantment : int

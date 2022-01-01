@@ -67,7 +67,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
  
         public override void UpdateEffects(Player player)
 		{
-			const float MaxSpeed = 16;
+			const float MaxSpeed = 16.5f;
 			if (player.velocity.Y <= -MaxSpeed)
 				player.velocity.Y = -MaxSpeed;
 
@@ -91,11 +91,14 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 			{
 				mountData.flightTimeMax = 9999;
 				mountData.fatigueMax = 9999;
-				mountData.acceleration = 0.15f;
+				mountData.acceleration = 0.2f;
 				mountData.dashSpeed = 3f;
-				mountData.runSpeed = 6f;
-				player.fullRotation = 0F;
+				mountData.runSpeed = 12f;
 				mountData.usesHover = true;
+
+				player.gravity = 0f;
+				player.fullRotation = 0f;
+				player.velocity.Y *= 0.99f;
 			}
 			player.gills = true;
         }
