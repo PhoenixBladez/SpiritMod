@@ -218,12 +218,20 @@ namespace SpiritMod.NPCs.Hydra
 			Vector2 direction = npc.Center - parent.Bottom;
 			Vector2 centralPos = (new Vector2(0, -1) * direction.Length());
 
-			Vector2 cPointA = parent.Bottom + (centralPos.RotatedBy(centralRotation) * 0.33f);
-			Vector2 cPointB = parent.Bottom + (centralPos.RotatedBy(centralRotation / 2) * 0.66f);
+			//Control point relative to the parent npc
+			Vector2 BaseControlPoint = parent.Bottom + (centralPos.RotatedBy(-centralRotation / 2) * 0.5f);
 
-			BezierCurve curve = new BezierCurve(new Vector2[] { parent.Bottom, cPointA, cPointB, npc.Center });
+			//Control point connecting to behind the npc, to make the neck look more like a neck
+			float headControlLength = 100;
+			Vector2 HeadControlPoint = npc.Center - Vector2.UnitX.RotatedBy(npc.rotation + ((npc.spriteDirection < 0) ? MathHelper.Pi : 0)) * headControlLength;
 
-			int numPoints = 30; //Should make dynamic based on curve length, but I'm not sure how to smoothly do that while using a bezier curve
+			//Control point to smooth out the bezier, taking the midway point beween the other 2 control points and moving it backwards from them perpindicularly 
+			float smootheningFactor = 0.4f;
+			Vector2 SmootheningControlPoint = Vector2.Lerp(BaseControlPoint, HeadControlPoint, 0.5f) + (HeadControlPoint - BaseControlPoint).RotatedBy(-npc.spriteDirection * MathHelper.PiOver2) * smootheningFactor;
+
+			BezierCurve curve = new BezierCurve(new Vector2[] { parent.Bottom, BaseControlPoint, SmootheningControlPoint, HeadControlPoint, npc.Center });
+
+			int numPoints = 20; //Should make dynamic based on curve length, but I'm not sure how to smoothly do that while using a bezier curve
 			Vector2[] chainPositions = curve.GetPoints(numPoints).ToArray();
 
 			//Draw each chain segment, skipping the very first one, as it draws partially behind the player

@@ -63,6 +63,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 				direction = direction.RotatedBy(shootRotation);
                 position += Vector2.Normalize(direction) * 50;
                 player.itemRotation += shootRotation;
+				position -= new Vector2(-10, 15).RotatedBy(player.itemRotation);
 
                 Projectile proj = Projectile.NewProjectileDirect(position, direction, type, damage, knockBack, player.whoAmI);
 
