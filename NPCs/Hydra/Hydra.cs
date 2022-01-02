@@ -123,6 +123,10 @@ namespace SpiritMod.NPCs.Hydra
 		private float swaySpeed;
 		private Vector2 orbitRange;
 
+		private int attackCounter;
+		private int attackCooldown;
+		private bool attacking = false;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lernean Hydra");
@@ -131,19 +135,23 @@ namespace SpiritMod.NPCs.Hydra
 		{
 			npc.width = 44;
 			npc.height = 32;
-			npc.damage = 0;
+			npc.damage = 55;
 			npc.defense = 0;
 			npc.lifeMax = 1000;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
-			npc.value = 180f;
+			npc.value = 0f;
 			npc.knockBackResist = 0;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 		}
 
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
+
 		public override void AI()
 		{
+			npc.velocity *= 0.96f;
+			npc.velocity.Y *= 0.96f;
 			if (!initialized)
 			{
 				initialized = true;
@@ -152,15 +160,30 @@ namespace SpiritMod.NPCs.Hydra
 				rotation = Main.rand.NextFloat(6.28f);
 				sway = Main.rand.NextFloat(6.28f);
 
-				centralDistance = Main.rand.Next(150, 200);
+				centralDistance = Main.rand.Next(75, 125);
 				rotationSpeed = Main.rand.NextFloat(0.03f, 0.05f);
-				orbitRange = Main.rand.NextVector2Circular(100, 50);
+				orbitRange = Main.rand.NextVector2Circular(70, 30);
 				swaySpeed = Main.rand.NextFloat(0.015f, 0.035f);
+				attackCooldown = Main.rand.Next(150, 200);
 			}
 			if (!parent.active)
 			{
 				npc.active = false;
 				return;
+			}
+
+			if (!attacking)
+			{
+				attackCounter++;
+				if (attackCounter > attackCooldown)
+				{
+					attacking = true;
+					attackCounter = 0;
+				}
+			}
+			else
+			{
+				AttackBehavior();
 			}
 
 			rotation += rotationSpeed;
@@ -198,6 +221,41 @@ namespace SpiritMod.NPCs.Hydra
 			npc.Center = Vector2.Lerp(npc.Center, posToBe, 0.05f);
 		}
 
+		private void AttackBehavior()
+		{
+			LaunchProjectile();
+			attacking = false;
+		}
+
+		private void LaunchProjectile()
+		{
+			Vector2 direction = npc.DirectionTo(Main.player[parent.target].Center);
+			npc.velocity = -direction * Main.rand.Next(7,10);
+			switch (headColor)
+			{
+				case HeadColor.Red:
+					Projectile.NewProjectile(npc.Center, direction * 10, ModContent.ProjectileType<HydraFireGlob>(), NPCUtils.ToActualDamage(npc.damage), 3);
+					break;
+				case HeadColor.Green:
+					if (Main.rand.NextBool())
+					{
+						for (float i = -0.5f; i <= 0.5f; i += 0.5f)
+							Projectile.NewProjectile(npc.Center, direction.RotatedBy(i) * 8, ModContent.ProjectileType<HydraPoisonGlob>(), NPCUtils.ToActualDamage(npc.damage), 3);
+					}
+					else
+					{
+						float rotationOffset = Main.rand.NextFloat(0.15f, 0.4f);
+						Projectile.NewProjectile(npc.Center, direction.RotatedBy(rotationOffset) * 8, ModContent.ProjectileType<HydraPoisonGlob>(), NPCUtils.ToActualDamage(npc.damage), 3);
+						Projectile.NewProjectile(npc.Center, direction.RotatedBy(-rotationOffset) * 8, ModContent.ProjectileType<HydraPoisonGlob>(), NPCUtils.ToActualDamage(npc.damage), 3);
+					}
+					break;
+				case HeadColor.Purple:
+					Projectile.NewProjectile(npc.Center, direction * 15, ModContent.ProjectileType<HydraVenomGlob>(), NPCUtils.ToActualDamage(npc.damage), 3);
+					break;
+				default:
+					break;
+			}
+		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0 && parent.modNPC is Hydra modNPC)
@@ -248,7 +306,7 @@ namespace SpiritMod.NPCs.Hydra
 				spriteBatch.Draw(neckTex, position - Main.screenPosition, null, chainLightColor, rotation, origin, scale, npc.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 			}
 
-			spriteBatch.Draw(headTex, npc.Center  - Main.screenPosition, null, drawColor, npc.rotation, new Vector2(headTex.Width, headTex.Height) / 2, npc.scale, npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+			spriteBatch.Draw(headTex, npc.Center - Main.screenPosition, null, drawColor, npc.rotation, new Vector2(headTex.Width, headTex.Height) / 2, npc.scale, npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
 			return false;
 		}
 
@@ -266,5 +324,171 @@ namespace SpiritMod.NPCs.Hydra
 					return "_Red";
 			}
 		}
+	}
+	public class HydraFireGlob : ModProjectile
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Hydra Spit");
+			Main.projFrames[projectile.type] = 4;
+		}
+		public override void SetDefaults()
+		{
+			projectile.penetrate = 1;
+			projectile.width = 24;
+			projectile.height = 24;
+			projectile.aiStyle = 1;
+			projectile.hostile = true;
+			projectile.friendly = false;
+			projectile.tileCollide = true;
+			projectile.damage = 60;
+		}
+
+		public override void AI()
+		{
+			projectile.rotation = projectile.velocity.ToRotation();
+			if (Main.rand.NextBool(4))
+			{
+				Vector2 dustVel = -projectile.velocity.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * Main.rand.NextFloat(0.4f);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, dustVel.X, dustVel.Y);
+			}
+			projectile.frameCounter++;
+			if (projectile.frameCounter % 4 == 0)
+			{
+				projectile.frame++;
+				projectile.frame %= Main.projFrames[projectile.type];
+			}
+		}
+
+		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.OnFire, 200);
+
+		public override Color? GetAlpha(Color lightColor) => Color.White;
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D tex = Main.projectileTexture[projectile.type];
+			int frameHeight = tex.Height / Main.projFrames[projectile.type];
+			Rectangle frame = new Rectangle(0, frameHeight * projectile.frame, tex.Width, frameHeight);
+			spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, new Vector2(tex.Width * 0.75f, frameHeight / 2), projectile.scale, SpriteEffects.None, 0f);
+			return false;
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			for (int i = 0; i < 20; i++)
+				Dust.NewDustPerfect(projectile.Center, DustID.Fire, Main.rand.NextVector2Circular(4, 4));
+			Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<HydraExplosion>(), NPCUtils.ToActualDamage(projectile.damage), 3, projectile.owner);
+		}
+	}
+
+	public class HydraExplosion : ModProjectile
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Hydra Spit");
+			Main.projFrames[projectile.type] = 6;
+		}
+		public override void SetDefaults()
+		{
+			projectile.width = 85;
+			projectile.height = 85;
+			projectile.hostile = true;
+			projectile.tileCollide = false;
+		}
+		public override Color? GetAlpha(Color lightColor) => Color.White;
+
+		public override void AI()
+		{
+			Lighting.AddLight(projectile.Center, Color.Orange.ToVector3());
+			projectile.frameCounter++;
+			projectile.hostile = projectile.frame > 1;
+			if (projectile.frameCounter % 3 == 0)
+			{
+				projectile.frame++;
+				if (projectile.frame >= Main.projFrames[projectile.type])
+					projectile.active = false;
+			}
+		}
+
+		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.OnFire, 200);
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D tex = Main.projectileTexture[projectile.type];
+			int frameHeight = tex.Height / Main.projFrames[projectile.type];
+			Rectangle frame = new Rectangle(0, frameHeight * projectile.frame, tex.Width, frameHeight);
+			spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, new Vector2(tex.Width / 2, frameHeight / 2), projectile.scale, SpriteEffects.None, 0f);
+			return false;
+		}
+	}
+	public class HydraPoisonGlob : ModProjectile
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Hydra Spit");
+		}
+		public override void SetDefaults()
+		{
+			projectile.penetrate = 1;
+			projectile.width = 24;
+			projectile.height = 24;
+			projectile.aiStyle = 1;
+			projectile.hostile = true;
+			projectile.tileCollide = true;
+		}
+		public override Color? GetAlpha(Color lightColor) => Color.White;
+
+		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.Poisoned, 200);
+
+	}
+	public class HydraVenomGlob : ModProjectile
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Hydra Spit");
+			Main.projFrames[projectile.type] = 6;
+		}
+		public override void SetDefaults()
+		{
+			projectile.penetrate = 1;
+			projectile.width = 24;
+			projectile.height = 24;
+			projectile.aiStyle = -1;
+			projectile.hostile = true;
+			projectile.tileCollide = true;
+		}
+		public override void AI()
+		{
+			projectile.rotation = projectile.velocity.ToRotation();
+			if (Main.rand.NextBool(3))
+			{
+				Vector2 dustVel = -projectile.velocity.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * Main.rand.NextFloat(0.4f);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.VenomStaff, dustVel.X, dustVel.Y);
+			}
+			projectile.frameCounter++;
+			if (projectile.frameCounter % 2 == 0)
+			{
+				projectile.frame++;
+				projectile.frame %= Main.projFrames[projectile.type];
+			}
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			for (int i = 0; i < 10; i++)
+				Dust.NewDustPerfect(projectile.Center, DustID.VenomStaff, Main.rand.NextVector2Circular(2, 2));
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D tex = Main.projectileTexture[projectile.type];
+			int frameHeight = tex.Height / Main.projFrames[projectile.type];
+			Rectangle frame = new Rectangle(0, frameHeight * projectile.frame, tex.Width, frameHeight);
+			spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, new Vector2(tex.Width * 0.75f, frameHeight / 2), projectile.scale, SpriteEffects.None, 0f);
+			return false;
+		}
+
+		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.Venom, 200);
+		public override Color? GetAlpha(Color lightColor) => Color.White;
 	}
 }
