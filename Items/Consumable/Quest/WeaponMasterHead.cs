@@ -1,4 +1,4 @@
-using SpiritMod.Tiles.Furniture;
+/*using SpiritMod.Tiles.Furniture;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -43,4 +43,4 @@ namespace SpiritMod.Items.Consumable.Quest
 			tooltips.Add(line);
 		}
 	}
-}
+}*/

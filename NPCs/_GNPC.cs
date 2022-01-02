@@ -688,7 +688,6 @@ namespace SpiritMod.NPCs
 			else if (type == NPCID.Wizard)
 			{
 				shop.item[nextSlot++].SetDefaults(ItemType<Items.Consumable.SurrenderBell>(), false);
-				shop.item[nextSlot++].shopCustomPrice = 300000;
 			}
 			else if (type == NPCID.Steampunker)
 			{

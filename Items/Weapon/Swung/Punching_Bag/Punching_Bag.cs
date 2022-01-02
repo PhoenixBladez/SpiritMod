@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Swung.Punching_Bag
 			item.noUseGraphic = true;
 			item.noMelee = true;
 			item.autoReuse = true;
-			item.value = Item.sellPrice(silver: 30);
+			item.value = Item.buyPrice(gold: 1);
 			item.rare = ItemRarityID.Blue;
 		}
 
