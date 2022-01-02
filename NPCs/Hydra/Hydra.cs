@@ -47,6 +47,11 @@ namespace SpiritMod.NPCs.Hydra
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
+			foreach (NPC npc2 in Main.npc)
+			{
+				if (npc2.active && npc2.type == ModContent.NPCType<Hydra>())
+					return 0f;
+			}
 			int x = spawnInfo.spawnTileX;
 			int y = spawnInfo.spawnTileY;
 			int tile = (int)Main.tile[x, y].type;
@@ -107,6 +112,8 @@ namespace SpiritMod.NPCs.Hydra
 	}
 	public class HydraHead : ModNPC
 	{
+		public const float FIREBALLGRAVITY = 0.3f;
+
 		private bool initialized = false;
 
 		private NPC parent => Main.npc[(int)npc.ai[0]];
@@ -126,6 +133,8 @@ namespace SpiritMod.NPCs.Hydra
 		private int attackCounter;
 		private int attackCooldown;
 		private bool attacking = false;
+
+		private float headRotationOffset;
 
 		public override void SetStaticDefaults()
 		{
@@ -172,8 +181,16 @@ namespace SpiritMod.NPCs.Hydra
 				return;
 			}
 
+			RotateToPlayer();
+
 			if (!attacking)
 			{
+				headRotationOffset = 0f;
+				rotation += rotationSpeed;
+				sway += swaySpeed;
+
+				headRotationOffset = npc.DirectionTo(Main.player[parent.target].Center).ToRotation();
+
 				attackCounter++;
 				if (attackCounter > attackCooldown)
 				{
@@ -186,23 +203,12 @@ namespace SpiritMod.NPCs.Hydra
 				AttackBehavior();
 			}
 
-			rotation += rotationSpeed;
-			sway += swaySpeed;
 
 			npc.spriteDirection = npc.direction = parent.direction;
 			centralRotation = 0.3f * ((float)Math.Sin(sway) + (npc.direction * 1.5f));
 			posToBe = DecidePosition();
 
 			MoveToPosition();
-
-			if (npc.direction == 1)
-			{
-				npc.rotation = npc.DirectionTo(Main.player[parent.target].Center).ToRotation();
-			}
-			else
-			{
-				npc.rotation = npc.DirectionTo(Main.player[parent.target].Center).ToRotation() - 3.14f;
-			}
 
 			if (!parent.active)
 				npc.active = false;
@@ -223,23 +229,35 @@ namespace SpiritMod.NPCs.Hydra
 
 		private void AttackBehavior()
 		{
-			LaunchProjectile();
-			attacking = false;
+			attackCounter++;
+			if (headColor == HeadColor.Red)
+				headRotationOffset = -1.57f + (npc.direction * 0.7f);
+			else
+				headRotationOffset = npc.DirectionTo(Main.player[parent.target].Center).ToRotation();
+			if (attackCounter == 60)
+			{
+				LaunchProjectile();
+				attacking = false;
+				attackCounter = 0;
+			}
 		}
 
 		private void LaunchProjectile()
 		{
 			Vector2 direction = npc.DirectionTo(Main.player[parent.target].Center);
-			npc.velocity = -direction * Main.rand.Next(7,10);
+			if (headColor == HeadColor.Red)
+				direction = GetArcVel();
+			npc.velocity = -Vector2.Normalize(direction) * Main.rand.Next(7,10);
 			switch (headColor)
 			{
 				case HeadColor.Red:
-					Projectile.NewProjectile(npc.Center, direction * 10, ModContent.ProjectileType<HydraFireGlob>(), NPCUtils.ToActualDamage(npc.damage), 3);
+					Projectile.NewProjectile(npc.Center, direction, ModContent.ProjectileType<HydraFireGlob>(), NPCUtils.ToActualDamage(npc.damage), 3);
 					break;
 				case HeadColor.Green:
 					if (Main.rand.NextBool())
 					{
-						for (float i = -0.5f; i <= 0.5f; i += 0.5f)
+						float rotationOffset = Main.rand.NextFloat(0.25f, 0.5f);
+						for (float i = -rotationOffset; i <= rotationOffset; i += rotationOffset)
 							Projectile.NewProjectile(npc.Center, direction.RotatedBy(i) * 8, ModContent.ProjectileType<HydraPoisonGlob>(), NPCUtils.ToActualDamage(npc.damage), 3);
 					}
 					else
@@ -256,6 +274,25 @@ namespace SpiritMod.NPCs.Hydra
 					break;
 			}
 		}
+
+		private Vector2 GetArcVel()
+		{
+
+			Vector2 DistanceToTravel = Main.player[parent.target].Center - npc.Center;
+			float MaxHeight = MathHelper.Clamp(DistanceToTravel.Y - 35, -100, -10);
+			float TravelTime = (float)Math.Sqrt(-2 * MaxHeight / FIREBALLGRAVITY) + (float)Math.Sqrt(2 * Math.Max(DistanceToTravel.Y - MaxHeight, 0) / FIREBALLGRAVITY);
+			return new Vector2(MathHelper.Clamp(DistanceToTravel.X / TravelTime, -10, 10), -(float)Math.Sqrt(-2 * FIREBALLGRAVITY * MaxHeight));
+		}
+
+		private void RotateToPlayer()
+		{
+			float rotGoal = headRotationOffset;
+			float currentRot = npc.rotation;
+
+			float rotDifference = ((((rotGoal - currentRot) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
+			npc.rotation = MathHelper.Lerp(currentRot, currentRot + rotDifference, 0.05f);
+
+		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0 && parent.modNPC is Hydra modNPC)
@@ -268,26 +305,13 @@ namespace SpiritMod.NPCs.Hydra
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
+			float drawRotation = npc.rotation - (npc.direction == -1 ? 3.14f : 0);
 			string colorString = getColor();
 			string texturePath = Texture + colorString;
 			Texture2D headTex = ModContent.GetTexture(texturePath);
 			Texture2D neckTex = ModContent.GetTexture(texturePath + "_Neck");
 
-			Vector2 direction = npc.Center - parent.Bottom;
-			Vector2 centralPos = (new Vector2(0, -1) * direction.Length());
-
-			//Control point relative to the parent npc
-			Vector2 BaseControlPoint = parent.Bottom + (centralPos.RotatedBy(-centralRotation / 2) * 0.5f);
-
-			//Control point connecting to behind the npc, to make the neck look more like a neck
-			float headControlLength = 100;
-			Vector2 HeadControlPoint = npc.Center - Vector2.UnitX.RotatedBy(npc.rotation + ((npc.spriteDirection < 0) ? MathHelper.Pi : 0)) * headControlLength;
-
-			//Control point to smooth out the bezier, taking the midway point beween the other 2 control points and moving it backwards from them perpindicularly 
-			float smootheningFactor = 0.4f;
-			Vector2 SmootheningControlPoint = Vector2.Lerp(BaseControlPoint, HeadControlPoint, 0.5f) + (HeadControlPoint - BaseControlPoint).RotatedBy(-npc.spriteDirection * MathHelper.PiOver2) * smootheningFactor;
-
-			BezierCurve curve = new BezierCurve(new Vector2[] { parent.Bottom, BaseControlPoint, SmootheningControlPoint, HeadControlPoint, npc.Center });
+			BezierCurve curve = GetCurve(drawRotation);
 
 			int numPoints = 20; //Should make dynamic based on curve length, but I'm not sure how to smoothly do that while using a bezier curve
 			Vector2[] chainPositions = curve.GetPoints(numPoints).ToArray();
@@ -306,8 +330,27 @@ namespace SpiritMod.NPCs.Hydra
 				spriteBatch.Draw(neckTex, position - Main.screenPosition, null, chainLightColor, rotation, origin, scale, npc.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 			}
 
-			spriteBatch.Draw(headTex, npc.Center - Main.screenPosition, null, drawColor, npc.rotation, new Vector2(headTex.Width, headTex.Height) / 2, npc.scale, npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+			spriteBatch.Draw(headTex, npc.Center - Main.screenPosition, null, drawColor, drawRotation, new Vector2(headTex.Width, headTex.Height) / 2, npc.scale, npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
 			return false;
+		}
+
+		private BezierCurve GetCurve(float headRotation)
+		{
+			Vector2 direction = npc.Center - parent.Bottom;
+			Vector2 centralPos = (new Vector2(0, -1) * direction.Length());
+
+			//Control point relative to the parent npc
+			Vector2 BaseControlPoint = parent.Bottom + (centralPos.RotatedBy(-centralRotation / 2) * 0.5f);
+
+			//Control point connecting to behind the npc, to make the neck look more like a neck
+			float headControlLength = 100;
+			Vector2 HeadControlPoint = npc.Center - Vector2.UnitX.RotatedBy(headRotation + ((npc.spriteDirection < 0) ? MathHelper.Pi : 0)) * headControlLength;
+
+			//Control point to smooth out the bezier, taking the midway point beween the other 2 control points and moving it backwards from them perpindicularly 
+			float smootheningFactor = 0.4f;
+			Vector2 SmootheningControlPoint = Vector2.Lerp(BaseControlPoint, HeadControlPoint, 0.5f) + (HeadControlPoint - BaseControlPoint).RotatedBy(-npc.spriteDirection * MathHelper.PiOver2) * smootheningFactor;
+
+			return new BezierCurve(new Vector2[] { parent.Bottom, BaseControlPoint, SmootheningControlPoint, HeadControlPoint, npc.Center });
 		}
 
 		private string getColor()
@@ -337,7 +380,7 @@ namespace SpiritMod.NPCs.Hydra
 			projectile.penetrate = 1;
 			projectile.width = 24;
 			projectile.height = 24;
-			projectile.aiStyle = 1;
+			projectile.aiStyle = -1;
 			projectile.hostile = true;
 			projectile.friendly = false;
 			projectile.tileCollide = true;
@@ -358,6 +401,7 @@ namespace SpiritMod.NPCs.Hydra
 				projectile.frame++;
 				projectile.frame %= Main.projFrames[projectile.type];
 			}
+			projectile.velocity.Y += HydraHead.FIREBALLGRAVITY;
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.OnFire, 200);
