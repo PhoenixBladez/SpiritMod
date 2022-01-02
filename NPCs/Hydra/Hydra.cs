@@ -250,7 +250,7 @@ namespace SpiritMod.NPCs.Hydra
 					}
 					break;
 				case HeadColor.Purple:
-					Projectile.NewProjectile(npc.Center, direction * 20, ModContent.ProjectileType<HydraVenomGlob>(), NPCUtils.ToActualDamage(npc.damage), 3);
+					Projectile.NewProjectile(npc.Center, direction * 15, ModContent.ProjectileType<HydraVenomGlob>(), NPCUtils.ToActualDamage(npc.damage), 3);
 					break;
 				default:
 					break;
@@ -360,6 +360,8 @@ namespace SpiritMod.NPCs.Hydra
 			}
 		}
 
+		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.OnFire, 200);
+
 		public override Color? GetAlpha(Color lightColor) => Color.White;
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -408,6 +410,8 @@ namespace SpiritMod.NPCs.Hydra
 			}
 		}
 
+		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.OnFire, 200);
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Texture2D tex = Main.projectileTexture[projectile.type];
@@ -434,12 +438,15 @@ namespace SpiritMod.NPCs.Hydra
 		}
 		public override Color? GetAlpha(Color lightColor) => Color.White;
 
+		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.Poisoned, 200);
+
 	}
 	public class HydraVenomGlob : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hydra Spit");
+			Main.projFrames[projectile.type] = 6;
 		}
 		public override void SetDefaults()
 		{
@@ -450,7 +457,38 @@ namespace SpiritMod.NPCs.Hydra
 			projectile.hostile = true;
 			projectile.tileCollide = true;
 		}
+		public override void AI()
+		{
+			projectile.rotation = projectile.velocity.ToRotation();
+			if (Main.rand.NextBool(3))
+			{
+				Vector2 dustVel = -projectile.velocity.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * Main.rand.NextFloat(0.4f);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.VenomStaff, dustVel.X, dustVel.Y);
+			}
+			projectile.frameCounter++;
+			if (projectile.frameCounter % 2 == 0)
+			{
+				projectile.frame++;
+				projectile.frame %= Main.projFrames[projectile.type];
+			}
+		}
 
+		public override void Kill(int timeLeft)
+		{
+			for (int i = 0; i < 10; i++)
+				Dust.NewDustPerfect(projectile.Center, DustID.VenomStaff, Main.rand.NextVector2Circular(2, 2));
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D tex = Main.projectileTexture[projectile.type];
+			int frameHeight = tex.Height / Main.projFrames[projectile.type];
+			Rectangle frame = new Rectangle(0, frameHeight * projectile.frame, tex.Width, frameHeight);
+			spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, new Vector2(tex.Width * 0.75f, frameHeight / 2), projectile.scale, SpriteEffects.None, 0f);
+			return false;
+		}
+
+		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.Venom, 200);
 		public override Color? GetAlpha(Color lightColor) => Color.White;
 	}
 }
