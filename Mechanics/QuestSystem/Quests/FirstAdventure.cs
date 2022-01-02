@@ -43,9 +43,10 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			bool showUnlocks = true;
 			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Guide, QuestManager.GetQuest<RootOfTheProblem>());
 			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Demolitionist, QuestManager.GetQuest<RescueQuestStylist>());
-			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.ArmsDealer, QuestManager.GetQuest<MurderMysteryQuest>());
 			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Dryad, QuestManager.GetQuest<LumothQuest>());
 			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.TravellingMerchant, QuestManager.GetQuest<TravelingMerchantDesertQuest>());
+			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Angler, QuestManager.GetQuest<ExplorerQuestOcean>());
+
 
 			QuestManager.UnlockQuest<ExplorerQuestCrimson>(showUnlocks);
 			QuestManager.UnlockQuest<ExplorerQuestCorrupt>(showUnlocks);

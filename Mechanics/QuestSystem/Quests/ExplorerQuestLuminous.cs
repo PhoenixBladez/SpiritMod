@@ -20,7 +20,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
-			(Terraria.ID.ItemID.WeatherRadio, 1),
+			(ModContent.ItemType<Items.Weapon.Magic.LuminanceSeacone.LuminanceSeacone>(), 1),
 			(ModContent.ItemType<Items.Books.Book_LuminousArt>(), 1),
 			(ModContent.ItemType<Items.Placeable.MusicBox.LuminousNightBox>(), 1),
 			(ModContent.ItemType<Items.Consumable.MapScroll>(), 2),

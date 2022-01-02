@@ -20,7 +20,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
-			(ModContent.ItemType<Items.Consumable.Food.IceBerries>(), 4),
+			(Terraria.ID.ItemID.WeatherRadio, 1),
 			(ModContent.ItemType<Items.Placeable.Furniture.Paintings.AdvPainting15>(), 1),
 			(ModContent.ItemType<Items.Placeable.MusicBox.AuroraBox>(), 1),
 			(ModContent.ItemType<Items.Consumable.MapScroll>(), 2),

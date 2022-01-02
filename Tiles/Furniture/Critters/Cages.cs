@@ -294,7 +294,7 @@ namespace SpiritMod.Tiles.Furniture.Critters
 		public override void AnimateTile(ref int frame, ref int frameCounter)
 		{
 			frameCounter++;
-			if (frameCounter >= 11) //replace 10 with duration of frame in ticks
+			if (frameCounter >= 8) //replace 10 with duration of frame in ticks
 			{
 				frameCounter = 0;
 				frame++;
@@ -362,7 +362,7 @@ namespace SpiritMod.Tiles.Furniture.Critters
 		public override void AnimateTile(ref int frame, ref int frameCounter)
 		{
 			frameCounter++;
-			if (frameCounter >= 11) //replace 10 with duration of frame in ticks
+			if (frameCounter >= 8) //replace 10 with duration of frame in ticks
 			{
 				frameCounter = 0;
 				frame++;
@@ -430,7 +430,7 @@ namespace SpiritMod.Tiles.Furniture.Critters
 		public override void AnimateTile(ref int frame, ref int frameCounter)
 		{
 			frameCounter++;
-			if (frameCounter >= 11) //replace 10 with duration of frame in ticks
+			if (frameCounter >= 8) //replace 10 with duration of frame in ticks
 			{
 				frameCounter = 0;
 				frame++;

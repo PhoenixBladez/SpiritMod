@@ -1,16 +1,16 @@
-using SpiritMod.Buffs;
+
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Consumable.Fish
 {
-	public class FishChips : ModItem
+	public class SteamedMussels : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Fish n' Chips");
-			Tooltip.SetDefault("Minor improvements to all stats\nMakes you sluggish");
+			DisplayName.SetDefault("Steamed Mussels");
+			Tooltip.SetDefault("Minor improvements to all stats");
 		}
 
 
@@ -24,22 +24,18 @@ namespace SpiritMod.Items.Consumable.Fish
 			item.useTime = item.useAnimation = 30;
 
 			item.buffType = BuffID.WellFed;
-			item.buffTime = 98000;
+			item.buffTime = 18000;
 			item.noMelee = true;
 			item.consumable = true;
 			item.UseSound = SoundID.Item2;
 			item.autoReuse = false;
 
 		}
-		public override bool CanUseItem(Player player)
-		{
-			player.AddBuff(ModContent.BuffType<CouchPotato>(), 3600);
-			return true;
-		}
 		public override void AddRecipes()
 		{
 			ModRecipe recipe1 = new ModRecipe(mod);
-			recipe1.AddIngredient(ModContent.ItemType<RawFish>(), 5);
+			recipe1.AddIngredient(ModContent.ItemType<Tiles.Ambient.Ocean.MusselItem>(), 3);
+			recipe1.AddIngredient(ModContent.ItemType<Items.Sets.FloatingItems.Kelp>(), 1);
 			recipe1.AddTile(TileID.CookingPots);
 			recipe1.SetResult(this, 1);
 			recipe1.AddRecipe();

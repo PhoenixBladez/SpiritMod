@@ -67,7 +67,10 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 		{
 			projectile.velocity *= 0.96f;
 			if (projectile.velocity.Length() < 1 && !activated)
+			{
+				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 92).WithPitchVariance(0.2f), projectile.Center);
 				activated = true;
+			}
 			if (activated)
 			{
 				projectile.velocity = Vector2.Zero;
@@ -158,6 +161,9 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 
 		public override void Kill(int timeLeft)
 		{
+			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 94).WithPitchVariance(0.2f).WithVolume(.6f), projectile.Center);
+			Main.PlaySound(SoundID.DD2_SkyDragonsFurySwing, projectile.Center);
+
 			Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<GtechGrenadeExplode>(), projectile.damage, 0, projectile.owner);
 		}
 
