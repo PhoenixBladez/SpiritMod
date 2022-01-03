@@ -102,18 +102,6 @@ namespace SpiritMod.Items.Weapon.Magic.RealityQuill
             int cooldown = 10;
             projectile.localNPCImmunity[target.whoAmI] = 10;
             target.immune[projectile.owner] = cooldown;
-
-			for (int i = 0; i < 3; i++)
-			{
-				Vector2 vel = Main.rand.NextFloat(6.28f).ToRotationVector2() * 4;
-				vel.Normalize();
-				vel = vel.RotatedBy(Main.rand.NextFloat(-0.5f, 0.5f));
-				vel *= Main.rand.NextFloat(2, 5);
-				ImpactLine line = new ImpactLine(target.Center - (vel * 5), vel, Color.Purple, new Vector2(0.25f, Main.rand.NextFloat(0.75f, 1.75f)), 70);
-				line.TimeActive = 30;
-				ParticleHandler.SpawnParticle(line);
-
-			}
 		}
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
