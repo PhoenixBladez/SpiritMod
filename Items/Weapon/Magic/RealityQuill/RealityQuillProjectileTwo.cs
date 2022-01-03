@@ -90,6 +90,19 @@ namespace SpiritMod.Items.Weapon.Magic.RealityQuill
 					float collisionPoint = 0f;
 					if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), point, prev, 20, ref collisionPoint)) 
 					{
+						Vector2 startPos = point + (Vector2.Normalize(prev - point) * collisionPoint);
+						for (int i = 0; i < 3; i++)
+						{
+							Vector2 vel = Vector2.Normalize(point - prev).RotatedBy(Main.rand.NextFloat(-0.3f,0.3f)) * 3;
+							//vel = vel.RotatedBy(Main.rand.NextBool() ? -1.57f : 1.57f);
+							vel.Normalize();
+							vel = vel.RotatedBy(Main.rand.NextFloat(-0.5f, 0.5f));
+							vel *= Main.rand.NextFloat(2, 5);
+							VoidImpactLine line = new VoidImpactLine(startPos - (vel * 2), vel, Color.Purple, new Vector2(0.25f, Main.rand.NextFloat(0.75f, 1.75f)), 70);
+							line.TimeActive = 30;
+							ParticleHandler.SpawnParticle(line);
+
+						}
 						return true;
 					}
 				}
