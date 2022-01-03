@@ -8,11 +8,16 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Particles;
 
 namespace SpiritMod.Items.Weapon.Magic.RealityQuill
 {
 	public class RealityQuillProjectileTwo : ModProjectile
 	{
+
+		Vector2 previousMousePosition = Vector2.Zero;
+		Vector2 currentMousePosition = Vector2.Zero;
+
 		bool primsCreated = false;
 		bool released = false;
 		public override void SetStaticDefaults()
@@ -48,6 +53,7 @@ namespace SpiritMod.Items.Weapon.Magic.RealityQuill
 			{
 				trail = new RealityQuillPrimTrail(projectile);
 
+				previousMousePosition = currentMousePosition = Main.MouseWorld;
 				SpiritMod.primitives.CreateTrail(trail);
 				primsCreated = true;
 			}
@@ -71,6 +77,9 @@ namespace SpiritMod.Items.Weapon.Magic.RealityQuill
 			else
 				released = true;
 			trail._addPoints = !released;
+
+			previousMousePosition = currentMousePosition;
+			currentMousePosition = Main.MouseWorld;
 		}
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
 			Vector2 prev = Vector2.Zero;
@@ -93,7 +102,25 @@ namespace SpiritMod.Items.Weapon.Magic.RealityQuill
             int cooldown = 10;
             projectile.localNPCImmunity[target.whoAmI] = 10;
             target.immune[projectile.owner] = cooldown;
-        }
+
+			for (int i = 0; i < 3; i++)
+			{
+				Vector2 vel = Main.rand.NextFloat(6.28f).ToRotationVector2() * 4;
+				vel.Normalize();
+				vel = vel.RotatedBy(Main.rand.NextFloat(-0.5f, 0.5f));
+				vel *= Main.rand.NextFloat(2, 5);
+				ImpactLine line = new ImpactLine(target.Center - (vel * 5), vel, Color.Purple, new Vector2(0.25f, Main.rand.NextFloat(0.75f, 1.75f)), 70);
+				line.TimeActive = 30;
+				ParticleHandler.SpawnParticle(line);
+
+			}
+		}
+
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			float distance = (previousMousePosition - currentMousePosition).Length();
+			damage = (int)(damage * MathHelper.Clamp((float)Math.Sqrt(distance), 1, 3));
+		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => false;
 

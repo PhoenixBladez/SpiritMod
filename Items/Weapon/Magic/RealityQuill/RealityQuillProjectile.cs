@@ -6,12 +6,16 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Particles;
 
 namespace SpiritMod.Items.Weapon.Magic.RealityQuill
 {
 	public class RealityQuillProjectile : ModProjectile, IMetaball
 	{
 		bool start;
+
+		Vector2 previousMousePosition = Vector2.Zero;
+		Vector2 currentMousePosition = Vector2.Zero;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Magic Gloop");
@@ -43,6 +47,7 @@ namespace SpiritMod.Items.Weapon.Magic.RealityQuill
 
 				projectile.scale = 0.1f * projectile.ai[0];
 				projectile.timeLeft = 150;
+				previousMousePosition = currentMousePosition = Main.MouseWorld;
 				start = true;
 			}
 
@@ -63,6 +68,9 @@ namespace SpiritMod.Items.Weapon.Magic.RealityQuill
 			{
 				projectile.scale *= 0.8f;
 			}
+
+			previousMousePosition = currentMousePosition;
+			currentMousePosition = Main.MouseWorld;
 		}
 
 		public override void Kill(int timeLeft)
@@ -81,7 +89,25 @@ namespace SpiritMod.Items.Weapon.Magic.RealityQuill
             int cooldown = 20;
             projectile.localNPCImmunity[target.whoAmI] = 20;
             target.immune[projectile.owner] = cooldown;
-        }
+
+			for (int i = 0; i < 8; i++)
+			{
+				Vector2 vel = Main.rand.NextFloat(6.28f).ToRotationVector2() * 4;
+				vel.Normalize();
+				vel = vel.RotatedBy(Main.rand.NextFloat(-0.5f, 0.5f));
+				vel *= Main.rand.NextFloat(2, 5);
+				ImpactLine line = new ImpactLine(target.Center - (vel * 5), vel, Color.Purple, new Vector2(0.25f, Main.rand.NextFloat(0.75f, 1.75f)), 70);
+				line.TimeActive = 30;
+				ParticleHandler.SpawnParticle(line);
+
+			}
+		}
+
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			float distance = (previousMousePosition - currentMousePosition).Length() * 5;
+			damage = (int)(damage * MathHelper.Clamp((float)Math.Sqrt(distance), 1, 7));
+		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => false;
 
