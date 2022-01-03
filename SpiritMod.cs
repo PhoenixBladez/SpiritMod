@@ -639,8 +639,8 @@ namespace SpiritMod
 			BoonLoader.Load();
 			SpiritMultiplayer.Load();
 			SpiritDetours.Initialize();
-			Coverings = new CoveringsManager();
-			Coverings.Load(this);
+			//Coverings = new CoveringsManager();
+			//Coverings.Load(this);
 
 			GlobalNoise = new PerlinNoise(Main.rand.Next());
 
@@ -1065,8 +1065,8 @@ namespace SpiritMod
 			QuestBookHotkey = null;
 			QuestHUDHotkey = null;
 			EventManager.Unload();
-			Coverings.Unload();
-			Coverings = null;
+			//Coverings.Unload();
+			//Coverings = null;
 
 			SpiritMultiplayer.Unload();
 			AdditiveCallManager.Unload();

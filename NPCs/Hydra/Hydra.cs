@@ -11,6 +11,7 @@ using SpiritMod.Mechanics.BoonSystem;
 using SpiritMod.Utilities;
 using SpiritMod.Buffs;
 using Terraria.Audio;
+using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod.NPCs.Hydra
 {
@@ -251,6 +252,18 @@ namespace SpiritMod.NPCs.Hydra
 			switch (headColor)
 			{
 				case HeadColor.Red:
+					for (int j = 0; j < 12; j++)
+					{
+						Vector2 vector2 = Vector2.UnitX * -npc.width / 2f;
+						vector2 += -Utils.RotatedBy(Vector2.UnitY, (j * 3.141591734f / 6f), default) * new Vector2(10f, 24f);
+						vector2 = Utils.RotatedBy(vector2, (npc.rotation - 1.57079637f), default);
+						int num8 = Dust.NewDust(npc.Center, 0, 0, DustID.Fire, 0f, 0f, 160, default, 1f);
+						Main.dust[num8].scale = 1.1f;
+						Main.dust[num8].noGravity = true;
+						Main.dust[num8].position = npc.Center + vector2;
+						Main.dust[num8].velocity = npc.velocity * 0.1f;
+						Main.dust[num8].velocity = Vector2.Normalize(npc.Center - npc.velocity * 3f - Main.dust[num8].position) * 1.25f;
+					}
 					Projectile.NewProjectile(npc.Center, direction, ModContent.ProjectileType<HydraFireGlob>(), NPCUtils.ToActualDamage(npc.damage), 3);
 					break;
 				case HeadColor.Green:
@@ -368,12 +381,14 @@ namespace SpiritMod.NPCs.Hydra
 			}
 		}
 	}
-	public class HydraFireGlob : ModProjectile
+	public class HydraFireGlob : ModProjectile, IDrawAdditive
 	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hydra Spit");
 			Main.projFrames[projectile.type] = 4;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 12;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
@@ -401,19 +416,54 @@ namespace SpiritMod.NPCs.Hydra
 				projectile.frame++;
 				projectile.frame %= Main.projFrames[projectile.type];
 			}
+			projectile.localAI[0] += 1f;
+			if (projectile.localAI[0] == 12f)
+			{
+				projectile.localAI[0] = 0f;
+				for (int j = 0; j < 12; j++)
+				{
+					Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
+					vector2 += -Utils.RotatedBy(Vector2.UnitY, (j * 3.141591734f / 6f), default) * new Vector2(8f, 24f);
+					vector2 = Utils.RotatedBy(vector2, (projectile.rotation), default);
+					int num8 = Dust.NewDust(projectile.Center, 0, 0, DustID.Fire, 0f, 0f, 160, default, 1f);
+					Main.dust[num8].scale = 1.1f;
+					Main.dust[num8].noGravity = true;
+					Main.dust[num8].position = projectile.Center + vector2;
+					Main.dust[num8].velocity = projectile.velocity * 0.1f;
+					Main.dust[num8].velocity = Vector2.Normalize(projectile.Center - projectile.velocity * 3f - Main.dust[num8].position) * 1.25f;
+				}
+			}
 			projectile.velocity.Y += HydraHead.FIREBALLGRAVITY;
+		}
+		public void AdditiveCall(SpriteBatch spriteBatch)
+		{
+			float scale = projectile.scale;
+			Texture2D tex = ModContent.GetTexture("SpiritMod/NPCs/Hydra/HydraFireGlob_Glow");
+			Color color = Color.White * 0.65f;
+			int frameHeight = tex.Height / Main.projFrames[projectile.type];
+			Rectangle frameRect = new Rectangle(0, projectile.frame * frameHeight, tex.Width, frameHeight);
+			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+
+			spriteBatch.Draw(tex, projectile.position - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY), frameRect, color, projectile.rotation, drawOrigin, scale * 1.23f, default, default);
+			spriteBatch.Draw(tex, projectile.position - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY), frameRect, color, projectile.rotation, drawOrigin, scale * 1.43f, default, default);
+
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.OnFire, 200);
 
-		public override Color? GetAlpha(Color lightColor) => Color.White;
-
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			int frameHeight = tex.Height / Main.projFrames[projectile.type];
-			Rectangle frame = new Rectangle(0, frameHeight * projectile.frame, tex.Width, frameHeight);
-			spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, new Vector2(tex.Width * 0.75f, frameHeight / 2), projectile.scale, SpriteEffects.None, 0f);
+			Texture2D texture = Main.projectileTexture[projectile.type];
+			int frameHeight = texture.Height / Main.projFrames[projectile.type];
+			Rectangle frameRect = new Rectangle(0, projectile.frame * frameHeight, texture.Width, frameHeight);
+			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+			for (int k = 0; k < projectile.oldPos.Length; k++)
+			{
+				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
+				Color color = Color.White * .5f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, frameRect, color, projectile.rotation, drawOrigin, projectile.scale * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length), SpriteEffects.None, 0f);
+			}
+			spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.position - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY), frameRect, Color.White, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
 			return false;
 		}
 
@@ -476,16 +526,35 @@ namespace SpiritMod.NPCs.Hydra
 			projectile.penetrate = 1;
 			projectile.width = 24;
 			projectile.height = 24;
-			projectile.aiStyle = 1;
 			projectile.hostile = true;
 			projectile.tileCollide = true;
 		}
 		public override Color? GetAlpha(Color lightColor) => Color.White;
-
+		public override void AI() 
+		{
+			if (projectile.scale > .7f)
+            {
+				projectile.scale -= .02f;
+            }
+			projectile.velocity.Y += .061f;
+			projectile.rotation += .3f;
+			Lighting.AddLight(projectile.Center, 0.113f, 0.227f, 0.05f);
+			if (Main.rand.NextBool(5))
+			{
+				Vector2 dustVel = -projectile.velocity.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * Main.rand.NextFloat(0.4f);
+				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Dusts.AcidDust>(), dustVel.X, dustVel.Y);
+				Main.dust[d].scale = Main.rand.NextFloat(.6f, .8f);
+			}
+		}
 		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.Poisoned, 200);
 
+		public override void Kill(int timeLeft)
+		{
+			for (int i = 0; i < 18; i++)
+				Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.AcidDust>(), Main.rand.NextVector2Circular(3, 3));
+		}
 	}
-	public class HydraVenomGlob : ModProjectile
+	public class HydraVenomGlob : ModProjectile, ITrailProjectile
 	{
 		public override void SetStaticDefaults()
 		{
@@ -501,26 +570,31 @@ namespace SpiritMod.NPCs.Hydra
 			projectile.hostile = true;
 			projectile.tileCollide = true;
 		}
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new GradientTrail(Color.Orchid, Color.MediumPurple * .75f), new RoundCap(), new DefaultTrailPosition(), 8f, 95f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
+
 		public override void AI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation();
-			if (Main.rand.NextBool(3))
+			Lighting.AddLight(projectile.Center, 0.45f, 0.15f, 0.45f);
+
+			if (Main.rand.NextBool(2))
 			{
-				Vector2 dustVel = -projectile.velocity.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * Main.rand.NextFloat(0.4f);
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.VenomStaff, dustVel.X, dustVel.Y);
+				float x1 = projectile.Center.X - projectile.velocity.X / 10f;
+				float y1 = projectile.Center.Y - projectile.velocity.Y / 10f;
+				int num1 = Dust.NewDust(new Vector2(x1, y1), 2, 2, DustID.VenomStaff);
+				Main.dust[num1].alpha = projectile.alpha;
+				Main.dust[num1].velocity = projectile.velocity;
+				Main.dust[num1].fadeIn = 0.4684f;
+				Main.dust[num1].noGravity = true;
+				Main.dust[num1].scale *= .8235f;
 			}
+
 			projectile.frameCounter++;
 			if (projectile.frameCounter % 2 == 0)
 			{
 				projectile.frame++;
 				projectile.frame %= Main.projFrames[projectile.type];
 			}
-		}
-
-		public override void Kill(int timeLeft)
-		{
-			for (int i = 0; i < 10; i++)
-				Dust.NewDustPerfect(projectile.Center, DustID.VenomStaff, Main.rand.NextVector2Circular(2, 2));
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
