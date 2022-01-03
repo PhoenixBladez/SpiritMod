@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<GtechGrenadeProj>();
-			item.shootSpeed = 15;
+			item.shootSpeed = 22;
 			item.noUseGraphic = true;
 			item.maxStack = 999;
 			item.consumable = true;
@@ -45,9 +45,10 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 
 	public class GtechGrenadeProj : ModProjectile
 	{
-		private bool activated;
+		private const int ACTIVATION_TIME = 40; //How long the projectile takes to activate, slows down and moves in an arc until then
+		private const int DESPAWN_TIME = 10; //How long the projectile takes to shrink before despawning
 
-		private bool damageAura => projectile.frame > 4;
+		private bool DamageAura => projectile.frame > 4;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gtech Grenade");
@@ -61,44 +62,48 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 			projectile.hostile = false;
 			projectile.friendly = false;
 			projectile.width = projectile.height = 32;
-			projectile.timeLeft = 400;
+			projectile.timeLeft = 300;
+			projectile.tileCollide = true;
 		}
+
+		private ref float Timer => ref projectile.ai[0];
+
 		public override void AI()
 		{
-			projectile.velocity *= 0.96f;
-			if (projectile.velocity.Length() < 1 && !activated)
+			++Timer;
+
+			if(Timer < ACTIVATION_TIME)
 			{
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 92).WithPitchVariance(0.2f), projectile.Center);
-				activated = true;
+				projectile.velocity *= 0.94f;
+				float progress = Timer / ACTIVATION_TIME;
+
+				//Travel in an arc, with reduced gravity over time
+				projectile.velocity.Y += 0.6f * (1 - progress);
+
+				//Ease rotation through multiple circles based on progress, in direction of movement
+				int numFullRotations = 3;
+				projectile.rotation = numFullRotations * MathHelper.TwoPi * EaseFunction.EaseQuadOut.Ease(progress) * (Math.Sign(projectile.velocity.X) > 0 ? 1 : -1);
 			}
-			if (activated)
-			{
-				projectile.velocity = Vector2.Zero;
-				projectile.frameCounter++;
-				if (projectile.frameCounter % 5 == 0)
-				{
-					projectile.frame++;
-					if (projectile.frame >= Main.projFrames[projectile.type])
-						projectile.frame = 7;
-				}
-			}
-			if (projectile.velocity.Length() < 2)
-			{
-				float rotationOffset = damageAura ? 0 : (float)Math.Sin(projectile.frameCounter * 0.5f) * MathHelper.Lerp(0.05f, 0.02f, projectile.frameCounter / 25f);
-				projectile.rotation = MathHelper.Lerp(projectile.rotation, 6.28f, 0.2f) + rotationOffset;
-			}
+
 			else
 			{
-				projectile.rotation += projectile.velocity.Length() * 0.04f;
-				projectile.rotation %= 6.28f;
+				if(Timer == ACTIVATION_TIME)
+					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 92).WithPitchVariance(0.2f), projectile.Center);
+
+				projectile.velocity = Vector2.Zero;
+				projectile.frameCounter++;
+				projectile.UpdateFrame(12, 7);
 			}
-			if (damageAura)
+
+			if (DamageAura)
 			{
 				Lighting.AddLight(projectile.Center, Color.Cyan.ToVector3());
 				foreach (NPC npc in Main.npc)
 				{
-					if (npc.townNPC || !npc.active || npc.immortal)
+					//Ignore if the npc shouldn't be able to be hit
+					if (npc.townNPC || !npc.active || npc.immortal || npc.dontTakeDamage)
 						continue;
+
 					if (InAura(npc.Hitbox))
 					{
 						npc.AddBuff(ModContent.BuffType<ElectrifiedV2>(), 10);
@@ -108,39 +113,27 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 				}
 			}
 
-			if (damageAura && CheckHit() && projectile.timeLeft > 18)
+			if (DamageAura && CheckHit() && projectile.timeLeft > DESPAWN_TIME)
 			{
-				projectile.timeLeft = 18;
-				for (int i = 0; i < 6; i++)
-					Dust.NewDustPerfect(projectile.Center, DustID.Electric);
+				projectile.timeLeft = DESPAWN_TIME;
+				/*for (int i = 0; i < 6; i++)
+					Dust.NewDustPerfect(projectile.Center, DustID.Electric);*/
 			}
 
-			if (projectile.timeLeft < 18)
-				projectile.scale = Math.Max((projectile.timeLeft - 5) / 13f, 0);
+			if (projectile.timeLeft < DESPAWN_TIME)
+				projectile.scale = 1 - (float)Math.Pow(projectile.timeLeft / (float)DESPAWN_TIME, 0.5f);
 		}
 
 		private bool CheckHit()
 		{
 			foreach (Projectile proj in Main.projectile)
 			{
-				if (!proj.active || !proj.friendly || proj == projectile || proj.type == projectile.type)
+				//Skip projectiles that aren't friendly, active, or of the same type
+				if (!proj.active || !proj.friendly || proj.type == projectile.type || proj == null)
 					continue;
-				if (proj.modProjectile == null)
-				{
-					if (proj.Hitbox.Intersects(projectile.Hitbox))
-						return true;
-				}
-				else
-				{
-					bool? colliding = proj.modProjectile.Colliding(proj.Hitbox, projectile.Hitbox);
-					if (colliding == null)
-					{
-						if (proj.Hitbox.Intersects(projectile.Hitbox))
-							return true;
-					}
-					else
-						return (bool)colliding;
-				}
+
+				if (proj.Hitbox.Intersects(projectile.Hitbox))
+					return true;
 			}
 
 			return false;
@@ -148,14 +141,14 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 
 		private bool InAura(Rectangle targetHitbox)
 		{
-			if (!damageAura)
+			if (!DamageAura)
 				return false;
+
 			float collisionPoint = 0f;
-			for (float i = 0; i < 6.28f; i += 0.78f)
-			{
+			for (float i = 0; i < MathHelper.TwoPi; i += MathHelper.PiOver4)
 				if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + (i.ToRotationVector2() * 50 * projectile.scale), projectile.width, ref collisionPoint))
 					return true;
-			}
+
 			return false;
 		}
 
@@ -163,21 +156,20 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 		{
 			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 94).WithPitchVariance(0.2f).WithVolume(.6f), projectile.Center);
 			Main.PlaySound(SoundID.DD2_SkyDragonsFurySwing, projectile.Center);
-
 			Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<GtechGrenadeExplode>(), projectile.damage, 0, projectile.owner);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Texture2D aura = ModContent.GetTexture(Texture + "_Aura");
-			if (damageAura)
+			if (DamageAura)
 				spriteBatch.Draw(aura, projectile.Center - Main.screenPosition, null, Color.White * 0.3f, projectile.rotation, new Vector2(aura.Width, aura.Height) / 2, projectile.scale, SpriteEffects.None, 0f);
 
 			Texture2D tex = Main.projectileTexture[projectile.type];
 			int frameHeight = tex.Height / Main.projFrames[projectile.type];
 			Rectangle frame = new Rectangle(0, frameHeight * projectile.frame, tex.Width, frameHeight);
 
-			if (damageAura)
+			if (DamageAura)
 			{
 				float startScale = 1f;
 				float endScale = 1.3f;

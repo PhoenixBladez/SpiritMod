@@ -77,7 +77,7 @@ namespace SpiritMod
 			}
 		}
 
-		public static void UpdateFrame(this Projectile projectile, int framespersecond)
+		public static void UpdateFrame(this Projectile projectile, int framespersecond, int loopFrame = 0)
 		{
 			if (framespersecond == 0)
 				return;
@@ -88,9 +88,8 @@ namespace SpiritMod
 				projectile.frameCounter = 0;
 				projectile.frame++;
 				if (projectile.frame >= Main.projFrames[projectile.type])
-				{
-					projectile.frame = 0;
-				}
+					projectile.frame = loopFrame;
+
 			}
 		}
 
