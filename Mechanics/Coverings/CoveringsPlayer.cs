@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+﻿/*using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +33,7 @@ namespace SpiritMod.Mechanics.Coverings
                 for (int i = 0; i < snowAttempts; i++) TryAddSnowCovering(playerTile);
             }
 
-            /*
+            //comment this section out when uncommenting everything
             var action = new Actions.Custom((x, y, args) =>
             {
                 if (!WorldGen.SolidOrSlopedTile(Framing.GetTileSafely(x, y))) return false;
@@ -51,7 +51,7 @@ namespace SpiritMod.Mechanics.Coverings
             {
                 WorldUtils.Gen(new Point(Player.tileTargetX, Player.tileTargetY), new Shapes.Circle(12), action);
             }
-            */
+            //end
         }
 
         private void TryAddSnowCovering(Point aroundTile)
@@ -106,4 +106,4 @@ namespace SpiritMod.Mechanics.Coverings
             return empty;
         }
     }
-}
+}*/

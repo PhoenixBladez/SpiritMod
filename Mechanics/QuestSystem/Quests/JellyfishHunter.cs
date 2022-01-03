@@ -22,7 +22,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		private (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Consumable.Potion.MoonJelly>(), 8),
-			(ModContent.ItemType<Items.Placeable.Tiles.AsteroidBlock>(), 50),
+			(ModContent.ItemType<Items.Placeable.Tiles.SpaceJunkItem>(), 50),
 			(Terraria.ID.ItemID.GoldCoin, 4)
 		};
 

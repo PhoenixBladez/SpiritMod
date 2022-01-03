@@ -20,7 +20,10 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
-			((int)ItemID.CopperCoin, 1)
+			(ModContent.ItemType<Items.Consumable.Potion.MoonJellyDonut>(), 5),
+			(ModContent.ItemType<Items.Sets.SeraphSet.MoonStone>(), 6),
+			(ModContent.ItemType<Items.Placeable.MusicBox.BlueMoonBox>(), 1),
+			(Terraria.ID.ItemID.GoldCoin, 2)
 		};
 
 

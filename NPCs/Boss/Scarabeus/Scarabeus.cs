@@ -1095,7 +1095,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 			npc.DropItem(ModContent.ItemType<ScarabMask>(), 1f / 7);
 			npc.DropItem(ModContent.ItemType<Trophy1>(), 1f / 10);
-			npc.DropItem(ModContent.ItemType<SandsOfTime>(), 1f / 4);
+			npc.DropItem(ModContent.ItemType<SandsOfTime>(), 1f / 15);
 		}
 
 		private void Gores()

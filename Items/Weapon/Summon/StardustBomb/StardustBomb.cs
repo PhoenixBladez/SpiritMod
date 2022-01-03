@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Supernova");
-			Tooltip.SetDefault("Summons a collapsing star\nThe star can be targeted\ndeal summon damage to the star to release a powerful explosion");
+			Tooltip.SetDefault("Summons a collapsing star\nThe star can be targeted\nDeal summon damage to the star to release a powerful explosion");
 		}
 
 		public override void SetDefaults()

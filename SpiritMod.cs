@@ -639,20 +639,75 @@ namespace SpiritMod
 			BoonLoader.Load();
 			SpiritMultiplayer.Load();
 			SpiritDetours.Initialize();
-			Coverings = new CoveringsManager();
-			Coverings.Load(this);
+			//Coverings = new CoveringsManager();
+			//Coverings.Load(this);
 
 			GlobalNoise = new PerlinNoise(Main.rand.Next());
 
 			if (Main.rand == null)
 				Main.rand = new UnifiedRandom();
 
-			//Don't add any code before this point,
-			// unless you know what you're doing.
-
 			Items.Halloween.CandyBag.Initialize();
 
 			OlympiumCurrencyID = CustomCurrencyManager.RegisterCurrency(new OlympiumCurrency(ModContent.ItemType<OlympiumToken>(), 999));
+
+			ModTranslation config1 = CreateTranslation("Screenshake");
+			config1.SetDefault($"[i:" + SpiritMod.Instance.ItemType("BlueNeonSign") + "]  Visuals: Screenshake");
+			AddTranslation(config1);
+
+			ModTranslation config2 = CreateTranslation("Distortion");
+			config2.SetDefault($"[i:" + SpiritMod.Instance.ItemType("BlueNeonSign") + "]  Visuals: Screen Distortion");
+			AddTranslation(config2);
+
+			ModTranslation config3 = CreateTranslation("Particles");
+			config3.SetDefault($"[i:" + SpiritMod.Instance.ItemType("BlueNeonSign") + "]  Visuals: Foreground Particles");
+			AddTranslation(config3);
+
+			ModTranslation config4 = CreateTranslation("Quicksell");
+			config4.SetDefault($"[i:" + SpiritMod.Instance.ItemType("SeedBag") + "]  QoL: Quick-Sell Feature");
+			AddTranslation(config4);
+
+			ModTranslation config5 = CreateTranslation("Autoswing");
+			config5.SetDefault($"[i:" + SpiritMod.Instance.ItemType("PurpleNeonSign") + "]  QoL: Auto-Reuse Tooltip");
+			AddTranslation(config5);
+
+			ModTranslation config6 = CreateTranslation("AmbientSounds");
+			config6.SetDefault($"[i:" + SpiritMod.Instance.ItemType("SurrenderBell") + "]  Ambience: Ambient Sounds");
+			AddTranslation(config6);
+
+			ModTranslation config7 = CreateTranslation("LeafFallAmbience");
+			config7.SetDefault($"[i:" + SpiritMod.Instance.ItemType("EnchantedLeaf") + "]  Ambience: Falling Leaf Effects");
+			AddTranslation(config7);
+
+			ModTranslation config8 = CreateTranslation("QuestButton");
+			config8.SetDefault($"[i:" + SpiritMod.Instance.ItemType("Book_Slime") + "]  Quests: Quest Book Button Location");
+			AddTranslation(config8);
+
+			ModTranslation config9 = CreateTranslation("QuestIcons");
+			config9.SetDefault($"[i:" + SpiritMod.Instance.ItemType("Brightbulb") + "]  Quests: Town NPC Quest Icons");
+			AddTranslation(config9);
+
+			ModTranslation config10 = CreateTranslation("ArcaneHideoutGen");
+			config10.SetDefault($"[i:" + SpiritMod.Instance.ItemType("JellyCandle") + "]  Worldgen: Arcane Tower and Bandit Hideout Generation");
+			AddTranslation(config10);
+
+			ModTranslation config11 = CreateTranslation("OceanShape");
+			config11.SetDefault($"[i:" + SpiritMod.Instance.ItemType("BlackPearl") + "]  Oceans: Ocean Generation Shape");
+			AddTranslation(config11);
+
+			ModTranslation config12 = CreateTranslation("OceanVents");
+			config12.SetDefault($"[i:" + SpiritMod.Instance.ItemType("BlackPearl") + "]  Oceans: Hydothermal Vent Ecosystems");
+			AddTranslation(config12);
+
+			ModTranslation config13 = CreateTranslation("OceanWater");
+			config13.SetDefault($"[i:" + SpiritMod.Instance.ItemType("BlackPearl") + "]  Oceans: Ocean Water Transparency");
+			AddTranslation(config13);
+
+			ModTranslation config14 = CreateTranslation("WaterEnemies");
+			config14.SetDefault($"[i:" + SpiritMod.Instance.ItemType("SpiritKoi") + "]  Fishing: Fishing Encounters");
+			AddTranslation(config14);
+
+
 
 			if (Main.netMode != NetmodeID.Server)
 			{
@@ -1010,8 +1065,8 @@ namespace SpiritMod
 			QuestBookHotkey = null;
 			QuestHUDHotkey = null;
 			EventManager.Unload();
-			Coverings.Unload();
-			Coverings = null;
+			//Coverings.Unload();
+			//Coverings = null;
 
 			SpiritMultiplayer.Unload();
 			AdditiveCallManager.Unload();

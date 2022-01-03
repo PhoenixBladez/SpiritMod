@@ -20,8 +20,9 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
-			(ModContent.ItemType<Items.Accessory.KoiTotem>(), 1),
-			(Terraria.ID.ItemID.GoldCoin, 1)
+			(ModContent.ItemType<Items.Sets.Vulture_Matriarch.Vulture_Matriarch_Mask>(), 1),
+			(Terraria.ID.ItemID.Sandgun, 3),
+			(Terraria.ID.ItemID.GoldCoin, 3)
 		};
 
 		private SlayerQuestVultureMatriarch()

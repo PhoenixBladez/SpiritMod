@@ -1,6 +1,9 @@
 using SpiritMod.Tiles.Furniture;
 using Terraria.ID;
+using Terraria;
 using Terraria.ModLoader;
+using SpiritMod.Mechanics.QuestSystem.Quests;
+using SpiritMod.Mechanics.QuestSystem;
 
 namespace SpiritMod.Items.Placeable.Furniture
 {
@@ -19,6 +22,7 @@ namespace SpiritMod.Items.Placeable.Furniture
 			item.value = 5000;
 
 			item.maxStack = 99;
+			item.value = Item.buyPrice(gold: 3);
 
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 10;
@@ -34,7 +38,6 @@ namespace SpiritMod.Items.Placeable.Furniture
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<Items.Placeable.FishCrate>(), 3);
-			recipe.anyWood = true;
 			recipe.AddIngredient(ItemID.IronBar, 20);
 			recipe.anyIronBar = true;
 			recipe.AddTile(TileID.Furnaces);

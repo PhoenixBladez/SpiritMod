@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Armor.WayfarerSet
 			item.height = 20;
 			item.value = Terraria.Item.sellPrice(0, 0, 60, 0);
 			item.rare = ItemRarityID.Blue;
-			item.defense = 2;
+			item.defense = 1;
 		}
 
 		public override void UpdateEquip(Player player)
@@ -40,5 +40,15 @@ namespace SpiritMod.Items.Armor.WayfarerSet
 			=> body.type == ModContent.ItemType<WayfarerBody>()
 			&& legs.type == ModContent.ItemType<WayfarerLegs>();
 
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<Items.Consumable.Quest.DurasilkSheaf>(), 1);
+			recipe.AddIngredient(ItemID.IronBar, 1);
+			recipe.anyIronBar = true;
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this, 1);
+			recipe.AddRecipe();
+		}
 	}
 }

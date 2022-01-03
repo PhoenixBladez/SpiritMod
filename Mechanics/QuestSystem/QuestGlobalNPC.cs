@@ -14,6 +14,7 @@ using SpiritMod.Items.Pins;
 using SpiritMod.Items.Placeable.Furniture;
 using SpiritMod.Mechanics.QuestSystem.Quests;
 using SpiritMod.NPCs.Town;
+using SpiritMod.Items.Consumable.Quest;
 
 using static Terraria.ModLoader.ModContent;
 
@@ -71,19 +72,64 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 				if (QuestManager.GetQuest<StylistQuestMeteor>().IsCompleted)
 					shop.item[nextSlot++].SetDefaults(ItemType<Items.Sets.DyesMisc.HairDye.MeteorDye>(), false);
+				if (QuestManager.GetQuest<StylistQuestCorrupt>().IsCompleted)
+					shop.item[nextSlot++].SetDefaults(ItemType<Items.Sets.DyesMisc.HairDye.CystalDye>(), false);
+				if (QuestManager.GetQuest<StylistQuestCrimson>().IsCompleted)
+					shop.item[nextSlot++].SetDefaults(ItemType<Items.Sets.DyesMisc.HairDye.ViciousDye>(), false);
+			}
+			if (type == NPCID.Merchant)
+			{
+				if (QuestManager.GetQuest<AnglerStatueQuest>().IsCompleted)
+					shop.item[nextSlot++].SetDefaults(ItemType<Items.Placeable.Furniture.GiantAnglerStatue>(), false);
+			}
+			if (type == NPCID.Demolitionist)
+            {
+				if (QuestManager.GetQuest<RescueQuestStylist>().IsCompleted)
+					shop.item[nextSlot++].SetDefaults(ItemType<Items.Accessory.LongFuse>(), false);
 			}
 			if (type == NPCType<Adventurer>())
 			{
+				if (QuestManager.GetQuest<FirstAdventure>().IsCompleted)
+					shop.item[nextSlot++].SetDefaults(ItemType<DurasilkSheaf>(), false);
+
+				if (QuestManager.GetQuest<ExplorerQuestAsteroid>().IsCompleted)
+					shop.item[nextSlot++].SetDefaults(ItemType<ExplorerScrollAsteroidFull>(), false);
+				if (QuestManager.GetQuest<ExplorerQuestGranite>().IsCompleted)
+					shop.item[nextSlot++].SetDefaults(ItemType<ExplorerScrollGraniteFull>(), false);
+				if (QuestManager.GetQuest<ExplorerQuestMarble>().IsCompleted)
+					shop.item[nextSlot++].SetDefaults(ItemType<ExplorerScrollMarbleFull>(), false);
+				if (QuestManager.GetQuest<ExplorerQuestHive>().IsCompleted)
+					shop.item[nextSlot++].SetDefaults(ItemType<ExplorerScrollHiveFull>(), false);
+				if (QuestManager.GetQuest<ExplorerQuestMushroom>().IsCompleted)
+					shop.item[nextSlot++].SetDefaults(ItemType<ExplorerScrollMushroomFull>(), false);
+
+				if (QuestManager.GetQuest<CritterCaptureFloater>().IsCompleted)
+					shop.item[nextSlot++].SetDefaults(ItemType<Items.Weapon.Magic.LuminanceSeacone.LuminanceSeacone>(), false);
+
+				if (QuestManager.GetQuest<ManicMage>().IsCompleted)
+					shop.item[nextSlot++].SetDefaults(ItemType<Items.Sets.MagicMisc.Lightspire.AkaviriStaff>(), false);
+
+				if (QuestManager.GetQuest<SkyHigh>().IsCompleted)
+					shop.item[nextSlot++].SetDefaults(ItemType<Tiles.Furniture.JadeDragonStatue.DragonStatueItem>(), false);
+
+				if (QuestManager.GetQuest<SlayerQuestCavern>().IsCompleted)
+					shop.item[nextSlot++].SetDefaults(ItemType<Items.Weapon.Thrown.ClatterSpear>(), false);
+
+				if (QuestManager.GetQuest<ZombieOriginQuest>().IsCompleted)
+					shop.item[nextSlot++].SetDefaults(ItemType<Items.Weapon.Swung.Punching_Bag.Punching_Bag>(), false);
+
 				if (QuestManager.GetQuest<DecrepitDepths>().IsCompleted) {
 					shop.item[nextSlot++].SetDefaults(ItemType<SepulchreArrow>(), false);
 					shop.item[nextSlot++].SetDefaults(ItemType<SepulchreBannerItem>(), false);
 					shop.item[nextSlot++].SetDefaults(ItemType<SepulchreChest>(), false);
 				}
+
 				if (QuestManager.GetQuest<SkyHigh>().IsCompleted) {
 					shop.item[nextSlot++].SetDefaults(ItemType<PottedSakura>(), false);
 					shop.item[nextSlot++].SetDefaults(ItemType<PottedWillow>(), false);
 				}
-
+				if (QuestManager.GetQuest<ItsNoSalmon>().IsCompleted)
+					shop.item[nextSlot++].SetDefaults(ItemType<Items.Accessory.KoiTotem>(), false);
 				if (QuestManager.GetQuest<SporeSalvage>().IsCompleted)
 					shop.item[nextSlot++].SetDefaults(ItemType<Tiles.Furniture.Critters.VibeshroomJarItem>(), false);
 				if (QuestManager.GetQuest<SlayerQuestDrBones>().IsCompleted)

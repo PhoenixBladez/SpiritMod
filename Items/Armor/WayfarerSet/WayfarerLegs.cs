@@ -30,5 +30,15 @@ namespace SpiritMod.Items.Armor.WayfarerSet
             player.moveSpeed += 0.07f;
             player.runAcceleration += .015f;
         }
-    }
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<Items.Consumable.Quest.DurasilkSheaf>(), 1);
+			recipe.AddIngredient(ItemID.IronBar, 1);
+			recipe.anyIronBar = true;
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this, 1);
+			recipe.AddRecipe();
+		}
+	}
 }

@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Accessory
 		{
 			item.Size = new Microsoft.Xna.Framework.Vector2(22, 28);
 			item.rare = ItemRarityID.Blue;
-			item.value = Item.sellPrice(0, 0, 30, 0);
+			item.value = Item.sellPrice(0, 0, 40, 0);
 		}
 
 		public override void UpdateInventory(Player player) => player.GetModPlayer<MyPlayer>().longFuse = true;

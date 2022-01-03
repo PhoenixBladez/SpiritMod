@@ -31,6 +31,8 @@ namespace SpiritMod.NPCs.DesertBandit
 			npc.width = 30;
 			npc.height = 42;
 			npc.damage = 18;
+			npc.HitSound = SoundID.NPCHit1;
+			npc.DeathSound = SoundID.NPCDeath6;
 			npc.lavaImmune = true;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 				npc.buffImmune[k] = true;
