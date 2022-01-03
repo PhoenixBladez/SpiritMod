@@ -313,6 +313,27 @@ namespace SpiritMod.NPCs.Hydra
 				if (modNPC.newHeadCountdown < 0)
 					modNPC.newHeadCountdown = 150;
 				modNPC.headsDue++;
+
+				SpawnGores();
+			}
+		}
+
+		private void SpawnGores()
+		{
+			string headGore = getColor() + "HydraHead";
+			string neckGore = getColor() + "HydraNeck";
+
+			Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hydra/" + headGore), 1f);
+
+			float goreRotation = npc.rotation - (npc.direction == -1 ? 3.14f : 0);
+
+			BezierCurve curve = GetCurve(goreRotation);
+			int numPoints = 20; 
+			Vector2[] chainPositions = curve.GetPoints(numPoints).ToArray();
+			for (int i = 1; i < numPoints; i++)
+			{
+				Vector2 position = chainPositions[i];
+				Gore.NewGore(position, Vector2.Zero, mod.GetGoreSlot("Gores/Hydra/" + neckGore), 1f);
 			}
 		}
 
