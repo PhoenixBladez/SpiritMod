@@ -602,12 +602,13 @@ namespace SpiritMod.NPCs.Hydra
 			DisplayName.SetDefault("Hydra Spit");
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			Main.projFrames[projectile.type] = 5;
 		}
 		public override void SetDefaults()
 		{
 			projectile.penetrate = 1;
-			projectile.width = 24;
-			projectile.height = 24;
+			projectile.width = 44;
+			projectile.height = 44;
 			projectile.hostile = true;
 			projectile.tileCollide = true;
 		}
@@ -618,8 +619,15 @@ namespace SpiritMod.NPCs.Hydra
 			num395 *= 0.3f;
 			projectile.scale = num395 + 0.85f;
 
+			projectile.frameCounter++;
+			if (projectile.frameCounter % 4 == 0)
+			{
+				projectile.frame++;
+				projectile.frame %= Main.projFrames[projectile.type];
+			}
+
 			projectile.velocity.Y += .061f;
-			projectile.rotation += .3f;
+			projectile.rotation = projectile.velocity.ToRotation();
 			Lighting.AddLight(projectile.Center, 0.113f, 0.227f, 0.05f);
 			if (Main.rand.NextBool(7))
 			{
@@ -633,7 +641,7 @@ namespace SpiritMod.NPCs.Hydra
 			Texture2D texture = Main.projectileTexture[projectile.type];
 			int frameHeight = texture.Height / Main.projFrames[projectile.type];
 			Rectangle frameRect = new Rectangle(0, projectile.frame * frameHeight, texture.Width, frameHeight);
-			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.75f, projectile.height * 0.5f);
 			for (int k = 0; k < projectile.oldPos.Length; k++)
 			{
 				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
