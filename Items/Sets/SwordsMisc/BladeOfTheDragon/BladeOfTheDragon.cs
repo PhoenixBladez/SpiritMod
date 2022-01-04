@@ -124,12 +124,14 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 					Vector2 currentPoint = Vector2.Lerp(startPos, endPos, progress);
 
 					float oldSpeed = player.velocity.Length();
-
-					for (int i = 0; i < oldSpeed / 7f; i++)
+					if (oldSpeed > 2)
 					{
-						ImpactLine line = new ImpactLine(Vector2.Lerp(oldCenter, projectile.Center, Main.rand.NextFloat()) + Main.rand.NextVector2Circular(35, 35), Vector2.Normalize(player.velocity) * 0.5f, Color.Lerp(Color.Green, Color.LightGreen, Main.rand.NextFloat()), new Vector2(0.25f, Main.rand.NextFloat(0.5f, 1.5f)) * 3, 60);
-						line.TimeActive = 30;
-						ParticleHandler.SpawnParticle(line);
+						for (int i = 0; i < oldSpeed / 7f; i++)
+						{
+							ImpactLine line = new ImpactLine(Vector2.Lerp(oldCenter, projectile.Center, Main.rand.NextFloat()) + Main.rand.NextVector2Circular(35, 35), Vector2.Normalize(player.velocity) * 0.5f, Color.Lerp(Color.Green, Color.LightGreen, Main.rand.NextFloat()), new Vector2(0.25f, Main.rand.NextFloat(0.5f, 1.5f)) * 3, 60);
+							line.TimeActive = 30;
+							ParticleHandler.SpawnParticle(line);
+						}
 					}
 
 					player.velocity = nextPoint - currentPoint;

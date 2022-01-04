@@ -607,8 +607,8 @@ namespace SpiritMod.NPCs.Hydra
 		public override void SetDefaults()
 		{
 			projectile.penetrate = 1;
-			projectile.width = 44;
-			projectile.height = 44;
+			projectile.width = 24;
+			projectile.height = 24;
 			projectile.hostile = true;
 			projectile.tileCollide = true;
 		}
@@ -617,7 +617,7 @@ namespace SpiritMod.NPCs.Hydra
 		{
 			float num395 = Main.mouseTextColor / 200f - 0.35f;
 			num395 *= 0.3f;
-			projectile.scale = num395 + 0.85f;
+			projectile.scale = num395 + 0.55f;
 
 			projectile.frameCounter++;
 			if (projectile.frameCounter % 4 == 0)
