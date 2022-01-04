@@ -23,6 +23,8 @@ namespace SpiritMod.NPCs.Hydra
 
 		private List<NPC> heads = new List<NPC>();
 
+		public int headsSpawned = 0;
+
 		public int newHeadCountdown = -1;
 		public int headsDue = 1;
 		public override void SetStaticDefaults()
@@ -38,7 +40,7 @@ namespace SpiritMod.NPCs.Hydra
 			npc.lifeMax = 700;
 			npc.HitSound = SoundID.NPCHit7;
 			npc.DeathSound = SoundID.NPCDeath5;
-			npc.value = 180f;
+			npc.value = 900f;
 			npc.knockBackResist = 0;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -88,7 +90,7 @@ namespace SpiritMod.NPCs.Hydra
 			{
 				for (int i = 0; i < headsDue; i++)
 				{
-					SpawnHead(npc.lifeMax);
+					SpawnHead(Math.Max(npc.lifeMax - (50 * headsSpawned), 100));
 				}
 				headsDue = 1;
 			}
@@ -98,6 +100,8 @@ namespace SpiritMod.NPCs.Hydra
 		{
 			if (heads.Count >= MAXHEADS)
 				return;
+
+			headsSpawned++;
 			int npcIndex = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<HydraHead>(), 0, npc.whoAmI);
 			NPC head = Main.npc[npcIndex];
 			head.life = head.lifeMax = life;
@@ -150,7 +154,7 @@ namespace SpiritMod.NPCs.Hydra
 			npc.lifeMax = 700;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath5;
-			npc.value = 900f;
+			npc.value = 0f;
 			npc.knockBackResist = 0;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -363,7 +367,7 @@ namespace SpiritMod.NPCs.Hydra
 			if (npc.life <= 0 && parent.modNPC is Hydra modNPC)
 			{
 				if (modNPC.newHeadCountdown < 0)
-					modNPC.newHeadCountdown = 240;
+					modNPC.newHeadCountdown = 240 + (30 * modNPC.headsSpawned);
 				modNPC.headsDue++;
 
 				SpawnGores();
