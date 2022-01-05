@@ -373,7 +373,26 @@ namespace SpiritMod.NPCs.Hydra
 				SpawnGores();
 			}
 		}
-
+		public override void NPCLoot()
+		{
+			if (headColor == HeadColor.Green)
+			{
+				if (Main.rand.NextBool(200))
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.PoisonStaff);
+			}
+			if (headColor == HeadColor.Purple)
+			{
+				if (Main.rand.NextBool(20))
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.VialofVenom, Main.rand.Next(1, 4));
+			}
+			if (headColor == HeadColor.Red)
+			{
+				if (Main.rand.NextBool(100))
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MagmaStone);
+			}
+			if (Main.rand.NextBool(100))
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.GoldenApple>());
+		}
 		private void SpawnGores()
 		{
 			string headGore = getColor() + "HydraHead";
@@ -616,8 +635,8 @@ namespace SpiritMod.NPCs.Hydra
 		public override void AI() 
 		{
 			float num395 = Main.mouseTextColor / 200f - 0.35f;
-			num395 *= 0.3f;
-			projectile.scale = num395 + 0.55f;
+			num395 *= 0.36f;
+			projectile.scale = num395 + 0.45f;
 
 			projectile.frameCounter++;
 			if (projectile.frameCounter % 4 == 0)

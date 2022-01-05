@@ -56,7 +56,14 @@ namespace SpiritMod.NPCs.StymphalianBat
 			npc.localAI[1] = reader.ReadSingle();
 			npc.localAI[2] = reader.ReadSingle();
 		}
-        public override void AI()
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			if (Main.rand.Next(3) == 0)
+			{
+				target.AddBuff(BuffID.Bleeding, 3600);
+			}
+		}
+		public override void AI()
         {
 			if (npc.ai[3] == 0)
             {
@@ -226,8 +233,14 @@ namespace SpiritMod.NPCs.StymphalianBat
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/StymphalianBat/StymphalianBat1"), 1f);
             }
         }
-
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void NPCLoot()
+		{
+			if (Main.rand.NextBool(100))
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AdhesiveBandage);
+			if (Main.rand.NextBool(85))
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.GoldenApple>());
+		}
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (npc.ai[2] == 1f && !npc.collideX && !npc.collideY)
             {

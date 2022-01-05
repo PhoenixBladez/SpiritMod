@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs
 	{
 		public override void SetDefaults()
 		{
-			DisplayName.SetDefault("Olive Branch");
+			DisplayName.SetDefault("Peaceful Resolution");
 			Description.SetDefault("'Make peace with your enemies'");
 			Main.debuff[Type] = true;
 			Main.pvpBuff[Type] = true;

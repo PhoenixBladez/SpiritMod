@@ -79,15 +79,19 @@ namespace SpiritMod.NPCs.BlizzardNimbus
 			if (npc.position.X + (float)npc.width > Main.player[npc.target].position.X && npc.position.X < Main.player[npc.target].position.X + (float)Main.player[npc.target].width && npc.position.Y + (float)npc.height < Main.player[npc.target].position.Y && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) && Main.netMode != NetmodeID.MultiplayerClient) {
 				npc.ai[0] += 4f;
 				if (npc.ai[0] > 32f) {
-					npc.ai[0] = 0f;
-					int num1169 = (int)(npc.position.X + 10f + (float)Main.rand.Next(npc.width - 20));
-					int num1170 = (int)(npc.position.Y + (float)npc.height + 4f);
-					int num184 = 26;
-					if (Main.expertMode) {
-						num184 = 14;
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						npc.ai[0] = 0f;
+						int num1169 = (int)(npc.position.X + 10f + (float)Main.rand.Next(npc.width - 20));
+						int num1170 = (int)(npc.position.Y + (float)npc.height + 4f);
+						int num184 = 26;
+						if (Main.expertMode)
+						{
+							num184 = 14;
+						}
+						Projectile.NewProjectile((float)num1169, (float)num1170, 0f, 5f, ProjectileID.FrostShard, num184, 0f, Main.myPlayer, 0f, 0f);
+						return;
 					}
-					Projectile.NewProjectile((float)num1169, (float)num1170, 0f, 5f, ProjectileID.FrostShard, num184, 0f, Main.myPlayer, 0f, 0f);
-					return;
 				}
 			}
 		}
@@ -109,7 +113,13 @@ namespace SpiritMod.NPCs.BlizzardNimbus
 				Gore.NewGore(npc.position, npc.velocity, 11);
 			}
 		}
-
+		public override void NPCLoot()
+		{
+			if (Main.rand.NextBool(50))
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FrostStaff);
+			if (Main.rand.NextBool(178))
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.IceSickle);
+		}
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.15f;
@@ -120,7 +130,7 @@ namespace SpiritMod.NPCs.BlizzardNimbus
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.sky && Main.hardMode ? 0.16f : 0f;
+			return spawnInfo.player.ZoneSnow && spawnInfo.player.ZoneOverworldHeight && Main.dayTime && Main.hardMode ? 0.0595f : 0f;
 		}
 	}
 }

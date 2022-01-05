@@ -56,6 +56,13 @@ namespace SpiritMod.NPCs.Automata
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.ArachmatonBanner>();
 		}
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			if (Main.rand.Next(5) == 0)
+			{
+				target.AddBuff(BuffID.BrokenArmor, 1800);
+			}
+		}
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(attacking);
@@ -207,6 +214,13 @@ namespace SpiritMod.NPCs.Automata
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AutomataCreeper/AutomataCreeper4"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AutomataCreeper/AutomataCreeper5"), 1f);
 			}
+		}
+		public override void NPCLoot()
+		{
+			if (Main.rand.NextBool(100))
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.ArmorPolish);
+			if (Main.rand.NextBool(85))
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.GoldenApple>());
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
