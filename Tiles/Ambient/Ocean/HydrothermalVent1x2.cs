@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using System;
+using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod.Tiles.Ambient.Ocean
 {
@@ -73,7 +74,35 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			name.SetDefault("Hydrothermal Vent");
 			AddMapEntry(new Color(64, 54, 66), name);
 		}
-
+		public override bool NewRightClick(int i, int j)
+		{
+			Player player = Main.LocalPlayer;
+			if (player.ZoneBeach && player.GetSpiritPlayer().isFullySubmerged)
+				HitWire(i, j);
+			return true;
+		}
+		public sealed override void HitWire(int i, int j)
+		{
+			if (Wiring.CheckMech(i, j, 7200))
+			{
+				for (int k = 0; k <= 20; k++)
+				{
+					Dust.NewDustPerfect(new Vector2(i * 16, j * 16), DustType<Dusts.BoneDust>(), new Vector2(0, 6).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1));
+				}
+				for (int k = 0; k <= 20; k++)
+				{
+					Dust.NewDustPerfect(new Vector2(i * 16, j * 16), DustType<Dusts.FireClubDust>(), new Vector2(0, 6).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1));
+				}
+				int a = Projectile.NewProjectile(i * 16, j * 16 - 36, 0, -4, ModContent.ProjectileType<Projectiles.HydrothermalVentPlume>(), 5, 0f);
+			}
+		}
+		public sealed override void MouseOver(int i, int j)
+		{
+			Player player = Main.LocalPlayer;
+			player.noThrow = 2;
+			player.showItemIcon = true;
+			player.showItemIcon2 = ModContent.ItemType<SmallVentItem>();
+		}
 		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 		public override void SetSpriteEffects(int i, int j, ref SpriteEffects spriteEffects) => spriteEffects = (i % 2 == 0) ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
