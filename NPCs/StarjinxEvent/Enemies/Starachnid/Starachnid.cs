@@ -568,6 +568,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			StarBreakParticles(currentThread.StartPoint);
 			StarBreakParticles(currentThread.EndPoint);
 		}
+
+		public override void NPCLoot()
+		{
+			if (Main.rand.NextBool(15))
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Pets.CosmicRattler.CosmicRattler>());
+		}
 	}
 
 	public class StarachnidProj : ModProjectile

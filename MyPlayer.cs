@@ -247,6 +247,7 @@ namespace SpiritMod
 		public bool bookPet = false;
 		public bool SwordPet = false;
 		public bool shadowPet = false;
+		public bool starachnidPet = false;
 
 		public bool strikeshield = false;
 
@@ -877,6 +878,7 @@ namespace SpiritMod
 			jellyfishMinion = false;
 			butterflyMinion = false;
 			shadowPet = false;
+			starachnidPet = false;
 			saucerPet = false;
 			terror1Summon = false;
 			terror2Summon = false;
