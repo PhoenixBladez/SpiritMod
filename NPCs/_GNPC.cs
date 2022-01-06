@@ -688,7 +688,6 @@ namespace SpiritMod.NPCs
 			else if (type == NPCID.Wizard)
 			{
 				shop.item[nextSlot++].SetDefaults(ItemType<Items.Consumable.SurrenderBell>(), false);
-				shop.item[nextSlot++].shopCustomPrice = 300000;
 			}
 			else if (type == NPCID.Steampunker)
 			{
@@ -1011,6 +1010,8 @@ namespace SpiritMod.NPCs
 
 			if (!npc.SpawnedFromStatue)
 			{
+				DropLoot(150, 100, ItemType<Items.Accessory.InfernalPact>(), npc, NPCID.Lavabat, NPCID.RedDevil);
+
 				DropLoot(150, 150, ItemType<IceVikingSculpture>(), npc, NPCID.UndeadViking);
 				DropLoot(150, 150, ItemType<IceFlinxSculpture>(), npc, NPCID.SnowFlinx);
 				DropLoot(150, 150, ItemType<IceBatSculpture>(), npc, NPCID.IceBat);
@@ -1071,6 +1072,8 @@ namespace SpiritMod.NPCs
 			DropLoot(50, 50, ItemType<MagnifyingGlass>(), npc, NPCID.DemonEye, NPCID.DemonEye2, NPCID.DemonEyeOwl, NPCID.DemonEyeSpaceship);
 			DropLoot(12, 10, ItemType<Items.Weapon.Summon.WyvernStaff.WyvernStaff>(), npc, NPCID.WyvernHead);
 			DropLoot(1, 1, ItemType<PirateKey>(), npc, NPCID.PirateShip);
+			DropLoot(6, 6, ItemType<Items.Sets.SummonsMisc.SanguineFlayer.SanguineFlayerItem>(), npc, NPCID.BigMimicCrimson);
+			DropLoot(6, 6, ItemType<Items.Accessory.OpalFrog.OpalFrogItem>(), npc, NPCID.BigMimicHallow);
 		}
 
 		/// <summary>Drops an item given the specific conditions.</summary>

@@ -32,8 +32,13 @@ namespace SpiritMod.Mechanics.QuestSystem
             {
                 QuestManager.UnlockQuest<ExplorerQuestBlueMoon>(true);
                 QuestManager.UnlockQuest<SlayerQuestVultureMatriarch>(true);
+
 				if (Main.bloodMoon && QuestManager.GetQuest<SlayerQuestClown>().IsUnlocked)
 					AddQuestQueue(NPCID.PartyGirl, QuestManager.GetQuest<SlayerQuestClown>());
+
+				AddQuestQueue(NPCID.Dryad, QuestManager.GetQuest<OlympiumQuest>());
+
+
 				if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
 					AddQuestQueue(NPCID.Dryad, QuestManager.GetQuest<CritterCaptureSoulOrb>());
 			}

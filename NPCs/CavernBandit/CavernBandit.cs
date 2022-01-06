@@ -83,7 +83,9 @@ namespace SpiritMod.NPCs.CavernBandit
         {
             if (Main.rand.NextBool(24))
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MagicLantern);
-        }
+			if (Main.rand.NextBool(6))
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Hook);
+		}
 
         public override void HitEffect(int hitDirection, double damage)
 		{

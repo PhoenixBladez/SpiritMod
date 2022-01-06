@@ -639,20 +639,145 @@ namespace SpiritMod
 			BoonLoader.Load();
 			SpiritMultiplayer.Load();
 			SpiritDetours.Initialize();
-			Coverings = new CoveringsManager();
-			Coverings.Load(this);
+			//Coverings = new CoveringsManager();
+			//Coverings.Load(this);
 
 			GlobalNoise = new PerlinNoise(Main.rand.Next());
 
 			if (Main.rand == null)
 				Main.rand = new UnifiedRandom();
 
-			//Don't add any code before this point,
-			// unless you know what you're doing.
-
 			Items.Halloween.CandyBag.Initialize();
 
 			OlympiumCurrencyID = CustomCurrencyManager.RegisterCurrency(new OlympiumCurrency(ModContent.ItemType<OlympiumToken>(), 999));
+
+			#region configLabels
+			//Regular Config labels
+			ModTranslation config1 = CreateTranslation("Screenshake");
+			config1.SetDefault($"[i:" + SpiritMod.Instance.ItemType("BlueNeonSign") + "]  Visuals: Screenshake");
+			AddTranslation(config1);
+
+			ModTranslation config2 = CreateTranslation("Distortion");
+			config2.SetDefault($"[i:" + SpiritMod.Instance.ItemType("BlueNeonSign") + "]  Visuals: Screen Distortion");
+			AddTranslation(config2);
+
+			ModTranslation config3 = CreateTranslation("Particles");
+			config3.SetDefault($"[i:" + SpiritMod.Instance.ItemType("BlueNeonSign") + "]  Visuals: Foreground Particles");
+			AddTranslation(config3);
+
+			ModTranslation config4 = CreateTranslation("Quicksell");
+			config4.SetDefault($"[i:" + SpiritMod.Instance.ItemType("SeedBag") + "]  QoL: Quick-Sell Feature");
+			AddTranslation(config4);
+
+			ModTranslation config5 = CreateTranslation("Autoswing");
+			config5.SetDefault($"[i:" + SpiritMod.Instance.ItemType("PurpleNeonSign") + "]  QoL: Auto-Reuse Tooltip");
+			AddTranslation(config5);
+
+			ModTranslation config6 = CreateTranslation("AmbientSounds");
+			config6.SetDefault($"[i:" + SpiritMod.Instance.ItemType("SurrenderBell") + "]  Ambience: Ambient Sounds");
+			AddTranslation(config6);
+
+			ModTranslation config7 = CreateTranslation("LeafFallAmbience");
+			config7.SetDefault($"[i:" + SpiritMod.Instance.ItemType("EnchantedLeaf") + "]  Ambience: Falling Leaf Effects");
+			AddTranslation(config7);
+
+			ModTranslation config8 = CreateTranslation("QuestButton");
+			config8.SetDefault($"[i:" + SpiritMod.Instance.ItemType("Book_Slime") + "]  Quests: Quest Book Button Location");
+			AddTranslation(config8);
+
+			ModTranslation config9 = CreateTranslation("QuestIcons");
+			config9.SetDefault($"[i:" + SpiritMod.Instance.ItemType("Brightbulb") + "]  Quests: Town NPC Quest Icons");
+			AddTranslation(config9);
+
+			ModTranslation config10 = CreateTranslation("ArcaneHideoutGen");
+			config10.SetDefault($"[i:" + SpiritMod.Instance.ItemType("JellyCandle") + "]  Worldgen: Arcane Tower and Bandit Hideout Generation");
+			AddTranslation(config10);
+
+			ModTranslation config11 = CreateTranslation("OceanShape");
+			config11.SetDefault($"[i:" + SpiritMod.Instance.ItemType("BlackPearl") + "]  Oceans: Ocean Generation Shape");
+			AddTranslation(config11);
+
+			ModTranslation config12 = CreateTranslation("OceanVents");
+			config12.SetDefault($"[i:" + SpiritMod.Instance.ItemType("BlackPearl") + "]  Oceans: Hydothermal Vent Ecosystems");
+			AddTranslation(config12);
+
+			ModTranslation config13 = CreateTranslation("OceanWater");
+			config13.SetDefault($"[i:" + SpiritMod.Instance.ItemType("BlackPearl") + "]  Oceans: Ocean Water Transparency");
+			AddTranslation(config13);
+
+			ModTranslation config14 = CreateTranslation("WaterEnemies");
+			config14.SetDefault($"[i:" + SpiritMod.Instance.ItemType("SpiritKoi") + "]  Fishing: Fishing Encounters");
+			AddTranslation(config14);
+
+			//Music Config
+			ModTranslation musicConfig1 = CreateTranslation("BlizzardMusic");
+			musicConfig1.SetDefault($"[i:" + SpiritMod.Instance.ItemType("NeonMusicBox") + "]  Adds a unique track for Blizzards");
+			AddTranslation(musicConfig1);
+
+			ModTranslation musicConfig2 = CreateTranslation("SnowNightMusic");
+			musicConfig2.SetDefault($"[i:" + SpiritMod.Instance.ItemType("NeonMusicBox") + "]  Adds a unique track for the Snow biome at night");
+			AddTranslation(musicConfig2);
+
+			ModTranslation musicConfig3 = CreateTranslation("DesertNightMusic");
+			musicConfig3.SetDefault($"[i:" + SpiritMod.Instance.ItemType("NeonMusicBox") + "]  Adds a unique track for the Desert biome at night");
+			AddTranslation(musicConfig3);
+
+			ModTranslation musicConfig4 = CreateTranslation("HallowNightMusic");
+			musicConfig4.SetDefault($"[i:" + SpiritMod.Instance.ItemType("NeonMusicBox") + "]  Adds a unique track for The Hallow at night");
+			AddTranslation(musicConfig4);
+
+			ModTranslation musicConfig5 = CreateTranslation("CorruptNightMusic");
+			musicConfig5.SetDefault($"[i:" + SpiritMod.Instance.ItemType("NeonMusicBox") + "]  Adds a unique track for The Corruption at night");
+			AddTranslation(musicConfig5);
+
+			ModTranslation musicConfig6 = CreateTranslation("CrimsonNightMusic");
+			musicConfig6.SetDefault($"[i:" + SpiritMod.Instance.ItemType("NeonMusicBox") + "]  Adds a unique track for The Crimson at night");
+			AddTranslation(musicConfig6);
+
+			ModTranslation musicConfig7 = CreateTranslation("GraniteMusic");
+			musicConfig7.SetDefault($"[i:" + SpiritMod.Instance.ItemType("NeonMusicBox") + "]  Adds a unique track for the Granite biome");
+			AddTranslation(musicConfig7);
+
+			ModTranslation musicConfig8 = CreateTranslation("MarbleMusic");
+			musicConfig8.SetDefault($"[i:" + SpiritMod.Instance.ItemType("NeonMusicBox") + "]  Adds a unique track for the Marble biome");
+			AddTranslation(musicConfig8);
+
+			ModTranslation musicConfig9 = CreateTranslation("SpiderMusic");
+			musicConfig9.SetDefault($"[i:" + SpiritMod.Instance.ItemType("NeonMusicBox") + "]  Adds a unique track for the Spider caverns");
+			AddTranslation(musicConfig9);
+
+			ModTranslation musicConfig10 = CreateTranslation("MeteorMusic");
+			musicConfig10.SetDefault($"[i:" + SpiritMod.Instance.ItemType("NeonMusicBox") + "]  Adds a unique track for the Meteorite biome");
+			AddTranslation(musicConfig10);
+
+			ModTranslation musicConfig18 = CreateTranslation("FrostLegionMusic");
+			musicConfig18.SetDefault($"[i:" + SpiritMod.Instance.ItemType("NeonMusicBox") + "]  Adds a unique track for the Frost Legion invasion");
+			AddTranslation(musicConfig18);
+
+			ModTranslation musicConfig11 = CreateTranslation("SkeletonPrimeMusic");
+			musicConfig11.SetDefault($"[i:" + SpiritMod.Instance.ItemType("NeonMusicBox") + "]  Adds a unique track for Skeletron Prime");
+			AddTranslation(musicConfig11);
+
+			ModTranslation musicConfig16 = CreateTranslation("AuroraMusic");
+			musicConfig16.SetDefault($"[i:" + SpiritMod.Instance.ItemType("NeonMusicBox") + "]  Adds a unique track for the Aurora");
+			AddTranslation(musicConfig16);
+
+			ModTranslation musicConfig12 = CreateTranslation("LuminousMusic");
+			musicConfig12.SetDefault($"[i:" + SpiritMod.Instance.ItemType("NeonMusicBox") + "]  Adds a unique track for Luminous Oceans");
+			AddTranslation(musicConfig12);
+
+			ModTranslation musicConfig13 = CreateTranslation("CalmNightMusic");
+			musicConfig13.SetDefault($"[i:" + SpiritMod.Instance.ItemType("NeonMusicBox") + "]  Adds a unique track for Calm Night mini-events");
+			AddTranslation(musicConfig13);
+
+			ModTranslation musicConfig14 = CreateTranslation("OceanDepthsMusic");
+			musicConfig14.SetDefault($"[i:" + SpiritMod.Instance.ItemType("NeonMusicBox") + "]  Adds a unique track for the Ocean depths");
+			AddTranslation(musicConfig14);
+
+			ModTranslation musicConfig15 = CreateTranslation("HyperspaceMusic");
+			musicConfig15.SetDefault($"[i:" + SpiritMod.Instance.ItemType("NeonMusicBox") + "]  Adds two unique tracks for the artificial Hyperspace biome");
+			AddTranslation(musicConfig15);
+			#endregion
 
 			if (Main.netMode != NetmodeID.Server)
 			{
@@ -1010,8 +1135,8 @@ namespace SpiritMod
 			QuestBookHotkey = null;
 			QuestHUDHotkey = null;
 			EventManager.Unload();
-			Coverings.Unload();
-			Coverings = null;
+			//Coverings.Unload();
+			//Coverings = null;
 
 			SpiritMultiplayer.Unload();
 			AdditiveCallManager.Unload();

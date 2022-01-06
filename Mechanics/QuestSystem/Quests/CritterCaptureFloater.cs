@@ -17,7 +17,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
-			(ModContent.ItemType<Items.Books.Book_Lumoth>(), 1),
+			(ModContent.ItemType<Items.Weapon.Magic.LuminanceSeacone.LuminanceSeacone>(), 1),
 			(ItemID.JellyfishNecklace, 1),
 			(ItemID.SonarPotion, 3),
 			(Terraria.ID.ItemID.SilverCoin, 55)

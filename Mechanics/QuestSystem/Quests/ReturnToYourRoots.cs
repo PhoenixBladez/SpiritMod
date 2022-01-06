@@ -24,7 +24,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Armor.ReachBoss.ReachBossBody>(), 1),
 			(ModContent.ItemType<Items.Armor.ReachBoss.ReachBossLegs>(), 1),
 			(ModContent.ItemType<Items.Placeable.Furniture.ReachPainting>(), 1),
-			(Terraria.ID.ItemID.GoldCoin, 7)
+			(Terraria.ID.ItemID.GoldCoin, 3)
 		};
 
 		private ReturnToYourRoots()

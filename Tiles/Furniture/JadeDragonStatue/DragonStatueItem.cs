@@ -1,5 +1,6 @@
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria;
 
 namespace SpiritMod.Tiles.Furniture.JadeDragonStatue
 {
@@ -20,6 +21,7 @@ namespace SpiritMod.Tiles.Furniture.JadeDragonStatue
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 10;
 			item.useAnimation = 15;
+			item.value = Item.buyPrice(gold: 1);
 
 			item.useTurn = true;
 			item.autoReuse = true;

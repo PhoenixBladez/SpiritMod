@@ -33,7 +33,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
         {
 			TaskBuilder branch2 = new TaskBuilder();
 			branch2.AddTask(new GiveNPCTask(ModContent.NPCType<NPCs.DesertBandit.DesertBandit>(), ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.RoyalCrown>(), 1, "I can never repay your kindness, but I can start by setting my life right. This crown will support our family for years, and I will try to turn a new leaf. I have no more need for this enchanted ring, so I would like to give it to you. It is nowhere close to equal payment for what you have done for me today, and I will never forget you", "Or spare the Forsaken Bandit and give him the Royal Crown", true, true, ModContent.ItemType<Items.Sets.AccessoriesMisc.DustboundRing.Dustbound_Ring>()))
-			       .AddTask(new TalkNPCTask(NPCID.TravellingMerchant, "So you chose to give the artifact to a bandit in need? You have a kind heart, that's for sure! I'm not sure I could have done the same. No matter! I'll go looking for rare curious elsewhere.", "Explain what happened to the Travelling Merchant"));
+			       .AddTask(new TalkNPCTask(NPCID.TravellingMerchant, "So you chose to give the artifact to a bandit in need? You have a kind heart, that's for sure! I'm not sure I could have done the same. No matter! I'll go looking for rare curios elsewhere.", "Explain what happened to the Travelling Merchant"));
 
 			TaskBuilder branch3 = new TaskBuilder();
 			branch3.AddTask(new SlayTask(ModContent.NPCType<NPCs.DesertBandit.DesertBandit>(), 1, "Slay the last Forsaken Bandit"))

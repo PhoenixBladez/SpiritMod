@@ -14,12 +14,19 @@ namespace SpiritMod.Items.Consumable.Quest
 
 		public override void SetDefaults()
 		{
+			item.autoReuse = false;
+			item.useTurn = true;
+			item.consumable = true;
+			item.useStyle = ItemUseStyleID.SwingThrow;
+			item.useAnimation = 15;
+			item.useTime = 15;
 			item.width = item.height = 16;
 			item.rare = ItemRarityID.Blue;
 			item.maxStack = 99;
-		}
+			item.value = Item.buyPrice(0, 0, 3, 0);
+			item.createTile = ModContent.TileType<Tiles.Furniture.DurasilkSheafTile>();
 
-		public override bool OnPickup(Player player) => !player.HasItem(ModContent.ItemType<DurasilkSheaf>());
+		}
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{

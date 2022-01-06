@@ -161,18 +161,22 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 		}
 		public override void NPCLoot()
 		{
-			if (r == 219)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 181, Main.rand.Next(1, 3));
-			if (r == 255)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 180, Main.rand.Next(1, 3));
-			if (r == 23)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 177, Main.rand.Next(1, 3));
-			if (r == 33)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 179, Main.rand.Next(1, 3));
-			if (r == 238)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 178, Main.rand.Next(1, 3));
-			if (r == 223)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 182, Main.rand.Next(1, 3));
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.StoneBlock, Main.rand.Next(10, 26));
+			if (Main.rand.NextBool(4))
+			{
+				if (r == 219)
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 181, Main.rand.Next(1, 5));
+				if (r == 255)
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 180, Main.rand.Next(1, 5));
+				if (r == 23)
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 177, Main.rand.Next(1, 5));
+				if (r == 33)
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 179, Main.rand.Next(1, 5));
+				if (r == 238)
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 178, Main.rand.Next(1, 5));
+				if (r == 223)
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 182, Main.rand.Next(1, 5));
+			}
 
 		}
 		public override void HitEffect(int hitDirection, double damage)

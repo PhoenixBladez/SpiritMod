@@ -65,7 +65,8 @@ namespace SpiritMod.NPCs.CrystalDrifter
 			if (distance < 500 * 500)
 			{
 				target.AddBuff(BuffID.WindPushed, 90);
-				modPlayer.windEffect2 = true;
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+					modPlayer.windEffect2 = true;
 			}
 
 			npc.ai[0]++;

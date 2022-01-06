@@ -17,7 +17,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
     {
         public override string QuestName => "The First Adventure";
 		public override string QuestClient => "The Adventurer";
-		public override string QuestDescription => "So you wanna be an adventurer, eh? Well, pack a bag and get out there! I'd actually planned to craft you a set of special armor so that you could get started. Unfortunately, some mangy Hookbats stole the sheaf of Durasilk I was usin'! They only come out at night around the forest surface. Mind retrievin' that silk for me so I can thank you properly?";
+		public override string QuestDescription => "So you wanna be an adventurer, eh? Well, pack a bag and get out there! I'd actually planned to craft you a set of special armor so that you could get started. Unfortunately, some mangy Hookbats stole the sheaf of Durasilk I was usin'! They only come out at night around the forest surface. Mind retrievin' that silk and crafting your own new armor set?";
 		public override int Difficulty => 1;
 		public override string QuestCategory => "Main";
 		public override bool TutorialActivateButton => true;
@@ -25,16 +25,16 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
-			(ModContent.ItemType<Items.Armor.WayfarerSet.WayfarerHead>(), 1),
-			(ModContent.ItemType<Items.Armor.WayfarerSet.WayfarerBody>(), 1),
-			(ModContent.ItemType<Items.Armor.WayfarerSet.WayfarerLegs>(), 1),
 			(ModContent.ItemType<Items.Consumable.MapScroll>(), 2),
 			(Terraria.ID.ItemID.GoldCoin, 1)
 		};
 
 		private FirstAdventure()
         {
-			_tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Consumable.Quest.DurasilkSheaf>(), 1));
+			_tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Consumable.Quest.DurasilkSheaf>(), 3))
+				  .AddParallelTasks(new RetrievalTask(ModContent.ItemType<Items.Armor.WayfarerSet.WayfarerHead>(), 1, "Craft"), 
+									new RetrievalTask(ModContent.ItemType<Items.Armor.WayfarerSet.WayfarerBody>(), 1, "Craft"),
+									new RetrievalTask(ModContent.ItemType<Items.Armor.WayfarerSet.WayfarerLegs>(), 1, "Craft"));
 		}
 
 		public override void OnQuestComplete()
@@ -43,18 +43,19 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			bool showUnlocks = true;
 			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Guide, QuestManager.GetQuest<RootOfTheProblem>());
 			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Demolitionist, QuestManager.GetQuest<RescueQuestStylist>());
-			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.ArmsDealer, QuestManager.GetQuest<MurderMysteryQuest>());
 			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Dryad, QuestManager.GetQuest<LumothQuest>());
 			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.TravellingMerchant, QuestManager.GetQuest<TravelingMerchantDesertQuest>());
+			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Angler, QuestManager.GetQuest<ExplorerQuestOcean>());
+
 
 			QuestManager.UnlockQuest<ExplorerQuestCrimson>(showUnlocks);
 			QuestManager.UnlockQuest<ExplorerQuestCorrupt>(showUnlocks);
 			QuestManager.UnlockQuest<HeartCrystalQuest>(showUnlocks);
 			QuestManager.UnlockQuest<SlayerQuestScreechOwls>(showUnlocks);
 
-			base.OnQuestComplete();
-
 			QuestManager.SayInChat("It looks like the Guide wants to talk about something!", Color.White);
+
+			base.OnQuestComplete();
 		}
 
 		public override void OnActivate()

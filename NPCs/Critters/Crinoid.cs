@@ -28,13 +28,15 @@ namespace SpiritMod.NPCs.Critters
 			npc.lifeMax = 30;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
+			Main.npcCatchable[npc.type] = true;
+			npc.catchItem = (short)ModContent.ItemType<CrinoidItem>();
 			npc.knockBackResist = 0f;
 			npc.aiStyle = 0;
 			npc.npcSlots = 0;
 			npc.alpha = 255;
 			aiType = NPCID.WebbedStylist;
         }
-		bool hasPicked = false;
+		public bool hasPicked = false;
 		int pickedType;
 		public override void AI()
         {

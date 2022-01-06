@@ -26,6 +26,7 @@ using MonoMod.RuntimeDetour.HookGen;
 using System.Reflection;
 using SpiritMod.Items.Weapon.Summon.StardustBomb;
 using SpiritMod.NPCs.Town.Oracle;
+using SpiritMod.NPCs.Hydra;
 
 namespace SpiritMod.Utilities
 {
@@ -638,8 +639,9 @@ namespace SpiritMod.Utilities
 
 		private static bool CheckDrawLife(bool flag, NPC self)
 		{
-			if (self.type == ModContent.NPCType<StardustBombNPC>())
+			if (self.type == ModContent.NPCType<StardustBombNPC>() || self.type == ModContent.NPCType<Hydra>())
 				return false;
+
 			return flag;
 		}
 	}

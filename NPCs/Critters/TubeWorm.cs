@@ -28,6 +28,8 @@ namespace SpiritMod.NPCs.Critters
 			npc.lifeMax = 5;
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath1;
+			Main.npcCatchable[npc.type] = true;
+			npc.catchItem = (short)ModContent.ItemType<TubewormItem>();
 			npc.knockBackResist = 0f;
 			npc.aiStyle = 0;
 			npc.npcSlots = 0;

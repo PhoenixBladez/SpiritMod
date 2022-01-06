@@ -1,4 +1,4 @@
-using SpiritMod.Items.Accessory;
+/*using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Armor;
 using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Mechanics.QuestSystem.Quests;
@@ -99,7 +99,7 @@ namespace SpiritMod.NPCs.Town
 		/*public override bool CanTownNPCSpawn(int numTownNPCs, int money)
 		{
 			return Main.player.Any(x => x.active) && !NPC.AnyNPCs(NPCType<Rogue>()) && !NPC.AnyNPCs(NPCType<BoundRogue>());
-		}*/
+		}
 		public override string TownNPCName()
 		{
 			string[] names = { "Magnus Mustafa Thrax III" };
@@ -121,4 +121,4 @@ namespace SpiritMod.NPCs.Town
 
 		}
 	}
-}
+}*/
