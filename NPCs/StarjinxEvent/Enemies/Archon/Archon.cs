@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Mechanics.BackgroundSystem;
+using SpiritMod.NPCs.StarjinxEvent.Enemies.Archon.Projectiles;
 using SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid;
 using System;
 using System.Collections.Generic;
@@ -209,7 +210,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 
 			if (timers["ATTACK"] == (int)(attackTimeMax * CastWaitThreshold)) //Setup threads
 			{
-				//Projectile.NewProjectile();
+				Projectile.NewProjectile(Target.Center, Vector2.Zero, ModContent.ProjectileType<BGStarProjectile>(), 20, 1f);
 			}
 			else if (timers["ATTACK"] >= attackTimeMax)
 			{

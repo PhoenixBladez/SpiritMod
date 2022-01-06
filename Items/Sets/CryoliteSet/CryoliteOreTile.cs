@@ -26,8 +26,8 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 			soundType = SoundID.Tink;
 			minPick = 65;
 			dustType = DustID.BlueCrystalShard;
-
 		}
+
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
 			r = .064f * 1.5f;

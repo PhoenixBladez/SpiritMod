@@ -227,9 +227,9 @@ namespace SpiritMod.World
 
 		private static void PlaceSunkenTreasure(int innerEdge, int side)
 		{
-			int sunkenCount = WorldGen.genRand.Next(3);
+			int sunkenCount = WorldGen.genRand.Next(3) + 1;
 
-			for (int i = 0; i < sunkenCount; ++i)
+			for (int i = 0; i < 2; ++i)
 			{
 				int sunkenX = innerEdge - WorldGen.genRand.Next(133, innerEdge - 40);
 				if (side == 1)
@@ -240,10 +240,10 @@ namespace SpiritMod.World
 					pos.Y++;
 
 				for (int j = pos.X; j < pos.X + 3; ++j)
-					for (int k = pos.Y - 1; k < pos.Y + 1; ++k)
+					for (int k = pos.Y - 1; k < pos.Y; ++k)
 						WorldGen.KillTile(j, k, false, false, true);
 
-				WorldGen.PlaceObject(pos.X, pos.Y, ModContent.TileType<SunkenTreasureTile>());
+				WorldGen.PlaceObject(pos.X, pos.Y - 1, ModContent.TileType<SunkenTreasureTile>());
 			}
 		}
 
@@ -257,6 +257,7 @@ namespace SpiritMod.World
 			while (!WorldGen.SolidTile(chest.X, chest.Y - 1))
 				chest.Y++;
 			chest.Y--;
+			chest.X--;
 
 			int BarStack() => WorldGen.genRand.Next(3, 7);
 

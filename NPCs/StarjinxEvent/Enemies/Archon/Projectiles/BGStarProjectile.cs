@@ -1,16 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Mechanics.Trails;
-using SpiritMod.Utilities;
+using SpiritMod.Mechanics.BackgroundSystem;
+using SpiritMod.Mechanics.BackgroundSystem.BGItem;
 using Terraria;
-using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon.Projectiles
 {
-	class BGStarProjectile : ModProjectile, ITrailProjectile
+	class BGStarProjectile : ModProjectile
 	{
+		public float Z = 0.01f;
+
+		private StarProjBGItem Background = null;
+
 		public override void SetStaticDefaults()
 		{
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
@@ -20,72 +23,87 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 22;
-			projectile.height = 22;
-			projectile.friendly = true;
+			projectile.width = 80;
+			projectile.height = 80;
+			projectile.friendly = false;
+			projectile.hostile = true;
 			projectile.penetrate = 1;
 			projectile.rotation = Main.rand.NextFloat(MathHelper.Pi);
 			projectile.tileCollide = true;
 			projectile.timeLeft = 150;
 		}
 
-		public void DoTrailCreation(TrailManager tManager)
-		{
-			tManager.CreateTrail(projectile, new GradientTrail(new Color(108, 215, 245), new Color(105, 213, 255)), new RoundCap(), new DefaultTrailPosition(), 13f, 150f, new DefaultShader());
-			tManager.CreateTrail(projectile, new GradientTrail(new Color(255, 255, 255) * .35f, new Color(255, 255, 255) * .25f), new RoundCap(), new DefaultTrailPosition(), 22f, 150f, new DefaultShader());
-			tManager.CreateTrail(projectile, new GradientTrail(new Color(255, 255, 255) * .125f, new Color(255, 255, 255) * .25f), new RoundCap(), new DefaultTrailPosition(), 34f, 250f, new DefaultShader());
-			tManager.CreateTrail(projectile, new GradientTrail(new Color(255, 255, 255) * .1f, new Color(255, 255, 255) * .25f), new RoundCap(), new DefaultTrailPosition(), 46f, 250f, new DefaultShader());
-			tManager.CreateTrail(projectile, new GradientTrail(new Color(108, 215, 245) * .24f, new Color(105, 213, 255)), new RoundCap(), new DefaultTrailPosition(), 18f, 220f, new DefaultShader());
-		}
-
 		public override void AI()
 		{
-			projectile.rotation += .05f * projectile.velocity.X;
-			projectile.ai[0] += .0205f;
-			for (int i = 0; i < 2; i++)
+			if (Background == null)
 			{
-				int num = Dust.NewDust(projectile.Center, 6, 6, DustID.FireworkFountain_Blue, 0f, 0f, 0, default, .65f);
-				Main.dust[num].position = projectile.Center - projectile.velocity / num * i;
-
-				Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(27, Main.LocalPlayer);
-				Main.dust[num].velocity = projectile.velocity;
-				Main.dust[num].scale = MathHelper.Clamp(projectile.ai[0], .015f, 1.25f);
-				Main.dust[num].noGravity = true;
-				Main.dust[num].fadeIn = 110;
+				Background = new StarProjBGItem(projectile.Center, projectile);
+				BackgroundItemManager.AddItem(Background);
 			}
-			projectile.velocity.Y += .016f;
+
+			projectile.position = Background.Center;
+
+			Z *= 1.15f;
+
+			if (Z > 6.2f)
+				projectile.Kill();
 		}
 
-		public override void Kill(int timeLeft)
-		{
-			if (timeLeft > 0) //Dying through pierce/tile collision rather than naturally
-			{
-				if (!Main.dedServ)
-					for (int i = 0; i < 6; i++)
-						Particles.ParticleHandler.SpawnParticle(new Particles.StarParticle(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.Pi / 8) * Main.rand.NextFloat(0.05f, 0.2f),
-							Color.White, Color.Cyan, Main.rand.NextFloat(0.1f, 0.2f), 20));
-			}
-
-			for (int k = 0; k < 10; k++)
-			{
-				Dust d = Dust.NewDustPerfect(projectile.Center + (projectile.velocity / 10), DustID.DungeonSpirit, Main.rand.NextVector2Circular(2, 2) + (projectile.oldVelocity / 20), Scale: Main.rand.NextFloat(0.8f, 1.8f));
-				d.noGravity = true;
-			}
-		}
+		public override bool CanHitPlayer(Player target) => Z >= 1f;
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-			for (int k = 0; k < projectile.oldPos.Length; k++)
-			{
-				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-				Color color = projectile.GetAlpha(Color.White * .65f) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
-			}
+			if (Z < 0.5f)
+				return false;
 
-			spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, Main.projectileTexture[projectile.type].Bounds, projectile.GetAlpha(Color.White * .9f), projectile.rotation,
-				Main.projectileTexture[projectile.type].Size() / 2, projectile.scale, SpriteEffects.None, 0);
-			return false;
+			projectile.scale *= 1.05f;
+			//projectile.width = (int)(22 * projectile.scale);
+			//projectile.height = (int)(22 * projectile.scale);
+			return true;
+		}
+	}
+
+	class StarProjBGItem : BaseBGItem
+	{
+		private readonly Projectile Parent;
+		private BGStarProjectile ModParent => Parent.modProjectile as BGStarProjectile;
+
+		public StarProjBGItem(Vector2 pos, Projectile parent) : base(pos, 0f, new Point(0, 0))
+		{
+			tex = ModContent.GetTexture("SpiritMod/NPCs/StarjinxEvent/Enemies/Archon/Projectiles/BGStarProjectile");
+			source = new Rectangle(0, 0, tex.Width, tex.Height);
+			scale = 1f;
+
+			Parent = parent;
+		}
+
+		internal override void Behaviour()
+		{
+			if (Parent == null || ModParent == null)
+				return;
+			//Center = Parent.Center;
+			rotation = Parent.rotation;
+
+			scale = ModParent.Z * 8;
+			BaseParallax(.01f);
+
+			if (ModParent.Z >= 0.49f)
+			{
+				Parent.scale = scale;
+				killMe = true;
+			}
+		}
+
+		internal override void Draw(Vector2 off)
+		{
+			if (ModParent == null || Parent == null || ModParent.Z >= 0.5f)
+				return;
+
+			drawColor = Color.Lerp(Main.bgColor, Color.White, 0.5f);
+
+			if (ModParent.Z < 0.2f)
+				drawColor *= ModParent.Z * 5;
+			base.Draw(GetParallax());
 		}
 	}
 }

@@ -1,6 +1,5 @@
 ﻿using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria;
 namespace SpiritMod.Items.Sets.PirateStuff
 {
