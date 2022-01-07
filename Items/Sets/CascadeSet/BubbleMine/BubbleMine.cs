@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 using Terraria;
 using Microsoft.Xna.Framework;
 using System;
+using SpiritMod.Items.Sets.CascadeSet;
 
 namespace SpiritMod.Items.Sets.CascadeSet.BubbleMine
 {
@@ -37,7 +38,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.BubbleMine
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Coral, 1);
+			recipe.AddIngredient(ModContent.ItemType<DeepCascadeShard>(), 3);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this, 70);
 			recipe.AddRecipe();
