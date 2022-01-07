@@ -9,6 +9,7 @@ using SpiritMod.Prim;
 using SpiritMod.Particles;
 using SpiritMod;
 using System.IO;
+using System.Collections.Generic;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 {
@@ -266,8 +267,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 		public int TargetTime = 0; //Whether or not the npc is used as a pathfinder's target, used to prevent overlapping buffs
 		public int BuffTime = 0; //Whether or not the npc is currently receiving a buff from a pathfinder
 
-		public bool Targetted { get => TargetTime > 0; }
-		public bool Buffed { get => BuffTime > 0; }
+		public bool Targetted => TargetTime > 0;
+		public bool Buffed => BuffTime > 0;
 
 		public override void ResetEffects(NPC npc)
 		{
@@ -275,12 +276,26 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 			BuffTime = Math.Max(BuffTime - 1, 0);
 		}
 
-		public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)
+		public static void DrawBuffedOutlines(SpriteBatch spriteBatch)
 		{
-			if (Buffed && npc.modNPC is IStarjinxEnemy starjinxEnemy)
-				starjinxEnemy.DrawPathfinderOutline(spriteBatch);
+			List<IStarjinxEnemy> starjinxEnemies = new List<IStarjinxEnemy>();
+			foreach(NPC npc in Main.npc)
+			{
+				if (npc != null) //First, do a null check
+					if (npc.active && npc.GetGlobalNPC<PathfinderGNPC>().Buffed && npc.modNPC is IStarjinxEnemy starjinxEnemy) //If npc is active and a buffed starjinx enemy, add to list
+						starjinxEnemies.Add(starjinxEnemy);
+			}
 
-			return base.PreDraw(npc, spriteBatch, drawColor);
+			//If any buffed starjinx enemies exist, restart spritebatch and draw all outlines
+			if(starjinxEnemies.Any())
+			{
+				spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+
+				foreach (IStarjinxEnemy sjinxEnemy in starjinxEnemies)
+					sjinxEnemy.DrawPathfinderOutline(spriteBatch);
+
+				spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+			}
 		}
 	}
 }

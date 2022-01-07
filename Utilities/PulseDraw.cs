@@ -27,5 +27,10 @@ namespace SpiritMod.Utilities
 				action.Invoke(offset, 1 - timer);
 			}
 		}
+
+		/// <summary>
+		/// Constant value used specifically with DrawPulseEffect to achieve a bloom-like effect
+		/// </summary>
+		public static float BloomConstant => (float)Math.Asin(-0.6f);
 	}
 }

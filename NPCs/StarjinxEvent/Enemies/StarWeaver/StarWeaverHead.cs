@@ -178,6 +178,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 				return false;
 
 			Texture2D ripple = mod.GetTexture("Effects/Ripple");
+
+			//Draw trail when returning to npc
 			for(int i = 0; i < TrailLength; i++)
 			{
 				Vector2 position = projectile.oldPos[i] + projectile.Size / 2;
@@ -195,19 +197,30 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			}
 
 			spriteBatch.Draw(ripple, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(Color.Red) * TrailProgress, 0, ripple.Size() / 2, 1.5f, SpriteEffects.None, 0);
-			if(WeaverNPC.AiState == StarWeaverNPC.STATE_STARBURST)
-			{
-				spriteBatch.Draw(ripple, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(Color.Gold) * (1 - TrailProgress), 0, ripple.Size() / 2, 1.5f, SpriteEffects.None, 0);
 
-				float num395 = Main.mouseTextColor / 200f - 0.35f;
-				num395 *= 0.2f;
-				float num366 = num395 + 1.1f;
-				DrawAfterImage(Main.spriteBatch, new Vector2(0f, 0f), 0.5f, projectile.GetAlpha(new Color(255, 234, 0)), projectile.GetAlpha(new Color(255, 234, 0)) * .3f, 0.45f * (1 - TrailProgress), num366, .65f);
-			}
+			Color bloomColor = Color.White;
+			bloomColor.A = 0;
+			float AttackProgress = StarWeaverNPC.GetBloomIntensity(WeaverNPC);
+
+			//Glowy bloom during parent's starburst attacks
+			spriteBatch.Draw(ripple, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(Color.Gold) * (1 - TrailProgress) * AttackProgress, 0, 
+				ripple.Size() / 2, 1.5f, SpriteEffects.None, 0);
+
+			SpriteEffects flip = (projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+			//Bloom glowmask
+			PulseDraw.DrawPulseEffect(PulseDraw.BloomConstant, 12, 12, delegate (Vector2 posOffset, float opacityMod)
+			{
+				spriteBatch.Draw(ModContent.GetTexture(Texture + "_glow"), projectile.Center - Main.screenPosition + posOffset, projectile.DrawFrame(),
+					projectile.GetAlpha(bloomColor) * (1 - TrailProgress) * AttackProgress * opacityMod,
+					projectile.rotation, projectile.DrawFrame().Size() / 2, projectile.scale, flip, 0);
+			});
+
 			projectile.QuickDraw(spriteBatch, drawColor: projectile.GetAlpha(Color.Lerp(lightColor, Color.White, 0.5f)));
-			projectile.QuickDrawGlow(spriteBatch, projectile.GetAlpha(Color.White) * (1 - TrailProgress));
+
+			Color glowmaskColor = Color.Lerp(Color.White, bloomColor, AttackProgress);
+			projectile.QuickDrawGlow(spriteBatch, projectile.GetAlpha(glowmaskColor) * (1 - TrailProgress));
 			spriteBatch.Draw(ModContent.GetTexture(Texture + "_glowRed"), projectile.Center - Main.screenPosition, projectile.DrawFrame(), projectile.GetAlpha(Color.White) * TrailProgress,
-				projectile.rotation, projectile.DrawFrame().Size() / 2, projectile.scale, SpriteEffects.None, 0);
+				projectile.rotation, projectile.DrawFrame().Size() / 2, projectile.scale, flip, 0);
 			return false;
 		}
 

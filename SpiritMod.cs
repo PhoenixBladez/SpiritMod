@@ -88,6 +88,7 @@ namespace SpiritMod
 		public static BoidHost Boids;
 		public static Effect glitchEffect;
 		public static Effect starjinxBorderEffect;
+		public static Effect vignetteEffect;
 		public static Effect StarjinxNoise;
 		public static Effect CircleNoise;
 		public static Effect StarfirePrims;
@@ -111,6 +112,7 @@ namespace SpiritMod
 		public static PerlinNoise GlobalNoise;
 		public static GlitchScreenShader glitchScreenShader;
 		public static StarjinxBorderShader starjinxBorderShader;
+		public static Vignette vignetteShader;
 		public static Texture2D noise;
 
 		public AutoSellUI AutoSellUI_SHORTCUT;
@@ -875,6 +877,10 @@ namespace SpiritMod
 				Filters.Scene["SpiritMod:StarjinxBorder"] = new Filter(starjinxBorderShader, (EffectPriority)50);
 
 				Filters.Scene["SpiritMod:StarjinxBorderFade"] = new Filter(new StarjinxBorderShader(starjinxBorderEffect, "FadePS"), (EffectPriority)70);
+
+				vignetteEffect = GetEffect("Effects/Vignette");
+				vignetteShader = new Vignette(vignetteEffect, "MainPS");
+				Filters.Scene["SpiritMod:Vignette"] = new Filter(vignetteShader, (EffectPriority)100);
 
 				StarjinxNoise = Instance.GetEffect("Effects/StarjinxNoise");
 				CircleNoise = Instance.GetEffect("Effects/CircleNoise");

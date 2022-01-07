@@ -245,15 +245,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 				npc.FindFrame();
 			}
 
-			if (AiState == STATE_STARBURST || AiState == STATE_STARGLOOP)
-			{
-				float num395 = Main.mouseTextColor / 200f - 0.35f;
-				num395 *= 0.2f;
-				float num366 = num395 + 1.1f;
-				Color color = (AiState == STATE_STARGLOOP) ? Color.DarkViolet : new Color(255, 234, 0);
-				DrawAfterImage(Main.spriteBatch, new Vector2(0f, 0f), 0.5f, color, color * .3f, 0.45f, num366, .65f);
-			}
-
 			Vector2 scale = new Vector2(TeleportWidth(), 1) * npc.scale;
 			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, GetAlpha(drawColor).Value, npc.rotation, npc.frame.Size() / 2,
 				scale, (npc.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
@@ -266,23 +257,53 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			Vector2 scale = new Vector2(TeleportWidth(), 1) * npc.scale;
-			spriteBatch.Draw(ModContent.GetTexture(Texture + "_glow"), npc.Center - Main.screenPosition, npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2,
+
+			Color bloomColor = Color.White;
+			bloomColor.A = 0;
+			float AttackProgress = GetBloomIntensity(this);
+
+			PulseDraw.DrawPulseEffect(PulseDraw.BloomConstant, 12, 16, delegate (Vector2 posOffset, float opacityMod)
+			{
+				spriteBatch.Draw(ModContent.GetTexture(Texture + "_glow"), npc.Center + posOffset - Main.screenPosition, npc.frame, npc.GetAlpha(bloomColor) * opacityMod * AttackProgress,
+					npc.rotation, npc.frame.Size() / 2, scale, (npc.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+			});
+
+			Color glowmaskColor = Color.Lerp(Color.White, bloomColor, AttackProgress);
+			spriteBatch.Draw(ModContent.GetTexture(Texture + "_glow"), npc.Center - Main.screenPosition, npc.frame, npc.GetAlpha(glowmaskColor), npc.rotation, npc.frame.Size() / 2,
 				scale, (npc.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
-			spriteBatch.Draw(ModContent.GetTexture(Texture + "_mask"), npc.Center - Main.screenPosition, npc.frame, Color.White * TeleportMaskOpacity(), npc.rotation, npc.frame.Size() / 2,
+			spriteBatch.Draw(ModContent.GetTexture(Texture + "_mask"), npc.Center - Main.screenPosition, npc.frame, npc.GetAlpha(Color.White) * TeleportMaskOpacity(), npc.rotation, npc.frame.Size() / 2,
 				scale, (npc.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 		}
 
-		public void DrawPathfinderOutline(SpriteBatch spriteBatch) => PathfinderOutlineDraw.DrawAfterImage(spriteBatch, npc, npc.frame, Vector2.Zero, Color.White, 0.75f, 1, 1.4f, npc.frame.Size() / 2);
-
-		public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color startColor, Color endColor, float opacity, float startScale, float endScale)
+		public static float GetBloomIntensity(StarWeaverNPC starWeaver)
 		{
-			SpriteEffects spriteEffects = (npc.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-			for (int i = 1; i < 10; i++)
+			float AttackProgress = 0.1f;
+			switch (starWeaver.AiState)
 			{
-				Color color = Color.Lerp(startColor, endColor, i / 10f) * opacity;
-				spriteBatch.Draw(ModContent.GetTexture(Texture + "_mask"), new Vector2(npc.Center.X, npc.Center.Y) + offset - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * (float)i * trailLengthModifier, npc.frame, color, npc.rotation, npc.frame.Size() * 0.5f, MathHelper.Lerp(startScale, endScale, i / 10f), spriteEffects, 0f);
+				case STATE_STARBURST:
+					AttackProgress = starWeaver.AiTimer / STARBURST_CHANNELTIME;
+					AttackProgress = MathHelper.Min(AttackProgress, 1);
+					AttackProgress = EaseFunction.EaseCubicIn.Ease(AttackProgress);
+					break;
+				case STATE_STARGLOOP:
+					AttackProgress = starWeaver.AiTimer / STARGLOOP_TIME;
+					AttackProgress = EaseFunction.EaseQuadOut.Ease(AttackProgress);
+					AttackProgress *= 0.5f;
+					break;
 			}
+			AttackProgress = Math.Max(AttackProgress * 0.75f, 0.125f);
+			return AttackProgress;
+		}
+
+		public void DrawPathfinderOutline(SpriteBatch spriteBatch)
+		{
+			//Draw the bloom effect for the head in addition
+			Texture2D headTex = Main.projectileTexture[Head.type];
+			PathfinderOutlineDraw.DrawAfterImage(spriteBatch, headTex, Head.Center, Head.DrawFrame(), Vector2.Zero, Head.Opacity, Head.rotation, Head.scale, Head.DrawFrame().Size()/2, 
+				(Head.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None);
+
+			PathfinderOutlineDraw.DrawAfterImage(spriteBatch, npc, npc.frame, Vector2.Zero, npc.frame.Size() / 2);
 		}
 
 		#endregion

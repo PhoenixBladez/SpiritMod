@@ -100,26 +100,31 @@ namespace SpiritMod.Skies.Starjinx
 			}
 		}
 
+		public static float GetTimeDarkness()
+		{
+			float Time = (float)Main.time;
+			if (!Main.dayTime)
+				Time += (float)Main.dayLength;
+
+			float value = Time / (float)(Main.dayLength + Main.nightLength);
+			float minLerpStrength = 0.25f;
+			value = MathHelper.Clamp((float)-Math.Sin(-(MathHelper.Pi / 8) + (value * MathHelper.TwoPi)), minLerpStrength, 0.3f);
+			return value;
+		}
+
 		public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
 		{
 			if (maxDepth >= 3.40282347E+38f && minDepth < 3.40282347E+38f) {
-
-				float Time = (float)Main.time;
-				if (!Main.dayTime)
-					Time += (float)Main.dayLength;
-
-				float TimeLerp = Time / (float)(Main.dayLength + Main.nightLength);
-				float minLerpStrength = 0.22f;
-				TimeLerp = MathHelper.Clamp((float)-Math.Sin(-(MathHelper.Pi / 8) + (TimeLerp * MathHelper.TwoPi)), minLerpStrength, 0.3f);
+				float TimeLerp = GetTimeDarkness();
 
 				//Draw the background sky gradient
 				spriteBatch.Draw(_bgTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), 
 					Color.Lerp(Color.LightBlue, Color.Black, TimeLerp * 2f) * _fadeOpacity);
 
-				//Method for drawing the planets and their glowmasks
 				Vector2 screenCenter = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
 				Vector2 Parallax = Main.LocalPlayer.GetModPlayer<NPCs.StarjinxEvent.StarjinxPlayer>().StarjinxPosition - Main.screenPosition - screenCenter;
 
+				//Method for drawing the planets and their glowmasks
 				void DrawPlanet(Vector2 position, float distFromScreen, float timerOffset, float rotation, SpriteEffects effects)
 				{
 					float Scale = 4f * distFromScreen;
@@ -245,12 +250,8 @@ namespace SpiritMod.Skies.Starjinx
 
 		public void Draw(SpriteBatch sB, Vector2 ParallaxOffset)
 		{
-			float Time = (float)Main.time;
-			if (!Main.dayTime)
-				Time += (float)Main.dayLength;
+			float TimeLerp = StarjinxSky.GetTimeDarkness();
 
-			float TimeLerp = Time / (float)(Main.dayLength + Main.nightLength);
-			TimeLerp = MathHelper.Clamp((float)-Math.Sin(-(MathHelper.Pi / 8) + (TimeLerp * MathHelper.TwoPi)), 0.22f, 0.3f) * 2f;
 			Color starColor = Color.Lerp(Color, Color.White, 0.33f) * Opacity;
 			Color bloomColor = Color * Opacity * MathHelper.Lerp(0.7f, 1f, TimeLerp);
 			starColor.A = 0;

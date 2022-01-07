@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using SpiritMod.Utilities;
+using System;
 
 namespace SpiritMod.NPCs.StarjinxEvent
 {
@@ -12,17 +14,23 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 	public static class PathfinderOutlineDraw
 	{
-		public static void DrawAfterImage(SpriteBatch spriteBatch, NPC npc, Rectangle frame, Vector2 offset, Color color, float opacity, float startScale, float endScale, Vector2 origin) => DrawAfterImage(spriteBatch, npc, frame, offset, color, color, opacity, startScale, endScale, origin);
-		public static void DrawAfterImage(SpriteBatch spriteBatch, NPC npc, Rectangle frame, Vector2 offset, Color startColor, Color endColor, float opacity, float startScale, float endScale, Vector2 origin)
+		public static void DrawAfterImage(SpriteBatch spriteBatch, NPC npc, Rectangle frame, Vector2 offset, Vector2 origin)
 		{
 			SpriteEffects spriteEffects = (npc.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-
+			Vector2 center = npc.Center + new Vector2(0, npc.gfxOffY);
 			Texture2D tex = Main.npcTexture[npc.type];
-			for (int i = 1; i < 10; i++)
+
+			DrawAfterImage(spriteBatch, tex, center, frame, offset, npc.Opacity, npc.rotation, npc.scale, origin, spriteEffects);
+		}
+
+		public static void DrawAfterImage(SpriteBatch spriteBatch, Texture2D tex, Vector2 position, Rectangle frame, Vector2 offset, float opacity, float rotation, float scale, Vector2 origin, SpriteEffects effects)
+		{
+			float baseOpacity = 0.75f;
+			PulseDraw.DrawPulseEffect((float)Math.Asin(-0.6f), 12, 35, delegate (Vector2 posOffset, float pulseEffectOpacity)
 			{
-				Color color = new Color(sbyte.MaxValue, sbyte.MaxValue, sbyte.MaxValue, 0).MultiplyRGBA(Color.Lerp(startColor, endColor, i / 10f)) * 5;
-				spriteBatch.Draw(tex, new Vector2(npc.Center.X, npc.Center.Y) + offset - Main.screenPosition + new Vector2(0, npc.gfxOffY), frame, color * opacity, npc.rotation, origin, MathHelper.Lerp(startScale, endScale, i / 10f), spriteEffects, 0f);
-			}
+				spriteBatch.Draw(tex, position + offset + posOffset - Main.screenPosition, 
+					frame, new Color(230, 55, 166) * baseOpacity * opacity * pulseEffectOpacity, rotation, origin, scale, effects, 0f);
+			});
 		}
 	}
 }

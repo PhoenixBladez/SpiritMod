@@ -27,6 +27,7 @@ using System.Reflection;
 using SpiritMod.Items.Weapon.Summon.StardustBomb;
 using SpiritMod.NPCs.Town.Oracle;
 using SpiritMod.NPCs.Hydra;
+using SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder;
 
 namespace SpiritMod.Utilities
 {
@@ -378,6 +379,8 @@ namespace SpiritMod.Utilities
 
 			SpiritMod.Metaballs.DrawEnemyLayer(Main.spriteBatch);
 			SpiritMod.Metaballs.DrawNebulaLayer(Main.spriteBatch);
+
+			PathfinderGNPC.DrawBuffedOutlines(Main.spriteBatch);
 			orig(self, behindTiles);
 		}
 
