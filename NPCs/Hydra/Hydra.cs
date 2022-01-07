@@ -27,6 +27,9 @@ namespace SpiritMod.NPCs.Hydra
 
 		public int newHeadCountdown = -1;
 		public int headsDue = 1;
+
+		private int attackIndex = 0;
+		private int attackCounter = 0;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lernean Hydra");
@@ -85,6 +88,14 @@ namespace SpiritMod.NPCs.Hydra
 				npc.StrikeNPC(1, 0, 0);
 			}
 
+			attackCounter++;
+			if (attackCounter > 300 / heads.Count())
+			{
+				attackIndex %= heads.Count();
+				attackCounter = 0;
+				var modNPC = heads[attackIndex++].modNPC as HydraHead;
+				modNPC.attacking = true;
+			}
 			newHeadCountdown--;
 			if (newHeadCountdown == 0)
 			{
@@ -134,12 +145,11 @@ namespace SpiritMod.NPCs.Hydra
 		private float rotationSpeed;
 		private float swaySpeed;
 		private Vector2 orbitRange;
-
-		private int attackCounter;
-		private int attackCooldown;
-		private bool attacking = false;
+		public bool attacking = false;
 
 		private float headRotationOffset;
+
+		private int attackCounter;
 
 		private int frameY;
 
@@ -181,8 +191,6 @@ namespace SpiritMod.NPCs.Hydra
 				rotationSpeed = Main.rand.NextFloat(0.03f, 0.05f);
 				orbitRange = Main.rand.NextVector2Circular(70, 30);
 				swaySpeed = Main.rand.NextFloat(0.015f, 0.035f);
-				attackCooldown = Main.rand.Next(150, 200);
-				attackCounter = Main.rand.Next(attackCooldown);
 			}
 			if (!parent.active)
 			{
@@ -200,13 +208,6 @@ namespace SpiritMod.NPCs.Hydra
 				sway += swaySpeed;
 
 				headRotationOffset = npc.DirectionTo(Main.player[parent.target].Center).ToRotation();
-
-				attackCounter++;
-				if (attackCounter > attackCooldown)
-				{
-					attacking = true;
-					attackCounter = 0;
-				}
 			}
 			else
 			{
