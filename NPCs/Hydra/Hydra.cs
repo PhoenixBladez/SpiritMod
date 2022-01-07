@@ -86,6 +86,7 @@ namespace SpiritMod.NPCs.Hydra
 			{
 				npc.life = 0;
 				npc.StrikeNPC(1, 0, 0);
+				return;
 			}
 
 			attackCounter++;
