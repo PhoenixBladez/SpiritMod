@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Sets.CascadeSet;
+using SpiritMod.Items.Sets.FloatingItems;
 
 namespace SpiritMod.Items.Sets.CascadeSet.Basking_Shark
 {
@@ -36,8 +38,8 @@ namespace SpiritMod.Items.Sets.CascadeSet.Basking_Shark
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Coral, 6);
-            recipe.AddIngredient(ItemID.SharkFin, 4);
+            recipe.AddIngredient(ModContent.ItemType<DeepCascadeShard>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<Kelp>(), 10);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

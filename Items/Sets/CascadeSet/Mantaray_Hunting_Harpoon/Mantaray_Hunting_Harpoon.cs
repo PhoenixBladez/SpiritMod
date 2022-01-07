@@ -1,6 +1,8 @@
 ﻿using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria;
+using SpiritMod.Items.Sets.CascadeSet;
+using SpiritMod.Items.Sets.FloatingItems;
 
 namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 {
@@ -24,14 +26,14 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 			DisplayName.SetDefault("Manta Harpoon");
 			Tooltip.SetDefault("Summons a rideable manta ray mount\nThe manta Ray is incapable of movement on land");
 		}
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Coral, 10);
-            recipe.AddIngredient(ItemID.SharkFin, 2);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-    }
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<DeepCascadeShard>(), 14);
+			recipe.AddIngredient(ItemID.SharkFin, 1);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
+	}
 }

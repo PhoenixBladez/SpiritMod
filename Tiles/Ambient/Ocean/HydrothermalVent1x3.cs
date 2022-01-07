@@ -86,11 +86,11 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			{
 				for (int k = 0; k <= 20; k++)
 				{
-					Dust.NewDustPerfect(new Vector2(i * 16, j * 16), DustType<Dusts.BoneDust>(), new Vector2(0, 6).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1));
+					Dust.NewDustPerfect(new Vector2(i * 16, j * 16 - 36), DustType<Dusts.BoneDust>(), new Vector2(0, 6).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1));
 				}
 				for (int k = 0; k <= 20; k++)
 				{
-					Dust.NewDustPerfect(new Vector2(i * 16, j * 16), DustType<Dusts.FireClubDust>(), new Vector2(0, 6).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1));
+					Dust.NewDustPerfect(new Vector2(i * 16, j * 16 - 36), DustType<Dusts.FireClubDust>(), new Vector2(0, 6).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1));
 				}
 				int a = Projectile.NewProjectile(i * 16, j * 16 - 36, 0, -7, ModContent.ProjectileType<Projectiles.HydrothermalVentPlume>(), 5, 0f);
 			}

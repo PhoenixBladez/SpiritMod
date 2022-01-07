@@ -23,7 +23,7 @@ namespace SpiritMod.NPCs.Automata
 		protected Vector2 oldVelocity = Vector2.Zero;
 		protected bool shot;
 		protected virtual int TIMERAMOUNT => 300;
-		protected virtual int ATKAMOUNT => 200;
+		protected virtual int ATKAMOUNT => 240;
 
 		protected virtual int SPEED => 3;
 

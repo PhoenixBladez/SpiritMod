@@ -27,6 +27,9 @@ namespace SpiritMod.NPCs.Hydra
 
 		public int newHeadCountdown = -1;
 		public int headsDue = 1;
+
+		private int attackIndex = 0;
+		private int attackCounter = 0;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lernean Hydra");
@@ -83,8 +86,17 @@ namespace SpiritMod.NPCs.Hydra
 			{
 				npc.life = 0;
 				npc.StrikeNPC(1, 0, 0);
+				return;
 			}
 
+			attackCounter++;
+			if (attackCounter > 300 / heads.Count())
+			{
+				attackIndex %= heads.Count();
+				attackCounter = 0;
+				var modNPC = heads[attackIndex++].modNPC as HydraHead;
+				modNPC.attacking = true;
+			}
 			newHeadCountdown--;
 			if (newHeadCountdown == 0)
 			{
@@ -134,16 +146,18 @@ namespace SpiritMod.NPCs.Hydra
 		private float rotationSpeed;
 		private float swaySpeed;
 		private Vector2 orbitRange;
-
-		private int attackCounter;
-		private int attackCooldown;
-		private bool attacking = false;
+		public bool attacking = false;
 
 		private float headRotationOffset;
+
+		private int attackCounter;
+
+		private int frameY;
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lernean Hydra");
+			Main.npcFrameCount[npc.type] = 3;
 		}
 		public override void SetDefaults()
 		{
@@ -178,7 +192,6 @@ namespace SpiritMod.NPCs.Hydra
 				rotationSpeed = Main.rand.NextFloat(0.03f, 0.05f);
 				orbitRange = Main.rand.NextVector2Circular(70, 30);
 				swaySpeed = Main.rand.NextFloat(0.015f, 0.035f);
-				attackCooldown = Main.rand.Next(150, 200);
 			}
 			if (!parent.active)
 			{
@@ -190,18 +203,12 @@ namespace SpiritMod.NPCs.Hydra
 
 			if (!attacking)
 			{
+				frameY = 0;
 				headRotationOffset = 0f;
 				rotation += rotationSpeed;
 				sway += swaySpeed;
 
 				headRotationOffset = npc.DirectionTo(Main.player[parent.target].Center).ToRotation();
-
-				attackCounter++;
-				if (attackCounter > attackCooldown)
-				{
-					attacking = true;
-					attackCounter = 0;
-				}
 			}
 			else
 			{
@@ -251,6 +258,9 @@ namespace SpiritMod.NPCs.Hydra
 		private void AttackBehavior()
 		{
 			attackCounter++;
+			if (attackCounter % 20 == 0)
+				frameY++;
+			frameY %= Main.npcFrameCount[npc.type];
 			if (headColor == HeadColor.Red)
 				headRotationOffset = -1.57f + (npc.direction * 0.7f);
 			else
@@ -439,7 +449,9 @@ namespace SpiritMod.NPCs.Hydra
 				spriteBatch.Draw(neckTex, position - Main.screenPosition, null, chainLightColor, rotation, origin, scale, npc.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 			}
 
-			spriteBatch.Draw(headTex, npc.Center - Main.screenPosition, null, drawColor, drawRotation, new Vector2(headTex.Width, headTex.Height) / 2, npc.scale, npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+			int frameHeight = headTex.Height / Main.npcFrameCount[npc.type];
+			Rectangle frame = new Rectangle(0, frameHeight * frameY, headTex.Width, frameHeight);
+			spriteBatch.Draw(headTex, npc.Center - Main.screenPosition, frame, drawColor, drawRotation, new Vector2(headTex.Width, frameHeight) / 2, npc.scale, npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
 			return false;
 		}
 

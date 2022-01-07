@@ -1,6 +1,8 @@
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
+using SpiritMod.Items.Sets.CascadeSet;
+using SpiritMod.Items.Sets.FloatingItems;
 
 namespace SpiritMod.Items.Sets.CascadeSet.Coral_Catcher
 {
@@ -25,5 +27,14 @@ namespace SpiritMod.Items.Sets.CascadeSet.Coral_Catcher
 		{
 			player.sonarPotion = true;
 		}
-    }
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<DeepCascadeShard>(), 8);
+			recipe.AddIngredient(ModContent.ItemType<Kelp>(), 14);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
+	}
 }

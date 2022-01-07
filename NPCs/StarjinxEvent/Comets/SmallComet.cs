@@ -126,6 +126,11 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			{
 				glowOpacity = MathHelper.Lerp(glowOpacity, 0f, 0.05f);
 				SpinMomentum = MathHelper.Lerp(SpinMomentum, 0.04f, 0.05f);
+
+				StarjinxPlayer localSjinxPlayer = Main.LocalPlayer.GetModPlayer<StarjinxPlayer>();
+				VignettePlayer localVignettePlayer = Main.LocalPlayer.GetModPlayer<VignettePlayer>();
+				if (localSjinxPlayer.zoneStarjinxEvent)
+					localVignettePlayer.SetVignette(100, 300, 0.4f, Color.Black, npc.Center);
 			}
 			else
 			{

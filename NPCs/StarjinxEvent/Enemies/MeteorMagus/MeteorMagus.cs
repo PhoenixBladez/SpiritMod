@@ -19,7 +19,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Meteor Magus");
-			Main.npcFrameCount[npc.type] = 5;
+			Main.npcFrameCount[npc.type] = 6;
 		}
 
 		//large chunk of this(attack pattern use and randomizing) directly ripped from haunted tome, TODO: reduce boilerplate a lot
@@ -128,9 +128,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 				AttackDict[Pattern[(int)AttackType]].Invoke(Main.player[npc.target], npc);
 
 				npc.rotation = 0f;
-
-				UpdateYFrame(8, 0, 3);
-				frame.X = 1;
 			}
 			else
 			{
@@ -165,8 +162,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 		private static void FallingStars(Player player, NPC npc)
 		{
+
 			var modnpc = npc.modNPC as MeteorMagus;
 			npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
+
+			modnpc.UpdateYFrame(8, 0, 3);
+			modnpc.frame.X = 1;
 
 			if (modnpc.AiTimer % 15 == 0)
 			{
@@ -190,6 +191,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			bool empowered = npc.GetGlobalNPC<PathfinderGNPC>().Buffed;
 
 			var modnpc = npc.modNPC as MeteorMagus;
+			modnpc.UpdateYFrame(10, 0, 5);
+			modnpc.frame.X = 2;
 
 			if (modnpc.AiTimer == 220)
 			{
@@ -238,16 +241,19 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 			if (AiTimer > IdleTime)
 			{
-				float num395 = Main.mouseTextColor / 200f - 0.35f;
+				float num395 = Main.mouseTextColor / 300f - 0.25f;
 				num395 *= 0.2f;
-				float num366 = num395 + 1.15f;
-				DrawAfterImage(Main.spriteBatch, new Vector2(0f, 0f), 0.5f, Color.White * .7f, Color.White * .1f, 0.45f, num366, .65f);
+				float num366 = num395 + 1.05f;
+
+				Color color = Color.White;
+				color.A = 0;
+				DrawAfterImage(Main.spriteBatch, new Vector2(0f, 0f), 0.5f, color * .7f, color * .1f, 0.45f, num366, .75f);
 			}
 			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
 			return false;
 		}
 
-		public void DrawPathfinderOutline(SpriteBatch spriteBatch) => PathfinderOutlineDraw.DrawAfterImage(spriteBatch, npc, npc.frame, Vector2.Zero, Color.White, 0.75f, 1, 1.4f, npc.frame.Size() / 2);
+		public void DrawPathfinderOutline(SpriteBatch spriteBatch) => PathfinderOutlineDraw.DrawAfterImage(spriteBatch, npc, npc.frame, Vector2.Zero, npc.frame.Size() / 2);
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{

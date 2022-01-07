@@ -87,6 +87,11 @@ namespace SpiritMod.NPCs.StarjinxEvent
 						npc.dontTakeDamage = false;
 						shieldOpacity = MathHelper.Lerp(shieldOpacity, 0, 0.05f);
 						musicVolume = Math.Max(musicVolume - 0.0125f, 0); //Fully fade out music when event is done
+
+						StarjinxPlayer localSjinxPlayer = Main.LocalPlayer.GetModPlayer<StarjinxPlayer>();
+						VignettePlayer localVignettePlayer = Main.LocalPlayer.GetModPlayer<VignettePlayer>();
+						if (localSjinxPlayer.zoneStarjinxEvent)
+							localVignettePlayer.SetVignette(100, 300, 0.4f, Color.Black, npc.Center);
 					}
 				}
 				else
