@@ -13,6 +13,7 @@ using Terraria.Utilities;
 using SpiritMod.Items.Sets.PirateStuff.DuelistLegacy;
 using SpiritMod.Items.Sets.GunsMisc.LadyLuck;
 using SpiritMod.Items.Sets.FloatingItems;
+using Terraria.Localization;
 
 namespace SpiritMod.World
 {
@@ -30,7 +31,7 @@ namespace SpiritMod.World
 		public static void GenerateOcean(GenerationProgress progress)
 		{
 			//Basic Shape
-			progress.Message = Lang.gen[22].Value; //replace later
+			progress.Message = Language.GetText("LegacyWorldGen.22").Value;// Lang.gen[22].Value; //replace later
 
 			int dungeonSide = Main.dungeonX < Main.maxTilesX / 2 ? -1 : 1;
 
