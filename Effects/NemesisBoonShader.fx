@@ -4,6 +4,8 @@ matrix WorldViewProjection;
 
 float progress;
 
+float opacity;
+
 float4 white = float4(1, 1, 1, 1);
 
 struct VertexShaderInput
@@ -42,7 +44,7 @@ float4 White(VertexShaderOutput input) : COLOR0
         color = lerp(input.Color, edge, pow(input.TextureCoordinates.y + 0.06f, 4.5f));
     else
         color = lerp(edge, float4(0, 0, 0, 0), (input.TextureCoordinates.y - 0.94f) / 0.06f);
-    return (pow(input.TextureCoordinates.x, 2) * input.TextureCoordinates.y) * 4 * color;
+    return (pow(input.TextureCoordinates.x, 2) * input.TextureCoordinates.y) * 4 * color * opacity;
 }
 
 technique BasicColorDrawing

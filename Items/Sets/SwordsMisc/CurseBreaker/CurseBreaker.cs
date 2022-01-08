@@ -9,6 +9,10 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Particles;
+using SpiritMod.Utilities;
+using SpiritMod.Prim;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 {
@@ -58,7 +62,27 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 
 	internal class CurseBreakerProj : ModProjectile
 	{
-		public const float SwingRadians = MathHelper.Pi * 0.75f; //Total radians of the sword's arc
+		public float SwingRadians //Total radians of the sword's arc
+		{
+			get
+			{
+				if (Empowered)
+					return MathHelper.Pi * 1.55f; 
+				else
+					return MathHelper.Pi * 0.95f; 
+			}
+		}
+
+		private int SwingTime
+		{
+			get
+			{
+				if (!Empowered)
+					return 30;
+				else
+					return 40;
+			}
+		}
 
 		public int Phase;
 
@@ -66,10 +90,36 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 
 		public bool Empowered => Phase == 2;
 
+		private bool initialized = false;
+
+		Vector2 direction = Vector2.Zero;
+
+		private bool flip = false;
+
+		public int Timer;
+
+		private float rotation;
+
+		public int SwingDirection
+		{
+			get
+			{
+				switch (Phase)
+				{
+					case 0:
+						return -1 * Math.Sign(direction.X);
+					case 1:
+						return 1 * Math.Sign(direction.X);
+					default:
+						return -1 * Math.Sign(direction.X);
+
+				}
+			}
+		}
+
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Duelist's Legacy");
-			Main.projFrames[projectile.type] = 1;//11, 11, 9, 19
+			DisplayName.SetDefault("Cursebreaker");
 		}
 
 		public override void SetDefaults()
@@ -77,11 +127,130 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			projectile.friendly = true;
 			projectile.melee = true;
 			projectile.tileCollide = false;
-			projectile.Size = new Vector2(150, 250);
+			projectile.Size = new Vector2(100, 40);
 			projectile.penetrate = -1;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 16;
 			projectile.ownerHitCheck = true;
+		}
+
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+		{
+			Vector2 lineDirection = rotation.ToRotationVector2();
+			float collisionPoint = 0;
+			if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Player.Center, Player.Center + (lineDirection * projectile.width), projectile.height, ref collisionPoint))
+				return true;
+			return false;
+		}
+		public override bool? CanCutTiles()
+		{
+			return true;
+		}
+
+		// Plot a line from the start of the Solar Eruption to the end of it, to change the tile-cutting collision logic. (Don't change this.)
+		public override void CutTiles()
+		{
+			Vector2 lineDirection = rotation.ToRotationVector2();
+			DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
+			Utils.PlotTileLine(Player.Center, Player.Center + (lineDirection * projectile.width), projectile.height, DelegateMethods.CutTiles);
+		}
+
+		public override void AI()
+		{
+			projectile.velocity = Vector2.Zero;
+			Player.itemTime = Player.itemAnimation = 5;
+			Player.heldProj = projectile.whoAmI;
+
+			if (!initialized)
+			{
+				initialized = true;
+				direction = Player.DirectionTo(Main.MouseWorld);
+				direction.Normalize();
+				projectile.rotation = direction.ToRotation();
+
+				if (Phase == 1)
+					flip = !flip;
+
+				if (direction.X < 0)
+					flip = !flip;
+
+				if (Empowered)
+					projectile.Size = new Vector2(130, 40);
+			}
+
+			projectile.Center = Player.Center + (direction.RotatedBy(-1.57f) * 20);
+
+			Timer++;
+			float progress = Timer / (float)SwingTime;
+			if (progress > 1)
+				projectile.Kill();
+			progress = EaseFunction.EaseCircularInOut.Ease(progress);
+			if (Empowered)
+				progress = EaseFunction.EaseQuadOut.Ease(progress);
+
+
+			projectile.scale = 1.25f - (Math.Abs(0.5f - progress) * 0.5f);
+			if (Empowered)
+				projectile.scale = (((projectile.scale - 1) * 3) + 1);
+
+			rotation = projectile.rotation + MathHelper.Lerp(SwingRadians / 2 * SwingDirection, -SwingRadians / 2 * SwingDirection, progress);
+
+			Player.direction = Math.Sign(direction.X);
+
+			Player.itemRotation = rotation;
+			if (Player.direction != 1)
+			{
+				Player.itemRotation -= 3.14f;
+			}
+			Player.itemRotation = MathHelper.WrapAngle(Player.itemRotation);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+
+			Vector2 pos = Player.MountedCenter - Main.screenPosition;
+
+			float progress = Timer / (float)SwingTime;
+			progress = EaseFunction.EaseCircularInOut.Ease(progress);
+			if (Empowered)
+				progress = EaseFunction.EaseQuadOut.Ease(progress);
+
+			List<PrimitiveSlashArc> slashArcs = new List<PrimitiveSlashArc>();
+			Effect effect = mod.GetEffect("Effects/NemesisBoonShader");
+			effect.Parameters["white"].SetValue(Color.White.ToVector4());
+			effect.Parameters["opacity"].SetValue((float)Math.Sqrt(1 - progress));
+			PrimitiveSlashArc slash = new PrimitiveSlashArc
+			{
+				BasePosition = Player.Center - Main.screenPosition,
+				StartDistance = projectile.width * 0.33f,
+				EndDistance = projectile.width,
+				AngleRange = new Vector2(SwingRadians / 2 * SwingDirection, -SwingRadians / 2 * SwingDirection),
+				DirectionUnit = direction,
+				Color = Color.Red * (float)Math.Sqrt(1 - progress),
+				SlashProgress = progress
+			};
+			slashArcs.Add(slash);
+			PrimitiveRenderer.DrawPrimitiveShapeBatched(slashArcs.ToArray(), effect);
+
+			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+
+			Texture2D tex2 = Main.projectileTexture[projectile.type];
+			if (flip)
+			{
+				spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor * .5f, rotation + 2.355f, new Vector2(tex2.Width, tex2.Height), projectile.scale, SpriteEffects.FlipHorizontally, 0f);
+			}
+			else
+			{
+				spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor, rotation + 0.785f, new Vector2(0, tex2.Height), projectile.scale, SpriteEffects.None, 0f);
+			}
+
+			return false;
+		}
+
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			hitDirection = Math.Sign(direction.X);
 		}
 	}
 }
