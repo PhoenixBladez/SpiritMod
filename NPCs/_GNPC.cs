@@ -757,7 +757,7 @@ namespace SpiritMod.NPCs
 				spawnRate = (int)(spawnRate * 0.4f);
 			}
 
-			if (MyWorld.jellySky && player.ZoneSkyHeight)
+			if (MyWorld.jellySky && (player.ZoneOverworldHeight || player.ZoneSkyHeight))
 			{
 				maxSpawns = (int)(maxSpawns * 1.18f);
 				spawnRate = 2;
@@ -811,7 +811,7 @@ namespace SpiritMod.NPCs
 				}
 			}
 
-			if (MyWorld.jellySky && spawnInfo.player.ZoneOverworldHeight)
+			if (MyWorld.jellySky && (spawnInfo.player.ZoneOverworldHeight || spawnInfo.player.ZoneOverworldHeight))
 			{
 				pool.Add(NPCType<MoonjellyEvent.TinyLunazoa>(), 9.35f);
 				pool.Add(NPCType<MoonjellyEvent.ExplodingMoonjelly>(), 8.35f);

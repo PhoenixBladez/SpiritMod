@@ -263,7 +263,7 @@ namespace SpiritMod
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/BlueMoon");
 				priority = MusicPriority.Environment;
 			}
-			if (MyWorld.jellySky && !Main.dayTime && player.ZoneOverworldHeight)
+			if (MyWorld.jellySky && !Main.dayTime && (player.ZoneOverworldHeight || player.ZoneSkyHeight))
 			{
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/JellySky");
 				priority = MusicPriority.Environment;
