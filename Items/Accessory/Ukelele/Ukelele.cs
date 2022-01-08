@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Particles;
 
 namespace SpiritMod.Items.Accessory.Ukelele
 {
@@ -47,7 +48,9 @@ namespace SpiritMod.Items.Accessory.Ukelele
 		{
 			if (active && proj.type != ModContent.ProjectileType<UkeleleProj>() && Main.rand.Next(4) == 0 && overcharge < 30)
 			{
-				Main.PlaySound(SoundID.Item, target.position, 12);
+				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Ukulele").WithPitchVariance(0.8f).WithVolume(0.7f), player.Center);
+				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 12).WithVolume(0.6f), target.Center);
+				Main.PlaySound(SoundID.DD2_LightningAuraZap, target.position);
 				DoLightningChain(target, damage);
 			}
 		}
@@ -56,7 +59,10 @@ namespace SpiritMod.Items.Accessory.Ukelele
 		{
 			if (active && Main.rand.Next(4) == 0 && overcharge < 30)
 			{
-				Main.PlaySound(SoundID.Item, target.position, 12);
+				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Ukulele").WithPitchVariance(0.8f).WithVolume(0.7f), player.Center);
+				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 12).WithVolume(0.6f), target.Center);
+				Main.PlaySound(SoundID.DD2_LightningAuraZap, target.position);
+	
 				DoLightningChain(target, damage);
 			}
 		}
@@ -64,7 +70,16 @@ namespace SpiritMod.Items.Accessory.Ukelele
 		private void DoLightningChain(NPC target, int damage)
 		{
 			overcharge += 15;
-			Projectile.NewProjectile(target.position + new Vector2(target.width / 2, 0), Vector2.Zero, ModContent.ProjectileType<UkeleleProjTwo>(), 0, 0, player.whoAmI);
+
+			ParticleHandler.SpawnParticle(new PulseCircle(player.Center, Color.Cyan * 0.124f, (.75f) * 100, 20, PulseCircle.MovementType.Outwards)
+			{
+				Angle = 0f,
+				ZRotation = 0,
+				RingColor = Color.Cyan,
+				Velocity = Vector2.Zero
+			});
+
+			Projectile.NewProjectile(target.Center + new Vector2(0, 16), Vector2.Zero, ModContent.ProjectileType<UkeleleProjTwo>(), 0, 0, player.whoAmI);
 			int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<UkeleleProj>(), damage / 2, 0, player.whoAmI);
 			if (Main.projectile[proj].modProjectile is UkeleleProj lightning)
 			{
@@ -82,7 +97,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ukelele");
+			DisplayName.SetDefault("Ukulele");
 			Main.projFrames[projectile.type] = 4;
 		}
 
@@ -94,8 +109,8 @@ namespace SpiritMod.Items.Accessory.Ukelele
 			projectile.penetrate = 5;
 			projectile.timeLeft = 300;
 			projectile.aiStyle = -1;
-			projectile.height = 68;
-			projectile.width = 74;
+			projectile.height = 10;
+			projectile.width = 10;
 			projectile.alpha = 255;
 		}
 
@@ -142,7 +157,10 @@ namespace SpiritMod.Items.Accessory.Ukelele
 						if (target != null && !target.friendly && !target.townNPC)
 						{
 							projectile.Center = target.Center;
-							Trail(currentEnemy.position + new Vector2(currentEnemy.width / 2, 0), target.position + new Vector2(target.width / 2, 0));
+							for (int k = 0; k < 3; k++)
+							{
+								DustHelper.DrawElectricity(currentEnemy.Center, target.Center, 226, 0.5f);
+							}
 							Target = target;
 						}
 						else
@@ -153,19 +171,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
 			}
 		}
 
-		private void Trail(Vector2 from, Vector2 to)
-		{
-			float distance = Vector2.Distance(from, to);
-			for (float w = 0; w < 1; w += 2 / distance)
-			{
-				Vector2 c1 = Vector2.Lerp(from, to, 0.5f) - new Vector2(0, distance / 3);
-				Vector2 point = Helpers.TraverseBezier(from, to, c1, w);
-				int d = Dust.NewDust(point, 7, 7, DustID.Electric, 0f, 0f, 0, default, .3f * projectile.penetrate);
-				Main.dust[d].noGravity = true;
-				Main.dust[d].velocity = Vector2.Zero;
-				Main.dust[d].scale *= .7f;
-			}
-		}
+	
 
 		private bool CanTarget(NPC target)
 		{
@@ -206,7 +212,16 @@ namespace SpiritMod.Items.Accessory.Ukelele
 			hit[projectile.penetrate - 1] = target;
 			currentEnemy = target;
 			animCounter = 5;
-			Projectile.NewProjectile(target.position + new Vector2(target.width / 2, 0), Vector2.Zero, ModContent.ProjectileType<UkeleleProjTwo>(), 0, 0, projectile.owner);
+			ParticleHandler.SpawnParticle(new PulseCircle(target.Center, Color.Cyan * 0.4f, (.35f) * 100, 20, PulseCircle.MovementType.Outwards)
+			{
+				Angle = 0f,
+				ZRotation = 0,
+				RingColor = Color.Cyan,
+				Velocity = Vector2.Zero
+			});
+			Projectile.NewProjectile(target.Center + new Vector2(0, 16), Vector2.Zero, ModContent.ProjectileType<UkeleleProjTwo>(), 0, 0, projectile.owner);
+			Main.PlaySound(SoundID.DD2_LightningAuraZap, target.position);
+
 			projectile.netUpdate = true;
 		}
 	}
