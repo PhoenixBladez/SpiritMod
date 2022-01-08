@@ -1074,6 +1074,7 @@ namespace SpiritMod.NPCs
 			DropLoot(1, 1, ItemType<PirateKey>(), npc, NPCID.PirateShip);
 			DropLoot(6, 6, ItemType<Items.Sets.SummonsMisc.SanguineFlayer.SanguineFlayerItem>(), npc, NPCID.BigMimicCrimson);
 			DropLoot(6, 6, ItemType<Items.Accessory.OpalFrog.OpalFrogItem>(), npc, NPCID.BigMimicHallow);
+			DropLoot(15, 15, ItemType<Items.Sets.SwordsMisc.CurseBreaker.CurseBreaker>(), npc, NPCID.RedDevil);
 		}
 
 		/// <summary>Drops an item given the specific conditions.</summary>
