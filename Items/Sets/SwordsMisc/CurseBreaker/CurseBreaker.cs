@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Curse Breaker");
-			Tooltip.SetDefault("Every third swing curses nearby enemies \n Strike again to break the curse, dealing extra damage");
+			Tooltip.SetDefault("Every third swing curses nearby enemies \nStrike again to break the curse, dealing extra damage");
 		}
 
 		public override void SetDefaults()
@@ -218,16 +218,16 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 
 			List<PrimitiveSlashArc> slashArcs = new List<PrimitiveSlashArc>();
 			Effect effect = mod.GetEffect("Effects/NemesisBoonShader");
-			effect.Parameters["white"].SetValue(Color.White.ToVector4());
+			effect.Parameters["white"].SetValue(Color.OrangeRed.ToVector4());
 			effect.Parameters["opacity"].SetValue((float)Math.Sqrt(1 - progress));
 			PrimitiveSlashArc slash = new PrimitiveSlashArc
 			{
 				BasePosition = Player.Center - Main.screenPosition,
-				StartDistance = projectile.width * 0.33f,
-				EndDistance = projectile.width,
+				StartDistance = (projectile.width * 0.3f) * projectile.scale,
+				EndDistance = (projectile.width * 0.85f) * (((projectile.scale - 1) * 0.5f) + 1),
 				AngleRange = new Vector2(SwingRadians / 2 * SwingDirection, -SwingRadians / 2 * SwingDirection),
 				DirectionUnit = direction,
-				Color = Color.Red * (float)Math.Sqrt(1 - progress),
+				Color = Color.Red,
 				SlashProgress = progress
 			};
 			slashArcs.Add(slash);
