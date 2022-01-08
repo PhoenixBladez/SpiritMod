@@ -449,7 +449,7 @@ namespace SpiritMod.Utilities
 		// detour to stop evil grass from spreading into areas protected by super sunflowers
 		private static void WorldGen_SpreadGrass(On.Terraria.WorldGen.orig_SpreadGrass orig, int i, int j, int dirt, int grass, bool repeat, byte color)
 		{
-			if (grass == TileID.CorruptGrass || grass == TileID.FleshGrass)
+			if (grass == TileID.CorruptGrass || grass == TileID.FleshGrass || grass == TileID.HallowedGrass)
 				foreach (Point16 point in MyWorld.superSunFlowerPositions)
 					if (Math.Abs(point.X - i) < SuperSunFlower.Range * 2)
 							return;
