@@ -60,7 +60,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 		}
 	}
 
-	internal class CurseBreakerProj : ModProjectile
+	internal class CurseBreakerProj : ModProjectile,IDrawAdditive
 	{
 		public float SwingRadians //Total radians of the sword's arc
 		{
@@ -247,7 +247,18 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 
 			return false;
 		}
-
+		public void AdditiveCall(SpriteBatch spriteBatch)
+		{
+			float progress = Timer / (float)SwingTime;
+			progress = EaseFunction.EaseCircularInOut.Ease(progress);
+			progress = EaseFunction.EaseQuadOut.Ease(progress);
+			if (Empowered)
+			{
+				Texture2D tex3 = ModContent.GetTexture(Texture + "_Flare");
+				for (float i = 0; i < 6.28f; i += 1.57f)
+					spriteBatch.Draw(tex3, Player.Center - Main.screenPosition + (rotation.ToRotationVector2() * 85 * projectile.scale), null, Color.White, i + (Main.GlobalTime * 0.5f), new Vector2(tex3.Width, 0) / 2, 0.5f * (float)Math.Sqrt(1 - progress), SpriteEffects.None, 0f);
+			}
+		}
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			hitDirection = Math.Sign(direction.X);
