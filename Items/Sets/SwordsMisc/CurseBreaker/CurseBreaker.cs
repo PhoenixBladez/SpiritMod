@@ -67,9 +67,9 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			get
 			{
 				if (Empowered)
-					return MathHelper.Pi * 1.55f; 
+					return MathHelper.Pi * 1.75f; 
 				else
-					return MathHelper.Pi * 0.95f; 
+					return MathHelper.Pi * 1.35f; 
 			}
 		}
 
@@ -78,9 +78,9 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			get
 			{
 				if (!Empowered)
-					return 30;
-				else
 					return 40;
+				else
+					return 54;
 			}
 		}
 
@@ -155,6 +155,13 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			Utils.PlotTileLine(Player.Center, Player.Center + (lineDirection * projectile.width), projectile.height, DelegateMethods.CutTiles);
 		}
 
+		public override bool? CanHitNPC(NPC target)
+		{
+			if (GetProgress() > 0.2f && GetProgress() < 0.8f)
+				return base.CanHitNPC(target);
+			return false;
+		}
+
 		public override void AI()
 		{
 			projectile.velocity = Vector2.Zero;
@@ -180,18 +187,14 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 
 			projectile.Center = Player.Center + (direction.RotatedBy(-1.57f) * 20);
 
-			Timer++;
-			float progress = Timer / (float)SwingTime;
-			if (progress > 1)
+			if (++Timer > SwingTime)
 				projectile.Kill();
-			progress = EaseFunction.EaseCircularInOut.Ease(progress);
-			if (Empowered)
-				progress = EaseFunction.EaseQuadOut.Ease(progress);
+			float progress = GetProgress();
 
 
-			projectile.scale = 1.25f - (Math.Abs(0.5f - progress) * 0.5f);
+			projectile.scale = 1.5f - (Math.Abs(0.5f - progress));
 			if (Empowered)
-				projectile.scale = (((projectile.scale - 1) * 3) + 1);
+				projectile.scale = (((projectile.scale - 1) * 2) + 1);
 
 			rotation = projectile.rotation + MathHelper.Lerp(SwingRadians / 2 * SwingDirection, -SwingRadians / 2 * SwingDirection, progress);
 
@@ -211,10 +214,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 
 			Vector2 pos = Player.MountedCenter - Main.screenPosition;
 
-			float progress = Timer / (float)SwingTime;
-			progress = EaseFunction.EaseCircularInOut.Ease(progress);
-			if (Empowered)
-				progress = EaseFunction.EaseQuadOut.Ease(progress);
+			float progress = GetProgress();
 
 			List<PrimitiveSlashArc> slashArcs = new List<PrimitiveSlashArc>();
 			Effect effect = mod.GetEffect("Effects/NemesisBoonShader");
@@ -236,22 +236,25 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
 			Texture2D tex2 = Main.projectileTexture[projectile.type];
+			Texture2D tex3 = ModContent.GetTexture(Texture + "_Glow");
 			if (flip)
 			{
 				spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor * .5f, rotation + 2.355f, new Vector2(tex2.Width, tex2.Height), projectile.scale, SpriteEffects.FlipHorizontally, 0f);
+				if (Empowered)
+					spriteBatch.Draw(tex3, Player.Center - Main.screenPosition, null, Color.Red * (float)Math.Sqrt(1 - progress), rotation + 2.355f, new Vector2(tex3.Width, tex3.Height), projectile.scale, SpriteEffects.FlipHorizontally, 0f);
 			}
 			else
 			{
 				spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor, rotation + 0.785f, new Vector2(0, tex2.Height), projectile.scale, SpriteEffects.None, 0f);
+				if (Empowered)
+					spriteBatch.Draw(tex3, Player.Center - Main.screenPosition, null, Color.Red * (float)Math.Sqrt(1 - progress), rotation + 0.785f, new Vector2(0, tex3.Height), projectile.scale, SpriteEffects.None, 0f);
 			}
 
 			return false;
 		}
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
-			float progress = Timer / (float)SwingTime;
-			progress = EaseFunction.EaseCircularInOut.Ease(progress);
-			progress = EaseFunction.EaseQuadOut.Ease(progress);
+			float progress = GetProgress();
 			if (Empowered)
 			{
 				Texture2D tex3 = ModContent.GetTexture(Texture + "_Flare");
@@ -262,6 +265,17 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			hitDirection = Math.Sign(direction.X);
+		}
+
+		private float GetProgress()
+		{
+			float progress = Timer / (float)SwingTime;
+			progress = EaseFunction.EaseCircularInOut.Ease(progress);
+			progress = EaseFunction.EaseQuadOut.Ease(progress);
+
+			if (Empowered)
+				progress = EaseFunction.EaseQuadInOut.Ease(progress);
+			return progress;
 		}
 	}
 }
