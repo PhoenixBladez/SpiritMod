@@ -187,7 +187,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 
 			projectile.Center = Player.Center + (direction.RotatedBy(-1.57f) * 20);
 
-			if (++Timer > SwingTime)
+			if (++Timer > SwingTime - 7)
 				projectile.Kill();
 			float progress = GetProgress();
 
@@ -241,13 +241,13 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			{
 				spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor * .5f, rotation + 2.355f, new Vector2(tex2.Width, tex2.Height), projectile.scale, SpriteEffects.FlipHorizontally, 0f);
 				if (Empowered)
-					spriteBatch.Draw(tex3, Player.Center - Main.screenPosition, null, Color.Red * (float)Math.Sqrt(1 - progress), rotation + 2.355f, new Vector2(tex3.Width, tex3.Height), projectile.scale, SpriteEffects.FlipHorizontally, 0f);
+					spriteBatch.Draw(tex3, Player.Center - Main.screenPosition, null, Color.Red * (float)Math.Sqrt(1 - progress) * 0.5f, rotation + 2.355f, new Vector2(tex3.Width, tex3.Height), projectile.scale, SpriteEffects.FlipHorizontally, 0f);
 			}
 			else
 			{
 				spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor, rotation + 0.785f, new Vector2(0, tex2.Height), projectile.scale, SpriteEffects.None, 0f);
 				if (Empowered)
-					spriteBatch.Draw(tex3, Player.Center - Main.screenPosition, null, Color.Red * (float)Math.Sqrt(1 - progress), rotation + 0.785f, new Vector2(0, tex3.Height), projectile.scale, SpriteEffects.None, 0f);
+					spriteBatch.Draw(tex3, Player.Center - Main.screenPosition, null, Color.Red * (float)Math.Sqrt(1 - progress) * 0.5f, rotation + 0.785f, new Vector2(0, tex3.Height), projectile.scale, SpriteEffects.None, 0f);
 			}
 
 			return false;
@@ -259,12 +259,37 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			{
 				Texture2D tex3 = ModContent.GetTexture(Texture + "_Flare");
 				for (float i = 0; i < 6.28f; i += 1.57f)
-					spriteBatch.Draw(tex3, Player.Center - Main.screenPosition + (rotation.ToRotationVector2() * 85 * projectile.scale), null, Color.White, i + (Main.GlobalTime * 0.5f), new Vector2(tex3.Width, 0) / 2, 0.5f * (float)Math.Sqrt(1 - progress), SpriteEffects.None, 0f);
+					spriteBatch.Draw(tex3, Player.Center - Main.screenPosition + (rotation.ToRotationVector2() * 75 * projectile.scale), null, Color.White, i + (Main.GlobalTime * 1.5f), new Vector2(tex3.Width, 0) / 2, 0.5f * (float)Math.Pow(1 - progress, 2), SpriteEffects.None, 0f);
 			}
 		}
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			hitDirection = Math.Sign(direction.X);
+			if (Empowered)
+			{
+				foreach (NPC npc in Main.npc)
+				{
+					if (npc.active && !npc.townNPC && npc.Distance(target.Center) < 150 && !npc.HasBuff(ModContent.BuffType<CurseBreakerMark>()))
+					{
+						npc.AddBuff(ModContent.BuffType<CurseBreakerMark>(), 180);
+						Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<CurseBreakerCurse>(), projectile.damage, 0, Player.whoAmI, npc.whoAmI);
+					}
+				}
+			}
+			else if (target.HasBuff(ModContent.BuffType<CurseBreakerMark>()))
+			{
+				foreach (Projectile proj in Main.projectile)
+				{
+					if (proj.active && proj.type == ModContent.ProjectileType<CurseBreakerCurse>() && proj.owner == Player.whoAmI)
+					{
+						NPC npc = Main.npc[(int)proj.ai[0]];
+						int buffIndex = npc.FindBuffIndex(ModContent.BuffType<CurseBreakerMark>());
+						if (buffIndex != -1)
+							npc.DelBuff(buffIndex);
+						proj.Kill();
+					}
+				}
+			}
 		}
 
 		private float GetProgress()
@@ -276,6 +301,75 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			if (Empowered)
 				progress = EaseFunction.EaseQuadInOut.Ease(progress);
 			return progress;
+		}
+	}
+	public class CurseBreakerCurse : ModProjectile
+	{
+		private NPC target => Main.npc[(int)projectile.ai[0]];
+
+		private float counter;
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Curse");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+		}
+		public override void SetDefaults()
+		{
+			projectile.hostile = false;
+			projectile.width = 32;
+			projectile.height = 28;
+			projectile.aiStyle = -1;
+			projectile.friendly = false;
+			projectile.penetrate = 1;
+			projectile.tileCollide = false;
+			projectile.timeLeft = 12;
+			projectile.ignoreWater = true;
+		}
+
+		public override Color? GetAlpha(Color lightColor) => Color.White;
+		public override void AI()
+		{
+			Lighting.AddLight(projectile.Center, Color.Red.ToVector3() * 0.3f);
+			counter += 0.025f;
+			if (target.active)
+			{
+				if (target.HasBuff(ModContent.BuffType<CurseBreakerMark>()))
+				{
+					projectile.scale = MathHelper.Clamp(counter * 3, 0, 1);
+					projectile.timeLeft = 12;
+				}
+				else
+					projectile.scale -= 0.083f;
+				projectile.Center = target.Center;
+			}
+			else
+				projectile.active = false;
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D tex = Main.projectileTexture[projectile.type];
+			float progress = counter % 1;
+			float transparency = (float)Math.Pow(1 - progress, 2);
+			float scale = 1 + progress;
+
+			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, Color.White * transparency, projectile.rotation, tex.Size() / 2, scale * projectile.scale, SpriteEffects.None, 0f);
+			return true;
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			if (timeLeft > 4)
+				target.StrikeNPC(projectile.damage, 0, 0);
+		}
+	}
+	public class CurseBreakerMark : ModBuff
+	{
+		public override void SetDefaults()
+		{
+			DisplayName.SetDefault("Curse Mark");
+			Main.buffNoTimeDisplay[Type] = false;
 		}
 	}
 }
