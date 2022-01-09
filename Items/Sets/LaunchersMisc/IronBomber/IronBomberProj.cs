@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.BaseProj;
 using Terraria;
 using SpiritMod.Particles;
-using SpiritMod.Utilities;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 using System;

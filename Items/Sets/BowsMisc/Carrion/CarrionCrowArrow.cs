@@ -2,7 +2,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Audio;
 using Terraria.ModLoader;
-using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;

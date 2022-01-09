@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
 using SpiritMod.Mechanics.Trails;
-using SpiritMod.Utilities;
 using System;
 using Terraria;
 using Terraria.ID;

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using SpiritMod.Dusts;
 using SpiritMod.Projectiles.Arrow;
-using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ModLoader;
 using System;

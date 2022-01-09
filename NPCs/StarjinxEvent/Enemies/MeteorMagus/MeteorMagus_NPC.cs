@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod;
 using SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder;
+using SpiritMod.Particles;
 using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,10 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 {
-	public class MeteorMagus : SpiritNPC, IStarjinxEnemy
+	public class MeteorMagus_NPC : SpiritNPC, IStarjinxEnemy, IDrawAdditive
 	{
+		private const int IDLETIME = 210;
+		private static Color Pink = new Color(255, 92, 211);
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Meteor Magus");
@@ -43,9 +46,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
 
-		ref float AiTimer => ref npc.ai[0];
+		private ref float AiTimer => ref npc.ai[0];
 
-		ref float AttackType => ref npc.ai[1];
+		private ref float AttackType => ref npc.ai[1];
+
+		private float _attackGlowStrength = 0f;
+		private Color _attackGlowColor = Color.Transparent;
 
 		private delegate void Attack(Player player, NPC npc);
 
@@ -75,8 +81,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 		public override void ReceiveExtraAI(BinaryReader reader) => Pattern = Pattern.Select(i => reader.ReadInt32()).ToList();
 
-		private readonly int IdleTime = 210;
-
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];
@@ -86,8 +90,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 			bool empowered = npc.GetGlobalNPC<PathfinderGNPC>().Buffed;
 
-			if (++AiTimer < IdleTime)
+			if (++AiTimer < IDLETIME)
 			{
+				_attackGlowStrength = MathHelper.Lerp(_attackGlowStrength, 0f, 0.1f);
+				_attackGlowColor = Color.Lerp(_attackGlowColor, Color.Transparent, 0.1f);
 				Vector2 homeCenter = player.Center;
 
 				//Dont go to players outside of the sjinx range
@@ -120,10 +126,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 				}
 			}
 
-			if (AiTimer == IdleTime && Main.netMode != NetmodeID.Server)
+			if (AiTimer == IDLETIME && Main.netMode != NetmodeID.Server)
 				Main.PlaySound(new LegacySoundStyle(SoundID.Item, 123).WithPitchVariance(0.2f).WithVolume(1.3f), npc.Center);
 
-			if (AiTimer > IdleTime)
+			if (AiTimer > IDLETIME)
 			{
 				AttackDict[Pattern[(int)AttackType]].Invoke(Main.player[npc.target], npc);
 
@@ -150,9 +156,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			npc.netUpdate = true;
 		}
 
-		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => knockback = (AiTimer < IdleTime) ? knockback : 0;
+		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => knockback = (AiTimer < IDLETIME) ? knockback : 0;
 
-		public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit) => knockback = (AiTimer < IdleTime) ? knockback : 0;
+		public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit) => knockback = (AiTimer < IDLETIME) ? knockback : 0;
 
 		private void PlayCastSound(Vector2 position)
 		{
@@ -162,25 +168,55 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 		private static void FallingStars(Player player, NPC npc)
 		{
-
-			var modnpc = npc.modNPC as MeteorMagus;
+			var modnpc = npc.modNPC as MeteorMagus_NPC;
 			npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
+			modnpc._attackGlowColor = Color.Lerp(modnpc._attackGlowColor, Color.Cyan, 0.1f);
+			modnpc._attackGlowStrength = MathHelper.Lerp(modnpc._attackGlowStrength, 1f, 0.1f);
+
+			int attackStartTime = IDLETIME + 1;
+			int attackDelayTime = 60;
+			int attackLength = 120;
 
 			modnpc.UpdateYFrame(8, 0, 3);
 			modnpc.frame.X = 1;
 
-			if (modnpc.AiTimer % 15 == 0)
+			if ((modnpc.AiTimer == attackStartTime || modnpc.AiTimer == (attackStartTime + (attackDelayTime/4))) && !Main.dedServ)
+			{
+				//Movement for the circles: moves upwards, slowing down, until the npc's attack starts, then moves in sine pattern up/down
+				//Spawns a bigger slower circle, then a smaller faster one
+
+				bool firstCircle = modnpc.AiTimer == attackStartTime;
+				Vector2 offset = new Vector2(0, (firstCircle) ? -20 : -30);
+				float size = firstCircle ? 170 : 110;
+				int fadeTime = attackDelayTime - (int)(modnpc.AiTimer - attackStartTime);
+				int totalLifetime = (2 * fadeTime) + attackLength;
+				float zRotation = 1.05f * MathHelper.PiOver4;
+				float ySpeed = (modnpc.AiTimer == attackStartTime) ? 2 : 3f;
+				float rotationalVelocity = firstCircle ? -0.05f : 0.08f;
+
+				ParticleHandler.SpawnParticle(new MeteorMagus_Circle(npc, offset, Color.Cyan, size, totalLifetime, fadeTime,
+					zRotation, MathHelper.PiOver2, rotationalVelocity, -Vector2.UnitY * ySpeed, delegate(Particle p) 
+					{ 
+						if (p.TimeActive < fadeTime)
+							p.Velocity.Y *= 0.96f;
+
+						else
+							p.Velocity.Y = MathHelper.Lerp(p.Velocity.Y, (float)Math.Sin(p.TimeActive / 20) / 8, 0.1f);
+					}));
+			}
+				
+			if (modnpc.AiTimer % 15 == 0 && modnpc.AiTimer > (attackStartTime + attackDelayTime) && modnpc.AiTimer <= (attackStartTime + attackDelayTime + attackLength))
 			{
 				modnpc.PlayCastSound(npc.Center);
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					var pos = npc.Center + new Vector2(Main.rand.Next(-100, 100), Main.rand.Next(-120, -70));
-					Projectile.NewProjectileDirect(pos, Vector2.Zero, ModContent.ProjectileType<MortarStar>(), npc.damage / 4, 1, Main.myPlayer, npc.whoAmI, player.whoAmI);
+					var pos = npc.Center + new Vector2(Main.rand.Next(-40, 40), Main.rand.Next(-120, -90));
+					Projectile.NewProjectileDirect(pos, Vector2.Zero, ModContent.ProjectileType<MeteorMagus_Meteor>(), npc.damage / 4, 1, Main.myPlayer, npc.whoAmI, player.whoAmI);
 				}
 			}
 
-			if (modnpc.AiTimer > 330)
+			if (modnpc.AiTimer > (attackStartTime + (2 * attackDelayTime) + attackLength))
 				modnpc.ResetPattern();
 		}
 
@@ -190,9 +226,11 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 			bool empowered = npc.GetGlobalNPC<PathfinderGNPC>().Buffed;
 
-			var modnpc = npc.modNPC as MeteorMagus;
+			var modnpc = npc.modNPC as MeteorMagus_NPC;
 			modnpc.UpdateYFrame(10, 0, 5);
 			modnpc.frame.X = 2;
+			modnpc._attackGlowColor = Color.Lerp(modnpc._attackGlowColor, Pink, 0.1f);
+			modnpc._attackGlowStrength = MathHelper.Lerp(modnpc._attackGlowStrength, 1f, 0.1f);
 
 			if (modnpc.AiTimer == 220)
 			{
@@ -206,12 +244,13 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						var proj = Projectile.NewProjectileDirect(player.Center, Vector2.Zero, ModContent.ProjectileType<CirclingStar>(), npc.damage / 4, 1, Main.myPlayer, npc.whoAmI, player.whoAmI);
+						var proj = Projectile.NewProjectileDirect(player.Center, Vector2.Zero, ModContent.ProjectileType<MeteorMagus_Star>(), npc.damage / 4, 1, Main.myPlayer, npc.whoAmI, player.whoAmI);
 
-						var star = proj.modProjectile as CirclingStar;
+						var star = proj.modProjectile as MeteorMagus_Star;
 						star.Direction = direction;
 						star.CirclingTime = empowered ? 50f : 60f;
-						star.Offset = offset.RotatedBy(MathHelper.TwoPi * i / numStars);
+						star.Offset_Rotation = offset.ToRotation() + MathHelper.TwoPi * i / numStars;
+						star.Offset_Distance = offset.Length();
 
 						if (Main.netMode == NetmodeID.Server)
 							NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
@@ -239,36 +278,55 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 				npc.FindFrame();
 			}
 
-			if (AiTimer > IdleTime)
-			{
-				float num395 = Main.mouseTextColor / 300f - 0.25f;
-				num395 *= 0.2f;
-				float num366 = num395 + 1.05f;
+			float num395 = Main.mouseTextColor / 300f - 0.25f;
+			num395 *= 0.2f;
+			float num366 = num395 + 1.05f;
 
-				Color color = Color.White;
-				color.A = 0;
-				DrawAfterImage(Main.spriteBatch, new Vector2(0f, 0f), 0.5f, color * .7f, color * .1f, 0.45f, num366, .75f);
-			}
+			Color color = _attackGlowColor * _attackGlowStrength;
+			color.A = 0;
+			DrawAfterImage(Main.spriteBatch, new Vector2(0f, 0f), 0.5f, color * .7f, color * .1f, 0.45f, num366, .75f);
+
 			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
 			return false;
 		}
 
 		public void DrawPathfinderOutline(SpriteBatch spriteBatch) => PathfinderOutlineDraw.DrawAfterImage(spriteBatch, npc, npc.frame, Vector2.Zero, npc.frame.Size() / 2);
 
+		private void DrawGlowmask(SpriteBatch spriteBatch, Texture2D tex, Vector2 position, Color color, float opacity = 1)
+		{
+			spriteBatch.Draw(tex, position - Main.screenPosition, npc.frame, color * opacity, npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
+		}
+
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			void DrawGlowmask(Vector2 position, float opacity = 1)
+			Texture2D baseGlow = ModContent.GetTexture(Texture + "_glow");
+			Texture2D whiteGlow = ModContent.GetTexture(Texture + "_glowWhite");
+
+			DrawGlowmask(spriteBatch, baseGlow, npc.Center, Color.White);
+
+			if(AiTimer <= IDLETIME)
 			{
-				spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/Enemies/MeteorMagus/MeteorMagus_glow"), position - Main.screenPosition, npc.frame, Color.White * opacity, npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
+				for (int i = 0; i < 4; i++)
+				{
+					Vector2 drawpos = npc.Center + new Vector2(0, 4 * (((float)Math.Sin(Main.GlobalTime * 4) / 2) + 0.5f)).RotatedBy(i * MathHelper.PiOver2);
+					DrawGlowmask(spriteBatch, baseGlow, drawpos, Color.White, 0.3f);
+				}
 			}
 
-			DrawGlowmask(npc.Center);
+			DrawGlowmask(spriteBatch, whiteGlow, npc.Center, _attackGlowColor, _attackGlowStrength);
+		}
 
-			for (int i = 0; i < 4; i++)
+		public void AdditiveCall(SpriteBatch sB)
+		{
+			Texture2D whiteGlow = ModContent.GetTexture(Texture + "_glowWhite");
+
+			Color additiveGlow = _attackGlowColor;
+
+			PulseDraw.DrawPulseEffect(PulseDraw.BloomConstant, 6, 6, delegate (Vector2 posOffset, float opacityMod)
 			{
-				Vector2 drawpos = npc.Center + new Vector2(0, 4 * (((float)Math.Sin(Main.GlobalTime * 4) / 2) + 0.5f)).RotatedBy(i * MathHelper.PiOver2);
-				DrawGlowmask(drawpos, 0.3f);
-			}
+				DrawGlowmask(sB, whiteGlow, posOffset + npc.Center, additiveGlow, opacityMod * _attackGlowStrength * 0.33f);
+			});
+			DrawGlowmask(sB, whiteGlow, npc.Center, additiveGlow, _attackGlowStrength);
 		}
 
 		public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color color, float opacity, float startScale, float endScale) => DrawAfterImage(spriteBatch, offset, trailLengthModifier, color, color, opacity, startScale, endScale);
@@ -279,7 +337,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			for (int i = 1; i < 10; i++)
 			{
 				Color color = Color.Lerp(startColor, endColor, i / 10f) * opacity;
-				spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/Enemies/MeteorMagus/MeteorMagus_Afterimage"), new Vector2(npc.Center.X, npc.Center.Y) + offset - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * (float)i * trailLengthModifier, npc.frame, color, npc.rotation, npc.frame.Size() * 0.5f, MathHelper.Lerp(startScale, endScale, i / 10f), spriteEffects, 0f);
+				spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/Enemies/MeteorMagus/MeteorMagus_NPC_Afterimage"), new Vector2(npc.Center.X, npc.Center.Y) + offset - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * (float)i * trailLengthModifier, npc.frame, color, npc.rotation, npc.frame.Size() * 0.5f, MathHelper.Lerp(startScale, endScale, i / 10f), spriteEffects, 0f);
 			}
 		}
 	}

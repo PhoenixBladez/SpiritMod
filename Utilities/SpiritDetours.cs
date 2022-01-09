@@ -370,6 +370,9 @@ namespace SpiritMod.Utilities
 				SpiritMod.primitives.DrawTargetProj(Main.spriteBatch);
 			}
 			orig(self);
+
+			if (!Main.dedServ)
+				SpiritMod.TrailManager.DrawTrails(Main.spriteBatch, TrailLayer.AboveProjectile);
 		}
 
 		private static void Main_DrawNPCs(On.Terraria.Main.orig_DrawNPCs orig, Main self, bool behindTiles)

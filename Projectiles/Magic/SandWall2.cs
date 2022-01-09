@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using System;
-using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

@@ -46,7 +46,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 					break;
 				case 1: //1 empowered meteor magus
 					numEnemies = 2;
-					var offset = SpawnSpawnerProjectile(ModContent.NPCType<MeteorMagus>());
+					var offset = SpawnSpawnerProjectile(ModContent.NPCType<MeteorMagus_NPC>());
 					SpawnSpawnerProjectile(ModContent.NPCType<Pathfinder>(), offset);
 					break;
 				default: //6 starachnid, 67% chance for empowerment

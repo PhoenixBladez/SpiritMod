@@ -49,7 +49,7 @@ float4 White(VertexShaderOutput input) : COLOR0
     float4 color = tex2D(textureSampler, coords);
 
     if (intensify)
-        return float4((color.xyz * 2) * input.Color * (1.0 + color.x * 2.0), color.x * input.Color.w);
+        return float4((color.rgb * 2) * input.Color.rgb * (1.0 + color.r * 2.0), color.r * input.Color.a);
 
     if (additive)
         color *= (color.r + color.g + color.b) / 3;
