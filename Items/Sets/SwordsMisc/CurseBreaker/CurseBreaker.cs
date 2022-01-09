@@ -264,13 +264,13 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			if (flip)
 			{
 				if (Empowered)
-					spriteBatch.Draw(tex3, Player.Center - Main.screenPosition, null, Color.Red * (float)Math.Sqrt(1 - progress) * 0.5f, rotation + 2.355f, new Vector2(tex3.Width, tex3.Height), projectile.scale, SpriteEffects.FlipHorizontally, 0f);
+					spriteBatch.Draw(tex3, Player.Center - Main.screenPosition, null, Color.Red * (float)Math.Sqrt(1 - progress) * 0.3f, rotation + 2.355f, new Vector2(tex3.Width, tex3.Height), projectile.scale, SpriteEffects.FlipHorizontally, 0f);
 				spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor * .5f, rotation + 2.355f, new Vector2(tex2.Width, tex2.Height), projectile.scale, SpriteEffects.FlipHorizontally, 0f);
 			}
 			else
 			{
 				if (Empowered)
-					spriteBatch.Draw(tex3, Player.Center - Main.screenPosition, null, Color.Red * (float)Math.Sqrt(1 - progress) * 0.5f, rotation + 0.785f, new Vector2(0, tex3.Height), projectile.scale, SpriteEffects.None, 0f);
+					spriteBatch.Draw(tex3, Player.Center - Main.screenPosition, null, Color.Red * (float)Math.Sqrt(1 - progress) * 0.3f, rotation + 0.785f, new Vector2(0, tex3.Height), projectile.scale, SpriteEffects.None, 0f);
 				spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor, rotation + 0.785f, new Vector2(0, tex2.Height), projectile.scale, SpriteEffects.None, 0f);
 			}
 
