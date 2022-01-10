@@ -132,7 +132,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 				if (!proj.active || !proj.friendly || proj.type == projectile.type || proj == null)
 					continue;
 
-				if (proj.Hitbox.Intersects(projectile.Hitbox))
+				if (proj.Colliding(proj.Hitbox, projectile.Hitbox))
 					return true;
 			}
 
