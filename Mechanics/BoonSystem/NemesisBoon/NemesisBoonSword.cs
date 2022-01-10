@@ -206,6 +206,7 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 			{
 				Effect effect = mod.GetEffect("Effects/NemesisBoonShader");
 				effect.Parameters["white"].SetValue(Color.White.ToVector4());
+				effect.Parameters["opacity"].SetValue(1);
 				PrimitiveSlashArc slash = new PrimitiveSlashArc
 				{
 					BasePosition = swingBase - Main.screenPosition,

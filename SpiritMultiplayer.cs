@@ -6,7 +6,6 @@ using SpiritMod.NPCs.AuroraStag;
 using SpiritMod.NPCs.ExplosiveBarrel;
 using SpiritMod.NPCs.Tides.Tide;
 using SpiritMod.Projectiles;
-using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;

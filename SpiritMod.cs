@@ -740,6 +740,7 @@ namespace SpiritMod
 			musicConfig7.SetDefault($"[i:" + SpiritMod.Instance.ItemType("NeonMusicBox") + "]  Adds a unique track for the Granite biome");
 			AddTranslation(musicConfig7);
 
+
 			ModTranslation musicConfig8 = CreateTranslation("MarbleMusic");
 			musicConfig8.SetDefault($"[i:" + SpiritMod.Instance.ItemType("NeonMusicBox") + "]  Adds a unique track for the Marble biome");
 			AddTranslation(musicConfig8);
@@ -947,6 +948,9 @@ namespace SpiritMod
 				SkyManager.Instance["SpiritMod:MeteoriteSky"] = new MeteoriteSky();
 
 				//Music Boxes
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/CrimsonNight"), ItemType("CrimsonNightBox"), TileType("CrimsonNightBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/UnderwaterMusic"), ItemType("OceanDepthsBox"), TileType("OceanDepthsBox"));
+
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/TranquilWinds"), ItemType("TranquilWindsBox"), TileType("TranquilWindsBox"));
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech"), ItemType("NeonMusicBox"), TileType("NeonMusicBox"));
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech1"), ItemType("HyperspaceDayBox"), TileType("HyperspaceDayBox"));

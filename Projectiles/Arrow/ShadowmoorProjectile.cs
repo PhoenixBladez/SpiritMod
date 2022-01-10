@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using SpiritMod.Utilities;
 using Terraria.ModLoader;
 using SpiritMod.Mechanics.Trails;
 

@@ -90,8 +90,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 						StarjinxPlayer localSjinxPlayer = Main.LocalPlayer.GetModPlayer<StarjinxPlayer>();
 						VignettePlayer localVignettePlayer = Main.LocalPlayer.GetModPlayer<VignettePlayer>();
-						if (localSjinxPlayer.zoneStarjinxEvent)
-							localVignettePlayer.SetVignette(100, 300, 0.4f, Color.Black, npc.Center);
+						if (localSjinxPlayer.zoneStarjinxEvent || localSjinxPlayer.oldZoneStarjinx)
+							localVignettePlayer.SetVignette(0, 1000, 0.75f, Color.Black, npc.Center);
 					}
 				}
 				else

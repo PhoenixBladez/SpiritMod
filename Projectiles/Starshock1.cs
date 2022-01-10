@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Mechanics.Trails;
 using SpiritMod.Projectiles.DonatorItems;
-using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

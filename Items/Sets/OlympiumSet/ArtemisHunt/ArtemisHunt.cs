@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Utilities;
 using Terraria.Graphics.Shaders;
 using SpiritMod.Prim;
 using SpiritMod.Particles;

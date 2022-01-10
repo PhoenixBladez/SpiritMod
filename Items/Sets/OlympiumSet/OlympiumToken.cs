@@ -20,9 +20,15 @@ namespace SpiritMod.Items.Sets.OlympiumSet
 		{
 			item.width = 16;
 			item.height = 16;
-			item.value = 0;
+			item.useStyle = ItemUseStyleID.SwingThrow;
+			item.value = 300;
 			item.rare = ItemRarityID.LightRed;
+			item.createTile = ModContent.TileType<OlympiumToken_Tile>();
 			item.maxStack = 999;
+			item.autoReuse = true;
+			item.consumable = true;
+			item.useAnimation = 15;
+			item.useTime = 10;
 		}
 
 		public override void Update(ref float gravity, ref float maxFallSpeed)

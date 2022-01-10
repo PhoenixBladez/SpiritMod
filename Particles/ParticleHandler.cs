@@ -177,7 +177,7 @@ namespace SpiritMod.Particles
 
 			if(batchedAdditiveBlendParticles.Count > 0)
 			{
-				spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, null, null, Main.GameViewMatrix.ZoomMatrix);
+				spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
 				foreach (Particle particle in batchedAdditiveBlendParticles)
 					if (particle.UseCustomDraw)

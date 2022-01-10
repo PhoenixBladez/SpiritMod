@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Utilities;
 using SpiritMod.Prim;
 using System;
 using System.IO;

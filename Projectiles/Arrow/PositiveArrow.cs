@@ -3,7 +3,6 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Utilities;
 using System;
 using System.IO;
 using SpiritMod.Mechanics.Trails;

@@ -88,7 +88,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			Player player = spawnInfo.player;
 			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && !Main.pumpkinMoon && !Main.snowMoon && !Main.eclipse && (SpawnCondition.GoblinArmy.Chance == 0))
-				return spawnInfo.player.GetSpiritPlayer().ZoneSynthwave ? .1f : 0f;
+				return spawnInfo.player.GetSpiritPlayer().ZoneSynthwave ? .15f : 0f;
 			return 0f;
 		}
 

@@ -58,7 +58,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			if (proj.modProjectile is JadeDaoProj modProj)
 			{
 				modProj.SwingTime = (int)(item.useTime * (slam ? 1.75f : 1));
-				modProj.SwingDistance = 700 * distanceMult;
+				modProj.SwingDistance = player.Distance(Main.MouseWorld) * distanceMult;
 				modProj.Curvature = 0.33f * curvatureMult;
 				modProj.Flip = combo % 2 == 1;
 				modProj.Slam = slam;
@@ -70,7 +70,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 				if (proj2.modProjectile is JadeDaoProj modProj2)
 				{
 					modProj2.SwingTime = (int)(item.useTime * (slam ? 1.75f : 1));
-					modProj2.SwingDistance = 700 * distanceMult;
+					modProj2.SwingDistance = player.Distance(Main.MouseWorld) * distanceMult;
 					modProj2.Curvature = 0.33f * curvatureMult;
 					modProj2.Flip = combo % 2 == 0;
 					modProj2.Slam = slam;
@@ -169,7 +169,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 		{
 			//Starts at owner center, goes to peak range, then returns to owner center
 			float distance = MathHelper.Clamp(SwingDistance, THROW_RANGE * 0.1f, THROW_RANGE) * MathHelper.Lerp((float)Math.Sin(progress * MathHelper.Pi), 1, 0.04f);
-			distance = Math.Max(distance, 65); //Dont be too close to player
+			distance = Math.Max(distance, 100); //Dont be too close to player
 
 			float angleMaxDeviation = MathHelper.Pi / 1.2f;
 			float angleOffset = Owner.direction * (Flip ? -1 : 1) * MathHelper.Lerp(-angleMaxDeviation, angleMaxDeviation, progress); //Moves clockwise if player is facing right, counterclockwise if facing left

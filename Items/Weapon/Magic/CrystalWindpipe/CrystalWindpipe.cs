@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles.Magic;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -37,19 +38,15 @@ namespace SpiritMod.Items.Weapon.Magic.CrystalWindpipe
 			Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/WindChime").WithPitchVariance(0.4f).WithVolume(0.8f), player.Center);
 
 			for (int I = 0; I < 2; I++) {
-				float angle = Main.rand.NextFloat(MathHelper.PiOver4, -MathHelper.Pi - MathHelper.PiOver4);
-				Vector2 spawnPlace = Vector2.Normalize(new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle))) * 20f;
-				if (Collision.CanHit(position, 0, 0, position + spawnPlace, 0, 0)) {
+				float angle = Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi) * 0.05f;
+				Vector2 spawnPlace = Vector2.UnitX.RotatedBy(angle) * 10f;
+				if (Collision.CanHit(position, 0, 0, position + spawnPlace, 0, 0)) 
 					position += spawnPlace;
-				}
 
-				Vector2 velocity = Vector2.Normalize(Main.MouseWorld - position) * item.shootSpeed;
-				Projectile projectile = Projectile.NewProjectileDirect(position, velocity * Main.rand.NextFloat(0.8f,1f), type, damage, knockBack, player.whoAmI);
+				Vector2 vel = new Vector2(speedX, speedY);
+				Projectile projectile = Projectile.NewProjectileDirect(position, vel.RotatedBy(angle) * Main.rand.NextFloat(0.8f,1f), type, damage, knockBack, player.whoAmI);
 				if (projectile.modProjectile is CrystalNote modProj)
-				{
-					modProj.initialAngle = new Vector2(speedX, speedY);
-					projectile.scale = Main.rand.NextFloat(.8f, 1.1f);
-				}
+					modProj.initialAngle = vel;
 			}
 			return false;
 		}
@@ -57,10 +54,31 @@ namespace SpiritMod.Items.Weapon.Magic.CrystalWindpipe
 
 	public class CrystalNote : ModProjectile, IDrawAdditive
 	{
+		private const float RETURN_STARTTIME = 70;
+
 		public Vector2 initialAngle;
 		public Vector2 initialSpeed = Vector2.Zero;
+		private bool _dying = false;
 
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Crystal Note");
+		private bool Dying
+		{
+			get => _dying;
+			set
+			{
+				//Automatically sync when property changes
+				if (_dying != value)
+					projectile.netUpdate = true;
+
+				_dying = value;
+			}
+		}
+
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Crystal Note");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 15;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+		}
 
 		public override void SetDefaults()
 		{
@@ -71,6 +89,9 @@ namespace SpiritMod.Items.Weapon.Magic.CrystalWindpipe
 			projectile.friendly = true;
 			projectile.penetrate = 2;
 			projectile.timeLeft = 120;
+			projectile.alpha = 255;
+			projectile.hide = true;
+			projectile.scale = Main.rand.NextFloat(0.7f, 1.3f);
 		}
 
 		public override void AI()
@@ -78,35 +99,51 @@ namespace SpiritMod.Items.Weapon.Magic.CrystalWindpipe
 			Player player = Main.player[projectile.owner];
 			Lighting.AddLight(projectile.position, 0.245f, 0.103f, 0.255f);
 
-			int index2 = Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.VenomStaff, 0.0f, 0.0f, 0, new Color(), 1f);
-			Main.dust[index2].position = projectile.Center;
-			Main.dust[index2].velocity = projectile.velocity;
-			Main.dust[index2].noGravity = true;
-			Main.dust[index2].scale = projectile.scale * 1.1f;
+			//Make dust when not dying
+			if (Main.rand.NextBool() && !_dying)
+			{
+				int index2 = Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.VenomStaff, 0.0f, 0.0f, projectile.alpha, new Color(), 1f);
+				Main.dust[index2].position = projectile.Center;
+				Main.dust[index2].velocity = projectile.velocity * projectile.Opacity;
+				Main.dust[index2].noGravity = true;
+				Main.dust[index2].scale = projectile.scale * 1.1f;
+			}
 
-			if (projectile.timeLeft > 80)
+			float velocityDecayRate = 0.975f;
+
+			//Before starting to return, slow down in velocity over time and rotate its velocity
+			if (projectile.timeLeft > RETURN_STARTTIME)
 			{
 				if (initialSpeed == Vector2.Zero)
-				{
 					initialSpeed = projectile.velocity;
-				}
-				float veer = (float)Math.Sqrt(120 - projectile.timeLeft) * 0.09f;
-				float rotDifference = ((((initialSpeed.ToRotation() - initialAngle.ToRotation()) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
-				projectile.velocity = projectile.velocity.RotatedBy(rotDifference * veer);
-			}
-			else if (projectile.timeLeft < 70)
-			{
-				int num = 5;
-				if (projectile.timeLeft < 60)
-					num = 9;
 
-				Vector2 vector2_1 = player.Center;
-				Vector2 vector2_2 = Vector2.Normalize(vector2_1 - projectile.Center) * num;
-				projectile.velocity = vector2_2;
-				if (Vector2.Distance(projectile.Center, player.Center) <= 12.0)
+				int fadeInTime = 15;
+				projectile.alpha = Math.Max(projectile.alpha - (255 / fadeInTime), 0);
+
+				float veer = (float)Math.Sqrt(120 - projectile.timeLeft) * 0.13f;
+				float rotDifference = ((((initialSpeed.ToRotation() - initialAngle.ToRotation()) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
+				projectile.velocity = projectile.velocity.RotatedBy(rotDifference * veer) * velocityDecayRate;
+			}
+
+			//Interpolate its velocity back to player, fading out and dying if close to running out of timeleft or getting too close to player
+			else
+			{
+				float lerpRate = MathHelper.Clamp(1 - (projectile.timeLeft / RETURN_STARTTIME), 0.05f, 0.25f);
+				float speed = MathHelper.Clamp(1 - (projectile.timeLeft / RETURN_STARTTIME), 0.25f, 1f) * 20;
+
+				Vector2 homeCenter = player.Center;
+				Vector2 direction = Vector2.Normalize(homeCenter - projectile.Center) * speed;
+				if(!Dying)
+					projectile.velocity = Vector2.Lerp(projectile.velocity, direction, lerpRate);
+
+				int fadeOutTime = 25;
+				if (Vector2.Distance(projectile.Center, player.Center) <= 40f || projectile.timeLeft < fadeOutTime || Dying)
 				{
-					projectile.Kill();
-					return;
+					Dying = true;
+					projectile.velocity *= velocityDecayRate;
+					projectile.alpha = Math.Min(projectile.alpha + (255 / fadeOutTime), 255);
+					if (projectile.alpha >= 255)
+						projectile.Kill();
 				}
 			}
 		}
@@ -125,7 +162,7 @@ namespace SpiritMod.Items.Weapon.Magic.CrystalWindpipe
 
 		public override void Kill(int timeLeft)
 		{
-			for (int index1 = 4; index1 < 31; ++index1)
+			/*for (int index1 = 4; index1 < 31; ++index1)
 			{
 				float num1 = projectile.oldVelocity.X * (20f / index1);
 				float num2 = projectile.oldVelocity.Y * (20f / index1);
@@ -133,25 +170,43 @@ namespace SpiritMod.Items.Weapon.Magic.CrystalWindpipe
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity *= 0.5f;
 				Main.dust[index2].fadeIn *= 0.5f;
-			}
+			}*/
 		}
 
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
-			float scale = projectile.scale;
+			float scale = projectile.scale * projectile.Opacity;
 			Texture2D tex = Main.projectileTexture[projectile.type];
-			Color color = new Color(139, 9, 214) * 0.36f;
+			Color color = new Color(255, 97, 244) * 0.75f * projectile.Opacity;
+			int trailLength = ProjectileID.Sets.TrailCacheLength[projectile.type];
+
+			//Spritebatch trail that lowers in scale with progress
+			for (int i = 0; i < trailLength; i++)
+			{
+				float progress = 1 - (i / (float)trailLength);
+				Vector2 oldPosition = projectile.oldPos[i] + projectile.Size / 2;
+				float opacityMod = 0.75f;
+
+				spriteBatch.Draw(tex, oldPosition - Main.screenPosition, null, color * opacityMod * progress, projectile.rotation,
+					tex.Size() / 2, scale * 1.33f * progress, default, default);
+			}
+
 			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, color, projectile.rotation, tex.Size() / 2, scale * 1.5f, default, default);
 			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, color, projectile.rotation, tex.Size() / 2, scale * 1.33f, default, default);
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void SendExtraAI(BinaryWriter writer)
 		{
-			Vector2 drawPos = projectile.Center - Main.screenPosition;
-			Color color = new Color(Color.Purple.R, Color.Purple.G, Color.Purple.B, 0);
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			spriteBatch.Draw(tex, drawPos, null, color, 0, new Vector2(tex.Width, tex.Height) / 2, projectile.scale, SpriteEffects.None, 0f);
-			return false;
+			writer.Write(Dying);
+			writer.WriteVector2(initialAngle);
+			writer.WriteVector2(initialSpeed);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			Dying = reader.ReadBoolean();
+			initialAngle = reader.ReadVector2();
+			initialSpeed = reader.ReadVector2();
 		}
 	}
 }

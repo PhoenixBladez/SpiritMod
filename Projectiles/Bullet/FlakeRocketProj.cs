@@ -3,7 +3,6 @@ using SpiritMod.Buffs;
 using SpiritMod.Dusts;
 using SpiritMod.Mechanics.Trails;
 using SpiritMod.Particles;
-using SpiritMod.Utilities;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;

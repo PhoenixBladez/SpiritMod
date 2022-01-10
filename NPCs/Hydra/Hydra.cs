@@ -153,6 +153,7 @@ namespace SpiritMod.NPCs.Hydra
 		private int attackCounter;
 
 		private int frameY;
+		private int frameCounter;
 
 		public override void SetStaticDefaults()
 		{
@@ -203,7 +204,10 @@ namespace SpiritMod.NPCs.Hydra
 
 			if (!attacking)
 			{
-				frameY = 0;
+				frameCounter++;
+				if (frameCounter % 5== 0)
+					frameY++;
+				frameY %= numFrames();
 				headRotationOffset = 0f;
 				rotation += rotationSpeed;
 				sway += swaySpeed;
@@ -257,7 +261,8 @@ namespace SpiritMod.NPCs.Hydra
 
 		private void AttackBehavior()
 		{
-			attackCounter++;
+			if (attackCounter++ == 0)
+				frameY = 0;
 			if (attackCounter % 20 == 0)
 				frameY++;
 			frameY %= Main.npcFrameCount[npc.type];
@@ -270,6 +275,7 @@ namespace SpiritMod.NPCs.Hydra
 				LaunchProjectile();
 				attacking = false;
 				attackCounter = 0;
+
 			}
 		}
 
@@ -427,7 +433,12 @@ namespace SpiritMod.NPCs.Hydra
 			float drawRotation = npc.rotation - (npc.direction == -1 ? 3.14f : 0);
 			string colorString = getColor();
 			string texturePath = Texture + colorString;
-			Texture2D headTex = ModContent.GetTexture(texturePath);
+			Texture2D headTex;
+			if (attacking)
+				headTex = ModContent.GetTexture(texturePath);
+			else
+				headTex = ModContent.GetTexture(texturePath + "_Idle");
+			
 			Texture2D neckTex = ModContent.GetTexture(texturePath + "_Neck");
 
 			BezierCurve curve = GetCurve(drawRotation);
@@ -449,7 +460,7 @@ namespace SpiritMod.NPCs.Hydra
 				spriteBatch.Draw(neckTex, position - Main.screenPosition, null, chainLightColor, rotation, origin, scale, npc.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 			}
 
-			int frameHeight = headTex.Height / Main.npcFrameCount[npc.type];
+			int frameHeight = headTex.Height / numFrames();
 			Rectangle frame = new Rectangle(0, frameHeight * frameY, headTex.Width, frameHeight);
 			spriteBatch.Draw(headTex, npc.Center - Main.screenPosition, frame, drawColor, drawRotation, new Vector2(headTex.Width, frameHeight) / 2, npc.scale, npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
 			return false;
@@ -486,6 +497,26 @@ namespace SpiritMod.NPCs.Hydra
 					return "_Purple";
 				default:
 					return "_Red";
+			}
+		}
+
+		private int numFrames()
+		{
+			if (attacking)
+				return 3;
+			else
+			{
+				switch (getColor())
+				{
+					case "_Red":
+						return 13;
+					case "_Green":
+						return 13;
+					case "_Purple":
+						return 23;
+					default:
+						return 13;
+				}
 			}
 		}
 	}

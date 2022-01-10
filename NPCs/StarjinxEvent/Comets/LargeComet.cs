@@ -51,7 +51,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 					{
 						var offset = new Vector2(i == 0 ? -300 : 300, -300);
 
-						SpawnSpawnerProjectile(ModContent.NPCType<MeteorMagus>(), offset);
+						SpawnSpawnerProjectile(ModContent.NPCType<MeteorMagus_NPC>(), offset);
 						SpawnSpawnerProjectile(ModContent.NPCType<Pathfinder>(), offset);
 					}
 					SpawnSpawnerProjectile(ModContent.NPCType<Starachnid>());

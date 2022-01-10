@@ -4,7 +4,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Utilities;
 using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod.NPCs.Boss.ReachBoss

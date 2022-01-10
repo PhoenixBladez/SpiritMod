@@ -22,7 +22,15 @@ namespace SpiritMod.Items.Accessory.OpalFrog
 		{
 			item.Size = new Vector2(40, 34);
 			item.value = Item.sellPrice(gold: 8);
-			item.rare = ItemRarityID.LightPurple;
+			item.useStyle = ItemUseStyleID.SwingThrow;
+			item.value = 550;
+			item.rare = ItemRarityID.LightRed;
+			item.createTile = ModContent.TileType<OpalFrog_Tile>();
+			item.maxStack = 999;
+			item.autoReuse = true;
+			item.consumable = true;
+			item.useAnimation = 15;
+			item.useTime = 10;
 			item.accessory = true;
 		}
 

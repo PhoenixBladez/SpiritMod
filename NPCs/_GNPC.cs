@@ -1062,7 +1062,6 @@ namespace SpiritMod.NPCs
 			DropLoot(50, 50, ItemType<EngineeringRod>(), npc, NPCID.GrayGrunt, NPCID.RayGunner, NPCID.BrainScrambler);
 			DropLoot(5, 5, ItemType<Items.Sets.BowsMisc.Eyeshot.Eyeshot>(), npc, NPCID.EyeofCthulhu);
 			DropLoot(2, 2, ItemType<Martian>(), npc, NPCID.MartianSaucer);
-			DropLoot(24, 24, ItemType<Items.Accessory.Crystal>(), npc, NPCID.ChaosElemental);
 			DropLoot(1, 1, Main.rand.NextBool(2) ? ItemType<Ancient>() : ItemType<CultistScarf>(), npc, NPCID.CultistBoss);
 			DropLoot(50, 50, ItemType<IchorPendant>(), npc, NPCID.IchorSticker);
 			DropLoot(1, 1, ItemType<Typhoon>(), npc, NPCID.DukeFishron);
@@ -1074,6 +1073,7 @@ namespace SpiritMod.NPCs
 			DropLoot(1, 1, ItemType<PirateKey>(), npc, NPCID.PirateShip);
 			DropLoot(6, 6, ItemType<Items.Sets.SummonsMisc.SanguineFlayer.SanguineFlayerItem>(), npc, NPCID.BigMimicCrimson);
 			DropLoot(6, 6, ItemType<Items.Accessory.OpalFrog.OpalFrogItem>(), npc, NPCID.BigMimicHallow);
+			DropLoot(15, 15, ItemType<Items.Sets.SwordsMisc.CurseBreaker.CurseBreaker>(), npc, NPCID.RedDevil);
 		}
 
 		/// <summary>Drops an item given the specific conditions.</summary>

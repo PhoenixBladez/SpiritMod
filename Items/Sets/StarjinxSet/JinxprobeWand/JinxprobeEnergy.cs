@@ -7,7 +7,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Prim;
-using SpiritMod.Utilities;
 using SpiritMod;
 using SpiritMod.Projectiles;
 using SpiritMod.Mechanics.Trails;

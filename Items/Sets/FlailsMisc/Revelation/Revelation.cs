@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.Graphics.Shaders;
-using SpiritMod.Utilities;
 using Terraria.ModLoader;
 using SpiritMod.Particles;
 using SpiritMod.Mechanics.Trails;

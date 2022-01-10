@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Utilities;
 using System;
 using SpiritMod.Particles;
 using Terraria;
@@ -14,7 +13,7 @@ using SpiritMod.Mechanics.Trails.CustomTrails;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 {
-    public class StarfireProj : ModProjectile, IDrawAdditive, ITrailProjectile
+	public class StarfireProj : ModProjectile, IDrawAdditive, ITrailProjectile
 	{
 		public override string Texture => "Terraria/Projectile_1";
 		public override void SetStaticDefaults()

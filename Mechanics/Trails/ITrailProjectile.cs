@@ -1,6 +1,4 @@
-﻿using SpiritMod.Mechanics.Trails;
-
-namespace SpiritMod.Utilities
+﻿namespace SpiritMod.Mechanics.Trails
 {
 	/// <summary>
 	/// More specific use case trail projectile interface that doesn't have automatic trail spawning, used mainly to handle net syncing

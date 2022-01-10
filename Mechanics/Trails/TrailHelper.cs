@@ -10,14 +10,14 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Sets.StarjinxSet.Sagittarius;
-using SpiritMod.Utilities;
 
 namespace SpiritMod.Mechanics.Trails
 {
 	public enum TrailLayer
 	{
 		UnderProjectile,
-		UnderCachedProjsBehindNPC
+		UnderCachedProjsBehindNPC,
+		AboveProjectile
 	}
 
 	public class TrailManager
