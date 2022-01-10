@@ -217,8 +217,9 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 
 
 			projectile.scale = 1.5f - (Math.Abs(0.5f - progress));
+
 			if (Empowered)
-				projectile.scale = (((projectile.scale - 1) * 2) + 1);
+				projectile.scale = (((projectile.scale - 1) * 1.66f) + 1);
 
 			rotation = projectile.rotation + MathHelper.Lerp(SwingRadians / 2 * SwingDirection, -SwingRadians / 2 * SwingDirection, progress);
 
@@ -305,7 +306,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 				if (!cursed)
 				{
 					cursed = true;
-					cursedTimer = 10;
+					cursedTimer = 8;
 				}
 			}
 		}
