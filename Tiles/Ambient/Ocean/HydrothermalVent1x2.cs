@@ -6,8 +6,6 @@ using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using System;
-using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod.Tiles.Ambient.Ocean
 {
@@ -74,6 +72,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			name.SetDefault("Hydrothermal Vent");
 			AddMapEntry(new Color(64, 54, 66), name);
 		}
+
 		public override bool NewRightClick(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
@@ -81,21 +80,19 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 				HitWire(i, j);
 			return true;
 		}
+
 		public sealed override void HitWire(int i, int j)
 		{
 			if (Wiring.CheckMech(i, j, 7200))
 			{
 				for (int k = 0; k <= 20; k++)
-				{
-					Dust.NewDustPerfect(new Vector2(i * 16, j * 16 - 18), DustType<Dusts.BoneDust>(), new Vector2(0, 6).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1));
-				}
+					Dust.NewDustPerfect(new Vector2(i * 16, j * 16 - 18), ModContent.DustType<Dusts.BoneDust>(), new Vector2(0, 6).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1));
 				for (int k = 0; k <= 20; k++)
-				{
-					Dust.NewDustPerfect(new Vector2(i * 16, j * 16 - 18), DustType<Dusts.FireClubDust>(), new Vector2(0, 6).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1));
-				}
-				int a = Projectile.NewProjectile(i * 16, j * 16 - 36, 0, -4, ModContent.ProjectileType<Projectiles.HydrothermalVentPlume>(), 5, 0f);
+					Dust.NewDustPerfect(new Vector2(i * 16, j * 16 - 18), ModContent.DustType<Dusts.FireClubDust>(), new Vector2(0, 6).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1));
+				Projectile.NewProjectile(i * 16, j * 16 - 36, 0, -4, ModContent.ProjectileType<Projectiles.HydrothermalVentPlume>(), 5, 0f);
 			}
 		}
+
 		public sealed override void MouseOver(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
@@ -103,6 +100,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			player.showItemIcon = true;
 			player.showItemIcon2 = ModContent.ItemType<SmallVentItem>();
 		}
+
 		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 		public override void SetSpriteEffects(int i, int j, ref SpriteEffects spriteEffects) => spriteEffects = (i % 2 == 0) ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
@@ -150,16 +148,13 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 					if (!Framing.GetTileSafely(i + 1, j).active() && !Framing.GetTileSafely(i - 1, j).active())
 					{
 						if (Main.rand.NextBool(85))
-						{
 							if (NPC.MechSpawn((float)i * 16, (float)j * 16, ModContent.NPCType<NPCs.Critters.TubeWorm>()))
 								npcIndex2 = NPC.NewNPC(i * 16, j * 16, ModContent.NPCType<NPCs.Critters.TubeWorm>());
-						}
 					}
 					if (npcIndex2 >= 0)
 					{
 						Main.npc[npcIndex2].value = 0f;
 						Main.npc[npcIndex2].npcSlots = 0f;
-
 					}
 				}
 			}
@@ -169,8 +164,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 		{
 			if (Main.rand.NextBool(16))
 			{
-				int type = 99;
-				Gore.NewGorePerfect(pos, new Vector2(0, Main.rand.NextFloat(-2.2f, -1.5f)), type, Main.rand.NextFloat(0.5f, 0.8f));
+				Gore.NewGorePerfect(pos, new Vector2(0, Main.rand.NextFloat(-2.2f, -1.5f)), 99, Main.rand.NextFloat(0.5f, 0.8f));
 			}
 		}
 	}
