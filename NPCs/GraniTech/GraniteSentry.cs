@@ -59,13 +59,16 @@ namespace SpiritMod.NPCs.GraniTech
             npc.lifeMax = 1800; // <--
             npc.noGravity = true;
             npc.noTileCollide = true;
-            npc.value = 00000800;
+            npc.value = 800;
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             npc.DeathSound = SoundID.NPCDeath37;
             npc.HitSound = SoundID.NPCHit4;
-
-            Main.npcFrameCount[npc.type] = 3;
+			for (int k = 0; k < npc.buffImmune.Length; k++)
+			{
+				npc.buffImmune[k] = true;
+			}
+			Main.npcFrameCount[npc.type] = 3;
         }
 
         private const int GroundDistance = 80; //Distance it'll scan to look for a valid wall
