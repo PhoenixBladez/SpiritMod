@@ -45,7 +45,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Oracle");
-			Main.npcFrameCount[npc.type] = 4;
+			Main.npcFrameCount[npc.type] = 8;
 		}
 
 		public override void SetDefaults()
@@ -79,7 +79,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 		{
 			const float MoveSpeed = 1f;
 
-			if (IsBeingTalkedTo())
+			if (IsBeingTalkedTo() || AttackTimer > 5)
 			{
 				npc.velocity.X *= 0.96f;
 				movementTimer = 50;
@@ -311,6 +311,11 @@ namespace SpiritMod.NPCs.Town.Oracle
 
 		public override void FindFrame(int frameHeight)
 		{
+			if (AttackTimer > 5 && npc.frame.Y < 200)
+				npc.frame.Y = 200;
+			else if (AttackTimer <= 5 && npc.frame.Y >= 200)
+				npc.frame.Y = 0;
+
 			npc.frameCounter += 6;
 			if (AttackTimer > 2)
 				npc.frameCounter += 2;
@@ -318,8 +323,10 @@ namespace SpiritMod.NPCs.Town.Oracle
 			if (npc.frameCounter > 42)
 			{
 				npc.frame.Y += frameHeight;
-				if (npc.frame.Y >= frameHeight * 4)
-					npc.frame.Y = 0;
+
+				int max = AttackTimer > 5 ? 8 : 4;
+				if (npc.frame.Y >= frameHeight * max)
+					npc.frame.Y = frameHeight * (max - 4);
 
 				npc.frameCounter = 0;
 			}
