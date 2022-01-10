@@ -103,29 +103,25 @@ namespace SpiritMod.NPCs.Town.Oracle
 
 				if (Teleport == 50)
 				{
+					const float SwirlSize = 1.664f;
+					const float Degrees = 2.5f;
+
 					npc.Center = new Vector2(TeleportX, TeleportY);
 					npc.alpha = 0;
-					float swirlSize = 1.664f;
-					float degrees = 0;
-					float Closeness = 50f;
-					degrees += 2.5f;
-					for (float swirlDegrees = degrees; swirlDegrees < 160 + degrees; swirlDegrees += 7f)
-					{
-						Closeness -= swirlSize; //It closes in
-						double radians = swirlDegrees * (Math.PI / 180); //convert to radians
 
-						Vector2 eastPosFar = npc.Center + new Vector2(Closeness * (float)Math.Sin(radians), Closeness * (float)Math.Cos(radians));
-						Vector2 westPosFar = npc.Center - new Vector2(Closeness * (float)Math.Sin(radians), Closeness * (float)Math.Cos(radians));
-						Vector2 northPosFar = npc.Center + new Vector2(Closeness * (float)Math.Sin(radians + 1.57), Closeness * (float)Math.Cos(radians + 1.57));
-						Vector2 southPosFar = npc.Center - new Vector2(Closeness * (float)Math.Sin(radians + 1.57), Closeness * (float)Math.Cos(radians + 1.57));
-						int d4 = Dust.NewDust(eastPosFar, 2, 2, DustID.GoldCoin, 0, 0);
-						Main.dust[d4].noGravity = true;
-						int d5 = Dust.NewDust(westPosFar, 2, 2, DustID.GoldCoin, 0, 0);
-						Main.dust[d5].noGravity = true;
-						int d6 = Dust.NewDust(northPosFar, 2, 2, DustID.GoldCoin, 0, 0);
-						Main.dust[d6].noGravity = true;
-						int d7 = Dust.NewDust(southPosFar, 2, 2, DustID.GoldCoin, 0, 0);
-						Main.dust[d7].noGravity = true;
+					float Closeness = 50f;
+
+					for (float swirlDegrees = Degrees; swirlDegrees < 160 + Degrees; swirlDegrees += 7f)
+					{
+						Closeness -= SwirlSize; //It closes in
+						double radians = MathHelper.ToRadians(swirlDegrees);
+
+						for (int i = 0; i < 4; ++i) //Spawn dust
+						{
+							Vector2 offset = new Vector2(Closeness).RotatedBy(radians + (MathHelper.PiOver2 * i));
+							int d = Dust.NewDust(npc.Center + offset, 2, 2, DustID.GoldCoin, 0, 0);
+							Main.dust[d].noGravity = true;
+						}
 					}
 					Main.PlaySound(SoundID.DD2_DarkMageCastHeal, npc.Center);
 				}
