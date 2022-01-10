@@ -205,7 +205,7 @@ namespace SpiritMod.NPCs.Hydra
 			if (!attacking)
 			{
 				frameCounter++;
-				if (frameCounter % 4== 0)
+				if (frameCounter % 5== 0)
 					frameY++;
 				frameY %= numFrames();
 				headRotationOffset = 0f;
