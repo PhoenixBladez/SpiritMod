@@ -58,7 +58,6 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 		public override void SetDefaults()
 		{
 			projectile.penetrate = -1;
-			projectile.tileCollide = false;
 			projectile.hostile = false;
 			projectile.friendly = false;
 			projectile.width = projectile.height = 32;
@@ -68,6 +67,16 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 
 		private ref float Timer => ref projectile.ai[0];
 
+		public override bool OnTileCollide(Vector2 oldVelocity)
+		{
+			if (Timer < ACTIVATION_TIME)
+			{
+				Timer = ACTIVATION_TIME;
+				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 92).WithPitchVariance(0.2f), projectile.Center);
+				projectile.velocity = Vector2.Zero;
+			}
+			return false;
+		}
 		public override void AI()
 		{
 			++Timer;
@@ -83,6 +92,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 				//Ease rotation through multiple circles based on progress, in direction of movement
 				int numFullRotations = 3;
 				projectile.rotation = numFullRotations * MathHelper.TwoPi * EaseFunction.EaseQuadOut.Ease(progress) * (Math.Sign(projectile.velocity.X) > 0 ? 1 : -1);
+				projectile.rotation %= 6.28f;
 			}
 
 			else
@@ -93,6 +103,12 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 				projectile.velocity = Vector2.Zero;
 				projectile.frameCounter++;
 				projectile.UpdateFrame(12, 7);
+
+				float rotationOffset = DamageAura ? 0 : (float)Math.Sin(projectile.frameCounter * 0.5f) * MathHelper.Lerp(0.05f, 0.02f, projectile.frameCounter / 25f);
+
+				float rotDifference = ((((0f - projectile.rotation) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
+
+				projectile.rotation = MathHelper.Lerp(projectile.rotation, projectile.rotation + rotDifference, 0.2f) + rotationOffset;
 			}
 
 			if (DamageAura)
@@ -112,6 +128,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 					}
 				}
 			}
+			else
 
 			if (DamageAura && CheckHit() && projectile.timeLeft > DESPAWN_TIME)
 			{
