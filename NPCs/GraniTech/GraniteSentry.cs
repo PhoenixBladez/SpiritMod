@@ -17,12 +17,12 @@ using System.IO;
 
 namespace SpiritMod.NPCs.GraniTech
 {
-    class GraniteSentry : ModNPC
-    {
-        public float BaseState { get => npc.ai[0]; private set => npc.ai[0] = value; }
-        private float scanTimer = 0;
+	class GraniteSentry : ModNPC
+	{
+		public float BaseState { get => npc.ai[0]; private set => npc.ai[0] = value; }
+
 		private bool _firing;
-        private bool Firing
+		private bool Firing
 		{
 			get => _firing;
 			set
@@ -34,72 +34,69 @@ namespace SpiritMod.NPCs.GraniTech
 			}
 		}
 
-        private Vector2 laserEdge = Vector2.Zero;
-        private Vector2 laserOrigin = Vector2.Zero;
-        private float chargeUp = 0;
-        private float recoil = 0;
+		private Vector2 laserEdge = Vector2.Zero;
+		private Vector2 laserOrigin = Vector2.Zero;
+		private float chargeUp = 0;
+		private float recoil = 0;
+		private float scanTimer = 0;
 
 		private const int STATE_SPAWNING = 0;
 		private const int STATE_ABOVE = 1;
 		private const int STATE_BELOW = 2;
+		private const int STATE_FALLING = 3;
 
 		private const int FIRING_CHARGE_TIME = 20;
 		private const int FIRING_SHOOT_TIME = 6;
 
-		private List<(float, int)> laserRotations = new List<(float,int)>();
+		private List<(float, int)> laserRotations = new List<(float, int)>();
 
-		public override void SetStaticDefaults() => DisplayName.SetDefault("GraniTec Turret");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("GraniTec Turret");
+			Main.npcFrameCount[npc.type] = 3;
+		}
 
 		public override void SetDefaults()
-        {
-            npc.width = 44; //Stats placeholder -->
-            npc.height = 46;
-            npc.damage = 60;
-            npc.defense = 24;
-            npc.lifeMax = 1800; // <--
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.value = 800;
-            npc.knockBackResist = 0f;
-            npc.aiStyle = -1;
-            npc.DeathSound = SoundID.NPCDeath37;
-            npc.HitSound = SoundID.NPCHit4;
+		{
+			npc.width = 44; //Stats placeholder -->
+			npc.height = 46;
+			npc.damage = 60;
+			npc.defense = 24;
+			npc.lifeMax = 1800; // <--
+			npc.noGravity = true;
+			npc.noTileCollide = true;
+			npc.value = 800;
+			npc.knockBackResist = 0f;
+			npc.aiStyle = -1;
+			npc.DeathSound = SoundID.NPCDeath37;
+			npc.HitSound = SoundID.NPCHit4;
+
 			for (int k = 0; k < npc.buffImmune.Length; k++)
-			{
 				npc.buffImmune[k] = true;
-			}
-			Main.npcFrameCount[npc.type] = 3;
-        }
+		}
 
-        private const int GroundDistance = 80; //Distance it'll scan to look for a valid wall
+		private const int GroundDistance = 80; //Distance it'll scan to look for a valid wall
 
-        public override void AI()
-        {
+		public override void AI()
+		{
 			if (BaseState == STATE_SPAWNING)
 				Spawn();
-
-			else
+			else if (BaseState != STATE_FALLING)
 			{
 				if (chargeUp <= 6)
 					scanTimer += 0.01f;
 
 				if (!Firing)
 					ScanningAI();
-
 				else
 					FiringAI();
 
-				switch (BaseState)
-				{
-					case 1: //above
-						laserOrigin = npc.Center - new Vector2(0, 6);
-						npc.rotation = (float)(Math.Sin(scanTimer + recoil) * MathHelper.PiOver2) - MathHelper.PiOver2;
-						break;
-					case 2: //below
-						laserOrigin = npc.Center - new Vector2(0, 6);
-						npc.rotation = (float)(Math.Sin(scanTimer + recoil) * MathHelper.PiOver2) + MathHelper.PiOver2;
-						break;
-				}
+				laserOrigin = npc.Center - new Vector2(0, 6);
+
+				if (BaseState == STATE_ABOVE)
+					npc.rotation = (float)(Math.Sin(scanTimer + recoil) * MathHelper.PiOver2) - MathHelper.PiOver2;
+				else
+					npc.rotation = (float)(Math.Sin(scanTimer + recoil) * MathHelper.PiOver2) + MathHelper.PiOver2;
 
 				for (int i = 0; i < 1600; i += 8)
 				{
@@ -111,35 +108,55 @@ namespace SpiritMod.NPCs.GraniTech
 					}
 				}
 			}
-        }
+			else
+			{
+				if (chargeUp <= 6)
+					scanTimer += 0.02f;
+
+				npc.velocity.Y += 0.2f;
+				npc.noTileCollide = false;
+				npc.rotation = (float)(Math.Sin(scanTimer + recoil) * MathHelper.PiOver2) - MathHelper.PiOver2;
+
+				if (npc.collideY)
+					npc.StrikeNPCNoInteraction(npc.life + 20, 0f, 0, true, false);
+			}
+		}
 
 		private void Spawn()
 		{
 			//lets hit that fat scan
-			bool[] validGrounds = new bool[4] { false, false, false, false };
-			for(int j = -1; j <= 1; j += 2)
-			{
-				int arrayPos = (j == -1) ? 0 : 1;
-				Point tilePos = npc.position.ToTileCoordinates();
-				int dist = GroundDistance * j;
-				for (int i = tilePos.Y; i < tilePos.Y + dist; i += j) //above and below
-					if (Framing.GetTileSafely(tilePos.X, i).active() && Main.tileSolid[Framing.GetTileSafely(tilePos.X, i).type])
-						validGrounds[arrayPos] = true;
+			bool[] validGrounds = new bool[2] { false, false };
 
-				for (int i = tilePos.X; i > tilePos.X + dist; i += j) //left and right
-					if (Framing.GetTileSafely(i, tilePos.Y).active() && Main.tileSolid[Framing.GetTileSafely(i, tilePos.Y).type])
-						validGrounds[arrayPos + 2] = true;
-			}
+			//for (int j = -1; j <= 1; j += 2)
+			//{
+			//	int arrayPos = (j == -1) ? 0 : 1;
+			//	Point tilePos = npc.position.ToTileCoordinates();
+			//	int dist = GroundDistance * j;
 
-			int index;
-			int safety = 0;
+			//	for (int i = tilePos.Y; i < tilePos.Y + dist; i += j) //above and below
+			//		if (Framing.GetTileSafely(tilePos.X, i).active() && Main.tileSolid[Framing.GetTileSafely(tilePos.X, i).type])
+			//			validGrounds[arrayPos] = true;
+			//}
+
+			Point tilePos = npc.position.ToTileCoordinates();
+
+			for (int j = tilePos.Y; j < tilePos.Y + GroundDistance; j++) //below
+				if (Framing.GetTileSafely(tilePos.X, j).active() && Main.tileSolid[Framing.GetTileSafely(tilePos.X, j).type])
+					validGrounds[1] = true;
+
+			for (int j = tilePos.Y; j > tilePos.Y - GroundDistance; j--) //above
+				if (Framing.GetTileSafely(tilePos.X, j).active() && Main.tileSolid[Framing.GetTileSafely(tilePos.X, j).type])
+					validGrounds[0] = true;
 
 			if (!validGrounds.Any(x => x))
 				npc.active = false; //Delete me if I don't have anchoring
 
+			int index;
+			int safety = 0;
+
 			do //Choose a random placement
 			{
-				index = Main.rand.Next(2);
+				index = Main.rand.Next(validGrounds.Length);
 				safety++;
 			} while (validGrounds[index] && safety < 100);
 
@@ -158,7 +175,6 @@ namespace SpiritMod.NPCs.GraniTech
 						}
 					}
 					break;
-
 				case STATE_BELOW:
 					for (int i = (int)(npc.position.Y / 16f); i < (int)(npc.position.Y / 16f) + GroundDistance; ++i) //below
 					{
@@ -169,8 +185,8 @@ namespace SpiritMod.NPCs.GraniTech
 						}
 					}
 					break;
-
-				default: break;
+				default:
+					break;
 			}
 			npc.netUpdate = true;
 		}
@@ -190,6 +206,14 @@ namespace SpiritMod.NPCs.GraniTech
 
 			chargeUp = 0;
 			ScanPlayers();
+
+			if (BaseState == STATE_ABOVE)
+			{
+				Point tPos = npc.Top.ToTileCoordinates();
+				Tile anchor = Framing.GetTileSafely(tPos.X, tPos.Y - 1);
+				if (!anchor.active())
+					BaseState = STATE_FALLING;
+			}
 		}
 
 		private void FiringAI()
@@ -290,33 +314,35 @@ namespace SpiritMod.NPCs.GraniTech
 		}
 
 		public override void NPCLoot()
-        {
-			for(int i = 1; i <= 2; i++)
+		{
+			for (int i = 1; i <= 2; i++)
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot($"Gores/GraniTech/GraniteSentryGore{i}"), 1f);
-        }
+		}
 
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			int x = spawnInfo.spawnTileX;
 			int y = spawnInfo.spawnTileY;
-			int tile = (int)Main.tile[x, y].type;
+			int tile = Main.tile[x, y].type;
 			return (tile == 368) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.06f : 0f;
-
 		}
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-			DrawLaser(spriteBatch);
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			if (BaseState != STATE_FALLING)
+				DrawLaser(spriteBatch);
+
 			Texture2D npcGlow = ModContent.GetTexture(Texture + "_glow");
 			Vector2 realPos = npc.position - Main.screenPosition;
 			Vector2 offset;
 			Rectangle baseRect = new Rectangle(0, 32, 44, 18);
 			float baseRotation;
-            if (BaseState == STATE_ABOVE) //On ceiling
+
+			if (BaseState == STATE_ABOVE || BaseState == STATE_FALLING) //On ceiling
 			{
 				offset = new Vector2(44, 2);
 				baseRotation = MathHelper.Pi;
 			}
-
 			else //On ground
 			{
 				offset = new Vector2(0, 24);
@@ -330,16 +356,16 @@ namespace SpiritMod.NPCs.GraniTech
 			});
 
 			float rot = npc.rotation; //Rotation
-            SpriteEffects s = SpriteEffects.None;
+			SpriteEffects s = SpriteEffects.None;
 
-            if (BaseState == 1) s = SpriteEffects.FlipVertically;
+			if (BaseState == 1) s = SpriteEffects.FlipVertically;
 
-            if (rot > Math.PI / 2f && rot < (Math.PI * 2) - (Math.PI / 2)) //Face the right direction
-            {
-                rot -= (float)Math.PI;
-                s = SpriteEffects.FlipHorizontally;
-                if (BaseState == 1) s = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
-            }
+			if (rot > Math.PI / 2f && rot < (Math.PI * 2) - (Math.PI / 2)) //Face the right direction
+			{
+				rot -= (float)Math.PI;
+				s = SpriteEffects.FlipHorizontally;
+				if (BaseState == 1) s = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
+			}
 
 			Vector2 topOffset = new Vector2(22, 15);
 			Rectangle topRect = new Rectangle(0, 0, 44, 30);
@@ -350,9 +376,8 @@ namespace SpiritMod.NPCs.GraniTech
 			{
 				spriteBatch.Draw(npcGlow, realPos + topOffset + aberrationOffset, topRect, Color.White.MultiplyRGBA(colorMod), rot, topOrigin, npc.scale, s, 0f);
 			});
-
 			return false;
-        }
+		}
 
 		private void DrawLaser(SpriteBatch spriteBatch)
 		{
@@ -371,6 +396,7 @@ namespace SpiritMod.NPCs.GraniTech
 			Vector2 delta = laserEdge - laserOrigin;
 			float length = delta.Length();
 			float rotation = delta.ToRotation();
+
 			if (chargeUp < FIRING_CHARGE_TIME)
 			{
 				float progress = chargeUp / FIRING_CHARGE_TIME;
@@ -391,7 +417,6 @@ namespace SpiritMod.NPCs.GraniTech
 					if (rotDifference > 0)
 						for (float k = 0; k <= rotDifference; k += step)
 							DrawLaserIndividual(laserColor, opacity, k, oldRot, rotDifference, oldLength, (int)length);
-
 					else
 						for (float k = rotDifference; k <= 0; k -= step)
 							DrawLaserIndividual(laserColor, opacity, k, oldRot, rotDifference, oldLength, (int)length);
@@ -401,13 +426,14 @@ namespace SpiritMod.NPCs.GraniTech
 				spriteBatch.Draw(Main.magicPixel, laserOrigin - Main.screenPosition, new Rectangle(0, 0, 1, 1), laserColor, rotation, new Vector2(0f, 1f), new Vector2(length, 3 - (chargeUp / 24f)), SpriteEffects.None, 0f);
 			}
 		}
-    }
+	}
 
-    public class GraniteSentryBolt : ModProjectile, IDrawAdditive
+	public class GraniteSentryBolt : ModProjectile, IDrawAdditive
 	{
 		private readonly Color lightCyan = new Color(99, 255, 229);
-		private readonly Color midBlue = new Color(25, 132, 247); 
+		private readonly Color midBlue = new Color(25, 132, 247);
 		private readonly Color darkBlue = new Color(20, 8, 189);
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Laser Bolt");
@@ -434,10 +460,10 @@ namespace SpiritMod.NPCs.GraniTech
 			if (glow == 0)
 			{
 				for (int i = 0; i < 12; i++)
-					ParticleHandler.SpawnParticle(new GranitechParticle(projectile.Center + projectile.velocity, 
-						projectile.velocity.RotatedByRandom(MathHelper.Pi / 5) * Main.rand.NextFloat(0.66f), Main.rand.NextBool() ? lightCyan : midBlue, 
+					ParticleHandler.SpawnParticle(new GranitechParticle(projectile.Center + projectile.velocity,
+						projectile.velocity.RotatedByRandom(MathHelper.Pi / 5) * Main.rand.NextFloat(0.66f), Main.rand.NextBool() ? lightCyan : midBlue,
 						Main.rand.NextFloat(1f, 1.25f), 20));
-				
+
 				glow = Main.rand.NextFloat();
 			}
 			projectile.rotation = projectile.velocity.ToRotation() + 3.14f;
@@ -448,21 +474,21 @@ namespace SpiritMod.NPCs.GraniTech
 			Texture2D projTex = Main.projectileTexture[projectile.type];
 			int trailLength = ProjectileID.Sets.TrailCacheLength[projectile.type];
 
-			DrawAberration.DrawChromaticAberration(Vector2.Normalize(projectile.velocity), 2f, delegate(Vector2 offset, Color colorMod)
+			DrawAberration.DrawChromaticAberration(Vector2.Normalize(projectile.velocity), 2f, delegate (Vector2 offset, Color colorMod)
 			{
 				Color color = lightCyan.MultiplyRGB(colorMod);
-				for(int i = 0; i < trailLength; i++)
+				for (int i = 0; i < trailLength; i++)
 				{
 					float progress = i / (float)trailLength;
 					float opacity = 1 - progress;
 					opacity *= 0.66f;
-					Color trailColor = Color.Lerp(midBlue, darkBlue, progress);
+					var trailColor = Color.Lerp(midBlue, darkBlue, progress);
 
-					spriteBatch.Draw(projTex, projectile.oldPos[i] + (projectile.Size/2) + offset - Main.screenPosition, null, trailColor * opacity,
+					spriteBatch.Draw(projTex, projectile.oldPos[i] + (projectile.Size / 2) + offset - Main.screenPosition, null, trailColor * opacity,
 						projectile.velocity.ToRotation(), projTex.Size() / 2, projectile.scale, SpriteEffects.None, 0);
 				};
 
-				spriteBatch.Draw(projTex, projectile.Center + offset - Main.screenPosition, null, color, 
+				spriteBatch.Draw(projTex, projectile.Center + offset - Main.screenPosition, null, color,
 					projectile.velocity.ToRotation(), projTex.Size() / 2, projectile.scale, SpriteEffects.None, 0);
 			});
 		}
@@ -470,7 +496,7 @@ namespace SpiritMod.NPCs.GraniTech
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 14; i++)
-				ParticleHandler.SpawnParticle(new GranitechParticle(projectile.Center, projectile.oldVelocity.RotatedByRandom(MathHelper.Pi / 12) * Main.rand.NextFloat(0.66f), 
+				ParticleHandler.SpawnParticle(new GranitechParticle(projectile.Center, projectile.oldVelocity.RotatedByRandom(MathHelper.Pi / 12) * Main.rand.NextFloat(0.66f),
 					Main.rand.NextBool() ? lightCyan : midBlue, Main.rand.NextFloat(1f, 1.25f), 20));
 		}
 
