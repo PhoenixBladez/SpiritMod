@@ -68,7 +68,6 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 			projectile.tileCollide = false;
 			projectile.hostile = false;
 			projectile.friendly = false;
-			projectile.hide = true;
 			projectile.ignoreWater = true;
 		}
 
@@ -196,14 +195,15 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 			}
 		}
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Texture2D tex = Main.projectileTexture[projectile.type];
 
-			Texture2D tex2 = ModContent.GetTexture(Texture + "_White");
-
 			if (swinging)
 			{
+				spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+
+				List<PrimitiveSlashArc> slashArcs = new List<PrimitiveSlashArc>();
 				Effect effect = mod.GetEffect("Effects/NemesisBoonShader");
 				effect.Parameters["white"].SetValue(Color.White.ToVector4());
 				effect.Parameters["opacity"].SetValue(1);
@@ -215,10 +215,22 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 					AngleRange = new Vector2(SWINGROTATION * Math.Sign(swingSpeed), -SWINGROTATION * Math.Sign(swingSpeed)),
 					DirectionUnit = swingDirection,
 					Color = Color.Cyan * projectile.velocity.Length() * 0.2f,
-					SlashProgress = Math.Sign(swingSpeed) == 1 ? slashProgress: 1 - slashProgress
+					SlashProgress = Math.Sign(swingSpeed) == 1 ? slashProgress : 1 - slashProgress
 				};
-				PrimitiveRenderer.DrawPrimitiveShape(slash, effect);
+				slashArcs.Add(slash);
+				PrimitiveRenderer.DrawPrimitiveShapeBatched(slashArcs.ToArray(), effect);
+
+				spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 			}
+
+			return false;
+		}
+
+		public void AdditiveCall(SpriteBatch spriteBatch)
+		{
+			Texture2D tex = Main.projectileTexture[projectile.type];
+
+			Texture2D tex2 = ModContent.GetTexture(Texture + "_White");
 
 			DrawSword(spriteBatch, tex, 1, 1);
 

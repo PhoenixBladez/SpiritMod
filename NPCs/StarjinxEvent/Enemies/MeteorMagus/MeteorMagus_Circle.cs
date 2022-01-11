@@ -85,9 +85,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			Texture2D bloom = SpiritMod.Instance.GetTexture("Effects/Masks/CircleGradient");
 			Vector2 drawCenter = Position - Main.screenPosition;
 			Vector2 bloomScale = new Vector2(Scale, Scale * (1 - _zRotation));
-			bloomScale *= 1.5f;
+			bloomScale *= 2.5f;
 			Rectangle destRect = new Rectangle((int)(drawCenter.X - (bloomScale.X / 2)), (int)(drawCenter.Y - (bloomScale.Y / 2)), (int)bloomScale.X, (int)bloomScale.Y);
-			spriteBatch.Draw(bloom, destRect, Color.Lerp(Color, Color.White, 0.5f) * _opacity * 0.75f);
+			spriteBatch.Draw(bloom, destRect, Color.Lerp(Color, Color.White, 0.25f) * _opacity * 0.4f);
 
 			//Draw the circle itself
 			Effect effect = SpiritMod.Instance.GetEffect("Effects/MagicCircle");
@@ -102,7 +102,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			{
 				primList.Add(new SquarePrimitive
 				{
-					Color = additiveColor * _opacity * bloomOpacity * 0.15f,
+					Color = additiveColor * _opacity * bloomOpacity * 0.25f,
 					Height = Scale,
 					Length = Scale * (1 - _zRotation),
 					Position = Position - Main.screenPosition + posOffset,
