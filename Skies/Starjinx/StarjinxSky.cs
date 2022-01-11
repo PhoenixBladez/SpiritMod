@@ -107,7 +107,7 @@ namespace SpiritMod.Skies.Starjinx
 				Time += (float)Main.dayLength;
 
 			float value = Time / (float)(Main.dayLength + Main.nightLength);
-			value = MathHelper.Clamp((float)-Math.Sin(-(MathHelper.Pi / 8) + (value * MathHelper.TwoPi)), 0.25f, 0.36f);
+			value = MathHelper.Clamp((float)-Math.Sin(-(MathHelper.Pi / 8) + (value * MathHelper.TwoPi)), 0.25f, 0.34f);
 			return value;
 		}
 

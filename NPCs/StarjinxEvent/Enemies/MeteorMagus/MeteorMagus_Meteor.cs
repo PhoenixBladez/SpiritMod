@@ -13,63 +13,64 @@ using SpiritMod.Mechanics.Trails.CustomTrails;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 {
-	public class MeteorMagus_Meteor : ModProjectile, ITrailProjectile, IDrawAdditive
+	public class MeteorMagus_Meteor : ModProjectile, IManualTrailProjectile, IDrawAdditive
 	{
-		private const float GRAVITY = 0.3f;
-		private const float PRE_LAUNCH_TIME = 30;
+		private const int TELEGRAPH_TIME = 0; //Time for the projectile's path to be fully telegraphed, and the minimum time for the projectile to fall downwards
+
+		private static Color Yellow = new Color(242, 240, 134);
+		private static Color Orange = new Color(255, 98, 74);
+		private static Color Purple = new Color(255, 0, 144);
+
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Comet");
+			DisplayName.SetDefault("Meteor");
 			Main.projFrames[projectile.type] = 6;
 		}
 
 		public override void SetDefaults()
 		{
 			projectile.Size = new Vector2(32, 32);
-			projectile.scale = Main.rand.NextFloat(0.8f, 1.2f);
+			projectile.scale = Main.rand.NextFloat(0.9f, 1.1f);
 			projectile.hostile = true;
 			projectile.alpha = 255;
-			projectile.scale = Main.rand.NextFloat(0.66f, 0.8f);
 			projectile.frame = Main.rand.Next(Main.projFrames[projectile.type]);
 		}
 
 		public void DoTrailCreation(TrailManager tM)
 		{
-			tM.CreateCustomTrail(new FlameTrail(projectile, Color.Cyan, Color.DarkCyan, Color.DarkBlue, 20, 10));
-			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, Color.Cyan * 0.33f, Color.Transparent), new RoundCap(), new DefaultTrailPosition(), 60 * projectile.scale, 300, null, TrailLayer.AboveProjectile);
+			tM.CreateCustomTrail(new FlameTrail(projectile, Yellow, Orange, Purple, 40 * projectile.scale, 15));
+			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, Yellow * 0.33f, Color.Transparent), new RoundCap(), new DefaultTrailPosition(), 80 * projectile.scale, 300, null, TrailLayer.AboveProjectile);
 		}
 
-		private NPC Parent => Main.npc[(int)projectile.ai[0]];
-		private Player Target => Main.player[(int)projectile.ai[1]];
+		private ref float Timer => ref projectile.ai[0];
+		private ref float Delay => ref projectile.ai[1];
 
-		private ref float Timer => ref projectile.localAI[0];
+		private int FallStartTime => TELEGRAPH_TIME + (int)Delay; //Time when the projectile becomes active and starts falling
 
-		public override bool PreAI()
-		{
-			if (!Main.dedServ && Main.rand.NextBool())
-				MakeEmberParticle(projectile.velocity / 2, 0.97f);
+		public override bool CanDamage() => Timer < FallStartTime;
 
-			return true;
-		}
 		public override void AI()
 		{
-			projectile.alpha = Math.Max(projectile.alpha - 15, 0);
+			int fadeTime = 60; //Time in ticks to fully fade in
+			projectile.rotation += (Math.Sign(projectile.velocity.X) > 0 ? 1 : -1) * 0.12f;
 
-			projectile.tileCollide = Timer > (PRE_LAUNCH_TIME + 60); //Arbitrarily make it not collide with tile until a second after it launches, to make attack function better
-			projectile.rotation += projectile.velocity.X * 0.05f;
-
-			if (Timer < PRE_LAUNCH_TIME)
+			if (++Timer >= FallStartTime)
 			{
-				projectile.velocity = -Vector2.Normalize(projectile.GetArcVel(Target.Center, GRAVITY, 300, maxXvel: 12, heightabovetarget: 100)) * 2f;
-				if (!Parent.active || !Target.active || Target.dead)
-					projectile.Kill();
+				if(!Main.dedServ)
+				{
+					if (Timer == FallStartTime) //Spawn trail on first tick, add sound here later?
+						TrailManager.ManualTrailSpawn(projectile);
+
+					MakeEmberParticle(projectile.velocity * 0.5f, 0.97f);
+				}
+
+				projectile.alpha = Math.Max(projectile.alpha - (255 / fadeTime), 0);
+
+				if ((Timer - FallStartTime) < 90)
+					projectile.velocity *= 1.02f;
 			}
-			else if (Timer > PRE_LAUNCH_TIME)
-				projectile.velocity.Y += GRAVITY;
-
-			if (++Timer == PRE_LAUNCH_TIME)
-				projectile.velocity = projectile.GetArcVel(Target.Center, GRAVITY, 300, maxXvel : 12, heightabovetarget: 100).RotatedByRandom(MathHelper.Pi / 12);
-
+			else
+				projectile.position -= projectile.velocity; //Stay in place until falling starts
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -86,20 +87,20 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D BlueMask = ModContent.GetTexture(Texture + "_BlueGlow");
+			Texture2D Mask = ModContent.GetTexture(Texture + "_Glow");
 			projectile.QuickDraw(spriteBatch);
-			void DrawBlueGlow(Vector2 positionOffset, Color Color) => 
-				spriteBatch.Draw(BlueMask, projectile.Center - Main.screenPosition + positionOffset, projectile.DrawFrame(), Color, projectile.rotation, 
+			void DrawGlow(Vector2 positionOffset, Color Color) => 
+				spriteBatch.Draw(Mask, projectile.Center - Main.screenPosition + positionOffset, projectile.DrawFrame(), Color, projectile.rotation, 
 				projectile.DrawFrame().Size() / 2, projectile.scale, SpriteEffects.None, 0);
 
 			Color additiveWhite = Color.White;
 			additiveWhite.A = 0;
-			DrawBlueGlow(Vector2.Zero, Color.White);
+			DrawGlow(Vector2.Zero, Color.White);
 			PulseDraw.DrawPulseEffect(PulseDraw.BloomConstant, 6, 6, delegate (Vector2 offset, float opacity)
 			{
-				DrawBlueGlow(offset, additiveWhite * opacity * 0.5f);
+				DrawGlow(offset, additiveWhite * opacity * 0.5f);
 			});
-			DrawBlueGlow(Vector2.Zero, additiveWhite);
+			DrawGlow(Vector2.Zero, additiveWhite);
 
 
 			return false;
@@ -107,27 +108,23 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 		public void AdditiveCall(SpriteBatch sb)
 		{
-			Texture2D WhiteMask = ModContent.GetTexture(Texture + "_Mask");
-			float whiteMaskOpacity = 1 - (Timer / PRE_LAUNCH_TIME);
-			whiteMaskOpacity = Math.Max(whiteMaskOpacity, 0);
-			whiteMaskOpacity = EaseFunction.EaseQuadOut.Ease(whiteMaskOpacity);
+			/*float progress = (Timer - Delay) / TELEGRAPH_TIME; 
+			progress = MathHelper.Clamp(progress, 0, 1);
 
-			sb.Draw(WhiteMask, projectile.Center - Main.screenPosition, projectile.DrawFrame(), Color.White * whiteMaskOpacity * projectile.Opacity, projectile.rotation,
-				projectile.DrawFrame().Size() / 2, projectile.scale, SpriteEffects.None, 0);
+			Texture2D telegraphTex = mod.GetTexture("Textures/GlowTrail");
 
-			float blurLength = 200 * projectile.scale * whiteMaskOpacity * projectile.Opacity;
-			float blurWidth = 25 * projectile.scale * whiteMaskOpacity * projectile.Opacity;
+			Vector2 scale = new Vector2(3000 / telegraphTex.Width, MathHelper.Lerp(120, 15, EaseFunction.EaseCubicOut.Ease(progress)) / telegraphTex.Height);
+			float opacity = EaseFunction.EaseCubicOut.Ease(progress) * EaseFunction.EaseQuinticIn.Ease(1 - projectile.Opacity) * 0.75f;
+			Vector2 origin = new Vector2(0, telegraphTex.Height / 2);
 
-			Effect blurEffect = mod.GetEffect("Effects/BlurLine");
-			SquarePrimitive blurLine = new SquarePrimitive()
-			{
-				Position = projectile.Center - Main.screenPosition,
-				Height = blurWidth,
-				Length = blurLength,
-				Rotation = 0,
-				Color = Color.White * whiteMaskOpacity * projectile.Opacity
-			};
-			PrimitiveRenderer.DrawPrimitiveShape(blurLine, blurEffect);
+			float ColorLerp = EaseFunction.EaseCubicOut.Ease(progress);
+			Color color;
+			if (ColorLerp < 0.5f)
+				color = Color.Lerp(Purple, Orange, ColorLerp * 2);
+			else
+				color = Color.Lerp(Orange, Yellow, (ColorLerp - 0.5f) * 2);
+
+			sb.Draw(telegraphTex, projectile.Center - Main.screenPosition, null, color * opacity, projectile.velocity.ToRotation(), origin, scale, SpriteEffects.None, 0);*/
 		}
 
 		public override void Kill(int timeLeft)
@@ -147,9 +144,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		private void MakeEmberParticle(Vector2 vel, float velDecayRate)
 		{
 			ParticleHandler.SpawnParticle(new FireParticle(projectile.Center + Main.rand.NextVector2Circular(10, 10) * projectile.scale,
-				projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.33f), Color.LightCyan, Color.Cyan, Main.rand.NextFloat(0.2f, 0.4f), 25, delegate (Particle p)
+				vel, Yellow, Orange, Main.rand.NextFloat(0.2f, 0.4f), 35, delegate (Particle p)
 				{
-					p.Velocity *= 0.96f;
+					p.Velocity *= velDecayRate;
 				}));
 		}
 	}
