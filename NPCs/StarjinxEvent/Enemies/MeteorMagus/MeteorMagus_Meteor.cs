@@ -15,7 +15,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 {
 	public class MeteorMagus_Meteor : ModProjectile, IManualTrailProjectile, IDrawAdditive
 	{
-		private const int TELEGRAPH_TIME = 0; //Time for the projectile's path to be fully telegraphed, and the minimum time for the projectile to fall downwards
+		private const int TELEGRAPH_TIME = 0; //Time for the projectile's path to be fully telegraphed, and the minimum time for the projectile to fall downwards (temporarily set to 0)
 
 		private static Color Yellow = new Color(242, 240, 134);
 		private static Color Orange = new Color(255, 98, 74);

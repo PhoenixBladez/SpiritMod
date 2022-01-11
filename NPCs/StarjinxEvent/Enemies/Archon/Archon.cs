@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Particles;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 {
@@ -296,7 +297,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				if (id >= 0)
 					centre = Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition;
 
-				float Size() => StarjinxMeteorite.EVENT_RADIUS * Main.rand.NextFloat(0.25f, 0.75f);
+				float Size() => StarjinxMeteorite.EVENT_RADIUS * Main.rand.NextFloat(0.7f, 0.85f);
 
 				Vector2 nextPos = centre + Main.rand.NextVector2CircularEdge(Size(), Size());
 
@@ -320,14 +321,25 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				{
 					Vector2 baseVel = npc.DirectionTo(Target.Center) * 38;
 
-					int reps = Main.rand.Next(5, 8);
+					int reps = Main.rand.Next(10, 14);
 					for (int i = 0; i < reps; ++i)
 					{
-						int p = Projectile.NewProjectile(npc.Center, baseVel.RotatedByRandom(0.8f) * Main.rand.NextFloat(0.75f, 1.1f), 
-							ModContent.ProjectileType<Items.Sets.GunsMisc.HeavenFleet.HeavenfleetStar>(), 20, 1f);
-						Main.projectile[p].hostile = true;
-						Main.projectile[p].friendly = false;
+						//Projectiles have lower velocity the further they deviate from the base velocity, forming a v-like shape
+						const float maxAngularOffset = MathHelper.PiOver4;
+						float angularOffset = Main.rand.NextFloat(-1, 1) * maxAngularOffset;
+						Vector2 velocity = baseVel.RotatedBy(angularOffset) * (1 - Math.Abs(angularOffset / maxAngularOffset)) * Main.rand.NextFloat(0.75f, 1.1f);
+
+						Projectile.NewProjectile(npc.Center, velocity, ModContent.ProjectileType<ArchonStarFragment>(), 20, 1f);
+
+						if (!Main.dedServ)
+						{
+							int numParticles = 2;
+							for (int j = 0; j < numParticles; j++)
+								ParticleHandler.SpawnParticle(new StarParticle(npc.Center, velocity.RotatedByRandom(0.2f) * Main.rand.NextFloat(0.5f), Color.White, Color.Cyan, Main.rand.NextFloat(0.1f, 0.2f), 25));
+						}
 					}
+
+					npc.velocity -= baseVel / 4; //Recoil effect
 				}
 			}
 			else if (timers["ATTACK"] >= attackTimeMax)

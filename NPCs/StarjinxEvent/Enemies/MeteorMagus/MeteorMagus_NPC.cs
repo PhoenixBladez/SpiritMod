@@ -335,17 +335,22 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 					int numMeteors = 5;
 					for(int i = 0; i < numMeteors; i++)
 					{
+						bool firstMeteor = i == 0;
 						Vector2 position = npc.Center;
 						position.Y -= 1500;
 						position.X += Main.rand.NextFloat(-600, 600);
 						position.Y = Math.Max(position.Y, Main.minScreenH);
 
 						Vector2 velocity = player.DirectionFrom(position) * Main.rand.NextFloat(2.5f, 3);
+						float delay = 1; //should be 0, however projectile always has timer ticked past the time to spawn in its trail if at 0, too tired to fix at the moment of writing this
 
-						if(i > 0)
-							velocity = velocity.RotatedByRandom(MathHelper.Pi / 12); 
+						if(!firstMeteor) //first meteor always aimed at player
+						{
+							velocity = velocity.RotatedByRandom(MathHelper.Pi / 12);
+							delay = Main.rand.Next(30, 60);
+						}
 
-						int p = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<MeteorMagus_Meteor>(), npc.damage / 4, 1f, Main.myPlayer, 0, i == 0 ? 1 : Main.rand.Next(30, 60));
+						int p = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<MeteorMagus_Meteor>(), npc.damage / 4, 1f, Main.myPlayer, 0, delay);
 						if (Main.netMode != NetmodeID.SinglePlayer)
 							NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, p);
 					}
