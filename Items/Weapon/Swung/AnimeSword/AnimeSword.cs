@@ -44,6 +44,8 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
     {
         public NPC[] hit = new NPC[12];
 
+		Vector2 direction = Vector2.Zero;
+
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Anime Sword Proj");
 
 		public override void SetDefaults()
@@ -82,12 +84,12 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
                 {
 					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/slashdash").WithPitchVariance(0.4f).WithVolume(0.4f), projectile.Center);
 					SpiritMod.primitives.CreateTrail(new AnimePrimTrail(projectile));
-                }
+					direction = Vector2.Normalize(Main.MouseWorld - player.Center) * 45f;
+				}
 
                 if (charge > 60 && charge < MAXCHARGE)
                 {
 					player.GetModPlayer<MyPlayer>().AnimeSword = true;
-                    Vector2 direction = Vector2.Normalize(Main.MouseWorld - player.Center) * 45f;
                     player.velocity = direction;
                     for (int i = 0; i < Main.npc.Length; i++)
                     {
