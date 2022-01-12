@@ -8,6 +8,8 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Utilities;
+using Terraria.Enums;
 using SpiritMod.Particles;
 
 namespace SpiritMod.Items.Weapon.Magic.RealityQuill
@@ -124,6 +126,24 @@ namespace SpiritMod.Items.Weapon.Magic.RealityQuill
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => false;
+
+		public override bool? CanCutTiles() => true;
+
+		// Plot a line from the start of the Solar Eruption to the end of it, to change the tile-cutting collision logic. (Don't change this.)
+		public override void CutTiles()
+		{
+			DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
+			Vector2 prev = Vector2.Zero;
+			foreach (Vector2 point in points)
+			{
+				if (prev != Vector2.Zero)
+				{
+					Utils.PlotTileLine(point, prev, 20, DelegateMethods.CutTiles);
+				}
+				prev = point;
+			}
+		}
+
 
 	}
 }
