@@ -162,7 +162,7 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
 
 		public override bool? CanBeHitByProjectile(Projectile projectile)
 		{
-			if (projectile.minion)
+			if (ProjectileID.Sets.MinionShot[projectile.type] || projectile.minion)
 				return base.CanBeHitByProjectile(projectile);
 			return false;
 		}
