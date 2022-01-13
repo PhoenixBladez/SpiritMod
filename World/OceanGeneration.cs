@@ -81,10 +81,7 @@ namespace SpiritMod.World
 					for (int placeX = initialWidth - 1; placeX >= worldEdge; placeX--)
 						GenSingleOceanSingleStep(oceanTop, placeX, ref tilesFromInnerEdge);
 
-					_oceanInfos.Item1.X = worldEdge;
-					_oceanInfos.Item1.Y = oceanTop - 5;
-					_oceanInfos.Item1.Width = initialWidth;
-					_oceanInfos.Item1.Height = (int)GetOceanSlope(tilesFromInnerEdge) + 20;
+					_oceanInfos.Item2 = new Rectangle(worldEdge, oceanTop - 5, initialWidth, (int)GetOceanSlope(tilesFromInnerEdge) + 20);
 				}
 				else
 				{
@@ -101,10 +98,7 @@ namespace SpiritMod.World
 					for (int placeX = worldEdge; placeX < initialWidth; placeX++) //repeat X loop
 						GenSingleOceanSingleStep(oceanTop, placeX, ref tilesFromInnerEdge);
 
-					_oceanInfos.Item2.X = worldEdge;
-					_oceanInfos.Item2.Y = oceanTop - 5;
-					_oceanInfos.Item2.Width = initialWidth - worldEdge;
-					_oceanInfos.Item2.Height = (int)GetOceanSlope(tilesFromInnerEdge) + 20;
+					_oceanInfos.Item2 = new Rectangle(worldEdge, oceanTop - 5, initialWidth - worldEdge, (int)GetOceanSlope(tilesFromInnerEdge) + 20);
 				}
 			}
 
@@ -223,21 +217,6 @@ namespace SpiritMod.World
 					}
 				}
 			}
-		}
-
-		private static int GetTileAt(int x, int y)
-		{
-			int tileDist = y;
-
-			while (true)
-			{
-				tileDist++;
-
-				Tile t = Framing.GetTileSafely(x, tileDist);
-				if (t.active() && Main.tileSolid[t.type])
-					break;
-			}
-			return tileDist;
 		}
 
 		private static void PlaceSunkenTreasure(int innerEdge, int side)

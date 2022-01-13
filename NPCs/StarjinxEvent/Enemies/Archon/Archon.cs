@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Particles;
+using Terraria.Utilities;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 {
@@ -49,12 +50,16 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		private float attackTimeMax = 0;
 
 		// Basic Slash
-		private Vector2 cachedSlashPos = new Vector2();
+		private Vector2 cachedAttackPos = new Vector2();
 
 		// Starlight Constellation
 		private List<StarThread> threads = new List<StarThread>();
 		private int currentThread = 0;
 		private float currentThreadProgress = 0f;
+
+		// Meteor Dash
+		private Vector2 meteorDashOffset = Vector2.Zero;
+		private float meteorDashFactor = 0f;
 
 		// Misc
 		private readonly Dictionary<string, int> timers = new Dictionary<string, int>() { { "ENCHANT", 0 }, { "ATTACK", 0 } };
@@ -160,17 +165,24 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		private void EnchantBehaviour()
 		{
 			timers["ENCHANT"]++;
+			timers["ATTACK"]++;
+
+			if (attack == AttackType.None)
+				SetupRandomAttack();
+
+			npc.velocity.Y = (float)Math.Sin(timers["ENCHANT"] * 0.1f) * 0.2f;
 
 			switch (enchantment)
 			{
 				case Enchantment.Starlight:
 					StarlightBehaviour();
 					break;
+				case Enchantment.Meteor:
+					MeteorBehaviour();
+					break;
 				default:
 					break;
 			}
-
-			npc.velocity.Y = (float)Math.Sin(timers["ENCHANT"] * 0.1f) * 0.2f;
 
 			if (timers["ENCHANT"] == EnchantMaxTime && !waitingOnAttack)
 			{
@@ -179,13 +191,68 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			}
 		}
 
+		private void MeteorBehaviour()
+		{
+			switch (attack)
+			{
+				case AttackType.TeleportSlash:
+					SlashAttack();
+					break;
+				case AttackType.Cast:
+					CastAttack();
+					break;
+				case AttackType.MeteorDash:
+					MeteorDashAttack();
+					break;
+				default:
+					break;
+			}
+		}
+
+		private void MeteorDashAttack()
+		{
+			const float AnticipationThreshold = 0.2f;
+
+			if (timers["ATTACK"] < (int)(attackTimeMax * AnticipationThreshold)) //Anticipation & move to position
+			{
+				if (meteorDashOffset == Vector2.Zero)
+					meteorDashOffset = new Vector2(0, -Main.rand.Next(300, 400)).RotatedByRandom(MathHelper.Pi / 3);
+
+				npc.Center = Vector2.Lerp(npc.Center, Target.Center + meteorDashOffset, 0.15f);
+			}
+			else if (timers["ATTACK"] == (int)(attackTimeMax * AnticipationThreshold)) //Dash initialization
+			{
+				waitingOnAttack = true;
+				cachedAttackPos = npc.Center - ((npc.Center - Target.Center) * 2.5f);
+				CombatText.NewText(new Rectangle((int)cachedAttackPos.X, (int)cachedAttackPos.Y, 1, 1), Color.Red, "e");
+			}
+			else if (timers["ATTACK"] >= attackTimeMax * AnticipationThreshold && timers["ATTACK"] < attackTimeMax)
+			{
+				meteorDashFactor = MathHelper.Lerp(meteorDashFactor, 1f, 0.15f);
+				npc.velocity = npc.DirectionTo(cachedAttackPos) * 20 * meteorDashFactor;
+
+				if (npc.DistanceSQ(cachedAttackPos) > 10 * 10)
+					realDamage = 70;
+				else
+				{
+					realDamage = 0;
+					timers["ATTACK"] = (int)attackTimeMax;
+				}
+			}
+			else if (timers["ATTACK"] >= attackTimeMax)
+			{
+				timers["ATTACK"] = 0;
+				attack = AttackType.None;
+				waitingOnAttack = false;
+
+				meteorDashOffset = Vector2.Zero;
+				meteorDashFactor = 0;
+			}
+		}
+
+		#region Starlight Attacks
 		private void StarlightBehaviour()
 		{
-			if (attack == AttackType.None)
-				SetupRandomAttack();
-
-			timers["ATTACK"]++;
-
 			switch (attack)
 			{
 				case AttackType.TeleportSlash:
@@ -209,7 +276,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		{
 			const float CastWaitThreshold = 0.4f;
 
-			if (timers["ATTACK"] == (int)(attackTimeMax * CastWaitThreshold)) //Setup threads
+			if (timers["ATTACK"] == (int)(attackTimeMax * CastWaitThreshold)) //Shoot bg star
 			{
 				Projectile.NewProjectile(Target.Center, Vector2.Zero, ModContent.ProjectileType<BGStarProjectile>(), 20, 1f);
 			}
@@ -306,6 +373,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				return nextPos;
 			}
 		}
+		#endregion
 
 		private void CastAttack()
 		{
@@ -361,24 +429,24 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			{
 				waitingOnAttack = true;
 				npc.Center = Target.Center + new Vector2(0, Main.rand.Next(300, 400)).RotatedByRandom(MathHelper.Pi);
-				cachedSlashPos = npc.Center - (npc.DirectionFrom(Target.Center) * npc.Distance(Target.Center) * 2);
+				cachedAttackPos = npc.Center - (npc.DirectionFrom(Target.Center) * npc.Distance(Target.Center) * 2);
 			}
 			else if (timers["ATTACK"] > attackTimeMax * AnticipationThreshold && timers["ATTACK"] < attackTimeMax * BeginAttackThreshold)
 			{
 				float mult = (attackTimeMax * BeginAttackThreshold) - timers["ATTACK"];
-				npc.velocity = -npc.DirectionTo(cachedSlashPos) * 0.5f * mult;
-				npc.rotation = MathHelper.Lerp(npc.rotation, npc.AngleTo(cachedSlashPos), 0.2f);
+				npc.velocity = -npc.DirectionTo(cachedAttackPos) * 0.5f * mult;
+				npc.rotation = MathHelper.Lerp(npc.rotation, npc.AngleTo(cachedAttackPos), 0.2f);
 			}
 			else if (timers["ATTACK"] >= (int)(attackTimeMax * BeginAttackThreshold))
 			{
-				npc.Center = Vector2.Lerp(npc.Center, cachedSlashPos, 0.075f);
+				npc.Center = Vector2.Lerp(npc.Center, cachedAttackPos, 0.075f);
 
-				if (npc.DistanceSQ(cachedSlashPos) > 10 * 10)
+				if (npc.DistanceSQ(cachedAttackPos) > 10 * 10)
 					realDamage = 70;
 				else
 				{
 					realDamage = 0;
-					timers["ATTACK"] = (int)attackTimeMax + 2;
+					timers["ATTACK"] = (int)attackTimeMax;
 				}
 			}
 
@@ -450,19 +518,26 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			Cast = 3,
 			StarlightConstellation = 4,
 			StarlightShootingStar = 5,
+			MeteorDash = 6,
 		}
 
 		public void SetupRandomAttack()
 		{
-			var choices = new List<AttackType>() { AttackType.TeleportSlash, AttackType.Cast }; //These two are always options
+			var choices = new WeightedRandom<AttackType>(); //These two are always options
+			choices.Add(AttackType.TeleportSlash, 1f);
+			choices.Add(AttackType.Cast, 1f);
 
 			if (enchantment == Enchantment.Starlight)
 			{
-				choices.Add(AttackType.StarlightConstellation);
-				choices.Add(AttackType.StarlightShootingStar);
+				choices.Add(AttackType.StarlightConstellation, 0.5f);
+				choices.Add(AttackType.StarlightShootingStar, 1.25f);
+			}
+			else if (enchantment == Enchantment.Meteor)
+			{
+				choices.Add(AttackType.MeteorDash, 1.5f);
 			}
 
-			attack = Main.rand.Next(choices);
+			attack = AttackType.MeteorDash;// choices;
 
 			if (attack == AttackType.TeleportSlash)
 			{
@@ -482,6 +557,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				attackTimeMax = 200;
 			else if (attack == AttackType.StarlightShootingStar)
 				attackTimeMax = Main.rand.Next(80, 90);
+			else if (attack == AttackType.MeteorDash)
+				attackTimeMax = 200;
 		}
 
 		public enum Enchantment : int
@@ -493,7 +570,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			Count = 4
 		}
 
-		public void SetRandomEnchantment() => enchantment = Enchantment.Starlight;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
+		public void SetRandomEnchantment() => enchantment = Enchantment.Meteor;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
 
 		internal void ResetEnchantment()
 		{
