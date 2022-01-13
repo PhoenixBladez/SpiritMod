@@ -81,6 +81,16 @@ namespace SpiritMod.Items.Equipment
 			}
 			return false;
 		}
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.IronBar, 6);
+			recipe.AddIngredient(ItemID.MinecartTrack, 15);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this, 1);
+			recipe.AddRecipe();
+		}
 		public override ModItem Clone(Item item)
 		{
 			ZiplineGun staff = (ZiplineGun)base.Clone(item);
