@@ -22,7 +22,6 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 		public override bool UseAdditiveBlend => true;
 
 		public override bool UseCustomDraw => true;
-		private readonly int frame;
 
 		public CursebreakerRunes(Vector2 position, Vector2 velocity, Color startColor, Color endColor, float scale, int maxTime, UpdateAction action = null)
 		{
@@ -57,7 +56,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 		{
 			Texture2D basetexture = ParticleHandler.GetTexture(Type);
 
-			Rectangle drawframe = new Rectangle(0, frame * basetexture.Height / 4, basetexture.Width, basetexture.Height / 4);
+			Rectangle drawframe = new Rectangle(0, 0, basetexture.Width, basetexture.Height / 4);
 			spriteBatch.Draw(basetexture, Position - Main.screenPosition, drawframe, Color, Rotation, drawframe.Size() / 2, Scale, SpriteEffects.None, 0);
 		}
 	}

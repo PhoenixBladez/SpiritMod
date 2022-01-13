@@ -49,6 +49,15 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 		}
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, item, ModContent.GetTexture(Texture + "_glow"), rotation, scale);
+
+		public override void AddRecipes()
+		{
+			var recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<GranitechMaterial>(), 10);
+			recipe.AddTile(TileID.MythrilAnvil);
+			recipe.SetResult(this, 1);
+			recipe.AddRecipe();
+		}
 	}
 
 	//Storing info on items is buggy iirc with usage from inventory, so just using a modplayer instead

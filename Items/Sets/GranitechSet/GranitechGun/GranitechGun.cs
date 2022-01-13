@@ -38,5 +38,14 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			Projectile.NewProjectileDirect(position, Vector2.Zero, type, 0, 0, player.whoAmI, player.altFunctionUse);
 			return false;
 		}
+
+		public override void AddRecipes()
+		{
+			var recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<GranitechMaterial>(), 12);
+			recipe.AddTile(TileID.MythrilAnvil);
+			recipe.SetResult(this, 1);
+			recipe.AddRecipe();
+		}
 	}
 }

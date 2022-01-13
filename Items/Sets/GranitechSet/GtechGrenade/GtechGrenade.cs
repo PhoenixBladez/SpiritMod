@@ -4,9 +4,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Linq;
-using SpiritMod.Dusts;
-using SpiritMod.Items.Material;
 using SpiritMod.Buffs;
 using SpiritMod.Utilities;
 
@@ -40,6 +37,15 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 			item.noUseGraphic = true;
 			item.maxStack = 999;
 			item.consumable = true;
+		}
+
+		public override void AddRecipes()
+		{
+			var recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<GranitechMaterial>(), 1);
+			recipe.AddTile(TileID.MythrilAnvil);
+			recipe.SetResult(this, 10);
+			recipe.AddRecipe();
 		}
 	}
 

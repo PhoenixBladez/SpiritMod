@@ -4,11 +4,8 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Particles;
 using SpiritMod.Mechanics.Trails;
-using SpiritMod.Particles;
 using SpiritMod.Prim;
-using SpiritMod.Utilities;
 using SpiritMod.Mechanics.Trails.CustomTrails;
 
 namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
@@ -41,7 +38,6 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Jet Brick");
 
-		bool Blur = false;
 		public override void SpinExtras(Player player)
 		{
 			projectile.localAI[0]++;

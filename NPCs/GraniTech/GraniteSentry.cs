@@ -135,17 +135,6 @@ namespace SpiritMod.NPCs.GraniTech
 			//lets hit that fat scan
 			bool[] validGrounds = new bool[2] { false, false };
 
-			//for (int j = -1; j <= 1; j += 2)
-			//{
-			//	int arrayPos = (j == -1) ? 0 : 1;
-			//	Point tilePos = npc.position.ToTileCoordinates();
-			//	int dist = GroundDistance * j;
-
-			//	for (int i = tilePos.Y; i < tilePos.Y + dist; i += j) //above and below
-			//		if (Framing.GetTileSafely(tilePos.X, i).active() && Main.tileSolid[Framing.GetTileSafely(tilePos.X, i).type])
-			//			validGrounds[arrayPos] = true;
-			//}
-
 			Point tilePos = npc.position.ToTileCoordinates();
 
 			for (int j = tilePos.Y; j < tilePos.Y + GroundDistance; j++) //below
@@ -221,17 +210,6 @@ namespace SpiritMod.NPCs.GraniTech
 			if (laserRotations != null)
 				if (laserRotations.Count > 0)
 					laserRotations.RemoveAt(0);
-
-			/*if (chargeUp == FIRING_CHARGE_TIME && !Main.dedServ)
-			{
-				ParticleHandler.SpawnParticle(new PulseCircle(npc, new Color(25, 132, 247) * 0.4f, 125, 15, PulseCircle.MovementType.OutwardsSquareRooted, laserOrigin)
-				{
-					Angle = npc.rotation + MathHelper.Pi,
-					ZRotation = 0.6f,
-					RingColor = new Color(25, 132, 247),
-					Velocity = -(npc.rotation + 3.14f).ToRotationVector2() * 5
-				});
-			}*/
 
 			//Once fully charged, shoot bullets every few ticks
 			if (chargeUp > FIRING_CHARGE_TIME && chargeUp % FIRING_SHOOT_TIME == 0)
@@ -316,6 +294,8 @@ namespace SpiritMod.NPCs.GraniTech
 		{
 			for (int i = 1; i <= 2; i++)
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot($"Gores/GraniTech/GraniteSentryGore{i}"), 1f);
+
+			npc.DropItem(ModContent.ItemType<GranitechMaterial>(), Main.rand.Next(4, 7));
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

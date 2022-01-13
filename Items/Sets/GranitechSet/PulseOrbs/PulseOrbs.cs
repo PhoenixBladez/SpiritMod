@@ -11,6 +11,12 @@ namespace SpiritMod.Items.Sets.GranitechSet.PulseOrbs
 {
 	public class PulseOrbs : ModItem
 	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Pulse Orbs");
+			Tooltip.SetDefault("Hold left click to create an electric field toward the cursor\nConsumes 20 mana per second");
+		}
+
 		public override void SetDefaults()
 		{
 			item.damage = 41;
@@ -28,12 +34,6 @@ namespace SpiritMod.Items.Sets.GranitechSet.PulseOrbs
 			item.value = Item.sellPrice(gold: 2);
 			item.rare = ItemRarityID.LightRed;
 			item.mana = 2;
-		}
-
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Pulse Orbs");
-			Tooltip.SetDefault("Hold left click to create an electric field toward the cursor\nConsumes 20 mana per second");
 		}
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips) => tooltips.RemoveAt(tooltips.FindIndex(x => x.Name == "UseMana" && x.mod == "Terraria")); //So we don't show the 2 mana usage
@@ -55,6 +55,15 @@ namespace SpiritMod.Items.Sets.GranitechSet.PulseOrbs
 				for (int i = 0; i < 3; i++)
 					Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<PulseOrbProj>(), (int)(item.damage * player.magicDamage), item.knockBack, player.whoAmI, i *  2.09f, i * 10);
 			}
+		}
+
+		public override void AddRecipes()
+		{
+			var recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<GranitechMaterial>(), 14);
+			recipe.AddTile(TileID.MythrilAnvil);
+			recipe.SetResult(this, 1);
+			recipe.AddRecipe();
 		}
 	}
 
