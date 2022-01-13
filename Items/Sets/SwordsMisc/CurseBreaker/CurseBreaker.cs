@@ -22,8 +22,8 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 		private int charge;
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Curse Breaker");
-			Tooltip.SetDefault("Every third swing curses nearby enemies \nStrike again to break the curse, dealing extra damage");
+			DisplayName.SetDefault("Cursebreaker");
+			Tooltip.SetDefault("Every third swing curses nearby enemies\nStrike again to break the curse, dealing extra damage");
 		}
 
 		public override void SetDefaults()
@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			item.channel = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.knockBack = 10f;
-			item.value = Item.sellPrice(0, 1, 80, 0);
+			item.value = Item.sellPrice(0, 2, 70, 0);
 			item.crit = 4;
 			item.rare = ItemRarityID.Pink;
 			item.shootSpeed = 1f;
@@ -49,12 +49,25 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
+
 			Vector2 direction = new Vector2(speedX, speedY);
 			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 1).WithPitchVariance(0.5f), player.Center);
 			Projectile proj = Projectile.NewProjectileDirect(position + (direction * 20) + (direction.RotatedBy(-1.57f * player.direction) * 20), Vector2.Zero, type, damage, knockBack, player.whoAmI);
 			var mp = proj.modProjectile as CurseBreakerProj;
 			mp.Phase = charge % 3;
+			if (charge % 3 != 0)
+            {
+				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SwordSlash1").WithPitchVariance(0.6f).WithVolume(0.8f), player.Center);
+			}
 			charge++;
+			if (charge % 3 != 0)
+			{
+				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SwordSlash1").WithPitchVariance(0.6f).WithVolume(0.8f), player.Center);
+			}
+			else
+			{
+				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/PowerSlash1").WithPitchVariance(0.2f).WithVolume(0.6f), player.Center);
+			}
 			return false;
 		}
 	}
@@ -301,10 +314,18 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 					}
 				}
 			}
-			else if (target.HasBuff(ModContent.BuffType<CurseBreakerMark>()))
+			if (target.HasBuff(ModContent.BuffType<CurseBreakerMark>()))
 			{
+
 				if (!cursed)
 				{
+					ParticleHandler.SpawnParticle(new PulseCircle(Player.Center, new Color(242, 41, 58) * 0.124f, (.9f) * 100, 20, PulseCircle.MovementType.OutwardsSquareRooted)
+					{
+						Angle = 0f,
+						ZRotation = 0,
+						RingColor = new Color(242, 41, 58),
+						Velocity = Vector2.Zero
+					});
 					cursed = true;
 					cursedTimer = 8;
 				}
@@ -345,10 +366,22 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			projectile.timeLeft = 12;
 			projectile.ignoreWater = true;
 		}
+		private readonly Color Red = new Color(242, 41, 58);
+		private readonly Color Black = new Color(38, 10, 12);
 
-		public override Color? GetAlpha(Color lightColor) => Color.White;
+		public override Color? GetAlpha(Color lightColor) => Color.White * .6f;
 		public override void AI()
 		{
+			if (Main.rand.NextBool(10))
+			{
+				Vector2 velocity = -Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 4) * Main.rand.NextFloat(2f, 3f);
+				ParticleHandler.SpawnParticle(new CursebreakerRunes(projectile.Center, velocity, Red, Black, Main.rand.NextFloat(0.75f, 1.25f), 30, delegate (Particle p)
+				{
+					p.Velocity *= 0.95f;
+					p.Scale *= 0.95f;
+				}));
+
+			}
 			Lighting.AddLight(projectile.Center, Color.Red.ToVector3() * 0.3f);
 			counter += 0.025f;
 			if (target.active)
@@ -376,13 +409,28 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, Color.White * transparency, projectile.rotation, tex.Size() / 2, scale * projectile.scale, SpriteEffects.None, 0f);
 			return true;
 		}
+		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			DrawBloom(spriteBatch, new Color(242, 41, 58) * 0.33f, 0.48f);
+		}
+		protected void DrawBloom(SpriteBatch spriteBatch, Color color, float scale)
+		{
+			Texture2D glow = SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49");
+			color.A = 0;
 
+			float glowScale = 1 + ((float)Math.Sin(counter) / 4);
+
+			spriteBatch.Draw(glow, projectile.Center - Main.screenPosition, null,
+				color * glowScale, 0, glow.Size() / 2, projectile.scale * scale, SpriteEffects.None, 0f);
+		}
 		public override void Kill(int timeLeft)
 		{
 			if (timeLeft > 4)
 			{
 				target.StrikeNPC(projectile.damage, 0, 0);
+
 				Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<CurseBreak>(), 0, 0, projectile.owner, target.whoAmI);
+				Main.PlaySound(SoundID.DD2_BetsyFireballImpact, projectile.Center);
 			}
 		}
 	}
