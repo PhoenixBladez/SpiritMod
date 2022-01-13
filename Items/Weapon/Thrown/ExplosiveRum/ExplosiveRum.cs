@@ -139,7 +139,7 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 			{
 				lightUp = true;
 				Vector2 pos = projectile.Center + new Vector2(projectile.ai[0] * 20, 0);
-				Projectile.NewProjectile(pos, new Vector2(projectile.ai[0] * 0.25f, 15), ModContent.ProjectileType<RumFire>(), projectile.damage / 3 * 2, projectile.knockBack, projectile.owner, projectile.ai[0], projectile.ai[1] - 1);
+				Projectile.NewProjectile(pos, new Vector2(projectile.ai[0] * 0.25f, 15), ModContent.ProjectileType<RumFire>(), Math.Max((int)(projectile.damage * 0.98f), 1), projectile.knockBack, projectile.owner, projectile.ai[0], projectile.ai[1] - 1);
 			}
 			if (lightUp)
 				Lighting.AddLight(projectile.Center, 245 * 0.00361f, 99 * 0.00361f, 66 * 0.00361f);

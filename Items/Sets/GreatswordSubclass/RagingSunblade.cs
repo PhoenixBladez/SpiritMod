@@ -407,7 +407,8 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 			for (float i = 0; i < 1; i+= 8.0f / (distance.Length()))
 			{
 				Vector2 positionToCheck = point2 + (distance * i);
-				if (Main.tile[(int)(positionToCheck.X / 16), (int)(positionToCheck.Y / 16)].active())
+				Point tPos = positionToCheck.ToTileCoordinates();
+				if (WorldGen.InWorld(tPos.X, tPos.Y, 2) && Framing.GetTileSafely(tPos.X, tPos.Y).active() && Main.tileSolid[Framing.GetTileSafely((int)(positionToCheck.X / 16f), (int)(positionToCheck.Y / 16f)).type])
 					return false;
 			}
 			return true;

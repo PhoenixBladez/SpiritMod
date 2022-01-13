@@ -219,6 +219,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 				return false;
 
 			Texture2D projTexture = Main.projectileTexture[projectile.type];
+			Texture2D glowTexture = ModContent.GetTexture(Texture + "_Glow");
 
 			//End control point for the chain
 			Vector2 projBottom = projectile.Center + new Vector2(0, projTexture.Height / 2).RotatedBy(projectile.rotation + MathHelper.PiOver2) * 0.75f;
@@ -234,6 +235,8 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			lightColor = Lighting.GetColor((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f));
 
 			spriteBatch.Draw(projTexture, projBottom - Main.screenPosition, null, lightColor, newRotation, origin, projectile.scale, flip, 0);
+
+			spriteBatch.Draw(glowTexture, projBottom - Main.screenPosition, null, Color.White, newRotation, origin, projectile.scale, flip, 0);
 
 
 			CurrentBase = projBottom + (newRotation - 1.57f).ToRotationVector2() * (projTexture.Height / 2);
