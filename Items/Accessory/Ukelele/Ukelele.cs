@@ -75,7 +75,6 @@ namespace SpiritMod.Items.Accessory.Ukelele
 			{
 				Angle = 0f,
 				ZRotation = 0,
-				RingColor = Color.Cyan,
 				Velocity = Vector2.Zero
 			});
 
