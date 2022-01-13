@@ -1,10 +1,9 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Items.Sets.SpiritSet;
-using SpiritMod.Projectiles.DonatorItems;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace SpiritMod.Items.Sets.SwordsMisc.HolySword
 {
 	public class HolySword : ModItem
@@ -13,9 +12,9 @@ namespace SpiritMod.Items.Sets.SwordsMisc.HolySword
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Holy Sword");
-			Tooltip.SetDefault("Shoots out apparitions of blades");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/SwordsMisc/HolySword/HolySword_Glow");
 		}
+
 		public override void SetDefaults()
 		{
 			item.damage = 84;
@@ -28,11 +27,11 @@ namespace SpiritMod.Items.Sets.SwordsMisc.HolySword
 			item.knockBack = 9;
 			item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
 			item.rare = ItemRarityID.Yellow;
-			item.shootSpeed = 12;
 			item.UseSound = SoundID.Item70;
 			item.autoReuse = true;
 			item.useTurn = true;
 		}
+
 		public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
 		{
 			hitbox.Width = 20 * charger;
@@ -42,6 +41,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.HolySword
 			else { hitbox.Y = (int)player.Top.Y - 16; }
 			if (player.direction < 0) hitbox.X -= hitbox.Width;
 		}
+
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
 			float cosRot = (float)Math.Cos(player.itemRotation - 0.78f * player.direction * player.gravDir);
@@ -61,12 +61,11 @@ namespace SpiritMod.Items.Sets.SwordsMisc.HolySword
 				Main.dust[dust].noGravity = true;
 			}
 		}
+
 		public override void UseStyle(Player player)
 		{
 			if (charger < 6)
-			{
 				charger++;
-			}
 		}
 	}
 }
