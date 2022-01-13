@@ -18,13 +18,24 @@ namespace SpiritMod.Items.Sets.GranitechSet
 
 		public override void SetDefaults()
 		{
-			item.width = 42;
-			item.height = 24;
+			subID = Main.rand.Next(3);
+
 			item.value = 100;
 			item.maxStack = 999;
 			item.rare = ItemRarityID.Pink;
+		}
 
-			subID = Main.rand.Next(3);
+		public override void Update(ref float gravity, ref float maxFallSpeed)
+		{
+			if (subID == 0)
+				item.width = 24;
+			else
+				item.width = 28;
+
+			if (subID == 2)
+				item.height = 36;
+			else
+				item.height = 20;
 		}
 
 		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
