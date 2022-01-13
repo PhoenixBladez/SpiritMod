@@ -120,6 +120,14 @@ namespace SpiritMod.NPCs.GraniTech
 				if (npc.collideY)
 					npc.StrikeNPCNoInteraction(npc.life + 20, 0f, 0, true, false);
 			}
+
+			if (BaseState == STATE_ABOVE)
+			{
+				Point tPos = npc.Top.ToTileCoordinates();
+				Tile anchor = Framing.GetTileSafely(tPos.X, tPos.Y - 1);
+				if (!anchor.active())
+					BaseState = STATE_FALLING;
+			}
 		}
 
 		private void Spawn()
@@ -161,7 +169,6 @@ namespace SpiritMod.NPCs.GraniTech
 			} while (validGrounds[index] && safety < 100);
 
 			BaseState = index + 1; //woo I did it
-								   //no you didn't you suck and i hate you :slight_smile:
 
 			switch (BaseState)
 			{
@@ -206,14 +213,6 @@ namespace SpiritMod.NPCs.GraniTech
 
 			chargeUp = 0;
 			ScanPlayers();
-
-			if (BaseState == STATE_ABOVE)
-			{
-				Point tPos = npc.Top.ToTileCoordinates();
-				Tile anchor = Framing.GetTileSafely(tPos.X, tPos.Y - 1);
-				if (!anchor.active())
-					BaseState = STATE_FALLING;
-			}
 		}
 
 		private void FiringAI()

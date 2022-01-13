@@ -205,7 +205,7 @@ namespace SpiritMod.Projectiles
 
 		public override void AI(Projectile projectile)
 		{//todo - forking lightning in Kill(), kill projectile when far from player in AI(), homing in OnHitNPC()
-			if (projectile.aiStyle == 88 && projectile.knockBack == .5f || (projectile.knockBack >= .2f && projectile.knockBack < .5f))
+			if (projectile.aiStyle == 88 && projectile.knockBack >= .2f && projectile.knockBack <= .5f)
 			{
 				projectile.hostile = false;
 				projectile.friendly = true;

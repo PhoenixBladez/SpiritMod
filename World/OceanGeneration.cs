@@ -42,9 +42,19 @@ namespace SpiritMod.World
 				float depth = GetOceanSlope(tilesFromInnerEdge);
 				depth += OceanSlopeRoughness();
 
-				int num473 = WorldGen.genRand.Next(20, 28); //Sand lining is a bit thicker than vanilla
-				for (int placeY = 0; placeY < oceanTop + depth + num473; placeY++)
+				int thick = WorldGen.genRand.Next(20, 28); //Sand lining is a bit thicker than vanilla
+				for (int placeY = 0; placeY < oceanTop + depth + thick; placeY++)
 					PlaceTileOrLiquid(placeX, placeY, oceanTop, depth);
+			}
+
+			void CheckOceanHeight(ref int height)
+			{
+				float depth = GetOceanSlope(250);
+
+				do
+				{
+					height--;
+				} while (height + depth + 20 > Main.worldSurface - 5);
 			}
 
 			for (int side = 0; side < 2; side++)
@@ -65,6 +75,8 @@ namespace SpiritMod.World
 					for (oceanTop = 0; !Main.tile[initialWidth - 1, oceanTop].active(); oceanTop++)
 					{ } //Get top of ocean
 
+					CheckOceanHeight(ref oceanTop);
+
 					oceanTop += WorldGen.genRand.Next(1, 5);
 					for (int placeX = initialWidth - 1; placeX >= worldEdge; placeX--)
 						GenSingleOceanSingleStep(oceanTop, placeX, ref tilesFromInnerEdge);
@@ -82,6 +94,8 @@ namespace SpiritMod.World
 					int oceanTop;
 					for (oceanTop = 0; !Main.tile[worldEdge - 1, oceanTop].active(); oceanTop++)
 					{ } //Get top of ocean
+
+					CheckOceanHeight(ref oceanTop);
 
 					oceanTop += WorldGen.genRand.Next(1, 5);
 					for (int placeX = worldEdge; placeX < initialWidth; placeX++) //repeat X loop
