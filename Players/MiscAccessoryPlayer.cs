@@ -1,6 +1,7 @@
 ﻿using SpiritMod.Items.Accessory;
 using SpiritMod.Projectiles.Clubs;
 using SpiritMod.Utilities;
+using SpiritMod.Dusts;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

@@ -45,6 +45,8 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
         }
 		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
+		public override void HoldItem(Player player) => player.noFallDmg = true;
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Projectile proj = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);

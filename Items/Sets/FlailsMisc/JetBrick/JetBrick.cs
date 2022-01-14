@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+﻿/*using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -17,7 +17,6 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
 			DisplayName.SetDefault("Jet Brick");
 			Tooltip.SetDefault("Pulls you along with it when launched far enough");
 		}
-
 		public override void SafeSetDefaults()
 		{
 			item.Size = new Vector2(34, 30);
@@ -91,21 +90,6 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
 			Lighting.AddLight(projectile.Center, color.ToVector3() * .7f);
 		}
 
-		/*private void CreateSmoke(int rate, bool spinning, Player player)
-		{
-			if (projectile.localAI[1] % rate == 0)
-			{
-				Vector2 direction = spinning ? projectile.DirectionTo(player.Center).RotatedBy(player.direction * -1.57f) * 3 : Main.rand.NextVector2Circular(3, 3);
-				var particle = new SmokeParticle(
-					projectile.Center,
-					direction,
-					Color.Lerp(Color.Black, Color.Gray, Main.rand.NextFloat()),
-					Main.rand.NextFloat(0.3f, 0.5f),
-					60);
-				ParticleHandler.SpawnParticle(particle);
-			}
-		}*/
-
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => projectile.velocity = projectile.DirectionFrom(target.Center) * projectile.velocity.Length() * 0.8f;
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -133,4 +117,4 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
 			PrimitiveRenderer.DrawPrimitiveShape(blurLine, blurEffect);
 		}
 	}
-}
+}*/
