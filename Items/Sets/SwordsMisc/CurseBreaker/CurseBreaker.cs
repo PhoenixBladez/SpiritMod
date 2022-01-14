@@ -204,7 +204,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			projectile.Center = Player.Center + (direction.RotatedBy(-1.57f) * 20);
 
 			cursedTimer--;
-			if (cursedTimer == 0)
+			if (cursedTimer == 0  && !Empowered)
 			{
 				Player.GetModPlayer<MyPlayer>().Shake = 8;
 
