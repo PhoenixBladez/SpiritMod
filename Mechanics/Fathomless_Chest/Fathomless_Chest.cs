@@ -442,11 +442,15 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 		}
 		public void ConvertIce(int i, int j, int size, int typeConvert)
 		{
-			for (int k = i - size; k <= i + size; k++) {
-				for (int l = j - size; l <= j + size; l++) {
-					if (WorldGen.InWorld(k, l, 1) && Math.Abs(k - i) + Math.Abs(l - j) < Math.Sqrt(size * size + size * size)) {
+			for (int k = i - size; k <= i + size; k++)
+			{
+				for (int l = j - size; l <= j + size; l++)
+				{
+					if (WorldGen.InWorld(k, l, 1) && Math.Abs(k - i) + Math.Abs(l - j) < Math.Sqrt(size * size + size * size))
+					{
 						int type = (int)Main.tile[k, l].type;
-						if (TileID.Sets.Conversion.Ice[type]) {
+						if (TileID.Sets.Conversion.Ice[type])
+						{
 							Main.tile[k, l].type = (ushort)typeConvert;
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
@@ -459,7 +463,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 		public void BadLuck(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
-			int index = CombatText.NewText(new Rectangle(i * 16, j * 16, player.width, player.height), new Color(255,150,150), "Bad Luck!", false, false);
+			int index = CombatText.NewText(new Rectangle(i * 16, j * 16, player.width, player.height), new Color(255, 150, 150), "Bad Luck!", false, false);
 			CombatText combatText = Main.combatText[index];
 			NetMessage.SendData(MessageID.CombatTextInt, -1, -1, NetworkText.FromLiteral(combatText.text), (int)combatText.color.PackedValue, combatText.position.X, combatText.position.Y, 0.0f, 0, 0, 0);
 		}
@@ -486,16 +490,14 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 			int left = i - tile.frameX / 18;
 			int top = j - tile.frameY / 18;
 			int spawnX = left * 16;
-            int spawnY = top * 16;	
+			int spawnY = top * 16;
 			if (Main.rand.Next(20) == 0)
 			{
-				int index3 = Dust.NewDust(new Vector2(spawnX, spawnY), 16*2, 16*3, DustID.DungeonSpirit, 0.0f, 0.0f, 150, new Color(), 0.3f);
-				Main.dust[index3].fadeIn = 0.75f;
-				Dust dust = Main.dust[index3];
-				Vector2 vector2_2 = dust.velocity * 0.1f;
-				dust.velocity = vector2_2;
-				Main.dust[index3].noLight = true;
-				Main.dust[index3].noGravity = true;
+				Dust dust = Main.dust[Dust.NewDust(new Vector2(spawnX, spawnY), 16 * 2, 16 * 3, DustID.DungeonSpirit, 0.0f, 0.0f, 150, new Color(), 0.3f)];
+				dust.fadeIn = 0.75f;
+				dust.velocity *= 0.1f;
+				dust.noLight = true;
+				dust.noGravity = true;
 			}
 			return true;
 		}
@@ -522,7 +524,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.consumable = true;
 			item.rare = ItemRarityID.Yellow;
-			item.createTile = mod.TileType("Fathomless_Chest");
+			item.createTile = ModContent.TileType<Fathomless_Chest>();
 		}
 	}
 }

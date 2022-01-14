@@ -67,6 +67,7 @@ namespace SpiritMod.World
 						MyWorld.gennedTower = true;
 					}
 				}
+
 				int siz = (int)((Main.maxTilesX / 4200f) * 7);
 				int repeats = WorldGen.genRand.Next(siz, siz + 4);
 
@@ -76,7 +77,7 @@ namespace SpiritMod.World
 				for (int k = 0; k < (repeats / 2 + 1); k++)
 					GenerateCrateStashJungle();
 
-				for (int k = 0; k < (repeats / 3 * 2 + 2); k++)
+				for (int k = 0; k < (repeats + 2); k++)
 					GenerateBismiteCavern();
 
 				if (WorldGen.genRand.Next(2) == 0)
