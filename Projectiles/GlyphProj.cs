@@ -67,7 +67,6 @@ namespace SpiritMod.Projectiles
 		public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			Player player = Main.player[projectile.owner];
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
 
 			if (Glyph == GlyphType.Unholy)
 				Items.Glyphs.UnholyGlyph.PlagueEffects(target, projectile.owner, ref damage, crit);
@@ -77,39 +76,11 @@ namespace SpiritMod.Projectiles
 				Items.Glyphs.DazeGlyph.Daze(target, ref damage);
 			else if (Glyph == GlyphType.Radiant)
 				Items.Glyphs.RadiantGlyph.DivineStrike(player, ref damage);
-
-			if (modPlayer.reachSet && target.life <= target.life / 2 && projectile.thrown && crit)
-				damage = (int)(damage * 2.25f);
 		}
 
 		public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
 		{
 			Player player = Main.player[projectile.owner];
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
-
-			if (modPlayer.jellynautHelm && modPlayer.jellynautStacks < 4 && projectile.magic && (target.life <= 0 || Main.rand.NextBool(8)) && !target.friendly && !target.SpawnedFromStatue)
-			{
-				if (Main.netMode != NetmodeID.MultiplayerClient)
-				{
-					int p = Projectile.NewProjectile(player.position.X + Main.rand.Next(-20, 20), player.position.Y + Main.rand.Next(-20, 0), 1, -1, ModContent.ProjectileType<Projectiles.Magic.JellynautOrbiter>(), 0, 0, Main.myPlayer);
-					Main.projectile[p].scale = Main.rand.NextFloat(.5f, 1f);
-					modPlayer.jellynautStacks++;
-				}
-			}
-
-			if (modPlayer.AceOfHearts && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue)
-			{
-				ItemUtils.NewItemWithSync(projectile.owner, (int)target.position.X, (int)target.position.Y, target.width, target.height, Main.halloween ? ItemID.CandyApple : ItemID.Heart);
-				for (int i = 0; i < 3; i++)
-					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<HeartDust>(), 0, -0.8f);
-			}
-
-			if (modPlayer.AceOfDiamonds && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue)
-			{
-				ItemUtils.NewItemWithSync(projectile.owner, (int)target.position.X, (int)target.position.Y, target.width, target.height, ModContent.ItemType<Items.Accessory.AceCardsSet.DiamondAce>());
-				for (int i = 0; i < 3; i++)
-					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<DiamondDust>(), 0, -0.8f);
-			}
 
 			switch (Glyph)
 			{
@@ -127,11 +98,6 @@ namespace SpiritMod.Projectiles
 						Items.Glyphs.BeeGlyph.ReleaseBees(player, target, damage);
 					break;
 			}
-
-			if (projectile.friendly && projectile.thrown && Main.rand.NextBool(8) && player.GetSpiritPlayer().geodeSet == true)
-				target.AddBuff(24, 150);
-			if (projectile.friendly && projectile.thrown && Main.rand.NextBool(8) && player.GetSpiritPlayer().geodeSet == true)
-				target.AddBuff(44, 150);
 		}
 
 		public override void ModifyHitPvp(Projectile projectile, Player target, ref int damage, ref bool crit)
