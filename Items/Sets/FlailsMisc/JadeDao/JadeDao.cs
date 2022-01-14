@@ -365,6 +365,8 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			writer.WriteVector2(returnPosOffset);
 			writer.WriteVector2(npcHookOffset);
 			writer.Write(npcHookRotation);
+			writer.Write(Flip);
+			writer.Write(Slam);
 
 			if (hookNPC == default(NPC)) //Write a -1 instead if the npc isnt set
 				writer.Write(-1);
@@ -379,6 +381,8 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			returnPosOffset = reader.ReadVector2();
 			npcHookOffset = reader.ReadVector2();
 			npcHookRotation = reader.ReadSingle();
+			Flip = reader.ReadBoolean();
+			Slam = reader.ReadBoolean();
 
 			int whoAmI = reader.ReadInt32(); //Read the whoami value sent
 			if (whoAmI == -1) //If its a -1, sync that the npc hasn't been set yet

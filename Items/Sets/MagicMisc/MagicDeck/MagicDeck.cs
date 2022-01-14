@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -144,6 +145,8 @@ namespace SpiritMod.Items.Sets.MagicMisc.MagicDeck
 				offset = projectile.position - target.position;
 				offset -= projectile.velocity;
 				projectile.timeLeft = 200;
+				if (Main.netMode != NetmodeID.SinglePlayer)
+					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile.whoAmI);
 			}
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -166,6 +169,22 @@ namespace SpiritMod.Items.Sets.MagicMisc.MagicDeck
 				spriteBatch.Draw(tex3, drawPos - Main.screenPosition, frame, glowColor, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(stuck);
+			writer.Write(counter);
+			writer.WriteVector2(offset);
+			writer.Write(enemyID);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			stuck = reader.ReadBoolean();
+			counter = reader.ReadInt32();
+			offset = reader.ReadVector2();
+			enemyID = reader.ReadInt32();
 		}
 	}
 }
