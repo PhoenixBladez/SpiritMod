@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
             item.value = Item.sellPrice(0, 0, 90, 0);
             item.rare = ItemRarityID.Orange;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("AnimeSwordProj");
+            item.shoot = ModContent.ProjectileType<AnimeSwordProj>();
             item.shootSpeed = 6f;
             item.noUseGraphic = true;
         }
@@ -63,10 +63,13 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
         public readonly int MAXCHARGE = 69;
         public int charge = 0;
         int index = 0;
-        NPC mostrecent;
+        NPC mostRecent;
 
         public override void AI()
         {
+			if (projectile.owner != Main.myPlayer)
+				return;
+
             Player player = Main.player[projectile.owner];
             player.heldProj = projectile.whoAmI;
             player.itemTime = 2;
@@ -133,7 +136,7 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
                             if (npc.active && (!npc.townNPC || !npc.friendly))
                             {
                                 float distance = (npc.Center - projectile.Center).Length();
-                                if (mostrecent == null)
+                                if (mostRecent == null)
                                 {
                                     if (distance > mindist)
                                     {
@@ -143,7 +146,7 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
                                 }
                                 else
                                 {
-                                    float maxdistance = (mostrecent.Center - projectile.Center).Length();
+                                    float maxdistance = (mostRecent.Center - projectile.Center).Length();
                                     if (distance > mindist && distance < maxdistance)
                                     {
                                         closest = npc;
@@ -156,9 +159,9 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 
                     if (closest != null)
                     {
-                        mostrecent = closest;
-                        if (mostrecent.active)
-                            SpiritMod.primitives.CreateTrail(new AnimePrimTrailTwo(mostrecent));
+                        mostRecent = closest;
+                        if (mostRecent.active)
+                            SpiritMod.primitives.CreateTrail(new AnimePrimTrailTwo(mostRecent));
                     }
                     else if (projectile.timeLeft > 15)
                         projectile.timeLeft = 15;
