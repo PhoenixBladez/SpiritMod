@@ -31,7 +31,7 @@ namespace SpiritMod.World
 		public static void GenerateOcean(GenerationProgress progress)
 		{
 			//Basic Shape
-			progress.Message = Language.GetText("LegacyWorldGen.22").Value;// Lang.gen[22].Value; //replace later
+			progress.Message = Language.GetText("LegacyWorldGen.22").Value;
 
 			int dungeonSide = Main.dungeonX < Main.maxTilesX / 2 ? -1 : 1;
 
@@ -42,9 +42,21 @@ namespace SpiritMod.World
 				float depth = GetOceanSlope(tilesFromInnerEdge);
 				depth += OceanSlopeRoughness();
 
-				int thick = WorldGen.genRand.Next(20, 28); //Sand lining is a bit thicker than vanilla
-				for (int placeY = 0; placeY < oceanTop + depth + thick; placeY++)
+				int thickness = WorldGen.genRand.Next(20, 28); //Sand lining is a bit thicker than vanilla
+				bool passedTile = false;
+
+				for (int placeY = 0; placeY < oceanTop + depth + thickness; placeY++)
+				{
 					PlaceTileOrLiquid(placeX, placeY, oceanTop, depth);
+
+					if (placeY == oceanTop + depth + thickness - 2)
+					{
+						if (!Framing.GetTileSafely(placeX, placeY + 1).active() && !passedTile)
+							thickness++;
+						else
+							passedTile = true;
+					}
+				}
 			}
 
 			void CheckOceanHeight(ref int height)
@@ -81,7 +93,7 @@ namespace SpiritMod.World
 					for (int placeX = initialWidth - 1; placeX >= worldEdge; placeX--)
 						GenSingleOceanSingleStep(oceanTop, placeX, ref tilesFromInnerEdge);
 
-					_oceanInfos.Item2 = new Rectangle(worldEdge, oceanTop - 5, initialWidth, (int)GetOceanSlope(tilesFromInnerEdge) + 20);
+					_oceanInfos.Item1 = new Rectangle(worldEdge, oceanTop - 5, initialWidth, (int)GetOceanSlope(tilesFromInnerEdge) + 20);
 				}
 				else
 				{
