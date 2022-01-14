@@ -314,7 +314,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 					}
 				}
 			}
-			if (target.HasBuff(ModContent.BuffType<CurseBreakerMark>()))
+			else if (target.HasBuff(ModContent.BuffType<CurseBreakerMark>()))
 			{
 
 				if (!cursed)

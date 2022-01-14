@@ -4,6 +4,8 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
+using System.IO;
 
 namespace SpiritMod.NPCs.Boulder_Termagant
 {
@@ -44,7 +46,31 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.BoulderBehemothBanner>();
 		}
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(hasGottenColor);
+			writer.Write(resetFrames);
+			writer.Write(isRoaring);
+			writer.Write(r);
+			writer.Write(g);
+			writer.Write(b);
+			writer.Write(randomColor);
+			writer.Write(boulderTimer);
+		}
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			hasGottenColor = reader.ReadBoolean();
+			resetFrames = reader.ReadBoolean();
+			isRoaring = reader.ReadBoolean();
 
+			r = reader.ReadInt32();
+			g = reader.ReadInt32();
+			b = reader.ReadInt32();
+
+			randomColor = reader.ReadInt32();
+			boulderTimer = reader.ReadInt32();
+
+		}
 		public override bool? CanBeHitByProjectile(Projectile projectile)
 		{
 			if (projectile.type != ProjectileID.Boulder && projectile.type != ProjectileID.BoulderStaffOfEarth)
@@ -133,21 +159,24 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 						{
 							for (int i = 0; i < 5; i++)
 							{
-								Projectile.NewProjectile(player.Center.X - Main.rand.Next(-300, 300), player.Center.Y - Main.rand.Next(800, 1200), 0f, 2f + (float)Main.rand.Next(1, 3), mod.ProjectileType("Granite_Boulder"), 15, 0, player.whoAmI);
+								int proj = Projectile.NewProjectile(player.Center.X - Main.rand.Next(-300, 300), player.Center.Y - Main.rand.Next(800, 1200), 0f, 2f + (float)Main.rand.Next(1, 3), mod.ProjectileType("Granite_Boulder"), 15, 0, Main.myPlayer, 0, 0);
+								Main.projectile[proj].netUpdate = true;
 							}
 						}
 						else if (player.GetModPlayer<MyPlayer>().ZoneMarble)
 						{
 							for (int i = 0; i < 5; i++)
 							{
-								Projectile.NewProjectile(player.Center.X - Main.rand.Next(-300, 300), player.Center.Y - Main.rand.Next(800, 1200), 0f, 2f + (float)Main.rand.Next(1, 3), mod.ProjectileType("Marble_Boulder"), 15, 0, player.whoAmI);
+								int proj = Projectile.NewProjectile(player.Center.X - Main.rand.Next(-300, 300), player.Center.Y - Main.rand.Next(800, 1200), 0f, 2f + (float)Main.rand.Next(1, 3), mod.ProjectileType("Marble_Boulder"), 15, 0, Main.myPlayer, 0, 0);
+								Main.projectile[proj].netUpdate = true;
 							}
 						}
 						else
 						{
 							for (int i = 0; i < 5; i++)
 							{
-								Projectile.NewProjectile(player.Center.X - Main.rand.Next(-300, 300), player.Center.Y - Main.rand.Next(800, 1200), 0f, 2f + (float)Main.rand.Next(1, 3), mod.ProjectileType("Cavern_Boulder"), 15, 0, player.whoAmI);
+								int proj = Projectile.NewProjectile(player.Center.X - Main.rand.Next(-300, 300), player.Center.Y - Main.rand.Next(800, 1200), 0f, 2f + (float)Main.rand.Next(1, 3), mod.ProjectileType("Cavern_Boulder"), 15, 0, Main.myPlayer, 0, 0);
+								Main.projectile[proj].netUpdate = true;
 							}
 						}
 					}
