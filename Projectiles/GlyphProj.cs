@@ -64,14 +64,6 @@ namespace SpiritMod.Projectiles
 			packet.Send(-1, sender);
 		}
 
-
-		public override bool? CanHitNPC(Projectile projectile, NPC target)
-		{
-			if (projectile.aiStyle == 88 && ((projectile.knockBack == .5f || projectile.knockBack == .4f) || (projectile.knockBack >= .4f && projectile.knockBack < .5f)) && target.immune[projectile.owner] > 0)
-				return false;
-			return null;
-		}
-
 		public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			Player player = Main.player[projectile.owner];
@@ -88,40 +80,6 @@ namespace SpiritMod.Projectiles
 
 			if (modPlayer.reachSet && target.life <= target.life / 2 && projectile.thrown && crit)
 				damage = (int)(damage * 2.25f);
-
-			if (modPlayer.AceOfSpades && crit)
-			{
-				damage = (int)(damage * 1.1f + 0.5f);
-				for (int i = 0; i < 3; i++)
-					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<SpadeDust>(), 0, -0.8f);
-			}
-
-			if (modPlayer.AceOfClubs && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue && target.type != NPCID.TargetDummy)
-			{
-				int money = (int)(300 * MathHelper.Clamp((float)damage / target.lifeMax, 1 / 300f, 1f));
-				for (int i = 0; i < 3; i++)
-				{
-					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<ClubDust>(), 0, -0.8f);
-				}
-
-				if (money / 1000000 > 0)
-					ItemUtils.NewItemWithSync(projectile.owner, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.PlatinumCoin, money / 1000000);
-
-				money %= 1000000;
-
-				if (money / 10000 > 0)
-					ItemUtils.NewItemWithSync(projectile.owner, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.GoldCoin, money / 10000);
-
-				money %= 10000;
-
-				if (money / 100 > 0)
-					ItemUtils.NewItemWithSync(projectile.owner, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.SilverCoin, money / 100);
-
-				money %= 100;
-
-				if (money > 0)
-					ItemUtils.NewItemWithSync(projectile.owner, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.CopperCoin, money);
-			}
 		}
 
 		public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
@@ -170,8 +128,6 @@ namespace SpiritMod.Projectiles
 					break;
 			}
 
-			if (projectile.aiStyle == 88 && projectile.knockBack >= .2f && projectile.knockBack <= .5f)
-				target.immune[projectile.owner] = 6;
 			if (projectile.friendly && projectile.thrown && Main.rand.NextBool(8) && player.GetSpiritPlayer().geodeSet == true)
 				target.AddBuff(24, 150);
 			if (projectile.friendly && projectile.thrown && Main.rand.NextBool(8) && player.GetSpiritPlayer().geodeSet == true)
@@ -200,17 +156,6 @@ namespace SpiritMod.Projectiles
 				case GlyphType.Blaze:
 					Items.Glyphs.BlazeGlyph.Rage(player);
 					break;
-			}
-		}
-
-		public override void AI(Projectile projectile)
-		{//todo - forking lightning in Kill(), kill projectile when far from player in AI(), homing in OnHitNPC()
-			if (projectile.aiStyle == 88 && projectile.knockBack >= .2f && projectile.knockBack <= .5f)
-			{
-				projectile.hostile = false;
-				projectile.friendly = true;
-				projectile.magic = true;
-				projectile.penetrate = -1;
 			}
 		}
 	}

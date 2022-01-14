@@ -43,6 +43,13 @@ namespace SpiritMod.Players
 			// Twilight Talisman & Shadow Gauntlet
 			if ((player.AccessoryEquipped<Twilight1>() && Main.rand.NextBool(13)) || (player.AccessoryEquipped<ShadowGauntlet>() && Main.rand.NextBool(2)))
 				target.AddBuff(BuffID.ShadowFlame, 180);
+
+			if (player.GetModPlayer<MyPlayer>().AceOfSpades && crit)
+			{
+				damage = (int)(damage * 1.1f + 0.5f);
+				for (int i = 0; i < 3; i++)
+					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<SpadeDust>(), 0, -0.8f);
+			}
 		}
 
 		public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit) => OnHitNPCWithAnything(proj, target, damage, knockback, crit);
