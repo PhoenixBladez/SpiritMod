@@ -112,17 +112,20 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 				if (npc.ai[1] < 260)
 				{
 					int interval = npc.life < npc.lifeMax / 2 ? 55 : 110;
-					if (npc.ai[3] % interval == 0 && Main.netMode != NetmodeID.MultiplayerClient)
+					if (npc.ai[3] % interval == 0)
 					{
 						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 73, 1f, -0.5f);
 						Vector2 toPlayer = Vector2.Normalize(player.Center - npc.Center) * 12f;
 
 						int numberProjectiles = 3 + Main.rand.Next(4);
-						for (int i = 0; i < numberProjectiles; i++)
+						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							float scale = 1f - (Main.rand.NextFloat() * .3f);
-							Vector2 perturbedSpeed = toPlayer.RotatedByRandom(MathHelper.ToRadians(32)) * scale;
-							Projectile.NewProjectile(npc.Center.X + 23 * npc.direction, npc.Center.Y + 16, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("Sharp_Feather"), 22, 3f, 0);
+							for (int i = 0; i < numberProjectiles; i++)
+							{
+								float scale = 1f - (Main.rand.NextFloat() * .3f);
+								Vector2 perturbedSpeed = toPlayer.RotatedByRandom(MathHelper.ToRadians(32)) * scale;
+								Projectile.NewProjectile(npc.Center.X + 23 * npc.direction, npc.Center.Y + 16, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("Sharp_Feather"), 22, 3f, Main.myPlayer);
+							}
 						}
 					}
 				}
