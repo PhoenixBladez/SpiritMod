@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using SpiritMod.Effects.Stargoop;
 using SpiritMod.Dusts;
 using SpiritMod.Items.Material;
+using System.IO;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.StarLance
 {
@@ -151,6 +152,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarLance
 				offset = projectile.position - target.position;
 				offset -= projectile.velocity;
 				projectile.timeLeft = 200;
+				if (Main.netMode != NetmodeID.SinglePlayer)
+					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile.whoAmI);
 			}
 		}
 
@@ -182,6 +185,19 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarLance
 				int frameHeight = (tex.Height / 11);
 				sB.Draw(tex, (projectile.Center - Main.screenPosition + new Vector2(0, projectile.gfxOffY)) / 2, new Rectangle(0, projectile.frame * frameHeight, tex.Width, frameHeight), Color.White, projectile.rotation, new Vector2(tex.Width - (projectile.width / 2), (tex.Height / 2) / 11), projectile.scale * 0.5f, SpriteEffects.None, 0);
 			}
+		}
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(stuck);
+			writer.WriteVector2(offset);
+			writer.Write(enemyID);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			stuck = reader.ReadBoolean();
+			offset = reader.ReadVector2();
+			enemyID = reader.ReadInt32();
 		}
 	}
 }

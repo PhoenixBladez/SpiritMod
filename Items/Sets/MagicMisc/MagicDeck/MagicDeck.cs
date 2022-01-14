@@ -137,8 +137,6 @@ namespace SpiritMod.Items.Sets.MagicMisc.MagicDeck
 			projectile.penetrate++;
 			if (!stuck && target.life > 0)
 			{
-				if (Main.netMode != NetmodeID.SinglePlayer)
-					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile.whoAmI);
 				enemyID = target.whoAmI;
 				counter = 16;
 				stuck = true;
@@ -147,6 +145,8 @@ namespace SpiritMod.Items.Sets.MagicMisc.MagicDeck
 				offset = projectile.position - target.position;
 				offset -= projectile.velocity;
 				projectile.timeLeft = 200;
+				if (Main.netMode != NetmodeID.SinglePlayer)
+					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile.whoAmI);
 			}
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
