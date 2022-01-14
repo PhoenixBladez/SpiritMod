@@ -1,7 +1,9 @@
+using Microsoft.Xna.Framework;
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Consumable
@@ -33,7 +35,12 @@ namespace SpiritMod.Items.Consumable
 			Main.PlaySound(SoundID.CoinPickup, (int)player.Center.X, (int)player.Center.Y, 2);
 			Main.invasionType = 0;
 
-			Main.NewText("The invaders have been cast out of the world...");
+			NetMessage.SendData(MessageID.WorldData);
+
+			if (Main.netMode == NetmodeID.SinglePlayer)
+				Main.NewText("The invaders have been cast out of the world...", Color.Purple);
+			else if (Main.netMode == NetmodeID.Server)
+				NetMessage.BroadcastChatMessage(NetworkText.FromLiteral("The invaders have been cast out of the world..."), Color.Purple, -1);
 			return true;
 		}
 	}

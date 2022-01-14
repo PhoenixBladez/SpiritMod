@@ -36,7 +36,6 @@ namespace SpiritMod.Items.Glyphs
 				"Afflicted will slowly lose life and release toxic clouds");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -53,7 +52,8 @@ namespace SpiritMod.Items.Glyphs
 			damage += target.checkArmorPenetration(6);
 			if (!crit || !target.CanLeech())
 				return;
-			if (Main.rand.NextDouble() < 0.5) {
+			if (Main.rand.NextDouble() < 0.5)
+			{
 				target.AddBuff(ModContent.BuffType<WanderingPlague>(), 360);
 				target.GetGlobalNPC<NPCs.GNPC>().unholySource = owner;
 			}
@@ -69,11 +69,13 @@ namespace SpiritMod.Items.Glyphs
 			if (!Main.player[owner].active)
 				return;
 			int max = time != 0 ? 1 : Main.hardMode ? 3 : 1;
-			for (int i = 0; i < max; i++) {
+			for (int i = 0; i < max; i++)
+			{
 				Vector2 vel = Vector2.UnitY.RotatedByRandom(Math.PI * 2);
 				vel *= Main.rand.Next(8, 40) * .125f;
 				int projectile = Projectile.NewProjectile(target.Center, vel, ModContent.ProjectileType<PoisonCloud>(), Main.hardMode ? 35 : 20, 0, owner, target.whoAmI);
-				if (Main.netMode == NetmodeID.Server) {
+				if (Main.netMode == NetmodeID.Server)
+				{
 					Main.projectile[projectile].ai[0] = target.whoAmI;
 					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile);
 				}

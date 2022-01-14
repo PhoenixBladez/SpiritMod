@@ -1073,9 +1073,10 @@ namespace SpiritMod
 					if (bobberIndex != -1)
 					{
 						Vector2 bobberPos = Main.projectile[bobberIndex].Center;
-						caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<NPCs.BottomFeeder.BottomFeeder>(), 0, 2, 1, 0, 0, Main.myPlayer);
+						caughtType = ModContent.NPCType<NPCs.BottomFeeder.BottomFeeder>();
+						int id = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<NPCs.BottomFeeder.BottomFeeder>(), 0, 2, 1, 0, 0, Main.myPlayer);
 						if (Main.netMode == NetmodeID.MultiplayerClient)
-							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<NPCs.BottomFeeder.BottomFeeder>());
+							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, id);
 					}
 				}
 			}

@@ -455,7 +455,7 @@ namespace SpiritMod.Utilities
 			if (grass == TileID.CorruptGrass || grass == TileID.FleshGrass || grass == TileID.HallowedGrass)
 				foreach (Point16 point in MyWorld.superSunFlowerPositions)
 					if (Math.Abs(point.X - i) < SuperSunFlower.Range * 2)
-							return;
+						return;
 
 			orig(i, j, dirt, grass, repeat, color);
 		}
@@ -560,7 +560,8 @@ namespace SpiritMod.Utilities
 			// Try to jump to the specified instruction and stop if we can't find it
 			// We use MoveType.AfterLabel because there are labels from previous instructions pointing to the location we're emitting to
 			// and thus we want our emitted instructions to become the target for the labels, instead of the NPC.downedPlantBoss instruction
-			if (!cursor.TryGotoNext(MoveType.AfterLabel, i => i.MatchLdsfld<NPC>("downedPlantBoss"))) {
+			if (!cursor.TryGotoNext(MoveType.AfterLabel, i => i.MatchLdsfld<NPC>("downedPlantBoss")))
+			{
 				logger.Error("Failed to patch WorldGen.hardUpdateWorld to add super sunflower functionality");
 				return;
 			}
@@ -577,7 +578,6 @@ namespace SpiritMod.Utilities
 				foreach (Point16 point in MyWorld.superSunFlowerPositions)
 					if (Math.Abs(point.X - i) < SuperSunFlower.Range * 2)
 						return true;
-
 				return false;
 			});
 			

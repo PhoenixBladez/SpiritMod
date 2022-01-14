@@ -98,24 +98,11 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 
 			if (player.channel)
 			{
-				if (projectile.soundDelay <= 0) //Create sound & use ammo
+				if (projectile.soundDelay <= 0 && targets.Count > 0) //Create sound & use ammo
 				{
 					projectile.soundDelay = 20;
 					Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 15);
-
-					for (int i = 0; i < player.inventory.Length; ++i)
-					{
-						if (player.inventory[i].ammo == AmmoID.Gel)
-						{
-							if (PlayerHooks.ConsumeAmmo(player, player.HeldItem, player.inventory[i]))
-							{
-								player.inventory[i].stack--;
-								if (player.inventory[i].stack <= 0)
-									player.inventory[i].TurnToAir();
-							}
-							break;
-						}
-					}
+					GItem.UseAmmo(player, AmmoID.Gel);
 				}
 
 				projectile.timeLeft = 2;
