@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+﻿/*using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.Graphics.Shaders;
@@ -153,4 +153,4 @@ namespace SpiritMod.Items.Sets.FlailsMisc.Revelation
 			tManager.CreateTrail(projectile, new GradientTrail(Color.HotPink * .6f, Color.HotPink * .12f), new RoundCap(), new DefaultTrailPosition(), 90f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
 		}
 	}
-}
+}*/

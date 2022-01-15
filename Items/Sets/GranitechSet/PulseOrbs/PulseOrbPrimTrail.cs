@@ -1,4 +1,4 @@
-﻿using Terraria.ModLoader;
+﻿/*using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -31,11 +31,6 @@ namespace SpiritMod.Items.Sets.GranitechSet.PulseOrbs
         }
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
-            /*if (PointCount <= 1) return; //for easier, but less customizable, drawing
-            float colorSin = (float)Math.Sin(Counter / 3f);
-            Color c1 = Color.Lerp(Color.White, Color.Cyan, colorSin);
-            float widthVar = (float)Math.Sqrt(Points.Count) * Width;
-            DrawBasicTrail(c1, widthVar);*/
             if (PointCount <= 6) return;
             float colorSin = (float)Math.Sin(Counter / 3f);
             for (int i = 0; i < Points.Count; i++)
@@ -128,4 +123,4 @@ namespace SpiritMod.Items.Sets.GranitechSet.PulseOrbs
             }
         }
     }
-}
+}*/
