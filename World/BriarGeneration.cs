@@ -925,6 +925,11 @@ namespace SpiritMod.World
 					WorldGen.KillTile(x, y);
 
 			}
+
+			Framing.GetTileSafely(_bbX, _testY + 2).slope(0);
+			Framing.GetTileSafely(_bbX + 1, _testY + 2).slope(0);
+			Framing.GetTileSafely(_bbX + 2, _testY + 2).slope(0);
+
 			WorldGen.Place3x2(_bbX, _testY, (ushort)ModContent.TileType<Tiles.BloodBlossom>());
 		}
 
