@@ -236,7 +236,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                     Main.ReportInvasionProgress(Main.invasionSizeStart - Main.invasionSize, Main.invasionSizeStart, 1, 0);
                 if (Main.netMode == NetmodeID.Server)
-                    NetMessage.SendData(MessageID.InvasionProgressReport, -1, -1, null, Main.invasionProgress, (float)Main.invasionProgressMax, (float)Main.invasionProgressIcon, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.InvasionProgressReport, -1, -1, null, Main.invasionProgress, Main.invasionProgressMax, Main.invasionProgressIcon, 0f, 0, 0, 0);
             }
             int[] lootTable = {
 				ModContent.ItemType<Bauble>(),

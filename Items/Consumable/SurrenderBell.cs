@@ -34,8 +34,9 @@ namespace SpiritMod.Items.Consumable
 		{
 			Main.PlaySound(SoundID.CoinPickup, (int)player.Center.X, (int)player.Center.Y, 2);
 			Main.invasionType = 0;
+			Main.invasionSize = 0;
 
-			NetMessage.SendData(MessageID.WorldData);
+			NetMessage.SendData(MessageID.InvasionProgressReport, -1, -1, null, Main.invasionProgress, Main.invasionProgressMax, Main.invasionProgressIcon, 0f, 0, 0, 0);
 
 			if (Main.netMode == NetmodeID.SinglePlayer)
 				Main.NewText("The invaders have been cast out of the world...", Color.Purple);
