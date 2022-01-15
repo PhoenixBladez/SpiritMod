@@ -75,6 +75,8 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 					modProj2.Flip = combo % 2 == 0;
 					modProj2.Slam = slam;
 				}
+				if (Main.netMode != NetmodeID.SinglePlayer)
+					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj2.whoAmI);
 			}
 
 			if (Main.netMode != NetmodeID.SinglePlayer)
@@ -367,6 +369,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			writer.Write(npcHookRotation);
 			writer.Write(Flip);
 			writer.Write(Slam);
+			writer.Write(Curvature);
 
 			if (hookNPC == default(NPC)) //Write a -1 instead if the npc isnt set
 				writer.Write(-1);
@@ -383,6 +386,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			npcHookRotation = reader.ReadSingle();
 			Flip = reader.ReadBoolean();
 			Slam = reader.ReadBoolean();
+			Curvature = reader.ReadSingle();
 
 			int whoAmI = reader.ReadInt32(); //Read the whoami value sent
 			if (whoAmI == -1) //If its a -1, sync that the npc hasn't been set yet
