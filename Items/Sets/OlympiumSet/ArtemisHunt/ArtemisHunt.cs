@@ -171,7 +171,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 			if (!target.GetGlobalNPC<ArtemisGNPC>().artemisMarked)
 				Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<ArtemisCrescent>(), 0, 0, projectile.owner, target.whoAmI);
 			target.GetGlobalNPC<ArtemisGNPC>().artemisMarked = true;
-			target.GetGlobalNPC<ArtemisGNPC>().artemisTicker = 600;
+			target.GetGlobalNPC<ArtemisGNPC>().artemisTicker = 180;
 		}
 	}
 	public class ArtemisHuntProj : ModProjectile
