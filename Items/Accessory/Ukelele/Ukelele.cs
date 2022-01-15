@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
 
 		public override void SetDefaults()
 		{
-			item.width = 70;
+			item.width = 50;
 			item.height = 48;
 			item.value = Item.buyPrice(0, 3, 0, 0);
 			item.rare = ItemRarityID.LightRed;

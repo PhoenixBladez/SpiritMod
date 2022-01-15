@@ -168,9 +168,9 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 				ParticleHandler.SpawnParticle(particle);
 			}
 
-			if (!target.HasBuff(ModContent.BuffType<ArtemisMark>()))
+			if (!target.GetGlobalNPC<ArtemisGNPC>().artemisMarked)
 				Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<ArtemisCrescent>(), 0, 0, projectile.owner, target.whoAmI);
-			target.AddBuff(ModContent.BuffType<ArtemisMark>(), 180);
+			target.GetGlobalNPC<ArtemisGNPC>().artemisMarked = true;
 		}
 	}
 	public class ArtemisHuntProj : ModProjectile
@@ -332,7 +332,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 				ParticleHandler.SpawnParticle(particle);
 			}
 
-			var target = Main.npc.Where(n => n.active && Vector2.Distance(n.Center, projectile.Center) < 200 && n.HasBuff(ModContent.BuffType<ArtemisMark>())).OrderBy(n => Vector2.Distance(n.Center, projectile.Center)).FirstOrDefault();
+			var target = Main.npc.Where(n => n.active && Vector2.Distance(n.Center, projectile.Center) < 200 && n.GetGlobalNPC<ArtemisGNPC>().artemisMarked).OrderBy(n => Vector2.Distance(n.Center, projectile.Center)).FirstOrDefault();
 			if (target != default)
 			{
 				Vector2 direction = target.Center - projectile.Center;
@@ -388,7 +388,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			if (target.HasBuff(ModContent.BuffType<ArtemisMark>()))
+			if (target.GetGlobalNPC<ArtemisGNPC>().artemisMarked)
 				damage = (int)(damage * 1.5f);
 		}
 	}
@@ -424,7 +424,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 			counter += 0.025f;
 			if (target.active)
 			{
-				if (target.HasBuff(ModContent.BuffType<ArtemisMark>()))
+				if (target.GetGlobalNPC<ArtemisGNPC>().artemisMarked)
 				{
 					projectile.scale = MathHelper.Clamp(counter * 3, 0, 1);
 					projectile.timeLeft = 12;
@@ -448,12 +448,10 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 			return true;
 		}
 	}
-	public class ArtemisMark : ModBuff
+	public class ArtemisGNPC : GlobalNPC
 	{
-		public override void SetDefaults()
-		{
-			DisplayName.SetDefault("Artemis Mark");
-			Main.buffNoTimeDisplay[Type] = false;
-		}
+		public bool artemisMarked;
+
+		public override bool InstancePerEntity => true;
 	}
 }
