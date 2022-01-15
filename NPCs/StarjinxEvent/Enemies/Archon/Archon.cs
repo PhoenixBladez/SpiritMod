@@ -59,6 +59,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 
 		// Meteor Dash
 		private Vector2 meteorDashOffset = Vector2.Zero;
+		private Vector2 meteorDashBegin = Vector2.Zero;
 		private float meteorDashFactor = 0f;
 
 		// Misc
@@ -211,12 +212,13 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 
 		private void MeteorDashAttack()
 		{
-			const float AnticipationThreshold = 0.2f;
+			const float AnticipationThreshold = 0.15f;
+			const float MeteorRainThreshold = 0.95f;
 
 			if (timers["ATTACK"] < (int)(attackTimeMax * AnticipationThreshold)) //Anticipation & move to position
 			{
 				if (meteorDashOffset == Vector2.Zero)
-					meteorDashOffset = new Vector2(0, -Main.rand.Next(300, 400)).RotatedByRandom(MathHelper.Pi / 3);
+					meteorDashOffset = new Vector2(0, -Main.rand.Next(300, 400)).RotatedByRandom(MathHelper.PiOver2);
 
 				npc.Center = Vector2.Lerp(npc.Center, Target.Center + meteorDashOffset, 0.15f);
 			}
@@ -224,20 +226,35 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			{
 				waitingOnAttack = true;
 				cachedAttackPos = npc.Center - ((npc.Center - Target.Center) * 2.5f);
-				CombatText.NewText(new Rectangle((int)cachedAttackPos.X, (int)cachedAttackPos.Y, 1, 1), Color.Red, "e");
+				meteorDashBegin = npc.Center;
 			}
-			else if (timers["ATTACK"] >= attackTimeMax * AnticipationThreshold && timers["ATTACK"] < attackTimeMax)
+			else if (timers["ATTACK"] >= attackTimeMax * AnticipationThreshold && timers["ATTACK"] < attackTimeMax * MeteorRainThreshold - 2) //Actual dash
 			{
 				meteorDashFactor = MathHelper.Lerp(meteorDashFactor, 1f, 0.15f);
-				npc.velocity = npc.DirectionTo(cachedAttackPos) * 20 * meteorDashFactor;
+				npc.velocity = npc.DirectionTo(cachedAttackPos) * 30 * meteorDashFactor;
 
-				if (npc.DistanceSQ(cachedAttackPos) > 10 * 10)
+				if (npc.DistanceSQ(cachedAttackPos) > 32 * 32)
 					realDamage = 70;
 				else
 				{
 					realDamage = 0;
-					timers["ATTACK"] = (int)attackTimeMax;
+					timers["ATTACK"] = (int)(attackTimeMax * MeteorRainThreshold) - 2;
 				}
+			}
+			else if (timers["ATTACK"] >= (int)(attackTimeMax * MeteorRainThreshold) && timers["ATTACK"] < attackTimeMax) //Spawn meteors
+			{
+				if (timers["ATTACK"] == (int)(attackTimeMax * MeteorRainThreshold))
+				{
+					for (int i = 0; i < 4; ++i)
+					{
+						Vector2 vel = npc.DirectionFrom(meteorDashBegin).RotatedByRandom(0.1f) * Main.rand.NextFloat(6f, 17f);
+						Vector2 pos = meteorDashBegin - (vel * 30) - new Vector2(Main.rand.Next(-300, 300), 0);
+						Projectile.NewProjectile(pos, vel, ProjectileID.ImpFireball, 20, 1f);
+					}
+				}
+
+				npc.velocity *= 0.8f;
+				npc.position += new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
 			}
 			else if (timers["ATTACK"] >= attackTimeMax)
 			{
