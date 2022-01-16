@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Mechanics.BackgroundSystem;
-using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;

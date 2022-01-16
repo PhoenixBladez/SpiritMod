@@ -15,7 +15,6 @@ using Terraria.ModLoader;
 using Terraria.UI.Chat;
 using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Items.Sets.ToolsMisc.Evergreen;
-using SpiritMod.Mechanics.PortraitSystem;
 using SpiritMod.Mechanics.BackgroundSystem;
 using System.Collections.Generic;
 using SpiritMod.Mechanics.Trails;
@@ -28,6 +27,7 @@ using SpiritMod.Items.Weapon.Summon.StardustBomb;
 using SpiritMod.NPCs.Town.Oracle;
 using SpiritMod.NPCs.Hydra;
 using SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder;
+using SpiritMod.Mechanics.CollideableNPC;
 
 namespace SpiritMod.Utilities
 {
@@ -43,6 +43,7 @@ namespace SpiritMod.Utilities
 			On.Terraria.Player.KeyDoubleTap += Player_KeyDoubleTap;
 			On.Terraria.Main.DrawDust += AdditiveCalls;
 			On.Terraria.Player.ToggleInv += Player_ToggleInv;
+			On.Terraria.Player.Update_NPCCollision += CollideableNPCDetours.SolidTopCollision;
 			On.Terraria.Main.DrawInterface += DrawParticles;
 			On.Terraria.Localization.LanguageManager.GetTextValue_string += LanguageManager_GetTextValue_string1;
 
@@ -77,6 +78,7 @@ namespace SpiritMod.Utilities
 			On.Terraria.Player.KeyDoubleTap -= Player_KeyDoubleTap;
 			On.Terraria.Main.DrawDust -= AdditiveCalls;
 			On.Terraria.Player.ToggleInv -= Player_ToggleInv;
+			On.Terraria.Player.Update_NPCCollision += CollideableNPCDetours.SolidTopCollision;
 			On.Terraria.Main.DrawInterface -= DrawParticles;
 			On.Terraria.Localization.LanguageManager.GetTextValue_string -= LanguageManager_GetTextValue_string1;
 			On.Terraria.Main.DrawPlayerChat -= Main_DrawPlayerChat;
