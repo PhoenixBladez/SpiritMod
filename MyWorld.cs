@@ -1337,7 +1337,7 @@ namespace SpiritMod
 			{
 				int beachIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Beaches")); //Replace beach gen
 				if (beachIndex != -1)
-					tasks[beachIndex] = new PassLegacy("New Beach", OceanGeneration.GenerateOcean);
+					tasks[beachIndex] = new PassLegacy("Beaches", OceanGeneration.GenerateOcean);
 			}
 		}
 

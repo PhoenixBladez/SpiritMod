@@ -11,7 +11,6 @@ namespace SpiritMod.Utilities
 	{
 		public override ConfigScope Mode => ConfigScope.ClientSide;
 
-
 		[Label("$Mods.SpiritMod.Screenshake")]
 		[Tooltip("Modifies the intensity of screenshake applied by content within the mod\nSet to 0 to completely disable")]
 		[Range(0f, 1f)]
@@ -66,7 +65,6 @@ namespace SpiritMod.Utilities
 		[DefaultValue(true)]
 		public bool ShowNPCQuestNotice { get; set; }
 
-
 		[Label("$Mods.SpiritMod.ArcaneHideoutGen")]
 		[Tooltip("Enables the generation of both the Bandit Hideout and Arcane Tower\nOnly one spawns per world by default\nRecommended only for large worlds")]
 		[DefaultValue(false)]
@@ -96,7 +94,6 @@ namespace SpiritMod.Utilities
 		}
 
 		[ReloadRequired]
-
 		[Label("$Mods.SpiritMod.WaterEnemies")]
 		[Tooltip("Enables enemy encounters while fishing")]
 		[DefaultValue(true)]

@@ -5,6 +5,7 @@ using SpiritMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace SpiritMod.Items.Weapon.Summon
 {
 	public class CoreController : ModItem
@@ -39,10 +40,7 @@ namespace SpiritMod.Items.Weapon.Summon
 		public override bool CanUseItem(Player player)
 		{
 			player.FindSentryRestingSpot(item.shoot, out int worldX, out int worldY, out _);
-			worldX /= 16;
-			worldY /= 16;
-			worldY--;
-			return !WorldGen.SolidTile(worldX, worldY);
+			return !WorldGen.SolidTile(worldX / 16, worldY / 16 - 1);
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -52,6 +50,7 @@ namespace SpiritMod.Items.Weapon.Summon
 			player.UpdateMaxTurrets();
 			return false;
 		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

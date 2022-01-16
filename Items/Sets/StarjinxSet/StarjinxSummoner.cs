@@ -34,11 +34,16 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 
 		public override bool UseItem(Player player)
 		{
-			int centreX = (Main.maxTilesX * 8) + Main.rand.Next(-Main.maxTilesX, Main.maxTilesX);
+			int centreX = Main.rand.Next(Main.maxTilesX * 6, Main.maxTilesX * 10);
 			Vector2 finalPos = GetOpenSpace(centreX, (int)(Main.worldSurface * 0.35f));
 
-			Main.NewText("An enchanted comet has appeared in the asteroid field!", 252, 150, 255);
-			NPC.NewNPC((int)finalPos.X, (int)finalPos.Y, ModContent.NPCType<StarjinxMeteorite>());
+			Main.NewText("An enchanted comet has appeared in the sky!", 252, 150, 255);
+
+			int id = NPC.NewNPC((int)finalPos.X, (int)finalPos.Y, ModContent.NPCType<StarjinxMeteorite>());
+
+			if (Main.netMode != NetmodeID.SinglePlayer)
+				NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, id);
+
 			ModContent.GetInstance<StarjinxEventWorld>().SpawnedStarjinx = true;
 			return true;
 		}

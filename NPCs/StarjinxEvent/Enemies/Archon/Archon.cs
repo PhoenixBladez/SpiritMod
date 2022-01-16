@@ -241,9 +241,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 					timers["ATTACK"] = (int)(attackTimeMax * MeteorRainThreshold) - 2;
 				}
 			}
-			else if (timers["ATTACK"] >= (int)(attackTimeMax * MeteorRainThreshold) && timers["ATTACK"] < attackTimeMax) //Spawn meteors
+			else if (timers["ATTACK"] >= (int)(attackTimeMax * MeteorRainThreshold) && timers["ATTACK"] < attackTimeMax)
 			{
-				if (timers["ATTACK"] == (int)(attackTimeMax * MeteorRainThreshold))
+				if (timers["ATTACK"] == (int)(attackTimeMax * MeteorRainThreshold)) //Spawn meteors
 				{
 					for (int i = 0; i < 4; ++i)
 					{
@@ -253,8 +253,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 					}
 				}
 
-				npc.velocity *= 0.8f;
-				npc.position += new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+				npc.velocity *= 0.8f; //Slow down
 			}
 			else if (timers["ATTACK"] >= attackTimeMax)
 			{
@@ -263,6 +262,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				waitingOnAttack = false;
 
 				meteorDashOffset = Vector2.Zero;
+				meteorDashBegin = Vector2.Zero;
 				meteorDashFactor = 0;
 			}
 		}

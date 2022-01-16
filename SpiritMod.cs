@@ -325,8 +325,12 @@ namespace SpiritMod
 
 			if (config.UnderwaterMusic && player.ZoneBeach && !MyWorld.luminousOcean && spirit.isFullySubmerged)
 			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/UnderwaterMusic");
-				priority = MusicPriority.BiomeHigh;
+				Mod thoriumMod = ModLoader.GetMod("ThoriumMod"); //Thorium compat
+				if (thoriumMod == null || (!(thoriumMod.Call("GetZoneAquaticDepths", player) is null) && thoriumMod.Call("GetZoneAquaticDepths", player) is bool inDepths && !inDepths))
+				{
+					music = GetSoundSlot(SoundType.Music, "Sounds/Music/UnderwaterMusic");
+					priority = MusicPriority.BiomeHigh;
+				}
 			}
 
 			if (config.LuminousMusic
