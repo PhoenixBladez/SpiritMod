@@ -11,6 +11,7 @@ using SpiritMod.Items.Sets.FlailsMisc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 namespace SpiritMod.Items.Sets.StarplateDrops
 {
@@ -137,6 +138,8 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 				stickTarget = target;
 				stuckPosition = projectile.Center - target.Center;
 				projectile.rotation = projectile.DirectionTo(target.Center).ToRotation() - 1.57f;
+				if (Main.netMode != NetmodeID.SinglePlayer)
+					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile.whoAmI);
 			}
 		}
 
@@ -228,6 +231,48 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 			if (stuck)
 				return false;
 			return base.PreDrawExtras(spriteBatch);
+		}
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(oldTileCollide);
+			writer.Write(readyToStick);
+			writer.Write(stuck);
+			writer.Write(stuckToTiles);
+			writer.Write(stuckTimer);
+			writer.WriteVector2(stuckPosition);
+			if (stickTarget == default(NPC)) //Write a -1 instead if the npc isnt set
+				writer.Write(-1);
+			else
+				writer.Write(stickTarget.whoAmI);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			oldTileCollide = reader.ReadBoolean();
+			readyToStick = reader.ReadBoolean();
+			stuck = reader.ReadBoolean();
+			stuckToTiles = reader.ReadBoolean();
+			stuckTimer = reader.ReadInt32();
+			stuckPosition = reader.ReadVector2();
+			int whoAmI = reader.ReadInt32(); //Read the whoami value sent
+			if (whoAmI == -1) //If its a -1, sync that the npc hasn't been set yet
+				stickTarget = default;
+			else
+				stickTarget = Main.npc[whoAmI];
+
+			if (stuck)
+			{
+				if (trail2 == null)
+				{
+					trail2 = new PlugTrail2(projectile, Main.player[projectile.owner]);
+					SpiritMod.primitives.CreateTrail(trail2);
+				}
+				if (trail == null)
+				{
+					trail = new PlugTrail(projectile, Main.player[projectile.owner]);
+					SpiritMod.primitives.CreateTrail(trail);
+				}
+			}
 		}
 	}
 	class PlugTrail : PrimTrail

@@ -3,6 +3,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
+using System;
 
 namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 {
@@ -67,9 +69,6 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 
         public override void AI()
         {
-			if (projectile.owner != Main.myPlayer)
-				return;
-
             Player player = Main.player[projectile.owner];
             player.heldProj = projectile.whoAmI;
             player.itemTime = 2;
@@ -87,7 +86,14 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
                 {
 					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/slashdash").WithPitchVariance(0.4f).WithVolume(0.4f), projectile.Center);
 					SpiritMod.primitives.CreateTrail(new AnimePrimTrail(projectile));
-					direction = Vector2.Normalize(Main.MouseWorld - player.Center) * 45f;
+					if (projectile.owner == Main.myPlayer)
+					{
+						direction = Vector2.Normalize(Main.MouseWorld - player.Center) * 45f;
+						if (Main.netMode != NetmodeID.SinglePlayer)
+						{
+							NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile.whoAmI);
+						}
+					}
 				}
 
                 if (charge > 60 && charge < MAXCHARGE)
@@ -216,5 +222,14 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
             }
             return false;
         }
-    }
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.WriteVector2(direction);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			direction = reader.ReadVector2();
+		}
+	}
 }
