@@ -219,12 +219,13 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 				if (validPlayer)
 				{
-					InitializeTempTiles();
+					SpawnPlatforms();
 
 					spawnedComets = true;
 					npc.dontTakeDamage = true;
 
 					ModContent.GetInstance<StarjinxEventWorld>().StarjinxActive = true;
+					NetMessage.SendData(MessageID.WorldData);
 
 					SpawnComets();
 				}
@@ -234,52 +235,28 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			Main.musicFade[Main.curMusic] = musicVolume; 
         }
 
-		private void InitializeTempTiles()
+		private void SpawnPlatforms()
 		{
-			Point origin = npc.Center.ToTileCoordinates();
+			int[] platformTypes = new int[] { ModContent.NPCType<SjinxPlatform>(), ModContent.NPCType<SjinxPlatformLarge>(), ModContent.NPCType<SjinxPlatformMedium>() };
+			int platformCount = Main.rand.Next(8, 13);
+			var spawns = new List<Vector2>();
 
-			//for (int i = 0; i < 12; ++i)
-			//{
-			//	Point offset = new Vector2(0, Main.rand.Next(25, 70)).RotatedByRandom(MathHelper.Pi).ToPoint();
-			//	WorldGen.TileRunner(origin.X + offset.X, origin.Y + offset.Y, Main.rand.Next(6, 14), 8, ModContent.TileType<SjinxTempTile>(), true, 0, 0, false, false);
-			//}
-
-			void PlacePlatform(Point centre)
+			for (int i = 0; i < platformCount; ++i)
 			{
-				int width = 16;
+				Vector2 pos = Main.rand.NextVector2Circular(EVENT_RADIUS, EVENT_RADIUS);
 
-				for (int i = -width; i < width; ++i)
+				while ((spawns.Count > 0 && spawns.Any(x => Vector2.DistanceSquared(x, pos) < 450 * 450)) || pos.Length() < 600)
+					pos = Main.rand.NextVector2Circular(EVENT_RADIUS / 2f, EVENT_RADIUS / 2f);
+
+				var p = Projectile.NewProjectileDirect(npc.Center + pos, Vector2.Zero, ModContent.ProjectileType<StarjinxEnemySpawner>(), 0, 0, 255, Main.rand.NextFloat(50));
+
+				if (p.modProjectile != null && p.modProjectile is StarjinxEnemySpawner spawner)
 				{
-					int x = centre.X + i;
-					for (int j = 0; j < (width / 2f) - (Math.Abs(i) / 2f); ++j)
-					{
-						int y = centre.Y + j;
-						WorldGen.PlaceTile(x, y, ModContent.TileType<SjinxTempTile>(), true, true, -1, 0);
-					}
+					spawner.enemyToSpawn = Main.rand.Next(platformTypes);
+					spawner.spawnPosition = npc.Center + pos;
 				}
-			}
 
-			PlacePlatform(new Point(origin.X - 60, origin.Y));
-			PlacePlatform(new Point(origin.X + 60, origin.Y));
-			PlacePlatform(new Point(origin.X, origin.Y + 35));
-		}
-
-		private void KillTempTiles()
-		{
-			int width = EVENT_RADIUS / 16;
-			Point centre = npc.Center.ToTileCoordinates();
-
-			for (int i = -width; i < width; ++i)
-			{
-				int x = centre.X + i;
-				for (int j = -width; j < width; ++j)
-				{
-					int y = centre.Y + j;
-
-					Tile t = Framing.GetTileSafely(x, y);
-					if (Vector2.Distance(new Vector2(x, y), centre.ToVector2()) < width && t.active() && t.type == ModContent.TileType<SjinxTempTile>())
-						WorldGen.KillTile(x, y, false, false, true);
-				}
+				spawns.Add(pos);
 			}
 		}
 
@@ -434,8 +411,6 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
         public override void NPCLoot()
         {
-			KillTempTiles();
-
 			ModContent.GetInstance<StarjinxEventWorld>().StarjinxActive = false;
 			ModContent.GetInstance<StarjinxEventWorld>().StarjinxDefeated = true;
 			NetMessage.SendData(MessageID.WorldData);

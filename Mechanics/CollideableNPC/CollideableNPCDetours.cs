@@ -17,9 +17,9 @@ namespace SpiritMod.Mechanics.CollideableNPC
 					continue;
 
 				var groundBox = new Rectangle((int)self.position.X, (int)self.position.Y + self.height, self.width, 1);
-				var floorBox = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, 6 + (int)Math.Max(self.velocity.Y, 0));
+				var floorBox = new Rectangle((int)npc.position.X, (int)npc.position.Y - (int)npc.velocity.Y, npc.width, 8 + (int)Math.Max(self.velocity.Y, 0));
 
-				if (groundBox.Intersects(floorBox) && self.velocity.Y > 0)
+				if (groundBox.Intersects(floorBox) && self.velocity.Y > 0 && !Collision.SolidCollision(self.Bottom, self.width, (int)Math.Max(1 + npc.velocity.Y, 0)))
 				{
 					self.gfxOffY = npc.gfxOffY;
 					self.position.Y = npc.position.Y - self.height + 4;

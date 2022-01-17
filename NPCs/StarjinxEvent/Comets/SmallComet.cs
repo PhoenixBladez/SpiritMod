@@ -234,8 +234,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 					{
 						spawner.enemyToSpawn = type;
 						spawner.spawnPosition = spawnPos;
-						spawner.rawPos = rawPosition;
-						//spawner.cometWhoAmI = npc.whoAmI;
 					}
 
 					originalSpawn = spawnPos;

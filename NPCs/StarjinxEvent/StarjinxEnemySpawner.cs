@@ -15,9 +15,6 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		public int enemyToSpawn = NPCID.Guide; //Enemy that is spawned by this projectile
 		public Vector2 spawnPosition = Vector2.Zero; //Position to spawn the enemy at
 
-		/// <summary>See <seealso cref="SmallComet.SpawnSpawnerProjectile"/> for what this does.</summary>
-		public bool rawPos = false;
-
 		private ref float Timer => ref projectile.ai[0];
 		private Color chosenColor;
 
@@ -143,14 +140,12 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		{
 			writer.Write(enemyToSpawn);
 			writer.WriteVector2(spawnPosition);
-			writer.Write(rawPos);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			enemyToSpawn = reader.ReadInt32();
 			spawnPosition = reader.ReadVector2();
-			rawPos = reader.ReadBoolean();
 		}
 	}
 }
