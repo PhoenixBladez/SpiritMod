@@ -40,10 +40,10 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 		public override void SetDefaults()
 		{
 			Main.tileTable[Type] = true;
-			Main.tileSolidTop[Type] = true;
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
+
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.newTile.Height = 2;
 			TileObjectData.newTile.Width = 3;
@@ -56,6 +56,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
 			TileObjectData.addAlternate(1); //facing right will use the second texture style
 			TileObjectData.addTile(Type);
+
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Driftwood");
 			AddMapEntry(new Color(69, 54, 43), name);
@@ -98,10 +99,10 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 		public override void SetDefaults()
 		{
 			Main.tileTable[Type] = true;
-			Main.tileSolidTop[Type] = true;
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
+
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.newTile.Height = 2;
 			TileObjectData.newTile.Width = 4;
@@ -114,6 +115,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
 			TileObjectData.addAlternate(1); //facing right will use the second texture style
 			TileObjectData.addTile(Type);
+
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Driftwood");
 			AddMapEntry(new Color(69, 54, 43), name);
@@ -156,10 +158,10 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 		public override void SetDefaults()
 		{
 			Main.tileTable[Type] = true;
-			Main.tileSolidTop[Type] = true;
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
+
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.newTile.Height = 2;
 			TileObjectData.newTile.Width = 4;
@@ -172,6 +174,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
 			TileObjectData.addAlternate(1); //facing right will use the second texture style
 			TileObjectData.addTile(Type);
+
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Driftwood");
 			AddMapEntry(new Color(69, 54, 43), name);

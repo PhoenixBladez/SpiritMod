@@ -23,7 +23,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 		public static int leftOceanHeight = 0;
 		public static int rightOceanHeight = 0;
 
-		public static ILog logger => ModContent.GetInstance<SpiritMod>().Logger;
+		public static ILog Logger => ModContent.GetInstance<SpiritMod>().Logger;
 
 		public static void Load()
 		{
@@ -59,13 +59,13 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 			if (!c.TryGotoNext(x => x.MatchLdfld<WaterShaderData>("_useRippleWaves")))
 			{
-				logger.Debug("FAILED _useRippleWaves GOTO [SpiritMod.WaterShaderData.DrawWaves]");
+				Logger.Debug("FAILED _useRippleWaves GOTO [SpiritMod.WaterShaderData.DrawWaves]");
 				return;
 			}
 
 			if (!c.TryGotoNext(x => x.MatchCallvirt(typeof(TileBatch).GetMethod("End"))))
 			{
-				logger.Debug("FAILED _useRippleWaves GOTO [SpiritMod.WaterShaderData.DrawWaves]");
+				Logger.Debug("FAILED _useRippleWaves GOTO [SpiritMod.WaterShaderData.DrawWaves]");
 				return;
 			}
 
@@ -181,12 +181,18 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 		private static void NewDraw(bool back)
 		{
 			Main.spriteBatch.End();
-			SetShader();
+			SetShader(back);
 
 			if (back)
+			{
 				Main.spriteBatch.Draw(Main.instance.backWaterTarget, Main.sceneBackgroundPos - Main.screenPosition, Color.White);
+				Terraria.Graphics.Effects.Overlays.Scene.Draw(Main.spriteBatch, Terraria.Graphics.Effects.RenderLayers.BackgroundWater);
+			}
 			else
-				Main.spriteBatch.Draw(Main.waterTarget, Main.sceneWaterPos - Main.screenPosition, Color.White);
+			{
+				Main.spriteBatch.Draw(Main.waterTarget, Main.sceneWaterPos - Main.screenPosition, Color.White * 0.2f);
+				Terraria.Graphics.Effects.Overlays.Scene.Draw(Main.spriteBatch, Terraria.Graphics.Effects.RenderLayers.ForegroundWater);
+			}
 
 			Main.spriteBatch.End();
 			Main.spriteBatch.Begin(default, default, default, default, default, null, Main.GameViewMatrix.ZoomMatrix);
@@ -203,12 +209,15 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			plr.direction = plr.direction == -1 ? 1 : -1;
 		}
 
-		private static void SetShader()
+		private static void SetShader(bool back)
 		{
 			transparencyEffect = ModContent.GetInstance<SpiritMod>().GetEffect("Effects/SurfaceWaterModifications/SurfaceWaterFX");
-
 			transparencyEffect.Parameters["transparency"].SetValue(GetTransparency());
-			Main.spriteBatch.Begin(default, BlendState.AlphaBlend, default, default, default, transparencyEffect, Main.GameViewMatrix.ZoomMatrix);
+
+			if (!back && !Main.LocalPlayer.ZoneBeach)
+				transparencyEffect.Parameters["transparency"].SetValue(0f);
+
+			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, transparencyEffect, Main.GameViewMatrix.ZoomMatrix);
 		}
 
 		private static float GetTransparency()
