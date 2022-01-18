@@ -39,9 +39,9 @@ namespace SpiritMod.Items.Consumable
 			NetMessage.SendData(MessageID.InvasionProgressReport, -1, -1, null, Main.invasionProgress, Main.invasionProgressMax, Main.invasionProgressIcon, 0f, 0, 0, 0);
 
 			if (Main.netMode == NetmodeID.SinglePlayer)
-				Main.NewText("The invaders have been cast out of the world...", Color.Purple);
+				Main.NewText("The invaders have called off their attack!", Color.MediumPurple);
 			else if (Main.netMode == NetmodeID.Server)
-				NetMessage.BroadcastChatMessage(NetworkText.FromLiteral("The invaders have been cast out of the world..."), Color.Purple, -1);
+				NetMessage.BroadcastChatMessage(NetworkText.FromLiteral("The invaders have called off their attack!"), Color.MediumPurple, -1);
 			return true;
 		}
 	}

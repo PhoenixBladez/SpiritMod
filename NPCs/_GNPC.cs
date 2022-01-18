@@ -1011,6 +1011,7 @@ namespace SpiritMod.NPCs
 			if (!npc.SpawnedFromStatue)
 			{
 				DropLoot(150, 100, ItemType<Items.Accessory.InfernalPact>(), npc, NPCID.Lavabat, NPCID.RedDevil);
+				DropLoot(150, 100, ItemType<Items.Sets.SwordsMisc.CurseBreaker.CurseBreaker>(), npc, NPCID.RedDevil);
 
 				DropLoot(150, 150, ItemType<IceVikingSculpture>(), npc, NPCID.UndeadViking);
 				DropLoot(150, 150, ItemType<IceFlinxSculpture>(), npc, NPCID.SnowFlinx);

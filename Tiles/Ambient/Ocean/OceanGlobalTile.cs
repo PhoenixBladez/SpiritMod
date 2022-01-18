@@ -1,5 +1,6 @@
 ﻿using SpiritMod.Tiles.Ambient.Kelp;
 using SpiritMod.Tiles.Block;
+using SpiritMod.Items.Sets.FloatingItems.Driftwood;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
@@ -13,7 +14,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 		{
 			int[] sands = new int[] { TileID.Sand, TileID.Crimsand, TileID.Ebonsand, ModContent.TileType<Spiritsand>() }; //All valid sands
 			int[] woods = new int[] { TileID.WoodBlock, TileID.BorealWood, TileID.Ebonwood, TileID.DynastyWood, TileID.RichMahogany, TileID.PalmWood, TileID.Shadewood, TileID.WoodenBeam,
-				ModContent.TileType<SpiritWood>(), ModContent.TileType<LivingBriarWood>(), TileID.Pearlwood };
+				ModContent.TileType<SpiritWood>(), ModContent.TileType<LivingBriarWood>(), ModContent.TileType<DriftwoodTile>(), TileID.Pearlwood };
 
 			bool inOcean = (i < Main.maxTilesX / 16 || i > (Main.maxTilesX / 16) * 15) && j < (int)Main.worldSurface; //Might need adjustment; don't know if this will be exclusively in the ocean
 
