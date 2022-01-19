@@ -1374,7 +1374,7 @@ namespace SpiritMod
 				ItemType<CimmerianScepter>() },
 				1, 0.33f), lockedgoldChests, 1);
 			AddToVanillaChest(new ChestInfo(new int[] {
-				ItemType<Items.Sets.SummonsMisc.FairyWhistle.FairyWhistleItem>() },
+				ItemType<Items.Sets.SummonsMisc.FairyWhistle.FairyWhistleItem>(), ItemType<TwigStaff>() },
 				1, 0.2f), woodChests, 1);
 			AddToVanillaChest(new ChestInfo(new int[] { ItemType<MetalBand>(), ItemType<ShortFuse>(), ItemType<LongFuse>() }, 1, 0.1f), goldChests, 1);
 			AddToVanillaChest(new ChestInfo(ItemType<HollowNail>()), spiderChests, 1);
@@ -1484,7 +1484,7 @@ namespace SpiritMod
 			AddToModdedChest(goblinPool, TileType<GoblinChest>());
 
 			List<ChestInfo> briarPool = new List<ChestInfo> {
-				new ChestInfo(new int[] { ItemType<ReachChestMagic>(), ItemType<TwigStaff>(), ItemType<ThornHook>(), ItemType<ReachBoomerang>(), ItemType<ReachBrooch>() }),
+				new ChestInfo(new int[] { ItemType<ReachChestMagic>(), ItemType<ThornHook>(), ItemType<ReachBoomerang>(), ItemType<ReachBrooch>() }),
 				new ChestInfo(new int[]{ ItemType<Book_Briar>(), ItemType<Book_BriarArt>(), ItemType<GladeWreath>(), ItemType<LivingElderbarkWand>() }, 1, 0.25f),
 				new ChestInfo(commonItems1, WorldGen.genRand.Next(3, 10)),
 				new ChestInfo(ammo1, WorldGen.genRand.Next(20, 50)),

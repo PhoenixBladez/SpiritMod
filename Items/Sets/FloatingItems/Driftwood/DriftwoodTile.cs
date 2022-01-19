@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			item.rare = ItemRarityID.White;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.consumable = true;
-			item.maxStack = 99;
+			item.maxStack = 999;
 			item.createTile = ModContent.TileType<DriftwoodTile>();
 			item.useTime = item.useAnimation = 20;
 			item.useAnimation = 15;
