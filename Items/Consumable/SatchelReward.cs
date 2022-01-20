@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Consumable
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mysterious Satchel");
-			Tooltip.SetDefault("'The Adventurer's been feeling inspired!'\nContains two random paintings");
+			Tooltip.SetDefault("'The Painter's been feeling inspired!'\nContains two random paintings");
 		}
 
 

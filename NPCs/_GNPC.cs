@@ -712,6 +712,8 @@ namespace SpiritMod.NPCs
 				shop.item[nextSlot++].SetDefaults(ItemType<Canvas>(), false);
 				shop.item[nextSlot++].SetDefaults(ItemType<FloppaPainting>(), false);
 
+				shop.item[nextSlot++].SetDefaults(ItemType<SatchelReward>(), false);
+
 				if (GetInstance<StarjinxEvent.StarjinxEventWorld>().StarjinxDefeated)
 					shop.item[nextSlot++].SetDefaults(ItemType<ScrunklyPaintingItem>(), false);
 			}
