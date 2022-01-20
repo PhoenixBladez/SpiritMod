@@ -43,9 +43,9 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch
 				});
 				if (Main.rand.Next(7) == 0)
 				{
-					Item.NewItem((int)player.position.X, (int)player.position.Y, player.width, player.height, mod.ItemType("Vulture_Matriarch_Mask"), 1);
+					player.QuickSpawnItem(mod.ItemType("Vulture_Matriarch_Mask"), 1);
 				}
-				Item.NewItem((int)player.position.X, (int)player.position.Y, player.width, player.height, weaponType, 1);
+				player.QuickSpawnItem(weaponType, 1);
 
 				float num5 = 15000f * (float)(1.0 + (double)Main.rand.Next(-20, 21) * 0.00999999977648258);
 				if (Main.rand.Next(5) == 0)

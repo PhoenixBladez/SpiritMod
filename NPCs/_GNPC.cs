@@ -47,7 +47,6 @@ using Terraria.Localization;
 using SpiritMod.Tiles.Block;
 using SpiritMod.Tiles.Walls.Natural;
 using SpiritMod.Utilities;
-using SpiritMod.Items.Weapon.Magic.Rhythm.Anthem;
 using SpiritMod.Items.Placeable.Furniture.Paintings;
 using SpiritMod.Items.Sets.PirateStuff;
 using SpiritMod.Items.Accessory.MageTree;
@@ -728,8 +727,6 @@ namespace SpiritMod.NPCs
 
 		public override void SetupTravelShop(int[] shop, ref int nextSlot)
 		{
-			if (Main.rand.NextBool(15)) //Add Anthem to travelling shop
-				shop[nextSlot++] = ItemType<Anthem>();
 			if (Main.rand.NextBool(8) && NPC.downedPlantBoss) //Add Jade dao to shop
 				shop[nextSlot++] = ItemType<JadeDao>();
 			if (Main.rand.NextBool(8) && NPC.downedPlantBoss) //Add Jade dao to shop
