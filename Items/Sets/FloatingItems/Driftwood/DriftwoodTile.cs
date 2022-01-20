@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			item.useAnimation = 15;
 			item.useTime = 15;
 			item.noMelee = true;
-			item.autoReuse = false;
+			item.autoReuse = true;
 		}
 	}
 

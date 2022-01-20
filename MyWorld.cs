@@ -37,7 +37,6 @@ using SpiritMod.World.Sepulchre;
 using SpiritMod.Tiles;
 using Terraria.DataStructures;
 using SpiritMod.Utilities;
-using SpiritMod.Items.Sets.SepulchreLoot.ToxicBottle;
 using SpiritMod.Items.Sets.SepulchreLoot.AccursedBlade;
 using SpiritMod.Items.Sets.SepulchreLoot.OldCross;
 using SpiritMod.Mechanics.BackgroundSystem;
@@ -1443,7 +1442,7 @@ namespace SpiritMod
 
 			List<ChestInfo> sepulchreLootPool = new List<ChestInfo>
 			{
-				new ChestInfo(new int[] { ItemType<ToxicBottle>(), ItemType<AccursedBlade>(), ItemType<OldCross>() }),
+				new ChestInfo(new int[] { ItemType<AccursedBlade>(), ItemType<OldCross>() }),
 				new ChestInfo(ItemID.SuspiciousLookingEye, 1, 0.5f),
 				new ChestInfo(ItemType<SepulchreArrow>(), WorldGen.genRand.Next(20, 50), 0.5f),
 				new ChestInfo(ItemID.Book, WorldGen.genRand.Next(1, 4)),

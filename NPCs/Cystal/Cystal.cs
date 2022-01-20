@@ -190,7 +190,7 @@ namespace SpiritMod.NPCs.Cystal
 			}
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => NPC.AnyNPCs(ModContent.NPCType<Cystal>()) ? 0 : SpawnCondition.Corruption.Chance * 0.065f;
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => NPC.AnyNPCs(ModContent.NPCType<Cystal>()) && (NPC.downedBoss1 || NPC.downedBoss2 || NPC.downedBoss3 || MyWorld.downedScarabeus || MyWorld.downedReachBoss || MyWorld.downedRaider || MyWorld.downedAncientFlier) ? 0 : SpawnCondition.Corruption.Chance * 0.065f;
 
 		public override void NPCLoot()
 		{
