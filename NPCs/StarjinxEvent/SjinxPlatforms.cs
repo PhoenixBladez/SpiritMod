@@ -15,7 +15,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 		public override void SetDefaults()
 		{
-			npc.width = 52;
+			npc.width = 300;
 			npc.height = 24;
 			npc.damage = 0;
 			npc.defense = 28;
@@ -39,7 +39,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
-			npc.width = 140;
+			npc.width = 450;
 			npc.height = 30;
 		}
 	}
@@ -49,7 +49,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
-			npc.width = 240;
+			npc.width = 600;
 			npc.height = 50;
 		}
 	}

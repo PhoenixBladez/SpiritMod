@@ -238,14 +238,14 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		private void SpawnPlatforms()
 		{
 			int[] platformTypes = new int[] { ModContent.NPCType<SjinxPlatform>(), ModContent.NPCType<SjinxPlatformLarge>(), ModContent.NPCType<SjinxPlatformMedium>() };
-			int platformCount = Main.rand.Next(8, 13);
+			int platformCount = Main.rand.Next(7, 12);
 			var spawns = new List<Vector2>();
 
 			for (int i = 0; i < platformCount; ++i)
 			{
-				Vector2 pos = Main.rand.NextVector2Circular(EVENT_RADIUS, EVENT_RADIUS);
+				Vector2 pos = Main.rand.NextVector2Circular(EVENT_RADIUS * 0.9f, EVENT_RADIUS * 0.9f);
 
-				while ((spawns.Count > 0 && spawns.Any(x => Vector2.DistanceSquared(x, pos) < 450 * 450)) || pos.Length() < 600)
+				while ((spawns.Count > 0 && spawns.Any(x => Vector2.DistanceSquared(x, pos) < 425 * 425)) || pos.Length() < 600)
 					pos = Main.rand.NextVector2Circular(EVENT_RADIUS / 2f, EVENT_RADIUS / 2f);
 
 				var p = Projectile.NewProjectileDirect(npc.Center + pos, Vector2.Zero, ModContent.ProjectileType<StarjinxEnemySpawner>(), 0, 0, 255, Main.rand.NextFloat(50));

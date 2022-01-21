@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Mechanics.BackgroundSystem;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -33,8 +34,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		private ref NPC ArchonNPC => ref Main.npc[archonWhoAmI];
 		private Archon.Archon GetArchon() => ArchonNPC.modNPC as Archon.Archon;
 
-
-		private Dictionary<string, float> timers = new Dictionary<string, float>() { { "ENCHANT", 0 }, { "ARCHATK", 0 } };
+		private Dictionary<string, float> timers = new Dictionary<string, float>() { { "ENCHANT", 0 }, { "ARCHATK", 0 }, { "ATTACK", 0 } };
 
 		public override void SetStaticDefaults()
 		{
@@ -151,7 +151,44 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				timers["ARCHATK"] = 0;
 			}
 
-			npc.velocity *= 0;// -npc.DirectionTo(Target.Center);
+			switch (GetArchon().enchantment)
+			{
+				case Archon.Archon.Enchantment.Starlight:
+
+					break;
+				default:
+					BasicIdleMovement();
+					break;
+			}
+		}
+
+		private void BasicIdleMovement()
+		{
+			float magnitude = 10 - (npc.Distance(Target.Center) * 0.02f);
+			Vector2 vel = -npc.DirectionTo(Target.Center) * magnitude;
+
+			if (magnitude < 0)
+			{
+				magnitude = (npc.Distance(Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition) * 0.02f) - 3;
+				if (magnitude < 0)
+					magnitude = 0;
+
+				vel = npc.DirectionTo(Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition) * magnitude;
+			}
+
+			npc.velocity = vel;
+
+			WrapLocation();
+		}
+
+		private void WrapLocation()
+		{
+			Vector2 sjinxLoc = Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition;
+			if (npc.DistanceSQ(sjinxLoc) > (StarjinxMeteorite.EVENT_RADIUS * StarjinxMeteorite.EVENT_RADIUS) * 1.05f)
+			{
+				Vector2 offset = npc.Center - sjinxLoc;
+				npc.Center = sjinxLoc - (offset * 0.95f);
+			}
 		}
 
 		private void EnchantBehaviour()
