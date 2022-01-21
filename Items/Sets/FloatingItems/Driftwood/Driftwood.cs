@@ -33,6 +33,13 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			item.useAnimation = 15;
 			item.useTime = 10;
 		}
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(this, 1);
+			recipe.SetResult(ModContent.ItemType<DriftwoodTileItem>(), 10);
+			recipe.AddRecipe();
+		}
 	}
 
 	public class Driftwood1Tile : ModTile
@@ -92,6 +99,13 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			item.useAnimation = 15;
 			item.useTime = 10;
 		}
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(this, 1);
+			recipe.SetResult(ModContent.ItemType<DriftwoodTileItem>(), 20);
+			recipe.AddRecipe();
+		}
 	}
 
 	public class Driftwood2Tile : ModTile
@@ -150,6 +164,13 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			item.consumable = true;
 			item.useAnimation = 15;
 			item.useTime = 10;
+		}
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(this, 1);
+			recipe.SetResult(ModContent.ItemType<DriftwoodTileItem>(), 25);
+			recipe.AddRecipe();
 		}
 	}
 

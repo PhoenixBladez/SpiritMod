@@ -300,10 +300,8 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				case 5: //Potion N LAVA
 					{
 						NeutralLuck(i, j);
-						Main.tile[i, j].lava(true);
-						Main.tile[i, j].liquid = byte.MaxValue;
-						Main.tile[i - 1, j].lava(true);
-						Main.tile[i - 1, j].liquid = byte.MaxValue;
+						Main.tile[i + 4, j].lava(true);
+						Main.tile[i + 4, j].liquid = byte.MaxValue;
 						int item = Item.NewItem((int)(i * 16), (int)(j * 16) - 12, 16, 18, ItemID.ObsidianSkinPotion, 1);
 						if (Main.netMode != NetmodeID.SinglePlayer && item >= 0)
 							NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item, 1f);

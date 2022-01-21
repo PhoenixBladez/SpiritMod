@@ -1164,6 +1164,13 @@ namespace SpiritMod
 				//repel.stack = 1;
 				rewardItems.Add(repel);
 			}
+			if (Main.rand.NextBool(5))
+			{
+				Item wood = new Item();
+				wood.SetDefaults(ModContent.ItemType<Items.Sets.FloatingItems.Driftwood.DriftwoodTileItem>());
+				wood.stack = Main.rand.Next(10, 20);
+				rewardItems.Add(wood);
+			}
 		}
 
 		public override void OnHitAnything(float x, float y, Entity victim)

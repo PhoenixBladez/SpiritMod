@@ -1234,6 +1234,8 @@ namespace SpiritMod
 		{
 			RecipeGroup woodGrp = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Wood"]];
 			woodGrp.ValidItems.Add(ModContent.ItemType<AncientBark>());
+			woodGrp.ValidItems.Add(ModContent.ItemType<Items.Placeable.Tiles.SpiritWoodItem>());
+			woodGrp.ValidItems.Add(ModContent.ItemType<Items.Sets.FloatingItems.Driftwood.DriftwoodTileItem>());
 
 			RecipeGroup butterflyGrp = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Butterflies"]];
 			butterflyGrp.ValidItems.Add(ModContent.ItemType<BriarmothItem>());

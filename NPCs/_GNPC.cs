@@ -47,7 +47,6 @@ using Terraria.Localization;
 using SpiritMod.Tiles.Block;
 using SpiritMod.Tiles.Walls.Natural;
 using SpiritMod.Utilities;
-using SpiritMod.Items.Weapon.Magic.Rhythm.Anthem;
 using SpiritMod.Items.Placeable.Furniture.Paintings;
 using SpiritMod.Items.Sets.PirateStuff;
 using SpiritMod.Items.Accessory.MageTree;
@@ -712,6 +711,8 @@ namespace SpiritMod.NPCs
 				shop.item[nextSlot++].SetDefaults(ItemType<Canvas>(), false);
 				shop.item[nextSlot++].SetDefaults(ItemType<FloppaPainting>(), false);
 
+				shop.item[nextSlot++].SetDefaults(ItemType<SatchelReward>(), false);
+
 				if (GetInstance<StarjinxEvent.StarjinxEventWorld>().StarjinxDefeated)
 					shop.item[nextSlot++].SetDefaults(ItemType<ScrunklyPaintingItem>(), false);
 			}
@@ -726,8 +727,6 @@ namespace SpiritMod.NPCs
 
 		public override void SetupTravelShop(int[] shop, ref int nextSlot)
 		{
-			if (Main.rand.NextBool(15)) //Add Anthem to travelling shop
-				shop[nextSlot++] = ItemType<Anthem>();
 			if (Main.rand.NextBool(8) && NPC.downedPlantBoss) //Add Jade dao to shop
 				shop[nextSlot++] = ItemType<JadeDao>();
 			if (Main.rand.NextBool(8) && NPC.downedPlantBoss) //Add Jade dao to shop
@@ -1011,6 +1010,7 @@ namespace SpiritMod.NPCs
 			if (!npc.SpawnedFromStatue)
 			{
 				DropLoot(150, 100, ItemType<Items.Accessory.InfernalPact>(), npc, NPCID.Lavabat, NPCID.RedDevil);
+				DropLoot(150, 100, ItemType<Items.Sets.SwordsMisc.CurseBreaker.CurseBreaker>(), npc, NPCID.RedDevil);
 
 				DropLoot(150, 150, ItemType<IceVikingSculpture>(), npc, NPCID.UndeadViking);
 				DropLoot(150, 150, ItemType<IceFlinxSculpture>(), npc, NPCID.SnowFlinx);

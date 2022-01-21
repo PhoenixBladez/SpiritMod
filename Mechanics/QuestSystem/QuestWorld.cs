@@ -37,6 +37,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 					AddQuestQueue(NPCID.PartyGirl, QuestManager.GetQuest<SlayerQuestClown>());
 
 				AddQuestQueue(NPCID.Dryad, QuestManager.GetQuest<OlympiumQuest>());
+				AddQuestQueue(NPCID.Mechanic, QuestManager.GetQuest<GranitechQuest>());
 
 
 				if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)

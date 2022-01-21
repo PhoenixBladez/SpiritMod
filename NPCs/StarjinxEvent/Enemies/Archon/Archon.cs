@@ -249,7 +249,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 					{
 						Vector2 vel = npc.DirectionFrom(meteorDashBegin).RotatedByRandom(0.1f) * Main.rand.NextFloat(6f, 17f);
 						Vector2 pos = meteorDashBegin - (vel * 30) - new Vector2(Main.rand.Next(-300, 300), 0);
-						Projectile.NewProjectile(pos, vel, ProjectileID.ImpFireball, 20, 1f);
+						Projectile.NewProjectile(pos, vel, ModContent.ProjectileType<MeteorEnchantment_Meteor>(), 20, 1f);
 					}
 				}
 

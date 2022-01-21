@@ -139,7 +139,7 @@ namespace SpiritMod.NPCs.GoblinGrenadier
 						float num15 = num5 / num14;
 						float num16 = num6 * num15;
 						float SpeedY = num8 * num15;
-						int p = Projectile.NewProjectile(vector2.X, vector2.Y, num16, SpeedY, ProjectileID.Grenade, 20, 0.0f, Main.myPlayer, 0.0f, 0.0f);
+						int p = Projectile.NewProjectile(vector2.X, vector2.Y, num16, SpeedY, ModContent.ProjectileType<GoblinGrenadierGrenade>(), 20, 0.0f, Main.myPlayer, 0.0f, 0.0f);
 						Main.projectile[p].friendly = false;
 						Main.projectile[p].hostile = true;
 						Main.projectile[p].timeLeft = 45;

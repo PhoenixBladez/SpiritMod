@@ -124,7 +124,8 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 					toShoot *= 2.3f;
 					toShoot *= (float)Math.Pow(maxCounter, 0.18);
 					player.GetModPlayer<MyPlayer>().Shake += 1;
-					Projectile.NewProjectileDirect(player.Center + (direction * 4), toShoot * new Vector2(Main.rand.NextFloat(.6f, 1.3f), Main.rand.NextFloat(0.6f, 1.2f)), ModContent.ProjectileType<HeavenfleetStar>(), projectile.damage, projectile.knockBack, projectile.owner);
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+						Projectile.NewProjectileDirect(player.Center + (direction * 4), toShoot * new Vector2(Main.rand.NextFloat(.6f, 1.3f), Main.rand.NextFloat(0.6f, 1.2f)), ModContent.ProjectileType<HeavenfleetStar>(), projectile.damage, projectile.knockBack, projectile.owner);
 				}
 				projectile.active = false;
 			}
