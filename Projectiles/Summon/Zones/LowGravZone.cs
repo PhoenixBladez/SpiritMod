@@ -40,7 +40,7 @@ namespace SpiritMod.Projectiles.Summon.Zones
             int distance1 = (int)Vector2.Distance(projectile.Center, player.Center);
             if (distance1 < 100)
             {
-                player.AddBuff(ModContent.BuffType<LowGravZoneBuff>(), 100);
+                player.AddBuff(ModContent.BuffType<LowGravZoneBuff>(), 300);
             }
         }
         public void AdditiveCall(SpriteBatch spriteBatch)

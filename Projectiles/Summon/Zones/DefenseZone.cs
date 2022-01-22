@@ -37,9 +37,9 @@ namespace SpiritMod.Projectiles.Summon.Zones
 			Player player = Main.LocalPlayer;
 
             int distance = (int)Vector2.Distance(projectile.Center, player.Center);
-			if (distance < 85)
+			if (distance < 100)
             {
-                player.AddBuff(ModContent.BuffType<DefenseZoneBuff>(), 130);
+                player.AddBuff(ModContent.BuffType<DefenseZoneBuff>(), 300);
             }
 			
 		}

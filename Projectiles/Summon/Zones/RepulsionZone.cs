@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles.Summon.Zones
             {
                 NPC npc = Main.npc[i];
                 int distance = (int)Vector2.Distance(npc.Center, projectile.Center);
-                if (distance < 60 && !npc.boss && !npc.friendly && npc.knockBackResist != 0f && !npc.dontTakeDamage)
+                if (distance < 70 && !npc.boss && !npc.friendly && npc.knockBackResist != 0f && !npc.dontTakeDamage)
                 {
                     Vector2 vector4 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
                     float num59 = projectile.position.X + (float)projectile.width * 0.5f - vector4.X + (float)Main.rand.Next(-20, 21);
