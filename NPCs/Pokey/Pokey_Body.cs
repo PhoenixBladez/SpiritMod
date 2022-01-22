@@ -22,7 +22,7 @@ namespace SpiritMod.NPCs.Pokey
             npc.height = 16;
             npc.knockBackResist = 0;
             npc.aiStyle = -1;
-            npc.lifeMax = 50;
+            npc.lifeMax = 70;
             npc.damage = 10;
             npc.defense = 4;
             npc.noTileCollide = false;
@@ -37,13 +37,13 @@ namespace SpiritMod.NPCs.Pokey
 			bannerItem = ModContent.ItemType<Items.Banners.PokeyBanner>();
 		}
 
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = 75;
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = 95;
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 
 			if (Main.tileSand[spawnInfo.spawnTileType])
-				return SpawnCondition.OverworldDayDesert.Chance * 0.35f;
+				return SpawnCondition.OverworldDayDesert.Chance * 0.38f;
 			return 0;
 		}
         private int UpperChain {

@@ -10,7 +10,6 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stone Greaves");
-			Tooltip.SetDefault("Reduces damage taken by 3%");
 		}
 
 		public override void SetDefaults()
@@ -20,11 +19,6 @@ namespace SpiritMod.Items.Armor
 			item.value = 0;
 			item.rare = ItemRarityID.White;
 			item.defense = 2;
-		}
-
-		public override void UpdateEquip(Player player)
-		{
-			player.endurance += 0.03f;
 		}
 
 		public override void AddRecipes()  //How to craft this item

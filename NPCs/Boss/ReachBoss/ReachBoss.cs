@@ -217,7 +217,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
                     int amountOfProjectiles = 5;
                     for (int i = 0; i < amountOfProjectiles; ++i)
                     {
-                        int damage = expertMode ? 13 : 19;
+                        int damage = expertMode ? 14 : 19;
                         if(i == 0)
 							Projectile.NewProjectileDirect(npc.Center, direction, ModContent.ProjectileType<BossRedSpike>(), damage, 1, Main.myPlayer, 0, 0).netUpdate = true;
 						else
@@ -229,7 +229,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		public void flowerAttack(Player player)
 		{
 			bool expertMode = Main.expertMode;
-			int damage = expertMode ? 11 : 16;
+			int damage = expertMode ? 13 : 16;
 			if (npc.ai[0] % 15 == 0)
 			{
 				Main.PlaySound(new LegacySoundStyle(SoundID.Item, 104).WithPitchVariance(0.2f), npc.Center);

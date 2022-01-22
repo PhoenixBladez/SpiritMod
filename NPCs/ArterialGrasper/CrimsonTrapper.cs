@@ -25,7 +25,7 @@ namespace SpiritMod.NPCs.ArterialGrasper
 			npc.damage = 35;
 			npc.defense = 8;
 			npc.buffImmune[BuffID.Poisoned] = true;
-			npc.lifeMax = 110;
+			npc.lifeMax = 150;
 			npc.noGravity = true;
 			npc.HitSound = SoundID.NPCHit19;
 			npc.DeathSound = new Terraria.Audio.LegacySoundStyle(42, 39);
@@ -38,6 +38,7 @@ namespace SpiritMod.NPCs.ArterialGrasper
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.ArterialGrasperBanner>();
 		}
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = 250;
 
 		bool spawnedHooks = false;
 		//bool attack = false;
@@ -145,7 +146,7 @@ namespace SpiritMod.NPCs.ArterialGrasper
 			=> Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].wall > 0
 			&& spawnInfo.player.ZoneCrimson
 			&& (spawnInfo.player.ZoneRockLayerHeight || spawnInfo.player.ZoneDirtLayerHeight)
-			? SpawnCondition.Crimson.Chance * 0.2f : 0f;
+			? SpawnCondition.Crimson.Chance * 0.21f : 0f;
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
