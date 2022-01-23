@@ -32,8 +32,6 @@ namespace SpiritMod.Items.Accessory.Rangefinder
 
 		public override void UpdateInventory(Player player)
 		{
-			Main.NewText(player.armor.Length);
-
 			for(int i = 13; i < 20; i++)
 				if(player.armor[i].type == ModContent.ItemType<Rangefinder>())
 					player.GetModPlayer<RangefinderPlayer>().active = true;
