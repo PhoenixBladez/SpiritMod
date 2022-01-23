@@ -68,13 +68,13 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Archon");
-			Main.npcFrameCount[npc.type] = 1;
+			Main.npcFrameCount[npc.type] = 6;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 136;
-			npc.height = 128;
+			npc.width = 190;
+			npc.height = 114;
 			npc.damage = 20;
 			npc.defense = 28;
 			npc.lifeMax = 1200;
@@ -480,6 +480,18 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => realDamage > 0;
 
+		public override void FindFrame(int frameHeight)
+		{
+			if (npc.frameCounter++ > 6)
+			{
+				npc.frameCounter = 0;
+				npc.frame.Y += frameHeight;
+
+				if (npc.frame.Y >= frameHeight * Main.npcFrameCount[npc.type])
+					npc.frame.Y = 0;
+			}
+		}
+
 		#region Drawing
 		public void AdditiveCall(SpriteBatch sB)
 		{
@@ -554,7 +566,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				choices.Add(AttackType.MeteorDash, 1.5f);
 			}
 
-			attack = AttackType.MeteorDash;// choices;
+			attack = AttackType.Cast;// choices;
 
 			if (attack == AttackType.TeleportSlash)
 			{

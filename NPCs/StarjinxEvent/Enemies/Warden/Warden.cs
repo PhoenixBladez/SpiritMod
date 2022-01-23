@@ -156,7 +156,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				case Archon.Archon.Enchantment.Starlight:
 
 					break;
-				default:
+				default: 
 					BasicIdleMovement();
 					break;
 			}
