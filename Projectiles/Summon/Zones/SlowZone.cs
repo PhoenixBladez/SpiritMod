@@ -40,9 +40,9 @@ namespace SpiritMod.Projectiles.Summon.Zones
                 NPC npc = Main.npc[i];
                 int distance = (int)Vector2.Distance(npc.Center, projectile.Center);
                 {
-                    if (distance < 85 && !npc.boss && !npc.friendly && !npc.dontTakeDamage)
+                    if (distance < 100 && !npc.boss && !npc.friendly && !npc.dontTakeDamage)
                     {
-                        npc.AddBuff(ModContent.BuffType<MageFreeze>(), 180);
+                        npc.AddBuff(ModContent.BuffType<MageFreeze>(), 300);
                     }
                 }
 

@@ -122,10 +122,10 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
                     npc.ai[3]++;
 					npc.netUpdate = true;
                 }
-				if (npc.ai[0] > 460 && npc.ai[0] < 501 || npc.ai[0] > 661 && npc.ai[0] < 699)
-				{
-					CircleSpikeAttack(player);
-				}
+			}
+			if (npc.ai[0] > 460 && npc.ai[0] < 501 || npc.ai[0] > 661 && npc.ai[0] < 699)
+			{
+				CircleSpikeAttack(player);
 			}
 			if (npc.ai[0] >= 900)
 			{
@@ -332,23 +332,20 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				Vector2 vector29 = npc.Center + ((float)num103 / (float)num108 * 6.28318548f + npc.rotation + num106).ToRotationVector2() * (7f * num107 + 2f) - Main.screenPosition + Drawoffset - npc.velocity * (float)num103;
 				Main.spriteBatch.Draw(mod.GetTexture("NPCs/Boss/ReachBoss/ReachBoss1_Glow"), vector29, npc.frame, color28, npc.rotation, npc.frame.Size() / 2f, npc.scale, spriteEffects3, 0f);
 			}
-			if (npc.life <= npc.lifeMax/2)
-			{	
-				if (npc.ai[0] > 400 && npc.ai[0] < 500 || npc.ai[0] > 600 && npc.ai[0] < 700)
-				{
-					spriteBatch.Draw(
-						mod.GetTexture("NPCs/Boss/ReachBoss/ReachBoss1_Flash"),
-						npc.Center - Main.screenPosition + Drawoffset,
-						npc.frame,
-						color2,
-						npc.rotation,
-						npc.frame.Size() / 2,
-						npc.scale,
-						effects,
-						0
-					);	
-				}
-			}	
+			if (npc.ai[0] > 400 && npc.ai[0] < 500 || npc.ai[0] > 600 && npc.ai[0] < 700)
+			{
+				spriteBatch.Draw(
+					mod.GetTexture("NPCs/Boss/ReachBoss/ReachBoss1_Flash"),
+					npc.Center - Main.screenPosition + Drawoffset,
+					npc.frame,
+					color2,
+					npc.rotation,
+					npc.frame.Size() / 2,
+					npc.scale,
+					effects,
+					0
+				);
+			}
 		}
 		public override void BossLoot(ref string name, ref int potionType)
 		{

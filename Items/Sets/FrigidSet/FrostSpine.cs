@@ -52,7 +52,7 @@ namespace SpiritMod.Items.Sets.FrigidSet
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<FrigidFragment>(), 10);
+			recipe.AddIngredient(ModContent.ItemType<FrigidFragment>(), 9);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

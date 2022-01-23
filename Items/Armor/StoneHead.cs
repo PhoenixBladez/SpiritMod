@@ -20,21 +20,15 @@ namespace SpiritMod.Items.Armor
 			item.height = 22;
 			item.value = 0;
 			item.rare = ItemRarityID.White;
-			item.defense = 3;
+			item.defense = 2;
 		}
 		public override void UpdateEquip(Player player) => player.GetSpiritPlayer().stoneHead = true;
 
 		public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == ModContent.ItemType<StoneBody>() && legs.type == ModContent.ItemType<StoneLegs>();
 		public override void UpdateArmorSet(Player player)
 		{
-			player.setBonus = "Increases defense by 5 when falling\nHold DOWN while falling to fall much faster";
-			
-			if (player.velocity.Y > 0 && player.ropeCount <= 0 && !player.gravControl) {
-                if (player.controlDown)
-                    player.velocity.Y = 10.53f;
-				player.statDefense += 5;
-				player.armorEffectDrawShadow = true;
-			}
+			player.setBonus = "Grants immunity to knockback";
+			player.noKnockback = true;
 		}
 
 		public override void ArmorSetShadows(Player player)

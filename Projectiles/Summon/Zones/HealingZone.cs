@@ -36,9 +36,9 @@ namespace SpiritMod.Projectiles.Summon.Zones
 			Player player = Main.LocalPlayer;
 
             int distance = (int)Vector2.Distance(projectile.Center, player.Center);
-			if (distance < 85)
+			if (distance < 100)
             {
-                player.AddBuff(ModContent.BuffType<HealingZoneBuff>(), 130);
+                player.AddBuff(ModContent.BuffType<HealingZoneBuff>(), 300);
                 if (Main.rand.NextBool(30))
                 {
                     int num143 = Gore.NewGore(new Vector2(projectile.Center.X + Main.rand.Next(-50, 50), projectile.Center.Y + Main.rand.Next(-50, 50)), new Vector2((float)Main.rand.Next(-10, 11) * 0.1f, (float)Main.rand.Next(-20, -10) * 0.1f), 331, (float)Main.rand.Next(80, 120) * 0.01f);
