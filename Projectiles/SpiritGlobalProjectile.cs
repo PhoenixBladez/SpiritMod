@@ -82,10 +82,17 @@ namespace SpiritMod.Projectiles
 					return false;
 			}
 
-			Player player = Main.player[projectile.owner];
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
+			Player player = null;
+			MyPlayer modPlayer = null;
+			if (projectile.owner != 255 && projectile.owner > -1) //Check that owner is valid
+			{
+				player = Main.player[projectile.owner];
+				modPlayer = player.GetModPlayer<MyPlayer>();
+			}
 
-			if (projectile.friendly && projectile.owner != 255 && !runOnce)
+			bool validPlayer = player != null && modPlayer != null;
+
+			if (validPlayer && projectile.friendly && !runOnce)
 			{
 				if (projectile.ranged && modPlayer.throwerGlove && modPlayer.throwerStacks >= 7) //Thrower glove functionality
 				{
@@ -102,9 +109,103 @@ namespace SpiritMod.Projectiles
 
 			runOnce = true;
 
-			if (projectile.minion && modPlayer.stellarSet && player.HasBuff(ModContent.BuffType<StellarMinionBonus>()))
+			if (validPlayer && projectile.minion && modPlayer.stellarSet && player.HasBuff(ModContent.BuffType<StellarMinionBonus>()))
 				alphaCounter += .04f;
 
+			CannonEffects(projectile);
+
+			if (WitherLeaf)
+			{
+				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+				if (Main.rand.NextBool())
+				{
+					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Plantera_Green);
+					return true;
+				}
+			}
+
+			if (validPlayer && projectile.minion && modPlayer.silkenSet)
+			{
+				int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.GoldCoin);
+				Main.dust[dust].velocity *= -1f;
+				Main.dust[dust].noGravity = true;
+				var vel = Vector2.Normalize(new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101)));
+				Main.dust[dust].velocity = vel * Main.rand.Next(50, 100) * 0.04f;
+				Main.dust[dust].position = projectile.Center - vel * 34f;
+			}
+
+			return BowEffects(projectile);
+		}
+
+		private bool BowEffects(Projectile projectile)
+		{
+			if (shotFromStellarCrosbow)
+			{
+				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+				if (Main.rand.Next(2) == 0)
+					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Firework_Yellow);
+				return false;
+			}
+
+			if (shotFromHolyBurst || shotFromTrueHolyBurst)
+			{
+				counter++;
+				if (counter >= 1440)
+					counter = -1440;
+
+				for (int i = 0; i < 4; i++)
+				{
+					int num = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter / 8.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, DustID.Clentaminator_Purple, 0f, 0f, 0, default, 1f);
+					Main.dust[num].velocity *= .1f;
+					Main.dust[num].scale *= .7f;
+					Main.dust[num].noGravity = true;
+				}
+				return false;
+			}
+			else if (shotFromBloodshot)
+			{
+				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+				if (Main.rand.Next(2) == 0)
+					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Blood);
+				return false;
+			}
+			else if (shotFromGeodeBow)
+			{
+				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, Scale: 1.2f);
+				int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.IceTorch, Scale: 1.2f);
+				int dust2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.CursedTorch, Scale: 1.2f);
+				Main.dust[dust].noGravity = true;
+				Main.dust[dust].velocity *= 0f;
+				Main.dust[dust1].noGravity = true;
+				Main.dust[dust1].velocity *= 0f;
+				Main.dust[dust2].noGravity = true;
+				Main.dust[dust2].velocity *= 0f;
+				return false;
+			}
+			else if (shotFromMarbleBow)
+			{
+				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height - 10, DustID.GoldCoin, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height - 10, DustID.Marble, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				Main.dust[dust].noGravity = true;
+				Main.dust[dust2].noGravity = true;
+				Main.dust[dust].velocity *= 0f;
+				Main.dust[dust2].velocity *= 0f;
+				Main.dust[dust].scale = 2f;
+				Main.dust[dust2].scale = .5f;
+				return false;
+			}
+			else if (shotFromBismiteBow)
+			{
+				if (Main.rand.Next(20) == 0)
+					DustHelper.DrawTriangle(projectile.Center, 167, 1, .8f, 1.1f);
+			}
+			return false;
+		}
+
+		private void CannonEffects(Projectile projectile)
+		{
 			if (shotFromMaliwanFreezeCommon)
 			{
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
@@ -152,99 +253,6 @@ namespace SpiritMod.Projectiles
 					Main.dust[dust].scale = .58f;
 				}
 			}
-
-			if (WitherLeaf)
-			{
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				if (Main.rand.NextBool())
-				{
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Plantera_Green);
-					return true;
-				}
-			}
-
-			if (projectile.minion && modPlayer.silkenSet)
-			{
-				int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.GoldCoin);
-				Main.dust[dust].velocity *= -1f;
-				Main.dust[dust].noGravity = true;
-				var vel = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
-				vel.Normalize();
-				Main.dust[dust].velocity = vel * Main.rand.Next(50, 100) * 0.04f;
-				Main.dust[dust].position = projectile.Center - vel * 34f;
-			}
-
-			if (shotFromStellarCrosbow)
-			{
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				if (Main.rand.Next(2) == 0)
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Firework_Yellow);
-				return false;
-			}
-
-			if (shotFromHolyBurst || shotFromTrueHolyBurst)
-			{
-				counter++;
-				if (counter >= 1440)
-					counter = -1440;
-
-				for (int i = 0; i < 2; i++)
-				{
-					int num = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter / 8.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, DustID.Clentaminator_Purple, 0f, 0f, 0, default, 1f);
-					Main.dust[num].velocity *= .1f;
-					Main.dust[num].scale *= .7f;
-					Main.dust[num].noGravity = true;
-				}
-
-				for (int i = 0; i < 2; i++)
-				{
-					int num = Dust.NewDust(projectile.Center - new Vector2(0, (float)Math.Cos(counter / 8.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, DustID.Clentaminator_Purple, 0f, 0f, 0, default, 1f);
-					Main.dust[num].velocity *= .1f;
-					Main.dust[num].scale *= .7f;
-					Main.dust[num].noGravity = true;
-				}
-				return false;
-			}
-			else if (shotFromBloodshot)
-			{
-				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-				if (Main.rand.Next(2) == 0)
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Blood);
-				return false;
-			}
-			else if (shotFromGeodeBow)
-			{
-				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, Scale: 1.2f);
-				int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.IceTorch, Scale: 1.2f);
-				int dust2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.CursedTorch, Scale: 1.2f);
-				Main.dust[dust].noGravity = true;
-				Main.dust[dust].velocity *= 0f;
-				Main.dust[dust1].noGravity = true;
-				Main.dust[dust1].velocity *= 0f;
-				Main.dust[dust2].noGravity = true;
-				Main.dust[dust2].velocity *= 0f;
-				return false;
-			}
-			else if (shotFromMarbleBow)
-			{
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height - 10, DustID.GoldCoin, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height - 10, DustID.Marble, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				Main.dust[dust].noGravity = true;
-				Main.dust[dust2].noGravity = true;
-				Main.dust[dust2].velocity *= 0f;
-				Main.dust[dust2].velocity *= 0f;
-				Main.dust[dust2].scale = .5f;
-				Main.dust[dust].scale = 2f;
-				return false;
-			}
-			else if (shotFromBismiteBow)
-			{
-				if (Main.rand.Next(20) == 0)
-					DustHelper.DrawTriangle(projectile.Center, 167, 1, .8f, 1.1f);
-			}
-			return true;
 		}
 
 		public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
