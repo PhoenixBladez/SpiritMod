@@ -71,6 +71,15 @@ namespace SpiritMod.NPCs.StarjinxEvent
             else
                 npc.alpha = 0;
 
+			if (Vector2.DistanceSquared(npc.Center, Main.LocalPlayer.Center) < EVENT_RADIUS * EVENT_RADIUS && spawnedBoss && bossWhoAmI == -1)
+			{
+				musicVolume = Math.Max(musicVolume - 0.0125f, 0); //Fully fade out music when event is done
+			}
+			else
+			{
+				musicVolume = Math.Min(musicVolume + 0.0125f, 1f);
+			}
+
 			if (spawnedComets && comets.Count <= 0) //once all small comets have been defeated
 			{
 				if (spawnedBoss)
@@ -86,7 +95,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 					{
 						npc.dontTakeDamage = false;
 						shieldOpacity = MathHelper.Lerp(shieldOpacity, 0, 0.05f);
-						musicVolume = Math.Max(musicVolume - 0.0125f, 0); //Fully fade out music when event is done
+
+						//musicVolume = Math.Max(musicVolume - 0.0125f, 0); //Fully fade out music when event is done
 
 						StarjinxPlayer localSjinxPlayer = Main.LocalPlayer.GetModPlayer<StarjinxPlayer>();
 						VignettePlayer localVignettePlayer = Main.LocalPlayer.GetModPlayer<VignettePlayer>();

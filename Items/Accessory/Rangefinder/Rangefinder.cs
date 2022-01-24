@@ -7,7 +7,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using SpiritMod.Particles;
 
@@ -28,6 +27,14 @@ namespace SpiritMod.Items.Accessory.Rangefinder
 			item.value = Item.buyPrice(0, 1, 0, 0);
 			item.rare = ItemRarityID.LightRed;
 			item.accessory = true;
+			item.vanity = true;
+		}
+
+		public override void UpdateInventory(Player player)
+		{
+			for(int i = 13; i < 20; i++)
+				if(player.armor[i].type == ModContent.ItemType<Rangefinder>())
+					player.GetModPlayer<RangefinderPlayer>().active = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<RangefinderPlayer>().active = true;
