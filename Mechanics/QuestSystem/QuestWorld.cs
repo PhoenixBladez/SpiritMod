@@ -151,7 +151,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 				{
 					byte[] buffer = quest.GetTaskDataBuffer();
 					data.Buffer = buffer;
-					QuestManager.DeactivateQuest(quest);
+					//QuestManager.DeactivateQuest(quest);
 				}
 
 				allQuestNames.Add("SpiritMod:" + quest.QuestName);
