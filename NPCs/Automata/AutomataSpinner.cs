@@ -108,7 +108,7 @@ namespace SpiritMod.NPCs.Automata
             {
                 npc.velocity *= .97f;
             }
-			if (timer >= 300 && timer <= 320 && Main.netMode != NetmodeID.MultiplayerClient) {
+			if (timer >= 300 && timer <= 320) {
 				direction.X = direction.X * Main.rand.NextFloat(6.5f, 8.4f);
 				direction.Y = 0 - Main.rand.NextFloat(.5f, 1.5f);
 				npc.velocity.X = direction.X;
@@ -121,8 +121,8 @@ namespace SpiritMod.NPCs.Automata
 				frame = 0;
 				timer = 0;
                 npc.noGravity = false;
-				npc.netUpdate = true;
 				npc.knockBackResist = .2f;
+				npc.netUpdate = true;
 			}
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

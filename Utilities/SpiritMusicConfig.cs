@@ -92,5 +92,10 @@ namespace SpiritMod.Utilities
 		[Tooltip("Enables two unique tracks while in Hyperspace")]
         [DefaultValue(true)]
         public bool NeonBiomeMusic { get; set; }
+
+		[Label("$Mods.SpiritMod.AshfallMusic")]
+		[Tooltip("Enables a unique track for the Ashfall weather in the Underworld")]
+		[DefaultValue(true)]
+		public bool ashfallMusic { get; set; }
 	}
 }

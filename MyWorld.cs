@@ -1632,14 +1632,6 @@ namespace SpiritMod
 						NPC.NewNPC((pagodaX + Main.rand.Next(0, 126)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, NPCType<NPCs.SamuraiGhost.SamuraiPassive>());
 				}
 			}
-			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
-			{
-				if (!essenceMessage)
-				{
-					Main.NewText("The Essences are bursting!", 61, 255, 142);
-					essenceMessage = true;
-				}
-			}
 
 			if (Main.hardMode && !rockCandy)
 			{
