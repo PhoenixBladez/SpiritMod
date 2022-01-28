@@ -24,11 +24,19 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 		private ref Player Target => ref Main.player[npc.target];
 
+		// Foreground/Background stuff
 		internal bool inFG = true;
 		private bool transitionFG = false;
 		private int fgTime = 0;
 		private Vector2 fgPos = new Vector2();
 		private WardenBG Background = null;
+
+		// Starlight doppelganger attack
+		private List<int> doppelgangers = new List<int>();
+
+		// Void black hole attack
+		private int blackHoleWhoAmI = -1;
+		private ref Projectile BlackHole => ref Main.projectile[blackHoleWhoAmI];
 
 		internal int archonWhoAmI = -1;
 		private ref NPC ArchonNPC => ref Main.npc[archonWhoAmI];
@@ -154,7 +162,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 			switch (GetArchon().enchantment)
 			{
 				case Archon.Archon.Enchantment.Starlight:
-
+					StarlightAttack();
+					break;
+				case Archon.Archon.Enchantment.Void:
+					VoidAttack();
 					break;
 				default: 
 					BasicIdleMovement();
@@ -162,10 +173,75 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 			}
 		}
 
-		private void BasicIdleMovement()
+		private void VoidAttack()
+		{
+			BasicIdleMovement(blackHoleWhoAmI > -1 ? 0.8f : 0.2f);
+
+			if (timers["ARCHATK"] == 50) //Spawn NPCs
+			{
+				int p = Projectile.NewProjectile(npc.Center, Vector2.Zero, ProjectileID.CultistBossLightningOrb, 120, 1f);
+				Main.projectile[p].timeLeft = ArchonAttackMaxTime - 100;
+
+				blackHoleWhoAmI = p;
+			}
+			else if (timers["ARCHATK"] > 50 && timers["ARCHATK"] < ArchonAttackMaxTime - 100 && blackHoleWhoAmI > -1)
+			{
+				if (npc.justHit)
+				{
+					BlackHole.timeLeft = 50;
+
+					blackHoleWhoAmI = -1;
+					return;
+				}
+
+				BlackHole.velocity = BlackHole.DirectionTo(Target.Center) * 4;
+
+				for (int i = 0; i < Main.maxProjectiles; ++i)
+				{
+					Projectile proj = Main.projectile[i];
+
+					if (i != blackHoleWhoAmI && proj.active && !proj.hostile && proj.friendly && proj.DistanceSQ(BlackHole.Center) < 40 * 40) //Detect all friendly projectiles
+						proj.Kill();
+				}
+			}
+		}
+
+		private void StarlightAttack()
+		{
+			npc.velocity *= 0.94f;
+
+			if (timers["ARCHATK"] == 50) //Spawn NPCs
+			{
+				int npcCount = Main.rand.Next(3, 6);
+				int[] types = new int[] { ModContent.NPCType<Pathfinder.Pathfinder>(), ModContent.NPCType<Starachnid.Starachnid>(), ModContent.NPCType<StarWeaver.StarWeaverNPC>() };
+
+				for (int i = 0; i < npcCount; ++i)
+				{
+					int id = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 200, Main.rand.Next(types), Main.rand.Next(10) * 10);
+
+					doppelgangers.Add(id);
+				}
+			}
+			else if (timers["ARCHATK"] == ArchonAttackMaxTime - 100) //Blow up NPCs
+			{
+				foreach (int item in doppelgangers)
+				{
+					NPC npc = Main.npc[item];
+					if (npc.active && npc.life > -1)
+					{
+						npc.active = false;
+
+						int p = Projectile.NewProjectile(npc.Center, Vector2.Zero, ProjectileID.Bomb, 120, 1f);
+						Main.projectile[p].timeLeft = 3;
+					}
+				}
+			}
+		}
+
+		private void BasicIdleMovement(float speedMult = 1f)
 		{
 			float magnitude = 10 - (npc.Distance(Target.Center) * 0.02f);
-			Vector2 vel = -npc.DirectionTo(Target.Center) * magnitude;
+			Vector2 vel = -npc.DirectionTo(Target.Center) * magnitude * speedMult;
 
 			if (magnitude < 0)
 			{
