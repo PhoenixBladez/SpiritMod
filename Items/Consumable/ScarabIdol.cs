@@ -1,9 +1,7 @@
-
 using Microsoft.Xna.Framework;
 using SpiritMod.NPCs.Boss.Scarabeus;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Consumable
@@ -15,7 +13,6 @@ namespace SpiritMod.Items.Consumable
 			DisplayName.SetDefault("Scarab Idol");
 			Tooltip.SetDefault("Non-Consumable\nUse in the desert at daytime to summon Scarabeus");
 		}
-
 
 		public override void SetDefaults()
 		{
@@ -33,12 +30,7 @@ namespace SpiritMod.Items.Consumable
 			item.UseSound = SoundID.Item43;
 		}
 
-		public override bool CanUseItem(Player player)
-		{
-			if (!NPC.AnyNPCs(ModContent.NPCType<Scarabeus>()) && player.ZoneDesert && Main.dayTime)
-				return true;
-			return false;
-		}
+		public override bool CanUseItem(Player player) => !NPC.AnyNPCs(ModContent.NPCType<Scarabeus>()) && player.ZoneDesert && Main.dayTime;
 
 		public override bool UseItem(Player player)
 		{
@@ -49,6 +41,7 @@ namespace SpiritMod.Items.Consumable
 				Vector2 spawnPos = player.Center;
 				int tries = 0;
 				int maxtries = 300;
+
 				while ((Vector2.Distance(spawnPos, player.Center) <= 200 || WorldGen.SolidTile((int)spawnPos.X / 16, (int)spawnPos.Y / 16) || WorldGen.SolidTile2((int)spawnPos.X / 16, (int)spawnPos.Y / 16) || WorldGen.SolidTile3((int)spawnPos.X / 16, (int)spawnPos.Y / 16)) && tries <= maxtries) {
 					spawnPos = player.Center + Main.rand.NextVector2Circular(800, 800);
 					tries++;

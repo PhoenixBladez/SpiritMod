@@ -256,7 +256,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 				Vector2 pos = Main.rand.NextVector2Circular(EVENT_RADIUS * 0.9f, EVENT_RADIUS * 0.9f);
 
 				while ((spawns.Count > 0 && spawns.Any(x => Vector2.DistanceSquared(x, pos) < 425 * 425)) || pos.Length() < 600)
-					pos = Main.rand.NextVector2Circular(EVENT_RADIUS / 2f, EVENT_RADIUS / 2f);
+					pos = Main.rand.NextVector2Circular(EVENT_RADIUS * 0.9f, EVENT_RADIUS * 0.9f);
 
 				var p = Projectile.NewProjectileDirect(npc.Center + pos, Vector2.Zero, ModContent.ProjectileType<StarjinxEnemySpawner>(), 0, 0, 255, Main.rand.NextFloat(50));
 
