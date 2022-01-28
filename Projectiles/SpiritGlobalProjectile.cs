@@ -78,7 +78,7 @@ namespace SpiritMod.Projectiles
 		{
 			foreach (var effect in effects)
 			{
-				if (!effect.ProjectilePreAI(projectile))
+				if (effect != null && !effect.ProjectilePreAI(projectile))
 					return false;
 			}
 
@@ -103,7 +103,7 @@ namespace SpiritMod.Projectiles
 					projectile.knockBack += 2;
 					throwerGloveBoost = true;
 				}
-				else if (player.GetModPlayer<MyPlayer>().longFuse && Explosives.Contains(projectile.type)) //Long fuse functionality
+				else if (modPlayer.longFuse && Explosives.Contains(projectile.type)) //Long fuse functionality
 					projectile.timeLeft = (int)(projectile.timeLeft * 1.5f); //Makes it last 150% longer
 			}
 
@@ -201,7 +201,7 @@ namespace SpiritMod.Projectiles
 				if (Main.rand.Next(20) == 0)
 					DustHelper.DrawTriangle(projectile.Center, 167, 1, .8f, 1.1f);
 			}
-			return false;
+			return true;
 		}
 
 		private void CannonEffects(Projectile projectile)
