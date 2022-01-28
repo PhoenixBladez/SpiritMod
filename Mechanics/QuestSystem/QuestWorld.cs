@@ -38,6 +38,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 				AddQuestQueue(NPCID.Dryad, QuestManager.GetQuest<OlympiumQuest>());
 				AddQuestQueue(NPCID.Mechanic, QuestManager.GetQuest<GranitechQuest>());
+				AddQuestQueue(ModContent.NPCType<NPCs.Town.Adventurer>(), QuestManager.GetQuest<AuroraStagQuest>());
 
 
 				if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
@@ -151,7 +152,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 				{
 					byte[] buffer = quest.GetTaskDataBuffer();
 					data.Buffer = buffer;
-					QuestManager.DeactivateQuest(quest);
+					//QuestManager.DeactivateQuest(quest);
 				}
 
 				allQuestNames.Add("SpiritMod:" + quest.QuestName);

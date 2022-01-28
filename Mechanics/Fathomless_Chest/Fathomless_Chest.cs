@@ -100,7 +100,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 			}
 
 			//int randomEffectCounter = 5;
-			int randomEffectCounter = Main.rand.Next(13);
+			int randomEffectCounter = Main.rand.Next(12);
 			bool CheckTileRange(int[] tiletypes, int size)
 			{
 				for (int k = i - size; k <= i + size; k++)
@@ -297,17 +297,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 						}
 						break;
 					}
-				case 5: //Potion N LAVA
-					{
-						NeutralLuck(i, j);
-						Main.tile[i + 4, j].lava(true);
-						Main.tile[i + 4, j].liquid = byte.MaxValue;
-						int item = Item.NewItem((int)(i * 16), (int)(j * 16) - 12, 16, 18, ItemID.ObsidianSkinPotion, 1);
-						if (Main.netMode != NetmodeID.SinglePlayer && item >= 0)
-							NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item, 1f);
-						break;
-					}
-				case 6: //Convert regional stone into gems
+				case 5: //Convert regional stone into gems
 					{
 						GoodLuck(i, j);
 						int gemType = Main.rand.Next(new int[] { 63, 64, 65, 66, 67, 68 });
@@ -326,7 +316,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 						}
 						break;
 					}
-				case 7: //Places opposite world evil
+				case 6: //Places opposite world evil
 					{
 						BadLuck(i, j);
 						for (int value = 0; value < 32; value++)
@@ -352,7 +342,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 						}
 						break;
 					}
-				case 8: //Midas effect
+				case 7: //Midas effect
 					{
 						GoodLuck(i, j);
 						player.AddBuff(ModContent.BuffType<Buffs.MidasTouch>(), 3600 * 5);
@@ -365,21 +355,24 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 						}
 						break;
 					}
-				case 9: //Clear all buffs and debuffs
+				case 8: //Clear all buffs and debuffs
 					{
 						NeutralLuck(i, j);
 						for (int index1 = 0; index1 < 22; ++index1)
 							player.DelBuff(index1);
+						int index = CombatText.NewText(new Rectangle(i * 16, j * 16, player.width, player.height), new Color(255, 255, 255), "All Buffs Cleared", false, false);
+						CombatText combatText = Main.combatText[index];
+						NetMessage.SendData(MessageID.CombatTextInt, -1, -1, NetworkText.FromLiteral(combatText.text), (int)combatText.color.PackedValue, combatText.position.X, combatText.position.Y, 0.0f, 0, 0, 0);
 						break;
 					}
-				case 10: //Darkness and Weak
+				case 9: //Darkness and Weak
 					{
 						BadLuck(i, j);
 						player.AddBuff(BuffID.Darkness, 3600);
 						player.AddBuff(BuffID.Weak, 3600);
 						break;
 					}
-				case 11: //Opposite gold/platinum ore
+				case 10: //Opposite gold/platinum ore
 					{
 						GoodLuck(i, j);
 						int oreType;
@@ -390,7 +383,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 						ConvertStone(i, j, 22, oreType, 0.25f);
 						break;
 					}
-				case 12:
+				case 11:
 					{
 						GoodLuck(i, j);
 						int item = Item.NewItem((i * 16) + 8, (j * 16) + 12, 16, 18, ModContent.ItemType<Glyph>(), 1);
