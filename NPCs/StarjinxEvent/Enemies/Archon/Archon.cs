@@ -51,6 +51,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 
 		// Basic Slash
 		private Vector2 cachedAttackPos = new Vector2();
+		private bool starlightDoubleSlash = true;
 
 		// Starlight Constellation
 		private List<StarThread> threads = new List<StarThread>();
@@ -457,7 +458,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			const float AnticipationThreshold = 0.1f;
 			const float BeginAttackThreshold = 0.3f;
 
-			if (timers["ATTACK"] == (int)(attackTimeMax * AnticipationThreshold)) //Teleport & start slash anticipation
+			if (timers["ATTACK"] < (int)(attackTimeMax * AnticipationThreshold))
+				npc.rotation = MathHelper.Lerp(npc.rotation, 0f, 0.2f);
+			else if (timers["ATTACK"] == (int)(attackTimeMax * AnticipationThreshold)) //Teleport & start slash anticipation
 			{
 				waitingOnAttack = true;
 				npc.Center = Target.Center + new Vector2(0, Main.rand.Next(300, 400)).RotatedByRandom(MathHelper.Pi);
@@ -485,11 +488,17 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			if (timers["ATTACK"] >= attackTimeMax)
 			{
 				timers["ATTACK"] = 0;
-				attack = AttackType.None;
-				waitingOnAttack = false;
 
 				npc.velocity = Vector2.Zero;
 				realDamage = 0;
+
+				if (!starlightDoubleSlash)
+				{
+					attack = AttackType.None;
+					waitingOnAttack = false;
+				}
+				else
+					starlightDoubleSlash = false;
 			}
 		}
 
@@ -581,11 +590,14 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				choices.Add(AttackType.MeteorDash, 1.5f);
 			}
 
-			attack = AttackType.StarlightConstellation;
+			attack = AttackType.TeleportSlash;
 
 			if (attack == AttackType.TeleportSlash)
 			{
-				attackTimeMax = 160; //Default slash time
+				attackTimeMax = 60; //Default slash time
+
+				if (enchantment == Enchantment.Starlight)
+					starlightDoubleSlash = true;
 				if (enchantment == Enchantment.Meteor)
 					attackTimeMax = 200; //Meteor slash is slower
 			}
@@ -593,7 +605,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			{
 				attackTimeMax = 80; //Starlight cast time
 				if (enchantment == Enchantment.Meteor)
-					attackTimeMax = 100; //Meteor cast
+					attackTimeMax = 200; //Meteor cast
 				else if (enchantment == Enchantment.Void)
 					attackTimeMax = 200; //Void cast
 			}
