@@ -163,7 +163,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		{
 			timers["ARCHATK"]++;
 
-			if (timers["ARCHATK"] == ArchonAttackMaxTime && ArchonNPC.active && ArchonNPC.life > 0 && !GetArchon().waitingOnAttack)
+			if (timers["ARCHATK"] >= ArchonAttackMaxTime && ArchonNPC.active && ArchonNPC.life > 0 && !GetArchon().waitingOnAttack)
 			{
 				GetArchon().ResetEnchantment();
 				stage = EnchantStage;
