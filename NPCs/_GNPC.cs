@@ -1069,7 +1069,6 @@ namespace SpiritMod.NPCs
 			DropLoot(18, 18, ItemType<TheFireball>(), npc, NPCID.FireImp);
 			DropLoot(50, 50, ItemType<CursedPendant>(), npc, NPCID.Clinger);
 			DropLoot(50, 50, ItemType<MagnifyingGlass>(), npc, NPCID.DemonEye, NPCID.DemonEye2, NPCID.DemonEyeOwl, NPCID.DemonEyeSpaceship);
-			DropLoot(12, 10, ItemType<Items.Weapon.Summon.WyvernStaff.WyvernStaff>(), npc, NPCID.WyvernHead);
 			DropLoot(1, 1, ItemType<PirateKey>(), npc, NPCID.PirateShip);
 			DropLoot(6, 6, ItemType<Items.Sets.SummonsMisc.SanguineFlayer.SanguineFlayerItem>(), npc, NPCID.BigMimicCrimson);
 			DropLoot(6, 6, ItemType<Items.Accessory.OpalFrog.OpalFrogItem>(), npc, NPCID.BigMimicHallow);

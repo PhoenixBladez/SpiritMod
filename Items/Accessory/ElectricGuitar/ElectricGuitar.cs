@@ -106,6 +106,7 @@ namespace SpiritMod.Items.Accessory.ElectricGuitar
 							Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 47).WithPitchVariance(0.8f).WithVolume(0.7f), player.Center);
 							Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 12).WithVolume(0.6f), player.Center);
 							Main.PlaySound(SoundID.DD2_LightningAuraZap, player.position);
+							break;
 						}
 					}
 					attackTimer = 0;

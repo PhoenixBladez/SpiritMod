@@ -3659,8 +3659,8 @@ namespace SpiritMod
 						Main.projectile[p].ai[0] = npc.position.X;
 						Main.projectile[p].ai[1] = npc.position.Y;
 						Main.projectile[p].netUpdate = true;
-						break;
 					}
+					break;
 				}
 			}
 		}

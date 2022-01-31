@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+/*using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -165,4 +165,4 @@ namespace SpiritMod.Items.Weapon.Summon.WyvernStaff
 			return false;
 		}
 	}
-}
+}*/

@@ -236,6 +236,11 @@ namespace SpiritMod
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion");
 				priority = MusicPriority.Event;
 			}
+			if (MyWorld.ashRain && player.ZoneUnderworldHeight && config.ashfallMusic)
+            {
+				music = GetSoundSlot(SoundType.Music, "Sounds/Music/AshStorm");
+				priority = MusicPriority.Event;
+			}
 			if (config.NeonBiomeMusic && spirit.ZoneSynthwave)
 			{
 				if (Main.dayTime)
@@ -784,6 +789,10 @@ namespace SpiritMod
 			ModTranslation musicConfig15 = CreateTranslation("HyperspaceMusic");
 			musicConfig15.SetDefault($"[i:" + SpiritMod.Instance.ItemType("NeonMusicBox") + "]  Adds two unique tracks for the artificial Hyperspace biome");
 			AddTranslation(musicConfig15);
+
+			ModTranslation musicConfig17 = CreateTranslation("AshfallMusic");
+			musicConfig17.SetDefault($"[i:" + SpiritMod.Instance.ItemType("NeonMusicBox") + "]  Adds a unique track for the Ashfall weather in the Underworld");
+			AddTranslation(musicConfig17);
 			#endregion
 
 			if (Main.netMode != NetmodeID.Server)
