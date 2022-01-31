@@ -63,7 +63,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		private float meteorDashFactor = 0f;
 
 		// Misc
-		private readonly Dictionary<string, int> timers = new Dictionary<string, int>() { { "ENCHANT", 0 }, { "ATTACK", 0 } };
+		private readonly Dictionary<string, int> timers = new Dictionary<string, int>() { { "ENCHANT", 0 }, { "ATTACK", 0 }, { "CONSTELLATION", 0 } };
 
 		public override void SetStaticDefaults()
 		{
@@ -168,10 +168,11 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		private void EnchantBehaviour()
 		{
 			timers["ENCHANT"]++;
-			timers["ATTACK"]++;
 
 			if (attack == AttackType.None)
 				SetupRandomAttack();
+			else if (enchantment != Enchantment.None)
+				timers["ATTACK"]++;
 
 			npc.velocity.Y = (float)Math.Sin(timers["ENCHANT"] * 0.1f) * 0.2f;
 
@@ -314,22 +315,33 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 
 			waitingOnAttack = true;
 
-			foreach (StarThread thread in threads)
-				thread.Update();
-
-			foreach (StarThread thread in threads.ToArray())
-				if (thread.Counter > thread.Duration)
-					threads.Remove(thread);
-
-			if (timers["ATTACK"] % (int)(attackTimeMax * SetupThreadsThreshold) == 0 && timers["ATTACK"] <= (int)(attackTimeMax * MaxSetupThreadsThreshold)) //Setup threads
-				AddThread();
-			else if (timers["ATTACK"] > attackTimeMax * (MaxSetupThreadsThreshold + 0.05f) && timers["ATTACK"] <= attackTimeMax)
+			if (threads.Count > 0)
 			{
+				foreach (StarThread thread in threads)
+					thread.Update();
+
+				foreach (StarThread thread in threads.ToArray())
+					if (thread.Counter > thread.Duration)
+						threads.Remove(thread);
+			}
+
+			if (timers["ATTACK"] <= (int)(attackTimeMax * MaxSetupThreadsThreshold))
+			{
+				npc.velocity *= 0.98f;
+
+				if (timers["ATTACK"] % (int)(attackTimeMax * SetupThreadsThreshold) == 0) //Setup threads
+					AddThread();
+			}
+			else if (timers["ATTACK"] > attackTimeMax * MaxSetupThreadsThreshold && timers["ATTACK"] < attackTimeMax)
+			{
+				timers["CONSTELLATION"]++;
 				realDamage = 100;
 
-				float maxTimePerThread = (MaxSetupThreadsThreshold - 0.05f) / threads.Count;
+				float singleAttackThreshold = attackTimeMax * (1 - MaxSetupThreadsThreshold) / threads.Count;
+				float threadProgress = timers["CONSTELLATION"] / singleAttackThreshold;
+
 				npc.Center = Vector2.Lerp(npc.Center, threads[currentThread].EndPoint, currentThreadProgress);
-				currentThreadProgress += maxTimePerThread;
+				currentThreadProgress = threadProgress;
 
 				float finalRot = (threads[currentThread].EndPoint - threads[currentThread].StartPoint).ToRotation();
 				if (currentThread == threads.Count - 1)
@@ -340,10 +352,11 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				{
 					currentThread++;
 					currentThreadProgress = 0;
+					timers["CONSTELLATION"] = 0;
 
 					if (currentThread >= threads.Count)
 					{
-						timers["ATTACK"] = (int)attackTimeMax;
+						timers["ATTACK"] = (int)attackTimeMax + 2;
 						currentThread = 0;
 					}
 				}
@@ -568,7 +581,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				choices.Add(AttackType.MeteorDash, 1.5f);
 			}
 
-			attack = choices;
+			attack = AttackType.StarlightConstellation;
 
 			if (attack == AttackType.TeleportSlash)
 			{
@@ -601,7 +614,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			Count = 4
 		}
 
-		public void SetRandomEnchantment() => enchantment = (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
+		public void SetRandomEnchantment() => enchantment = Enchantment.Starlight;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
 
 		internal void ResetEnchantment()
 		{

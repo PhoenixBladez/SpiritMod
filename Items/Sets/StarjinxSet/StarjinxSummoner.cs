@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starjinx Summoner");
-			Tooltip.SetDefault("Placeholder! Summons the Starjinx Meteor.");
+			Tooltip.SetDefault("Placeholder! Summons the Starjinx event.");
 		}
 
 		public override void SetDefaults()
@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 		public override bool UseItem(Player player)
 		{
 			int centreX = Main.rand.Next(Main.maxTilesX * 6, Main.maxTilesX * 10);
-			Vector2 finalPos = GetOpenSpace(centreX, (int)(Main.worldSurface * 0.35f) + 500);
+			Vector2 finalPos = GetOpenSpace(centreX, (int)(Main.worldSurface * 0.35f) + 700);
 
 			Main.NewText("An enchanted comet has appeared in the sky!", 252, 150, 255);
 
