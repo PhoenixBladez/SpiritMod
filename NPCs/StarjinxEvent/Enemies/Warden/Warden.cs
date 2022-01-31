@@ -16,6 +16,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		public const int InitStage = 0;
 		public const int EnchantStage = 1;
 		public const int ArchonAttackStage = 2;
+		public const int ArchonDeadStage = 3;
 
 		public const int EnchantMaxTime = 200;
 		public const int ArchonAttackMaxTime = 1200;
@@ -56,7 +57,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 			npc.height = 128;
 			npc.damage = 0;
 			npc.defense = 28;
-			npc.lifeMax = 1200;
+			npc.lifeMax = 12000;
 			npc.aiStyle = -1;
 			npc.HitSound = SoundID.DD2_CrystalCartImpact;
 			npc.DeathSound = SoundID.DD2_ExplosiveTrapExplode;
@@ -66,6 +67,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 			npc.noTileCollide = true;
 			npc.boss = true;
 		}
+
+		public override bool CheckActive() => !ModContent.GetInstance<StarjinxEventWorld>().StarjinxActive;
 
 		public override void AI()
 		{
@@ -143,20 +146,33 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				case ArchonAttackStage:
 					ArchonAttackBehaviour();
 					break;
+				case ArchonDeadStage:
+					SoloBehaviour();
+					break;
 				default:
 					break;
 			}
+		}
+
+		private void SoloBehaviour()
+		{
+			BasicIdleMovement(2f);
 		}
 
 		private void ArchonAttackBehaviour()
 		{
 			timers["ARCHATK"]++;
 
-			if (timers["ARCHATK"] == ArchonAttackMaxTime && !GetArchon().waitingOnAttack)
+			if (timers["ARCHATK"] == ArchonAttackMaxTime && ArchonNPC.active && ArchonNPC.life > 0 && !GetArchon().waitingOnAttack)
 			{
 				GetArchon().ResetEnchantment();
 				stage = EnchantStage;
 				timers["ARCHATK"] = 0;
+			}
+			else if (!ArchonNPC.active || ArchonNPC.life <= 0)
+			{
+				stage = ArchonDeadStage;
+				return;
 			}
 
 			switch (GetArchon().enchantment)
@@ -177,7 +193,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		{
 			BasicIdleMovement(blackHoleWhoAmI > -1 ? 0.8f : 0.2f);
 
-			if (timers["ARCHATK"] == 50) //Spawn NPCs
+			if (timers["ARCHATK"] == 50) //Spawn projectile
 			{
 				int p = Projectile.NewProjectile(npc.Center, Vector2.Zero, ProjectileID.CultistBossLightningOrb, 120, 1f);
 				Main.projectile[p].timeLeft = ArchonAttackMaxTime - 100;
@@ -186,7 +202,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 			}
 			else if (timers["ARCHATK"] > 50 && timers["ARCHATK"] < ArchonAttackMaxTime - 100 && blackHoleWhoAmI > -1)
 			{
-				if (npc.justHit)
+				if (npc.justHit || !BlackHole.active)
 				{
 					BlackHole.timeLeft = 50;
 
@@ -231,7 +247,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 					{
 						npc.active = false;
 
-						int p = Projectile.NewProjectile(npc.Center, Vector2.Zero, ProjectileID.Bomb, 120, 1f);
+						int p = Projectile.NewProjectile(npc.Center, Vector2.Zero, ProjectileID.Dynamite, 120, 1f);
 						Main.projectile[p].timeLeft = 3;
 					}
 				}

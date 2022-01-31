@@ -77,7 +77,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			npc.height = 114;
 			npc.damage = 20;
 			npc.defense = 28;
-			npc.lifeMax = 1200;
+			npc.lifeMax = 12000;
 			npc.aiStyle = -1;
 			npc.HitSound = SoundID.DD2_CrystalCartImpact;
 			npc.DeathSound = SoundID.DD2_ExplosiveTrapExplode;
@@ -87,6 +87,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			npc.noTileCollide = true;
 			npc.boss = true;
 		}
+
+		public override bool CheckActive() => !ModContent.GetInstance<StarjinxEventWorld>().StarjinxActive;
 
 		public override void AI()
 		{
@@ -566,7 +568,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				choices.Add(AttackType.MeteorDash, 1.5f);
 			}
 
-			attack = AttackType.TeleportSlash;// choices;
+			attack = choices;
 
 			if (attack == AttackType.TeleportSlash)
 			{
@@ -599,7 +601,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			Count = 4
 		}
 
-		public void SetRandomEnchantment() => enchantment = Enchantment.Void;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
+		public void SetRandomEnchantment() => enchantment = Enchantment.Starlight;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
 
 		internal void ResetEnchantment()
 		{

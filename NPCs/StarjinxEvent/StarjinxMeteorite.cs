@@ -84,13 +84,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			{
 				if (spawnedBoss)
 				{
-					if (bossWhoAmI != -1)
-					{
+					if (NPC.AnyNPCs(ModContent.NPCType<Enemies.Archon.Archon>()) || NPC.AnyNPCs(ModContent.NPCType<Enemies.Warden.Warden>()))
 						musicVolume = Math.Min(musicVolume + 0.0125f, 1f);
-						NPC boss = Main.npc[bossWhoAmI];
-						if (!boss.active || !boss.boss)
-							bossWhoAmI = -1;
-					}
 					else
 					{
 						npc.dontTakeDamage = false;
@@ -106,9 +101,9 @@ namespace SpiritMod.NPCs.StarjinxEvent
 				}
 				else
 				{
-					int boss = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 400, NPCID.EyeofCthulhu);
+					int boss = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 400, ModContent.NPCType<Enemies.Warden.Warden>());
 
-					StarjinxEventWorld.SetMaxEnemies(1); //Change to 2 when actual boss fight is added
+					StarjinxEventWorld.SetMaxEnemies(2); //Change to 2 when actual boss fight is added
 					StarjinxEventWorld.SetComets(comets.Count);
 
 					spawnedBoss = true;

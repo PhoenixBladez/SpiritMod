@@ -2,6 +2,7 @@ using SpiritMod.Mechanics.CollideableNPC;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.StarjinxEvent
 {
@@ -32,6 +33,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		}
 
 		public override void AI() => npc.velocity.Y = (float)Math.Sin(npc.ai[0]++ * 0.06f) * 0.8f;
+
+		public override bool CheckActive() => !ModContent.GetInstance<StarjinxEventWorld>().StarjinxActive;
 	}
 
 	public class SjinxPlatformMedium : SjinxPlatform
