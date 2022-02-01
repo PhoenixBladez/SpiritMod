@@ -3,22 +3,21 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using SpiritMod.Particles;
-using SpiritMod.Utilities;
 using SpiritMod.Mechanics.Trails;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon.Projectiles
 {
-	public class MeteorEnchantment_Meteor : ModProjectile, ITrailProjectile//, IManualTrailProjectile, IDrawAdditive
+	public class MeteorCastProjectile : ModProjectile, ITrailProjectile//, IManualTrailProjectile, IDrawAdditive
 	{
 		private static Color Yellow = new Color(242, 240, 134);
 		private static Color Orange = new Color(255, 98, 74);
 
-		public int visualTimer = 0;
+		internal Vector2 Destination => new Vector2(projectile.ai[0], projectile.ai[1]);
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Meteor");
-			Main.projFrames[projectile.type] = 6;
+			Main.projFrames[projectile.type] = 1;
 		}
 
 		public override void SetDefaults()
@@ -41,7 +40,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon.Projectiles
 			float intensity = .001f;
 			Lighting.AddLight(projectile.position, Orange.R * intensity, Orange.G * intensity, Orange.B * intensity);
 
-			projectile.velocity *= 1.004f;
+			if (projectile.DistanceSQ(Destination) < 20 * 20)
+				projectile.Kill();
 
 			if (!Main.dedServ)
 				MakeEmberParticle(projectile.velocity * 0.5f, 0.97f);
@@ -56,24 +56,18 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon.Projectiles
 				}));
 		}
 
+		public override void Kill(int timeLeft)
+		{
+			for (int i = 0; i < 8; ++i)
+				Projectile.NewProjectile(projectile.Center, new Vector2(0, Main.rand.NextFloat(5f, 12f)).RotatedByRandom(MathHelper.Pi), ModContent.ProjectileType<MeteorEnchantment_Meteor>(), 20, 1f);
+
+			Mechanics.EventSystem.EventManager.PlayEvent(new Mechanics.EventSystem.Events.ScreenShake(6f, 0.6f));
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D Mask = ModContent.GetTexture(Texture + "_Glow");
-			projectile.QuickDraw(spriteBatch);
-			void DrawGlow(Vector2 positionOffset, Color Color) =>
-				spriteBatch.Draw(Mask, projectile.Center - Main.screenPosition + positionOffset, projectile.DrawFrame(), Color, projectile.rotation,
-				projectile.DrawFrame().Size() / 2, projectile.scale, SpriteEffects.None, 0);
-
-			Color additiveWhite = Color.White;
-			additiveWhite.A = 0;
-
-			DrawGlow(Vector2.Zero, Color.White);
-			PulseDraw.DrawPulseEffect(PulseDraw.BloomConstant, 6, 6, delegate (Vector2 offset, float opacity)
-			{
-				DrawGlow(offset, additiveWhite * opacity * 0.5f);
-			});
-			DrawGlow(Vector2.Zero, additiveWhite);
-			return false;
+			spriteBatch.Draw(Main.projectileTexture[projectile.type], Destination - Main.screenPosition, null, lightColor * 0.4f);
+			return true;
 		}
 	}
 }

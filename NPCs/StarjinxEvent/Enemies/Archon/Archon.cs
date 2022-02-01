@@ -433,14 +433,27 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 						Projectile.NewProjectile(npc.Center, velocity, ModContent.ProjectileType<ArchonStarFragment>(), 20, 1f);
 
 						if (!Main.dedServ)
-						{
-							int numParticles = 2;
-							for (int j = 0; j < numParticles; j++)
+							for (int j = 0; j < 2; j++)
 								ParticleHandler.SpawnParticle(new StarParticle(npc.Center, velocity.RotatedByRandom(0.2f) * Main.rand.NextFloat(0.5f), Color.White, Color.Cyan, Main.rand.NextFloat(0.1f, 0.2f), 25));
-						}
 					}
 
 					npc.velocity -= baseVel / 4; //Recoil effect
+				}
+				else if (enchantment == Enchantment.Meteor)
+				{
+					const float Speed = 15f;
+
+					Vector2 spawnPos = new Vector2(npc.Center.X, npc.Center.Y > Target.Center.Y ? Target.Center.Y : npc.Center.Y) - new Vector2(Main.rand.Next(-150, 150), 400);
+					Vector2 velocity = Vector2.Normalize(Target.Center - spawnPos) * Speed;
+					Vector2 destination = spawnPos + (velocity * (Vector2.Distance(Target.Center, spawnPos) / Speed));
+
+					Projectile proj = Main.projectile[Projectile.NewProjectile(spawnPos, velocity, ModContent.ProjectileType<MeteorCastProjectile>(), 20, 1f)];
+
+					if (proj.modProjectile != null && proj.modProjectile is MeteorCastProjectile)
+					{
+						proj.ai[0] = destination.X;
+						proj.ai[1] = destination.Y;
+					}
 				}
 			}
 			else if (timers["ATTACK"] >= attackTimeMax)
@@ -590,7 +603,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				choices.Add(AttackType.MeteorDash, 1.5f);
 			}
 
-			attack = AttackType.TeleportSlash;
+			attack = AttackType.Cast;
 
 			if (attack == AttackType.TeleportSlash)
 			{
@@ -600,12 +613,14 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 					starlightDoubleSlash = true;
 				if (enchantment == Enchantment.Meteor)
 					attackTimeMax = 200; //Meteor slash is slower
+				if (enchantment == Enchantment.Void)
+					attackTimeMax = 200; //Void slash is slower
 			}
 			else if (attack == AttackType.Cast)
 			{
 				attackTimeMax = 80; //Starlight cast time
 				if (enchantment == Enchantment.Meteor)
-					attackTimeMax = 200; //Meteor cast
+					attackTimeMax = 100; //Meteor cast
 				else if (enchantment == Enchantment.Void)
 					attackTimeMax = 200; //Void cast
 			}
@@ -626,7 +641,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			Count = 4
 		}
 
-		public void SetRandomEnchantment() => enchantment = Enchantment.Starlight;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
+		public void SetRandomEnchantment() => enchantment = Enchantment.Meteor;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
 
 		internal void ResetEnchantment()
 		{
