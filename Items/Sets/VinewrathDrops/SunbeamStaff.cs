@@ -11,14 +11,13 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 		{
 			DisplayName.SetDefault("Photosynthestrike");
 			Tooltip.SetDefault("Shoots out a fast moving, homing solar bolt");
+
+			Item.staff[item.type] = true;
 		}
-
-
 
 		public override void SetDefaults()
 		{
-			item.damage = 19;
-			Item.staff[item.type] = true;
+			item.damage = 14;
 			item.noMelee = true;
 			item.magic = true;
 			item.width = 64;
@@ -28,7 +27,7 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 			item.useAnimation = 19;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.knockBack = 0f;
-			item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
+			item.value = Item.sellPrice(0, 1, 0, 0);
 			item.rare = ItemRarityID.Green;
 			item.UseSound = SoundID.Item72;
 			item.autoReuse = true;
