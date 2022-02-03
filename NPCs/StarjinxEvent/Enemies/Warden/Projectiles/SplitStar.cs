@@ -26,8 +26,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden.Projectiles
 
 		public override void AI()
 		{
-			projectile.velocity = projectile.DirectionTo(Main.player[Player.FindClosest(projectile.position, projectile.width, projectile.height)].Center) * (1 - (projectile.scale / 20f));
+			Vector2 nearestCenter = Main.player[Player.FindClosest(projectile.position, projectile.width, projectile.height)].Center;
+			projectile.velocity = projectile.DirectionTo(nearestCenter) * (1 - (projectile.scale / 20f)) * 8f;
 			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+
 			Lighting.AddLight(projectile.Center, Color.LightCyan.ToVector3() / 3);
 
 			if (Main.rand.NextBool(5) && !Main.dedServ)
