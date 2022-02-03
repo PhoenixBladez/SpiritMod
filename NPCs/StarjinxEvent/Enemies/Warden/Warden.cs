@@ -209,7 +209,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 			duoMaxTime = StarlightDuoMaxTime;
 
-			if (timers["DUO"] >= StarlightDuoMaxTime * 0.99f)
+			if (timers["DUO"] >= StarlightDuoMaxTime * 0.99f) //Stop attacking if I'm done
 			{
 				massiveStarWhoAmIs.Clear();
 				return;

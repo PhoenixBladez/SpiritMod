@@ -144,7 +144,9 @@ namespace SpiritMod.NPCs.StarjinxEvent
 					for (int j = 0; j < Main.maxNPCs; ++j) //Despawn all platforms
 					{
 						NPC plat = Main.npc[j];
-						if (plat.active && plat.type == ModContent.NPCType<SjinxPlatform>() && plat.DistanceSQ(npc.Center) < EVENT_RADIUS * EVENT_RADIUS)
+
+						int[] platformTypes = new[] { ModContent.NPCType<SjinxPlatform>(), ModContent.NPCType<SjinxPlatformLarge>(), ModContent.NPCType<SjinxPlatformMedium>() };
+						if (plat.active && platformTypes.Contains(plat.type) && plat.DistanceSQ(npc.Center) < EVENT_RADIUS * EVENT_RADIUS)
 							plat.active = false;
 					}
 
