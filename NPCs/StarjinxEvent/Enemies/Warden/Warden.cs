@@ -41,9 +41,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		private ref Projectile BlackHole => ref Main.projectile[blackHoleWhoAmI];
 
 		// Starlight duo attack
-		private int massiveStarWhoAmI = -1;
-		private ref Projectile MassiveStar => ref Main.projectile[massiveStarWhoAmI];
-
+		private List<int> massiveStarWhoAmIs = new List<int>();
 
 		internal int archonWhoAmI = -1;
 		private ref NPC ArchonNPC => ref Main.npc[archonWhoAmI];
@@ -213,15 +211,23 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 			if (timers["DUO"] == (int)(StarlightDuoMaxTime * 0.05f))
 			{
-				int p = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<Archon.Projectiles.ArchonStarFragment>(), 120, 1f);
+				int p = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.SplitStar>(), 120, 1f);
 				Main.projectile[p].timeLeft = 100000;
-				massiveStarWhoAmI = p;
+				Main.projectile[p].scale = 20f;
+
+				massiveStarWhoAmIs.Add(p);
 			}
-			else if (timers["DUO"] > (int)(StarlightDuoMaxTime * 0.05f) && timers["DUO"] < (int)(StarlightDuoMaxTime * 0.1f))
-				MassiveStar.scale = ((timers["DUO"] - (StarlightDuoMaxTime * 0.05f)) / (StarlightDuoMaxTime * 0.05f)) * 6f;
-			else if (timers["DUO"] >= (int)(StarlightDuoMaxTime * 0.1f))
+			else if (timers["DUO"] % (int)(StarlightDuoMaxTime * 0.05f) == 0)
 			{
-				MassiveStar.velocity = MassiveStar.DirectionTo(Target.Center) * 4;
+				Projectile proj = Main.projectile[Main.rand.Next(massiveStarWhoAmIs)];
+
+				if (proj.active && proj.modProjectile is Projectiles.SplitStar star)
+				{
+					int newProj = star.Split();
+
+					if (newProj != -1)
+						massiveStarWhoAmIs.Add(newProj);
+				}
 			}
 		}
 
