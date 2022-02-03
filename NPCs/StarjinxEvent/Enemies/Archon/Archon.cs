@@ -644,10 +644,5 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		}
 
 		public void SetRandomEnchantment() => enchantment = Enchantment.Starlight;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
-
-		internal void ResetEnchantment()
-		{
-			enchantment = Enchantment.None;
-		}
 	}
 }

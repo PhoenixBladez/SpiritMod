@@ -197,7 +197,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 			{
 				timers["DUO"] = 0;
 
-				GetArchon.ResetEnchantment();
+				GetArchon.enchantment = Archon.Archon.Enchantment.None;
 				GetArchon.SetDuo(0);
 				stage = EnchantStage;
 			}
@@ -209,15 +209,21 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 			duoMaxTime = StarlightDuoMaxTime;
 
+			if (timers["DUO"] >= StarlightDuoMaxTime * 0.99f)
+			{
+				massiveStarWhoAmIs.Clear();
+				return;
+			}
+
 			if (timers["DUO"] == (int)(StarlightDuoMaxTime * 0.05f))
 			{
-				int p = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.SplitStar>(), 120, 1f);
-				Main.projectile[p].timeLeft = 100000;
+				int p = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.SplitStar>(), 20, 1f);
+				Main.projectile[p].timeLeft = StarlightDuoMaxTime;
 				Main.projectile[p].scale = 20f;
 
 				massiveStarWhoAmIs.Add(p);
 			}
-			else if (timers["DUO"] % (int)(StarlightDuoMaxTime * 0.05f) == 0)
+			else if (timers["DUO"] % (int)(StarlightDuoMaxTime * 0.1f) == 0)
 			{
 				Projectile proj = Main.projectile[Main.rand.Next(massiveStarWhoAmIs)];
 
