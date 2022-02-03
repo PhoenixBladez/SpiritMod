@@ -17,6 +17,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		public const int EnchantStage = 1;
 		public const int ArchonAttackStage = 2;
 		public const int ArchonDeadStage = 3;
+		public const int DuoAttackStage = 4;
 
 		public const int EnchantMaxTime = 200;
 		public const int ArchonAttackMaxTime = 1200;
@@ -39,11 +40,16 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		private int blackHoleWhoAmI = -1;
 		private ref Projectile BlackHole => ref Main.projectile[blackHoleWhoAmI];
 
+		// Starlight duo attack
+		private int massiveStarWhoAmI = -1;
+		private ref Projectile MassiveStar => ref Main.projectile[massiveStarWhoAmI];
+
+
 		internal int archonWhoAmI = -1;
 		private ref NPC ArchonNPC => ref Main.npc[archonWhoAmI];
-		private Archon.Archon GetArchon() => ArchonNPC.modNPC as Archon.Archon;
+		private Archon.Archon GetArchon => ArchonNPC.modNPC as Archon.Archon;
 
-		private Dictionary<string, float> timers = new Dictionary<string, float>() { { "ENCHANT", 0 }, { "ARCHATK", 0 }, { "ATTACK", 0 } };
+		private Dictionary<string, float> timers = new Dictionary<string, float>() { { "ENCHANT", 0 }, { "ARCHATK", 0 }, { "ATTACK", 0 }, { "DUO", 0 } };
 
 		public override void SetStaticDefaults()
 		{
@@ -149,8 +155,73 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				case ArchonDeadStage:
 					SoloBehaviour();
 					break;
+				case DuoAttackStage:
+					DuoBehaviour();
+					break;
 				default:
 					break;
+			}
+
+			FadeAtEdges();
+		}
+
+		private void FadeAtEdges()
+		{
+			npc.alpha = 0;
+
+			float dist = npc.DistanceSQ(Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition);
+			if (dist > StarjinxMeteorite.EVENT_RADIUS * StarjinxMeteorite.EVENT_RADIUS)
+			{
+				dist -= StarjinxMeteorite.EVENT_RADIUS * StarjinxMeteorite.EVENT_RADIUS;
+				npc.alpha = dist > 50 ? 255 : (int)(dist / 50f) * 255;
+			}
+		}
+
+		public const int StarlightDuoMaxTime = 750;
+
+		public int duoMaxTime = 0;
+
+		private void DuoBehaviour()
+		{
+			timers["DUO"]++;
+
+			switch (GetArchon.enchantment)
+			{
+				case Archon.Archon.Enchantment.Starlight:
+					StarlightDuoAttack();
+					break;
+				default:
+					BasicIdleMovement();
+					break;
+			}
+
+			if (timers["DUO"] >= duoMaxTime)
+			{
+				timers["DUO"] = 0;
+
+				GetArchon.ResetEnchantment();
+				GetArchon.SetDuo(0);
+				stage = EnchantStage;
+			}
+		}
+
+		private void StarlightDuoAttack()
+		{
+			GetArchon.SetDuo(timers["DUO"]);
+
+			duoMaxTime = StarlightDuoMaxTime;
+
+			if (timers["DUO"] == (int)(StarlightDuoMaxTime * 0.05f))
+			{
+				int p = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<Archon.Projectiles.ArchonStarFragment>(), 120, 1f);
+				Main.projectile[p].timeLeft = 100000;
+				massiveStarWhoAmI = p;
+			}
+			else if (timers["DUO"] > (int)(StarlightDuoMaxTime * 0.05f) && timers["DUO"] < (int)(StarlightDuoMaxTime * 0.1f))
+				MassiveStar.scale = ((timers["DUO"] - (StarlightDuoMaxTime * 0.05f)) / (StarlightDuoMaxTime * 0.05f)) * 6f;
+			else if (timers["DUO"] >= (int)(StarlightDuoMaxTime * 0.1f))
+			{
+				MassiveStar.velocity = MassiveStar.DirectionTo(Target.Center) * 4;
 			}
 		}
 
@@ -163,11 +234,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		{
 			timers["ARCHATK"]++;
 
-			if (timers["ARCHATK"] >= ArchonAttackMaxTime && ArchonNPC.active && ArchonNPC.life > 0 && !GetArchon().waitingOnAttack)
+			if (timers["ARCHATK"] >= 20 && ArchonNPC.active && ArchonNPC.life > 0 && !GetArchon.waitingOnAttack)
 			{
-				GetArchon().ResetEnchantment();
-				stage = EnchantStage;
+				stage = DuoAttackStage;
 				timers["ARCHATK"] = 0;
+
+				GetArchon.stage = -1;
 			}
 			else if (!ArchonNPC.active || ArchonNPC.life <= 0)
 			{
@@ -175,7 +247,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				return;
 			}
 
-			switch (GetArchon().enchantment)
+			switch (GetArchon.enchantment)
 			{
 				case Archon.Archon.Enchantment.Starlight:
 					StarlightAttack();
@@ -195,12 +267,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 			if (timers["ARCHATK"] == 50) //Spawn projectile
 			{
-				int p = Projectile.NewProjectile(npc.Center, Vector2.Zero, ProjectileID.CultistBossLightningOrb, 120, 1f);
+				int p = Projectile.NewProjectile(npc.Center, Vector2.Zero, ProjectileID.CultistBossLightningOrb, 60, 1f);
 				Main.projectile[p].timeLeft = ArchonAttackMaxTime - 100;
 
 				blackHoleWhoAmI = p;
 			}
-			else if (timers["ARCHATK"] > 50 && timers["ARCHATK"] < ArchonAttackMaxTime - 100 && blackHoleWhoAmI > -1)
+			else if (timers["ARCHATK"] > 50 && timers["ARCHATK"] < ArchonAttackMaxTime - 100 && blackHoleWhoAmI > -1) //Control void projectile & break if hit
 			{
 				if (npc.justHit || !BlackHole.active)
 				{
@@ -291,12 +363,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 			if (timers["ENCHANT"] == EnchantMaxTime / 2)
 			{
-				GetArchon().SetRandomEnchantment();
-				CombatText.NewText(npc.getRect(), Color.Gold, $"Enchant moment - we got {GetArchon().enchantment}");
+				GetArchon.SetRandomEnchantment();
+				CombatText.NewText(npc.getRect(), Color.Gold, $"Enchant moment - we got {GetArchon.enchantment}");
 			}
 			else if (timers["ENCHANT"] >= EnchantMaxTime)
 			{
-				GetArchon().stage = Archon.Archon.EnchantAttackStage;
+				GetArchon.stage = Archon.Archon.EnchantAttackStage;
 				stage = ArchonAttackStage;
 				timers["ENCHANT"] = 0;
 			}

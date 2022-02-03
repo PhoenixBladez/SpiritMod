@@ -64,7 +64,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		private float meteorDashFactor = 0f;
 
 		// Misc
-		private readonly Dictionary<string, int> timers = new Dictionary<string, int>() { { "ENCHANT", 0 }, { "ATTACK", 0 }, { "CONSTELLATION", 0 } };
+		private readonly Dictionary<string, int> timers = new Dictionary<string, int>() { { "ENCHANT", 0 }, { "ATTACK", 0 }, { "CONSTELLATION", 0 }, { "DUO", 0 } };
+
+		public void SetDuo(float d) => timers["DUO"] = (int)d;
 
 		public override void SetStaticDefaults()
 		{
@@ -641,7 +643,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			Count = 4
 		}
 
-		public void SetRandomEnchantment() => enchantment = Enchantment.Meteor;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
+		public void SetRandomEnchantment() => enchantment = Enchantment.Starlight;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
 
 		internal void ResetEnchantment()
 		{
