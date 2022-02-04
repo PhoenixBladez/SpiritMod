@@ -8,11 +8,7 @@ namespace SpiritMod.Items.Sets.DriftwoodArmor
 	[AutoloadEquip(EquipType.Head)]
 	public class DriftwoodHelmet : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Driftwood Helmet");
-			Tooltip.SetDefault("12% increased melee speed");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Driftwood Helmet");
 
 		public override void SetDefaults()
 		{
@@ -27,7 +23,8 @@ namespace SpiritMod.Items.Sets.DriftwoodArmor
 
 		public override void UpdateArmorSet(Player player)
 		{
-			player.setBonus = "Allows the wearer to float on water";
+			player.setBonus = "Allows the wearer to float on water\nIncreased fishing power";
+			player.fishingSkill += 5;
 
 			if (player.wet)
 				player.velocity.Y = Microsoft.Xna.Framework.MathHelper.Clamp(player.velocity.Y -= 0.35f, -4, 100000);
