@@ -15,7 +15,8 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Driftwood Block");		}
+			DisplayName.SetDefault("Driftwood Block");
+		}
 
 		public override void SetDefaults()
 		{
@@ -44,9 +45,6 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			drop = ModContent.ItemType<DriftwoodTileItem>();
 		}
 
-		public override bool CanExplode(int i, int j)
-		{
-			return true;
-		}
+		public override bool CanExplode(int i, int j) => true;
 	}
 }

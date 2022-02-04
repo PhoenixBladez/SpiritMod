@@ -46,6 +46,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			recipe1.AddRecipe();
 		}
 	}
+
 	public class DriftwoodWall : ModWall
 	{
 		public override void SetDefaults()
