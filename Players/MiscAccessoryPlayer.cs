@@ -10,6 +10,7 @@ using SpiritMod.Items.Accessory.MeleeCharmTree;
 using SpiritMod.Items.Sets.DuskingDrops;
 using SpiritMod.Projectiles.Summon.CimmerianStaff;
 using SpiritMod.Items.Accessory.MageTree;
+using SpiritMod.Items.Sets.CascadeSet.Armor;
 
 namespace SpiritMod.Players
 {
@@ -26,6 +27,9 @@ namespace SpiritMod.Players
 			if (player.AccessoryEquipped<FrostGiantBelt>() && player.channel)
 				if (HeldItemIsClub(player))
 					totalKb *= 0.5f;
+
+			if (player.ChestplateEquipped<CascadeChestplate>() && horizontal)
+				totalKb *= 0.5f;
 
 			if (totalKb < 0.001f) //Throws NullReferenceException if it's 0 for some reason
 				totalKb = 0.001f;

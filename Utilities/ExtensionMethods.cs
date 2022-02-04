@@ -26,5 +26,8 @@ namespace SpiritMod.Utilities
 		}
 		public static bool AccessoryEquipped(this Player player, Item item) => player.AccessoryEquipped(item.type);
 		public static bool AccessoryEquipped<T>(this Player player) where T : ModItem => player.AccessoryEquipped(ModContent.ItemType<T>());
+
+		public static bool ChestplateEquipped(this Player player, int type) => player.armor[1].type == type;
+		public static bool ChestplateEquipped<T>(this Player player) where T : ModItem => player.ChestplateEquipped(ModContent.ItemType<T>());
 	}
 }
