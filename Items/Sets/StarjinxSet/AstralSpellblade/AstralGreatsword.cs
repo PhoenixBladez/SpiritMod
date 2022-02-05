@@ -4,34 +4,35 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace SpiritMod.Items.Sets.GreatswordSubclass.AstralSpellblade
+namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 {
     public class AstralGreatsword : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Spellblade");
+			Tooltip.SetDefault("Does a devastating spin attack after 2 swings\nReleases stars when swung or swinging");
             SpiritGlowmask.AddGlowMask(item.type, Texture + "_glow");
         }
 
         public override void SetDefaults()
         {
 			item.Size = new Vector2(60, 60);
-            item.damage = 200; //balance d
-            item.useTime = 20;
-            item.useAnimation = 20;
+            item.damage = 100;
+            item.useTime = 60;
+            item.useAnimation = 60;
 			item.reuseDelay = 10;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.melee = true;
             item.noMelee = true;
-            item.knockBack = 8;
+            item.knockBack = 12;
 			item.channel = true;
 			item.useTurn = false;
             item.value = Item.sellPrice(0, 0, 1, 0);
             item.rare = ItemRarityID.Pink;
-            item.autoReuse = true;
+            item.autoReuse = false;
             item.shoot = ModContent.ProjectileType<AstralGreatswordHeld>();
-            item.shootSpeed = 6f;
+            item.shootSpeed = 1f;
             item.noUseGraphic = true;
         }
 
@@ -42,8 +43,8 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass.AstralSpellblade
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			GreatswordPlayer modplayer = player.GetModPlayer<GreatswordPlayer>();
-			Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0, modplayer.Combo);
+			AstralGreatswordPlayer modplayer = player.GetModPlayer<AstralGreatswordPlayer>();
+			Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, modplayer.Combo);
 			modplayer.Combo++;
 			modplayer.Combo %= 3;
 			return false;
@@ -58,4 +59,15 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass.AstralSpellblade
             recipe.AddRecipe();
         }
     }
+
+	internal class AstralGreatswordPlayer : ModPlayer
+	{
+		public int Combo { get; set; } = 1;
+
+		public override void PostUpdate()
+		{
+			if (player.HeldItem.type != ModContent.ItemType<AstralGreatsword>()) //Reset when held item changes
+				Combo = 1;
+		}
+	}
 }

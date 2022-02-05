@@ -265,13 +265,9 @@ namespace SpiritMod.NPCs.StarjinxEvent
 				while ((spawns.Count > 0 && spawns.Any(x => Vector2.DistanceSquared(x, pos) < 425 * 425)) || pos.Length() < 600)
 					pos = Main.rand.NextVector2Circular(EVENT_RADIUS * 0.9f, EVENT_RADIUS * 0.9f);
 
-				var p = Projectile.NewProjectileDirect(npc.Center + pos, Vector2.Zero, ModContent.ProjectileType<StarjinxEnemySpawner>(), 0, 0, 255, Main.rand.NextFloat(50));
-
-				if (p.modProjectile != null && p.modProjectile is StarjinxEnemySpawner spawner)
-				{
-					spawner.enemyToSpawn = Main.rand.Next(platformTypes);
-					spawner.spawnPosition = npc.Center + pos;
-				}
+				int n = NPC.NewNPC((int)(npc.Center.X + pos.X), (int)(npc.Center.Y + pos.Y), Main.rand.Next(platformTypes));
+				if (Main.netMode != NetmodeID.SinglePlayer)
+					NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, n);
 
 				spawns.Add(pos);
 			}

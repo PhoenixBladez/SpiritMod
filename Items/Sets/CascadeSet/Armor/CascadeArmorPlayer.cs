@@ -13,9 +13,25 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 		internal float bubbleStrength = 0;
 		internal bool setActive = false;
 
-		public override void ResetEffects() => setActive = false;
-		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit) => bubbleStrength = MathHelper.Clamp(bubbleStrength += 0.125f, 0, 1);
-		public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit) => bubbleStrength = MathHelper.Clamp(bubbleStrength += 0.125f, 0, 1);
+		public override void ResetEffects()
+		{
+			setActive = false;
+
+			if(!setActive && bubbleStrength > 0)
+				PopBubble();
+		}
+
+		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
+		{
+			if(setActive)
+				bubbleStrength = MathHelper.Clamp(bubbleStrength += 0.125f, 0, 1);
+		}
+
+		public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
+		{
+			if(setActive)
+				bubbleStrength = MathHelper.Clamp(bubbleStrength += 0.125f, 0, 1);
+		}
 
 		public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
 		{

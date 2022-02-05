@@ -190,7 +190,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			effect.Parameters["overlayTexture"].SetValue(mod.GetTexture("Textures/GeometricTexture_1"));
 			effect.Parameters["overlayColor"].SetValue(new Color(99, 255, 229).ToVector4());
 
-			effect.Parameters["xMod"].SetValue(1.5f); //scale with the total length of the strip
+			effect.Parameters["xMod"].SetValue(1.5f);
 			effect.Parameters["yMod"].SetValue(2.5f);
 			 
 			float slashProgress = EaseFunction.EaseCircularInOut.Ease(Timer / swingTime);
@@ -214,6 +214,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 				slashArcs.Add(slash);
 			});
 			PrimitiveRenderer.DrawPrimitiveShapeBatched(slashArcs.ToArray(), effect);
+			
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 			return base.PreDraw(spriteBatch, lightColor);
