@@ -13,13 +13,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 		internal float bubbleStrength = 0;
 		internal bool setActive = false;
 
-		public override void ResetEffects()
-		{
-			setActive = false;
-
-			if(!setActive && bubbleStrength > 0)
-				PopBubble();
-		}
+		public override void ResetEffects() => setActive = false;
 
 		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
 		{
@@ -83,7 +77,6 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 
 			if (modPlayer.bubbleStrength > 0f)
 			{
-
 				Texture2D texture = mod.GetTexture("Items/Sets/CascadeSet/Armor/BubbleShield");
 				Texture2D outline = mod.GetTexture("Items/Sets/CascadeSet/Armor/BubbleShieldOutline");
 

@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 
 		public override void UpdateArmorSet(Player player)
 		{
-			player.setBonus = "Dealing damage to enemies builds up a bubble shield,\nwhich at full size grants heavy damage resistance against the next attack (-75%),\ndamaging and knocking back nearby enemies.";
+			player.setBonus = "Dealing damage to enemies builds up a bubble shield,\nwhich at full size grants heavy damage resistance against the next attack,\ndamaging and knocking back nearby enemies.";
 			player.GetModPlayer<CascadeArmorPlayer>().setActive = true;
 		}
 
