@@ -307,7 +307,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			{
 				foreach (NPC npc in Main.npc)
 				{
-					if (npc.active && !npc.townNPC && npc.Distance(target.Center) < 150 && !npc.HasBuff(ModContent.BuffType<CurseBreakerMark>()))
+					if (npc.active && npc.CanBeChasedBy(this) && npc.Distance(target.Center) < 150 && !npc.HasBuff(ModContent.BuffType<CurseBreakerMark>()))
 					{
 						npc.AddBuff(ModContent.BuffType<CurseBreakerMark>(), 180);
 						Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<CurseBreakerCurse>(), projectile.damage, 0, Player.whoAmI, npc.whoAmI);
