@@ -15,7 +15,6 @@ namespace SpiritMod.Items.Sets.CascadeSet
 			Tooltip.SetDefault("'Where magma meets seawater'");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = 10;
@@ -28,6 +27,7 @@ namespace SpiritMod.Items.Sets.CascadeSet
 
 		private bool chosenStyle = false;
 		private int _yFrame;
+
 		public override void Update(ref float gravity, ref float maxFallSpeed)
 		{
 			if (!chosenStyle)
@@ -56,6 +56,7 @@ namespace SpiritMod.Items.Sets.CascadeSet
 			}
 			return false;
 		}
+
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D tex2 = ModContent.GetTexture(Texture + "_World_Glow");

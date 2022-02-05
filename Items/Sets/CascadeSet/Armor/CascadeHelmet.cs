@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 		{
 			item.width = 28;
 			item.height = 24;
-			item.value = 0;
+			item.value = 4800;
 			item.rare = ItemRarityID.Blue;
 			item.defense = 4;
 		}
@@ -30,15 +30,12 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 			player.GetModPlayer<CascadeArmorPlayer>().setActive = true;
 		}
 
-		public override void UpdateEquip(Player player)
-		{
-			player.gills = true;
-		}
+		public override void UpdateEquip(Player player) => player.gills = true;
 
 		public override void AddRecipes()
 		{
 			var recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<DeepCascadeShard>(), 10);
+			recipe.AddIngredient(ModContent.ItemType<DeepCascadeShard>(), 12);
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

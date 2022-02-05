@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Sets.DriftwoodArmor
 			item.defense = 2;
 		}
 
-		public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == ModContent.ItemType<DriftwoodChestplate>();// && legs.type == ModContent.ItemType<CryoliteLegs>();
+		public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == ModContent.ItemType<DriftwoodChestplate>() && legs.type == ModContent.ItemType<DriftwoodLeggings>();
 
 		public override void UpdateArmorSet(Player player)
 		{
