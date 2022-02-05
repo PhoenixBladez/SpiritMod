@@ -56,7 +56,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 			bubbleStrength = 0f;
 		}
 
-		public static readonly PlayerLayer Bubble = new PlayerLayer("SpiritMod", "CascadeBubbleShield", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo drawInfo)
+		public static readonly PlayerLayer Bubble = new PlayerLayer("SpiritMod", "CascadeBubbleShield", PlayerLayer.MiscEffectsBack, delegate (PlayerDrawInfo drawInfo)
 		{
 			if (drawInfo.shadow != 0f)
 				return;
@@ -67,18 +67,30 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 
 			if (modPlayer.bubbleStrength > 0f)
 			{
+
 				Texture2D texture = mod.GetTexture("Items/Sets/CascadeSet/Armor/BubbleShield");
+				Texture2D outline = mod.GetTexture("Items/Sets/CascadeSet/Armor/BubbleShieldOutline");
+
 				Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
 				Vector2 drawPos = drawPlayer.Center - Main.screenPosition + new Vector2(0, drawPlayer.gfxOffY);
-				float scale = modPlayer.bubbleStrength;
 
-				DrawData data = new DrawData(texture, drawPos, null, Color.White * scale * 0.5f, 0f, texture.Size() / 2f, scale, SpriteEffects.None, 0);
+				float scale = modPlayer.bubbleStrength;
+				float sin1 = 2.5f;
+				float sinValue = (float)(Math.Cos((double)Main.GlobalTime % sin1 / sin1 * MathHelper.TwoPi) / (sin1 * 2) + (sin1 / 5));
+
+				DrawData data = new DrawData(texture, drawPos, null, Color.White * scale * 0.125f, 0f, texture.Size() / 2f, scale * .4f + sinValue, SpriteEffects.None, 0);
+				DrawData outlineData = new DrawData(outline, drawPos, null, Color.White * scale * 0.35f, 0f, texture.Size() / 2f, scale * .4f + sinValue, SpriteEffects.None, 0);
+
 				Main.playerDrawData.Add(data);
+				Main.playerDrawData.Add(outlineData);
+
 			}
 		});
 
 		public override void ModifyDrawLayers(List<PlayerLayer> layers)
 		{
+			Bubble.visible = true;
+			layers.Insert(0, Bubble);
 			Bubble.visible = true;
 			layers.Add(Bubble);
 		}
