@@ -79,7 +79,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 				Projectile p = Main.projectile[i];
 				if (p.active && p.DistanceSQ(projectile.Center) < 400 * 400 && p.type == ModContent.ProjectileType<StellanovaStarfire>())
 				{
-					p.velocity = Vector2.Lerp(p.velocity, p.DirectionTo(projectile.Center) * 20, 0.06f);
+					p.velocity = p.velocity.Length() * Vector2.Normalize(Vector2.Lerp(p.velocity, p.DirectionTo(projectile.Center) * p.velocity.Length(), 0.1f)) * 0.95f;
+					p.velocity += Vector2.Lerp(p.velocity, p.DirectionTo(projectile.Center) * 20, 0.1f) * 0.05f;
 				}
 			}
 		}
