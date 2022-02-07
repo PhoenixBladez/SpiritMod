@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 		private Vector2 GetOpenSpace(int x, int y)
 		{
 			const int MinX = 1600;
-			const int MinY = 1600;
+			const int MinY = 2060;
 
 			var temp = new NPC();
 			temp.SetDefaults(ModContent.NPCType<StarjinxMeteorite>());

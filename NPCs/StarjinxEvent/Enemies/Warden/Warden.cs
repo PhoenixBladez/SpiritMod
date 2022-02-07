@@ -49,6 +49,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 		private Vector2 meteorPongPosition = Vector2.Zero;
 		private Vector2 archonMeteorPongPosition = Vector2.Zero;
+		private int pongTimer = 0;
 
 		internal int archonWhoAmI = -1;
 		private ref NPC ArchonNPC => ref Main.npc[archonWhoAmI];
@@ -217,17 +218,24 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 		private void MeteorDuoAttack()
 		{
+			const float MeteorPongSpeed = 12f;
 			duoMaxTime = MeteorDuoMaxTime;
 
-			void CalculateArchonPosition()
+			void CalculateBouncePosition(bool setArchon)
 			{
-				float dir = (Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition - npc.Center).ToRotation();
+				Vector2 center = setArchon ? npc.Center : ArchonNPC.Center;
+				float dir = (Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition - center).ToRotation();
 				float newDir = Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi);
 
 				while (newDir > dir - MathHelper.PiOver2 && newDir < dir + MathHelper.PiOver2)
 					newDir = Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi);
 
-				archonMeteorPongPosition = Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition + new Vector2(0, StarjinxMeteorite.EVENT_RADIUS - 120).RotatedBy(newDir);
+				Vector2 newPos = Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition + new Vector2(0, StarjinxMeteorite.EVENT_RADIUS - 120).RotatedBy(newDir);
+
+				if (setArchon)
+					archonMeteorPongPosition = newPos;
+				else
+					meteorPongPosition = newPos;
 			}
 
 			if (timers["DUO"] == 1) //Initialize
@@ -236,18 +244,51 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				meteorPongPosition = Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition + new Vector2(0, StarjinxMeteorite.EVENT_RADIUS - 120).RotatedBy(rot);
 			}
 			else if (timers["DUO"] < (int)(duoMaxTime * 0.05f))
-			{
 				npc.Center = Vector2.Lerp(npc.Center, meteorPongPosition, timers["DUO"] / (duoMaxTime * 0.05f));
-			}
 			else if (timers["DUO"] == (int)(duoMaxTime * 0.05f))
 			{
-				CalculateArchonPosition();
+				CalculateBouncePosition(true);
 
-				int p = Projectile.NewProjectile(npc.Center, npc.DirectionTo(archonMeteorPongPosition), ModContent.ProjectileType<Archon.Projectiles.MeteorEnchantment_Meteor>(), 20, 1f);
+				int type = ModContent.ProjectileType<Archon.Projectiles.MeteorEnchantment_Meteor>();
+				int p = Projectile.NewProjectile(npc.Center, npc.DirectionTo(archonMeteorPongPosition) * MeteorPongSpeed, type, 20, 1f);
 				Main.projectile[p].timeLeft = MeteorDuoMaxTime;
-				Main.projectile[p].scale = 20f;
+				Main.projectile[p].scale = 10f;
 
 				meteorWhoAmI = p;
+			}
+			else
+			{
+				if (timers["DUO"] >= duoMaxTime * 0.95f)
+				{
+					PongMeteor.velocity *= 0.95f;
+				}
+				else if (timers["DUO"] >= duoMaxTime)
+				{
+					PongMeteor.Kill();
+					meteorWhoAmI = -1;
+					return;
+				}
+
+				npc.Center = Vector2.Lerp(npc.Center, meteorPongPosition, 0.05f);
+				ArchonNPC.Center = Vector2.Lerp(ArchonNPC.Center, archonMeteorPongPosition, 0.05f);
+
+				pongTimer--;
+
+				if (pongTimer > 0)
+					return;
+
+				if (npc.DistanceSQ(PongMeteor.Center) < 80 * 80)
+				{
+					CalculateBouncePosition(true);
+					PongMeteor.velocity = npc.DirectionTo(archonMeteorPongPosition) * MeteorPongSpeed;
+					pongTimer = 20;
+				}
+				else if (ArchonNPC.DistanceSQ(PongMeteor.Center) < 80 * 80)
+				{
+					CalculateBouncePosition(false);
+					PongMeteor.velocity = ArchonNPC.DirectionTo(meteorPongPosition) * MeteorPongSpeed;
+					pongTimer = 20;
+				}
 			}
 
 			Dust.NewDust(archonMeteorPongPosition, 1, 2, DustID.Grass);
