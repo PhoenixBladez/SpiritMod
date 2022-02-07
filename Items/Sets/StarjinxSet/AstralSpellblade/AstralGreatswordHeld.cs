@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 		private const float START_OFFSET = MathHelper.PiOver2; //The starting angle for the sword to be held at
 		private const float TOTAL_RADIANS = MathHelper.Pi * 1.66f; //The total amount of radians the sword swings, from where the swing starts after drawback is done, to the ending position
 
-		private const float DRAWBACK_TIME = 0.6f; //Portion of the swing time spent drawing back the sword
+		private const float DRAWBACK_TIME = 0.66f; //Portion of the swing time spent drawing back the sword
 		private float SWING_TIME => 1 - DRAWBACK_TIME; //Portion of the swing time spent swinging the sword
 
 		public override void SetDefaults()
@@ -44,11 +44,17 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 		private float Combo => projectile.ai[0];
 		private ref float Timer => ref projectile.ai[1];
 		private float SwingDirection => Combo % 2 == 1 ? -1 : 1;
-		private float Progress => Timer / maxTime;
+		private float UseProgress => Timer / maxTime;
+		private int _hitPause = 0;
+		private bool _hasHit = false;
 
 		public override bool PreAI()
 		{
-			Timer++;
+			if (_hitPause == 0)
+				Timer++;
+			else
+				_hitPause--;
+
 			bool firstTick = projectile.timeLeft > 2; //Set to 2 on first tick of normal ai
 			if (firstTick) //Initialize total swing time and initial direction
 			{
@@ -60,9 +66,9 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 
 			//Get new velocity for swinging motion
 			float SwingDirection = Combo % 2 == 1 ? -1 : 1;
-			if(Progress < DRAWBACK_TIME) //Sword position before swing
+			if(UseProgress < DRAWBACK_TIME) //Sword position before swing
 			{
-				float newProgress = EaseFunction.EaseCubicInOut.Ease(Progress / DRAWBACK_TIME);
+				float newProgress = EaseFunction.EaseCubicInOut.Ease(UseProgress / DRAWBACK_TIME);
 				newProgress = EaseFunction.EaseQuadOut.Ease(newProgress);
 
 				float desiredAngle = TOTAL_RADIANS / 2 * SwingDirection;
@@ -71,7 +77,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 			}
 			else //Sword position while swinging
 			{
-				float newProgress = EaseFunction.EaseCircularOut.Ease((Progress - DRAWBACK_TIME) / SWING_TIME);
+				float newProgress = EaseFunction.EaseCircularOut.Ease((UseProgress - DRAWBACK_TIME) / SWING_TIME);
 
 				float startAngle = TOTAL_RADIANS / 2 * SwingDirection;
 				float curAngle = MathHelper.Lerp(startAngle, -startAngle, newProgress);
@@ -91,7 +97,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 			}
 
 			float noParticleTheshold = 0.1f;
-			if(Main.rand.NextBool() && !Main.dedServ && Progress > SWING_TIME + noParticleTheshold && Progress < (1 - noParticleTheshold))
+			if(Main.rand.NextBool() && !Main.dedServ && UseProgress > SWING_TIME + noParticleTheshold && UseProgress < (1 - noParticleTheshold) && _hitPause == 0)
 			{
 				Vector2 directionUnit = Owner.DirectionTo(projectile.Center);
 				Vector2 spawnPos = Owner.MountedCenter + directionUnit * projectile.Size.Length();
@@ -108,23 +114,35 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 		public override Vector2 HoldoutOffset() => projectile.velocity * projectile.Size.Length() / 2;
 		public override bool AutoAimCursor() => false; //Only aim when first used
 
-		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.MountedCenter, Owner.MountedCenter + projectile.velocity * projectile.Size.Length());
+		//Uses a line longer than the actual size of the sprite, for a more generous hitbox
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.MountedCenter, Owner.MountedCenter + projectile.velocity * projectile.Size.Length() * 1.5f);
 
-		public override bool CanDamage() => Progress > DRAWBACK_TIME; //Only do damage when swinging
+		public override bool CanDamage() => UseProgress > DRAWBACK_TIME && _hitPause == 0; //Only do damage when swinging
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			if(!_hasHit)
+			{
+				_hitPause = 6; //6 frame pause when hitting enemies
+				Owner.GetModPlayer<MyPlayer>().Shake = _hitPause;
+				_hasHit = true;
+				projectile.netUpdate = true;
+			}
+		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			float glowStrength = 0;
 			float glowStrengthMin = 0.1f;
-			if (Progress < DRAWBACK_TIME)
-				glowStrength = EaseFunction.EaseCircularIn.Ease(Progress / DRAWBACK_TIME) * glowStrengthMin; //Increase strength while drawing back until reaching the minimum
+			if (UseProgress < DRAWBACK_TIME)
+				glowStrength = EaseFunction.EaseCircularIn.Ease(UseProgress / DRAWBACK_TIME) * glowStrengthMin; //Increase strength while drawing back until reaching the minimum
 
 			else
 			{
-				glowStrength = EaseFunction.EaseCircularOut.Ease((Progress - DRAWBACK_TIME) / SWING_TIME); //Make glow strength proportional to progress through the swing
+				glowStrength = EaseFunction.EaseCircularOut.Ease((UseProgress - DRAWBACK_TIME) / SWING_TIME); //Make glow strength proportional to progress through the swing
 				glowStrength = 1 - (2 * Math.Abs(glowStrength - 0.5f)); //Then, use an absolute value function to make it peak in strength midway, rather than the end
 				glowStrength = EaseFunction.EaseCircularInOut.Ease(glowStrength); //Then smooth it out with an easing function
-				DrawTrail(spriteBatch, lightColor, EaseFunction.EaseCircularOut.Ease((Progress - DRAWBACK_TIME) / SWING_TIME), Math.Min(glowStrength * 5, 1));
+				DrawTrail(spriteBatch, lightColor, EaseFunction.EaseCircularOut.Ease((UseProgress - DRAWBACK_TIME) / SWING_TIME), Math.Min(glowStrength * 5, 1));
 
 				glowStrength = Math.Max(glowStrength, glowStrengthMin); //Finally, if too low, increase it
 			}
@@ -189,6 +207,22 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 			PrimitiveRenderer.DrawPrimitiveShape(slash, effect);
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(maxTime);
+			writer.WriteVector2(initialVelocity);
+			writer.Write(_hitPause);
+			writer.Write(_hasHit);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			maxTime = reader.ReadInt32();
+			initialVelocity = reader.ReadVector2();
+			_hitPause = reader.ReadInt32();
+			_hasHit = reader.ReadBoolean();
 		}
 	}
 }

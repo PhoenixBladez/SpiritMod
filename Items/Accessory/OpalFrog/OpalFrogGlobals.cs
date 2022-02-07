@@ -24,8 +24,11 @@ namespace SpiritMod.Items.Accessory.OpalFrog
 
 		public override bool PreAI(Projectile projectile)
 		{
+			var hitBox = projectile.Hitbox;
+			hitBox.Inflate(hitBox.Width / 2, hitBox.Height / 2); //enlarge hitbox, as otherwise no intersection would happen when hooked into a tile
+
 			//If the projectile has the hook aistyle, and intersects the owner's hitbox, and has the ai[0] value corresponding to being stuck in place, kill before stopping the player
-			if(projectile.aiStyle == 7 && projectile.ai[0] == 2 && projectile.Hitbox.Intersects(GetPlayer(projectile).Hitbox) && GetOpalFrogPlayer(projectile).AutoUnhook)
+			if(projectile.aiStyle == 7 && projectile.ai[0] == 2 && hitBox.Intersects(GetPlayer(projectile).Hitbox) && GetOpalFrogPlayer(projectile).AutoUnhook)
 			{
 				projectile.Kill();
 				return false;
