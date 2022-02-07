@@ -34,14 +34,21 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		private WardenBG Background = null;
 
 		// Starlight doppelganger attack
-		private List<int> doppelgangers = new List<int>();
+		private readonly List<int> doppelgangers = new List<int>();
 
 		// Void black hole attack
 		private int blackHoleWhoAmI = -1;
 		private ref Projectile BlackHole => ref Main.projectile[blackHoleWhoAmI];
 
 		// Starlight duo attack
-		private List<int> massiveStarWhoAmIs = new List<int>();
+		private readonly List<int> massiveStarWhoAmIs = new List<int>();
+
+		// Meteorite duo attack
+		private int meteorWhoAmI = -1;
+		private ref Projectile PongMeteor => ref Main.projectile[meteorWhoAmI];
+
+		private Vector2 meteorPongPosition = Vector2.Zero;
+		private Vector2 archonMeteorPongPosition = Vector2.Zero;
 
 		internal int archonWhoAmI = -1;
 		private ref NPC ArchonNPC => ref Main.npc[archonWhoAmI];
@@ -176,17 +183,22 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		}
 
 		public const int StarlightDuoMaxTime = 750;
+		public const int MeteorDuoMaxTime = 1000;
 
 		public int duoMaxTime = 0;
 
 		private void DuoBehaviour()
 		{
 			timers["DUO"]++;
+			GetArchon.SetDuo(timers["DUO"]);
 
 			switch (GetArchon.enchantment)
 			{
 				case Archon.Archon.Enchantment.Starlight:
 					StarlightDuoAttack();
+					break;
+				case Archon.Archon.Enchantment.Meteor:
+					MeteorDuoAttack();
 					break;
 				default:
 					BasicIdleMovement();
@@ -203,19 +215,55 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 			}
 		}
 
+		private void MeteorDuoAttack()
+		{
+			duoMaxTime = MeteorDuoMaxTime;
+
+			void CalculateArchonPosition()
+			{
+				float dir = (Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition - npc.Center).ToRotation();
+				float newDir = Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi);
+
+				while (newDir > dir - MathHelper.PiOver2 && newDir < dir + MathHelper.PiOver2)
+					newDir = Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi);
+
+				archonMeteorPongPosition = Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition + new Vector2(0, StarjinxMeteorite.EVENT_RADIUS - 120).RotatedBy(newDir);
+			}
+
+			if (timers["DUO"] == 1) //Initialize
+			{
+				float rot = Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi);
+				meteorPongPosition = Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition + new Vector2(0, StarjinxMeteorite.EVENT_RADIUS - 120).RotatedBy(rot);
+			}
+			else if (timers["DUO"] < (int)(duoMaxTime * 0.05f))
+			{
+				npc.Center = Vector2.Lerp(npc.Center, meteorPongPosition, timers["DUO"] / (duoMaxTime * 0.05f));
+			}
+			else if (timers["DUO"] == (int)(duoMaxTime * 0.05f))
+			{
+				CalculateArchonPosition();
+
+				int p = Projectile.NewProjectile(npc.Center, npc.DirectionTo(archonMeteorPongPosition), ModContent.ProjectileType<Archon.Projectiles.MeteorEnchantment_Meteor>(), 20, 1f);
+				Main.projectile[p].timeLeft = MeteorDuoMaxTime;
+				Main.projectile[p].scale = 20f;
+
+				meteorWhoAmI = p;
+			}
+
+			Dust.NewDust(archonMeteorPongPosition, 1, 2, DustID.Grass);
+		}
+
 		private void StarlightDuoAttack()
 		{
-			GetArchon.SetDuo(timers["DUO"]);
-
 			duoMaxTime = StarlightDuoMaxTime;
 
-			if (timers["DUO"] >= StarlightDuoMaxTime * 0.99f) //Stop attacking if I'm done
+			if (timers["DUO"] >= duoMaxTime * 0.99f) //Stop attacking if I'm done
 			{
 				massiveStarWhoAmIs.Clear();
 				return;
 			}
 
-			if (timers["DUO"] == (int)(StarlightDuoMaxTime * 0.05f))
+			if (timers["DUO"] == (int)(duoMaxTime * 0.05f))
 			{
 				int p = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.SplitStar>(), 20, 1f);
 				Main.projectile[p].timeLeft = StarlightDuoMaxTime;
@@ -223,7 +271,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 				massiveStarWhoAmIs.Add(p);
 			}
-			else if (timers["DUO"] % (int)(StarlightDuoMaxTime * 0.1f) == 0)
+			else if (timers["DUO"] % (int)(duoMaxTime * 0.1f) == 0)
 			{
 				Projectile proj = Main.projectile[Main.rand.Next(massiveStarWhoAmIs)];
 

@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 		public override bool UseItem(Player player)
 		{
 			int centreX = Main.rand.Next(Main.maxTilesX * 6, Main.maxTilesX * 10);
-			Vector2 finalPos = GetOpenSpace(centreX, (int)(Main.worldSurface * 0.35f) + 800);
+			Vector2 finalPos = GetOpenSpace(centreX, (int)(Main.worldSurface * 0.35f) + 1000);
 
 			Main.NewText("An enchanted comet has appeared in the sky!", 252, 150, 255);
 
@@ -66,7 +66,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 				if (attempts++ >= 200)
 					break;
 
-				var spawnPos = new Vector2(x, y) + (new Vector2(Main.rand.Next(-1000, 1000), Main.rand.Next(-1000, 1000)) * (attempts / 25f));
+				var spawnPos = new Vector2(x, y) + (new Vector2(Main.rand.Next(-1000, 1000), Main.rand.Next(-100, 100)) * (attempts / 25f));
 				if (spawnPos.X < MinX) spawnPos.X = MinX;
 				if (spawnPos.Y < MinY) spawnPos.Y = MinY;
 
