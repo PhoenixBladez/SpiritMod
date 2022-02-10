@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Mechanics.BackgroundSystem;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -49,7 +50,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 		private Vector2 meteorPongPosition = Vector2.Zero;
 		private Vector2 archonMeteorPongPosition = Vector2.Zero;
-		private int pongTimer = 0;
+		private int pongTimer = 0; //So they don't hit several times in succession
+
+		// Void duo attack
+		private readonly List<int> voidPortals = new List<int>();
 
 		internal int archonWhoAmI = -1;
 		private ref NPC ArchonNPC => ref Main.npc[archonWhoAmI];
@@ -185,6 +189,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 		public const int StarlightDuoMaxTime = 750;
 		public const int MeteorDuoMaxTime = 1000;
+		public const int VoidDuoMaxTime = 900;
 
 		public int duoMaxTime = 0;
 
@@ -201,6 +206,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				case Archon.Archon.Enchantment.Meteor:
 					MeteorDuoAttack();
 					break;
+				case Archon.Archon.Enchantment.Void:
+					VoidDuoAttack();
+					break;
 				default:
 					BasicIdleMovement();
 					break;
@@ -216,19 +224,54 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 			}
 		}
 
+		private void VoidDuoAttack()
+		{
+			const float SpawnPortalsThreshold = 0.05f;
+
+			duoMaxTime = VoidDuoMaxTime;
+
+			if (timers["DUO"] == (int)(duoMaxTime * SpawnPortalsThreshold)) //Initialize
+			{
+				Vector2 center = Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition;
+
+				for (int i = 0; i < 6; ++i)
+				{
+					Vector2 pos = Main.rand.NextVector2Circular(StarjinxMeteorite.EVENT_RADIUS * 0.9f, StarjinxMeteorite.EVENT_RADIUS * 0.9f);
+
+					while ((voidPortals.Count > 0 && voidPortals.Any(x => Vector2.DistanceSquared(Main.projectile[x].Center, pos) < 600 * 600)) || pos.Length() < 600)
+						pos = Main.rand.NextVector2Circular(StarjinxMeteorite.EVENT_RADIUS * 0.9f, StarjinxMeteorite.EVENT_RADIUS * 0.9f);
+
+					int p = Projectile.NewProjectile(center + pos, Vector2.Zero, ModContent.ProjectileType<Projectiles.VoidPortal>(), 0, 0);
+					Main.projectile[p].timeLeft = VoidDuoMaxTime - (int)timers["DUO"];
+
+					voidPortals.Add(p);
+				}
+			}
+			else if (timers["DUO"] > (int)(duoMaxTime * SpawnPortalsThreshold))
+			{
+				BasicIdleMovement(1f, false);
+			}
+		}
+
 		private void MeteorDuoAttack()
 		{
 			const float MeteorPongSpeed = 12f;
+			const float MeteorPongStartThreshold = 0.05f;
+
 			duoMaxTime = MeteorDuoMaxTime;
 
+			ArchonNPC.velocity *= 0.93f;
+			npc.velocity *= 0.93f;
+
+			//Gets the next pong position of a boss
 			void CalculateBouncePosition(bool setArchon)
 			{
 				Vector2 center = setArchon ? npc.Center : ArchonNPC.Center;
-				float dir = (Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition - center).ToRotation();
-				float newDir = Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi);
+				float dir = (center - Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition).ToRotation();
+				float newDir = Main.rand.NextFloat(MathHelper.TwoPi);
 
-				while (newDir > dir - MathHelper.PiOver2 && newDir < dir + MathHelper.PiOver2)
-					newDir = Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi);
+				while (Math.Abs((newDir + MathHelper.Pi) - (dir + MathHelper.Pi)) < MathHelper.Pi)
+					newDir = Main.rand.NextFloat(MathHelper.TwoPi);
 
 				Vector2 newPos = Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition + new Vector2(0, StarjinxMeteorite.EVENT_RADIUS - 120).RotatedBy(newDir);
 
@@ -243,9 +286,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				float rot = Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi);
 				meteorPongPosition = Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition + new Vector2(0, StarjinxMeteorite.EVENT_RADIUS - 120).RotatedBy(rot);
 			}
-			else if (timers["DUO"] < (int)(duoMaxTime * 0.05f))
+			else if (timers["DUO"] < (int)(duoMaxTime * MeteorPongStartThreshold)) //Set first pong position
 				npc.Center = Vector2.Lerp(npc.Center, meteorPongPosition, timers["DUO"] / (duoMaxTime * 0.05f));
-			else if (timers["DUO"] == (int)(duoMaxTime * 0.05f))
+			else if (timers["DUO"] == (int)(duoMaxTime * MeteorPongStartThreshold)) //Spawn pong meteor and set Archon pong position
 			{
 				CalculateBouncePosition(true);
 
@@ -255,6 +298,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				Main.projectile[p].scale = 10f;
 
 				meteorWhoAmI = p;
+				pongTimer = 10;
 			}
 			else
 			{
@@ -274,24 +318,24 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 				pongTimer--;
 
-				if (pongTimer > 0)
+				if (pongTimer >= 0)
 					return;
 
-				if (npc.DistanceSQ(PongMeteor.Center) < 80 * 80)
+				const int PongDistance = 140 * 140;
+
+				if (npc.DistanceSQ(PongMeteor.Center) < PongDistance)
 				{
 					CalculateBouncePosition(true);
 					PongMeteor.velocity = npc.DirectionTo(archonMeteorPongPosition) * MeteorPongSpeed;
-					pongTimer = 20;
+					pongTimer = 10;
 				}
-				else if (ArchonNPC.DistanceSQ(PongMeteor.Center) < 80 * 80)
+				else if (ArchonNPC.DistanceSQ(PongMeteor.Center) < PongDistance)
 				{
 					CalculateBouncePosition(false);
 					PongMeteor.velocity = ArchonNPC.DirectionTo(meteorPongPosition) * MeteorPongSpeed;
-					pongTimer = 20;
+					pongTimer = 10;
 				}
 			}
-
-			Dust.NewDust(archonMeteorPongPosition, 1, 2, DustID.Grass);
 		}
 
 		private void StarlightDuoAttack()
@@ -427,12 +471,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 			}
 		}
 
-		private void BasicIdleMovement(float speedMult = 1f)
+		private void BasicIdleMovement(float speedMult = 1f, bool run = true)
 		{
 			float magnitude = 10 - (npc.Distance(Target.Center) * 0.02f);
 			Vector2 vel = -npc.DirectionTo(Target.Center) * magnitude * speedMult;
 
-			if (magnitude < 0)
+			if (magnitude < 0 || !run)
 			{
 				magnitude = (npc.Distance(Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition) * 0.02f) - 3;
 				if (magnitude < 0)
