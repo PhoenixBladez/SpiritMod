@@ -49,6 +49,15 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 		{
 			int radius = (int)(300 * bubbleStrength);
 
+			for (int i = 0; i < 16; i++)
+			{
+				Vector2 vel = new Vector2(0, Main.rand.NextFloat(7f, 10f)).RotatedByRandom(MathHelper.Pi);
+				Dust.NewDustPerfect(player.Center, ModContent.DustType<Dusts.DarkWaterDust>(), vel, 0, default, Main.rand.NextFloat(.6f, 1.25f));
+
+				Dust dust = Dust.NewDustPerfect(player.Center + new Vector2(Main.rand.Next(-50, 50), Main.rand.Next(0, 30)), ModContent.DustType<Dusts.BubbleDust>(), vel, 0, Color.LightSlateGray, Main.rand.NextFloat(1f, 2.5f));
+				dust.velocity = new Vector2(0, Main.rand.NextFloat(-2f, -.5f));
+			}
+
 			for (int i = 0; i < Main.maxNPCs; ++i)
 			{
 				NPC npc = Main.npc[i];
@@ -56,13 +65,11 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 					npc.StrikeNPC((int)(30 * bubbleStrength), 3f * bubbleStrength, player.Center.X < npc.Center.X ? 1 : -1);
 			}
 
-			for (int i = 0; i < 8; ++i)
-			{
-				Vector2 vel = new Vector2(0, Main.rand.NextFloat(7f, 10f)).RotatedByRandom(MathHelper.Pi);
-				Dust.NewDustPerfect(player.Center, Terraria.ID.DustID.t_Slime, vel, 0, default, Main.rand.NextFloat(1f, 2.5f));
-			}
-
+			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 54).WithPitchVariance(0.2f), player.Center);
+			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 3).WithPitchVariance(0.2f), player.Center);
+			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 112).WithPitchVariance(0.2f).WithVolume(.6f), player.Center);
 			Main.PlaySound(Terraria.ID.SoundID.Item86, player.Center);
+
 			bubbleStrength = 0f;
 		}
 
@@ -85,13 +92,14 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 
 				float scale = modPlayer.bubbleStrength;
 				float sin1 = 2.5f;
-				float sinValue = (float)(Math.Cos((double)Main.GlobalTime % sin1 / sin1 * MathHelper.TwoPi) / (sin1 * 2) + (sin1 / 5));
+				float sinValue = (float)(Math.Cos((double)Main.GlobalTime % sin1 / sin1 * MathHelper.TwoPi) / (sin1 * 1.5f) + (sin1 / 5));
 
 				DrawData data = new DrawData(texture, drawPos, null, Color.White * scale * 0.125f, 0f, texture.Size() / 2f, scale * .4f + sinValue, SpriteEffects.None, 0);
 				DrawData outlineData = new DrawData(outline, drawPos, null, Color.White * scale * 0.35f, 0f, texture.Size() / 2f, scale * .4f + sinValue, SpriteEffects.None, 0);
 
 				Main.playerDrawData.Add(data);
 				Main.playerDrawData.Add(outlineData);
+
 
 			}
 		});
@@ -100,7 +108,6 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 		{
 			Bubble.visible = true;
 			layers.Insert(0, Bubble);
-			Bubble.visible = true;
 			layers.Add(Bubble);
 		}
 	}
