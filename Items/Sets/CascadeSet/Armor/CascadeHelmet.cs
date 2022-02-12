@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 			item.width = 28;
 			item.height = 24;
 			item.value = 4800;
-			item.rare = ItemRarityID.Blue;
+			item.rare = ItemRarityID.Orange;
 			item.defense = 4;
 		}
 
