@@ -46,7 +46,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		// ATTACKS --------------------
 		internal bool waitingOnAttack = false;
 		private AttackType attack = AttackType.None;
-		private int realDamage = 0;
 		private float attackTimeMax = 0;
 
 		// Basic Slash
@@ -104,9 +103,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 
 			npc.TargetClosest(true);
 			npc.dontTakeDamage = !inFG;
-
-			if (realDamage > 0)
-				npc.damage = realDamage;
+			npc.defDamage = 0;
 
 			if (transitionFG)
 			{
@@ -245,12 +242,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				npc.velocity = npc.DirectionTo(cachedAttackPos) * 30 * meteorDashFactor;
 
 				if (npc.DistanceSQ(cachedAttackPos) > 32 * 32)
-					realDamage = 70;
+					npc.defDamage = 70;
 				else
-				{
-					realDamage = 0;
 					timers["ATTACK"] = (int)(attackTimeMax * MeteorRainThreshold) - 2;
-				}
 			}
 			else if (timers["ATTACK"] >= (int)(attackTimeMax * MeteorRainThreshold) && timers["ATTACK"] < attackTimeMax)
 			{
@@ -343,7 +337,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			else if (timers["ATTACK"] > attackTimeMax * MaxSetupThreadsThreshold && timers["ATTACK"] < attackTimeMax)
 			{
 				timers["CONSTELLATION"]++;
-				realDamage = 100;
+				npc.defDamage = 100;
 
 				float singleAttackThreshold = attackTimeMax * (1 - MaxSetupThreadsThreshold) / threads.Count;
 				float threadProgress = timers["CONSTELLATION"] / singleAttackThreshold;
@@ -377,8 +371,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				attack = AttackType.None;
 				waitingOnAttack = false;
 				npc.rotation = 0f;
-
-				realDamage = 0;
 			}
 		}
 
@@ -468,8 +460,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				timers["ATTACK"] = 0;
 				attack = AttackType.None;
 				waitingOnAttack = false;
-
-				realDamage = 0;
 			}
 		}
 
@@ -497,20 +487,15 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				npc.Center = Vector2.Lerp(npc.Center, cachedAttackPos, 0.075f);
 
 				if (npc.DistanceSQ(cachedAttackPos) > 10 * 10)
-					realDamage = 70;
+					npc.defDamage = 70;
 				else
-				{
-					realDamage = 0;
 					timers["ATTACK"] = (int)attackTimeMax;
-				}
 			}
 
 			if (timers["ATTACK"] >= attackTimeMax)
 			{
 				timers["ATTACK"] = 0;
-
 				npc.velocity = Vector2.Zero;
-				realDamage = 0;
 
 				if (!starlightDoubleSlash)
 				{
@@ -521,8 +506,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 					starlightDoubleSlash = false;
 			}
 		}
-
-		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => realDamage > 0;
 
 		public override void FindFrame(int frameHeight)
 		{
