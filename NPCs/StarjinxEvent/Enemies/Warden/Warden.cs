@@ -231,25 +231,55 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 			duoMaxTime = VoidDuoMaxTime;
 
 			if (timers["DUO"] == (int)(duoMaxTime * SpawnPortalsThreshold)) //Initialize
-			{
-				Vector2 center = Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition;
-
-				for (int i = 0; i < 6; ++i)
-				{
-					Vector2 pos = Main.rand.NextVector2Circular(StarjinxMeteorite.EVENT_RADIUS * 0.9f, StarjinxMeteorite.EVENT_RADIUS * 0.9f);
-
-					while ((voidPortals.Count > 0 && voidPortals.Any(x => Vector2.DistanceSquared(Main.projectile[x].Center, pos) < 600 * 600)) || pos.Length() < 600)
-						pos = Main.rand.NextVector2Circular(StarjinxMeteorite.EVENT_RADIUS * 0.9f, StarjinxMeteorite.EVENT_RADIUS * 0.9f);
-
-					int p = Projectile.NewProjectile(center + pos, Vector2.Zero, ModContent.ProjectileType<Projectiles.VoidPortal>(), 0, 0);
-					Main.projectile[p].timeLeft = VoidDuoMaxTime - (int)timers["DUO"];
-
-					voidPortals.Add(p);
-				}
-			}
+				SpawnPortals();
 			else if (timers["DUO"] > (int)(duoMaxTime * SpawnPortalsThreshold))
 			{
 				BasicIdleMovement(1f, false);
+
+				if (timers["DUO"] + 1 % (int)(duoMaxTime * SpawnPortalsThreshold) == 0)
+					Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.VoidPortal>(), 0, 0);
+
+				GetArchon.VoidDuoBehaviour(voidPortals);
+			}
+		}
+
+		private void SpawnPortals()
+		{
+			Vector2 center = Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition;
+
+			for (int i = 0; i < 6; ++i)
+			{
+				Vector2 pos = Main.rand.NextVector2Circular(StarjinxMeteorite.EVENT_RADIUS * 0.9f, StarjinxMeteorite.EVENT_RADIUS * 0.9f);
+
+				while ((voidPortals.Count > 0 && voidPortals.Any(x => Vector2.DistanceSquared(Main.projectile[x].Center, center + pos) < 600 * 600)) || pos.Length() < 600)
+					pos = Main.rand.NextVector2Circular(StarjinxMeteorite.EVENT_RADIUS * 0.9f, StarjinxMeteorite.EVENT_RADIUS * 0.9f);
+
+				int p = Projectile.NewProjectile(center + pos, Vector2.Zero, ModContent.ProjectileType<Projectiles.VoidPortal>(), 0, 0);
+				Main.projectile[p].timeLeft = VoidDuoMaxTime - (int)timers["DUO"];
+
+				voidPortals.Add(p);
+			}
+
+			var unmatchedPortals = new List<int>(voidPortals);
+
+			Projectiles.VoidPortal GetPortal(int index) => (Main.projectile[index].modProjectile != null && Main.projectile[index].modProjectile is Projectiles.VoidPortal portal) ? portal : null;
+
+			//"Connects" every portal
+			while (unmatchedPortals.Count > 0)
+			{
+				int start = Main.rand.Next(unmatchedPortals);
+				int end;
+
+				do
+				{
+					end = Main.rand.Next(unmatchedPortals);
+				} while (end == start);
+
+				unmatchedPortals.Remove(start);
+				unmatchedPortals.Remove(end);
+
+				GetPortal(start).connectedWhoAmI = end;
+				GetPortal(end).connectedWhoAmI = start;
 			}
 		}
 
@@ -493,7 +523,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		private void WrapLocation()
 		{
 			Vector2 sjinxLoc = Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition;
-			if (npc.DistanceSQ(sjinxLoc) > (StarjinxMeteorite.EVENT_RADIUS * StarjinxMeteorite.EVENT_RADIUS) * 1.05f)
+			if (npc.DistanceSQ(sjinxLoc) > StarjinxMeteorite.EVENT_RADIUS * StarjinxMeteorite.EVENT_RADIUS * 1.05f)
 			{
 				Vector2 offset = npc.Center - sjinxLoc;
 				npc.Center = sjinxLoc - (offset * 0.95f);

@@ -168,6 +168,11 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			}
 		}
 
+		internal void VoidDuoBehaviour(List<int> portals)
+		{
+
+		}
+
 		private void EnchantBehaviour()
 		{
 			timers["ENCHANT"]++;
