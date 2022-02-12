@@ -63,8 +63,6 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 
 		public override void AI()
 		{
-			Main.NewText(npc.defDamage);
-
 			Player player = Main.player[npc.target];
 			npc.TargetClosest(true);
 			npc.rotation = npc.velocity.X * 0.05f;

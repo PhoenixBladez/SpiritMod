@@ -77,7 +77,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		{
 			npc.width = 190;
 			npc.height = 114;
-			npc.damage = 20;
+			npc.damage = 0;
 			npc.defense = 28;
 			npc.lifeMax = 12000;
 			npc.aiStyle = -1;
@@ -91,6 +91,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		}
 
 		public override bool CheckActive() => !ModContent.GetInstance<StarjinxEventWorld>().StarjinxActive;
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => npc.defDamage != 0;
 
 		public override void AI()
 		{
@@ -99,11 +100,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				Background = new ArchonBG(npc.Center, npc);
 				BackgroundItemManager.AddItem(Background);
 			}
-			//ArchonLiving = NPC.AnyNPCs(ModContent.NPCType<Archon>());
 
 			npc.TargetClosest(true);
 			npc.dontTakeDamage = !inFG;
-			npc.defDamage = 0;
+			npc.defDamage = npc.damage = 0;
 
 			if (transitionFG)
 			{

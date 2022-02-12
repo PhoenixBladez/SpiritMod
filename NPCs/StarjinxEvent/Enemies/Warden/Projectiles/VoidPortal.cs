@@ -29,10 +29,15 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden.Projectiles
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
 				Projectile proj = Main.projectile[i];
-				if (i != projectile.whoAmI && proj.active && (proj.friendly || proj.type == ModContent.ProjectileType<VoidProjectile>()) && projectile.DistanceSQ(proj.Center) < 80 * 80)
+
+				bool validProj = i != projectile.whoAmI && proj.active && (proj.friendly || proj.type == ModContent.ProjectileType<VoidProjectile>());
+				if (validProj)
 				{
-					TeleportProjectile(i);
-					teleported = 10;
+					if (projectile.DistanceSQ(proj.Center) < 80 * 80 && !proj.GetGlobalProjectile<VoidGlobalProjectile>().hasTeleported)
+					{
+						TeleportProjectile(i);
+						teleported = 10;
+					}
 				}
 			}
 		}
@@ -43,8 +48,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden.Projectiles
 			Projectile other = Main.projectile[connectedWhoAmI];
 			var otherPortal = other.modProjectile as VoidPortal;
 
-			otherPortal.teleported = 10;
-			teleported.Center = other.Center;
+			otherPortal.teleported = 10; //Set the tp timer
+			teleported.Center = other.Center; //Teleport the projectile
+			teleported.GetGlobalProjectile<VoidGlobalProjectile>().hasTeleported = true; //The projectile has teleported...
+			teleported.GetGlobalProjectile<VoidGlobalProjectile>().teleportWhoAmI = connectedWhoAmI; //...to this portal
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

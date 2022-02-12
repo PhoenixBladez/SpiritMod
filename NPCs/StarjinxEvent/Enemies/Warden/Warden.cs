@@ -218,10 +218,22 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 			{
 				timers["DUO"] = 0;
 
+				ClearAttackInfo();
 				GetArchon.enchantment = Archon.Archon.Enchantment.None;
 				GetArchon.SetDuo(0);
 				stage = EnchantStage;
 			}
+		}
+
+		private void ClearAttackInfo()
+		{
+			//Portal
+			voidPortals.Clear();
+
+			//Pong Meteor
+			if (meteorWhoAmI != -1)
+				PongMeteor.Kill();
+			meteorWhoAmI = -1;
 		}
 
 		private void VoidDuoAttack()
@@ -251,7 +263,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 			{
 				Vector2 pos = Main.rand.NextVector2Circular(StarjinxMeteorite.EVENT_RADIUS * 0.9f, StarjinxMeteorite.EVENT_RADIUS * 0.9f);
 
-				while ((voidPortals.Count > 0 && voidPortals.Any(x => Vector2.DistanceSquared(Main.projectile[x].Center, center + pos) < 600 * 600)) || pos.Length() < 600)
+				const int MinDist = 100;
+				while ((voidPortals.Count > 0 && voidPortals.Any(x => Vector2.DistanceSquared(Main.projectile[x].Center, center + pos) < MinDist * MinDist)) || pos.Length() < MinDist)
 					pos = Main.rand.NextVector2Circular(StarjinxMeteorite.EVENT_RADIUS * 0.9f, StarjinxMeteorite.EVENT_RADIUS * 0.9f);
 
 				int p = Projectile.NewProjectile(center + pos, Vector2.Zero, ModContent.ProjectileType<Projectiles.VoidPortal>(), 0, 0);
@@ -287,6 +300,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		{
 			const float MeteorPongSpeed = 12f;
 			const float MeteorPongStartThreshold = 0.05f;
+
+			if (!PongMeteor.active || meteorWhoAmI != -1)
+				return;
 
 			duoMaxTime = MeteorDuoMaxTime;
 
@@ -337,11 +353,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 					PongMeteor.velocity *= 0.95f;
 				}
 				else if (timers["DUO"] >= duoMaxTime)
-				{
-					PongMeteor.Kill();
-					meteorWhoAmI = -1;
 					return;
-				}
 
 				npc.Center = Vector2.Lerp(npc.Center, meteorPongPosition, 0.05f);
 				ArchonNPC.Center = Vector2.Lerp(ArchonNPC.Center, archonMeteorPongPosition, 0.05f);
