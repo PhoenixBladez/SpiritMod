@@ -141,14 +141,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 					spawnedComets = false;
 					comets.Clear();
 
-					for (int j = 0; j < Main.maxNPCs; ++j) //Despawn all platforms
-					{
-						NPC plat = Main.npc[j];
-
-						int[] platformTypes = new[] { ModContent.NPCType<SjinxPlatform>(), ModContent.NPCType<SjinxPlatformLarge>(), ModContent.NPCType<SjinxPlatformMedium>() };
-						if (plat.active && platformTypes.Contains(plat.type) && plat.DistanceSQ(npc.Center) < EVENT_RADIUS * EVENT_RADIUS)
-							plat.active = false;
-					}
+					DespawnPlatforms();
 
 					npc.life = npc.lifeMax; //Reset the meteor completely
 					npc.dontTakeDamage = false;
@@ -252,17 +245,32 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			Main.musicFade[Main.curMusic] = musicVolume;
 		}
 
+		private void DespawnPlatforms()
+		{
+			for (int j = 0; j < Main.maxNPCs; ++j)
+			{
+				NPC plat = Main.npc[j];
+
+				int[] platformTypes = new[] { ModContent.NPCType<SjinxPlatform>(), ModContent.NPCType<SjinxPlatformLarge>(), ModContent.NPCType<SjinxPlatformMedium>() };
+				if (plat.active && platformTypes.Contains(plat.type) && plat.DistanceSQ(npc.Center) < EVENT_RADIUS * EVENT_RADIUS)
+					plat.active = false;
+			}
+		}
+
 		private void SpawnPlatforms()
 		{
+			const int MinPlatformDistance = 400;
+			const int MinPlatformOffset = 200;
+
 			int[] platformTypes = new int[] { ModContent.NPCType<SjinxPlatform>(), ModContent.NPCType<SjinxPlatformLarge>(), ModContent.NPCType<SjinxPlatformMedium>() };
-			int platformCount = Main.rand.Next(7, 12);
+			int platformCount = Main.rand.Next(18, 24);
 			var spawns = new List<Vector2>();
 
 			for (int i = 0; i < platformCount; ++i)
 			{
 				Vector2 pos = Main.rand.NextVector2Circular(EVENT_RADIUS * 0.9f, EVENT_RADIUS * 0.9f);
 
-				while ((spawns.Count > 0 && spawns.Any(x => Vector2.DistanceSquared(x, pos) < 425 * 425)) || pos.Length() < 600)
+				while ((spawns.Count > 0 && spawns.Any(x => Vector2.DistanceSquared(x, pos) < MinPlatformDistance * MinPlatformDistance)) || pos.Length() < MinPlatformOffset)
 					pos = Main.rand.NextVector2Circular(EVENT_RADIUS * 0.9f, EVENT_RADIUS * 0.9f);
 
 				int n = NPC.NewNPC((int)(npc.Center.X + pos.X), (int)(npc.Center.Y + pos.Y), Main.rand.Next(platformTypes));
@@ -424,6 +432,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 		public override void NPCLoot()
 		{
+			DespawnPlatforms();
+
 			ModContent.GetInstance<StarjinxEventWorld>().StarjinxActive = false;
 			ModContent.GetInstance<StarjinxEventWorld>().StarjinxDefeated = true;
 			NetMessage.SendData(MessageID.WorldData);

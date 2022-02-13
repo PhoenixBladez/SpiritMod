@@ -167,7 +167,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for (int i = 0; i < 18; i++)
+			for (int i = 0; i < 12; i++)
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.VilePowder, 2.5f * hitDirection, -2.5f, 0, default, Main.rand.NextFloat(.45f, .75f));
 
 			if (npc.life <= 0)

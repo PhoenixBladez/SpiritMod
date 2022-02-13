@@ -67,9 +67,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 			npc.TargetClosest(true);
 			npc.rotation = npc.velocity.X * 0.05f;
 			npc.spriteDirection = npc.direction;
-
-			if (npc.position.Y > player.position.Y + 100)
-				npc.velocity.Y = -8f;
+			npc.defDamage = 0;
 
 			if (npc.Distance(player.Center) <= 140 && npc.ai[0] == 0)
 			{
@@ -79,6 +77,9 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 
 			if (npc.ai[0] != 0)
 			{
+				if (npc.position.Y > player.position.Y + 100)
+					npc.velocity.Y = -8f;
+
 				if (npc.ai[2] != 1)
 				{
 					npc.ai[2] = 1;
@@ -87,7 +88,6 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 					npc.netUpdate = true;
 				}
 
-				npc.damage = 17;
 				npc.noTileCollide = true;
 
 				if (Main.rand.Next(355) == 0 && !isFlashing && npc.ai[1] < 260 && !justFlashed)
@@ -135,7 +135,6 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 				npc.noTileCollide = false;
 				npc.velocity.Y = 5f;
 				npc.velocity.X = 0f;
-				npc.damage = 0;
 			}
 		}
 
@@ -245,6 +244,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 		public void FlyTowardsPlayer()
 		{
 			npc.knockBackResist = 0.99f;
+			npc.defDamage = 50;
 			gliding = true;
 
 			if (npc.ai[1] == 481)

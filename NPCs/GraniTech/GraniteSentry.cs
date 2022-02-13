@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using SpiritMod.Prim;
-using SpiritMod.Mechanics.Trails;
 using SpiritMod.Utilities;
 using SpiritMod.Particles;
 using SpiritMod.Items.Sets.GranitechSet;
@@ -114,18 +110,37 @@ namespace SpiritMod.NPCs.GraniTech
 					scanTimer += 0.02f;
 
 				npc.velocity.Y += 0.2f;
-				npc.noTileCollide = false;
 				npc.rotation = (float)(Math.Sin(scanTimer + recoil) * MathHelper.PiOver2) - MathHelper.PiOver2;
 
-				if (npc.collideY)
-					npc.StrikeNPCNoInteraction(npc.life + 20, 0f, 0, true, false);
+				Vector2 adjPos = npc.position + new Vector2(2, npc.height - 8);
+				if (Collision.SolidCollision(adjPos, npc.width - 4, 4))
+				{
+					npc.StrikeNPCNoInteraction((int)(npc.velocity.Y * 60), 0f, 0, true, false);
+
+					if (npc.life > 0)
+					{
+						npc.velocity.Y = 0;
+
+						BaseState = STATE_BELOW;
+					}
+				}
 			}
 
-			if (BaseState == STATE_ABOVE)
+			AnchorChecks();
+		}
+
+		private void AnchorChecks()
+		{
+			if (BaseState == STATE_ABOVE) //Ceiling check
 			{
-				Point tPos = npc.Top.ToTileCoordinates();
-				Tile anchor = Framing.GetTileSafely(tPos.X, tPos.Y - 1);
-				if (!anchor.active())
+				Vector2 adjPos = npc.position + new Vector2(2, -18);
+				if (!Collision.SolidCollision(adjPos, npc.width - 4, 4))
+					BaseState = STATE_FALLING;
+			}
+			else if (BaseState == STATE_BELOW) //Ground check
+			{
+				Vector2 adjPos = npc.position + new Vector2(2, npc.height - 8);
+				if (!Collision.SolidCollision(adjPos, npc.width - 4, 4))
 					BaseState = STATE_FALLING;
 			}
 		}
