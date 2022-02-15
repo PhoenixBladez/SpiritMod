@@ -18,8 +18,8 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 			item.width = 28;
 			item.height = 24;
 			item.value = 4800;
-			item.rare = ItemRarityID.Orange;
-			item.defense = 4;
+			item.rare = ItemRarityID.Blue;
+			item.defense = 3;
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == ModContent.ItemType<CascadeChestplate>() && legs.type == ModContent.ItemType<CascadeLeggings>();
