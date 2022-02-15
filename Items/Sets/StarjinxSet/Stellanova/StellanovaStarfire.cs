@@ -22,9 +22,9 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		private const float MED_SPEED = 18f;
 		private const float MIN_SPEED = 5f;
 
-		private static Color Yellow = new Color(242, 240, 134);
-		private static Color Orange = new Color(255, 98, 74);
-		private static Color Purple = new Color(255, 0, 144);
+		public static Color Yellow = new Color(242, 240, 134);
+		public static Color Orange = new Color(255, 98, 74);
+		public static Color Purple = new Color(255, 0, 144);
 
 
 		public override void SetDefaults()

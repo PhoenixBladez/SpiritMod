@@ -48,7 +48,7 @@ float4 Center(float2 coords, float dist)
 float4 MainPS(float2 coords : TEXCOORD0, float4 ocolor : COLOR0) : COLOR0
 {
     float2 distortionFactor = tex2D(distortSampler, float2(coords.x / 3, (coords.y + timer) / 3)).rg - float2(0.5f, 0.5f);
-    distortionFactor *= 0.05f;
+    distortionFactor *= 0.07f;
     
     float2 distortedCoords = float2(coords.x + distortionFactor.x, coords.y + distortionFactor.y);
     float4 texColor = tex2D(uImage0, distortedCoords);
@@ -62,7 +62,7 @@ float4 MainPS(float2 coords : TEXCOORD0, float4 ocolor : COLOR0) : COLOR0
     }
     
     float4 final = intensity * float4(texColor.rgb, texColor.r) * lightColor; //become more additive as used texture fades out
-    return final * (1 + 2 * (1 - min(final.a, 1)));
+    return final;
 }
 
 technique BasicColorDrawing
