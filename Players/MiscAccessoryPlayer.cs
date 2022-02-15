@@ -28,8 +28,9 @@ namespace SpiritMod.Players
 				if (HeldItemIsClub(player))
 					totalKb *= 0.5f;
 
+			// Cascade Chestplate
 			if (player.ChestplateEquipped<CascadeChestplate>() && horizontal)
-				totalKb *= 0.5f;
+				totalKb *= 0.25f;
 
 			if (totalKb < 0.001f) //Throws NullReferenceException if it's 0 for some reason
 				totalKb = 0.001f;

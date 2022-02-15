@@ -248,11 +248,28 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 			{
 				BasicIdleMovement(1f, false);
 
-				if (timers["DUO"] + 1 % (int)(duoMaxTime * SpawnPortalsThreshold) == 0)
-					Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.VoidPortal>(), 0, 0);
+				if ((timers["DUO"] + 1) % (int)(duoMaxTime * SpawnPortalsThreshold) == 0)
+					FireVoidProjectile();
 
 				GetArchon.VoidDuoBehaviour(voidPortals);
 			}
+		}
+
+		private void FireVoidProjectile()
+		{
+			int portal = GetVoidPortalHitLine();
+
+			Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.VoidProjectile>(), 0, 0);
+		}
+
+		private int GetVoidPortalHitLine()
+		{
+			List<int> portals = new List<int>(voidPortals);
+			//while (true)
+			//{
+
+			//}
+			return -1;
 		}
 
 		private void SpawnPortals()

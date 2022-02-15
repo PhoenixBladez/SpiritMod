@@ -10,6 +10,8 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 {
 	public class CascadeArmorPlayer : ModPlayer
 	{
+		public const float MaxResist = 0.20f;
+
 		internal float bubbleStrength = 0;
 		internal bool setActive = false;
 
@@ -31,7 +33,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 		{
 			if (bubbleStrength > 0f)
 			{
-				damage = (int)(damage * (1 - (.75f * bubbleStrength)));
+				damage = (int)(damage * (1 - (MaxResist * bubbleStrength)));
 				PopBubble();
 			}
 		}
@@ -40,7 +42,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 		{
 			if (bubbleStrength > 0f)
 			{
-				damage = (int)(damage * (1 - (.75f * bubbleStrength)));
+				damage = (int)(damage * (1 - (MaxResist * bubbleStrength)));
 				PopBubble();
 			}
 		}
@@ -62,7 +64,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 			{
 				NPC npc = Main.npc[i];
 				if (npc.active && npc.CanBeChasedBy() && npc.DistanceSQ(player.Center) < radius * radius)
-					npc.StrikeNPC((int)(30 * bubbleStrength), 3f * bubbleStrength, player.Center.X < npc.Center.X ? 1 : -1);
+					npc.StrikeNPC(1, 3f * bubbleStrength, player.Center.X < npc.Center.X ? 1 : -1);
 			}
 
 			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 54).WithPitchVariance(0.2f), player.Center);
