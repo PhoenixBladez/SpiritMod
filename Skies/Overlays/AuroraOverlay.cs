@@ -63,52 +63,52 @@ namespace SpiritMod.Skies.Overlays
 			//--THIS IS WHERE YOU EDIT!
 			const int Height = 400;
 
-			if (MyWorld.auroraType == UNUSED_BASIC || Main.LocalPlayer.GetSpiritPlayer().auroraMonoliths[UNUSED_BASIC] >= 1)
+			bool ActiveAurora(int ID) => (MyWorld.aurora && MyWorld.auroraType == ID) || Main.LocalPlayer.GetSpiritPlayer().auroraMonoliths[ID] >= 1;
+
+			if (ActiveAurora(UNUSED_BASIC))
 			{
 				DrawSingularAurora(spriteBatch, basePoint, 0, Height, new Color(137, 48, 255), new Color(125, 0, 255), 0.0031f, 0.8f, 0.2f);
 				DrawSingularAurora(spriteBatch, basePoint, 20, Height, new Color(0, 143, 233), new Color(0, 255, 255), 0.0031f, 1f, 0.32f);
 			}
-			if (MyWorld.auroraType == PRIMARY || Main.LocalPlayer.GetSpiritPlayer().auroraMonoliths[PRIMARY] >= 1)
+			else if (ActiveAurora(PRIMARY))
 			{
 				DrawSingularAurora(spriteBatch, basePoint, 20, Height + 100, new Color(0, 143, 233), new Color(0, 255, 255), 0.0031f, 1f, 0.1f);
 				DrawSingularAurora(spriteBatch, basePoint, 0, Height + 100, new Color(60, 200, 183), new Color(0, 255, 100), 0.0031f, 1f, 0.4f);
 			}
-			if (MyWorld.auroraType == PRIMARY_ALT1 || Main.LocalPlayer.GetSpiritPlayer().auroraMonoliths[PRIMARY_ALT1] >= 1)
+			else if (ActiveAurora(PRIMARY_ALT1))
 			{
 				DrawSingularAurora(spriteBatch, basePoint, 20, Height, new Color(0, 143, 233), new Color(0, 255, 255), 0.0031f, 1f, 0.1f);
 				DrawSingularAurora(spriteBatch, basePoint, 0, Height, new Color(60, 200, 183), new Color(0, 255, 100), 0.0031f, 1f, 0.4f);
 			}
-			if (MyWorld.auroraType == PRIMARY_ALT2 || Main.LocalPlayer.GetSpiritPlayer().auroraMonoliths[PRIMARY_ALT2] >= 1)
+			else if (ActiveAurora(PRIMARY_ALT2))
 			{
 				DrawSingularAurora(spriteBatch, basePoint, 20, Height, new Color(0, 143, 233), new Color(0, 255, 255), 0.0031f, 1f, 0.1f);
 				DrawSingularAurora(spriteBatch, basePoint, 0, Height, new Color(60, 200, 183), new Color(0, 255, 100), 0.0031f, 1f, 0.43f);
 			}
-			else if (MyWorld.auroraType == PRIMARY_ALT3 || Main.LocalPlayer.GetSpiritPlayer().auroraMonoliths[PRIMARY_ALT3] >= 1)
+			else if (ActiveAurora(PRIMARY_ALT3))
 			{
 				DrawSingularAurora(spriteBatch, basePoint, 0, Height, new Color(137, 48, 255), new Color(125, 0, 255), 0.0031f, 0.8f, 0.2f);
 				DrawSingularAurora(spriteBatch, basePoint, 20, Height, new Color(0, 143, 233), new Color(0, 255, 255), 0.0031f, 1f, 0.32f);
 			}
-			else if (MyWorld.auroraType == BLOODMOON || Main.LocalPlayer.GetSpiritPlayer().auroraMonoliths[BLOODMOON] >= 1)
+			else if (ActiveAurora(BLOODMOON))
 			{
 				DrawSingularAurora(spriteBatch, basePoint, 0, Height, new Color(247, 39, 67), new Color(206, 51, 72), 0.0031f, 0.8f, 0.1f);
 				DrawSingularAurora(spriteBatch, basePoint, 20, Height, new Color(252, 42, 186), new Color(143, 15, 155), 0.0031f, 1f, 0.32f);
 			}
-			else if (MyWorld.auroraType == PUMPKINMOON || Main.LocalPlayer.GetSpiritPlayer().auroraMonoliths[PUMPKINMOON] >= 1)
+			else if (ActiveAurora(PUMPKINMOON))
 			{
 				DrawSingularAurora(spriteBatch, basePoint, 20, Height, new Color(255, 170, 114), new Color(255, 170, 114), 0.0028f, 0.8f, 0.2f);
 				DrawSingularAurora(spriteBatch, basePoint, 0, Height, new Color(255, 195, 56), new Color(255, 195, 56), 0.0028f, 0.8f, 0.17f);
 
 			}
-			else if (MyWorld.auroraType == FROSTMOON || Main.LocalPlayer.GetSpiritPlayer().auroraMonoliths[FROSTMOON] >= 1)
+			else if (ActiveAurora(FROSTMOON))
 			{
 				DrawSingularAurora(spriteBatch, basePoint, 0, Height + 200, new Color(124, 142, 255), new Color(124, 142, 255), 0.0028f, 0.8f, 0.1f);
 				DrawSingularAurora(spriteBatch, basePoint, 20, Height + 200, new Color(127, 255, 250), new Color(127, 255, 250), 0.0028f, 0.8f, 0.37f);
 			}
-			else if (MyWorld.auroraType == BLUEMOON || Main.LocalPlayer.GetSpiritPlayer().auroraMonoliths[BLUEMOON] >= 1)
-			{
+			else if (ActiveAurora(BLUEMOON))
 				DrawSingularAurora(spriteBatch, basePoint, 0, Height, new Color(255, 156, 197), new Color(255, 223, 153), 0.0028f, 0.8f, 0.1f);
-			}
-			else if (MyWorld.auroraType == SPIRIT || Main.LocalPlayer.GetSpiritPlayer().auroraMonoliths[SPIRIT] >= 1)
+			else if (ActiveAurora(SPIRIT))
 			{
 				DrawSingularAurora(spriteBatch, basePoint, 0, Height, new Color(137, 48, 255), new Color(125, 0, 255), 0.0031f, 0.8f, 0.2f);
 				DrawSingularAurora(spriteBatch, basePoint, 0, Height, new Color(91, 69, 255), new Color(86, 33, 209), 0.0031f, 0.8f, 0.3f);
