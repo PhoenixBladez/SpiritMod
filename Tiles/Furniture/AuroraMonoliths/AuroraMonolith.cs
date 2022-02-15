@@ -17,14 +17,17 @@ namespace SpiritMod.Tiles.Furniture.AuroraMonoliths
         public sealed override void SetDefaults()
         {
             Main.tileFrameImportant[Type] = true;
+
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
-            TileObjectData.newTile.Height = 3;
+            TileObjectData.newTile.Height = 4;
             TileObjectData.newTile.Origin = new Point16(1, 2);
-            TileObjectData.newTile.CoordinateHeights = new[] { 16, 16, 18 };
+            TileObjectData.newTile.CoordinateHeights = new[] { 16, 16, 16, 16 };
             TileObjectData.addTile(Type);
+
             AddMapEntry(new Color(75, 139, 166));
+
             dustType = DustID.Stone;
-            animationFrameHeight = 56;
+            animationFrameHeight = 72;
             disableSmartCursor = true;
             //adjTiles = new int[] { TileID.LunarMonolith };
         }
@@ -33,15 +36,15 @@ namespace SpiritMod.Tiles.Furniture.AuroraMonoliths
 
         public sealed override void NearbyEffects(int i, int j, bool closer)
         {
-            if (Main.tile[i, j].frameY >= 56)
-                Main.LocalPlayer.GetSpiritPlayer().auroraMonoliths[AuroraType] = 6;
-        }
+			if (Main.tile[i, j].frameY >= animationFrameHeight)
+				Main.LocalPlayer.GetSpiritPlayer().auroraMonoliths[AuroraType] = 6;
+		}
 
-        public override void AnimateTile(ref int frame, ref int frameCounter)
-        {
-            frame = Main.tileFrame[TileID.LunarMonolith];
-            frameCounter = Main.tileFrameCounter[TileID.LunarMonolith];
-        }
+        //public override void AnimateTile(ref int frame, ref int frameCounter)
+        //{
+        //    //frame = Main.tileFrame[TileID.LunarMonolith];
+        //    //frameCounter = Main.tileFrameCounter[TileID.LunarMonolith];
+        //}
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
@@ -49,10 +52,9 @@ namespace SpiritMod.Tiles.Furniture.AuroraMonoliths
             Texture2D texture = Main.canDrawColorTile(i, j) ? Main.tileAltTexture[Type, tile.color()] : Main.tileTexture[Type];
 
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
-            int height = tile.frameY % animationFrameHeight == 36 ? 18 : 16;
-            int animate = tile.frameY >= 56 ? Main.tileFrame[Type] * animationFrameHeight : 0;
+            int height = tile.frameY % animationFrameHeight == 54 ? 18 : 16;
 
-            Main.spriteBatch.Draw(texture, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.frameX, tile.frameY + animate, 16, height), Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);
             return false;
         }
 
@@ -74,34 +76,34 @@ namespace SpiritMod.Tiles.Furniture.AuroraMonoliths
         public sealed override void HitWire(int i, int j)
         {
             int x = i - Main.tile[i, j].frameX / 18 % 2;
-            int y = j - Main.tile[i, j].frameY / 18 % 3;
+            int y = j - Main.tile[i, j].frameY / 18 % 4;
 
             for (int l = x; l < x + 2; l++)
             {
-                for (int m = y; m < y + 3; m++)
+                for (int m = y; m < y + 4; m++)
                 {
                     if (Main.tile[l, m] == null)
                         Main.tile[l, m] = new Tile();
 
                     if (Main.tile[l, m].active() && Main.tile[l, m].type == Type)
                     {
-                        if (Main.tile[l, m].frameY < 56)
-                            Main.tile[l, m].frameY += 56;
+                        if (Main.tile[l, m].frameY < animationFrameHeight)
+                            Main.tile[l, m].frameY += (short)animationFrameHeight;
                         else
-                            Main.tile[l, m].frameY -= 56;
+                            Main.tile[l, m].frameY -= (short)animationFrameHeight;
                     }
                 }
             }
 
             if (Wiring.running)
             {
-                for (int k = 0; k < 3; ++k)
+                for (int k = 0; k < 4; ++k)
                 {
                     Wiring.SkipWire(x, y + k);
                     Wiring.SkipWire(x + 1, y + k);
                 }
             }
-            NetMessage.SendTileSquare(-1, x, y + 1, 3);
+            NetMessage.SendTileSquare(-1, x, y + 1, 4);
         }
     }
 
