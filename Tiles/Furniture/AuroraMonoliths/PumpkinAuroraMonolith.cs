@@ -4,20 +4,20 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Tiles.Furniture.AuroraMonoliths
 {
-	public class NormalAuroraMonolith : AuroraMonolith
+	public class PumpkinAuroraMonolith : AuroraMonolith
 	{
-        internal override int DropType => ModContent.ItemType<NormalAuroraMonolithItem>();
-        internal override int AuroraType => AuroraOverlay.PRIMARY;
+        internal override int DropType => ModContent.ItemType<PumpkinAuroraMonolithItem>();
+        internal override int AuroraType => AuroraOverlay.PUMPKINMOON;
     }
 
-	public class NormalAuroraMonolithItem : AuroraMonolithItem
+	public class PumpkinAuroraMonolithItem : AuroraMonolithItem
 	{
-        public override int PlaceType => ModContent.TileType<NormalAuroraMonolith>();
+        public override int PlaceType => ModContent.TileType<PumpkinAuroraMonolith>();
 
         public override void SafeAddRecipes()
 		{
 			var recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.IceBlock, 10);
+			recipe.AddIngredient(ItemID.SpookyWood, 10);
 			recipe.AddIngredient(ItemID.Silk, 10);
 			recipe.AddIngredient(ItemID.SoulofLight, 10);
 			recipe.AddTile(TileID.CrystalBall);
