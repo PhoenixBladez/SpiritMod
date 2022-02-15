@@ -72,8 +72,11 @@ namespace SpiritMod.Tiles.Furniture.AuroraMonoliths
             player.showItemIcon = true;
             player.showItemIcon2 = DropType;
         }
-
-        public sealed override void HitWire(int i, int j)
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		{
+			offsetY = 2;
+		}
+		public sealed override void HitWire(int i, int j)
         {
             int x = i - Main.tile[i, j].frameX / 18 % 2;
             int y = j - Main.tile[i, j].frameY / 18 % 4;
@@ -122,7 +125,7 @@ namespace SpiritMod.Tiles.Furniture.AuroraMonoliths
             item.useTime = 16;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarityID.LightRed;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.createTile = PlaceType;
         }

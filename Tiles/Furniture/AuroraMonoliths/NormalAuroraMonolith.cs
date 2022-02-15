@@ -12,7 +12,11 @@ namespace SpiritMod.Tiles.Furniture.AuroraMonoliths
 
 	public class NormalAuroraMonolithItem : AuroraMonolithItem
 	{
-        public override int PlaceType => ModContent.TileType<NormalAuroraMonolith>();
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Aurora Monolith");
+		}
+		public override int PlaceType => ModContent.TileType<NormalAuroraMonolith>();
 
         public override void SafeAddRecipes()
 		{
