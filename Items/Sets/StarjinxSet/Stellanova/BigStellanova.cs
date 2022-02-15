@@ -64,7 +64,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			Color pink = new Color(255, 158, 241) * projectile.Opacity;
-			Color lightPink = Color.Lerp(pink, Color.White * projectile.Opacity, 0.66f) * 0.8f;
+			Color purple = new Color(255, 69, 187) * projectile.Opacity;
+			Color lightPink = Color.Lerp(pink, Color.White * projectile.Opacity, 0.66f) * 0.8f * Math.Max(projectile.Opacity - 0.9f, 0) * 10;
 
 			float squaredScale = (float)Math.Pow(projectile.scale, 2);
 			DrawGodray.DrawGodrays(spriteBatch, projectile.Center - Main.screenPosition, lightPink, 30 * squaredScale, 12 * squaredScale, 20);
@@ -89,14 +90,18 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			PrimitiveRenderer.DrawPrimitiveShape(blurLine, blurEffect);
 
 			Effect effect = SpiritMod.Instance.GetEffect("Effects/StellanovaOrb");
-			effect.Parameters["uTexture"].SetValue(mod.GetTexture("Textures/Trails/Trail_2"));
-			effect.Parameters["timer"].SetValue(Main.GlobalTime);
-			effect.Parameters["intensity"].SetValue(1.75f);
+			effect.Parameters["uTexture"].SetValue(mod.GetTexture("Textures/Milky2"));
+			effect.Parameters["distortTexture"].SetValue(mod.GetTexture("Textures/noiseNormal"));
+			effect.Parameters["timer"].SetValue(Main.GlobalTime * 0.66f);
+			effect.Parameters["intensity"].SetValue(1.6f);
+			effect.Parameters["lightColor"].SetValue(pink.ToVector4());
+			effect.Parameters["darkColor"].SetValue(purple.ToVector4());
+			effect.Parameters["coordMod"].SetValue(0.5f);
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, RasterizerState.CullNone, effect, Main.GameViewMatrix.ZoomMatrix);
 
 			Texture2D projTex = Main.projectileTexture[projectile.type];
-			spriteBatch.Draw(projTex, projectile.Center - Main.screenPosition, null, pink, Main.GlobalTime / 2,
+			spriteBatch.Draw(projTex, projectile.Center - Main.screenPosition, null, pink, Main.GlobalTime * 0.1f,
 				projTex.Size() / 2, 0.1f * projectile.scale, SpriteEffects.None, 0);
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, default, default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
