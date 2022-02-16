@@ -3,15 +3,15 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs
 {
-	public class GoreCooldown2 : ModBuff
+	public class AstralMapCooldown : ModBuff
 	{
 		public override void SetDefaults()
 		{
-			DisplayName.SetDefault("Ichor Cooldown");
-			Description.SetDefault("The blood of gods must seep back...");
+			DisplayName.SetDefault("Astral Cooldown");
+			Description.SetDefault("Lightspeed travel is unstable!");
 			Main.buffNoTimeDisplay[Type] = false;
-			Main.pvpBuff[Type] = false;
 			Main.debuff[Type] = true;
+			Main.pvpBuff[Type] = true;
 			Main.buffNoSave[Type] = true;
 			longerExpertDebuff = false;
 		}

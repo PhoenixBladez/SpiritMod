@@ -311,8 +311,6 @@ namespace SpiritMod
 		public bool fierySet;
 		public bool starSet;
 		public bool clatterboneSet;
-		public bool ichorSet1;
-		public bool ichorSet2;
 		public bool talonSet;
 		public bool OverseerCharm = false;
 
@@ -911,9 +909,7 @@ namespace SpiritMod
 			magicshadowSet = false;
 			spiritSet = false;
 			coralSet = false;
-			ichorSet1 = false;
 			stellarSet = false;
-			ichorSet2 = false;
 			graniteSet = false;
 			fierySet = false;
 			putridSet = false;
@@ -4537,20 +4533,6 @@ namespace SpiritMod
 					}
 					Main.PlaySound(new LegacySoundStyle(2, 109));
 					Projectile.NewProjectile(player.Center, dir, ModContent.ProjectileType<DarkAnima>(), 45, 0, player.whoAmI);
-				}
-
-				if (ichorSet1 && !player.HasBuff(ModContent.BuffType<GoreCooldown1>()))
-				{
-					player.AddBuff(ModContent.BuffType<GoreCooldown1>(), 3600);
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<Projectiles.Gores>(), 4, 0, player.whoAmI);
-				}
-
-				if (ichorSet2 && !player.HasBuff(ModContent.BuffType<GoreCooldown2>()))
-				{
-					player.AddBuff(ModContent.BuffType<GoreCooldown2>(), 3600);
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<IchorWrath>(), 21, 0, player.whoAmI);
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<IchorWrath>(), 21, 0, player.whoAmI);
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<IchorWrath>(), 21, 0, player.whoAmI);
 				}
 
 				if (frigidSet && !player.HasBuff(ModContent.BuffType<FrigidCooldown>()))

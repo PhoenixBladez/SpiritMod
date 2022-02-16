@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Projectiles.Magic;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Astral Map");
-			Tooltip.SetDefault("Hold for a second, then release to teleport");
+			Tooltip.SetDefault("Teleports you to the cursor location\n10 second cooldown");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/StarplateDrops/StarMap_Glow");
 		}
 
@@ -22,38 +22,59 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 			item.noMelee = true;
 			item.channel = true; //Channel so that you can held the weapon [Important]
 			item.rare = ItemRarityID.Pink;
-			item.width = 18;
-			item.height = 18;
+			item.width = 42;
+			item.height = 58;
 			item.useTime = 20;
-			item.UseSound = SoundID.Item13;
+			item.UseSound = SoundID.Item8;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.expert = true;
 			item.autoReuse = false;
-			item.shoot = ModContent.ProjectileType<StarMapProj>();
 			item.shootSpeed = 0f;
 			item.noUseGraphic = true;
 		}
+		public override bool UseItem(Player player)
+		{
+			if (player.HasBuff(ModContent.BuffType<Buffs.AstralMapCooldown>()))
+				return false;		
+			else
+				AstralTeleport(player);
+			return true;
+		}
+		private void AstralTeleport(Player player)
+		{
+			Vector2 prePos = player.position;
+			Vector2 pos  = Main.MouseScreen + Main.screenPosition;
+			if (pos != prePos)
+			{
+				RunTeleport(player, new Vector2(pos.X, pos.Y));
+				player.AddBuff(ModContent.BuffType<Buffs.AstralMapCooldown>(), 600);
+			}
+		}
+		private void RunTeleport(Player player, Vector2 pos)
+		{
+			player.Teleport(pos, 2, 0);
+			player.velocity = Vector2.Zero;
+			Main.PlaySound(SoundID.Item6, player.Center);
+			DustHelper.DrawStar(player.Center, DustID.GoldCoin, pointAmount: 4, mainSize: 1.7425f, dustDensity: 6, dustSize: .65f, pointDepthMult: 3.6f, noGravity: true);
+
+		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Lighting.AddLight(item.position, 0.08f, .28f, .38f);
-			Texture2D texture;
-			texture = Main.itemTexture[item.type];
-			spriteBatch.Draw
-			(
-				ModContent.GetTexture("SpiritMod/Items/Sets/StarplateDrops/StarMap_Glow"),
-				new Vector2
-				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
-				),
-				new Rectangle(0, 0, texture.Width, texture.Height),
-				Color.White,
-				rotation,
-				texture.Size() * 0.5f,
-				scale,
-				SpriteEffects.None,
-				0f
-			);
+			Lighting.AddLight(item.position, 0.2f, .142f, .032f);
+
+			Texture2D glow = ModContent.GetTexture(Texture + "_Glow");
+			Texture2D outline = ModContent.GetTexture(Texture + "_Outline");
+			float Timer = (float)Math.Sin(Main.GlobalTime * 3) / 2 + 0.5f;
+			void DrawTex(Texture2D tex, float opacity, Vector2? offset = null) => spriteBatch.Draw(tex, item.Center + (offset ?? Vector2.Zero) - Main.screenPosition, null, Color.White * opacity, rotation, tex.Size() / 2, scale, SpriteEffects.None, 0);
+
+			for (int i = 0; i < 6; i++)
+			{
+				Vector2 drawPos = Vector2.UnitX.RotatedBy((i / 6f) * MathHelper.TwoPi) * Timer * 6;
+				DrawTex(glow, (1 - Timer) / 2, drawPos);
+				DrawTex(outline, (1 - Timer) / 2, drawPos + (Vector2.UnitY * 2));
+			}
+			DrawTex(glow, (Timer / 5) + 0.5f);
+			DrawTex(outline, (Timer / 5) + 0.5f, Vector2.UnitY * 2);
 		}
 	}
 }
