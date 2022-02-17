@@ -26,17 +26,16 @@ namespace SpiritMod.Projectiles.Clubs
 		public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            player.armorPenetration += (int)(projectile.ai[0] / 3);
+            player.armorPenetration += (int)(projectile.ai[0] / 2);
         }
         public override void SafeDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             int size = 66;
             if (projectile.ai[0] >= ChargeTime)
             {
-
                 Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, size * 2, size, size), Color.White * 0.9f, TrueRotation, Origin, projectile.scale, Effects, 1);
             }
         }
-        public MacuahuitlProj() : base(72, 24, 60, -1, 66, 5, 10, 1.9f, 17f){}
+        public MacuahuitlProj() : base(72, 28, 62, -1, 66, 5, 10, 1.9f, 17f){}
 	}
 }

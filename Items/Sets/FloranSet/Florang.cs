@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Sets.FloranSet
 
 		public override void SetDefaults()
 		{
-			item.damage = 24;
+			item.damage = 19;
 			item.melee = true;
 			item.width = 44;
 			item.height = 40;

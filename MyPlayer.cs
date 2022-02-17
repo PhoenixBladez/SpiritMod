@@ -943,7 +943,7 @@ namespace SpiritMod
 					if (Main.dust[num].position != player.Center)
 						Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
 				}
-				marbleJump = 420;
+				marbleJump = 300;
 			}
 
 			if (marbleSet && (player.sliding || player.velocity.Y == 0f))
@@ -2184,12 +2184,12 @@ namespace SpiritMod
 									Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
 							}
 						}
-						int proj = Projectile.NewProjectile(player.position.X, player.position.Y, 0, 0, ModContent.ProjectileType<GraniteSpike1>(), fallDistance * 10, 0, player.whoAmI);
-						Projectile.NewProjectile(player.position.X, player.position.Y, 0, 0, ModContent.ProjectileType<StompExplosion>(), fallDistance * 10, 6, player.whoAmI);
+						int proj = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 0, ModContent.ProjectileType<GraniteSpike1>(), fallDistance * 10, 1, player.whoAmI);
+						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 0, ModContent.ProjectileType<StompExplosion>(), fallDistance * 10, 9, player.whoAmI);
 						Main.projectile[proj].timeLeft = 0;
 						Main.projectile[proj].ranged = true;
 					}
-					stompCooldown = 540;
+					stompCooldown = 240;
 				}
 				stompCooldown--;
 				if (stompCooldown == 0)

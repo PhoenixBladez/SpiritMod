@@ -86,10 +86,10 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			if (Wiring.CheckMech(i, j, 7200))
 			{
 				for (int k = 0; k <= 20; k++)
-					Dust.NewDustPerfect(new Vector2(i * 16, j * 16 - 18), ModContent.DustType<Dusts.BoneDust>(), new Vector2(0, 6).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1));
+					Dust.NewDustPerfect(new Vector2(i * 16 + 12, j * 16 - 18), ModContent.DustType<Dusts.BoneDust>(), new Vector2(0, 6).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1));
 				for (int k = 0; k <= 20; k++)
-					Dust.NewDustPerfect(new Vector2(i * 16, j * 16 - 18), ModContent.DustType<Dusts.FireClubDust>(), new Vector2(0, 6).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1));
-				Projectile.NewProjectile(i * 16, j * 16 - 36, 0, -4, ModContent.ProjectileType<Projectiles.HydrothermalVentPlume>(), 5, 0f);
+					Dust.NewDustPerfect(new Vector2(i * 16 + 12, j * 16 - 18), ModContent.DustType<Dusts.FireClubDust>(), new Vector2(0, 6).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1));
+				Projectile.NewProjectile(i * 16 + 12, j * 16 - 36, 0, -4, ModContent.ProjectileType<Projectiles.HydrothermalVentPlume>(), 5, 0f);
 			}
 		}
 

@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Accessory.DarkfeatherVisage
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Darkfeather Visage");
-            Tooltip.SetDefault("Generates exploding darkfeather bolts around the player\nIncreases magic damage by 8%\nCan be worn in the accessory or helmet slot");
+            Tooltip.SetDefault("Generates exploding darkfeather bolts around the player\nIncreases magic damage by 5%\nCan be worn in the accessory or helmet slot");
         }
 
         public override void SetDefaults()
@@ -27,13 +27,13 @@ namespace SpiritMod.Items.Accessory.DarkfeatherVisage
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.magicDamage += .08f;
+            player.magicDamage += .05f;
             player.GetSpiritPlayer().darkfeatherVisage = true;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.magicDamage += .08f;
+            player.magicDamage += .05f;
             player.GetSpiritPlayer().darkfeatherVisage = true;
         }
     }

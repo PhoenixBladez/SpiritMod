@@ -437,7 +437,7 @@ namespace SpiritMod
 			if (priority > MusicPriority.BiomeMedium)
 				return;
 
-			if (spirit.ZoneSpirit && NPC.downedMechBossAny)
+			if (spirit.ZoneSpirit && NPC.downedMechBossAny && !player.ZoneDungeon)
 			{
 				priority = MusicPriority.BiomeMedium;
 				if (player.ZoneRockLayerHeight && player.position.Y / 16 < (Main.rockLayer + Main.maxTilesY - 330) / 2f)

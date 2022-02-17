@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Sets.MarbleSet.MarbleArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gilded Laurel");
-			Tooltip.SetDefault("");
+			Tooltip.SetDefault("3% increased movement speed");
 
 		}
 		public override void SetDefaults()
@@ -35,6 +35,10 @@ namespace SpiritMod.Items.Sets.MarbleSet.MarbleArmor
 		{
 			player.setBonus = "Press 'Up' to grant 'Divine Winds', allowing for limited flight\n5 second cooldown";
 			player.GetSpiritPlayer().marbleSet = true;
+		}
+		public override void UpdateEquip(Player player)
+		{
+			player.maxRunSpeed += 0.03f;
 		}
 		public override void ArmorSetShadows(Player player)
 		{

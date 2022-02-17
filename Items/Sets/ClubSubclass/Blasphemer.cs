@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Sets.ClubSubclass
         public override void SetDefaults()
         {
             item.channel = true;
-            item.damage = 30;
+            item.damage = 35;
             item.width = 60;
             item.height = 60;
             item.useTime = 320;

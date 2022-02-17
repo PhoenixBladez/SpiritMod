@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops.JellynautHelmet
 		{
 			DisplayName.SetDefault("Jellynaut's Bubble");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/MoonWizardDrops/JellynautHelmet/JellynautBubble_Head_Glow");
-            Tooltip.SetDefault("Increases maximum mana by 20\nIncreases critical strike chance by 4%\nProvides a special set bonus with any magic robes");
+            Tooltip.SetDefault("Increases maximum mana by 20\nIncreases critical strike chance by 10%\nProvides a special set bonus with any magic robes");
         }
         public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
 			=> glowMaskColor = Color.White;
@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops.JellynautHelmet
 			item.height = 18;
 			item.value = Item.sellPrice(0, 2, 30, 0);
 			item.rare = ItemRarityID.Green;
-			item.defense = 1;
+			item.defense = 2;
 		}
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
@@ -57,9 +57,9 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops.JellynautHelmet
 
 		public override void UpdateEquip(Player player)
         {
-            player.meleeCrit += 4;
-            player.rangedCrit += 4;
-            player.magicCrit += 4;
+            player.meleeCrit += 10;
+            player.rangedCrit += 10;
+            player.magicCrit += 10;
             player.statManaMax2 += 20;
         }
 

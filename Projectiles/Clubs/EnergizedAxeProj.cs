@@ -57,6 +57,6 @@ namespace SpiritMod.Projectiles.Clubs
                 Main.projectile[proj].timeLeft = 2;
             }
         }
-       public EnergizedAxeProj() : base(40, 18, 51, -1, 60, 6, 10, 4f, 19f){}
+       public EnergizedAxeProj() : base(40, 23, 53, -1, 60, 6, 10, 4f, 19f){}
 	}
 }
