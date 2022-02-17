@@ -430,6 +430,13 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 		}
 
+		public override void HitEffect(int hitDirection, double damage)
+		{
+			if (npc.life <= 0)
+				for (int k = 0; k < 14; k++)
+					Gore.NewGore(npc.Center + new Vector2(0, Main.rand.NextFloat(42)).RotatedByRandom(MathHelper.Pi), new Vector2(2 * hitDirection, Main.rand.NextFloat(-1, 1f)), mod.GetGoreSlot($"Gores/StarjinxEvent/Meteorite/Meteor_{Main.rand.Next(5)}"), Main.rand.NextFloat(.6f, 1f));
+		}
+
 		public override void NPCLoot()
 		{
 			DespawnPlatforms();

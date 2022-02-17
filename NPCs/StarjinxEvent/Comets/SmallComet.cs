@@ -7,7 +7,6 @@ using SpiritMod.Particles;
 using SpiritMod.Prim;
 using SpiritMod.Utilities;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
@@ -33,7 +32,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 		public float initialDistance = 0f;
 		public bool nextUp = false; //if true, spawn enemies when the player approaches next
 
-		//private readonly List<int> enemies = new List<int>();
 		private bool spawnedEnemies = false;
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Small Starjinx Comet");
@@ -77,7 +75,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 
 			Player nearest = Main.player[npc.target];
 
-			if (nearest.active && !nearest.dead /*&& nearest.DistanceSQ(npc.Center) < 200 * 200*/ && nextUp && !spawnedEnemies)
+			if (nearest.active && !nearest.dead && nextUp && !spawnedEnemies)
 			{
 				nextUp = false;
 				spawnedEnemies = true;
@@ -145,7 +143,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			{
 				Player p = Main.player[i];
 				if (p.active && !p.dead && p.GetModPlayer<StarjinxPlayer>().zoneStarjinxEvent) //There is a player nearby and we don't need to reset
-					return; //npc.DistanceSQ(p.Center) < 1490 * 1490 - Old distance check because Just In Case
+					return;
 			}
         }
 
@@ -189,7 +187,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			if (!overrideOffset.HasValue && rawPosition) //Trying to use a null position
 			{
 				Main.NewText("Trying to use a raw position without using the overrideOffset parameter. Report to devs.", Color.Red);
-				mod.Logger.Error("Invalid raw position/overriedeOffset combination (SmallComet.SpawnValidNPC)", new ArgumentException("Bad args for SmallComet.SpawnValidNPC(int, Vector2?, bool):\n"));
+				mod.Logger.Error("Invalid raw position/overrideOffset combination (SmallComet.SpawnSpawnerProjectile)", new ArgumentException("Bad args for SmallComet.SpawnSpawnerProjectile(int, Vector2?, bool):\n"));
 				return Vector2.Zero;
 			}
 
@@ -211,7 +209,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			{
 				if (attempts++ > 200)
 				{
-					Main.NewText("Failed to spawn Starjinx enemies. Report to devs.", Color.Red);
+					Main.NewText("Failed to spawn Starjinx enemy. Report to devs.", Color.Red);
 					break;
 				}
 
@@ -258,7 +256,11 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 
             if (npc.life <= 0)
                 Main.PlaySound(SoundID.Item14, npc.position);
-        }
+
+			if (npc.life <= 0)
+				for (int k = 0; k < npc.lifeMax / 60; k++)
+					Gore.NewGore(npc.Center + new Vector2(0, Main.rand.NextFloat(npc.width / 2f)).RotatedByRandom(MathHelper.Pi), new Vector2(2 * hitDirection, Main.rand.NextFloat(-0.5f, 0.5f)), mod.GetGoreSlot($"Gores/StarjinxEvent/Meteorite/Meteor_{Main.rand.Next(5)}"), Main.rand.NextFloat(.6f, 1f));
+		}
 
         public float Timer => Main.GlobalTime + TimerOffset; //Used to offset the beam/sine wave motion
 
@@ -273,6 +275,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 				return strength;
 			}
 		}
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             var center = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
@@ -309,7 +312,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 				float blurWidth = MathHelper.Lerp(texture.Height / 5, texture.Height / 4, DeathGlowStrength);
 
 				Effect blurEffect = mod.GetEffect("Effects/BlurLine");
-				SquarePrimitive blurLine = new SquarePrimitive()
+				var blurLine = new SquarePrimitive()
 				{
 					Position = npc.Center - Main.screenPosition,
 					Height = blurWidth,
@@ -350,7 +353,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 				Position = Parent.Center - Main.screenPosition,
 				ColorXCoordMod = 1
 			};
-			Prim.PrimitiveRenderer.DrawPrimitiveShape(square, effect);
+			PrimitiveRenderer.DrawPrimitiveShape(square, effect);
 		}
 
 		public void DrawBeam(SpriteBatch b)
@@ -384,7 +387,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 		{
 			(Parent.modNPC as StarjinxMeteorite).updateCometOrder = true;
 
-			//enemies.Clear();
 			spawnedEnemies = false;
 			return true;
 		}
