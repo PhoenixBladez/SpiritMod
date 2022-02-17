@@ -589,9 +589,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				choices.Add(AttackType.StarlightShootingStar, 1.25f);
 			}
 			else if (enchantment == Enchantment.Meteor)
-			{
 				choices.Add(AttackType.MeteorDash, 1.5f);
-			}
 
 			attack = AttackType.Cast;
 

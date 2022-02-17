@@ -257,31 +257,35 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 		private void FireVoidProjectile()
 		{
-			int portal = GetVoidPortalHitLine();
+			Vector2 portal = Main.projectile[GetVoidPortalHitLine()].Center;
 
-			Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.VoidProjectile>(), 0, 0);
+			Vector2 vel = npc.DirectionTo(portal) * 7;
+			Projectile.NewProjectile(npc.Center, vel, ModContent.ProjectileType<Projectiles.VoidProjectile>(), 20, 1f);
 		}
 
 		private int GetVoidPortalHitLine()
 		{
 			List<int> portals = new List<int>(voidPortals);
-			//while (true)
-			//{
-
-			//}
-			return -1;
+			while (true)
+			{
+				int cPort = Main.rand.Next(portals);
+				return cPort;
+			}
+			//return -1;
 		}
 
 		private void SpawnPortals()
 		{
+			const int MinDist = 500;
+			const int PortalDist = 300 * 300;
+
 			Vector2 center = Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition;
 
 			for (int i = 0; i < 6; ++i)
 			{
 				Vector2 pos = Main.rand.NextVector2Circular(StarjinxMeteorite.EVENT_RADIUS * 0.9f, StarjinxMeteorite.EVENT_RADIUS * 0.9f);
 
-				const int MinDist = 100;
-				while ((voidPortals.Count > 0 && voidPortals.Any(x => Vector2.DistanceSquared(Main.projectile[x].Center, center + pos) < MinDist * MinDist)) || pos.Length() < MinDist)
+				while ((voidPortals.Count > 0 && voidPortals.Any(x => Vector2.DistanceSquared(Main.projectile[x].Center, center + pos) < PortalDist)) || pos.Length() < MinDist)
 					pos = Main.rand.NextVector2Circular(StarjinxMeteorite.EVENT_RADIUS * 0.9f, StarjinxMeteorite.EVENT_RADIUS * 0.9f);
 
 				int p = Projectile.NewProjectile(center + pos, Vector2.Zero, ModContent.ProjectileType<Projectiles.VoidPortal>(), 0, 0);

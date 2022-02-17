@@ -52,6 +52,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden.Projectiles
 			teleported.Center = other.Center; //Teleport the projectile
 			teleported.GetGlobalProjectile<VoidGlobalProjectile>().hasTeleported = true; //The projectile has teleported...
 			teleported.GetGlobalProjectile<VoidGlobalProjectile>().teleportWhoAmI = connectedWhoAmI; //...to this portal
+			teleported.GetGlobalProjectile<VoidGlobalProjectile>().OnTeleport(teleported); //And run teleport code.
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

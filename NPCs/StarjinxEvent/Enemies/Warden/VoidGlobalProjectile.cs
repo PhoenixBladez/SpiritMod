@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using SpiritMod.NPCs.StarjinxEvent.Enemies.Warden.Projectiles;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
@@ -24,6 +25,20 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				}
 			}
 			return true;
+		}
+
+		public void OnTeleport(Projectile projectile)
+		{
+			if (projectile.type == ModContent.ProjectileType<VoidProjectile>())
+			{
+				int plr = Player.FindClosest(projectile.position, projectile.width, projectile.height);
+				if (plr != -1)
+				{
+					Player player = Main.player[plr];
+					if (player.active && !player.dead)
+						projectile.velocity = projectile.DirectionTo(player.Center) * projectile.velocity.Length();
+				}
+			}
 		}
 	}
 }
