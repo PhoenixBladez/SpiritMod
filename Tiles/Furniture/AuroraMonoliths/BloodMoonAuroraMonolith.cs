@@ -12,10 +12,7 @@ namespace SpiritMod.Tiles.Furniture.AuroraMonoliths
 
 	public class BloodMoonAuroraMonolithItem : AuroraMonolithItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Blood Moon Aurora Monolith");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Blood Moon Aurora Monolith");
 		public override int PlaceType => ModContent.TileType<BloodMoonAuroraMonolith>();
 
         public override void SafeAddRecipes()

@@ -12,10 +12,7 @@ namespace SpiritMod.Tiles.Furniture.AuroraMonoliths
 
 	public class FrostMoonAuroraMonolithItem : AuroraMonolithItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Frost Moon Aurora Monolith");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Frost Moon Aurora Monolith");
 		public override int PlaceType => ModContent.TileType<FrostMoonAuroraMonolith>();
 
         public override void SafeAddRecipes()
