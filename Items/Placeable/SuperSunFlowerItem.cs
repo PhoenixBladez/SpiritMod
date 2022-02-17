@@ -9,8 +9,8 @@ namespace SpiritMod.Items.Placeable
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Super Sunflower");
-			Tooltip.SetDefault("Places a large sunflower able to halt the spread of evil and Hallow" +
+			DisplayName.SetDefault("Pureglow");
+			Tooltip.SetDefault("Places a large plant able to halt the spread of evil and Hallow" +
 				"\nThis effect extends horizontally in a 5 block radius around the flower, and has an infinite vertical reach");
 		}
 
