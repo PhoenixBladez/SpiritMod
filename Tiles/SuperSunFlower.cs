@@ -28,8 +28,8 @@ namespace SpiritMod.Tiles
 
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
 			TileObjectData.newTile.Height = 6;
-			TileObjectData.newTile.CoordinateHeights = new[] { 16, 16, 16, 16, 16, 6 };
-			TileObjectData.newTile.DrawYOffset = 12;
+			TileObjectData.newTile.CoordinateHeights = new[] { 16, 16, 16, 16, 16, 18 };
+			TileObjectData.newTile.DrawYOffset = 2;
 			TileObjectData.newTile.Origin = new Point16(1, 5);
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
 			TileObjectData.newTile.AnchorValidTiles = new int[] { TileID.Grass, TileID.Dirt, TileID.JungleGrass, TileID.Mud, ModContent.TileType<BriarGrass>() };
@@ -59,8 +59,8 @@ namespace SpiritMod.Tiles
 		{
 			Tile tile = Framing.GetTileSafely(i, j);
 
-			b = 0.3f;
-			r = g = (float)Math.Sin(Main.GlobalTime) * 0.2f + 0.8f;
+			b = 0.15f;
+			r = g = (float)Math.Sin(Main.GlobalTime) * 0.1f + 0.4f;
 
 			if (tile.frameY > 54 || Main.dayTime)
 				return;
@@ -69,7 +69,7 @@ namespace SpiritMod.Tiles
 				var particle = new GlowParticle(
 					new Vector2(i, j).ToWorldCoordinates() + new Vector2(40f * (Main.rand.NextBool() ? 1 : -1), 30f * (Main.rand.NextBool() ? 1 : -1)),
 					Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.1f, 0.4f),
-					new Color(0.7f, 0.7f, 0.15f),
+					new Color(0.35f, 0.35f, 0.075f),
 					Main.rand.NextFloat(0.03f, 0.06f),
 					Main.rand.Next(180, 400));
 				ParticleHandler.SpawnParticle(particle);
@@ -80,11 +80,14 @@ namespace SpiritMod.Tiles
 		{
 			Tile tile = Framing.GetTileSafely(i, j);
 			Color colour = Color.White;
+			Color sinColor = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTime * 1.3f) + 1f) * 0.5f));
 
 			Texture2D glow = ModContent.GetTexture("SpiritMod/Tiles/SuperSunFlower_Glow");
+			Texture2D mask = ModContent.GetTexture("SpiritMod/Tiles/SuperSunFlower_Mask");
 			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
 
-			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero + new Vector2(0, 12), new Rectangle(tile.frameX, tile.frameY, 16, 16), colour);
+			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.frameX, tile.frameY, 16, 16), colour);
+			spriteBatch.Draw(mask, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.frameX, tile.frameY, 16, 16), sinColor);
 		}
 	}
 }
