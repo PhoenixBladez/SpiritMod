@@ -56,9 +56,6 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 			const int MinX = 1600;
 			const int MinY = 2060;
 
-			var temp = new NPC();
-			temp.SetDefaults(ModContent.NPCType<StarjinxMeteorite>());
-
 			int attempts = 0;
 
 			while (true)
@@ -70,9 +67,9 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 				if (spawnPos.X < MinX) spawnPos.X = MinX;
 				if (spawnPos.Y < MinY) spawnPos.Y = MinY;
 
-				const float SizeArea = 30;
+				const float SizeArea = StarjinxMeteorite.EVENT_RADIUS;
 
-				if (!Collision.SolidCollision(spawnPos - (temp.Size * (SizeArea / 2)), (int)(temp.width * SizeArea), (int)(temp.height * SizeArea)))
+				if (!Collision.SolidCollision(spawnPos - new Vector2(SizeArea), (int)SizeArea * 2, (int)SizeArea * 2))
 					return spawnPos;
 			}
 			return Vector2.Zero;

@@ -46,7 +46,15 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 		// Meteorite duo attack
 		private int meteorWhoAmI = -1;
-		private ref Projectile PongMeteor => ref Main.projectile[meteorWhoAmI];
+		private Projectile PongMeteor
+		{
+			get
+			{
+				if (meteorWhoAmI != -1)
+					return Main.projectile[meteorWhoAmI];
+				return new Projectile();
+			}
+		}
 
 		private Vector2 meteorPongPosition = Vector2.Zero;
 		private Vector2 archonMeteorPongPosition = Vector2.Zero;
@@ -322,31 +330,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 			const float MeteorPongSpeed = 12f;
 			const float MeteorPongStartThreshold = 0.05f;
 
-			if (!PongMeteor.active || meteorWhoAmI != -1)
-				return;
-
 			duoMaxTime = MeteorDuoMaxTime;
 
 			ArchonNPC.velocity *= 0.93f;
 			npc.velocity *= 0.93f;
-
-			//Gets the next pong position of a boss
-			void CalculateBouncePosition(bool setArchon)
-			{
-				Vector2 center = setArchon ? npc.Center : ArchonNPC.Center;
-				float dir = (center - Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition).ToRotation();
-				float newDir = Main.rand.NextFloat(MathHelper.TwoPi);
-
-				while (Math.Abs((newDir + MathHelper.Pi) - (dir + MathHelper.Pi)) < MathHelper.Pi)
-					newDir = Main.rand.NextFloat(MathHelper.TwoPi);
-
-				Vector2 newPos = Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition + new Vector2(0, StarjinxMeteorite.EVENT_RADIUS - 120).RotatedBy(newDir);
-
-				if (setArchon)
-					archonMeteorPongPosition = newPos;
-				else
-					meteorPongPosition = newPos;
-			}
 
 			if (timers["DUO"] == 1) //Initialize
 			{
@@ -359,7 +346,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 			{
 				CalculateBouncePosition(true);
 
-				int type = ModContent.ProjectileType<Archon.Projectiles.MeteorEnchantment_Meteor>();
+				int type = ModContent.ProjectileType<Archon.Projectiles.MeteorCastProjectile>();
 				int p = Projectile.NewProjectile(npc.Center, npc.DirectionTo(archonMeteorPongPosition) * MeteorPongSpeed, type, 20, 1f);
 				Main.projectile[p].timeLeft = MeteorDuoMaxTime;
 				Main.projectile[p].scale = 10f;
@@ -367,12 +354,13 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				meteorWhoAmI = p;
 				pongTimer = 10;
 			}
-			else
+			else if (timers["DUO"] > duoMaxTime * MeteorPongStartThreshold)
 			{
+				if (!PongMeteor.active || meteorWhoAmI == -1)
+					return;
+
 				if (timers["DUO"] >= duoMaxTime * 0.95f)
-				{
 					PongMeteor.velocity *= 0.95f;
-				}
 				else if (timers["DUO"] >= duoMaxTime)
 					return;
 
@@ -392,13 +380,30 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 					PongMeteor.velocity = npc.DirectionTo(archonMeteorPongPosition) * MeteorPongSpeed;
 					pongTimer = 10;
 				}
-				else if (ArchonNPC.DistanceSQ(PongMeteor.Center) < PongDistance)
+
+				if (ArchonNPC.DistanceSQ(PongMeteor.Center) < PongDistance)
 				{
 					CalculateBouncePosition(false);
 					PongMeteor.velocity = ArchonNPC.DirectionTo(meteorPongPosition) * MeteorPongSpeed;
 					pongTimer = 10;
 				}
 			}
+		}
+
+		/// <summary>Gets the next pong position of a boss.</summary>
+		void CalculateBouncePosition(bool setArchon)
+		{
+			Vector2 center = setArchon ? npc.Center : ArchonNPC.Center;
+			float dir = (center - Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition).ToRotation();
+			float newDir = dir + (dir < 0 ? MathHelper.Pi : -MathHelper.Pi);
+			newDir += Main.rand.NextFloat(-MathHelper.PiOver4 / 2f, MathHelper.PiOver4 / 2f);
+
+			Vector2 newPos = Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition + new Vector2(StarjinxMeteorite.EVENT_RADIUS - 200, 0).RotatedBy(newDir);
+
+			if (setArchon)
+				archonMeteorPongPosition = newPos;
+			else
+				meteorPongPosition = newPos;
 		}
 
 		private void StarlightDuoAttack()
@@ -442,7 +447,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		{
 			timers["ARCHATK"]++;
 
-			if (timers["ARCHATK"] >= 20 && ArchonNPC.active && ArchonNPC.life > 0 && !GetArchon.waitingOnAttack)
+			if (timers["ARCHATK"] >= ArchonAttackMaxTime && ArchonNPC.active && ArchonNPC.life > 0 && !GetArchon.waitingOnAttack)
 			{
 				stage = DuoAttackStage;
 				timers["ARCHATK"] = 0;
