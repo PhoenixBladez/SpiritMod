@@ -100,11 +100,8 @@ namespace SpiritMod.Items.Accessory.GranitechDrones
                     var noise = GetNoise();
 
                     Vector2 targetPos = GetAnchorPoint(owner, new Vector2(-40, -36));
-
                     Vector2 dir = targetPos - projectile.Center;
-
                     float length = dir.Length();
-
                     dir.Normalize();
 
                     projectile.velocity *= 0.97f;
@@ -131,9 +128,7 @@ namespace SpiritMod.Items.Accessory.GranitechDrones
                     targetPos = owner.Center + targetPos * 42f;
 
                     Vector2 dir = targetPos - projectile.Center;
-
                     float length = dir.Length();
-
                     dir.Normalize();
 
                     projectile.velocity *= 0.6f;
@@ -235,7 +230,6 @@ namespace SpiritMod.Items.Accessory.GranitechDrones
 
             delta.Normalize();
             delta *= length;
-
 
             Vector2 pos = projectile.Center + delta;
             laserData.Add(new LaserData(pos, 8, AttackColor));
