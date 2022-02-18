@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 		private readonly Color Yellow = new Color(242, 240, 134);
 		private readonly Color Orange = new Color(255, 98, 74);
 		private readonly Color Purple = new Color(255, 0, 144);
-		public void DoTrailCreation(TrailManager tM) => tM.CreateCustomTrail(new FlameTrail(projectile, Yellow, Orange, Purple, 22 * projectile.scale, 10));
+		public void DoTrailCreation(TrailManager tM) => tM.CreateCustomTrail(new FlameTrail(projectile, Yellow, Orange, Purple, 26 * projectile.scale, 9));
 
 		private const int MaxTimeLeft = 240;
         public override void SetDefaults()

@@ -52,7 +52,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
             if (player.altFunctionUse == 2) //big stellanova
 			{
 				position += direction * 5;
-				Projectile.NewProjectile(position, direction * 0.15f, ModContent.ProjectileType<BigStellanova>(), damage * 2, knockBack, player.whoAmI);
+				Projectile.NewProjectile(position, direction * 0.12f, ModContent.ProjectileType<BigStellanova>(), damage, knockBack, player.whoAmI);
 			}
             else //starfire
             {
