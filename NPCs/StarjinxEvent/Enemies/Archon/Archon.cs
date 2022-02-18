@@ -228,6 +228,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				if (meteorDashOffset == Vector2.Zero)
 					meteorDashOffset = new Vector2(0, -Main.rand.Next(300, 400)).RotatedByRandom(MathHelper.PiOver2);
 
+				npc.velocity = Vector2.Zero;
 				npc.Center = Vector2.Lerp(npc.Center, Target.Center + meteorDashOffset, 0.15f);
 			}
 			else if (timers["ATTACK"] == (int)(attackTimeMax * AnticipationThreshold)) //Dash initialization
@@ -298,6 +299,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		{
 			const float CastWaitThreshold = 0.4f;
 
+			npc.velocity *= 0.95f;
+
 			if (timers["ATTACK"] == (int)(attackTimeMax * CastWaitThreshold)) //Shoot bg star
 			{
 				Projectile.NewProjectile(Target.Center, Vector2.Zero, ModContent.ProjectileType<BGStarProjectile>(), 20, 1f);
@@ -329,7 +332,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 
 			if (timers["ATTACK"] <= (int)(attackTimeMax * MaxSetupThreadsThreshold))
 			{
-				npc.velocity *= 0.98f;
+				npc.velocity *= 0.95f;
 
 				if (timers["ATTACK"] % (int)(attackTimeMax * SetupThreadsThreshold) == 0) //Setup threads
 					AddThread();
@@ -579,8 +582,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 
 		public void SetupRandomAttack()
 		{
-			var choices = new WeightedRandom<AttackType>(); //These two are always options
-			choices.Add(AttackType.TeleportSlash, 1f);
+			var choices = new WeightedRandom<AttackType>();
+			choices.Add(AttackType.TeleportSlash, 1f); //These two are always options
 			choices.Add(AttackType.Cast, 1f);
 
 			if (enchantment == Enchantment.Starlight)
@@ -629,6 +632,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			Count = 4
 		}
 
-		public void SetRandomEnchantment() => enchantment = Enchantment.Meteor;// Main.rand.NextBool(2) ? Enchantment.Meteor : Enchantment.Starlight;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
+		public void SetRandomEnchantment() => enchantment = Enchantment.Starlight;// Main.rand.NextBool(2) ? Enchantment.Meteor : Enchantment.Starlight;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
 	}
 }
