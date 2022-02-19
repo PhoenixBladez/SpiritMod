@@ -7,6 +7,7 @@ using SpiritMod.Utilities;
 using SpiritMod.Mechanics.Trails;
 using SpiritMod.Prim;
 using Terraria.ID;
+using System.IO;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 {
@@ -15,7 +16,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		//Constants
 		private const int FADEIN_TIME = 40;
 		private const int MAX_FLASHTIME = 10;
-		private const float CHARGE_STEP = 0.2f;
+		private const float CHARGE_STEP = 1 / 7f;
 		private const int MAX_TIMELEFT = 300;
 		private const int MAX_TIMETOLAUNCH = 100; //How long after the projectile is charged before it automatically launches early
 		private const int ANTICIPATION_TIME = 15;
@@ -27,7 +28,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Starfire");
+			DisplayName.SetDefault("Stellanova");
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
 		}
@@ -149,6 +150,19 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			return base.OnTileCollide(oldVelocity);
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(AiState);
+			writer.Write(_flashTime);
+			writer.WriteVector2(LaunchTrajectory);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			AiState = reader.ReadSingle();
+			_flashTime = reader.ReadInt32();
+			LaunchTrajectory = reader.ReadVector2();
+		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
@@ -167,7 +181,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 
 			float fluctuate = (float)Math.Abs(Math.Sin(Main.GlobalTime * 2.5f)) * 0.1f; //fluctuate between 90% and 110% of scale
 			float flashPulse = MathHelper.Lerp(0.25f, 0f, _flashTime / (float)MAX_FLASHTIME); //25% increase in scale that quickly fades away when absorbing projectiles
-			float chargeScale = (chargeProgress / 2) + 1; //Increase scale depending on how charged the projectile is
+			float chargeScale = (EaseFunction.EaseCubicOut.Ease(chargeProgress) * 0.66f) + 1; //Increase scale depending on how charged the projectile is
 			float modifiedScale = projectile.scale * (1 + fluctuate + flashPulse) * chargeScale;
 
 			PreDrawOrbExtras(spriteBatch, modifiedScale, yellow);
@@ -239,26 +253,32 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, default, default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 		}
 
+		//In hindsight there's not much of a reason for this to not just be a vertex strip, looks basically the same
 		public void AdditiveCall(SpriteBatch sB)
 		{
 			int trailLength = ProjectileID.Sets.TrailCacheLength[projectile.type];
 			float speed = (projectile.velocity.Length() / LAUNCH_SPEED);
 			float opacity = speed * 0.5f;
-			for(float i = 0; i < trailLength - 1; i += 0.5f)
+
+			for(int j = 1; j <= 2; j++)
 			{
-				float progress = i / (float)trailLength;
-				Color color;
-				//3 color lerp
-				if (progress < 0.5f)
-					color = Color.Lerp(StellanovaStarfire.Yellow, StellanovaStarfire.Orange, progress * 2);
-				else
-					color = Color.Lerp(StellanovaStarfire.Orange, StellanovaStarfire.Purple, (progress - 0.5f) * 2);
+				for (float i = 0; i < trailLength - 1; i += 0.25f / j)
+				{
+					float progress = i / (float)trailLength;
+					Color color;
+					//3 color lerp
+					if (progress < 0.33f)
+						color = Color.Lerp(StellanovaStarfire.Yellow, StellanovaStarfire.Orange, progress * 3);
+					else
+						color = Color.Lerp(StellanovaStarfire.Orange, StellanovaStarfire.Purple, (progress - 0.33f) * 1.5f);
 
-				Texture2D mask = mod.GetTexture("Effects/Masks/CircleGradient");
-				float scale = 0.5f * projectile.scale * (1 - progress);
-				Vector2 drawPos = Vector2.Lerp(projectile.oldPos[(int)i], projectile.oldPos[(int)i + 1], i % 1) + projectile.Size / 2 - Main.screenPosition;
+					Texture2D mask = mod.GetTexture("Effects/Masks/CircleGradient");
+					float scale = 0.5f * projectile.scale * (1 - progress) / (float)Math.Pow(j, 0.75f);
+					scale *= 1 + (float)Math.Sin((progress - Main.GlobalTime) * MathHelper.TwoPi * (float)Math.Pow(j, 0.5f)) / 15;
+					Vector2 drawPos = Vector2.Lerp(projectile.oldPos[(int)i], projectile.oldPos[(int)i + 1], i % 1) + projectile.Size / 2 - Main.screenPosition;
 
-				sB.Draw(mask, drawPos, null, color * opacity * ((1 - progress) / 2 + 0.5f), 0f, mask.Size() / 2, scale, SpriteEffects.None, 0);
+					sB.Draw(mask, drawPos, null, color * opacity * EaseFunction.EaseQuadOut.Ease(1 - progress), 0f, mask.Size() / 2, scale, SpriteEffects.None, 0);
+				}
 			}
 		}
 	}
