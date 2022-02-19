@@ -2,5 +2,6 @@
 {
 	public interface ISolidTopNPC
 	{
+		bool Grappleable();
 	}
 }

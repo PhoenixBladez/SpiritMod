@@ -44,6 +44,7 @@ namespace SpiritMod.Utilities
 			On.Terraria.Main.DrawDust += AdditiveCalls;
 			On.Terraria.Player.ToggleInv += Player_ToggleInv;
 			On.Terraria.Player.Update_NPCCollision += CollideableNPCDetours.SolidTopCollision;
+			On.Terraria.Projectile.VanillaAI += CollideableNPCDetours.Grappling;
 			On.Terraria.Main.DrawInterface += DrawParticles;
 			On.Terraria.Localization.LanguageManager.GetTextValue_string += LanguageManager_GetTextValue_string1;
 
@@ -78,7 +79,6 @@ namespace SpiritMod.Utilities
 			On.Terraria.Player.KeyDoubleTap -= Player_KeyDoubleTap;
 			On.Terraria.Main.DrawDust -= AdditiveCalls;
 			On.Terraria.Player.ToggleInv -= Player_ToggleInv;
-			On.Terraria.Player.Update_NPCCollision += CollideableNPCDetours.SolidTopCollision;
 			On.Terraria.Main.DrawInterface -= DrawParticles;
 			On.Terraria.Localization.LanguageManager.GetTextValue_string -= LanguageManager_GetTextValue_string1;
 			On.Terraria.Main.DrawPlayerChat -= Main_DrawPlayerChat;

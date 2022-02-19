@@ -13,6 +13,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 	{
 		private const int FADEIN_TIME = 60;
 
+		public bool Grappleable() => true;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Platform");
@@ -42,7 +44,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 		public override void AI()
 		{
-			if(TimeActive < FADEIN_TIME) //Rise upwards until fully faded in 
+			if (TimeActive < FADEIN_TIME) //Rise upwards until fully faded in 
 			{
 				float BaseRiseSpeed = -2f;
 				float progress = TimeActive / FADEIN_TIME;
@@ -65,8 +67,9 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			Texture2D npcTex = Main.npcTexture[npc.type];
 
 			int numToDraw = 8;
-			if(fadeProgress < 1)
-				for(int i = 0; i < numToDraw; i++)
+			if (fadeProgress < 1)
+			{
+				for (int i = 0; i < numToDraw; i++)
 				{
 					float offsetDist = 6 * (1 - fadeProgress);
 					float rotation = (i / (float)numToDraw) * MathHelper.TwoPi;
@@ -77,6 +80,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 					spriteBatch.Draw(npcTex, npc.Center + offset - Main.screenPosition, npc.frame, npc.GetAlpha(Color.Lerp(additiveCyan, drawColor, fadeProgress) * opacity),
 						npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
 				}
+			}
 
 			spriteBatch.Draw(npcTex, npc.Center - Main.screenPosition, npc.frame, npc.GetAlpha(Color.Lerp(additiveCyan, drawColor, fadeProgress)),
 				npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);

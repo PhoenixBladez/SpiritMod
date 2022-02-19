@@ -558,13 +558,19 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				return;
 
 			Texture2D tex = SpiritMod.Instance.GetTexture("Textures/Trails/Trail_4");
+			Texture2D star = SpiritMod.Instance.GetTexture("NPCs/StarjinxEvent/Enemies/Starachnid/SpiderStar");
+
 			Vector2 threadScale = new Vector2(1 / (float)tex.Width, 30 / (float)tex.Height); //Base scale of the thread based on the texture's size, stretched horizontally depending on thread length
-			foreach (StarThread thread in threads)
+			for (int i = 0; i < threads.Count; ++i)
 			{
+				StarThread thread = threads[i];
+
 				float length = Math.Min(thread.Counter / THREADGROWLERP, (thread.Duration - thread.Counter) / THREADGROWLERP);
 				length = Math.Min(length, 1);
 				spriteBatch.Draw(tex, thread.StartPoint - Main.screenPosition, null, Color.SteelBlue * length, (thread.EndPoint - thread.StartPoint).ToRotation(), new Vector2(0f, tex.Height / 2),
 					threadScale * new Vector2(thread.Length, 1), SpriteEffects.None, 0f);
+
+				spriteBatch.Draw(star, thread.StartPoint - Main.screenPosition, null, Color.White, 0f, star.TextureCenter(), 1f, default, 0f);
 			}
 		}
 		#endregion
@@ -588,8 +594,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 
 			if (enchantment == Enchantment.Starlight)
 			{
-				choices.Add(AttackType.StarlightConstellation, 0.5f);
-				choices.Add(AttackType.StarlightShootingStar, 1.25f);
+				choices.Add(AttackType.StarlightConstellation, 0.75f);
+				choices.Add(AttackType.StarlightShootingStar, 1f);
 			}
 			else if (enchantment == Enchantment.Meteor)
 				choices.Add(AttackType.MeteorDash, 1.5f);
@@ -632,6 +638,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			Count = 4
 		}
 
-		public void SetRandomEnchantment() => enchantment = Main.rand.NextBool(2) ? Enchantment.Meteor : Enchantment.Starlight;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
+		public void SetRandomEnchantment() => enchantment = Enchantment.Starlight;// Main.rand.NextBool(2) ? Enchantment.Meteor : Enchantment.Starlight;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
 	}
 }
