@@ -5,10 +5,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Particles;
 using SpiritMod.Mechanics.Trails;
+using SpiritMod.Prim;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon.Projectiles
 {
-	public class ArchonStarFragment : ModProjectile, ITrailProjectile
+	public class ArchonStarFragment : ModProjectile, ITrailProjectile, IDrawAdditive
 	{
 		public override void SetStaticDefaults()
 		{
@@ -53,6 +54,22 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon.Projectiles
 			tManager.CreateTrail(projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new ArrowGlowPosition(), 10f * scalemod, 40f * scalemod, new DefaultShader());
 			tManager.CreateTrail(projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new ArrowGlowPosition(), 10f * scalemod, 40f * scalemod, new DefaultShader());
 			tManager.CreateTrail(projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new ArrowGlowPosition(), 30f * scalemod, 10f * scalemod, new DefaultShader());
+		}
+		public void AdditiveCall(SpriteBatch sb)
+		{
+			float blurLength = 100 * projectile.scale * projectile.Opacity;
+			float blurWidth = 25 * projectile.scale * projectile.Opacity;
+
+			Effect blurEffect = mod.GetEffect("Effects/BlurLine");
+			SquarePrimitive blurLine = new SquarePrimitive()
+			{
+				Position = projectile.Center - Main.screenPosition,
+				Height = blurWidth,
+				Length = blurLength,
+				Rotation = projectile.velocity.X * .1f,
+				Color = new Color(181, 245, 255) * .5f
+			};
+			PrimitiveRenderer.DrawPrimitiveShape(blurLine, blurEffect);
 		}
 	}
 }
