@@ -476,7 +476,18 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			else if (timers["ATTACK"] == (int)(attackTimeMax * AnticipationThreshold)) //Teleport & start slash anticipation
 			{
 				waitingOnAttack = true;
-				npc.Center = Target.Center + new Vector2(0, Main.rand.Next(300, 400)).RotatedByRandom(MathHelper.Pi);
+
+				for (int i = 0; i < 8; ++i)
+					EnchantParticle(npc.Center, new Vector2(0, Main.rand.NextFloat(4f, 7f)).RotatedByRandom(MathHelper.TwoPi), 2f);
+
+				npc.Center = Target.Center + new Vector2(0, Main.rand.Next(300, 400)).RotatedByRandom(MathHelper.TwoPi);
+
+				for (int i = 0; i < 8; ++i)
+					EnchantParticle(npc.Center, new Vector2(0, Main.rand.NextFloat(8f, 11f)).RotatedByRandom(MathHelper.TwoPi), 3f);
+
+				if (enchantment == Enchantment.Void)
+					npc.Center = Target.Center + new Vector2(0, Main.rand.Next(300, 400)).RotatedBy(Main.rand.NextBool() ? 0 : MathHelper.Pi);
+
 				cachedAttackPos = npc.Center - (npc.DirectionFrom(Target.Center) * npc.Distance(Target.Center) * 2);
 			}
 			else if (timers["ATTACK"] > attackTimeMax * AnticipationThreshold && timers["ATTACK"] < attackTimeMax * BeginAttackThreshold)
@@ -508,6 +519,15 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				else
 					starlightDoubleSlash = false;
 			}
+		}
+
+		private void EnchantParticle(Vector2 center, Vector2 velocity, float scale = 1f)
+		{
+			if (Main.dedServ)
+				return;
+
+			if (enchantment == Enchantment.Starlight)
+				ParticleHandler.SpawnParticle(new StarParticle(center, velocity, Color.White, Color.Cyan, Main.rand.NextFloat(0.1f, 0.2f) * scale, 25));
 		}
 
 		public override void FindFrame(int frameHeight)
@@ -600,7 +620,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			else if (enchantment == Enchantment.Meteor)
 				choices.Add(AttackType.MeteorDash, 1.5f);
 
-			attack = choices;
+			attack = AttackType.TeleportSlash;
 
 			if (attack == AttackType.TeleportSlash)
 			{
