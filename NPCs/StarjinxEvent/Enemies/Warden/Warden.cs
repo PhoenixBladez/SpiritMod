@@ -480,20 +480,15 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 			if (timers["ARCHATK"] == 50) //Spawn projectile
 			{
-				int p = Projectile.NewProjectile(npc.Center, Vector2.Zero, ProjectileID.CultistBossLightningOrb, 60, 1f);
-				Main.projectile[p].timeLeft = ArchonAttackMaxTime - 100;
+				int p = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.VoidCastProjectile>(), 60, 1f);
+				Main.projectile[p].timeLeft = ArchonAttackMaxTime - 50;
 
 				blackHoleWhoAmI = p;
 			}
 			else if (timers["ARCHATK"] > 50 && timers["ARCHATK"] < ArchonAttackMaxTime - 100 && blackHoleWhoAmI > -1) //Control void projectile & break if hit
 			{
-				if (npc.justHit || !BlackHole.active)
-				{
-					BlackHole.timeLeft = 50;
-
-					blackHoleWhoAmI = -1;
+				if (!BlackHole.active)
 					return;
-				}
 
 				BlackHole.velocity = BlackHole.DirectionTo(Target.Center) * 4;
 
@@ -584,6 +579,15 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				GetArchon.stage = Archon.Archon.EnchantAttackStage;
 				stage = ArchonAttackStage;
 				timers["ENCHANT"] = 0;
+			}
+		}
+
+		public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
+		{
+			if (GetArchon.enchantment == Archon.Archon.Enchantment.Void && item.melee && blackHoleWhoAmI != -1)
+			{
+				BlackHole.Kill();
+				blackHoleWhoAmI = -1;
 			}
 		}
 

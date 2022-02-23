@@ -189,6 +189,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				case Enchantment.Meteor:
 					MeteorBehaviour();
 					break;
+				case Enchantment.Void:
+					VoidBehaviour();
+					break;
 				default:
 					break;
 			}
@@ -197,6 +200,21 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			{
 				stage = VulnerableStage;
 				timers["ENCHANT"] = 0;
+			}
+		}
+
+		private void VoidBehaviour()
+		{
+			switch (attack)
+			{
+				case AttackType.TeleportSlash:
+					SlashAttack();
+					break;
+				case AttackType.Cast:
+					CastAttack();
+					break;
+				default:
+					break;
 			}
 		}
 
@@ -658,6 +676,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			Count = 4
 		}
 
-		public void SetRandomEnchantment() => enchantment = Enchantment.Starlight;// Main.rand.NextBool(2) ? Enchantment.Meteor : Enchantment.Starlight;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
+		public void SetRandomEnchantment() => enchantment = Enchantment.Void;// Main.rand.NextBool(2) ? Enchantment.Meteor : Enchantment.Starlight;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
 	}
 }

@@ -18,11 +18,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden.Projectiles
 			projectile.hostile = true;
 			projectile.timeLeft = 5000;
 			projectile.ignoreWater = true;
-
-			aiType = ProjectileID.BulletDeadeye;
+			projectile.aiStyle = 0;
 		}
 
-		public override void AI() => projectile.velocity = projectile.velocity.RotatedBy(Math.Sin(projectile.ai[0]++ * 1.2f) * 0.01f);
+		public override void AI() => projectile.velocity = projectile.velocity;//.RotatedBy((Math.Sin(projectile.ai[0]++ * 0.1f)) * 0.05f);
 
 		public override Color? GetAlpha(Color lightColor) => Color.White;
 	}
