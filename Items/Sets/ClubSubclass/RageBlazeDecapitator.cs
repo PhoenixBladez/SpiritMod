@@ -17,7 +17,6 @@ namespace SpiritMod.Items.Sets.ClubSubclass
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/ClubSubclass/RageBlazeDecapitator_Glow");
         }
 
-
         public override void SetDefaults()
         {
             item.channel = true;
@@ -31,34 +30,26 @@ namespace SpiritMod.Items.Sets.ClubSubclass
             item.melee = true;
             item.noMelee = true;
             item.knockBack = 10;
-            item.useTurn = false;
-            item.value = Terraria.Item.sellPrice(0, 0, 90, 0);
+            item.useTurn = true;
+            item.value = Item.sellPrice(0, 0, 90, 0);
             item.rare = ItemRarityID.Green;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("EnergizedAxeProj");
+            item.shoot = ModContent.ProjectileType<Projectiles.Clubs.EnergizedAxeProj>();
             item.shootSpeed = 6f;
             item.noUseGraphic = true;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
-        }
-        public override bool CanUseItem(Player player)
-        {
-            return base.CanUseItem(player);
-        }
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
-        public override void AddRecipes()
+
+		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
+
+		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Sets.GraniteSet.GraniteChunk>(), 18);
+            recipe.AddIngredient(ModContent.ItemType<GraniteSet.GraniteChunk>(), 18);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
+
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Lighting.AddLight(item.position, 0.06f, .16f, .22f);

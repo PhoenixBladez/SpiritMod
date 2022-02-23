@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Sets.ClubSubclass
             item.melee = true;
             item.noMelee = true;
             item.knockBack = 12;
-            item.useTurn = false;
+            item.useTurn = true;
             item.value = Item.sellPrice(0, 1, 42, 0);
             item.rare = ItemRarityID.Orange;
             item.autoReuse = false;

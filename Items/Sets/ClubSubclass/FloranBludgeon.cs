@@ -26,11 +26,11 @@ namespace SpiritMod.Items.Sets.ClubSubclass
             item.melee = true;
             item.noMelee = true;
             item.knockBack = 8;
-            item.useTurn = false;
-            item.value = Item.sellPrice(0, 0, 22, 0);
+			item.useTurn = true;
+			item.value = Item.sellPrice(0, 0, 22, 0);
             item.rare = ItemRarityID.Blue;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("FloranBludgeonProj");
+            item.shoot = ModContent.ProjectileType<Projectiles.Clubs.FloranBludgeonProj>();
             item.shootSpeed = 6f;
             item.noUseGraphic = true;
         }
@@ -40,8 +40,8 @@ namespace SpiritMod.Items.Sets.ClubSubclass
 		public override void AddRecipes()
         {
 			var recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Sets.FloranSet.FloranBar>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<Sets.BriarDrops.EnchantedLeaf>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<FloranSet.FloranBar>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<BriarDrops.EnchantedLeaf>(), 4);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

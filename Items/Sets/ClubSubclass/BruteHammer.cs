@@ -17,7 +17,6 @@ namespace SpiritMod.Items.Sets.ClubSubclass
 			Tooltip.SetDefault("Hold down and release to slam");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.useStyle = 100;
@@ -28,6 +27,7 @@ namespace SpiritMod.Items.Sets.ClubSubclass
 			item.melee = true;
 			item.channel = true;
 			item.noMelee = true;
+			item.useTurn = true;
 			item.useAnimation = 30;
 			item.useTime = 30;
 			item.shootSpeed = 8f;
