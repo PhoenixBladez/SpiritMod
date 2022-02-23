@@ -94,6 +94,11 @@ namespace SpiritMod.Projectiles.Clubs
 			projectile.scale = projectile.ai[0] < 10 ? (projectile.ai[0] / 10f) : 1;
 			Player player = Main.player[projectile.owner];
 			player.heldProj = projectile.whoAmI;
+			player.direction = Math.Sign(player.velocity.X);
+
+			if (player.direction == 0)
+				player.direction = player.oldDirection;
+
 			int degrees = (int)((player.itemAnimation * -0.7) + 55) * player.direction * (int)player.gravDir;
 			if (player.direction == 1)
 				degrees += 180;
