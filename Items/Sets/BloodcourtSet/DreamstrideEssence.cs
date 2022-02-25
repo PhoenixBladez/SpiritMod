@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Sets.BloodcourtSet
 		{
 			DisplayName.SetDefault("Dreamstride Essence");
 			Tooltip.SetDefault("'The stuff of nightmares'");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
+			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(4, 6));
 			ItemID.Sets.ItemNoGravity[item.type] = true;
 			ItemID.Sets.ItemIconPulse[item.type] = true;
 		}

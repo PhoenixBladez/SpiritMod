@@ -34,11 +34,14 @@ namespace SpiritMod.Tiles.Ambient.SurfaceIce
         {
             offsetY = 2;
         }
-        public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
-        {
-            {
-                Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
-            }
-        }
-    }
+		public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
+		{
+			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
+		}
+		public override void KillMultiTile(int i, int j, int frameX, int frameY)
+		{
+			if (Main.rand.NextBool(3))
+				Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Sets.FrigidSet.FrigidFragment>());
+		}
+	}
 }

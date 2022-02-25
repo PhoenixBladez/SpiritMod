@@ -2087,8 +2087,9 @@ namespace SpiritMod
 			if (ZoneReach && !Main.raining && !MyWorld.downedReachBoss)
 			{
 				Main.cloudAlpha += .007f;
-				if (Main.cloudAlpha >= .65f)
-					Main.cloudAlpha = .65f;
+				if (Main.cloudAlpha >= .4f)
+					Main.cloudAlpha = .4f;
+				player.fishingSkill -= 20;
 			}
 
 			if (illusionistEye)

@@ -1,50 +1,44 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Material;
+using System;
 using SpiritMod.Items.Sets.BriarDrops;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
+using Terraria.Audio;
+using System.IO;
 
 namespace SpiritMod.NPCs.Reach
 {
 	public class Reachman : ModNPC
 	{
+		int frame = 0;
+		int frametimer = 0;
+		int aiTimer = 0;
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Feral Hunter");
-			Main.npcFrameCount[npc.type] = 3;
+			DisplayName.SetDefault("Feral Shambler");
+			Main.npcFrameCount[npc.type] = 16;
 		}
 
 		public override void SetDefaults()
 		{
 			npc.width = 36;
-			npc.height = 54;
+			npc.height = 52;
 			npc.damage = 22;
 			npc.defense = 8;
-			npc.lifeMax = 66;
-			npc.HitSound = SoundID.NPCHit2;
+			npc.lifeMax = 59;
 			npc.buffImmune[BuffID.Poisoned] = true;
 			npc.DeathSound = SoundID.NPCDeath2;
-			npc.value = 90f;
+			npc.value = 70f;
 			npc.knockBackResist = .34f;
 			npc.aiStyle = 3;
-
-			//drawOffsetY = 4;
-			aiType = NPCID.Zombie;
+			aiType = NPCID.SnowFlinx;
+			npc.HitSound = new LegacySoundStyle(SoundID.NPCHit, 2).WithPitchVariance(0.2f);
 			banner = npc.type;
             bannerItem = ModContent.ItemType<Items.Banners.ReachmanBanner>();
         }
-
-		public override void FindFrame(int frameHeight)
-		{
-			npc.frameCounter += 0.10f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
-		}
-
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			Player player = spawnInfo.player;
@@ -52,9 +46,105 @@ namespace SpiritMod.NPCs.Reach
 				return spawnInfo.player.GetSpiritPlayer().ZoneReach ? 1.7f : 0f;
 			return 0f;
 		}
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(frame);
+			writer.Write(frametimer);
+			writer.Write(aiTimer);
+		}
 
-		public override void AI() => Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), 0.46f, 0.32f, .1f);
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			frame = reader.ReadInt32();
+			frametimer = reader.ReadInt32();
+			aiTimer = reader.ReadInt32();
+		}
+		public override void AI()
+		{
+			Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), 0.23f, 0.16f, .05f);
 
+			aiTimer++;
+			frametimer++;
+
+			if (npc.life <= npc.lifeMax - 20)
+			{
+				if (aiTimer == 180)
+				{
+					Main.PlaySound(SoundID.DD2_EtherianPortalSpawnEnemy, npc.Center);
+				}
+				if (aiTimer > 180 && aiTimer < 360)
+				{
+					DoDustEffect(npc.Center, 46f, 1.08f, 2.08f, npc);
+					npc.velocity = Vector2.Zero;
+					if (npc.velocity == Vector2.Zero)
+					{
+						npc.velocity.X = .008f * npc.direction;
+						npc.velocity.Y = 12f;
+					}
+					HealingFrames();
+				}
+				else
+				{
+					WalkingFrames();
+				}
+				if (aiTimer == 360)
+				{
+					if (Main.netMode != NetmodeID.Server)
+						Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnemyHeal"));
+					npc.life += 10;
+					npc.HealEffect(10, true);
+				}
+			}
+			else
+			{
+				WalkingFrames();
+			}
+			if (aiTimer >= 360)
+			{
+				aiTimer = 0;
+			}
+		}
+		public void WalkingFrames()
+		{
+			if (!npc.collideY && npc.velocity.Y > 0)
+			{
+				frame = 0;
+			}
+			else
+			{
+				if (frametimer >= 4)
+				{
+					frame++;
+					frametimer = 0;
+				}
+				if (frame >= 10)
+					frame = 0;
+			}
+		}
+		public void HealingFrames()
+		{
+			if (frametimer >= 4)
+			{
+				frame++;
+				frametimer = 0;
+			}
+			if (frame >= 16 || frame < 10)
+				frame = 10;
+		}
+		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
+
+		private void DoDustEffect(Vector2 position, float distance, float minSpeed = 2f, float maxSpeed = 3f, object follow = null)
+		{
+			float angle = Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi);
+			Vector2 vec = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
+			Vector2 vel = vec * Main.rand.NextFloat(minSpeed, maxSpeed);
+
+			int dust = Dust.NewDust(position - vec * distance, 0, 0, DustID.TreasureSparkle);
+			Main.dust[dust].noGravity = true;
+			Main.dust[dust].scale *= .6f;
+			Main.dust[dust].velocity = vel;
+			Main.dust[dust].customData = follow;
+		}
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(20) == 1)
