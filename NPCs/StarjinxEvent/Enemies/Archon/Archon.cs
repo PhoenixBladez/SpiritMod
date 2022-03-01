@@ -211,7 +211,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 					SlashAttack();
 					break;
 				case AttackType.Cast:
-					CastAttack();
+					VoidCastAttack();
 					break;
 				default:
 					break;
@@ -428,6 +428,41 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		}
 		#endregion
 
+		private void VoidCastAttack()
+		{
+			const float BeginCastThreshold = 0.05f;
+			const float BeginMeteorThreshold = 0.1f;
+			const float SingleCastThreshold = 0.075f;
+
+			waitingOnAttack = true;
+			npc.rotation = MathHelper.Lerp(npc.rotation, 0f, 0.2f);
+			npc.velocity *= 0.95f;
+			npc.Center = Vector2.Lerp(npc.Center, Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition, 0.05f);
+
+			if (timers["ATTACK"] == (int)(attackTimeMax * BeginCastThreshold)) //Begin singularity anim
+			{
+
+			}
+			else if (timers["ATTACK"] > (int)(attackTimeMax * BeginMeteorThreshold)) //Begin singularity anim
+			{
+				waitingOnAttack = true;
+				if (timers["ATTACK"] % (int)(attackTimeMax * SingleCastThreshold) == 0)
+				{
+					Vector2 sjinx = Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition;
+					Vector2 realPos = sjinx + new Vector2(StarjinxMeteorite.EVENT_RADIUS, 0).RotatedByRandom(MathHelper.TwoPi);
+
+					int p = Projectile.NewProjectile(realPos, npc.DirectionFrom(realPos) * 8, ModContent.ProjectileType<MeteorEnchantment_Meteor>(), 40, 1f, Main.myPlayer);
+					Main.projectile[p].timeLeft = 200;
+				}
+			}
+			else if (timers["ATTACK"] >= attackTimeMax)
+			{
+				timers["ATTACK"] = 0;
+				attack = AttackType.None;
+				waitingOnAttack = false;
+			}
+		}
+
 		private void CastAttack()
 		{
 			float AnimationWaitThreshold = 0.8f;
@@ -638,7 +673,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			else if (enchantment == Enchantment.Meteor)
 				choices.Add(AttackType.MeteorDash, 1.5f);
 
-			attack = AttackType.TeleportSlash;
+			attack = AttackType.Cast;
 
 			if (attack == AttackType.TeleportSlash)
 			{

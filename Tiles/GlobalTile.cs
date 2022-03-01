@@ -18,8 +18,6 @@ namespace SpiritMod.Tiles
 {
 	public class GTile : GlobalTile
 	{
-		public int tremorItem = 0;
-
 		static readonly int[] IceSculptures = new int[] { ModContent.TileType<IceWheezerHostile>(), ModContent.TileType<IceVikingHostile>(), ModContent.TileType<IceFlinxHostile>(), ModContent.TileType<IceBatHostile>(),
 			ModContent.TileType<IceWheezerPassive>(), ModContent.TileType<IceVikingPassive>(), ModContent.TileType<IceBatPassive>(), ModContent.TileType<IceFlinxPassive>() };
 
@@ -133,17 +131,20 @@ namespace SpiritMod.Tiles
 			{
 				Player player = Main.LocalPlayer;
 				MyPlayer modPlayer = player.GetSpiritPlayer();
-				if (type == 1 || type == 25 || type == 117 || type == 203 || type == 57)
+
+				if (type == TileID.Stone || type == 25 || type == 117 || type == 203 || type == 57)
 				{
 					if (Main.rand.Next(25) == 1 && modPlayer.gemPickaxe && !fail)
 					{
-						tremorItem = Main.rand.Next(new int[] { 11, 12, 13, 14, 699, 700, 701, 702, 999, 182, 178, 179, 177, 180, 181 });
+						int tremorItem = Main.rand.Next(new int[] { 11, 12, 13, 14, 699, 700, 701, 702, 999, 182, 178, 179, 177, 180, 181 });
 						if (Main.hardMode)
 							tremorItem = Main.rand.Next(new int[] { 11, 12, 13, 14, 699, 700, 701, 702, 999, 182, 178, 179, 177, 180, 181, 364, 365, 366, 1104, 1105, 1106 });
+
 						Main.PlaySound(SoundLoader.customSoundType, new Vector2(i * 16, j * 16), mod.GetSoundSlot(SoundType.Custom, "Sounds/PositiveOutcome"));
 						Item.NewItem(i * 16, j * 16, 64, 48, tremorItem, Main.rand.Next(1, 3));
 					}
 				}
+
 				if (player.GetSpiritPlayer().wayfarerSet && type == 28)
 					player.AddBuff(ModContent.BuffType<Buffs.Armor.ExplorerPot>(), 360);
 				if (player.GetSpiritPlayer().wayfarerSet && Main.tileSpelunker[type] && Main.tileSolid[type])

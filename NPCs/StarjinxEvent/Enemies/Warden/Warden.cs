@@ -347,7 +347,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				CalculateBouncePosition(true);
 
 				int type = ModContent.ProjectileType<Archon.Projectiles.MeteorCastProjectile>();
-				int p = Projectile.NewProjectile(npc.Center, npc.DirectionTo(archonMeteorPongPosition) * MeteorPongSpeed, type, 20, 1f);
+				int p = Projectile.NewProjectile(npc.Center, npc.DirectionTo(archonMeteorPongPosition) * MeteorPongSpeed, type, 20, 1f, Main.myPlayer);
 				Main.projectile[p].timeLeft = MeteorDuoMaxTime;
 				Main.projectile[p].scale = 10f;
 
@@ -480,7 +480,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 			if (timers["ARCHATK"] == 50) //Spawn projectile
 			{
-				int p = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.VoidCastProjectile>(), 60, 1f);
+				int p = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.VoidCastProjectile>(), 60, 1f, Main.myPlayer);
 				Main.projectile[p].timeLeft = ArchonAttackMaxTime - 50;
 
 				blackHoleWhoAmI = p;
