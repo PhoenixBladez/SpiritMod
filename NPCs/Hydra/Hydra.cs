@@ -4,14 +4,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Linq;
-using SpiritMod.Mechanics.BoonSystem;
 using SpiritMod.Utilities;
-using SpiritMod.Buffs;
-using Terraria.Audio;
 using SpiritMod.Mechanics.Trails;
+using SpiritMod.Items.Armor.Masks;
 
 namespace SpiritMod.NPCs.Hydra
 {
@@ -393,18 +390,24 @@ namespace SpiritMod.NPCs.Hydra
 		{
 			if (headColor == HeadColor.Green)
 			{
-				if (Main.rand.NextBool(200))
+				if (Main.rand.NextBool(50))
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.PoisonStaff);
+				if (Main.rand.NextBool(33))
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HydraMaskAcid>());
 			}
 			if (headColor == HeadColor.Purple)
 			{
-				if (Main.rand.NextBool(20))
+				if (Main.rand.NextBool(3))
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.VialofVenom, Main.rand.Next(1, 4));
+				if (Main.rand.NextBool(33))
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HydraMaskVenom>());
 			}
 			if (headColor == HeadColor.Red)
 			{
-				if (Main.rand.NextBool(100))
+				if (Main.rand.NextBool(50))
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MagmaStone);
+				if (Main.rand.NextBool(33))
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HydraMaskFire>());
 			}
 			if (Main.rand.NextBool(100))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.GoldenApple>());

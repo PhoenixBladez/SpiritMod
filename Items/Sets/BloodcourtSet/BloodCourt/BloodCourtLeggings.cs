@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Sets.BloodcourtSet.BloodCourt
 			item.height = 18;
 			item.value = 4000;
 			item.rare = ItemRarityID.Green;
-			item.defense = 2;
+			item.defense = 3;
 		}
 		public override void UpdateEquip(Player player)
 		{

@@ -4533,7 +4533,7 @@ namespace SpiritMod
 							Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
 					}
 					Main.PlaySound(new LegacySoundStyle(2, 109));
-					Projectile.NewProjectile(player.Center, dir, ModContent.ProjectileType<DarkAnima>(), 45, 0, player.whoAmI);
+					Projectile.NewProjectile(player.Center, dir, ModContent.ProjectileType<DarkAnima>(), 70, 0, player.whoAmI);
 				}
 
 				if (frigidSet && !player.HasBuff(ModContent.BuffType<FrigidCooldown>()))
