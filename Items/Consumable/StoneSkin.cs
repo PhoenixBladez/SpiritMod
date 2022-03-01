@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Consumable
 			item.useTime = item.useAnimation = 20;
 
 			item.noMelee = true;
-			item.consumable = true;
+			item.consumable = false;
 			item.autoReuse = false;
 
 			item.UseSound = SoundID.Item43;

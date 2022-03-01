@@ -35,5 +35,10 @@ namespace SpiritMod.Tiles.Ambient.SurfaceIce
         {
             offsetY = 2;
         }
-    }
+		public override void KillMultiTile(int i, int j, int frameX, int frameY)
+		{
+			if (Main.rand.NextBool(5))
+				Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Consumable.Food.IceBerries>());
+		}
+	}
 }

@@ -595,7 +595,7 @@ namespace SpiritMod
 		public override void ModifyLightingBrightness(ref float scale)
 		{
 			if (Main.LocalPlayer.GetSpiritPlayer().ZoneReach && !Main.dayTime)
-				scale *= .95f;
+				scale *= .96f;
 		}
 
 		private static void SetGlyph(object[] args)
