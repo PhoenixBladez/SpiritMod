@@ -1004,6 +1004,8 @@ namespace SpiritMod
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion"), ItemType("TideBox"), TileType("TideBox"));
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/JellySky"), ItemType("JellyDelugeBox"), TileType("JellyDelugeBox"));
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/FrostLegion"), ItemType("FrostLegionBox"), TileType("FrostLegionBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/AshStorm"), ItemType("AshfallBox"), TileType("AshfallBox"));
+
 
 				Mechanics.AutoSell.AutoSellUI.visible = false;
 				Mechanics.AutoSell.Sell_NoValue.Sell_NoValue.visible = false;
