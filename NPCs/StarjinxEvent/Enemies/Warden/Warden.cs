@@ -67,7 +67,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		private ref NPC ArchonNPC => ref Main.npc[archonWhoAmI];
 		private Archon.Archon GetArchon => ArchonNPC.modNPC as Archon.Archon;
 
-		private Dictionary<string, float> timers = new Dictionary<string, float>() { { "ENCHANT", 0 }, { "ARCHATK", 0 }, { "ATTACK", 0 }, { "DUO", 0 } };
+		private readonly Dictionary<string, float> timers = new Dictionary<string, float>() { { "ENCHANT", 0 }, { "ARCHATK", 0 }, { "ATTACK", 0 }, { "DUO", 0 } };
 
 		public override void SetStaticDefaults()
 		{
@@ -438,10 +438,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 			}
 		}
 
-		private void SoloBehaviour()
-		{
-			BasicIdleMovement(2f);
-		}
+		private void SoloBehaviour() => BasicIdleMovement(2f);
 
 		private void ArchonAttackBehaviour()
 		{

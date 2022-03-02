@@ -9,8 +9,6 @@ namespace SpiritMod.NPCs.DiseasedSlime
 {
 	class NoxiousGas : ModProjectile
 	{
-		private bool[] _npcAliveLast;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Noxious Field");
@@ -31,13 +29,13 @@ namespace SpiritMod.NPCs.DiseasedSlime
 		{
 			Player player = Main.LocalPlayer;
 
-			int distance = (int)Vector2.Distance(projectile.Center, player.Center);
-			if (distance < 45)
+			float distance = Vector2.DistanceSquared(projectile.Center, player.Center);
+			if (distance < 45 * 45)
 			{
 				player.AddBuff(ModContent.BuffType<FesteringWounds>(), 600);
 				player.AddBuff(BuffID.Poisoned, 600);
-
 			}
+
 			if (Main.rand.NextBool(6))
 			{
 				for (int j = 0; j < 9; j++)

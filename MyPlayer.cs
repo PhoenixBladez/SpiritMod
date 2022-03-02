@@ -4165,7 +4165,7 @@ namespace SpiritMod
 
 							Tile tile = Main.tile[index1, index2 + num4];
 							Position = new Vector2(index1, index2 + num4) * 16f + new Vector2(-player.width / 2 + 8, -player.height);
-							Vector4 vector4 = Collision.SlopeCollision(Position, player.velocity, player.width, player.height, player.gravDir, false);
+							Collision.SlopeCollision(Position, player.velocity, player.width, player.height, player.gravDir, false);
 
 							bool flag = !Collision.SolidCollision(Position, player.width, player.height);
 

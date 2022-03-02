@@ -9,8 +9,6 @@ namespace SpiritMod.NPCs.DiseasedSlime
 {
 	class NoxiousIndicator : ModProjectile
 	{
-		private bool[] _npcAliveLast;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Noxious Field");
@@ -32,9 +30,9 @@ namespace SpiritMod.NPCs.DiseasedSlime
 		public override void AI()
 		{
 			projectile.alpha += 2;
-			projectile.velocity.Y -= 1.1f * (projectile.timeLeft/120);
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 6)
+			projectile.velocity.Y -= 1.1f * (projectile.timeLeft / 120f);
+
+			if (projectile.frameCounter++ >= 6)
 			{
 				projectile.frame++;
 				projectile.frameCounter = 0;

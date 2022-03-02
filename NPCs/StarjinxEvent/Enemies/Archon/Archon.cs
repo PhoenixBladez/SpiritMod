@@ -53,9 +53,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		private bool starlightDoubleSlash = true;
 
 		// Starlight Constellation
-		private List<StarThread> threads = new List<StarThread>();
+		private readonly List<StarThread> threads = new List<StarThread>();
 		private int currentThread = 0;
-		private float currentThreadProgress = 0f;
 
 		// Meteor Dash
 		private Vector2 meteorDashOffset = Vector2.Zero;

@@ -41,9 +41,13 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		}
 
 		private ref float TimeActive => ref npc.ai[0];
+		private ref float Offset => ref npc.ai[1];
 
 		public override void AI()
 		{
+			if (Offset == 0)
+				Offset = Main.rand.NextFloat(0.1f, 1000f);
+
 			if (TimeActive < FADEIN_TIME) //Rise upwards until fully faded in 
 			{
 				float BaseRiseSpeed = -2f;
@@ -53,7 +57,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 				npc.alpha = (int)(255 * (1 - progress));
 			}
 			else //Sine wave movement afterwards
-				npc.velocity.Y = (float)Math.Sin((TimeActive - FADEIN_TIME) * 0.03f) * 0.4f;
+				npc.velocity.Y = (float)Math.Sin((TimeActive + Offset - FADEIN_TIME) * 0.03f) * 0.4f;
 
 			TimeActive++;
 		}
