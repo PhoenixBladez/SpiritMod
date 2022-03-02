@@ -26,7 +26,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ItemID.SilverCoin, 30)
 		};
 
-		private int EnemyID => NPCID.GreenJellyfish;
+		private int EnemyID => ModContent.NPCType<NPCs.Horned_Crustacean.Horned_Crustacean>();
 
 		public override void OnActivate()
 		{
