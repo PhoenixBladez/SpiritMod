@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 {
+	[AutoloadBossHead]
 	public class Warden : SpiritNPC, IDrawAdditive
 	{
 		public const int MaxForegroundTransitionTime = 1200;
@@ -512,6 +513,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				{
 					int id = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 200, Main.rand.Next(types), Main.rand.Next(10) * 10);
 
+					Main.npc[id].hide = true;
 					doppelgangers.Add(id);
 				}
 			}
@@ -600,6 +602,41 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 			if (!inFG) //if not in foreground stop drawing
 				return false;
 			return true;
+		}
+
+		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			if (GetArchon.enchantment == Archon.Archon.Enchantment.Starlight && stage == ArchonAttackStage)
+				DrawDoppelgangers();
+		}
+
+		private void DrawDoppelgangers()
+		{
+			Main.spriteBatch.End();
+
+			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, SpiritMod.glitchEffect, Main.GameViewMatrix.TransformationMatrix);
+
+			foreach (int item in doppelgangers)
+			{
+				NPC drawNPC = Main.npc[item];
+
+				if (!drawNPC.active)
+					continue;
+
+				Vector2 oldPos = drawNPC.position;
+				drawNPC.position += new Vector2(Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f));
+
+				float oldRotation = drawNPC.rotation;
+				drawNPC.rotation += Main.rand.NextFloat(-0.10f, 0.10f);
+
+				Main.instance.DrawNPC(item, false);
+
+				drawNPC.position = oldPos;
+				drawNPC.rotation = oldRotation;
+			}
+
+			Main.spriteBatch.End();
+			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 		}
 
 		//public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/StarjinxEvent/Enemies/Pathfinder/Pathfinder_Glow"), Color.White * 0.75f);
