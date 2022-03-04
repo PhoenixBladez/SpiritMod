@@ -86,6 +86,8 @@ namespace SpiritMod
 		public static PrimTrailManager primitives;
 		public static StargoopManager Metaballs;
 		public static BoidHost Boids;
+
+		public static Effect stardustOverlayEffect;
 		public static Effect glitchEffect;
 		public static Effect starjinxBorderEffect;
 		public static Effect vignetteEffect;
@@ -198,10 +200,7 @@ namespace SpiritMod
 			return packet;
 		}
 
-		public override void HandlePacket(BinaryReader reader, int whoAmI)
-		{
-			SpiritMultiplayer.HandlePacket(reader, whoAmI);
-		}
+		public override void HandlePacket(BinaryReader reader, int whoAmI) => SpiritMultiplayer.HandlePacket(reader, whoAmI);
 
 		public override void UpdateMusic(ref int music, ref MusicPriority priority)
 		{
@@ -881,6 +880,8 @@ namespace SpiritMod
 				SellNoValue_SHORTCUT.Activate();
 				SellLock_SHORTCUT.Activate();
 				SellWeapons_SHORTCUT.Activate();
+
+				stardustOverlayEffect = GetEffect("Effects/StardustOverlay");
 
 				glitchEffect = GetEffect("Effects/glitch");
 				glitchScreenShader = new GlitchScreenShader(glitchEffect);

@@ -614,7 +614,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		{
 			Main.spriteBatch.End();
 
-			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, SpiritMod.glitchEffect, Main.GameViewMatrix.TransformationMatrix);
+			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, SpiritMod.stardustOverlayEffect, Main.GameViewMatrix.TransformationMatrix);
 
 			foreach (int item in doppelgangers)
 			{

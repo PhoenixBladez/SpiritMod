@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
-using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -9,10 +8,7 @@ namespace SpiritMod.NPCs.DiseasedSlime
 {
 	class NoxiousGas : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Noxious Field");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Noxious Field");
 
 		public override void SetDefaults()
 		{
@@ -27,7 +23,7 @@ namespace SpiritMod.NPCs.DiseasedSlime
 
 		public override void AI()
 		{
-			Player player = Main.LocalPlayer;
+			Player player = Main.player[projectile.owner];
 
 			float distance = Vector2.DistanceSquared(projectile.Center, player.Center);
 			if (distance < 45 * 45)
