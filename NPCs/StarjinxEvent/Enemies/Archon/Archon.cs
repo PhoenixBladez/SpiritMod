@@ -13,7 +13,7 @@ using Terraria.Utilities;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 {
-	public class Archon : SpiritNPC, IDrawAdditive
+	public class Archon : SpiritNPC, IDrawAdditive, IDrawStargloop
 	{
 		// CONSTS ----------
 
@@ -63,6 +63,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 
 		// Misc
 		private readonly Dictionary<string, int> timers = new Dictionary<string, int>() { { "ENCHANT", 0 }, { "ATTACK", 0 }, { "CONSTELLATION", 0 }, { "DUO", 0 } };
+
+		private Vector2 HeadPosition => npc.Center - new Vector2(10, 44).RotatedBy(npc.rotation);
+
+		private Texture2D SwordExtra => enchantment == Enchantment.Void ? ModContent.GetTexture(Texture + "_Sword_Void") : ModContent.GetTexture(Texture + "_Sword");
 
 		public void SetDuo(float d) => timers["DUO"] = (int)d;
 
@@ -162,11 +166,23 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				default:
 					break;
 			}
+
+			Visuals();
+		}
+
+		private void Visuals()
+		{
+			if (enchantment == Enchantment.Void)
+			{
+				float scl = Main.rand.NextFloat(1f, 3.5f);
+				EnchantParticle(HeadPosition + Main.rand.NextVector2Circular(20, 20), npc.DirectionTo(HeadPosition) * (3.5f - scl) * 2, scl);
+			}
 		}
 
 		internal void VoidDuoBehaviour(List<int> portals)
 		{
-
+			if (npc.velocity.Length() < 0.25f)
+				npc.rotation *= 0.95f;
 		}
 
 		private void EnchantBehaviour()
@@ -519,7 +535,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 					EnchantParticle(npc.Center, new Vector2(0, Main.rand.NextFloat(8f, 11f)).RotatedByRandom(MathHelper.TwoPi), 3f);
 
 				if (enchantment == Enchantment.Void)
-					npc.Center = Target.Center + new Vector2(0, Main.rand.Next(300, 400)).RotatedBy(Main.rand.NextBool() ? 0 : MathHelper.Pi);
+					npc.Center = Target.Center + new Vector2(0, Main.rand.Next(300, 400)).RotatedBy(Main.rand.NextBool() ? 0 : MathHelper.Pi).RotatedByRandom(MathHelper.PiOver4);
 
 				cachedAttackPos = npc.Center - (npc.DirectionFrom(Target.Center) * npc.Distance(Target.Center) * 2);
 			}
@@ -537,6 +553,16 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 					npc.defDamage = 70;
 				else
 					timers["ATTACK"] = (int)attackTimeMax;
+
+				if (enchantment == Enchantment.Void)
+				{
+					float off = attackTimeMax * BeginAttackThreshold;
+					float addRot = (timers["ATTACK"] - off) / (attackTimeMax - off) * MathHelper.Pi;
+					float realRot = (npc.rotation + addRot) * (MathHelper.Pi / 3f);
+
+					for (int i = 0; i < 50; ++i)
+						EnchantParticle(npc.Center + (npc.DirectionTo(Target.Center) * 60) + new Vector2(i * 3, 0).RotatedBy(-realRot * Math.Sign(npc.velocity.Y)), Vector2.Zero, 2f);
+				}
 			}
 
 			if (timers["ATTACK"] >= attackTimeMax)
@@ -561,6 +587,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 
 			if (enchantment == Enchantment.Starlight)
 				ParticleHandler.SpawnParticle(new StarParticle(center, velocity, Color.White, Color.Cyan, Main.rand.NextFloat(0.1f, 0.2f) * scale, 25));
+
+			if (enchantment == Enchantment.Void)
+				Dust.NewDustPerfect(center, ModContent.DustType<Dusts.EnemyStargoopDust>(), velocity * (3.5f - scale), Scale: scale);
 		}
 
 		public override void FindFrame(int frameHeight)
@@ -584,23 +613,44 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			DrawThreads(sB);
 		}
 
+		public void DrawStargloop()
+		{
+			if (enchantment == Enchantment.Void)
+				DrawSword();
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			if (!inFG) //if not in foreground stop drawing
 				return false;
 
-			float realRot = npc.rotation;
-			SpriteEffects effect = SpriteEffects.None;
+			GetRotation(out float realRot, out SpriteEffects effect);
+
+			Color col = Lighting.GetColor((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f));
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, col, realRot, npc.frame.Size() / 2f, 1f, effect, 0f);
+
+			if (enchantment != Enchantment.Void)
+				DrawSword();
+			return false;
+		}
+
+		public void DrawSword()
+		{
+			GetRotation(out float realRot, out SpriteEffects effect);
+
+			Main.spriteBatch.Draw(SwordExtra, npc.Center - Main.screenPosition, npc.frame, Color.White, realRot, npc.frame.Size() / 2f, Vector2.One, effect, 0f);
+		}
+
+		private void GetRotation(out float realRot, out SpriteEffects effect)
+		{
+			realRot = npc.rotation;
+			effect = SpriteEffects.None;
 
 			if (npc.rotation < -MathHelper.PiOver2 || npc.rotation > MathHelper.PiOver2)
 			{
 				realRot -= MathHelper.Pi;
 				effect = SpriteEffects.FlipHorizontally;
 			}
-
-			Color col = Lighting.GetColor((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f));
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, col, realRot, npc.frame.Size() / 2f, 1f, effect, 0f);
-			return false;
 		}
 
 		internal const float THREADGROWLERP = 30; //How many frames does it take for threads to fade in/out?
@@ -654,7 +704,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			else if (enchantment == Enchantment.Meteor)
 				choices.Add(AttackType.MeteorDash, 1.5f);
 
-			attack = choices;
+			attack = AttackType.TeleportSlash;
 
 			if (attack == AttackType.TeleportSlash)
 			{
@@ -692,6 +742,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			Count = 4
 		}
 
-		public void SetRandomEnchantment() => enchantment = Enchantment.Starlight;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
+		public void SetRandomEnchantment() => enchantment = Enchantment.Void;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
 	}
 }

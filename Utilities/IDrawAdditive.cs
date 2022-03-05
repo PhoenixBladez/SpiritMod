@@ -1,7 +1,4 @@
-﻿using Terraria;
-using Terraria.ObjectData;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod
 {

@@ -48,10 +48,9 @@ namespace SpiritMod.Effects.Stargoop
 			sB.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
 
 			SpiritMod.Metaballs.borderNoise.CurrentTechnique.Passes[0].Apply();
+
 			foreach (var m in Metaballs)
-			{
 				m.DrawOnMetaballLayer(sB);
-			}
 
 			sB.End();
 
@@ -60,8 +59,13 @@ namespace SpiritMod.Effects.Stargoop
 			sB.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null);
 
 			foreach (var s in Sprites)
-			{
 				s.DrawGalaxyMappedSprite(sB);
+
+			for (int i = 0; i < Main.maxNPCs; ++i)
+			{
+				NPC npc = Main.npc[i];
+				if (npc.active && npc.modNPC != null && npc.modNPC is IDrawStargloop gloop)
+					gloop.DrawStargloop();
 			}
 
 			sB.End();

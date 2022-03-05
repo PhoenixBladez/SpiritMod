@@ -176,7 +176,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 					frame.X = 1;
 					npc.velocity = Vector2.Zero;
 
-
 					if (AiTimer > STARGLOOP_TIME)
 					{
 						AiTimer = -Main.rand.Next(60);
@@ -191,7 +190,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 				if (Main.netMode == NetmodeID.MultiplayerClient)
 					return;
 
-				Projectile proj = Projectile.NewProjectileDirect(npc.Top - new Vector2(0, 20), Vector2.Zero, ModContent.ProjectileType<StarWeaverHead>(), NPCUtils.ToActualDamage(npc.damage, 1), 1f, Main.myPlayer, npc.whoAmI);
+				var proj = Projectile.NewProjectileDirect(npc.Top - new Vector2(0, 20), Vector2.Zero, ModContent.ProjectileType<StarWeaverHead>(), NPCUtils.ToActualDamage(npc.damage, 1), 1f, Main.myPlayer, npc.whoAmI);
 				_headIndex = proj.whoAmI;
 				if (Main.netMode != NetmodeID.SinglePlayer)
 					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, _headIndex);
