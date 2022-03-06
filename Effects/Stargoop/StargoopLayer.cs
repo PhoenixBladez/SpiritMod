@@ -61,13 +61,6 @@ namespace SpiritMod.Effects.Stargoop
 			foreach (var s in Sprites)
 				s.DrawGalaxyMappedSprite(sB);
 
-			for (int i = 0; i < Main.maxNPCs; ++i)
-			{
-				NPC npc = Main.npc[i];
-				if (npc.active && npc.modNPC != null && npc.modNPC is IDrawStargloop gloop)
-					gloop.DrawStargloop();
-			}
-
 			sB.End();
 
 			SpiritMod.Metaballs.metaballEdgeDetection.Parameters["width"].SetValue((float)Main.screenWidth / 2);

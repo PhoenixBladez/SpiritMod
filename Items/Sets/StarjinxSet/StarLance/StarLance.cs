@@ -67,6 +67,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarLance
 		{
 			DisplayName.SetDefault("Star Lance");
 			Main.projFrames[projectile.type] = 11;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
@@ -76,8 +78,6 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarLance
 			projectile.hostile = false;
 			projectile.friendly = true;
 			projectile.width = projectile.height = 20;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 			projectile.frame = Main.rand.Next(11);
 		}
 
