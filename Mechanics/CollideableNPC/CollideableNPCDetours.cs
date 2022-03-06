@@ -9,13 +9,22 @@ namespace SpiritMod.Mechanics.CollideableNPC
 	{
 		internal static void SolidTopCollision(On.Terraria.Player.orig_Update_NPCCollision orig, Player self)
 		{
-			if (!self.controlDown && self.grappling[0] < 0)
+			var modSelf = self.GetModPlayer<CollideableNPCPlayer>();
+
+			if (self.grappling[0] < 0)
 			{
+				modSelf.platformDropTimer--;
+
+				if (self.controlDown && modSelf.platformTimer >= 6)
+					modSelf.platformDropTimer = 8;
+
+				bool success = false;
+
 				for (int i = 0; i < Main.maxNPCs; ++i)
 				{
 					NPC npc = Main.npc[i];
 
-					if (!npc.active || npc.modNPC == null || !(npc.modNPC is ISolidTopNPC))
+					if (!npc.active || npc.modNPC == null || !(npc.modNPC is ISolidTopNPC) || (npc.whoAmI == modSelf.platformWhoAmI && modSelf.platformDropTimer > 0))
 						continue;
 
 					var playerBox = new Rectangle((int)self.position.X, (int)self.position.Y + self.height, self.width, 1);
@@ -31,8 +40,23 @@ namespace SpiritMod.Mechanics.CollideableNPC
 						if (self == Main.LocalPlayer)
 							NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, Main.LocalPlayer.whoAmI);
 
+						if (modSelf.platformTimer < 0)
+							modSelf.platformTimer = -1;
+
+						modSelf.platformTimer++;
+						modSelf.platformWhoAmI = npc.whoAmI;
+
 						orig(self);
+
+						success = true;
+						break;
 					}
+				}
+
+				if (!success && modSelf.platformDropTimer <= 0)
+				{
+					modSelf.platformTimer--;
+					modSelf.platformWhoAmI = -1;
 				}
 			}
 

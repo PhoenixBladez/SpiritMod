@@ -189,15 +189,6 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 					float scl = Main.rand.NextFloat(1f, 3.5f);
 					EnchantParticle(HeadPosition + Main.rand.NextVector2Circular(20, 20), npc.DirectionTo(HeadPosition) * (3.5f - scl) * 2, scl);
 				}
-
-				//Vector2 swordOffset = Vector2.Normalize(new Vector2(108, 42));
-				//GetRotation(out float realRot, out _);
-
-				//for (int i = 0; i < 20; ++i)
-				//{
-				//	Vector2 rot = (swordOffset * new Vector2(i * 5, 0)).RotatedBy(realRot - 0.30f);
-				//	EnchantParticle(npc.Center + rot - new Vector2(0, 10), Vector2.Zero, 1.2f);
-				//}
 			}
 		}
 
@@ -757,6 +748,16 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			Count = 4
 		}
 
-		public void SetRandomEnchantment() => enchantment = Enchantment.Void;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
+		public void SetRandomEnchantment()
+		{
+			var ench = (Enchantment)Main.LocalPlayer.HeldItem.stack;
+
+			if (Main.LocalPlayer.HeldItem.stack <= 0)
+				ench = Enchantment.Starlight;
+			else if (Main.LocalPlayer.HeldItem.stack >= 4)
+				ench = Enchantment.Void;
+
+			enchantment = ench;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
+		}
 	}
 }
