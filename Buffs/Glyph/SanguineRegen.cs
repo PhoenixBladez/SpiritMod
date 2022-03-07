@@ -19,6 +19,6 @@ namespace SpiritMod.Buffs.Glyph
 			player.buffTime[buffIndex] = Math.Min(player.buffTime[buffIndex] + time, 600);
 			return false;
 		}
-		public override void Update(Player player, ref int buffIndex) => player.lifeRegen += 6;
+		public override void Update(Player player, ref int buffIndex) => player.lifeRegen += 4;
 	}
 }
