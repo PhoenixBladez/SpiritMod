@@ -334,6 +334,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 			duoMaxTime = MeteorDuoMaxTime;
 
 			ArchonNPC.velocity *= 0.93f;
+			ArchonNPC.rotation *= 0.93f;
 			npc.velocity *= 0.93f;
 
 			if (timers["DUO"] == 1) //Initialize
@@ -517,7 +518,23 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 					doppelgangers.Add(id);
 				}
 			}
-			else if (timers["ARCHATK"] == ArchonAttackMaxTime - 100) //Blow up NPCs
+			else if (timers["ARCHATK"] > 50 && timers["ARCHATK"] < ArchonAttackMaxTime - 50) //Chase the center of doppelgangers
+			{
+				Vector2 doppelLoc = Vector2.Zero;
+
+				foreach (int item in doppelgangers)
+				{
+					NPC npc = Main.npc[item];
+					if (npc.active && npc.life > -1)
+						doppelLoc += npc.Center;
+				}
+
+				if (doppelLoc != Vector2.Zero)
+					npc.Center = Vector2.Lerp(npc.Center, doppelLoc / doppelgangers.Count, 0.05f);
+				else
+					npc.Center = Vector2.Lerp(npc.Center, Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition, 0.05f);
+			}
+			else if (timers["ARCHATK"] == ArchonAttackMaxTime - 50) //Blow up NPCs
 			{
 				foreach (int item in doppelgangers)
 				{
@@ -530,6 +547,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 						Main.projectile[p].timeLeft = 3;
 					}
 				}
+
+				doppelgangers.Clear();
 			}
 		}
 
@@ -591,6 +610,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		}
 
 		#region Drawing
+		public override Color? GetAlpha(Color drawColor) => StarjinxGlobalNPC.GetColorBrightness(drawColor);
+
 		public void AdditiveCall(SpriteBatch sB)
 		{
 			if (!inFG) //if not in foreground stop drawing

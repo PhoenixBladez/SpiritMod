@@ -583,6 +583,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			}
 		}
 
+		public override bool CheckDead()
+		{
+			SpiritMod.Metaballs.EnemyLayer.Sprites.Remove(this);
+			return true;
+		}
+
 		private void EnchantParticle(Vector2 center, Vector2 velocity, float scale = 1f)
 		{
 			if (Main.dedServ)
@@ -630,7 +636,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			GetRotation(out float realRot, out SpriteEffects effect);
 
 			Color col = Lighting.GetColor((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f));
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, col, realRot, npc.frame.Size() / 2f, 1f, effect, 0f);
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, StarjinxGlobalNPC.GetColorBrightness(col), realRot, npc.frame.Size() / 2f, 1f, effect, 0f);
 
 			if (enchantment != Enchantment.Void)
 				DrawSword();
@@ -644,7 +650,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			if (gloop)
 				Main.spriteBatch.Draw(SwordExtra, (npc.Center - Main.screenPosition) / 2f, npc.frame, Color.White, realRot, npc.frame.Size() / 2f, 1 / 2f, effect, 0f);
 			else
-				Main.spriteBatch.Draw(SwordExtra, npc.Center - Main.screenPosition, npc.frame, Color.White, realRot, npc.frame.Size() / 2f, 1f, effect, 0f);
+			{
+				Color col = Lighting.GetColor((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f));
+				Main.spriteBatch.Draw(SwordExtra, npc.Center - Main.screenPosition, npc.frame, StarjinxGlobalNPC.GetColorBrightness(col), realRot, npc.frame.Size() / 2f, 1f, effect, 0f);
+			}
 		}
 
 		private void GetRotation(out float realRot, out SpriteEffects effect)
@@ -710,7 +719,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			else if (enchantment == Enchantment.Meteor)
 				choices.Add(AttackType.MeteorDash, 1.5f);
 
-			attack = AttackType.TeleportSlash;
+			attack = choices;
 
 			if (attack == AttackType.TeleportSlash)
 			{
@@ -757,7 +766,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			else if (Main.LocalPlayer.HeldItem.stack >= 4)
 				ench = Enchantment.Void;
 
-			enchantment = ench;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
+			enchantment = Enchantment.Starlight;// (Enchantment)(Main.rand.Next((int)Enchantment.Count - 1) + 1);
 		}
 	}
 }

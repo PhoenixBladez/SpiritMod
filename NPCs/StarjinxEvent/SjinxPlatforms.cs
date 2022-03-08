@@ -66,6 +66,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		{
 			float fadeProgress = Math.Min(TimeActive / FADEIN_TIME, 1);
 			fadeProgress = EaseFunction.EaseQuarticIn.Ease(fadeProgress); //Nonlinear easing, starts slow then goes fast
+			drawColor = StarjinxGlobalNPC.GetColorBrightness(drawColor, 1f);
 			Color additiveCyan = new Color(74, 243, 255, 0);
 
 			Texture2D npcTex = Main.npcTexture[npc.type];

@@ -251,7 +251,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			return false;
 		}
 
-		public override Color? GetAlpha(Color drawColor) => Color.Lerp(drawColor, Color.White, 0.5f) * npc.Opacity;
+		public override Color? GetAlpha(Color drawColor) => StarjinxGlobalNPC.GetColorBrightness(drawColor) * npc.Opacity;
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
@@ -320,9 +320,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 		}
 
 		public override void SendExtraAI(BinaryWriter writer) => writer.Write(_headIndex);
-
 		public override void ReceiveExtraAI(BinaryReader reader) => _headIndex = reader.ReadInt32();
-
 		public override void SafeFindFrame(int frameHeight) => npc.frame.Width = 70;
 	}
 }

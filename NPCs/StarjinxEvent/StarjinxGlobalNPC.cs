@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -48,6 +49,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			if (npc.modNPC is IStarjinxEnemy || npc.type == ModContent.NPCType<Enemies.Pathfinder.Pathfinder>() || npc.type == NPCID.EyeofCthulhu) //Replace eye of cthulhu with actual bosses eventually, ofc
 				StarjinxEventWorld.IncrementKilledEnemies();
 		}
+
+		public static Color GetColorBrightness(Color original, float brightness = 1f) => Color.Lerp(original, Color.White, 0.5f).MultiplyRGB(new Color(brightness, brightness, brightness));
 	}
 	
 	class StarjinxNonInstancedGlobalNPC : GlobalNPC
