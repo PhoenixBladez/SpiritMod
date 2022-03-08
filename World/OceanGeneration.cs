@@ -47,15 +47,15 @@ namespace SpiritMod.World
 
 				for (int placeY = 0; placeY < oceanTop + depth + thickness; placeY++)
 				{
-					PlaceTileOrLiquid(placeX, placeY, oceanTop, depth);
+					bool liq = PlaceTileOrLiquid(placeX, placeY, oceanTop, depth);
 
-					if (placeY == oceanTop + depth + thickness - 2)
+					if (!passedTile && !Framing.GetTileSafely(placeX, placeY + 1).active())
 					{
-						if (!Framing.GetTileSafely(placeX, placeY + 1).active() && !passedTile)
+						if (!liq)
 							thickness++;
-						else
-							passedTile = true;
 					}
+					else
+						passedTile = true;
 				}
 			}
 
@@ -172,11 +172,7 @@ namespace SpiritMod.World
 						continue;
 					}
 
-					int kelpChance = 0;
-					if (tilesFromInnerEdge < 100) //First slope (I hope)
-						kelpChance = 10;
-					else if (tilesFromInnerEdge < 140)
-						kelpChance = 5;
+					int kelpChance = tilesFromInnerEdge < 100 ? 10 : 5; //Higher on first slope, then less common
 
 					//Kelp multitile
 					if (kelpChance > 0 && WorldGen.genRand.NextBool(kelpChance * 2) && ValidGround(i, j, 2, TileID.Sand) && OpenArea(i, j - 3, 2, 3))
@@ -233,8 +229,6 @@ namespace SpiritMod.World
 
 		private static void PlaceSunkenTreasure(int innerEdge, int side)
 		{
-			int sunkenCount = WorldGen.genRand.Next(3) + 1;
-
 			for (int i = 0; i < 2; ++i)
 			{
 				int sunkenX = innerEdge - WorldGen.genRand.Next(133, innerEdge - 40);
@@ -347,7 +341,7 @@ namespace SpiritMod.World
 			return _rough;
 		}
 
-		private static void PlaceTileOrLiquid(int placeX, int placeY, int oceanTop, float depth)
+		private static bool PlaceTileOrLiquid(int placeX, int placeY, int oceanTop, float depth)
 		{
 			if (placeY < oceanTop + depth - 3f)
 			{
@@ -357,6 +351,9 @@ namespace SpiritMod.World
 					Main.tile[placeX, placeY].liquid = byte.MaxValue;
 				else if (placeY == oceanTop + 5)
 					Main.tile[placeX, placeY].liquid = 127;
+
+				Main.tile[placeX, placeY].wall = 0;
+				return true;
 			}
 			else if (placeY > oceanTop)
 			{
@@ -366,7 +363,9 @@ namespace SpiritMod.World
 					Main.tile[placeX, placeY].type = TileID.HardenedSand;
 				Main.tile[placeX, placeY].active(active: true);
 			}
+
 			Main.tile[placeX, placeY].wall = 0;
+			return false;
 		}
 
 		/// <summary>Gets the slope of the ocean. Reference: <seealso cref="https://www.desmos.com/calculator/xfnsmar79x"/></summary>
