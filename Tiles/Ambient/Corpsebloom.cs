@@ -49,6 +49,7 @@ namespace SpiritMod.Tiles.Ambient
 				}
 			}
 		}
+
 		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
@@ -86,10 +87,12 @@ namespace SpiritMod.Tiles.Ambient
 			}
 		}
 	}
+
 	public class Corpsebloom1 : Corpsebloom
 	{
 		public override int FrameDelay => 15;
 	}
+
 	public class Corpsebloom2 : Corpsebloom
 	{
 
