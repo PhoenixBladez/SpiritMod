@@ -38,6 +38,7 @@ namespace SpiritMod.Items.Glyphs
 		{
 			Item item = EnchantmentTarget(player);
 			item.GetGlobalItem<GItem>().SetGlyph(item, Glyph);
+			Main.PlaySound(SoundLoader.customSoundType, player.Center, mod.GetSoundSlot(SoundType.Custom, "Sounds/GlyphAttach"));
 		}
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
