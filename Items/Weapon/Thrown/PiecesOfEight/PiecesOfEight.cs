@@ -76,7 +76,7 @@ namespace SpiritMod.Items.Weapon.Thrown.PiecesOfEight
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity) {
 
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(0, 1).WithVolume(0.5f), projectile.Center);
+			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(0, 1).WithVolume(0.25f), projectile.Center);
 
 			Main.PlaySound(SoundID.Dig, projectile.Center);
 			bounces--;

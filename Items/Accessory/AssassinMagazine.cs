@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Accessory
 		{
 			string tapDir = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.DOWN" : "Key.UP");
 			DisplayName.SetDefault("Assassin's Magazine");
-			Tooltip.SetDefault($"Double tap {tapDir} while holding a ranged weapon to swap ammo types");
+			Tooltip.SetDefault($"Double tap {tapDir} while holding a ranged weapon to swap ammo types\nWorks while in the inventory");
 		}
 
 		public override void SetDefaults()
@@ -23,13 +23,8 @@ namespace SpiritMod.Items.Accessory
 			item.rare = ItemRarityID.Green;
 			item.accessory = true;
 		}
+		public override void UpdateInventory(Player player) => player.GetSpiritPlayer().assassinMag = true;
 
-		public override void ModifyTooltips(List<TooltipLine> tooltips)
-		{
-
-		}
-
-		public override void UpdateAccessory(Player player, bool hideVisual)
-			=> player.GetSpiritPlayer().assassinMag = true;
+		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetSpiritPlayer().assassinMag = true;
 	}
 }
