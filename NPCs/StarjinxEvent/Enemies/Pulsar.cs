@@ -15,6 +15,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies
 			DisplayName.SetDefault("Pulsar");
 			Main.npcFrameCount[npc.type] = 9;
 		}
+
+		public override bool Autoload(ref string name) => false;
+
 		public override void SetDefaults()
 		{
 			npc.lifeMax = 500;
@@ -32,10 +35,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 		}
-		public override bool CheckDead()
-		{
-			return false;
-		}
+
+		public override bool CheckDead() => false;
+
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.15f;
@@ -43,6 +45,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies
 			int frame = (int)npc.frameCounter;
 			npc.frame.Y = frame * frameHeight;
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			Main.PlaySound(SoundID.NPCHit, npc.Center, 4);
@@ -53,15 +56,15 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies
 			}
 			if (npc.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, 99);
-				Gore.NewGore(npc.position, npc.velocity, 99);
-				Gore.NewGore(npc.position, npc.velocity, 99);
 				Main.PlaySound(SoundID.Item, npc.Center, 14);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pulsar/Pulsar1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pulsar/Pulsar2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pulsar/Pulsar3"), 1f);
+				for (int i = 0; i < 3; ++i)
+				{
+					Gore.NewGore(npc.position, npc.velocity, 99);
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pulsar/Pulsar" + (i + 1)), 1f);
+				}
 			}
 		}
+
 		public override void AI()
 		{
 			npc.velocity *= 0.99f;
@@ -90,6 +93,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies
 			}
 			npc.rotation = (float)Math.Sin(npc.ai[1] / 30f) / 2;
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			if (npc.ai[2] != 0)
@@ -98,13 +102,13 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies
 				if (npc.spriteDirection == 1)
 					spriteEffects = SpriteEffects.FlipHorizontally;
 				Texture2D texture = Main.npcTexture[npc.type];
-				float num99 = (float)(Math.Cos((double)Main.GlobalTime % 2.40000009536743 / 2.40000009536743 * 6.28318548202515) / 4.0 + 0.5);
-				Microsoft.Xna.Framework.Color AfterimageColor = new Microsoft.Xna.Framework.Color((int)sbyte.MaxValue, (int)sbyte.MaxValue, (int)sbyte.MaxValue, 0).MultiplyRGBA(new Color(255, 111, 33, 150)) * 5f;
-				Vector2 GlowPosition = new Vector2(npc.Center.X - 24, npc.Center.Y - 42) - Main.screenPosition - new Vector2((float)texture.Width / 3, (float)(texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f + npc.frame.Size() / 2 * npc.scale + new Vector2(0.0f, npc.gfxOffY);
+				float num99 = (float)(Math.Cos(Main.GlobalTime % 2.4f / 2.4f * MathHelper.TwoPi) / 4.0f + 0.5f);
+				Color AfterimageColor = new Color(sbyte.MaxValue, sbyte.MaxValue, sbyte.MaxValue, 0).MultiplyRGBA(new Color(255, 111, 33, 150)) * 5f;
+				Vector2 GlowPosition = new Vector2(npc.Center.X - 24, npc.Center.Y - 42) - Main.screenPosition - new Vector2((float)texture.Width / 3, (texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f + npc.frame.Size() / 2 * npc.scale + new Vector2(0.0f, npc.gfxOffY);
 				for (int index2 = 0; index2 < 4; ++index2)
 				{
-					Microsoft.Xna.Framework.Color GlowColor = npc.GetAlpha(AfterimageColor) * (1f - num99);
-					Vector2 GlowPosition2 = new Vector2(npc.Center.X - 24, npc.Center.Y - 42) + ((float)((double)index2 / (double)4 * 6.28318548202515) + npc.rotation).ToRotationVector2() * (float)(8.0 * (double)num99 + 2.0) - Main.screenPosition - new Vector2((float)texture.Width / 3, (float)(texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f + npc.frame.Size() / 2 * npc.scale + new Vector2(0.0f, npc.gfxOffY);
+					Color GlowColor = npc.GetAlpha(AfterimageColor) * (1f - num99);
+					Vector2 GlowPosition2 = new Vector2(npc.Center.X - 24, npc.Center.Y - 42) + ((index2 / 4f * MathHelper.TwoPi) + npc.rotation).ToRotationVector2() * (float)(8.0 * num99 + 2.0) - Main.screenPosition - new Vector2((float)texture.Width / 3, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f + npc.frame.Size() / 2 * npc.scale + new Vector2(0.0f, npc.gfxOffY);
 					Main.spriteBatch.Draw(texture, GlowPosition2, new Microsoft.Xna.Framework.Rectangle?(npc.frame), GlowColor, npc.rotation, new Vector2(33, 0), npc.scale, spriteEffects, 0.0f);
 				}
 				Main.spriteBatch.Draw(texture, GlowPosition, new Microsoft.Xna.Framework.Rectangle?(npc.frame), AfterimageColor, npc.rotation, new Vector2(33, 0), npc.scale, spriteEffects, 0.0f);

@@ -97,6 +97,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			Main.npcFrameCount[npc.type] = 8;
 		}
 
+		public override bool Autoload(ref string name) => false;
+
 		public override void SetDefaults()
 		{
 			npc.width = 64;

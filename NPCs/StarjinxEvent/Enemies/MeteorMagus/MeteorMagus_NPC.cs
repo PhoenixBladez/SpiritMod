@@ -26,6 +26,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			Main.npcFrameCount[npc.type] = 6;
 		}
 
+		public override bool Autoload(ref string name) => false;
+
 		//large chunk of this(attack pattern use and randomizing) directly ripped from haunted tome, TODO: reduce boilerplate a lot
 
 		public override void SetDefaults()

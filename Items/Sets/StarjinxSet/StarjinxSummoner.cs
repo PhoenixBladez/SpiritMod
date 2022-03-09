@@ -2,7 +2,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.NPCs.StarjinxEvent;
-using System;
 using Microsoft.Xna.Framework;
 
 namespace SpiritMod.Items.Sets.StarjinxSet
@@ -14,6 +13,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 			DisplayName.SetDefault("Starjinx Summoner");
 			Tooltip.SetDefault("Placeholder! Summons the Starjinx event.");
 		}
+
+		public override bool Autoload(ref string name) => false;
 
 		public override void SetDefaults()
 		{

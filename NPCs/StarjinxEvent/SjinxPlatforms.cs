@@ -13,6 +13,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 	{
 		private const int FADEIN_TIME = 60;
 
+		public override bool Autoload(ref string name) => false;
+
 		public bool Grappleable() => true;
 
 		public override void SetStaticDefaults()

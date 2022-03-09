@@ -21,6 +21,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 			Main.npcFrameCount[npc.type] = 7;
 		}
 
+		public override bool Autoload(ref string name) => false;
+
 		public override void SetDefaults()
 		{
 			npc.width = 45;

@@ -76,6 +76,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 			Main.npcFrameCount[npc.type] = 1;
 		}
 
+		public override bool Autoload(ref string name) => false;
+
 		public override void SetDefaults()
 		{
 			npc.width = 136;

@@ -21,6 +21,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
 
+		public override bool Autoload(ref string name) => false;
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;

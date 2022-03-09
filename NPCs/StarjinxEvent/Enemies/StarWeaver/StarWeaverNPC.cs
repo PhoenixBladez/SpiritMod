@@ -23,6 +23,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			Main.npcFrameCount[npc.type] = 6;
 		}
 
+		public override bool Autoload(ref string name) => false;
+
 		public override void SetDefaults()
 		{
 			npc.Size = new Vector2(70, 68);

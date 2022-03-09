@@ -84,6 +84,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			Main.npcFrameCount[npc.type] = 6;
 		}
 
+		public override bool Autoload(ref string name) => false;
+
 		public override void SetDefaults()
 		{
 			npc.width = 190;
