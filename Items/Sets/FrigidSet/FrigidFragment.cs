@@ -21,5 +21,13 @@ namespace SpiritMod.Items.Sets.FrigidSet
 
 			item.maxStack = 999;
 		}
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.WoodenArrow, 15);
+			recipe.AddIngredient(this, 1);
+			recipe.SetResult(ItemID.FrostburnArrow, 15);
+			recipe.AddRecipe();
+		}
 	}
 }

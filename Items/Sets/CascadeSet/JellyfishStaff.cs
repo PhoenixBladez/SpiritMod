@@ -61,7 +61,7 @@ namespace SpiritMod.Items.Sets.CascadeSet
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<DeepCascadeShard>(), 6);
+			//recipe.AddIngredient(ModContent.ItemType<DeepCascadeShard>(), 6);
 			recipe.AddIngredient(ItemID.Coral, 5);
             recipe.AddIngredient(ItemID.Glowstick, 5);
             recipe.AddTile(TileID.Anvils);

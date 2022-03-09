@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Accessory.Rangefinder
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Rangefinder");
-			Tooltip.SetDefault("Ranged weapons are now equipped with a laser sight"); //Make work in vanity
+			Tooltip.SetDefault("Ranged weapons are now equipped with a laser sight\nWorks while in the inventory"); 
 		}
 
 		public override void SetDefaults()
@@ -30,12 +30,7 @@ namespace SpiritMod.Items.Accessory.Rangefinder
 			item.vanity = true;
 		}
 
-		public override void UpdateInventory(Player player)
-		{
-			for(int i = 13; i < 20; i++)
-				if(player.armor[i].type == ModContent.ItemType<Rangefinder>())
-					player.GetModPlayer<RangefinderPlayer>().active = true;
-		}
+		public override void UpdateInventory(Player player) => player.GetModPlayer<RangefinderPlayer>().active = true;
 
 		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<RangefinderPlayer>().active = true;
 	}

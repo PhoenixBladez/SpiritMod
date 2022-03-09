@@ -1,9 +1,8 @@
-using SpiritMod.Items.Sets.FloatingItems.Driftwood;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Sets.DriftwoodArmor
+namespace SpiritMod.Items.Sets.FloatingItems.Driftwood.DriftwoodArmor
 {
 	[AutoloadEquip(EquipType.Legs)]
 	public class DriftwoodLeggings : ModItem

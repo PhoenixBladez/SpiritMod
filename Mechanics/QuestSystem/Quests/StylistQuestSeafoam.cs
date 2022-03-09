@@ -27,6 +27,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		};
 
 		private int EnemyID => ModContent.NPCType<NPCs.Horned_Crustacean.Horned_Crustacean>();
+		private int AltEnemyID => ModContent.NPCType<NPCs.Sea_Mandrake.Sea_Mandrake>();
 
 		public override void OnActivate()
 		{
@@ -52,14 +53,16 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		private void QuestGlobalNPC_OnNPCLoot(NPC npc)
 		{
-			if (npc.type == EnemyID)
+			if (npc.type == EnemyID || npc.type == AltEnemyID)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.SeaMandrakeSac>());
 		}
 
 		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
 		{
-			if (pool[EnemyID] > 0f && !NPC.AnyNPCs(EnemyID))
+			if ((pool[EnemyID] > 0f && !NPC.AnyNPCs(EnemyID)))
 				pool[EnemyID] = 0.15f;
+			if ((pool[AltEnemyID] > 0f && !NPC.AnyNPCs(AltEnemyID)))
+				pool[AltEnemyID] = 0.15f;
 		}
 
 		private StylistQuestSeafoam()

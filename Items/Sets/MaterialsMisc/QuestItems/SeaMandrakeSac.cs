@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Sets.MaterialsMisc.QuestItems
 {
 	public class SeaMandrakeSac : ModItem
 	{
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Sea Mandrake Sac");
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Luminous Sac");
 
 		public override void SetDefaults()
 		{

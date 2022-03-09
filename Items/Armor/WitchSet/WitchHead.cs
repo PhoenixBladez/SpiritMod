@@ -20,5 +20,6 @@ namespace SpiritMod.Items.Armor.WitchSet
 
 			item.vanity = true;
 		}
+	    public override void DrawHair(ref bool drawHair, ref bool drawAltHair) => drawAltHair = true;
     }
 }

@@ -15,7 +15,6 @@ namespace SpiritMod.Items.Accessory.Ukelele
 		{
 			DisplayName.SetDefault("Ukulele");
 			Tooltip.SetDefault("Hitting enemies has a chance to create a chain of lightning\n'...and his music was electric.'");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 8));
 		}
 
 		public override void SetDefaults()

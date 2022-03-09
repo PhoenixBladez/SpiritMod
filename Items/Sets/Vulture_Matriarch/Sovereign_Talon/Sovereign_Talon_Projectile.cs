@@ -66,10 +66,9 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 				Charge++;
 				RotationOffset = -projectile.spriteDirection * ((Charge < maxcharge) ? Main.rand.NextFloat(0.35f, 0.45f) * Charge : MathHelper.Pi);
 				projectile.netUpdate = true;
-
+				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SwordSlash1").WithPitchVariance(0.6f).WithVolume(0.8f), ownerMountedCenter);
 				Main.PlaySound(projOwner.HeldItem.UseSound, ownerMountedCenter);
 			}
-
 			//move the projectile from the player's center to where it would be for a swing
 			float Distance = 20 + (Math.Abs((float)Math.Sin((Timer/TimePerSwing) * MathHelper.Pi)) * 150 * ((Charge == maxcharge) ? 0.75f : 1));
 			projectile.Center = ownerMountedCenter;
@@ -78,6 +77,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 			//fire a wave halfway through the final swing
 			if(Charge == maxcharge && (Timer % TimePerSwing) == TimePerSwing / 2)
 			{
+				projOwner.GetModPlayer<MyPlayer>().Shake += 5;
 				Projectile proj = Projectile.NewProjectileDirect(projectile.Center, projectile.velocity * 6, ModContent.ProjectileType<Talon_Projectile>(), projectile.damage, projectile.knockBack, projectile.owner);
 				proj.netUpdate = true;
 				if (!Main.dedServ)

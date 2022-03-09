@@ -100,7 +100,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 			}
 
 			//int randomEffectCounter = 5;
-			int randomEffectCounter = Main.rand.Next(12);
+			int randomEffectCounter = Main.rand.Next(11);
 			bool CheckTileRange(int[] tiletypes, int size)
 			{
 				for (int k = i - size; k <= i + size; k++)
@@ -123,23 +123,15 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				if (CheckTileRange(new int[] { TileID.Dirt, TileID.Stone, TileID.IceBlock }, 22))
 					break;
 
-				randomEffectCounter = Main.rand.Next(13);
+				randomEffectCounter = Main.rand.Next(11);
 			}
 
-			while (randomEffectCounter == 6 || randomEffectCounter == 11)
+			while (randomEffectCounter == 6 || randomEffectCounter == 10)
 			{
 				if (CheckTileRange(new int[] { TileID.Stone }, 19))
 					break;
 
-				randomEffectCounter = Main.rand.Next(13);
-			}
-
-			while (randomEffectCounter == 9)
-			{
-				if (player.CountBuffs() > 0)
-					break;
-
-				randomEffectCounter = Main.rand.Next(13);
+				randomEffectCounter = Main.rand.Next(11);
 			}
 
 			switch (randomEffectCounter)
@@ -265,25 +257,34 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 						}
 						break;
 					}
-				case 4: //SPAWN BUNNIES
+				case 4: //SPAWN BUTTERFLIES
 					{
-						NeutralLuck(i, j);
+						GoodLuck(i, j);
 						float npcposX = 0f;
 						float npcposY = 0f;
 						for (int g = 0; g < 8 + Main.rand.Next(6); g++)
 						{
 							npcposX = (i * 16) + Main.rand.Next(-60, 60);
 							npcposY = (j * 16) + Main.rand.Next(-60, 60);
-							int a = NPC.NewNPC((int)npcposX, (int)npcposY, 356);
-							Main.npc[a].value = 0;
-							Main.npc[a].friendly = false;
-							Main.npc[a].netUpdate = true;
+							int dustType;
+							int npcType;
+							if (Main.rand.NextBool(6))
+							{
+								npcType = NPC.NewNPC((int)npcposX, (int)npcposY, NPCID.GoldButterfly);
+								dustType = DustID.GoldCoin;
+							}
+							else
+							{
+								npcType = NPC.NewNPC((int)npcposX, (int)npcposY, 356);
+								dustType = DustID.MagicMirror;
+							}
+							Main.npc[npcType].netUpdate = true;
 							Vector2 spinningpoint = new Vector2(0.0f, -3f).RotatedByRandom(MathHelper.Pi);
 							float num1 = (float)28;
 							Vector2 vector2 = new Vector2(1.1f, 1f);
 							for (float num2 = 0.0f; (double)num2 < (double)num1; ++num2)
 							{
-								int dustIndex = Dust.NewDust(new Vector2(npcposX, npcposY), 0, 0, DustID.MagicMirror, 0.0f, 0.0f, 0, new Color(), 1f);
+								int dustIndex = Dust.NewDust(new Vector2(npcposX, npcposY), 0, 0, dustType, 0.0f, 0.0f, 0, new Color(), 1f);
 								Main.dust[dustIndex].position = new Vector2(npcposX, npcposY);
 								Main.dust[dustIndex].velocity = spinningpoint.RotatedBy(6.28318548202515 * (double)num2 / (double)num1, new Vector2()) * vector2 * (float)(0.800000011920929 + (double)Main.rand.NextFloat() * 0.400000005960464);
 								Main.dust[dustIndex].noGravity = true;
@@ -355,24 +356,14 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 						}
 						break;
 					}
-				case 8: //Clear all buffs and debuffs
-					{
-						NeutralLuck(i, j);
-						for (int index1 = 0; index1 < 22; ++index1)
-							player.DelBuff(index1);
-						int index = CombatText.NewText(new Rectangle(i * 16, j * 16, player.width, player.height), new Color(255, 255, 255), "All Buffs Cleared", false, false);
-						CombatText combatText = Main.combatText[index];
-						NetMessage.SendData(MessageID.CombatTextInt, -1, -1, NetworkText.FromLiteral(combatText.text), (int)combatText.color.PackedValue, combatText.position.X, combatText.position.Y, 0.0f, 0, 0, 0);
-						break;
-					}
-				case 9: //Darkness and Weak
+				case 8: //Darkness and Weak
 					{
 						BadLuck(i, j);
 						player.AddBuff(BuffID.Darkness, 3600);
 						player.AddBuff(BuffID.Weak, 3600);
 						break;
 					}
-				case 10: //Opposite gold/platinum ore
+				case 9: //Opposite gold/platinum ore
 					{
 						GoodLuck(i, j);
 						int oreType;
@@ -383,7 +374,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 						ConvertStone(i, j, 22, oreType, 0.25f);
 						break;
 					}
-				case 11:
+				case 10:
 					{
 						GoodLuck(i, j);
 						int item = Item.NewItem((i * 16) + 8, (j * 16) + 12, 16, 18, ModContent.ItemType<Glyph>(), 1);

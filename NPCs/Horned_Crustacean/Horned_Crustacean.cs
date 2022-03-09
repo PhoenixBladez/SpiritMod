@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using SpiritMod.Items.Consumable.Fish;
 
 namespace SpiritMod.NPCs.Horned_Crustacean
 {
@@ -265,6 +266,10 @@ namespace SpiritMod.NPCs.Horned_Crustacean
 			if (Main.rand.Next(25) == 0)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("LuminanceSeacone"), 1);
+			}
+			if (Main.rand.Next(2) == 1)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawFish>(), 1);
 			}
 		}
 		public override void HitEffect(int hitDirection, double damage)

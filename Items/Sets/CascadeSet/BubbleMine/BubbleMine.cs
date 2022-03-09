@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.BubbleMine
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<DeepCascadeShard>(), 3);
+			recipe.AddIngredient(ModContent.ItemType<DeepCascadeShard>(), 5);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this, 70);
 			recipe.AddRecipe();

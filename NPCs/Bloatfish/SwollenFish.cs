@@ -93,7 +93,11 @@ namespace SpiritMod.NPCs.Bloatfish
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Sushi>());
             }
-        }
+			if (Main.rand.NextBool(45))
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BalloonPufferfish);
+			}
+		}
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frame.Y = frameHeight * frame;
