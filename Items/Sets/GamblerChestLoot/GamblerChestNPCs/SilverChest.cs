@@ -142,6 +142,14 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 						"OperativeBody", "OperativeHead", "OperativeLegs", "WitchBody", "WitchHead", "WitchLegs"};
 					int loot = Main.rand.Next(lootTable.Length);
 
+
+					string[] donatorLootTable = { "WaasephiVanity", "MeteorVanity", "LightNovasVanity", "PixelatedFireballVanity" };
+					int donatorloot = Main.rand.Next(lootTable.Length);
+					if (Main.rand.NextBool(50))
+					{
+						npc.DropItem(mod.ItemType(donatorLootTable[donatorloot]));
+					}
+
 					if (Main.rand.Next(100) == 0)
 					{
 						npc.DropItem(mod.ItemType(lootTable[loot]));

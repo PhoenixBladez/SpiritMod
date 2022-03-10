@@ -8,6 +8,7 @@ using SpiritMod.Items.Equipment;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Sets.DonatorVanity;
 
 namespace SpiritMod.Items.Sets.ScarabeusDrops
 {
@@ -54,6 +55,16 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops
 
 			if(Main.rand.NextBool(3))
 				player.QuickSpawnItem(ModContent.ItemType<SandsOfTime>());
+
+			int[] vanityTable = {
+				ModContent.ItemType<WaasephiVanity>(),
+				ModContent.ItemType<MeteorVanity>(),
+				ModContent.ItemType<PixelatedFireballVanity>(),
+				ModContent.ItemType<LightNovasVanity>()
+			};
+			int vanityloot = Main.rand.Next(vanityTable.Length);
+			if (Main.rand.NextBool(20))
+				player.QuickSpawnItem(vanityTable[vanityloot]);
 		}
 	}
 }

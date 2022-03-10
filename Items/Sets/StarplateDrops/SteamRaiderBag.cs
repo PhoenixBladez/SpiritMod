@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
+using SpiritMod.Items.Sets.DonatorVanity;
 namespace SpiritMod.Items.Sets.StarplateDrops
 {
 	public class SteamRaiderBag : ModItem
@@ -31,6 +31,16 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 
 			if (Main.rand.NextBool(7)) player.QuickSpawnItem(ModContent.ItemType<StarplateMask>());
 			if (Main.rand.NextBool(10)) player.QuickSpawnItem(ModContent.ItemType<Trophy3>());
+
+			int[] vanityTable = {
+				ModContent.ItemType<WaasephiVanity>(),
+				ModContent.ItemType<MeteorVanity>(),
+				ModContent.ItemType<PixelatedFireballVanity>(),
+				ModContent.ItemType<LightNovasVanity>()
+			};
+			int loot = Main.rand.Next(vanityTable.Length);
+			if (Main.rand.NextBool(20))
+				player.QuickSpawnItem(vanityTable[loot]);
 		}
 	}
 }

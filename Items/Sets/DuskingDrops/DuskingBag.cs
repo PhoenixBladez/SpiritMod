@@ -1,4 +1,5 @@
 
+using SpiritMod.Items.Sets.DonatorVanity;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -46,6 +47,16 @@ namespace SpiritMod.Items.Sets.DuskingDrops
 				player.QuickSpawnItem(ModContent.ItemType<DuskingMask>());
 			if (Main.rand.NextDouble() < 1d / 10)
 				player.QuickSpawnItem(ModContent.ItemType<Trophy6>());
+
+			int[] vanityTable = {
+				ModContent.ItemType<WaasephiVanity>(),
+				ModContent.ItemType<MeteorVanity>(),
+				ModContent.ItemType<PixelatedFireballVanity>(),
+				ModContent.ItemType<LightNovasVanity>()
+			};
+			int vanityloot = Main.rand.Next(vanityTable.Length);
+			if (Main.rand.NextBool(20))
+				player.QuickSpawnItem(vanityTable[vanityloot]);
 		}
 	}
 }

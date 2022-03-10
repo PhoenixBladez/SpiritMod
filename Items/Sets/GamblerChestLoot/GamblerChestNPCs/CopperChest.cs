@@ -96,6 +96,13 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 						"JackBody", "JackLegs", "JackHead", "PlagueDoctorCowl", "PlagueDoctorRobe", "PlagueDoctorLegs", "ProtectorateBody", "ProtectorateLegs", "LeafPaddyHat", "PsychoMask",
 						"OperativeBody", "OperativeHead", "OperativeLegs", "WitchBody", "WitchHead", "WitchLegs"};
 					int loot = Main.rand.Next(lootTable.Length);
+
+					string[] donatorLootTable = { "WaasephiVanity", "MeteorVanity", "LightNovasVanity", "PixelatedFireballVanity"};
+					int donatorloot = Main.rand.Next(lootTable.Length);
+					if (Main.rand.NextBool(100))
+					{
+						npc.DropItem(mod.ItemType(donatorLootTable[donatorloot]));
+					}
 					if (Main.rand.Next(250) == 0)
 					{
 						npc.DropItem(mod.ItemType(lootTable[loot]));
