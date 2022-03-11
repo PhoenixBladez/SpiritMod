@@ -38,6 +38,8 @@ namespace SpiritMod.NPCs.Town
 			NPCID.Sets.AttackAverageChance[npc.type] = 30;
 		}
 
+		public override bool Autoload(ref string name) => false;
+
 		public override void SetDefaults()
 		{
 			npc.CloneDefaults(NPCID.Guide);

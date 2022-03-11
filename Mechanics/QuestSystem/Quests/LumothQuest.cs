@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Terraria;
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Mechanics.QuestSystem.Tasks;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
-    public class LumothQuest : Quest
+	public class LumothQuest : Quest
     {
         public override string QuestName => "Sanctuary: Luminous Luster";
 		public override string QuestClient => "The Dryad";

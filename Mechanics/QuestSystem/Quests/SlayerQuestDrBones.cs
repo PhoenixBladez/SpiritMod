@@ -20,16 +20,18 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
-			((int)Terraria.ID.ItemID.ArchaeologistsJacket, 1),
+			(Terraria.ID.ItemID.ArchaeologistsJacket, 1),
             (Terraria.ID.ItemID.ArchaeologistsPants, 1),
             (Terraria.ID.ItemID.TigerSkin, 1),
 			(ModContent.ItemType<Items.Weapon.Thrown.TargetBottle>(), 25),
 			(Terraria.ID.ItemID.GoldCoin, 1)
 		};
+
 		private SlayerQuestDrBones()
         {
-            _tasks.AddTask(new SlayTask(Terraria.ID.NPCID.DoctorBones, 1));    
+            _tasks.AddTask(new SlayTask(Terraria.ID.NPCID.DoctorBones, 1, null, null, true));    
         }
+
         public override void OnActivate()
 		{
 			QuestGlobalNPC.OnEditSpawnPool += QuestGlobalNPC_OnEditSpawnPool;
@@ -41,12 +43,11 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			QuestGlobalNPC.OnEditSpawnPool -= QuestGlobalNPC_OnEditSpawnPool;
 			base.OnDeactivate();
 		}
+
         private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
 		{
 			if (!Main.dayTime && spawnInfo.player.ZoneJungle && !spawnInfo.playerSafe && spawnInfo.spawnTileY < Main.worldSurface && !NPC.AnyNPCs(Terraria.ID.NPCID.DoctorBones))
-			{
 				pool[Terraria.ID.NPCID.DoctorBones] = 0.09f;
-			}
 		}
     }
 }

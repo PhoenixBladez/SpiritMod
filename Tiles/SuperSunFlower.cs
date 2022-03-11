@@ -35,7 +35,7 @@ namespace SpiritMod.Tiles
 			TileObjectData.newTile.AnchorValidTiles = new int[] { TileID.Grass, TileID.Dirt, TileID.JungleGrass, TileID.Mud, ModContent.TileType<BriarGrass>() };
 			TileObjectData.addTile(Type);
 
-			AddMapEntry(Color.LightGoldenrodYellow);
+			AddMapEntry(new Color(196, 101, 223));
 
 			dustType = DustID.Grass;
 		}

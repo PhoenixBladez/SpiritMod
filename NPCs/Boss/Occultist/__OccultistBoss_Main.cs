@@ -28,7 +28,6 @@ namespace SpiritMod.NPCs.Boss.Occultist
 		{
 			npc.width = 42;
 			npc.height = 56;
-
 			npc.lifeMax = 1000;
 			npc.defense = 14;
 			npc.damage = 30;
@@ -39,13 +38,14 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			npc.knockBackResist = 0.45f;
 			npc.netAlways = true;
 			npc.lavaImmune = true;
+			//npc.boss = true;
+
 			banner = npc.type;
-			npc.boss = true;
 			music = MusicID.Eerie;
 			bannerItem = ModContent.ItemType<Items.Banners.OccultistBanner>();
 		}
 
-		private ref float AiState => ref npc.ai[0];
+		private ref float AIState => ref npc.ai[0];
 
 		private const float AISTATE_SPAWN = 0;
 		private const float AISTATE_DESPAWN = 1;
@@ -62,7 +62,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 		private void UpdateAIState(float State)
 		{
-			AiState = State;
+			AIState = State;
 			AiTimer = 0;
 			frame.Y = 0;
 			SecondaryCounter = 0;
@@ -76,10 +76,10 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 		public override void AI()
 		{
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.46f, 0.12f, .64f);
+			Lighting.AddLight((int)(npc.Center.Y / 16f), (int)(npc.Center.Y / 16f), 0.46f, 0.12f, .64f);
 			Player target = Main.player[npc.target];
 
-			if ((AiState == AISTATE_PHASE1 || AiState == AISTATE_PHASE2))
+			if (AIState == AISTATE_PHASE1 || AIState == AISTATE_PHASE2)
 			{
 				if(Main.dayTime)
 					UpdateAIState(AISTATE_DESPAWN);
@@ -92,10 +92,10 @@ namespace SpiritMod.NPCs.Boss.Occultist
 				}
 			}
 
-			if (AiState == AISTATE_PHASE1 && npc.life < (npc.lifeMax / 2))
-				UpdateAIState(AISTATE_PHASETRANSITION);
+			//if (AIState == AISTATE_PHASE1 && npc.life < (npc.lifeMax / 2)) //Updates the boss to the second phase
+			//	UpdateAIState(AISTATE_PHASETRANSITION);
 
-			switch (AiState)
+			switch (AIState)
 			{
 				case AISTATE_SPAWN:
 					npc.TargetClosest(true);
@@ -247,7 +247,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 		public override bool CheckDead()
 		{
-			if (AiState != AISTATE_DEATH)
+			if (AIState != AISTATE_DEATH)
 			{
 				UpdateAIState(AISTATE_DEATH);
 				npc.life = 1;
@@ -288,6 +288,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			}
 		}
 
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => Main.bloodMoon && spawnInfo.player.Center.Y / 16f < Main.worldSurface ? 0.02f : 0f;
 
 		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,
 			out string name, out Func<bool> downedCondition, ref BossChecklistDataHandler.BCIDData identificationData,

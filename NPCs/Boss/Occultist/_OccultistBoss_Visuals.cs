@@ -44,8 +44,8 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			float halfanimtime = animtime / 2f;
 			if (SecondaryCounter == 0)
 			{
-				if (!EventManager.IsPlaying<FollowNPCThenReturn>() && !Main.dedServ)
-					EventManager.PlayEvent(new FollowNPCThenReturn(npc, 1.5f, (animtime / 60), 1.5f));
+				//if (!EventManager.IsPlaying<FollowNPCThenReturn>() && !Main.dedServ) //Plays the spawn animation
+				//	EventManager.PlayEvent(new FollowNPCThenReturn(npc, 1.5f, animtime / 60, 1.5f));
 
 				AiTimer = 0;
 				frame.X = 3;
@@ -181,9 +181,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 				UpdateYFrame(12, 0, 7, delegate (int frameY)
 				{
 					if (frameY == 7)
-					{
 						npc.active = false;
-					}
 				});
 			}
 		}
@@ -195,8 +193,8 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 			if (AiTimer < ChargeTime)
 			{
-				if (!EventManager.IsPlaying<FollowNPCThenReturn>() && !Main.dedServ)
-					EventManager.PlayEvent(new FollowNPCThenReturn(npc, 1.5f, (ChargeTime) / 60, 1.5f));
+				//if (!EventManager.IsPlaying<FollowNPCThenReturn>() && !Main.dedServ) //Starts real death anim
+				//	EventManager.PlayEvent(new FollowNPCThenReturn(npc, 1.5f, (ChargeTime) / 60, 1.5f));
 
 				npc.noGravity = true;
 				npc.velocity.X = 0;
@@ -320,7 +318,6 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			//for (int j = 0; j < 12; j++)
 			//Gore.NewGore(npc.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(6), mod.GetGoreSlot("Gores/Skelet/grave" + Main.rand.Next(1, 5)));
 		}
-
 
 		#region Drawing
 
