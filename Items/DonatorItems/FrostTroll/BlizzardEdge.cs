@@ -1,5 +1,7 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Particles;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,10 +9,15 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 {
 	public class BlizzardEdge : ModItem
 	{
+		private readonly Color Blue = new Color(0, 114, 201);
+		private readonly Color White = new Color(255, 255, 255);
+		int counter = 5;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blizzard's Edge");
 			Tooltip.SetDefault("Right-click after five swings to summon a blizzard");
+			SpiritGlowmask.AddGlowMask(item.type, Texture + "_Glow");
+
 		}
 
 		public override void SetDefaults()
@@ -38,19 +45,23 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 				target.AddBuff(BuffID.Frostburn, 400, true);
 		}
 		public override bool AltFunctionUse(Player player) => true;
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, item, ModContent.GetTexture(Texture + "_Glow"), rotation, scale);
 
-		int counter = 5;
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			counter--;
 			if (player.altFunctionUse == 2)
 			{
+				DrawDust(player);
 				if (counter <= 0)
 				{
-					if (Main.netMode != NetmodeID.Server)
-						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BlizzardLoop").WithVolume(0.5f).WithPitchVariance(0.54f), player.Center);
+					player.GetModPlayer<MyPlayer>().Shake += 8;
+					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 45));
 
-					int p = Projectile.NewProjectile(position.X + (110 * player.direction), position.Y - 8, 0, 0, ModContent.ProjectileType<BlizzardProjectile>(), damage / 4, knockBack / 4, player.whoAmI);
+					if (Main.netMode != NetmodeID.Server)
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BlizzardLoop").WithVolume(0.65f).WithPitchVariance(0.54f), player.Center);
+
+					int p = Projectile.NewProjectile(position.X + (110 * player.direction), position.Y - 8, 0, 0, ModContent.ProjectileType<BlizzardProjectile>(), damage / 3, knockBack / 4, player.whoAmI);
 					Main.projectile[p].direction = player.direction;
 					counter = 5;
 				}
@@ -60,11 +71,24 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 				if (Main.netMode != NetmodeID.Server)
 				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/MagicCast1").WithVolume(0.5f).WithPitchVariance(0.54f), player.Center);
-					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 0));
+					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 46));
 				}
 
 			}
 			return false;
+		}
+		public void DrawDust(Player player)
+		{
+			float cosRot = (float)Math.Cos(player.itemRotation - 0.78f * player.direction * player.gravDir);
+			float sinRot = (float)Math.Sin(player.itemRotation - 0.78f * player.direction * player.gravDir);
+			if (!Main.dedServ)
+			{
+				for (int i = 0; i < 13; i++)
+				{
+					float length = (item.width * 1.2f - i * item.width / 9) * item.scale + 32;
+					ParticleHandler.SpawnParticle(new FireParticle(new Vector2((float)(player.itemLocation.X + length * cosRot * player.direction), (float)(player.itemLocation.Y + length * sinRot * player.direction)), new Vector2(0, Main.rand.NextFloat(-.15f, -.1f)), Blue, White, Main.rand.NextFloat(0.15f, 0.45f), 30));
+				}
+			}
 		}
 		public override bool CanUseItem(Player player)
 		{
@@ -82,8 +106,8 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 			}
 			return true;
 		}
-
 	}
+
 	class BlizzardProjectile : ModProjectile
 	{
 		private readonly Color Blue = new Color(0, 114, 201);
@@ -138,13 +162,11 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.NextBool(3))
-				target.AddBuff(ModContent.BuffType<Buffs.MageFreeze>(), 300);
+				target.AddBuff(BuffID.Frostburn, 240);
 
 			for (int i = 0; i < 2; i++)
 			{
-				Vector2 vel = Main.rand.NextFloat(6.28f).ToRotationVector2();
-				vel *= Main.rand.NextFloat(-2, -1);
-				ImpactLine line = new ImpactLine(target.Center - (vel * 10), vel, Color.Lerp(White, Blue, Main.rand.NextFloat()), new Vector2(0.25f, Main.rand.NextFloat(0.15f, .25f) * 1.5f), 70);
+				ImpactLine line = new ImpactLine(target.Center, new Vector2(projectile.velocity.X * .65f, Main.rand.NextFloat(-.5f, .5f)), Color.Lerp(White, Blue, Main.rand.NextFloat()), new Vector2(0.25f, Main.rand.NextFloat(0.4f, .55f) * 1.5f), 70);
 				line.TimeActive = 30;
 				ParticleHandler.SpawnParticle(line);
 
