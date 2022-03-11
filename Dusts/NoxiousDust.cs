@@ -9,19 +9,19 @@ namespace SpiritMod.Dusts
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;
-            dust.noLight = true;
+			dust.frame = new Rectangle(0, Texture.Height / 3 * Main.rand.Next(3), Texture.Width, Texture.Height / 3);
+			dust.noLight = true;
         }
 
         public override Color? GetAlpha(Dust dust, Color lightColor) => dust.color;
 
         public override bool Update(Dust dust)
         {
-			dust.color = Lighting.GetColor((int)(dust.position.X / 16), (int)(dust.position.Y / 16)).MultiplyRGB(new Color(17, 145, 45)) * 0.24f;
+			dust.color = Lighting.GetColor((int)(dust.position.X / 16), (int)(dust.position.Y / 16)).MultiplyRGB(Color.Lerp(Color.Black * .34f, new Color(17, 145, 45), dust.scale/1f)) * 0.24f;
 			dust.position += dust.velocity * 0.1f;
             dust.scale *= 0.992f;
-			dust.velocity.Y -= .2f;
-            dust.velocity *= 0.97f;
-            dust.rotation += 0.06f;
+			dust.velocity.Y -= Main.rand.NextFloat(1.5f, 2.1f) * dust.scale;
+            dust.velocity *= 0.89f;
 
             if (dust.scale <= 0.2f) dust.active = false;
             return false;

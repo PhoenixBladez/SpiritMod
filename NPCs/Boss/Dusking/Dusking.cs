@@ -193,7 +193,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 					float acceleration = 1.55f;
 					Vector2 vector2 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 					float num7 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector2.X;
-					float num8 = (float)(Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 120) - vector2.Y;
+					float num8 = (float)(Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 290) - vector2.Y;
 					float num9 = (float)Math.Sqrt(num7 * num7 + num8 * num8);
 					if (Main.rand.Next(100) == 6) {
 						for (int i = 0; i < 8; ++i) {
