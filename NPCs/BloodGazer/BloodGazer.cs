@@ -37,6 +37,8 @@ namespace SpiritMod.NPCs.BloodGazer
 			NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
 
+		public override bool Autoload(ref string name) => false;
+
 		public override void SetDefaults()
 		{
 			npc.Size = new Vector2(50, 68);

@@ -1,9 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using SpiritMod;
-using SpiritMod.Utilities;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -20,31 +15,30 @@ namespace SpiritMod.NPCs
 
 		public delegate void UpdateFrameAction(int frameNumber);
 
-		/// <summary>
-		/// Animates the NPC vertically, automatically setting its frame to the start frame if before it, and looping back to the minimum frame if past the ending frame
-		/// </summary>
-		/// <param name="framespersecond"></param>
-		/// <param name="minframe"></param>
-		/// <param name="maxframe"></param>
-		public void UpdateYFrame(int framespersecond, int startframe, int endframe, UpdateFrameAction action = null, int? loopFrame = null)
+		/// <summary>Animates the NPC vertically, automatically setting its frame to the start frame if before it, and looping back to the minimum frame if past the ending frame</summary>
+		/// <param name="fps">FPS of the animation.</param>
+		/// <param name="startFrame">The frame to start on.</param>
+		/// <param name="endFrame">The frame to end/loop on.</param>
+		/// <param name="action">Action that is invoked on every frame switch.</param>
+		public void UpdateYFrame(int fps, int startFrame, int endFrame, UpdateFrameAction action = null, int? loopFrame = null)
 		{
 			npc.frameCounter++;
-			bool reverse = startframe > endframe; //invert the looping logic and decrease frame height if the ending frame is before the starting frame, to allow updating frames in reverse
+			bool reverse = startFrame > endFrame; //invert the looping logic and decrease frame height if the ending frame is before the starting frame, to allow updating frames in reverse
 
 			void LoopCheck()
 			{
-				bool loopcheck = (reverse) ? (frame.Y < endframe || frame.Y > startframe) : (frame.Y > endframe || frame.Y < startframe);
-				if (loopcheck)
-					frame.Y = loopFrame ?? startframe;
+				bool loopCheck = reverse ? (frame.Y < endFrame || frame.Y > startFrame) : (frame.Y > endFrame || frame.Y < startFrame);
+				if (loopCheck)
+					frame.Y = loopFrame ?? startFrame;
 			}
 
 			LoopCheck();
-			if (framespersecond == 0)
+			if (fps == 0)
 				return;
 
-			if (npc.frameCounter >= (60 / framespersecond))
+			if (npc.frameCounter >= (60 / fps))
 			{
-				frame.Y += (reverse) ? -1 : 1;
+				frame.Y += reverse ? -1 : 1;
 				npc.frameCounter = 0;
 				LoopCheck();
 
@@ -57,17 +51,15 @@ namespace SpiritMod.NPCs
 		{
 			if (ignorePlatforms)
 			{
-				bool onplatform = true;
+				bool onPlatform = true;
 				for (int i = (int)npc.position.X; i < npc.position.X + npc.width; i += npc.width / 4)
 				{
 					Tile tile = Framing.GetTileSafely(new Point((int)npc.position.X / 16, (int)(npc.position.Y + npc.height + 8) / 16));
 					if (!TileID.Sets.Platforms[tile.type])
-						onplatform = false;
+						onPlatform = false;
 				}
-				if (onplatform)
-					npc.noTileCollide = true;
-				else
-					npc.noTileCollide = false;
+
+				npc.noTileCollide = onPlatform;
 			}
 
 			return SafePreAI();
@@ -89,7 +81,7 @@ namespace SpiritMod.NPCs
 		/// Simple helper method to make an npc pass through platforms when above the player, but not when at the same height as them
 		/// </summary>
 		/// <param name="player"></param>
-		public void PlayerPlatformCheck(Player player) => ignorePlatforms = (npc.Bottom.Y < player.Top.Y);
+		public void PlayerPlatformCheck(Player player) => ignorePlatforms = npc.Bottom.Y < player.Top.Y;
 
 		/// <summary>
 		/// Use in cases where PreAI would be used, due to PreAI being implemented by SpiritNPC
