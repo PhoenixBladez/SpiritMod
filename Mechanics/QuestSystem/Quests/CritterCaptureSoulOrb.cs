@@ -15,7 +15,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
     {
         public override string QuestName => "Sanctuary: Soul Searching";
 		public override string QuestClient => "The Dryad";
-		public override string QuestDescription => "The strange new Spirit fields that have emerged over the horizon bear countless new plants and animals. But one little soul stands no chance if we do not go and capture it. These Soul Orbs light up the depths of the Underground Spirit, and I would like to make sure they are kept safe. If you are headed to the Spirit Biome, though, would you also be able to provide me with some Soulbloom cuttings?";
+		public override string QuestDescription => "The strange new Spirit fields that have emerged over the horizon bear countless new plants and animals. But one little soul stands no chance if we do not go and capture it. These Soul Orbs light up the depths of the Underground Spirit, and I'd like to make sure they are kept safe. On the way, could you also be able to provide me with some Soulbloom cuttings?";
 		public override int Difficulty => 3;
 		public override string QuestCategory => "Forager";
 
