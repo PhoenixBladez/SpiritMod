@@ -366,11 +366,12 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 		{
 			if (Main.mouseRight && !dashing && player == Main.LocalPlayer)
 			{
-				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/slashdash").WithPitchVariance(0.4f).WithVolume(0.4f), player.Center);
+				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/slashdash").WithPitchVariance(0.4f).WithVolume(0.4f), player.Center);
 				dashing = true;
 				player.GetModPlayer<MyPlayer>().AnimeSword = true;
 				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HeliosDash>(), projectile.damage * 3, 0, player.whoAmI);
 			}
+
 			if (dashing)
 			{
 				player.velocity = player.DirectionTo(projectile.Center) * 80;
@@ -381,16 +382,19 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 					player.GetModPlayer<MyPlayer>().AnimeSword = false;
 				}
 			}
+
 			if (!paused && projectile.velocity.Length() <= 3 && !pausedBefore)
 			{
 				paused = true;
 				oldVel = projectile.velocity;
 			}
+
 			if (paused)
 			{
 				pausedBefore = true;
 				projectile.velocity *= 0.99f;
 				pauseTimer--;
+
 				if (pauseTimer <= 0)
 				{
 					projectile.velocity = oldVel;
@@ -414,10 +418,13 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 			return true;
 		}
 	}
+
 	public class HeliosDash : ModProjectile
 	{
 		private Player player => Main.player[projectile.owner];
+
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Helios");
+
 		public override void SetDefaults()
 		{
 			projectile.width = projectile.height = 180;
@@ -429,9 +436,11 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 			projectile.tileCollide = false;
 			projectile.hide = true;
 		}
+
 		public override void AI()
 		{
 			projectile.Center = player.Center;
+
 			if (!player.GetModPlayer<MyPlayer>().AnimeSword)
 				projectile.active = false;
 			else

@@ -4,7 +4,6 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
-using System;
 
 namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 {
@@ -33,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
             item.useTurn = false;
             item.value = Item.sellPrice(0, 0, 90, 0);
             item.rare = ItemRarityID.Orange;
-            item.autoReuse = true;
+            item.autoReuse = false;
             item.shoot = ModContent.ProjectileType<AnimeSwordProj>();
             item.shootSpeed = 6f;
             item.noUseGraphic = true;
@@ -64,6 +63,7 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 
         public readonly int MAXCHARGE = 69;
         public int charge = 0;
+		public int postCharge = 0;
         int index = 0;
         NPC mostRecent;
 
@@ -89,10 +89,9 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 					if (projectile.owner == Main.myPlayer)
 					{
 						direction = Vector2.Normalize(Main.MouseWorld - player.Center) * 45f;
+
 						if (Main.netMode != NetmodeID.SinglePlayer)
-						{
 							NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile.whoAmI);
-						}
 					}
 				}
 
@@ -100,6 +99,8 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
                 {
 					player.GetModPlayer<MyPlayer>().AnimeSword = true;
                     player.velocity = direction;
+					player.direction = System.Math.Sign(player.velocity.X);
+
                     for (int i = 0; i < Main.npc.Length; i++)
                     {
                         NPC target = Main.npc[i];
@@ -120,6 +121,8 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
                 {
 					player.GetModPlayer<MyPlayer>().AnimeSword = false;
 					player.velocity *= 0.001f;
+
+					player.channel = false;
                 }
             }
             else
@@ -202,34 +205,32 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 		{
 			Player player = Main.player[projectile.owner];
             Texture2D texture = Main.projectileTexture[projectile.type];
-            if (player.direction == 1)
+			var source = new Rectangle(0, charge >= 60 ? texture.Height / 2 : 0, texture.Width, 20);
+			float rot = (charge / 20f) - (player.direction == 1 ? 0 : (MathHelper.Pi * 0.75f));
+			Vector2 sparkOrig = texture.Size() / new Vector2(4, 8);
+
+			if (player.direction == 1)
             {
-                Main.spriteBatch.Draw(texture, (player.MountedCenter - new Vector2(-6, 6)) - Main.screenPosition, null, lightColor, 0, new Vector2(texture.Width,0), projectile.scale, SpriteEffects.None, 0.0f);
-                if (charge > 60 && player.channel)
+                Main.spriteBatch.Draw(texture, player.MountedCenter - new Vector2(-6, 6) - Main.screenPosition, source, lightColor, 0, new Vector2(texture.Width,0), projectile.scale, SpriteEffects.None, 0.0f);
+                if (charge > 58 && player.channel)
                 {
                     Texture2D texture2 = ModContent.GetTexture("SpiritMod/Items/Weapon/Swung/AnimeSword/TwinkleXLarge");
-                    Main.spriteBatch.Draw(texture2, (player.MountedCenter - new Vector2(-6, 6)) - Main.screenPosition, null, Color.White, charge / 40f, new Vector2(texture2.Width / 2,texture2.Height / 2), projectile.scale, SpriteEffects.None, 0.0f);
+                    Main.spriteBatch.Draw(texture2, (player.MountedCenter - new Vector2(-6, 6)) - Main.screenPosition, null, Color.White, rot, sparkOrig, projectile.scale, SpriteEffects.None, 0.0f);
                 }
             }
             else
             {
-                Main.spriteBatch.Draw(texture, (player.MountedCenter - new Vector2(6, 6)) - Main.screenPosition, null, lightColor, 0, new Vector2(0,0), projectile.scale, SpriteEffects.FlipHorizontally, 0.0f);
-                if (charge > 60 && player.channel)
+                Main.spriteBatch.Draw(texture, player.MountedCenter - new Vector2(6, 6) - Main.screenPosition, source, lightColor, 0, new Vector2(0,0), projectile.scale, SpriteEffects.FlipHorizontally, 0.0f);
+                if (charge > 58 && player.channel)
                 {
                     Texture2D texture2 = ModContent.GetTexture("SpiritMod/Items/Weapon/Swung/AnimeSword/TwinkleXLarge");
-                    Main.spriteBatch.Draw(texture2, (player.MountedCenter - new Vector2(-2, 6)) - Main.screenPosition, null, Color.White, charge / 40f, new Vector2(texture2.Width / 2,texture2.Height / 2), projectile.scale, SpriteEffects.None, 0.0f);
+                    Main.spriteBatch.Draw(texture2, (player.MountedCenter - new Vector2(-2, 6)) - Main.screenPosition, null, Color.White, rot, sparkOrig, projectile.scale, SpriteEffects.None, 0.0f);
                 }
             }
             return false;
         }
-		public override void SendExtraAI(BinaryWriter writer)
-		{
-			writer.WriteVector2(direction);
-		}
 
-		public override void ReceiveExtraAI(BinaryReader reader)
-		{
-			direction = reader.ReadVector2();
-		}
+		public override void SendExtraAI(BinaryWriter writer) => writer.WriteVector2(direction);
+		public override void ReceiveExtraAI(BinaryReader reader) => direction = reader.ReadVector2();
 	}
 }
