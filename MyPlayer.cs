@@ -2831,6 +2831,7 @@ namespace SpiritMod
 				player.meleeSpeed += .06f * astralSetStacks;
 				player.manaCost -= .06f * astralSetStacks;
 				player.lifeRegen += 1 * astralSetStacks;
+				player.manaRegen += 1 * astralSetStacks;
 				astralSetStacks = 0;
 				for (int i = 0; i < 200; i++)
 				{

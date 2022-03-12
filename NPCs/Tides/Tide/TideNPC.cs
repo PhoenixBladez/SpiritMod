@@ -119,7 +119,8 @@ namespace SpiritMod.NPCs.Tides.Tide
 						NPC rylheian = Main.npc[NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 400, NPCType<Rylheian>(), 0, 2, 1, 0, 0, player.whoAmI)];
 						DustHelper.DrawDiamond(new Vector2(rylheian.Center.X, rylheian.Center.Y), 173, 8);
 						DustHelper.DrawTriangle(new Vector2(rylheian.Center.X, rylheian.Center.Y), 173, 8);
-						Main.PlaySound(SoundID.Zombie, rylheian.Center, 89);
+						if (Main.netMode != NetmodeID.Server) 
+							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/RlyehianCry").WithVolume(0.5f).WithPitchVariance(0.2f), npc.Center);
 					}
 				}
 

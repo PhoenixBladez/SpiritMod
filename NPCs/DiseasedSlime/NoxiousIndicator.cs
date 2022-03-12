@@ -30,7 +30,8 @@ namespace SpiritMod.NPCs.DiseasedSlime
 		public override void AI()
 		{
 			projectile.alpha += 2;
-			projectile.velocity.Y -= 1.1f * (projectile.timeLeft / 120f);
+			projectile.velocity.Y = -.9f * ((projectile.timeLeft * 2) / 120f);
+			projectile.velocity *= .98f;
 
 			if (projectile.frameCounter++ >= 6)
 			{

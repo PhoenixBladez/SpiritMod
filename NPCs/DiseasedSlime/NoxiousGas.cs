@@ -16,8 +16,8 @@ namespace SpiritMod.NPCs.DiseasedSlime
 			projectile.hostile = false;
 			projectile.penetrate = 4;
 			projectile.timeLeft = 90;
-			projectile.height = 70;
-			projectile.width = 70;
+			projectile.height = 80;
+			projectile.width = 80;
 			projectile.alpha = 255;
 		}
 
@@ -32,13 +32,10 @@ namespace SpiritMod.NPCs.DiseasedSlime
 				player.AddBuff(BuffID.Poisoned, 600);
 			}
 
-			if (Main.rand.NextBool(6))
+			if (Main.rand.NextBool(2))
 			{
-				for (int j = 0; j < 9; j++)
-				{
-					Dust dust = Main.dust[Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 2f), projectile.width, projectile.height, ModContent.DustType<Dusts.NoxiousDust>(), 0f, 0f, 100, new Color(), Main.rand.NextFloat(2.5f, 4.5f))];
-					dust.noGravity = true;
-				}
+				Dust dust = Main.dust[Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 2f), projectile.width, projectile.height, ModContent.DustType<Dusts.NoxiousDust>(), Main.rand.NextFloat(-1.5f, 1.5f), 0f, 100, new Color(), Main.rand.NextFloat(1.5f, 1.75f))];
+
 			}
 		}
     }

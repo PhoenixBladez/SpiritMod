@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Sets.SeraphSet.SeraphArmor
 
 		public override void UpdateArmorSet(Player player)
 		{
-			player.setBonus = "Being near enemies increases life regen, increases melee speed\nand reduces mana cost by 6% per enemy\nThis effect stacks three times";
+			player.setBonus = "Being near enemies increases life regen, increases mana regen, increases melee speed\nand reduces mana cost by 6% per enemy\nThis effect stacks three times";
 			player.GetSpiritPlayer().astralSet = true;
 		}
 

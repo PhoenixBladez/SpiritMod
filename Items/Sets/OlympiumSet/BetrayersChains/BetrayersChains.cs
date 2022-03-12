@@ -332,7 +332,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 				{
 					Vector2 vel = Main.rand.NextFloat(6.28f).ToRotationVector2();
 					vel *= Main.rand.NextFloat(2, 5);
-					ImpactLine line = new ImpactLine(target.Center - (vel * 10), vel, Color.Lerp(Color.Orange, Color.Red, Main.rand.NextFloat()), new Vector2(0.25f, Main.rand.NextFloat(0.75f, 1.75f) * 1.5f), 70);
+					ImpactLine line = new ImpactLine(target.Center - (vel * 10), vel, Color.Lerp(Color.Orange, Color.Red, Main.rand.NextFloat()), new Vector2(0.25f, Main.rand.NextFloat(0.35f, 0.55f) * 1.5f), 70);
 					line.TimeActive = 30;
 					ParticleHandler.SpawnParticle(line);
 

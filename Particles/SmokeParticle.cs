@@ -11,7 +11,10 @@ namespace SpiritMod.Particles
 		private float opacity = 0;
 		public int MaxTime;
 
-		public SmokeParticle(Vector2 position, Vector2 velocity, Color color, float scale, int maxTime)
+		public delegate void UpdateAction(Particle particle);
+
+		private readonly UpdateAction _action;
+		public SmokeParticle(Vector2 position, Vector2 velocity, Color color, float scale, int maxTime, UpdateAction action = null)
 		{
 			Position = position;
 			Velocity = velocity;
@@ -19,6 +22,7 @@ namespace SpiritMod.Particles
 			Rotation = Main.rand.NextFloat(MathHelper.TwoPi);
 			Scale = scale;
 			MaxTime = maxTime;
+			_action = action;
 		}
 
 
@@ -31,6 +35,10 @@ namespace SpiritMod.Particles
 			opacity = (float)Math.Pow((halftime - Math.Abs(halftime - TimeActive)) / halftime, 0.75);
 			Scale += 0.01f;
 			Rotation += Velocity.X * 0.1f;
+
+			if (_action != null)
+				_action.Invoke(this);
+
 			if (TimeActive >= MaxTime)
 				Kill();
 		}

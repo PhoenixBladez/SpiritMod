@@ -68,8 +68,16 @@ namespace SpiritMod.NPCs.Tides
 			if (npc.ai[0] % 400 == 100 && Main.netMode != NetmodeID.MultiplayerClient) {
 				int distance = 500;
 				bool teleported = false;
-				while (!teleported) {
-						npc.ai[3] = Main.rand.Next(360);
+				while (!teleported) 
+				{
+					if (Main.netMode != NetmodeID.Server)
+					{
+						if (Main.rand.NextBool(2))
+							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/RlyehianCry2").WithVolume(0.85f).WithPitchVariance(0.4f), npc.Center);
+						else
+							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/RlyehianCry").WithVolume(0.85f).WithPitchVariance(0.4f), npc.Center);
+					}
+					npc.ai[3] = Main.rand.Next(360);
 						double anglex = Math.Sin(npc.ai[3] * (Math.PI / 180));
 						double angley = Math.Cos(npc.ai[3] * (Math.PI / 180));
 						npc.position.X = player.Center.X + (int)(distance * anglex);
@@ -149,6 +157,7 @@ namespace SpiritMod.NPCs.Tides
 				if (npc.ai[0] % 25 == 10) {
 					if (Main.netMode != NetmodeID.MultiplayerClient) {
 						npc.ai[3] = Main.rand.Next(360);
+						Main.PlaySound(SoundID.Item, npc.Center, 8);
 						double squidAnglex = Math.Sin(npc.ai[3] * (Math.PI / 180));
 						double squidAngley = 0 - Math.Abs(Math.Cos(npc.ai[3] * (Math.PI / 180)));
 						Vector2 direction = player.Center - new Vector2(player.Center.X + (int)(500 * squidAnglex), player.Center.Y + (int)(500 * squidAngley));
