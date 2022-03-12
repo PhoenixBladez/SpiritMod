@@ -146,6 +146,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.LocustCrook
 		{
 			LocustNPC lnpc = target.GetGlobalNPC<LocustNPC>();
 			lnpc.locustinfo = new LocustNPC.LocustInfo((int)(projectile.damage * 0.65f), Main.rand.Next(40, 80), projectile.owner);
+
 			if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, target.whoAmI);
 		}

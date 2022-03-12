@@ -18,7 +18,7 @@ namespace SpiritMod.NPCs.Hydra
 
 		private bool initialized = false;
 
-		private List<NPC> heads = new List<NPC>();
+		private readonly List<NPC> heads = new List<NPC>();
 
 		public int headsSpawned = 0;
 
@@ -27,10 +27,9 @@ namespace SpiritMod.NPCs.Hydra
 
 		private int attackIndex = 0;
 		private int attackCounter = 0;
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Lernean Hydra");
-		}
+
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Lernean Hydra");
+
 		public override void SetDefaults()
 		{
 			npc.width = 36;
@@ -48,36 +47,35 @@ namespace SpiritMod.NPCs.Hydra
 			npc.dontTakeDamage = true;
 			npc.hide = true;
 		}
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			foreach (NPC npc2 in Main.npc)
+			for (int i = 0; i < Main.maxNPCs; ++i)
 			{
+				NPC npc2 = Main.npc[i];
 				if (npc2.active && npc2.type == ModContent.NPCType<Hydra>())
 					return 0f;
 			}
-			int x = spawnInfo.spawnTileX;
-			int y = spawnInfo.spawnTileY;
-			int tile = (int)Main.tile[x, y].type;
-			return (tile == 367) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.5f : 0f;
+
+			int tile = Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].type;
+			return (tile == TileID.Marble) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.5f : 0f;
 		}
 
 		public override void AI()
 		{
 			npc.TargetClosest(true);
+
 			if (!initialized)
 			{
 				initialized = true;
+
 				for (int i = 0; i < 2; i++)
-				{
 					SpawnHead(npc.lifeMax);
-				}
 			}
 
 			foreach (NPC head in heads.ToArray())
-			{
 				if (!head.active)
 					heads.Remove(head);
-			}
 
 			if (heads.Count <= 0)
 			{
@@ -86,21 +84,19 @@ namespace SpiritMod.NPCs.Hydra
 				return;
 			}
 
-			attackCounter++;
-			if (attackCounter > 300 / heads.Count())
+			if (--attackCounter > 300 / heads.Count())
 			{
 				attackIndex %= heads.Count();
 				attackCounter = 0;
 				var modNPC = heads[attackIndex++].modNPC as HydraHead;
 				modNPC.attacking = true;
 			}
-			newHeadCountdown--;
-			if (newHeadCountdown == 0)
+
+			if (--newHeadCountdown == 0)
 			{
 				for (int i = 0; i < headsDue; i++)
-				{
 					SpawnHead(Math.Max(npc.lifeMax - (50 * headsSpawned), 100));
-				}
+
 				headsDue = 1;
 			}
 		}
@@ -112,9 +108,13 @@ namespace SpiritMod.NPCs.Hydra
 
 			headsSpawned++;
 			int npcIndex = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<HydraHead>(), 0, npc.whoAmI);
+
 			NPC head = Main.npc[npcIndex];
 			head.life = head.lifeMax = life;
 			heads.Add(head);
+
+			if (Main.netMode != NetmodeID.SinglePlayer)
+				NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npcIndex);
 		}
 	}
 
@@ -124,31 +124,27 @@ namespace SpiritMod.NPCs.Hydra
 		Green = 1,
 		Purple = 2
 	}
+
 	public class HydraHead : ModNPC
 	{
 		public const float FIREBALLGRAVITY = 0.3f;
 
 		private bool initialized = false;
 
-		private NPC parent => Main.npc[(int)npc.ai[0]];
+		private NPC Parent => Main.npc[(int)npc.ai[0]];
 
 		private HeadColor headColor;
-
 		private Vector2 posToBe = Vector2.Zero;
 		private float rotation;
 		private float sway;
-
 		private float centralRotation;
 		private int centralDistance;
 		private float rotationSpeed;
 		private float swaySpeed;
 		private Vector2 orbitRange;
 		public bool attacking = false;
-
 		private float headRotationOffset;
-
 		private int attackCounter;
-
 		private int frameY;
 		private int frameCounter;
 
@@ -157,6 +153,7 @@ namespace SpiritMod.NPCs.Hydra
 			DisplayName.SetDefault("Lernean Hydra");
 			Main.npcFrameCount[npc.type] = 3;
 		}
+
 		public override void SetDefaults()
 		{
 			npc.width = 44;
@@ -178,6 +175,7 @@ namespace SpiritMod.NPCs.Hydra
 		{
 			npc.velocity *= 0.96f;
 			npc.velocity.Y *= 0.96f;
+
 			if (!initialized)
 			{
 				initialized = true;
@@ -191,7 +189,8 @@ namespace SpiritMod.NPCs.Hydra
 				orbitRange = Main.rand.NextVector2Circular(70, 30);
 				swaySpeed = Main.rand.NextFloat(0.015f, 0.035f);
 			}
-			if (!parent.active)
+
+			if (!Parent.active)
 			{
 				npc.active = false;
 				return;
@@ -202,44 +201,41 @@ namespace SpiritMod.NPCs.Hydra
 			if (!attacking)
 			{
 				frameCounter++;
-				if (frameCounter % 5== 0)
+				if (frameCounter % 5 == 0)
 					frameY++;
-				frameY %= numFrames();
+				frameY %= NumFrames();
 				headRotationOffset = 0f;
 				rotation += rotationSpeed;
 				sway += swaySpeed;
 
-				headRotationOffset = npc.DirectionTo(Main.player[parent.target].Center).ToRotation();
+				headRotationOffset = npc.DirectionTo(Main.player[Parent.target].Center).ToRotation();
 			}
 			else
-			{
 				AttackBehavior();
-			}
 
-
-			npc.spriteDirection = npc.direction = parent.direction;
+			npc.spriteDirection = npc.direction = Parent.direction;
 			centralRotation = 0.3f * ((float)Math.Sin(sway) + (npc.direction * 1.5f));
 			posToBe = DecidePosition();
 
 			MoveToPosition();
 
 			if (headColor == HeadColor.Red)
-            {
+			{
 				npc.buffImmune[BuffID.OnFire] = true;
 				npc.buffImmune[BuffID.Confused] = true;
 			}
 			if (headColor == HeadColor.Green)
-            {
+			{
 				npc.buffImmune[BuffID.Poisoned] = true;
 				npc.buffImmune[BuffID.Confused] = true;
 			}
 			if (headColor == HeadColor.Purple)
-            {
+			{
 				npc.buffImmune[BuffID.Venom] = true;
 				npc.buffImmune[BuffID.Confused] = true;
 			}
 
-			if (!parent.active)
+			if (!Parent.active)
 				npc.active = false;
 		}
 
@@ -247,14 +243,11 @@ namespace SpiritMod.NPCs.Hydra
 		{
 			Vector2 pos = new Vector2(0, -1).RotatedBy(centralRotation) * centralDistance;
 			pos += orbitRange.RotatedBy(rotation);
-			pos += parent.Center;
+			pos += Parent.Center;
 			return pos;
 		}
 
-		private void MoveToPosition()
-		{
-			npc.Center = Vector2.Lerp(npc.Center, posToBe, 0.05f);
-		}
+		private void MoveToPosition() => npc.Center = Vector2.Lerp(npc.Center, posToBe, 0.05f);
 
 		private void AttackBehavior()
 		{
@@ -262,34 +255,40 @@ namespace SpiritMod.NPCs.Hydra
 				frameY = 0;
 			if (attackCounter % 20 == 0)
 				frameY++;
+
 			frameY %= Main.npcFrameCount[npc.type];
+
 			if (headColor == HeadColor.Red)
 				headRotationOffset = -1.57f + (npc.direction * 0.7f);
 			else
-				headRotationOffset = npc.DirectionTo(Main.player[parent.target].Center).ToRotation();
+				headRotationOffset = npc.DirectionTo(Main.player[Parent.target].Center).ToRotation();
+
 			if (attackCounter == 60)
 			{
 				LaunchProjectile();
 				attacking = false;
 				attackCounter = 0;
-
 			}
 		}
 
 		private void LaunchProjectile()
 		{
-			Player target = Main.player[parent.target];
+			Player target = Main.player[Parent.target];
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
 
 			Vector2 direction = npc.DirectionTo(target.Center);
+
 			if (headColor == HeadColor.Red)
 				direction = GetArcVel();
-			npc.velocity = -Vector2.Normalize(direction) * Main.rand.Next(7,10);
+
+			npc.velocity = -Vector2.Normalize(direction) * Main.rand.Next(7, 10);
+
 			switch (headColor)
 			{
 				case HeadColor.Red:
 					Main.PlaySound(SoundID.DD2_DrakinBreathIn, npc.Center);
 					Main.PlaySound(SoundID.DD2_BetsyFireballShot, npc.Center);
+
 					for (int k = 0; k < 14; k++)
 					{
 						int d = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, -(npc.position.X - target.position.X) / distance * 2, -(npc.position.Y - target.position.Y) / distance * 4, 0, default, Main.rand.NextFloat(.65f, .85f));
@@ -297,6 +296,7 @@ namespace SpiritMod.NPCs.Hydra
 						Main.dust[d].velocity *= .95f;
 						Main.dust[d].noGravity = true;
 					}
+
 					for (int j = 0; j < 12; j++)
 					{
 						Vector2 vector2 = Vector2.UnitX * -npc.width / 2f;
@@ -309,8 +309,10 @@ namespace SpiritMod.NPCs.Hydra
 						Main.dust[num8].velocity = npc.velocity * 0.1f;
 						Main.dust[num8].velocity = Vector2.Normalize(npc.Center - npc.velocity * 3f - Main.dust[num8].position) * 1.25f;
 					}
+
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 						Projectile.NewProjectile(npc.Center, direction, ModContent.ProjectileType<HydraFireGlob>(), NPCUtils.ToActualDamage(npc.damage), 3);
+
 					break;
 				case HeadColor.Green:
 					for (int k = 0; k < 20; k++)
@@ -320,8 +322,10 @@ namespace SpiritMod.NPCs.Hydra
 						Main.dust[d].velocity *= .95f;
 						Main.dust[d].noGravity = true;
 					}
+
 					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(29, 7).WithPitchVariance(0.4f), npc.Center);
 					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 95).WithPitchVariance(0.4f), npc.Center);
+
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						if (Main.rand.NextBool())
@@ -359,7 +363,7 @@ namespace SpiritMod.NPCs.Hydra
 		private Vector2 GetArcVel()
 		{
 
-			Vector2 DistanceToTravel = Main.player[parent.target].Center - npc.Center;
+			Vector2 DistanceToTravel = Main.player[Parent.target].Center - npc.Center;
 			float MaxHeight = MathHelper.Clamp(DistanceToTravel.Y - 35, -100, -10);
 			float TravelTime = (float)Math.Sqrt(-2 * MaxHeight / FIREBALLGRAVITY) + (float)Math.Sqrt(2 * Math.Max(DistanceToTravel.Y - MaxHeight, 0) / FIREBALLGRAVITY);
 			return new Vector2(MathHelper.Clamp(DistanceToTravel.X / TravelTime, -10, 10), -(float)Math.Sqrt(-2 * FIREBALLGRAVITY * MaxHeight));
@@ -372,12 +376,12 @@ namespace SpiritMod.NPCs.Hydra
 
 			float rotDifference = ((((rotGoal - currentRot) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
 			npc.rotation = MathHelper.Lerp(currentRot, currentRot + rotDifference, 0.05f);
-
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			Main.PlaySound(SoundID.NPCHit1, npc.Center);
-			if (npc.life <= 0 && parent.modNPC is Hydra modNPC)
+			if (npc.life <= 0 && Parent.modNPC is Hydra modNPC)
 			{
 				if (modNPC.newHeadCountdown < 0)
 					modNPC.newHeadCountdown = 240 + (30 * modNPC.headsSpawned);
@@ -386,6 +390,7 @@ namespace SpiritMod.NPCs.Hydra
 				SpawnGores();
 			}
 		}
+
 		public override void NPCLoot()
 		{
 			if (headColor == HeadColor.Green)
@@ -395,34 +400,36 @@ namespace SpiritMod.NPCs.Hydra
 				if (Main.rand.NextBool(33))
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HydraMaskAcid>());
 			}
-			if (headColor == HeadColor.Purple)
+			else if (headColor == HeadColor.Purple)
 			{
 				if (Main.rand.NextBool(3))
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.VialofVenom, Main.rand.Next(1, 4));
 				if (Main.rand.NextBool(33))
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HydraMaskVenom>());
 			}
-			if (headColor == HeadColor.Red)
+			else if (headColor == HeadColor.Red)
 			{
 				if (Main.rand.NextBool(50))
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MagmaStone);
 				if (Main.rand.NextBool(33))
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HydraMaskFire>());
 			}
+
 			if (Main.rand.NextBool(100))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.GoldenApple>());
 		}
+
 		private void SpawnGores()
 		{
-			string headGore = getColor() + "HydraHead";
-			string neckGore = getColor() + "HydraNeck";
+			string headGore = GetColor() + "HydraHead";
+			string neckGore = GetColor() + "HydraNeck";
 
 			Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hydra/" + headGore), 1f);
 
 			float goreRotation = npc.rotation - (npc.direction == -1 ? 3.14f : 0);
 
 			BezierCurve curve = GetCurve(goreRotation);
-			int numPoints = 20; 
+			int numPoints = 20;
 			Vector2[] chainPositions = curve.GetPoints(numPoints).ToArray();
 			for (int i = 1; i < numPoints; i++)
 			{
@@ -434,14 +441,14 @@ namespace SpiritMod.NPCs.Hydra
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			float drawRotation = npc.rotation - (npc.direction == -1 ? 3.14f : 0);
-			string colorString = getColor();
+			string colorString = GetColor();
 			string texturePath = Texture + colorString;
 			Texture2D headTex;
 			if (attacking)
 				headTex = ModContent.GetTexture(texturePath);
 			else
 				headTex = ModContent.GetTexture(texturePath + "_Idle");
-			
+
 			Texture2D neckTex = ModContent.GetTexture(texturePath + "_Neck");
 
 			BezierCurve curve = GetCurve(drawRotation);
@@ -463,7 +470,7 @@ namespace SpiritMod.NPCs.Hydra
 				spriteBatch.Draw(neckTex, position - Main.screenPosition, null, chainLightColor, rotation, origin, scale, npc.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 			}
 
-			int frameHeight = headTex.Height / numFrames();
+			int frameHeight = headTex.Height / NumFrames();
 			Rectangle frame = new Rectangle(0, frameHeight * frameY, headTex.Width, frameHeight);
 			spriteBatch.Draw(headTex, npc.Center - Main.screenPosition, frame, drawColor, drawRotation, new Vector2(headTex.Width, frameHeight) / 2, npc.scale, npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
 			return false;
@@ -471,11 +478,11 @@ namespace SpiritMod.NPCs.Hydra
 
 		private BezierCurve GetCurve(float headRotation)
 		{
-			Vector2 direction = npc.Center - parent.Bottom;
+			Vector2 direction = npc.Center - Parent.Bottom;
 			Vector2 centralPos = (new Vector2(0, -1) * direction.Length());
 
 			//Control point relative to the parent npc
-			Vector2 BaseControlPoint = parent.Bottom + (centralPos.RotatedBy(-centralRotation / 2) * 0.5f);
+			Vector2 BaseControlPoint = Parent.Bottom + (centralPos.RotatedBy(-centralRotation / 2) * 0.5f);
 
 			//Control point connecting to behind the npc, to make the neck look more like a neck
 			float headControlLength = 100;
@@ -485,10 +492,10 @@ namespace SpiritMod.NPCs.Hydra
 			float smootheningFactor = 0.4f;
 			Vector2 SmootheningControlPoint = Vector2.Lerp(BaseControlPoint, HeadControlPoint, 0.5f) + (HeadControlPoint - BaseControlPoint).RotatedBy(-npc.spriteDirection * MathHelper.PiOver2) * smootheningFactor;
 
-			return new BezierCurve(new Vector2[] { parent.Bottom, BaseControlPoint, SmootheningControlPoint, HeadControlPoint, npc.Center });
+			return new BezierCurve(new Vector2[] { Parent.Bottom, BaseControlPoint, SmootheningControlPoint, HeadControlPoint, npc.Center });
 		}
 
-		private string getColor()
+		private string GetColor()
 		{
 			switch ((int)headColor)
 			{
@@ -503,13 +510,13 @@ namespace SpiritMod.NPCs.Hydra
 			}
 		}
 
-		private int numFrames()
+		private int NumFrames()
 		{
 			if (attacking)
 				return 3;
 			else
 			{
-				switch (getColor())
+				switch (GetColor())
 				{
 					case "_Red":
 						return 13;
@@ -532,6 +539,7 @@ namespace SpiritMod.NPCs.Hydra
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 12;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
+
 		public override void SetDefaults()
 		{
 			projectile.penetrate = 1;
@@ -552,13 +560,17 @@ namespace SpiritMod.NPCs.Hydra
 				Vector2 dustVel = -projectile.velocity.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * Main.rand.NextFloat(0.4f);
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, dustVel.X, dustVel.Y);
 			}
+
 			projectile.frameCounter++;
+
 			if (projectile.frameCounter % 4 == 0)
 			{
 				projectile.frame++;
 				projectile.frame %= Main.projFrames[projectile.type];
 			}
+
 			projectile.localAI[0] += 1f;
+
 			if (projectile.localAI[0] == 12f)
 			{
 				projectile.localAI[0] = 0f;
@@ -577,6 +589,7 @@ namespace SpiritMod.NPCs.Hydra
 			}
 			projectile.velocity.Y += HydraHead.FIREBALLGRAVITY;
 		}
+
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
 			float scale = projectile.scale;
@@ -634,6 +647,7 @@ namespace SpiritMod.NPCs.Hydra
 			projectile.hostile = true;
 			projectile.tileCollide = false;
 		}
+
 		public override Color? GetAlpha(Color lightColor) => Color.White;
 
 		public override void AI()
@@ -660,6 +674,7 @@ namespace SpiritMod.NPCs.Hydra
 			return false;
 		}
 	}
+
 	public class HydraPoisonGlob : ModProjectile
 	{
 		public override void SetStaticDefaults()
@@ -669,6 +684,7 @@ namespace SpiritMod.NPCs.Hydra
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 			Main.projFrames[projectile.type] = 5;
 		}
+
 		public override void SetDefaults()
 		{
 			projectile.penetrate = 1;
@@ -677,8 +693,10 @@ namespace SpiritMod.NPCs.Hydra
 			projectile.hostile = true;
 			projectile.tileCollide = true;
 		}
+
 		public override Color? GetAlpha(Color lightColor) => Color.White;
-		public override void AI() 
+
+		public override void AI()
 		{
 			float num395 = Main.mouseTextColor / 200f - 0.35f;
 			num395 *= 0.36f;
@@ -694,6 +712,7 @@ namespace SpiritMod.NPCs.Hydra
 			projectile.velocity.Y += .061f;
 			projectile.rotation = projectile.velocity.ToRotation();
 			Lighting.AddLight(projectile.Center, 0.113f, 0.227f, 0.05f);
+
 			if (Main.rand.NextBool(7))
 			{
 				Vector2 dustVel = -projectile.velocity.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * Main.rand.NextFloat(0.4f);
@@ -701,6 +720,7 @@ namespace SpiritMod.NPCs.Hydra
 				Main.dust[d].scale = Main.rand.NextFloat(.6f, .8f);
 			}
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Texture2D texture = Main.projectileTexture[projectile.type];
@@ -716,6 +736,7 @@ namespace SpiritMod.NPCs.Hydra
 			spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.position - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY), frameRect, Color.White, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
 			return false;
 		}
+
 		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.Poisoned, 200);
 
 		public override void Kill(int timeLeft)
@@ -735,6 +756,7 @@ namespace SpiritMod.NPCs.Hydra
 			DisplayName.SetDefault("Hydra Spit");
 			Main.projFrames[projectile.type] = 6;
 		}
+
 		public override void SetDefaults()
 		{
 			projectile.penetrate = 1;
@@ -744,6 +766,7 @@ namespace SpiritMod.NPCs.Hydra
 			projectile.hostile = true;
 			projectile.tileCollide = true;
 		}
+
 		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new GradientTrail(Color.Orchid, Color.MediumPurple * .75f), new RoundCap(), new DefaultTrailPosition(), 8f, 95f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
 
 		public override void AI()
@@ -771,10 +794,8 @@ namespace SpiritMod.NPCs.Hydra
 			}
 		}
 
-		public override void Kill(int timeLeft)
-        {
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 3).WithPitchVariance(0.2f), projectile.Center);
-		}
+		public override void Kill(int timeLeft) => Main.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 3).WithPitchVariance(0.2f), projectile.Center);
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Texture2D tex = Main.projectileTexture[projectile.type];

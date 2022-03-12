@@ -352,8 +352,12 @@ namespace SpiritMod.Utilities
 		{
 			if (Main.spriteBatch != null && SpiritMod.primitives != null) 
 			{
+				Main.screenPosition += Main.LocalPlayer.velocity;
+
 				SpiritMod.primitives.DrawTrailsProj(Main.spriteBatch, Main.graphics.GraphicsDevice);
 				SpiritMod.primitives.DrawTrailsNPC(Main.spriteBatch, Main.graphics.GraphicsDevice);
+
+				Main.screenPosition -= Main.LocalPlayer.velocity;
 			}
 		}
 
