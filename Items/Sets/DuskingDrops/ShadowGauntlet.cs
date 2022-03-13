@@ -1,5 +1,3 @@
-
-using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,7 +5,7 @@ using Terraria.ModLoader;
 namespace SpiritMod.Items.Sets.DuskingDrops
 {
 	[AutoloadEquip(EquipType.HandsOn)]
-	public class ShadowGauntlet : ModItem
+	public class ShadowGauntlet : AccessoryItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -24,7 +22,7 @@ namespace SpiritMod.Items.Sets.DuskingDrops
 			item.accessory = true;
 		}
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
+		public override void SafeUpdateAccessory(Player player, bool hideVisual)
 		{
 			player.meleeSpeed += 0.1f;
 			player.meleeDamage += 0.1f;

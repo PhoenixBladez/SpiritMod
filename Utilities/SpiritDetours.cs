@@ -421,6 +421,7 @@ namespace SpiritMod.Utilities
 		private static void Player_KeyDoubleTap(On.Terraria.Player.orig_KeyDoubleTap orig, Player self, int keyDir)
 		{
 			orig(self, keyDir);
+
 			self.GetSpiritPlayer().DoubleTapEffects(keyDir);
 		}
 

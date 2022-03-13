@@ -1,4 +1,6 @@
-﻿using Terraria;
+﻿using SpiritMod.Items;
+using SpiritMod.Players;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Utilities
@@ -18,16 +20,11 @@ namespace SpiritMod.Utilities
 				? fallback
 				: str;
 
-		public static bool AccessoryEquipped(this Player player, int type)
-		{
-			for (int k = 3; k <= 7 + player.extraAccessorySlots; k++)
-				if (player.armor[k].type == type) return true;
-			return false;
-		}
-		public static bool AccessoryEquipped(this Player player, Item item) => player.AccessoryEquipped(item.type);
-		public static bool AccessoryEquipped<T>(this Player player) where T : ModItem => player.AccessoryEquipped(ModContent.ItemType<T>());
-
 		public static bool ChestplateEquipped(this Player player, int type) => player.armor[1].type == type;
 		public static bool ChestplateEquipped<T>(this Player player) where T : ModItem => player.ChestplateEquipped(ModContent.ItemType<T>());
+
+		public static bool HasAccessory(this Player player, Item item) => item.modItem != null && item.modItem is AccessoryItem acc && player.GetModPlayer<MiscAccessoryPlayer>().accessory[acc.AccName];
+		public static bool HasAccessory(this Player player, ModItem item) => item is AccessoryItem acc && player.GetModPlayer<MiscAccessoryPlayer>().accessory[acc.AccName];
+		public static bool HasAccessory<TItem>(this Player player) where TItem : AccessoryItem => player.GetModPlayer<MiscAccessoryPlayer>().accessory[ModContent.GetInstance<TItem>().AccName];
 	}
 }

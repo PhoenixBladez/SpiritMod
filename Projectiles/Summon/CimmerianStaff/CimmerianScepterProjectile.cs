@@ -40,14 +40,16 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
 			projectile.ignoreWater = true;
 			aiType = ProjectileID.Raven;
 		}
+
         Color colorVer;
         float alphaCounter;
+
 		public override void AI()
 		{
 			alphaCounter += 0.03f;
 			Player player = Main.player[projectile.owner];
 
-			if (player.AccessoryEquipped<CimmerianScepter>())
+			if (player.HasAccessory<CimmerianScepter>())
 				projectile.timeLeft = 2;
 
 			for (int num526 = 0; num526 < 1000; num526++)
@@ -66,8 +68,6 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
 				}
 			}
 
-			float num527 = projectile.position.X;
-			float num528 = projectile.position.Y;
 			float num529 = 900f;
 			bool flag19 = false;
 
@@ -83,8 +83,6 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
 						if (num534 < num529 && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[num531].position, Main.npc[num531].width, Main.npc[num531].height))
 						{
 							num529 = num534;
-							num527 = num532;
-							num528 = num533;
 							flag19 = true;
 						}
 					}

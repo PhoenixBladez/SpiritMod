@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 namespace SpiritMod.Items.Accessory.MageTree
 {
     [AutoloadEquip(EquipType.Shield)]
-    public class SeraphimBulwark : ModItem
+    public class SeraphimBulwark : AccessoryItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -23,11 +23,11 @@ namespace SpiritMod.Items.Accessory.MageTree
 			item.accessory = true;
 		}
 
-		public override void UpdateAccessory(Player player, bool hideVisual) => player.statManaMax2 += 40;
+		public override void SafeUpdateAccessory(Player player, bool hideVisual) => player.statManaMax2 += 40;
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			var recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<ArcaneNecklace>());
             recipe.AddIngredient(ModContent.ItemType<ManaShield>());
             recipe.AddIngredient(ModContent.ItemType<Sets.SpiritSet.SoulShred>(), 5);

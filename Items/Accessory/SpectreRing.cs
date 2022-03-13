@@ -5,14 +5,13 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory
 {
-	public class SpectreRing : ModItem
+	public class SpectreRing : AccessoryItem
 	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spectre Ring");
 			Tooltip.SetDefault("When hurt, you shoot a bolt of Spectre Energy to protect yourself.");
 		}
-
 
 		public override void SetDefaults()
 		{

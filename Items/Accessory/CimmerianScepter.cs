@@ -1,10 +1,9 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory
 {
-	public class CimmerianScepter : ModItem
+	public class CimmerianScepter : AccessoryItem
 	{
 		public override void SetStaticDefaults()
 		{

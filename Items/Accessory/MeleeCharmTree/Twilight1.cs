@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory.MeleeCharmTree
 {
-	public class Twilight1 : ModItem
+	public class Twilight1 : AccessoryItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Accessory.MeleeCharmTree
 			item.value = Item.buyPrice(0, 2, 30, 0);
 		}
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
+		public override void SafeUpdateAccessory(Player player, bool hideVisual)
 		{
 			player.meleeDamage += 0.05f;
 			player.magicDamage += 0.05f;

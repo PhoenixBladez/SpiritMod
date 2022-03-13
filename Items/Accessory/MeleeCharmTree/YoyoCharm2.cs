@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory.MeleeCharmTree
 {
-	public class YoyoCharm2 : ModItem
+	public class YoyoCharm2 : AccessoryItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -12,22 +12,21 @@ namespace SpiritMod.Items.Accessory.MeleeCharmTree
 			Tooltip.SetDefault("Increases melee speed by 7%\nAttacks may inflict poison");
 		}
 
-
 		public override void SetDefaults()
 		{
-			base.item.width = 16;
-			base.item.height = 22;
-			base.item.rare = ItemRarityID.Green;
-			base.item.UseSound = SoundID.Item11;
-			base.item.accessory = true;
-			base.item.value = Item.sellPrice(0, 0, 30, 0);
+			item.width = 16;
+			item.height = 22;
+			item.rare = ItemRarityID.Green;
+			item.UseSound = SoundID.Item11;
+			item.accessory = true;
+			item.value = Item.sellPrice(0, 0, 30, 0);
 		}
 
-		public override void UpdateAccessory(Player player, bool hideVisual) => player.meleeSpeed += 0.07f;
+		public override void SafeUpdateAccessory(Player player, bool hideVisual) => player.meleeSpeed += 0.07f;
 
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(base.mod);
+			var modRecipe = new ModRecipe(mod);
 			modRecipe.AddIngredient(ItemID.JungleSpores, 10);
 			modRecipe.AddIngredient(ItemID.Stinger, 3);
 			modRecipe.AddIngredient(ItemID.Vine, 2);

@@ -43,6 +43,7 @@ using SpiritMod.Projectiles.Bullet;
 using System.Linq;
 using SpiritMod.Skies.Overlays;
 using SpiritMod.Items.Armor.StarjinxSet;
+using SpiritMod.Players;
 
 namespace SpiritMod
 {
@@ -4542,6 +4543,11 @@ namespace SpiritMod
 					Vector2 mouse = Main.MouseScreen + Main.screenPosition;
 					Projectile.NewProjectile(mouse, Vector2.Zero, ModContent.ProjectileType<FrigidWall>(), 14, 8, player.whoAmI);
 					player.AddBuff(ModContent.BuffType<FrigidCooldown>(), 500);
+				}
+
+				if (player.GetModPlayer<MiscAccessoryPlayer>().accessory["PendantOfTheOcean"])
+				{
+
 				}
 			}
 		}

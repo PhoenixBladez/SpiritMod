@@ -11,11 +11,41 @@ using SpiritMod.Items.Sets.DuskingDrops;
 using SpiritMod.Projectiles.Summon.CimmerianStaff;
 using SpiritMod.Items.Accessory.MageTree;
 using SpiritMod.Items.Sets.CascadeSet.Armor;
+using System.Collections.Generic;
+using SpiritMod.Items;
+using System;
+using System.Linq;
 
 namespace SpiritMod.Players
 {
 	public class MiscAccessoryPlayer : ModPlayer
 	{
+		public Dictionary<string, bool> accessory = new Dictionary<string, bool>();
+
+		public override void Initialize()
+		{
+			accessory.Clear();
+
+			var types = typeof(SpiritMod).Assembly.GetTypes(); //Add every accessory to this dict
+			foreach (var type in types)
+			{
+				if (type.IsSubclassOf(typeof(AccessoryItem)) && !type.IsAbstract)
+				{
+					var item = Activator.CreateInstance(type) as AccessoryItem;
+					accessory.Add(item.AccName, false);
+				}
+			}
+		}
+
+		public override void ResetEffects()
+		{
+			var coll = accessory.Keys.ToList(); //Reset every acc
+			foreach (string item in coll)
+				accessory[item] = false;
+		}
+
+		public override void UpdateDead() => ResetEffects();
+
 		/// <summary>Allows you to modify the knockback given ANY damage source. NOTE: This is an IL hook, which is why it needs a Player instance and is static.</summary>
 		/// <param name="player">The specific player to change.</param>
 		/// <param name="horizontal">Whether this is a horizontal (velocity.X) change or a vertical (velocity.Y) change.</param>
@@ -24,7 +54,7 @@ namespace SpiritMod.Players
 			float totalKb = 1f;
 
 			// Frost Giant Belt
-			if (player.AccessoryEquipped<FrostGiantBelt>() && player.channel)
+			if (player.HasAccessory<FrostGiantBelt>() && player.channel)
 				if (HeldItemIsClub(player))
 					totalKb *= 0.5f;
 
@@ -40,14 +70,14 @@ namespace SpiritMod.Players
 		public override void ModifyWeaponDamage(Item item, ref float add, ref float mult, ref float flat)
 		{
 			// Frost Giant Belt
-			if (player.AccessoryEquipped<FrostGiantBelt>() && HeldItemIsClub(player) && item.type == player.HeldItem.type)
+			if (player.HasAccessory<FrostGiantBelt>() && HeldItemIsClub(player) && item.type == player.HeldItem.type)
 				mult += 1 + (item.knockBack / 30f);
 		}
 
 		public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
 		{
 			// Twilight Talisman & Shadow Gauntlet
-			if ((player.AccessoryEquipped<Twilight1>() && Main.rand.NextBool(13)) || (player.AccessoryEquipped<ShadowGauntlet>() && Main.rand.NextBool(2)))
+			if ((player.HasAccessory<Twilight1>() && Main.rand.NextBool(13)) || (player.HasAccessory<ShadowGauntlet>() && Main.rand.NextBool(2)))
 				target.AddBuff(BuffID.ShadowFlame, 180);
 
 			if (player.GetModPlayer<MyPlayer>().AceOfSpades && crit)
@@ -64,21 +94,21 @@ namespace SpiritMod.Players
 		public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			// Twilight Talisman & Shadow Gauntlet
-			bool shadowFlameCondition = (player.AccessoryEquipped<Twilight1>() && Main.rand.NextBool(15)) || (player.AccessoryEquipped<ShadowGauntlet>() && proj.melee && Main.rand.NextBool(2));
+			bool shadowFlameCondition = (player.HasAccessory<Twilight1>() && Main.rand.NextBool(15)) || (player.HasAccessory<ShadowGauntlet>() && proj.melee && Main.rand.NextBool(2));
 			AddBuffWithCondition(shadowFlameCondition, target, BuffID.ShadowFlame, 180);
 		}
 
 		public void OnHitNPCWithAnything(Entity weapon, NPC target, int damage, float knockback, bool crit)
 		{
 			// Hell Charm
-			if (player.AccessoryEquipped<HCharm>() && Main.rand.Next(11) == 0)
+			if (player.HasAccessory<HCharm>() && Main.rand.Next(11) == 0)
 			{
 				if ((weapon is Item i && i.melee) || weapon is Projectile)
 					target.AddBuff(BuffID.OnFire, 120);
 			}
 
 			// Amazon Charm
-			if (player.AccessoryEquipped<YoyoCharm2>() && Main.rand.Next(11) == 0)
+			if (player.HasAccessory<YoyoCharm2>() && Main.rand.Next(11) == 0)
 			{
 				if ((weapon is Item i && i.melee) || weapon is Projectile)
 					target.AddBuff(BuffID.Poisoned, 120);
@@ -90,7 +120,7 @@ namespace SpiritMod.Players
 		public override void PostUpdateEquips()
 		{
 			// Shadow Gauntlet
-			if (player.AccessoryEquipped<ShadowGauntlet>())
+			if (player.HasAccessory<ShadowGauntlet>())
 			{
 				player.kbGlove = true;
 				player.meleeDamage += 0.07F;
@@ -98,21 +128,21 @@ namespace SpiritMod.Players
 			}
 
 			// Cimmerian Scepter
-			if (!player.dead && player.AccessoryEquipped<CimmerianScepter>() && player.ownedProjectileCounts[ModContent.ProjectileType<CimmerianScepterProjectile>()] < 1)
+			if (!player.dead && player.HasAccessory<CimmerianScepter>() && player.ownedProjectileCounts[ModContent.ProjectileType<CimmerianScepterProjectile>()] < 1)
 				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<CimmerianScepterProjectile>(), (int)(22 * player.minionDamage), 1.5f, player.whoAmI);
 		}
 
 		public override void MeleeEffects(Item item, Rectangle hitbox)
 		{
 			// Shadow Gauntlet
-			if (player.AccessoryEquipped<ShadowGauntlet>() && item.melee)
+			if (player.HasAccessory<ShadowGauntlet>() && item.melee)
 				Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.Shadowflame);
 		}
 
 		public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
 		{
 			// Spectre Ring
-			if (player.AccessoryEquipped<SpectreRing>())
+			if (player.HasAccessory<SpectreRing>())
 			{
 				for (int h = 0; h < 3; h++)
 				{
@@ -125,7 +155,7 @@ namespace SpiritMod.Players
 			}
 
 			// Mana Shield & Seraphim Bulwark
-			if (player.AccessoryEquipped<ManaShield>() || player.AccessoryEquipped<SeraphimBulwark>())
+			if (player.HasAccessory<ManaShield>() || player.HasAccessory<SeraphimBulwark>())
 			{
 				damage -= (int)damage / 10;
 				if (player.statMana > (int)damage / 10 * 4)
@@ -141,7 +171,7 @@ namespace SpiritMod.Players
 		public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
 		{
 			// Spectre Ring
-			if (player.AccessoryEquipped<SpectreRing>())
+			if (player.HasAccessory<SpectreRing>())
 			{
 				int newProj = Projectile.NewProjectile(player.Center, new Vector2(6, 6), ProjectileID.SpectreWrath, 40, 0f, Main.myPlayer);
 

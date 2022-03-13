@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 namespace SpiritMod.Items.Accessory
 {
 	[AutoloadEquip(EquipType.Waist)]
-	public class FrostGiantBelt : ModItem
+	public class FrostGiantBelt : AccessoryItem
 	{
 		public override void SetStaticDefaults()
 		{

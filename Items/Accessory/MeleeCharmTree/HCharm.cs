@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory.MeleeCharmTree
 {
-	public class HCharm : ModItem
+	public class HCharm : AccessoryItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Accessory.MeleeCharmTree
 			item.value = Item.sellPrice(0, 0, 50, 0);
 		}
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
+		public override void SafeUpdateAccessory(Player player, bool hideVisual)
 		{
 			player.meleeDamage += 0.05f;
 			player.magicDamage += 0.05f;
@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Accessory.MeleeCharmTree
 
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(mod);
+			var modRecipe = new ModRecipe(mod);
 			modRecipe.AddIngredient(ItemID.HellstoneBar, 10);
 			modRecipe.AddIngredient(ItemID.Chain, 3);
 			modRecipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 1);

@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 namespace SpiritMod.Items.Accessory.MageTree
 {
     [AutoloadEquip(EquipType.Neck)]
-    public class ArcaneNecklace : ModItem
+    public class ArcaneNecklace : AccessoryItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -22,17 +22,16 @@ namespace SpiritMod.Items.Accessory.MageTree
 			item.accessory = true;
 		}
 
-		public override void UpdateAccessory(Player player, bool hideVisual) => player.statManaMax2 += 20;
+		public override void SafeUpdateAccessory(Player player, bool hideVisual) => player.statManaMax2 += 20;
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			var recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.FallenStar, 3);
 			recipe.AddIngredient(ItemID.Chain, 3);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
-
 		}
 	}
 }

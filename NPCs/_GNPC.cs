@@ -984,7 +984,7 @@ namespace SpiritMod.NPCs
 				}
 			}
 
-			if (player.AccessoryEquipped<ArcaneNecklace>() && Main.rand.Next(5) == 0 && !npc.friendly && player.HeldItem.magic && player.statMana < player.statManaMax2)
+			if (player.HasAccessory<ArcaneNecklace>() && Main.rand.Next(5) == 0 && !npc.friendly && player.HeldItem.magic && player.statMana < player.statManaMax2)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Star);
 
 			if (player.GetSpiritPlayer().ZoneAsteroid && Main.rand.Next(50) == 0)

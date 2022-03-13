@@ -1,8 +1,5 @@
 using System.Collections.Generic;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.GameInput;
-using Terraria.ModLoader;
 
 namespace SpiritMod.Items
 {
@@ -21,6 +18,7 @@ namespace SpiritMod.Items
 		public virtual float MovementSpeed => 0f;
 		public virtual int LifeRegen => 0;
 		public virtual int ArmorPenetration => 0;
+
 		public virtual List<SpiritPlayerEffect> AccessoryEffects => new List<SpiritPlayerEffect>();
 		public readonly List<SpiritPlayerEffect> _accEffects;
 		public virtual List<int> MutualExclusives => new List<int>();
