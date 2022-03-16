@@ -44,6 +44,8 @@ using System.Linq;
 using SpiritMod.Skies.Overlays;
 using SpiritMod.Items.Armor.StarjinxSet;
 using SpiritMod.Players;
+using SpiritMod.Items.Sets.BloodcourtSet.BloodCourt;
+using SpiritMod.Items.Sets.ReefhunterSet;
 
 namespace SpiritMod
 {
@@ -4466,7 +4468,7 @@ namespace SpiritMod
 							Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
 					}
 				}
-				// Double tap down
+				
 				if (starSet && !player.HasBuff(ModContent.BuffType<StarCooldown>()))
 				{
 					player.AddBuff(ModContent.BuffType<StarCooldown>(), 1020);
@@ -4509,7 +4511,8 @@ namespace SpiritMod
 						if (Main.dust[num].position != player.Center)
 							Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
 					}
-					for (int projFinder = 0; projFinder < 300; ++projFinder)
+
+					for (int projFinder = 0; projFinder < Main.maxProjectiles; ++projFinder)
 					{
 						if (Main.projectile[projFinder].sentry && Main.projectile[projFinder].active)
 							Projectile.NewProjectile(Main.projectile[projFinder].Center.X, Main.projectile[projFinder].Center.Y - 20, 0f, 0f, ModContent.ProjectileType<FierySetExplosion>(), Main.projectile[projFinder].damage, Main.projectile[projFinder].knockBack, player.whoAmI);
@@ -4519,35 +4522,13 @@ namespace SpiritMod
 				}
 
 				if (bloodcourtSet && !player.HasBuff(ModContent.BuffType<CourtCooldown>()) && player.statLife > (int)(player.statLifeMax * .08f))
-				{
-					player.AddBuff(ModContent.BuffType<CourtCooldown>(), 500);
-					Vector2 mouse = Main.MouseScreen + Main.screenPosition;
-					Vector2 dir = Vector2.Normalize(mouse - player.Center) * 12;
-					player.statLife -= (int)(player.statLifeMax * .08f);
-					for (int i = 0; i < 18; i++)
-					{
-						int num = Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<NightmareDust>(), 0f, -2f, 0, default, 2f);
-						Main.dust[num].noGravity = true;
-						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-						Main.dust[num].scale *= .85f;
-						if (Main.dust[num].position != player.Center)
-							Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
-					}
-					Main.PlaySound(new LegacySoundStyle(2, 109));
-					Projectile.NewProjectile(player.Center, dir, ModContent.ProjectileType<DarkAnima>(), 70, 0, player.whoAmI);
-				}
+					BloodCourtHead.DoubleTapEffect(player);
 
 				if (frigidSet && !player.HasBuff(ModContent.BuffType<FrigidCooldown>()))
 				{
 					Vector2 mouse = Main.MouseScreen + Main.screenPosition;
 					Projectile.NewProjectile(mouse, Vector2.Zero, ModContent.ProjectileType<FrigidWall>(), 14, 8, player.whoAmI);
 					player.AddBuff(ModContent.BuffType<FrigidCooldown>(), 500);
-				}
-
-				if (player.GetModPlayer<MiscAccessoryPlayer>().accessory["PendantOfTheOcean"])
-				{
-
 				}
 			}
 		}

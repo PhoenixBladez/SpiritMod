@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Items.Material;
 using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
@@ -9,10 +8,7 @@ namespace SpiritMod.Items.Sets.FrigidSet
 {
 	public class HowlingScepter : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Frigid Scepter");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Frigid Scepter");
 
 		public override void SetDefaults()
 		{
@@ -35,30 +31,25 @@ namespace SpiritMod.Items.Sets.FrigidSet
 			item.UseSound = SoundID.Item20;
 			item.shoot = ModContent.ProjectileType<HowlingBolt>();
 		}
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 			Projectile projectile = Main.projectile[proj];
-			for (int k = 0; k < 25; k++) {
-				Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
-				Vector2 offset = mouse - player.position;
-				offset.Normalize();
-				offset *= 51f;
-				int dust = Dust.NewDust(projectile.Center + offset, projectile.width, projectile.height, DustID.BlueCrystalShard);
+			Vector2 offset = Vector2.Normalize(Main.MouseWorld - player.position) * 51f;
 
+			for (int k = 0; k < 25; k++)
+			{
+				int dust = Dust.NewDust(projectile.Center + offset, projectile.width, projectile.height, DustID.BlueCrystalShard);
 				Main.dust[dust].velocity *= -1f;
 				Main.dust[dust].noGravity = true;
-				//        Main.dust[dust].scale *= 2f;
-				Vector2 vector2_1 = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
-				vector2_1.Normalize();
-				Vector2 vector2_2 = vector2_1 * (Main.rand.Next(50, 100) * 0.04f);
-				Main.dust[dust].velocity = vector2_2;
-				vector2_2.Normalize();
-				Vector2 vector2_3 = vector2_2 * 42f;
-				Main.dust[dust].position = (projectile.Center + offset) - vector2_3;
+				Vector2 baseSpeed = Vector2.Normalize(new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101) + 0.01f)) * (Main.rand.Next(50, 100) * 0.04f);
+				Main.dust[dust].velocity = baseSpeed;
+				Main.dust[dust].position = (projectile.Center + offset) - Vector2.Normalize(baseSpeed) * 42f;
 			}
 			return false;
 		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe modRecipe = new ModRecipe(mod);

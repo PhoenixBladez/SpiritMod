@@ -15,18 +15,22 @@ using System.Collections.Generic;
 using SpiritMod.Items;
 using System;
 using System.Linq;
+using SpiritMod.Items.Sets.ReefhunterSet;
+using SpiritMod.Items.Sets.ReefhunterSet.Buffs;
 
 namespace SpiritMod.Players
 {
 	public class MiscAccessoryPlayer : ModPlayer
 	{
-		public Dictionary<string, bool> accessory = new Dictionary<string, bool>();
+		public readonly Dictionary<string, bool> accessory = new Dictionary<string, bool>();
+		public readonly Dictionary<string, int> timers = new Dictionary<string, int>();
 
 		public override void Initialize()
 		{
 			accessory.Clear();
+			timers.Clear();
 
-			var types = typeof(SpiritMod).Assembly.GetTypes(); //Add every accessory to this dict
+			var types = typeof(SpiritMod).Assembly.GetTypes(); //Add every accessory & timered item to this dict
 			foreach (var type in types)
 			{
 				if (type.IsSubclassOf(typeof(AccessoryItem)) && !type.IsAbstract)
@@ -34,14 +38,29 @@ namespace SpiritMod.Players
 					var item = Activator.CreateInstance(type) as AccessoryItem;
 					accessory.Add(item.AccName, false);
 				}
+
+				if (typeof(ITimerItem).IsAssignableFrom(type) && !type.IsAbstract)
+				{
+					var item = Activator.CreateInstance(type) as ITimerItem;
+
+					if (item.TimerCount() == 1)
+						timers.Add(type.Name, 0);
+					else
+						for (int i = 0; i < item.TimerCount(); ++i)
+							timers.Add(type.Name + i, 0);
+				}
 			}
 		}
 
 		public override void ResetEffects()
 		{
-			var coll = accessory.Keys.ToList(); //Reset every acc
-			foreach (string item in coll)
+			var accColl = accessory.Keys.ToList(); //Reset every acc
+			foreach (string item in accColl)
 				accessory[item] = false;
+
+			var timerColl = timers.Keys.ToList(); //Decrement every timer
+			foreach (string item in timerColl)
+				timers[item]--;
 		}
 
 		public override void UpdateDead() => ResetEffects();
@@ -206,6 +225,22 @@ namespace SpiritMod.Players
 					return true;
 			}
 			return false;
+		}
+
+		internal void DoubleTapEffects(int keyDir)
+		{
+			if (keyDir == (Main.ReversedUpDownArmorSetBonuses ? 0 : 1)) //Double tap "UP" effects
+			{
+
+			}
+			else if (keyDir == (Main.ReversedUpDownArmorSetBonuses ? 1 : 0)) //Double tap "DOWN" effects
+			{
+				if (player.HasAccessory<PendantOfTheOcean>() && player.ItemTimer<PendantOfTheOcean>() <= 0)
+				{
+					player.AddBuff(ModContent.BuffType<EmpoweredSwim>(), 60 * 10);
+					player.SetItemTimer<PendantOfTheOcean>(60 * 45);
+				}
+			}
 		}
 	}
 }
