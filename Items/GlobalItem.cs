@@ -721,12 +721,15 @@ namespace SpiritMod.Items
 		/// <summary>Aims the player's arms to the given radians. If no player is passed, assumes <see cref="Main.LocalPlayer"/>.</summary>
 		/// <param name="radians"></param>
 		/// <param name="p"></param>
-		public static void ArmsTowardsMouse(Player p = null)
+		public static void ArmsTowardsMouse(Player p = null, Vector2? targetLoc = null)
 		{
 			if (p == null)
 				p = Main.LocalPlayer;
 
-			float radians = p.AngleTo(Main.MouseWorld) + MathHelper.PiOver2;
+			if (targetLoc == null)
+				targetLoc = Main.MouseWorld;
+
+			float radians = p.AngleTo(targetLoc.Value) + MathHelper.PiOver2;
 			radians = Math.Abs(radians);
 
 			int FrameSize = 56;

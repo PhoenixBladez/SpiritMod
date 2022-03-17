@@ -1,0 +1,74 @@
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ModLoader;
+
+namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
+{
+	public class ReefSpearProjectile : ModProjectile
+	{
+		public const int MaxDistance = 40;
+
+		public Vector2 RealDirection => (direction * MaxDistance).RotatedBy(maxRotation * (projectile.timeLeft - (maxTimeLeft / 2f)) / maxTimeLeft);
+
+		public Vector2 direction = Vector2.Zero;
+		public int maxTimeLeft = 0;
+		public float maxRotation = 0;
+
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Reefe Speare");
+
+		public override void SetDefaults()
+		{
+			projectile.width = 66;
+			projectile.height = 30;
+			projectile.friendly = true;
+			projectile.penetrate = -1;
+			projectile.tileCollide = false;
+			projectile.ignoreWater = true;
+			projectile.melee = true;
+			projectile.aiStyle = -1;
+			projectile.timeLeft = 35;
+
+			drawHeldProjInFrontOfHeldItemAndArms = false;
+		}
+
+		public override bool CanDamage() => true;
+
+		public override void AI()
+		{
+			Player p = Main.player[projectile.owner];
+			p.heldProj = projectile.whoAmI;
+			p.itemTime = 2;
+			p.itemAnimation = 2;
+
+			GItem.ArmsTowardsMouse(p, direction == Vector2.Zero ? Main.MouseWorld : p.Center - RealDirection);
+
+			if (p.whoAmI != Main.myPlayer) return; //mp check (hopefully)
+
+			if (p.channel) //Use turn functionality
+				p.direction = Main.MouseWorld.X >= p.MountedCenter.X ? 1 : -1;
+
+			if (direction == Vector2.Zero)
+			{
+				direction = Vector2.Normalize(p.Center - Main.MouseWorld);
+				maxTimeLeft = projectile.timeLeft;
+				maxRotation = Main.rand.NextFloat(0, MathHelper.PiOver2);
+			}
+
+			float factor = (1 - (projectile.timeLeft / (float)maxTimeLeft)) * 2f;
+			if (projectile.timeLeft < maxTimeLeft / 2f)
+				factor = projectile.timeLeft / (maxTimeLeft / 2f);
+
+			projectile.Center = p.Center + new Vector2(0, p.gfxOffY) - Vector2.Lerp(Vector2.Zero, RealDirection, factor) + (RealDirection * 0.5f);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Player p = Main.player[projectile.owner];
+			Texture2D t = Main.projectileTexture[projectile.type];
+
+			spriteBatch.Draw(t, projectile.Center - Main.screenPosition, null, lightColor, RealDirection.ToRotation() - MathHelper.Pi, new Vector2(16, 14), 1f, SpriteEffects.None, 1f);
+			return false;
+		}
+	}
+}
