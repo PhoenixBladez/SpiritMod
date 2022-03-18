@@ -16,7 +16,6 @@ namespace SpiritMod.Items.Accessory.AceCardsSet
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 5));
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = 24;
@@ -25,13 +24,13 @@ namespace SpiritMod.Items.Accessory.AceCardsSet
 		}
 
 		public override bool ItemSpace(Player player) => true;
+		public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 100);
+
 		public override bool OnPickup(Player player)
 		{
 			player.AddBuff(ModContent.BuffType<AceOfDiamondsBuff>(), 180);
 			Main.PlaySound(SoundID.Grab, (int)player.position.X, (int)player.position.Y);
 			return false;
 		}
-
-		public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 100);
 	}
 }

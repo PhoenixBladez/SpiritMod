@@ -10,8 +10,8 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 		public override string Texture => mod.Name + "/Items/Sets/ReefhunterSet/Projectiles/ReefSpearProjectile";
 
 		private bool hasTarget = false;
-
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Reefe Speare");
+		private Vector2 relativePoint = Vector2.Zero;
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Reefe Tridente");
 
 		public override void SetDefaults()
 		{
@@ -25,6 +25,9 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 			projectile.aiStyle = 0;
 		}
 
+		public override bool CanDamage() => !hasTarget;
+		public override bool? CanCutTiles() => !hasTarget;
+
 		public override void AI()
 		{
 			if (!hasTarget)
@@ -32,24 +35,49 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 				if (projectile.ai[0]++ > 60)
 				{
 					projectile.velocity.X *= 0.97f;
-					projectile.velocity.Y += 0.15f;
+					projectile.velocity.Y += 0.3f;
 				}
 
 				projectile.rotation = projectile.velocity.ToRotation();
-				projectile.velocity.Y += 0.1f;
+				projectile.velocity.Y += 0.05f;
 			}
 			else
 			{
+				NPC npc = Main.npc[(int)projectile.ai[1]];
 
+				if (!npc.active)
+				{
+					projectile.netUpdate = true;
+					projectile.tileCollide = true;
+					projectile.timeLeft *= 2;
+
+					hasTarget = false;
+					return;
+				}
+
+				projectile.Center = npc.Center + relativePoint;
 			}
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			projectile.ai[1] = target.whoAmI;
+			projectile.tileCollide = false;
 			projectile.netUpdate = true;
+			projectile.timeLeft = 240;
+			projectile.velocity = Vector2.Zero;
 
 			hasTarget = true;
+			relativePoint = projectile.Center - target.Center;
+		}
+
+		public override void ModifyDamageHitbox(ref Rectangle hitbox)
+		{
+			Vector2 pos = projectile.Center - new Vector2(0, 8);
+			pos += Vector2.Normalize(projectile.velocity) * 26;
+
+			hitbox.X = (int)pos.X;
+			hitbox.Y = (int)pos.Y;
 		}
 	}
 }

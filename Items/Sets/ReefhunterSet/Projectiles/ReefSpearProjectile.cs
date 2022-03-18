@@ -15,11 +15,11 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 		public int maxTimeLeft = 0;
 		public float maxRotation = 0;
 
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Reefe Speare");
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Reefe Tridente");
 
 		public override void SetDefaults()
 		{
-			projectile.width = 66;
+			projectile.width = 30;
 			projectile.height = 30;
 			projectile.friendly = true;
 			projectile.penetrate = -1;
@@ -60,6 +60,14 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 				factor = projectile.timeLeft / (maxTimeLeft / 2f);
 
 			projectile.Center = p.Center + new Vector2(0, p.gfxOffY) - Vector2.Lerp(Vector2.Zero, RealDirection, factor) + (RealDirection * 0.5f);
+		}
+
+		public override void ModifyDamageHitbox(ref Rectangle hitbox)
+		{
+			Vector2 pos = projectile.Center - (RealDirection * 1.5f) - new Vector2(16);
+
+			hitbox.X = (int)pos.X;
+			hitbox.Y = (int)pos.Y;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

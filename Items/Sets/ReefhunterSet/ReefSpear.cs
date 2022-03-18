@@ -17,6 +17,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 			item.height = 14;
 			item.useTime = item.useAnimation = 30;
 			item.knockBack = 2f;
+			item.shootSpeed = 0f;
 			item.noUseGraphic = true;
 			item.noMelee = true;
 			item.autoReuse = true;
@@ -26,7 +27,6 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 			item.value = Item.sellPrice(gold: 2);
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ModContent.ProjectileType<ReefSpearProjectile>();
-			item.shootSpeed = 0f;
 		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(-6, 0);
