@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -32,9 +31,9 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 			item.noUseGraphic = true;
 			item.autoReuse = true;
 			item.UseSound = SoundID.Item1;
-			item.shoot = mod.ProjectileType("Sovereign_Talon_Projectile");
+			item.shoot = ModContent.ProjectileType<Sovereign_Talon_Projectile>();
 		}
 
-		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[mod.ProjectileType("Sovereign_Talon_Projectile")] < 1;
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<Sovereign_Talon_Projectile>()] < 1;
 	}
 }

@@ -17,19 +17,43 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 			item.height = 14;
 			item.useTime = item.useAnimation = 30;
 			item.knockBack = 2f;
-			item.shootSpeed = 9;
 			item.noUseGraphic = true;
 			item.noMelee = true;
 			item.autoReuse = true;
-			item.ranged = true;
+			item.melee = true;
 			item.channel = false;
 			item.rare = ItemRarityID.LightRed;
 			item.value = Item.sellPrice(gold: 2);
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ModContent.ProjectileType<ReefSpearProjectile>();
+			item.shootSpeed = 0f;
 		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(-6, 0);
+		public override bool AltFunctionUse(Player player) => true;
+
+		public override bool CanUseItem(Player player)
+		{
+			if (player.altFunctionUse == 2)
+			{
+				item.shoot = ModContent.ProjectileType<ReefSpearThrown>();
+				item.thrown = true;
+				item.ranged = false;
+				item.damage = 24;
+				item.shootSpeed = 12f;
+				item.channel = false;
+			}
+			else
+			{
+				item.shoot = ModContent.ProjectileType<ReefSpearProjectile>();
+				item.thrown = false;
+				item.ranged = true;
+				item.damage = 18;
+				item.shootSpeed = 0f;
+				item.channel = true;
+			}
+			return true;
+		}
 
 		//public override void AddRecipes()
 		//{

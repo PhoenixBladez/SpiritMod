@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
@@ -54,31 +53,34 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 			Lighting.AddLight(projectile.Center, new Color(255, 236, 115).ToVector3() * (float)Math.Pow(Charge / maxcharge, 2));
 
 			//reset the swing and increase charge, and update the direction
-			if(++Timer % TimePerSwing == 0 && projOwner == Main.LocalPlayer)
+			if (++Timer % TimePerSwing == 0 && projOwner == Main.LocalPlayer)
 			{
-				if(!projOwner.channel || Charge >= maxcharge)
+				if (!projOwner.channel || Charge >= maxcharge)
 				{
 					projectile.Kill();
 					return;
 				}
+
 				projectile.velocity = projOwner.DirectionTo(Main.MouseWorld);
 				projectile.spriteDirection = (Main.rand.NextBool()) ? -1 : 1;
 				Charge++;
 				RotationOffset = -projectile.spriteDirection * ((Charge < maxcharge) ? Main.rand.NextFloat(0.35f, 0.45f) * Charge : MathHelper.Pi);
 				projectile.netUpdate = true;
-				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SwordSlash1").WithPitchVariance(0.6f).WithVolume(0.8f), ownerMountedCenter);
+
+				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/SwordSlash1").WithPitchVariance(0.6f).WithVolume(0.8f), ownerMountedCenter);
 				Main.PlaySound(projOwner.HeldItem.UseSound, ownerMountedCenter);
 			}
+
 			//move the projectile from the player's center to where it would be for a swing
-			float Distance = 20 + (Math.Abs((float)Math.Sin((Timer/TimePerSwing) * MathHelper.Pi)) * 150 * ((Charge == maxcharge) ? 0.75f : 1));
+			float Distance = 20 + (Math.Abs((float)Math.Sin((Timer / TimePerSwing) * MathHelper.Pi)) * 150 * ((Charge == maxcharge) ? 0.75f : 1));
 			projectile.Center = ownerMountedCenter;
-			projectile.position += Vector2.Normalize(projectile.velocity).RotatedBy(MathHelper.Lerp(RotationOffset, -RotationOffset, (Timer/TimePerSwing) % 1)) * Distance;
-			
+			projectile.position += Vector2.Normalize(projectile.velocity).RotatedBy(MathHelper.Lerp(RotationOffset, -RotationOffset, (Timer / TimePerSwing) % 1)) * Distance;
+
 			//fire a wave halfway through the final swing
-			if(Charge == maxcharge && (Timer % TimePerSwing) == TimePerSwing / 2)
+			if (Charge == maxcharge && (Timer % TimePerSwing) == TimePerSwing / 2)
 			{
 				projOwner.GetModPlayer<MyPlayer>().Shake += 5;
-				Projectile proj = Projectile.NewProjectileDirect(projectile.Center, projectile.velocity * 6, ModContent.ProjectileType<Talon_Projectile>(), projectile.damage, projectile.knockBack, projectile.owner);
+				var proj = Projectile.NewProjectileDirect(projectile.Center, projectile.velocity * 6, ModContent.ProjectileType<Talon_Projectile>(), projectile.damage, projectile.knockBack, projectile.owner);
 				proj.netUpdate = true;
 				if (!Main.dedServ)
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starCast").WithPitchVariance(0.3f), projectile.Center);
@@ -89,9 +91,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 
 			projectile.rotation = projectile.AngleFrom(ownerMountedCenter) + MathHelper.ToRadians(135f);
 			if (projectile.spriteDirection == -1)
-			{
 				projectile.rotation -= MathHelper.ToRadians(90f);
-			}
 
 			projOwner.itemRotation = MathHelper.WrapAngle(projOwner.AngleTo(projectile.Center) - ((projOwner.direction < 0) ? MathHelper.Pi : 0));
 		}
@@ -115,11 +115,14 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 			Texture2D tex = Main.projectileTexture[projectile.type];
 			Texture2D glowTex = ModContent.GetTexture(Texture + "_glow");
 			SpriteEffects effects = (projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
 			Vector2 origin = projectile.Size / 2;
 			if (effects == SpriteEffects.FlipHorizontally)
 				origin.X = tex.Width - projectile.width / 2;
+
 			void DrawGlow(Vector2 pos, float opacity, float scale = 1f, float? rot = null) => spriteBatch.Draw(glowTex, pos - Main.screenPosition, null, Color.White * opacity * (float)Math.Pow(Charge / maxcharge, 2), rot ?? projectile.rotation, origin, projectile.scale * scale, effects, 0);
-			float timer = ((float)Math.Sin(Main.GlobalTime * 2) / 2 + 0.5f);
+
+			float timer = (float)Math.Sin(Main.GlobalTime * 2) / 2 + 0.5f;
 
 			for (int i = 0; i < 6; i++)
 			{
@@ -133,7 +136,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 		}
 	}
 
-	internal class SoverignTalonTrail : ITrailColor 
+	internal class SoverignTalonTrail : ITrailColor
 	{
 		private Color _colour;
 		private Projectile _proj;
@@ -147,7 +150,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 		public Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points)
 		{
 			float progress = distanceFromStart / trailLength;
-			return _colour * (1f - progress) * (float)Math.Pow(_proj.ai[0]/Sovereign_Talon_Projectile.maxcharge, 2);
+			return _colour * (1f - progress) * (float)Math.Pow(_proj.ai[0] / Sovereign_Talon_Projectile.maxcharge, 2);
 		}
 	}
 }

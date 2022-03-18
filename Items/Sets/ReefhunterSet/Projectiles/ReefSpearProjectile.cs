@@ -41,21 +41,21 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 			p.itemTime = 2;
 			p.itemAnimation = 2;
 
-			GItem.ArmsTowardsMouse(p, direction == Vector2.Zero ? Main.MouseWorld : p.Center - RealDirection);
+			GItem.ArmsTowardsMouse(p, direction == Vector2.Zero ? Main.MouseWorld : (p.Center - RealDirection + new Vector2(0, 4)));
 
 			if (p.whoAmI != Main.myPlayer) return; //mp check (hopefully)
 
 			if (p.channel) //Use turn functionality
 				p.direction = Main.MouseWorld.X >= p.MountedCenter.X ? 1 : -1;
 
-			if (direction == Vector2.Zero)
+			if (direction == Vector2.Zero) //Initialize
 			{
 				direction = Vector2.Normalize(p.Center - Main.MouseWorld);
 				maxTimeLeft = projectile.timeLeft;
-				maxRotation = Main.rand.NextFloat(0, MathHelper.PiOver2);
+				maxRotation = Main.rand.NextFloat(0, MathHelper.Pi * 0.33f);
 			}
 
-			float factor = (1 - (projectile.timeLeft / (float)maxTimeLeft)) * 2f;
+			float factor = (1 - (projectile.timeLeft / (float)maxTimeLeft)) * 2f; //Lerp factor for pushing out and coming back in
 			if (projectile.timeLeft < maxTimeLeft / 2f)
 				factor = projectile.timeLeft / (maxTimeLeft / 2f);
 
@@ -64,9 +64,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Player p = Main.player[projectile.owner];
 			Texture2D t = Main.projectileTexture[projectile.type];
-
 			spriteBatch.Draw(t, projectile.Center - Main.screenPosition, null, lightColor, RealDirection.ToRotation() - MathHelper.Pi, new Vector2(16, 14), 1f, SpriteEffects.None, 1f);
 			return false;
 		}
