@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 			if (!hasTarget)
 			{
 				projectile.rotation += 0.06f * System.Math.Sign(projectile.velocity.X);
-				projectile.velocity.Y += 0.15f;
+				projectile.velocity.Y += 0.2f;
 			}
 			else
 			{
@@ -65,7 +65,10 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 8; ++i)
-				Projectile.NewProjectile(projectile.Center, new Vector2(8, 0).RotatedBy(i * MathHelper.TwoPi / 8f).RotatedByRandom(0.02f), ModContent.ProjectileType<UrchinSpike>(), projectile.damage, 2f, projectile.owner);
+			{
+				Vector2 vel = new Vector2(Main.rand.NextFloat(6f, 8f), 0).RotatedBy(i * MathHelper.TwoPi / 8f).RotatedByRandom(0.3f);
+				Projectile.NewProjectile(projectile.Center + Vector2.Normalize(relativePoint) * 6, vel, ModContent.ProjectileType<UrchinSpike>(), projectile.damage, 2f, projectile.owner);
+			}
 		}
 	}
 
@@ -91,10 +94,10 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 		{
 			if (!hasTarget)
 			{
-				if (projectile.ai[0]++ > 60)
+				if (projectile.ai[0]++ > 50)
 				{
 					projectile.velocity.X *= 0.97f;
-					projectile.velocity.Y += 0.3f;
+					projectile.velocity.Y += 0.4f;
 				}
 
 				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;

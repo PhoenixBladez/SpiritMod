@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 			item.height = 14;
 			item.useTime = item.useAnimation = 30;
 			item.knockBack = 2f;
-			item.shootSpeed = 0f;
+			item.shootSpeed = 8f;
 			item.noUseGraphic = true;
 			item.noMelee = true;
 			item.autoReuse = true;
