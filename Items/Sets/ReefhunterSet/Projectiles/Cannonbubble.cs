@@ -17,8 +17,8 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 26;
-			projectile.height = 26;
+			projectile.width = 24;
+			projectile.height = 24;
 			projectile.ranged = true;
 			projectile.friendly = true;
 			projectile.penetrate = -1;

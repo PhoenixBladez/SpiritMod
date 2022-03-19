@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
@@ -11,6 +11,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 
 		private bool hasTarget = false;
 		private Vector2 relativePoint = Vector2.Zero;
+
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Reefe Tridente");
 
 		public override void SetDefaults()
@@ -66,6 +67,8 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 			projectile.netUpdate = true;
 			projectile.timeLeft = 240;
 			projectile.velocity = Vector2.Zero;
+
+			target.AddBuff(BuffID.Poisoned, 300);
 
 			hasTarget = true;
 			relativePoint = projectile.Center - target.Center;
