@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Buffs
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Empowered Swim");
-			Description.SetDefault("You feel nimbler in water");
+			Description.SetDefault("You feel much faster in water");
 		}
 
 		public override void Update(Player player, ref int buffIndex)
@@ -17,6 +17,14 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Buffs
 			{
 				player.ignoreWater = true;
 				player.accFlipper = true;
+
+				if (player.buffTime[buffIndex] > 2)
+				{
+					player.fullRotationOrigin = player.Size / 2f;
+					player.fullRotation = player.velocity.ToRotation() + Microsoft.Xna.Framework.MathHelper.PiOver2;
+				}
+				else
+					player.fullRotation = 0f;
 			}
 		}
 	}
