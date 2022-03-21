@@ -39,17 +39,14 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 			Main.PlaySound(SoundID.Item, (int)position.X, (int)position.Y, 85);
 
 			for (int i = 0; i < 10; ++i)
-			{
 				Dust.NewDust(position, 0, 0, DustID.BubbleBurst_Blue, speedX * Main.rand.NextFloat(0.65f, 1f), speedY * Main.rand.NextFloat(0.65f, 1f), 0, default, Main.rand.NextFloat(0.75f, 1.5f));
 
-			}
 			player.velocity -= new Vector2(speedX, speedY) * 0.15f;
 			return true;
 		}
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-10, 0);
-		}
+
+		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
+
 		//public override void AddRecipes()
 		//{
 		//	ModRecipe modRecipe = new ModRecipe(mod);
