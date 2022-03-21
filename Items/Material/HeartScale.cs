@@ -11,7 +11,6 @@ namespace SpiritMod.Items.Material
 			Tooltip.SetDefault("'A lovely scale. It is coveted by collectors.'");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = item.height = 18;
@@ -34,13 +33,6 @@ namespace SpiritMod.Items.Material
 			recipe1.AddTile(TileID.Bottles);
 			recipe1.SetResult(ItemID.LifeforcePotion, 1);
 			recipe1.AddRecipe();
-
-			ModRecipe recipe2 = new ModRecipe(mod);
-			recipe2.AddIngredient(ModContent.ItemType<HeartScale>(), 3);
-			recipe2.AddIngredient(ModContent.ItemType<Items.Sets.BismiteSet.BismiteCrystal>(), 6);
-			recipe2.AddTile(TileID.Anvils);
-			recipe2.SetResult(ItemID.LifeCrystal, 1);
-			recipe2.AddRecipe();
 		}
 	}
 }
