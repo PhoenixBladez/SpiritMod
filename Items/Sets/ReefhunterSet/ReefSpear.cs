@@ -61,6 +61,13 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 			return true;
 		}
 
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			if (player.altFunctionUse == 2)
+				position -= new Vector2(20, 0);
+			return true;
+		}
+
 		//public override void AddRecipes()
 		//{
 		//	var recipe = new ModRecipe(mod);

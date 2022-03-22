@@ -51,10 +51,18 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 					projectile.netUpdate = true;
 					projectile.tileCollide = true;
 					projectile.timeLeft *= 2;
+					projectile.velocity *= 0;
 
 					hasTarget = false;
 					return;
 				}
+
+				projectile.ai[0]++;
+				float factor = 1 - (projectile.ai[0] / 10f);
+				if (projectile.ai[0] >= 10f)
+					factor = 0;
+
+				relativePoint += projectile.velocity * factor * 0.1f;
 
 				projectile.Center = npc.Center + relativePoint;
 			}
@@ -62,11 +70,11 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
+			projectile.ai[0] = 0;
 			projectile.ai[1] = target.whoAmI;
 			projectile.tileCollide = false;
 			projectile.netUpdate = true;
 			projectile.timeLeft = 240;
-			projectile.velocity = Vector2.Zero;
 
 			target.AddBuff(BuffID.Poisoned, 300);
 
@@ -76,7 +84,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 
 		public override void ModifyDamageHitbox(ref Rectangle hitbox)
 		{
-			Vector2 pos = projectile.Center - new Vector2(0, 8);
+			Vector2 pos = projectile.Center - new Vector2(-10, 10);
 			pos += Vector2.Normalize(projectile.velocity) * 26;
 
 			hitbox.X = (int)pos.X;
