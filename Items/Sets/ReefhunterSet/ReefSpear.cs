@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 			item.noMelee = true;
 			item.melee = true;
 			item.channel = false;
-			item.autoReuse = false;
+			item.autoReuse = true;
 			item.rare = ItemRarityID.LightRed;
 			item.value = Item.sellPrice(gold: 2);
 			item.UseSound = SoundID.Item1;
@@ -43,9 +43,8 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 				item.damage = 24;
 				item.shootSpeed = 12f;
 				item.channel = false;
-				item.autoReuse = false;
 				item.useStyle = ItemUseStyleID.SwingThrow;
-				item.useTime = item.useAnimation = 30;
+				item.useTime = item.useAnimation = 35;
 
 			}
 			else
@@ -56,7 +55,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 				item.damage = 18;
 				item.shootSpeed = 0f;
 				item.channel = true;
-				item.autoReuse = true;
+				item.useTime = item.useAnimation = 40;
 				item.useStyle = ItemUseStyleID.HoldingOut;
 			}
 			return true;
