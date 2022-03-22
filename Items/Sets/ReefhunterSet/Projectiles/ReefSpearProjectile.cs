@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using System;
+using Terraria.ID;
 
 namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 {
@@ -55,7 +57,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 				maxRotation = Main.rand.NextFloat(0, MathHelper.Pi * 0.33f);
 			}
 
-			float factor = (1 - (projectile.timeLeft / (float)maxTimeLeft)) * 2f; //Lerp factor for pushing out and coming back in
+			float factor = (1 - (projectile.timeLeft / (float)maxTimeLeft)) * 2.5f; //Lerp factor for pushing out and coming back in
 			if (projectile.timeLeft < maxTimeLeft / 2f)
 				factor = projectile.timeLeft / (maxTimeLeft / 2f);
 

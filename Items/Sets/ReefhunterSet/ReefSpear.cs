@@ -20,13 +20,14 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 			item.shootSpeed = 0f;
 			item.noUseGraphic = true;
 			item.noMelee = true;
-			item.autoReuse = true;
 			item.melee = true;
 			item.channel = false;
+			item.autoReuse = false;
 			item.rare = ItemRarityID.LightRed;
 			item.value = Item.sellPrice(gold: 2);
-			item.useStyle = ItemUseStyleID.HoldingOut;
+			item.UseSound = SoundID.Item1;
 			item.shoot = ModContent.ProjectileType<ReefSpearProjectile>();
+			item.useStyle = ItemUseStyleID.HoldingOut;
 		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(-6, 0);
@@ -42,6 +43,10 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 				item.damage = 24;
 				item.shootSpeed = 12f;
 				item.channel = false;
+				item.autoReuse = false;
+				item.useStyle = ItemUseStyleID.SwingThrow;
+				item.useTime = item.useAnimation = 30;
+
 			}
 			else
 			{
@@ -51,6 +56,8 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 				item.damage = 18;
 				item.shootSpeed = 0f;
 				item.channel = true;
+				item.autoReuse = true;
+				item.useStyle = ItemUseStyleID.HoldingOut;
 			}
 			return true;
 		}
