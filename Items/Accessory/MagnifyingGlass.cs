@@ -12,7 +12,6 @@ namespace SpiritMod.Items.Accessory
 			Tooltip.SetDefault("4% increased critical strike chance\nRight click to zoom out when not holding a weapon");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = 24;
@@ -29,6 +28,7 @@ namespace SpiritMod.Items.Accessory
 			player.magicCrit += 4;
 			player.meleeCrit += 4;
 			player.rangedCrit += 4;
+			player.thrownCrit += 4;
 		}
 	}
 }

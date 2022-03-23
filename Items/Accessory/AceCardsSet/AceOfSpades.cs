@@ -12,7 +12,6 @@ namespace SpiritMod.Items.Accessory.AceCardsSet
 			Tooltip.SetDefault("Critical hits do 10% more damage");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = 18;
@@ -21,10 +20,7 @@ namespace SpiritMod.Items.Accessory.AceCardsSet
 			item.rare = ItemRarityID.Green;
 			item.accessory = true;
 		}
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			player.GetSpiritPlayer().AceOfSpades = true;
-		}
 
+		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetSpiritPlayer().AceOfSpades = true;
 	}
 }

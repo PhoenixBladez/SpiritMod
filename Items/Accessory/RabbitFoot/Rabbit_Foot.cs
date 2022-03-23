@@ -28,15 +28,13 @@ namespace SpiritMod.Items.Accessory.RabbitFoot
 			player.magicCrit = 1;
 			player.meleeCrit = 1;
 			player.rangedCrit = 1;
-			
+			player.thrownCrit = 1;
 		}
-		
+
 		public override void ModifyTooltips(System.Collections.Generic.List<TooltipLine> tooltips) 
 		{
-			{
-				TooltipLine b = new TooltipLine(mod, "Rabbit_Foot", "'This must be Lucky!'");
-				tooltips.Insert(2, b);
-			}
+			var b = new TooltipLine(mod, "SpiritMod:Rabbit_Foot", "'This must be Lucky!'");
+			tooltips.Insert(2, b);
 		}
 	}
 }
