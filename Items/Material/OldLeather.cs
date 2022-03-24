@@ -11,16 +11,15 @@ namespace SpiritMod.Items.Material
 			Tooltip.SetDefault("'Musty, but useful'");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = 42;
 			item.height = 24;
 			item.value = 500;
 			item.rare = ItemRarityID.Blue;
-
 			item.maxStack = 999;
 		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

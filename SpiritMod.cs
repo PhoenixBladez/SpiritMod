@@ -1295,6 +1295,12 @@ namespace SpiritMod
 				ItemID.TungstenBar
 			}));
 
+			RecipeGroup.RegisterGroup("SpiritMod:CopperBars", BaseGroup(ItemID.CopperBar, new int[]
+			{
+				ItemID.CopperBar,
+				ItemID.TinBar
+			}));
+
 			RecipeGroup.RegisterGroup("SpiritMod:EmeraldBows", BaseGroup("Emerald or Ruby Bow", new int[]
 			{
 				ModContent.ItemType<Emerald_Bow>(),
