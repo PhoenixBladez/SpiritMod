@@ -9,6 +9,7 @@ using System.Linq;
 using SpiritMod.Utilities;
 using SpiritMod.Mechanics.Trails;
 using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Mechanics.BoonSystem;
 
 namespace SpiritMod.NPCs.Hydra
 {
@@ -188,6 +189,8 @@ namespace SpiritMod.NPCs.Hydra
 				rotationSpeed = Main.rand.NextFloat(0.03f, 0.05f);
 				orbitRange = Main.rand.NextVector2Circular(70, 30);
 				swaySpeed = Main.rand.NextFloat(0.015f, 0.035f);
+
+				npc.GetGlobalNPC<BoonNPC>().ApplyBoon(npc);
 			}
 
 			if (!Parent.active)

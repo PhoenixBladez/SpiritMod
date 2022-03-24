@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria.ID;
-using System.Linq;
 using SpiritMod.Buffs;
 
 namespace SpiritMod.Mechanics.BoonSystem
@@ -29,69 +28,72 @@ namespace SpiritMod.Mechanics.BoonSystem
 				return;
 
 			if (npc.modNPC is IBoonable || npc.type == NPCID.Medusa)
-			{
-				int chance = 15;
+				ApplyBoon(npc);
+		}
 
-				if (Main.netMode == NetmodeID.SinglePlayer) //Check if any player has the boon increase buff
+		public void ApplyBoon(NPC npc)
+		{
+			int chance = 15;
+
+			if (Main.netMode == NetmodeID.SinglePlayer) //Check if any player has the boon increase buff
+			{
+				if (Main.LocalPlayer.HasBuff(ModContent.BuffType<OracleBoonBuff>()))
+					chance = 5;
+			}
+			else
+			{
+				for (int i = 0; i < Main.maxPlayers; ++i)
 				{
-					if (Main.LocalPlayer.HasBuff(ModContent.BuffType<OracleBoonBuff>()))
-						chance = 5;
-				}
-				else
-				{
-					for (int i = 0; i < Main.maxPlayers; ++i)
+					Player p = Main.player[i];
+					if (p.active && !p.dead && p.HasBuff(ModContent.BuffType<OracleBoonBuff>()))
 					{
-						Player p = Main.player[i];
-						if (p.active && !p.dead && p.HasBuff(ModContent.BuffType<OracleBoonBuff>()))
+						chance = 5;
+						break;
+					}
+				}
+			}
+
+			if (!Main.rand.NextBool(chance)) //Stop trying to add the boon if we don't pass the check
+				return;
+
+			currentBoon = GetBoon(npc);
+
+			if (currentBoon == null) return;
+
+			if (Main.netMode == NetmodeID.Server) // if we're on server, send it to the clients
+			{
+				// using IndexOf won't work, as a new index has been created using Activator.CreateInstance, which will have a different memory address
+				// temporary work around, get all the types of LoadedBoons and get the index from there
+				//int index = BoonLoader.LoadedBoons.IndexOf(currentBoon);
+				int index = BoonLoader.LoadedBoonTypes.IndexOf(currentBoon.GetType());
+
+				if (index != -1)
+				{
+					int npcWhoAmI = -1;
+					for (int i = 0; i < 200; i++)
+					{
+						if (Main.npc[i] == npc)
 						{
-							chance = 5;
+							npcWhoAmI = i;
 							break;
 						}
 					}
-				}
 
-				if (!Main.rand.NextBool(chance)) //Stop trying to add the boon if we don't pass the check
-					return;
-
-				currentBoon = GetBoon(npc);
-
-				if (currentBoon == null) return;
-
-				if (Main.netMode == NetmodeID.Server) // if we're on server, send it to the clients
-				{
-					// using IndexOf won't work, as a new index has been created using Activator.CreateInstance, which will have a different memory address
-					// temporary work around, get all the types of LoadedBoons and get the index from there
-					//int index = BoonLoader.LoadedBoons.IndexOf(currentBoon);
-					int index = BoonLoader.LoadedBoonTypes.IndexOf(currentBoon.GetType());
-
-					if (index != -1)
+					if (npcWhoAmI != -1)
 					{
-						int npcWhoAmI = -1;
-						for (int i = 0; i < 200; i++)
-						{
-							if (Main.npc[i] == npc)
-							{
-								npcWhoAmI = i;
-								break;
-							}
-						}
+						SpiritMod.Instance.Logger.Debug($"Writing new boon data, index: {npcWhoAmI} boonType: {index} which is {currentBoon.GetType().Name}");
 
-						if (npcWhoAmI != -1)
+						SpiritMultiplayer.WriteToPacketAndSend(4, MessageType.BoonData, packet =>
 						{
-							SpiritMod.Instance.Logger.Debug($"writing new boon data, index: {npcWhoAmI} boonType: {index} which is {currentBoon.GetType().Name}");
-
-							SpiritMultiplayer.WriteToPacketAndSend(4, MessageType.BoonData, packet =>
-							{
-								packet.Write((ushort)npc.type);
-								packet.Write((ushort)npcWhoAmI);
-								packet.Write((byte)index);
-							});
-						}
+							packet.Write((ushort)npc.type);
+							packet.Write((ushort)npcWhoAmI);
+							packet.Write((byte)index);
+						});
 					}
 				}
-
-				currentBoon.SetStats();
 			}
+
+			currentBoon.SetStats();
 		}
 
 		#region boon hooks
