@@ -1,3 +1,4 @@
+using SpiritMod.NPCs.Boss.ReachBoss;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,11 +29,11 @@ namespace SpiritMod.Items.Consumable
             item.UseSound = SoundID.Item43;
         }
 
-		public override bool CanUseItem(Player player) => !NPC.AnyNPCs(mod.NPCType("ReachBoss")) && player.GetSpiritPlayer().ZoneReach && !player.ZoneOverworldHeight;
+		public override bool CanUseItem(Player player) => !NPC.AnyNPCs(ModContent.NPCType<ReachBoss>()) && player.GetSpiritPlayer().ZoneReach && !player.ZoneOverworldHeight;
 
 		public override bool UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("ReachBoss"));
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<ReachBoss>());
             Main.PlaySound(SoundID.Roar, player.position, 0);
             return true;
         }

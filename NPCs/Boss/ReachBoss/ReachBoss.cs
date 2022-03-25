@@ -157,7 +157,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			}
 			if (npc.ai[0] > 1800 && npc.ai[0] < 1970)
 			{
-				summonSpores();
+				SummonSpores();
 				pulseTrailYellow = true;
 			}
 			else
@@ -295,17 +295,15 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				}
 			}
 		}
-		public void summonSpores()
+		public void SummonSpores()
 		{			
-			bool expertMode = Main.expertMode;
-			int damage = expertMode ? 15 : 21;
 			if (npc.ai[0] % 9 == 0)
 			{
 				
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(42, 4), npc.Center);
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(6, 0).WithPitchVariance(0.2f), npc.Center);
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 55).WithPitchVariance(0.2f), npc.Center);
-				int p = NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-100, 100), (int)npc.Center.Y + Main.rand.Next(-200, -100), mod.NPCType("ExplodingSpore"));
+				Main.PlaySound(new LegacySoundStyle(42, 4), npc.Center);
+				Main.PlaySound(new LegacySoundStyle(6, 0).WithPitchVariance(0.2f), npc.Center);
+				Main.PlaySound(new LegacySoundStyle(4, 55).WithPitchVariance(0.2f), npc.Center);
+				int p = NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-100, 100), (int)npc.Center.Y + Main.rand.Next(-200, -100), ModContent.NPCType<ExplodingSpore>());
 				DustHelper.DrawStar(new Vector2(Main.npc[p].Center.X, Main.npc[p].Center.Y), DustID.GoldCoin, pointAmount: 4, mainSize: .9425f, dustDensity: 2, dustSize: .5f, pointDepthMult: 0.3f, noGravity: true);
 				Main.npc[p].ai[1] = npc.whoAmI;
 				Main.npc[p].netUpdate = true;
@@ -416,8 +414,10 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					"You cannot stop the wrath of nature!");
 					text = true;
 				}
+
 				Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
-				NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, mod.NPCType("ReachBoss1"));
+				NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<ReachBoss1>());
+
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ReachBoss"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ReachBoss"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ReachBoss"), 1f);

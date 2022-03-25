@@ -520,45 +520,6 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				attackCounter = 0;
 			}
 		}
-		void ZapJellies()
-		{
-			UpdateFrame(0.15f, 10, 13);
-			if (attackCounter > 20) {
-				for (int j = 0; j < Main.npc.Length; j++) {
-					if (Main.npc[j].type == mod.NPCType("MoonJellyMedium") && Main.npc[j].active && attackCounter % 5 == 0) {
-						NPC other = Main.npc[j];
-						Vector2 direction9 = other.Center - npc.Center;
-						int distance = (int)Math.Sqrt((direction9.X * direction9.X) + (direction9.Y * direction9.Y));
-						direction9.Normalize();
-						if (distance < 1000) 
-						{
-                            if (Main.netMode != NetmodeID.MultiplayerClient)
-                            {
-                                if (attackCounter < 60)
-                                {
-                                    int proj = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 15, (float)direction9.Y * 15, mod.ProjectileType("MoonPredictorTrail"), 0, 0);
-                                    Main.projectile[proj].timeLeft = (int)(distance / 15);
-                                }
-                                else
-                                {
-                                    int proj = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, mod.ProjectileType("MoonLightning"), 30, 0);
-                                    Main.projectile[proj].timeLeft = (int)(distance / 30);
-                                    DustHelper.DrawElectricity(npc.Center, other.Center, 226, 0.3f, 30, default, 0.15f);
-                                    other.ai[2] = 1;
-                                }
-                            }
-						}
-					}
-				}
-			}
-			attackCounter++;
-			if (attackCounter > 120) {
-				npc.ai[0] = 0;
-                
-                timeBetweenAttacks = 35;
-				attackCounter = 0;
-			}
-		}
 
 		void TeleportDash()
 		{

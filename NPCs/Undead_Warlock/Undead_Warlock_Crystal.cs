@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -11,10 +10,9 @@ namespace SpiritMod.NPCs.Undead_Warlock
 		private Vector2 Location;
 		private Vector2 Location2;
 		public int healTimer = 0;
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Necromancer's Magic Crystal");
-		}
+
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Necromancer's Magic Crystal");
+
 		public override void SetDefaults()
 		{
 			projectile.width = 22;
@@ -29,6 +27,7 @@ namespace SpiritMod.NPCs.Undead_Warlock
 		{
 			if (!Main.npc[(int)projectile.ai[1]].active)
 				projectile.Kill();
+
 			if (projectile.ai[0] == 0)
 			{
 				Location = projectile.Center - new Vector2(Main.npc[(int)projectile.ai[1]].Center.X, Main.npc[(int)projectile.ai[1]].Center.Y - 90);
@@ -41,6 +40,7 @@ namespace SpiritMod.NPCs.Undead_Warlock
 				Location = Location2;
 				projectile.Center = Location + new Vector2(Main.npc[(int)projectile.ai[1]].Center.X, Main.npc[(int)projectile.ai[1]].Center.Y - 90);
 			}
+
 			if (Main.rand.Next(28)==0)
 			{
 				for (int index1 = 0; index1 < 4; ++index1)
@@ -63,18 +63,20 @@ namespace SpiritMod.NPCs.Undead_Warlock
 					Main.dust[index2].fadeIn = fadeIn;
 				}
 			}
+
 			for (int i = 0; i < 200; i++)
 			{
 				NPC npc = Main.npc[i];
-				if ((double)Vector2.Distance(projectile.Center, npc.Center) < (double)400f && !npc.boss && !npc.friendly && npc.damage > 0 && npc.type != mod.NPCType("Undead_Warlock") && npc.active)
+				if (projectile.DistanceSQ(npc.Center) < 400f * 400f && !npc.boss && !npc.friendly && npc.damage > 0 && npc.type != ModContent.NPCType<Undead_Warlock>() && npc.active)
 				{	
-					drawDustBeetweenThisAndThat(projectile.Center, npc.Center);			
+					DrawDustBeetweenThisAndThat(projectile.Center, npc.Center);			
 					npc.GetGlobalNPC<Undead_Warlock_NPC>().isNecrofied = true;
 					break;						
 				}			
 			}
 		}
-		public void drawDustBeetweenThisAndThat(Vector2 vector3, Vector2 vector1)
+
+		public void DrawDustBeetweenThisAndThat(Vector2 vector3, Vector2 vector1)
 		{
 			healTimer++;
 			if (healTimer % 60 == 0 && Main.npc[(int)projectile.ai[1]].life < Main.npc[(int)projectile.ai[1]].lifeMax - 5)
@@ -93,9 +95,6 @@ namespace SpiritMod.NPCs.Undead_Warlock
 				dust.scale = 0.7f;
 				dust.alpha = 240;
 			}
-		}
-		public override void Kill(int timeLeft)
-		{
 		}
 	}
 }

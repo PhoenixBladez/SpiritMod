@@ -148,7 +148,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                 npc.position.X = player.position.X;
                 return;
             }*/
-			bool expertMode = Main.expertMode;
+
 			if (!Charge)
 			{
 				timer++;
@@ -170,18 +170,19 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					if (npc.life > npc.lifeMax * .2f && npc.life < npc.lifeMax * .6f)
 					{
 						for (int i = 0; i < 2; i++)
-						{
-							NPC.NewNPC((int)Main.player[npc.target].Center.X + Main.rand.Next(-700, 700), (int)Main.player[npc.target].Center.Y + Main.rand.Next(-700, 700), mod.NPCType("LaserBase"), npc.whoAmI);
-						}
+							NPC.NewNPC((int)Main.player[npc.target].Center.X + Main.rand.Next(-700, 700), (int)Main.player[npc.target].Center.Y + Main.rand.Next(-700, 700), ModContent.NPCType<LaserBase>(), npc.whoAmI);
 					}
 				}
 			}
+
 			if (timer == 700)
 			{
 				timer = 0;
 				npc.netUpdate = true;
 			}
+
 			chargetimer++;
+
 			if (npc.life >= npc.lifeMax * .2f)
 			{
 				npc.aiStyle = 6; //new
@@ -194,8 +195,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					npc.netUpdate = true;
 					Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
 
-					CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), new Color(255, 155, 0, 100),
-"Target Engaged");
+					CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), new Color(255, 155, 0, 100), "Target Engaged");
 				}
 				if (chargetimer >= 700 && chargetimer <= 900)
 				{
@@ -237,11 +237,11 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						{
 							int before;
 							if (num36 >= 0 && num36 < minLength)
-								before = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SteamRaiderBody"), npc.whoAmI);
+								before = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<SteamRaiderBody>(), npc.whoAmI);
 							else if (num36 >= minLength && num36 < midLength)
-								before = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SteamRaiderBody2"), npc.whoAmI);
+								before = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<SteamRaiderBody2>(), npc.whoAmI);
 							else
-								before = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SteamRaiderTail"), npc.whoAmI);
+								before = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<SteamRaiderTail>(), npc.whoAmI);
 
 							Main.npc[before].realLife = npc.whoAmI;
 							Main.npc[before].ai[2] = npc.whoAmI;
@@ -360,8 +360,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				else
 				{
 					npc.defense = 0;
-					num188 = expertMode ? 12.5f : 10f; //added 2.5
-					num189 = expertMode ? 0.25f : 0.2f; //added 0.05
+					num188 = Main.expertMode ? 12.5f : 10f; //added 2.5
+					num189 = Main.expertMode ? 0.25f : 0.2f; //added 0.05
 				}
 				float num48 = num188 * 1.23f;
 				float num49 = num188 * 0.7f;
@@ -604,7 +604,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						{
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								int LaserBase = NPC.NewNPC((int)Main.player[npc.target].Center.X + Main.rand.Next(-700, 700), (int)Main.player[npc.target].Center.Y + Main.rand.Next(-700, 700), mod.NPCType("LaserBase"), npc.whoAmI);
+								int LaserBase = NPC.NewNPC((int)Main.player[npc.target].Center.X + Main.rand.Next(-700, 700), (int)Main.player[npc.target].Center.Y + Main.rand.Next(-700, 700), ModContent.NPCType<LaserBase>(), npc.whoAmI);
 								Main.npc[LaserBase].netUpdate = true;
 							}
 						}
@@ -625,8 +625,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 								npc.netUpdate = true;
 							}
 						}
-						CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), new Color(255, 155, 0, 100),
-"Initiating Laser Protocol");
+						CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), new Color(255, 155, 0, 100), "Initiating Laser Protocol");
 					}
 					direction9 = Main.player[npc.target].Center - npc.Center;
 					direction9.Normalize();
@@ -719,7 +718,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 40, (float)direction9.Y * 40, ModContent.ProjectileType<StarLaser>(), NPCUtils.ToActualDamage(55, 1.5f), 1, Main.myPlayer);
 					}
 					if (atkCounter % 50 == 49 && Main.expertMode)
-						NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, mod.NPCType("SuicideLaser"), npc.whoAmI);
+						NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<SuicideLaser>(), npc.whoAmI);
 				}
 			}
 			#endregion
@@ -806,7 +805,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				NetMessage.SendData(MessageID.WorldData);
 
 			npc.PlayDeathSound("StarplateDeathSound");
-			NPC.NewNPC((int)npc.position.X + npc.width - 20, (int)npc.position.Y + npc.height, mod.NPCType("SteamRaiderHeadDeath"), npc.whoAmI);
+			NPC.NewNPC((int)npc.position.X + npc.width - 20, (int)npc.position.Y + npc.height, ModContent.NPCType<SteamRaiderHeadDeath>(), npc.whoAmI);
 			return true;
 		}
 

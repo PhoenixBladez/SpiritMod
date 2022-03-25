@@ -1,3 +1,4 @@
+using SpiritMod.NPCs.Reach;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,7 +31,7 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool UseItem(Player player)
 		{
-			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("Blubby"));
+			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Blubby>());
 			return true;
 		}
 

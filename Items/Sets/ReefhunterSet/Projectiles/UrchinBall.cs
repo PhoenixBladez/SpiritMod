@@ -52,6 +52,13 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 			}
 		}
 
+		public override bool OnTileCollide(Vector2 oldVelocity)
+		{
+			projectile.timeLeft = 240;
+			projectile.velocity = Vector2.Zero;
+			return false;
+		}
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			projectile.ai[1] = target.whoAmI;

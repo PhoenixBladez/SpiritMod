@@ -1,3 +1,4 @@
+using SpiritMod.NPCs.Critters;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -6,10 +7,7 @@ namespace SpiritMod.Items.Consumable
 {
 	public class CrinoidItem : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Crinoid");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Crinoid");
 
 		public override void SetDefaults()
 		{
@@ -29,9 +27,8 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool UseItem(Player player)
 		{
-			int n = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("Crinoid"));
+			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Crinoid>());
 			return true;
 		}
-
 	}
 }

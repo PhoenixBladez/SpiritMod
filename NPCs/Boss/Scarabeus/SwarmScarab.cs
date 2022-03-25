@@ -57,7 +57,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			npc.TargetClosest(false);
 			npc.spriteDirection = Math.Sign(npc.velocity.X);
 			npc.position += npc.velocity;
-			if (!NPC.AnyNPCs(mod.NPCType("Scarabeus")) || npc.localAI[1] > 360) {
+			if (!NPC.AnyNPCs(ModContent.NPCType<Scarabeus>()) || npc.localAI[1] > 360) {
 				npc.life = 0;
 				npc.active = false;
 				NPCLoot();

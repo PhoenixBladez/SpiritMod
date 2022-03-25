@@ -42,7 +42,7 @@ namespace SpiritMod.NPCs.Critters
 					Vector2 dir = Main.player[npc.target].Center - npc.Center;
 					dir.Normalize();
 					dir *= 1;
-					int newNPC = NPC.NewNPC((int)npc.Center.X + (Main.rand.Next(-20, 20)), (int)npc.Center.Y + (Main.rand.Next(-20, 20)), mod.NPCType("Floater1"), npc.whoAmI);
+					int newNPC = NPC.NewNPC((int)npc.Center.X + (Main.rand.Next(-20, 20)), (int)npc.Center.Y + (Main.rand.Next(-20, 20)), ModContent.NPCType<Floater1>(), npc.whoAmI);
 					Main.npc[newNPC].velocity = dir;
 				}
 				txt = true;

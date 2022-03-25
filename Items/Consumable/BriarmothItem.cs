@@ -1,3 +1,4 @@
+using SpiritMod.NPCs.Reach;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -6,11 +7,7 @@ namespace SpiritMod.Items.Consumable
 {
 	public class BriarmothItem : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Briarmoth");
-		}
-
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Briarmoth");
 
 		public override void SetDefaults()
 		{
@@ -25,14 +22,12 @@ namespace SpiritMod.Items.Consumable
 			item.noMelee = true;
 			item.consumable = true;
 			item.autoReuse = true;
-
 		}
 
 		public override bool UseItem(Player player)
 		{
-			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("Briarmoth"));
+			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Briarmoth>());
 			return true;
 		}
-
 	}
 }

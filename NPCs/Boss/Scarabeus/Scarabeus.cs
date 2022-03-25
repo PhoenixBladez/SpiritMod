@@ -793,7 +793,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					if (Main.netMode != NetmodeID.MultiplayerClient) {
 						for (int i = 0; i < numwaves; i++) {
 							Vector2 spawnpos = statictarget[0].RotatedBy(MathHelper.PiOver2 * i) + Main.rand.NextVector2Circular(60, 60) + statictarget[1];
-							NPC Npc = Main.npc[NPC.NewNPC((int)spawnpos.X, (int)spawnpos.Y, mod.NPCType("SwarmScarab"), npc.whoAmI,
+							NPC Npc = Main.npc[NPC.NewNPC((int)spawnpos.X, (int)spawnpos.Y, ModContent.NPCType<SwarmScarab>(), npc.whoAmI,
 								Vector2.Normalize(statictarget[1] - spawnpos).ToRotation(), 1)];
 							Main.PlaySound(SoundID.Zombie, (int)Npc.position.X, (int)Npc.position.Y, 44, 0.5f);
 							Npc.netUpdate = true;

@@ -1,3 +1,4 @@
+using SpiritMod.NPCs.Critters;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -6,11 +7,7 @@ namespace SpiritMod.Items.Consumable
 {
 	public class TinyCrabItem : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Palecrab");
-		}
-
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Palecrab");
 
 		public override void SetDefaults()
 		{
@@ -21,18 +18,16 @@ namespace SpiritMod.Items.Consumable
 			item.noUseGraphic = true;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = item.useAnimation = 20;
-            item.bait = 15;
+			item.bait = 15;
 			item.noMelee = true;
 			item.consumable = true;
 			item.autoReuse = true;
-
 		}
 
 		public override bool UseItem(Player player)
 		{
-			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("TinyCrab"));
+			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<TinyCrab>());
 			return true;
 		}
-
 	}
 }

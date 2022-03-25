@@ -69,13 +69,13 @@ namespace SpiritMod.NPCs.StymphalianBat
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int npc1 = NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-10, 10), (int)npc.Center.Y+ Main.rand.Next(-10, 10), mod.NPCType("StymphalianBat"), npc.whoAmI,
-								40f, 0f, 0f, 1f);
+                    int npc1 = NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-10, 10), (int)npc.Center.Y+ Main.rand.Next(-10, 10), ModContent.NPCType<StymphalianBat>(), npc.whoAmI, 40f, 0f, 0f, 1f);
                     npc.ai[3] = 1f;
                     npc.netUpdate = true;
                     Main.npc[npc1].netUpdate = true;
                 }
             }
+
             npc.spriteDirection = npc.direction;
 			Player target = Main.player[npc.target];
 

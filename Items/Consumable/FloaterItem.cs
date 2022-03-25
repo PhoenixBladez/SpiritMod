@@ -1,3 +1,4 @@
+using SpiritMod.NPCs.Critters;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,7 +13,6 @@ namespace SpiritMod.Items.Consumable
 			Tooltip.SetDefault("'A beacon at the beach'");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = item.height = 20;
@@ -26,14 +26,12 @@ namespace SpiritMod.Items.Consumable
 			item.noMelee = true;
 			item.consumable = true;
 			item.autoReuse = true;
-
 		}
 
 		public override bool UseItem(Player player)
 		{
-			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("Floater1"));
+			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Floater1>());
 			return true;
 		}
-
 	}
 }
