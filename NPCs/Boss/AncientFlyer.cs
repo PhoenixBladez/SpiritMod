@@ -317,7 +317,8 @@ namespace SpiritMod.NPCs.Boss
 				return;
 			}
 
-			int[] lootTable = {
+			int[] lootTable =
+			{
 				ModContent.ItemType<TalonBlade>(),
 				ModContent.ItemType<Talonginus>(),
 				ModContent.ItemType<SoaringScapula>(),
@@ -325,7 +326,8 @@ namespace SpiritMod.NPCs.Boss
 				ModContent.ItemType<SkeletalonStaff>()
 			};
 
-			int[] lootTable2 = {
+			int[] lootTable2 =
+			{
 				ModContent.ItemType<TalonHeaddress>(),
 				ModContent.ItemType<TalonGarb>()
 			};
