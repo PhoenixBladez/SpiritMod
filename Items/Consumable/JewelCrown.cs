@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Consumable
 			if (player.ZoneOverworldHeight || player.ZoneSkyHeight) {
 
 				if (Main.netMode == NetmodeID.SinglePlayer)
-					NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("AncientFlyer"));
+					NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<AncientFlyer>());
 
 				else if (Main.netMode == NetmodeID.MultiplayerClient && player == Main.LocalPlayer) {
 					Vector2 spawnPos = player.Center;
