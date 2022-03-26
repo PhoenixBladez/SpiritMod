@@ -35,15 +35,13 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 			if (proj != null && proj.active)
 				proj.ai[1] = 1;
 
-			DropOlympium(Main.rand.Next(3,6));
+			DropOlympium(Main.rand.Next(3, 6));
 		}
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			DrawBeam(new Color(134, 247, 245, 0), new Color(72, 165, 232, 0));
-
 			DrawBloom(spriteBatch, new Color(76, 218, 237) * 0.33f, 0.5f);
-
 			DrawSigil(spriteBatch);
 		}
 	}

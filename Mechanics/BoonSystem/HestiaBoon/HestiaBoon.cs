@@ -65,7 +65,7 @@ namespace SpiritMod.Mechanics.BoonSystem.HestiaBoon
 
 		public override void OnDeath()
 		{
-			foreach(NPC myNPC in myNPCs)
+			foreach (NPC myNPC in myNPCs)
 			{
 				if (myNPC == null) continue;
 
@@ -74,6 +74,8 @@ namespace SpiritMod.Mechanics.BoonSystem.HestiaBoon
 
 				gnpc.drawHestiaRunes = false;
 			}
+
+			DropOlympium(Main.rand.Next(3, 6));
 		}
 
 		public NPC[] myNPCs = new NPC[3];

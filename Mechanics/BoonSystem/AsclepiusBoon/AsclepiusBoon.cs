@@ -109,9 +109,6 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 				origin, npc.scale, SpriteEffects.None, 0f);
 		}
 
-		public override void OnDeath()
-		{
-			DropOlympium(Main.rand.Next(3, 6));
-		}
+		public override void OnDeath() => DropOlympium(Main.rand.Next(3, 6));
 	}
 }
