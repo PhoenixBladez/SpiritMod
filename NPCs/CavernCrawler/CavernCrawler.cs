@@ -47,38 +47,24 @@ namespace SpiritMod.NPCs.CavernCrawler
 		}
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(100) == 4) {
-
+			if (Main.rand.Next(100) == 4)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, (ModContent.ItemType<CrawlerockStaff>()));
-            }
+
             if (Main.rand.NextBool(60))
-            {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ClatterboneShield>());
-            }
+
             if (Main.rand.Next(80) == 0)
-            {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DepthMeter);
-            }
+
             if (Main.rand.Next(80) == 0)
-            {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Compass);
-            }
+
             if (Main.rand.Next(200) == 0)
-            {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Rally);
-            }
+
             string[] lootTable = { "ClatterboneBreastplate", "ClatterboneFaceplate", "ClatterboneLeggings" };
             if (Main.rand.Next(55) == 0)
-            {
-                int loot = Main.rand.Next(lootTable.Length);
-                {
-                    npc.DropItem(mod.ItemType(lootTable[loot]));
-                }
-            }
-            /*int Techs = Main.rand.Next(1, 4);
-			for (int J = 0; J <= Techs; J++) {
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Carapace>());
-			}*/
+                npc.DropItem(mod.ItemType(Main.rand.Next(lootTable)));
         }
         int frame = 0;
 		int timer = 0;

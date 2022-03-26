@@ -577,6 +577,8 @@ namespace SpiritMod.UI.QuestUI
 				{
 					solid.Color = Color.Transparent;
 				}
+
+				SelectedQuest = null;
 				return;
 			}
 

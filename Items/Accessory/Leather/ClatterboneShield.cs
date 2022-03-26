@@ -23,6 +23,7 @@ namespace SpiritMod.Items.Accessory.Leather
 			item.defense = 2;
 			item.melee = true;
 			item.accessory = true;
+			item.value = Item.buyPrice(0, 0, 5, 0);
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)

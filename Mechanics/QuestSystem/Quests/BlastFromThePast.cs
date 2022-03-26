@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Terraria;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
-    public class BlastFromThePast : Quest
+	public class BlastFromThePast : Quest
     {
         public override string QuestName => "Blast From The Past";
 		public override string QuestClient => "The Adventurer";

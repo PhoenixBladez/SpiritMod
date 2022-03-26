@@ -54,7 +54,9 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			projectile.timeLeft = 240;
+			if (projectile.timeLeft > 240)
+				projectile.timeLeft = 240;
+
 			projectile.velocity = Vector2.Zero;
 			return false;
 		}
@@ -65,7 +67,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 			projectile.tileCollide = false;
 			projectile.netUpdate = true;
 			projectile.timeLeft = 240;
-			projectile.velocity = Vector2.Zero;
+			projectile.velocity = new Vector2(0, -0.4f);
 
 			hasTarget = true;
 			relativePoint = projectile.Center - target.Center;
