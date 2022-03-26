@@ -248,9 +248,8 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-
-			Vector2 pos = Player.MountedCenter - Main.screenPosition;
+			spriteBatch.End();
+			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
 			float progress = GetProgress();
 
@@ -271,7 +270,8 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			slashArcs.Add(slash);
 			PrimitiveRenderer.DrawPrimitiveShapeBatched(slashArcs.ToArray(), effect);
 
-			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+			spriteBatch.End();
+			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
 			Texture2D tex2 = Main.projectileTexture[projectile.type];
 			Texture2D tex3 = ModContent.GetTexture(Texture + "_Glow");

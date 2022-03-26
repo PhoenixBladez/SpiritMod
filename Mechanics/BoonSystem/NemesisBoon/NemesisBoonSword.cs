@@ -7,7 +7,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Utilities;
 using SpiritMod.Prim;
-using SpiritMod.Particles;
 
 namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 {
@@ -22,36 +21,23 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 
 		private const int NUMBEROFSWINGS = 3;
 
-
-		private NPC parent => Main.npc[(int)projectile.ai[0]];
 		private bool activated => projectile.ai[1] == 1;
 
-
-
-		private float swingSpeed = (SWINGROTATION * 2) / SWINGDURATION;
-
-		private float swingTimer = 0;
-
+		private NPC parent => Main.npc[(int)projectile.ai[0]];
 		private List<float> oldRotation = new List<float>();
-
-		private float hoverCounter;
-
-		private bool initialized = false;
-
-		private bool swinging = false;
-
-		private float swingWindup = 0;
-
-		private float slashProgress = 0;
-
-		private float soundTimer = 0;
-
-		private Vector2 swingDirection = Vector2.Zero;
-
 		private Player player;
 
-		private Vector2 swingBase = Vector2.Zero;
+		private float hoverCounter;
+		private bool initialized = false;
+		private bool swinging = false;
+		private float swingWindup = 0;
+		private float slashProgress = 0;
+		private float soundTimer = 0;
+		private float swingTimer = 0;
+		private float swingSpeed = (SWINGROTATION * 2) / SWINGDURATION;
 
+		private Vector2 swingDirection = Vector2.Zero;
+		private Vector2 swingBase = Vector2.Zero;
 
 		public override void SetStaticDefaults()
 		{
@@ -59,7 +45,6 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
-
 
 		public override void SetDefaults()
 		{
@@ -78,13 +63,11 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 				for (int i = 0; i < projectile.oldPos.Length; i++)
 					oldRotation.Add(projectile.rotation);
 			}
-			Vector2 posToBe = Vector2.Zero;
 
 			oldRotation.Add(projectile.rotation);
 			while (oldRotation.Count > projectile.oldPos.Length)
-			{
 				oldRotation.RemoveAt(0);
-			}
+
 			if (activated)
 			{
 				if (!swinging)
@@ -104,9 +87,7 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 						projectile.rotation += rotDif / 15f;
 					projectile.rotation = MathHelper.Lerp(projectile.rotation, newRot, 0.1f);
 
-					Vector2 dist1 = player.Center - swingBase;
-					float velLength = dist1.Length();
-
+					float velLength = (player.Center - swingBase).Length();
 					float offset = SWINGDISTANCE * Math.Min(swingWindup / 30f, 1);
 					offset *= 2;
 					projectile.velocity = swingDirection * (float)Math.Pow(Math.Abs(velLength - offset), 0.3f) * Math.Sign(velLength - offset);
@@ -136,20 +117,6 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 					projectile.velocity = swingDirection * 50 * (Math.Abs(oldProgress - progress));
 
 					projectile.rotation = swingDirection.ToRotation() + MathHelper.Lerp(SWINGROTATION, -SWINGROTATION, progress) + 1.57f;
-
-					/*if (Main.rand.Next(2) == 0)
-					{
-						int particleTimeleft = Main.rand.Next(30, 60);
-						StarParticle particle = new StarParticle(
-							projectile.Center + ((projectile.rotation - 1.57f).ToRotationVector2() * Main.rand.Next(70)) + Main.rand.NextVector2Circular(10, 10),
-							Vector2.Zero,
-							Color.SkyBlue,
-							Main.rand.NextFloat(0.1f, 0.2f),
-							particleTimeleft);
-
-						particle.TimeActive = (uint)particleTimeleft / 2;
-						ParticleHandler.SpawnParticle(particle);
-					}*/
 				}
 
 				projectile.Center = swingBase + ((projectile.rotation - 1.57f).ToRotationVector2() * SWINGDISTANCE * Math.Min(swingWindup / 30f, 1));
@@ -159,15 +126,14 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 			else
 			{
 				swingBase = projectile.Center;
-				player = Main.player[parent.target];
+				player = Main.player[Player.FindClosest(swingBase, 0, 0)];
 				swingDirection = projectile.DirectionTo(player.Center);
 				projectile.velocity = Vector2.Zero;
 				hoverCounter += 0.05f;
 
-				posToBe = parent.Center + new Vector2(parent.direction * (parent.width + (projectile.width / 2)) * -1, (float)Math.Sin(hoverCounter) * 12).RotatedBy(parent.rotation);
+				Vector2 posToBe = parent.Center + new Vector2(parent.direction * (parent.width + (projectile.width / 2)) * -1, (float)Math.Sin(hoverCounter) * 12).RotatedBy(parent.rotation);
 				if (!parent.active)
 					projectile.active = false;
-
 
 				Vector2 newPos = Vector2.Lerp(projectile.Center, posToBe, 0.1f);
 				Vector2 tiltDirection = projectile.DirectionTo(newPos);

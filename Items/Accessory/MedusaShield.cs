@@ -1,4 +1,3 @@
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,6 +12,7 @@ namespace SpiritMod.Items.Accessory
 			DisplayName.SetDefault("Medusa Shield");
 			Tooltip.SetDefault("Provides immunity to knockback and the stoned debuff\nAs health decreases, defense increases");
 		}
+
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -22,6 +22,7 @@ namespace SpiritMod.Items.Accessory
 			item.accessory = true;
 			item.defense = 6;
 		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -31,6 +32,7 @@ namespace SpiritMod.Items.Accessory
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();
 		}
+
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			player.noKnockback = true;
