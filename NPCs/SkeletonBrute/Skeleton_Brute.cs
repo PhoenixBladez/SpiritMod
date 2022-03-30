@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Items.Sets.BloodcourtSet;
 using Terraria.DataStructures;
 
 namespace SpiritMod.NPCs.SkeletonBrute
@@ -55,7 +54,6 @@ namespace SpiritMod.NPCs.SkeletonBrute
 			{
 				npc.aiStyle = 3;
 				frameRes = true;	
-				attacking = 0;
 			}
 			if (attacking == 1)
 			{
