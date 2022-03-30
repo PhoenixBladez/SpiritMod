@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SpiritMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,10 +8,7 @@ namespace SpiritMod.Projectiles
 {
 	public class Starshock2 : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Starlux");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Starlux");
 
 		public override void SetDefaults()
 		{
@@ -26,10 +24,9 @@ namespace SpiritMod.Projectiles
 
 		public override void AI()
 		{
-			int num = 5;
 			for (int k = 0; k < 6; k++) {
 				int index2 = Dust.NewDust(projectile.position, 4, 4, DustID.Electric, 0.0f, 0.0f, 0, new Color(), 1f);
-				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+				Main.dust[index2].position = projectile.Center - projectile.velocity / 5 * (float)k;
 				Main.dust[index2].scale = .8f;
 				Main.dust[index2].velocity *= 0f;
 				Main.dust[index2].noGravity = true;
@@ -39,15 +36,13 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			int n = 2;
+			const int Repeats = 2;
+
 			int deviation = Main.rand.Next(0, 300);
-			for (int i = 0; i < n; i++) {
-				float rotation = MathHelper.ToRadians(270 / n * i + deviation);
-				Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(rotation);
-				perturbedSpeed.Normalize();
-				perturbedSpeed.X *= 2.5f;
-				perturbedSpeed.Y *= 2.5f;
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("StarTrail1"), 12, 2, projectile.owner);
+			for (int i = 0; i < Repeats; i++) {
+				float rotation = MathHelper.ToRadians(270 / Repeats * i + deviation);
+				Vector2 perturbedSpeed = Vector2.Normalize(new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(rotation)) * 2.5f;
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<StarTrail1>(), 12, 2, projectile.owner);
 			}
 
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 9);

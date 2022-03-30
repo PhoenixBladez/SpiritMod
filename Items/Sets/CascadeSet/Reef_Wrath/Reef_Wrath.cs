@@ -1,9 +1,7 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Items.Sets.CascadeSet;
 using SpiritMod.Items.Sets.FloatingItems;
 
 namespace SpiritMod.Items.Sets.CascadeSet.Reef_Wrath
@@ -21,7 +19,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Reef_Wrath
 			item.useTime = 36;
 			item.useAnimation = 36;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = mod.ProjectileType("Reef_Wrath_Projectile_Alt");
+			item.shoot = ModContent.ProjectileType<Reef_Wrath_Projectile_Alt>();
 			item.shootSpeed = 0f;
 			item.knockBack = 2.5f;
 			item.autoReuse = false;
@@ -93,7 +91,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Reef_Wrath
 						break;
 				}
 
-				Projectile.NewProjectile(pos, vel, mod.ProjectileType("Reef_Wrath_Projectile_Alt"), 0, 0f, player.whoAmI);
+				Projectile.NewProjectile(pos, vel, ModContent.ProjectileType<Reef_Wrath_Projectile_Alt>(), 0, 0f, player.whoAmI);
 			}
 			
 			return false;

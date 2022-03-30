@@ -1,6 +1,6 @@
 
 using Microsoft.Xna.Framework;
-
+using SpiritMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,7 +14,6 @@ namespace SpiritMod.Items.Sets.MagicMisc.TerraStaffTree
 			DisplayName.SetDefault("True Vessel Drainer");
 			Tooltip.SetDefault("Shoots a clot that gathers power over time");
 		}
-
 
 		public override void SetDefaults()
 		{
@@ -34,7 +33,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.TerraStaffTree
 			item.rare = ItemRarityID.Yellow;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = false;
-			item.shoot = mod.ProjectileType("TrueClot1");
+			item.shoot = ModContent.ProjectileType<TrueClot1>();
 			item.shootSpeed = 16f;
 		}
 
@@ -47,6 +46,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.TerraStaffTree
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();
 		}
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;

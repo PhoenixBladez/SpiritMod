@@ -142,17 +142,20 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
 		{
 			if (boomdamage == 0)
 				return false;
+
 			Player player = Main.player[(int)npc.ai[0]];
 			Main.PlaySound(SoundID.Item92, npc.Center);
+
 			for (int i = 0; i < 2; i++)
 			{
 				for (int j = 1; j < 5; ++j)
 				{
 					float randFloat = Main.rand.NextFloat(6.28f);
-					Gore.NewGore(npc.Center + (randFloat.ToRotationVector2() * 60), randFloat.ToRotationVector2() * 16, mod.GetGoreSlot("Gores/StarbombGore/StarbombGore" + j), 1f);
+					Gore.NewGore(npc.Center + (randFloat.ToRotationVector2() * 60), Main.rand.NextFloat(6.28f).ToRotationVector2() * 16, mod.GetGoreSlot("Gores/StarbombGore/StarbombGore" + j), 1f);
 				}
 			}
-			Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, mod.ProjectileType("StarShockwave"), (int)(boomdamage * player.minionDamage * 0.5f), 0, player.whoAmI);
+
+			Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, ModContent.ProjectileType<StarShockwave>(), (int)(boomdamage * player.minionDamage * 0.5f), 0, player.whoAmI);
 			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Thunder"), npc.Center);
 			SpiritMod.tremorTime = 15;
 			return true;

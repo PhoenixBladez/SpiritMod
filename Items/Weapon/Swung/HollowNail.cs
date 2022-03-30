@@ -1,9 +1,8 @@
-using SpiritMod.Buffs;
-using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using SpiritMod.Projectiles.Sword;
 
 namespace SpiritMod.Items.Weapon.Swung
 {
@@ -14,7 +13,6 @@ namespace SpiritMod.Items.Weapon.Swung
 			DisplayName.SetDefault("Hollow Nail");
 			Tooltip.SetDefault("Use it above enemies to bounce on them");
 		}
-
 
 		public override void SetDefaults()
 		{
@@ -32,21 +30,19 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.autoReuse = false;
 			item.noUseGraphic = true;
 			item.value = Item.sellPrice(0, 0, 0, 20);
-			item.shoot = mod.ProjectileType("NailProj");
+			item.shoot = ModContent.ProjectileType<NailProj>();
 			item.shootSpeed = 30f;
 		}
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			position += new Vector2(speedX, speedY);
 			Projectile.NewProjectile(position.X, position.Y, speedX / 30, speedY / 30, type, damage, knockBack, player.whoAmI, speedX, speedY);
-			if (item.shoot == mod.ProjectileType("NailProj"))
-			{
-				item.shoot = mod.ProjectileType("NailProj2");
-			}
+
+			if (item.shoot == ModContent.ProjectileType<NailProj>())
+				item.shoot = ModContent.ProjectileType<NailProj2>();
 			else
-			{
-				item.shoot = mod.ProjectileType("NailProj");
-			}
+				item.shoot = ModContent.ProjectileType<NailProj>();
 			return false;
 		}
 	}

@@ -7,6 +7,12 @@ namespace SpiritMod.Items.Sets.BowsMisc.OrnamentBow
 {
 	public class Ornament_Bow : ModItem
 	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Bow of Ornaments");
+			Tooltip.SetDefault("Turns wooden arrows into ornament arrows\nOrnament Arrows create assorted gem arrows upon shattering");
+		}
+
 		public override void SetDefaults()
 		{
 			item.useStyle = ItemUseStyleID.HoldingOut;
@@ -27,23 +33,13 @@ namespace SpiritMod.Items.Sets.BowsMisc.OrnamentBow
 			item.autoReuse = true;
 		}
 		
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bow of Ornaments");
-			Tooltip.SetDefault("Turns wooden arrows into ornament arrows\nOrnament Arrows create assorted gem arrows upon shattering");
-		}
-
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 40f;
 			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
-			{
 				position += muzzleOffset;
-			}
 			if (type == ProjectileID.WoodenArrowFriendly)
-			{
-				type = mod.ProjectileType("Ornament_Arrow");
-			}
+				type = ModContent.ProjectileType<Ornament_Arrow>();
 			return true;
 		}
 

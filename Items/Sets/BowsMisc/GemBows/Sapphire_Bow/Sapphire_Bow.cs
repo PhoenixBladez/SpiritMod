@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Sapphire_Bow
 			item.knockBack = 0.5f;
 			item.rare = ItemRarityID.Blue;
 			item.noMelee = true;
-            item.value = Terraria.Item.sellPrice(0, 0, 67, 50);
+            item.value = Item.sellPrice(0, 0, 67, 50);
             item.ranged = true;
 		}
 		
@@ -36,16 +36,13 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Sapphire_Bow
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			if (type == ProjectileID.WoodenArrowFriendly)
-				type = mod.ProjectileType("Sapphire_Arrow");
+				type = ModContent.ProjectileType<Sapphire_Arrow>();
 							
 			return true;
 		}
 
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-1, 0);
-		}
-		
+		public override Vector2? HoldoutOffset() => new Vector2(-1, 0);
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

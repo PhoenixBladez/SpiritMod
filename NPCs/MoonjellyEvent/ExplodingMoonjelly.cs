@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Sets.ClubSubclass;
+using SpiritMod.NPCs.Spirit;
 
 namespace SpiritMod.NPCs.MoonjellyEvent
 {
@@ -119,7 +120,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
                 }
                 if (Main.player[npc.target].Hitbox.Intersects(npc.Hitbox))
                 {
-                    int p = Terraria.Projectile.NewProjectile(Main.player[npc.target].Center.X, Main.player[npc.target].Center.Y, 0f, 0f, mod.ProjectileType("UnstableWisp_Explosion"), 15, 0f, Main.myPlayer);
+                    int p = Projectile.NewProjectile(Main.player[npc.target].Center.X, Main.player[npc.target].Center.Y, 0f, 0f, ModContent.ProjectileType<UnstableWisp_Explosion>(), 15, 0f, Main.myPlayer);
                     Main.projectile[p].hide = true;
                     Main.projectile[p].timeLeft = 20;
 
@@ -149,9 +150,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 				npc.DropItem(mod.ItemType("MoonJelly"));
 
 			if (Main.rand.NextBool(25))
-            {
                 npc.DropItem(ModContent.ItemType<NautilusClub>());
-            }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {

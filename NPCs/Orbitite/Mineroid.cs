@@ -37,10 +37,7 @@ namespace SpiritMod.NPCs.Orbitite
 			bannerItem = ModContent.ItemType<Items.Banners.OrbititeBanner>();
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return (spawnInfo.player.ZoneMeteor) && spawnInfo.spawnTileY < Main.rockLayer && NPC.downedBoss2 ? 0.15f : 0f;
-		}
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.player.ZoneMeteor && spawnInfo.spawnTileY < Main.rockLayer && NPC.downedBoss2 ? 0.15f : 0f;
 
 		public override void NPCLoot()
 		{
@@ -50,25 +47,22 @@ namespace SpiritMod.NPCs.Orbitite
 			if (Main.rand.Next(1) == 400) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GravityModulator>());
 			}
+
 			string[] lootTable = { "AstronautLegs", "AstronautHelm", "AstronautBody" };
 			if (Main.rand.Next(40) == 0) {
 				int loot = Main.rand.Next(lootTable.Length);
-				{
-					npc.DropItem(mod.ItemType(lootTable[loot]));
-				}
+				npc.DropItem(mod.ItemType(lootTable[loot]));
 			}
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 			return false;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Orbitite/Mineroid_Glow"));
-        }
+
+		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Orbitite/Mineroid_Glow"));
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			Main.PlaySound(SoundID.DD2_WitherBeastHurt, npc.Center);
@@ -105,7 +99,9 @@ namespace SpiritMod.NPCs.Orbitite
 			int frame = (int)npc.frameCounter;
 			npc.frame.Y = frame * frameHeight;
 		}
+
 		int timer = 0;
+
 		public override void AI()
 		{
 			timer++;
@@ -113,7 +109,7 @@ namespace SpiritMod.NPCs.Orbitite
 				bool expertMode = Main.expertMode;
 				int damage = expertMode ? 10 : 16;
 				Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
-				int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector2_2.X, vector2_2.Y, mod.ProjectileType("MeteorShardHostile1"), damage, 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
+				int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector2_2.X, vector2_2.Y, ModContent.ProjectileType<MeteorShardHostile1>(), damage, 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
 				Main.projectile[p].hostile = true;
 				timer = 0;
 				npc.netUpdate = true;

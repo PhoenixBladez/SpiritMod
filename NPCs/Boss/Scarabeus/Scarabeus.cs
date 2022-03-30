@@ -383,7 +383,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 						Vector2 velocity = -Vector2.UnitY.RotatedBy(i * (float)Math.PI / 12);
 						velocity *= 10f;
 						velocity.Y += 2f;
-						Projectile.NewProjectileDirect(npc.Center, velocity, mod.ProjectileType("ScarabSandball"), npc.damage / 4, 1f, Main.myPlayer, 0, player.position.Y).netUpdate = true;
+						Projectile.NewProjectileDirect(npc.Center, velocity, ModContent.ProjectileType<ScarabSandball>(), npc.damage / 4, 1f, Main.myPlayer, 0, player.position.Y).netUpdate = true;
 					}
 				}
 			}
@@ -593,7 +593,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 								break;
 
 							if(Main.netMode != NetmodeID.MultiplayerClient)
-								Projectile.NewProjectile(center, Vector2.Zero, mod.ProjectileType("SandShockwave"), npc.damage / 4, 5f, Main.myPlayer);
+								Projectile.NewProjectile(center, Vector2.Zero, ModContent.ProjectileType<SandShockwave>(), npc.damage / 4, 5f, Main.myPlayer);
 						}
 					}
 
@@ -774,7 +774,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					if (Main.netMode != NetmodeID.MultiplayerClient) { //spawn the telegraph for the scarab storm, going from the random spot to the player's center
 						for (int i = 0; i < numwaves; i++) {
 							Vector2 spawnpos = statictarget[0].RotatedBy(MathHelper.PiOver2 * i) + statictarget[1];
-							Projectile proj = Projectile.NewProjectileDirect(spawnpos, Vector2.Normalize(statictarget[1] - spawnpos) * 6, mod.ProjectileType("SwarmTelegraph"), 0, 0, Main.myPlayer);
+							Projectile proj = Projectile.NewProjectileDirect(spawnpos, Vector2.Normalize(statictarget[1] - spawnpos) * 6, ModContent.ProjectileType<SwarmTelegraph>(), 0, 0, Main.myPlayer);
 							Main.PlaySound(SoundID.Item, (int)statictarget[1].X, (int)statictarget[1].Y, 117, 1, 2);
 							proj.netUpdate = true;
 						}
@@ -888,7 +888,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 										break;
 
 									if (Main.netMode != NetmodeID.MultiplayerClient)
-										Projectile.NewProjectile(center, Vector2.Zero, mod.ProjectileType("SandShockwave"), npc.damage / 4, 5f, Main.myPlayer);
+										Projectile.NewProjectile(center, Vector2.Zero, ModContent.ProjectileType<SandShockwave>(), npc.damage / 4, 5f, Main.myPlayer);
 								}
 							}
 						}
@@ -947,7 +947,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 						for (int i = 0; i < numproj; i++) {
 							Projectile proj = Projectile.NewProjectileDirect(npc.Center,
 								new Vector2(-Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 2).X * 1.5f, -1) * Main.rand.NextFloat(8, 11),
-								mod.ProjectileType("ScarabSandball"), npc.damage / 5, 1, Main.myPlayer, 1, player.position.Y);
+								ModContent.ProjectileType<ScarabSandball>(), npc.damage / 5, 1, Main.myPlayer, 1, player.position.Y);
 							proj.netUpdate = true;
 						}
 					}
@@ -972,7 +972,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 							break;
 
 						if (Main.netMode != NetmodeID.MultiplayerClient)
-							Projectile.NewProjectile(center, Vector2.Zero, mod.ProjectileType("SandShockwave"), npc.damage / 5, 5f, Main.myPlayer);
+							Projectile.NewProjectile(center, Vector2.Zero, ModContent.ProjectileType<SandShockwave>(), npc.damage / 5, 5f, Main.myPlayer);
 					}
 				}
 				npc.rotation = npc.velocity.X * -0.05f;
@@ -996,7 +996,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44, 1.5f, -1f);
 				if (Main.netMode != NetmodeID.MultiplayerClient) {
 					for (int i = 0; i < 3; i++) {
-						Projectile proj = Projectile.NewProjectileDirect(player.Center - new Vector2(Main.rand.Next(-200, 200), 200), -Vector2.UnitY, mod.ProjectileType("LargeScarab"), npc.damage / 5, 1, Main.myPlayer, player.whoAmI, Main.rand.Next(20));
+						Projectile proj = Projectile.NewProjectileDirect(player.Center - new Vector2(Main.rand.Next(-200, 200), 200), -Vector2.UnitY, ModContent.ProjectileType<LargeScarab>(), npc.damage / 5, 1, Main.myPlayer, player.whoAmI, Main.rand.Next(20));
 						proj.netUpdate = true;
 					}
 				}

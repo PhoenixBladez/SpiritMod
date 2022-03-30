@@ -35,16 +35,19 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 
 		Vector2 hometarget;
 		bool onground;
+
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.WriteVector2(hometarget);
 			writer.Write(onground);
 		}
+
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			hometarget = reader.ReadVector2();
 			onground = reader.ReadBoolean();
 		}
+
 		public override void AI()
 		{
 			projectile.spriteDirection = -projectile.direction;
@@ -60,7 +63,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 
 			Projectile coffin = Main.projectile[(int)projectile.ai[0]];
 
-			if (!coffin.active || coffin.type != mod.ProjectileType("CrossCoffin") || coffin.owner != projectile.owner)
+			if (!coffin.active || coffin.type != ModContent.ProjectileType<CrossCoffin>() || coffin.owner != projectile.owner)
 				projectile.Kill();
 
 			for (int index = 0; index < 1000; ++index)
@@ -68,28 +71,19 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 				if (index != projectile.whoAmI && Main.projectile[index].active && (Main.projectile[index].owner == projectile.owner && Main.projectile[index].type == projectile.type) && (double)Math.Abs((float)(projectile.position.X - Main.projectile[index].position.X)) + (double)Math.Abs((float)(projectile.position.Y - Main.projectile[index].position.Y)) < (double)projectile.width)
 				{
 					if (projectile.position.X < Main.projectile[index].position.X)
-					{
 						projectile.velocity.X -= 0.05f;
-					}
 					else
-					{
 						projectile.velocity.X += 0.05f;
-					}
+
 					if (projectile.position.Y < Main.projectile[index].position.Y)
-					{
 						projectile.velocity.Y -= 0.05f;
-					}
 					else
-					{
 						projectile.velocity.Y += 0.05f;
-					}
 				}
 			}
 
 			if (Main.npc[(int)projectile.ai[1]].CanBeChasedBy(projectile))
-			{
 				hometarget = Main.npc[(int)projectile.ai[1]].Center;
-			}
 			else
 			{
 				hometarget = coffin.Center;

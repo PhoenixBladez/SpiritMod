@@ -7,7 +7,15 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
 {
     public class ScreamingTome : ModItem
     {
-        public override void SetDefaults()
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Screaming Tome");
+			Tooltip.SetDefault("Creates orbiting skulls\nRelease to launch skulls");
+
+			Item.staff[item.type] = false;
+		}
+
+		public override void SetDefaults()
         {
             item.damage = 16;
             item.noMelee = true;
@@ -17,8 +25,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
             item.useTime = 35;
             item.useAnimation = 35;
             item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = false;
-            item.shoot = mod.ProjectileType("ScreamingSkull");
+            item.shoot = ModContent.ProjectileType<ScreamingSkull>();
             item.shootSpeed = 18f;
             item.knockBack = 3f;
             item.autoReuse = true;
@@ -30,20 +37,9 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
             item.channel = true;
         }
 
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Screaming Tome");
-            Tooltip.SetDefault("Creates orbiting skulls\nRelease to launch skulls");
-        }
-        public override bool CanUseItem(Player player)
-        {
-            if (player.ownedProjectileCounts[mod.ProjectileType("ScreamingSkull")] >= 4)
-            {
-                return false;
-            }
-            return base.CanUseItem(player);
-        }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<ScreamingSkull>()] < 4;
+
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int p = Projectile.NewProjectile(player.Center.X - Main.rand.Next(-50, 50), player.Center.Y - Main.rand.Next(-50, 50), 0f, 0f, type, damage, knockBack, player.whoAmI);
             Main.projectile[p].ai[0] = player.whoAmI;

@@ -67,28 +67,33 @@ namespace SpiritMod.Projectiles.Summon
 
 
 			projectile.frameCounter++;
-			if (target.CanBeChasedBy(this)) {
+			if (target.CanBeChasedBy(this))
+			{
 
 				float num395 = Main.mouseTextColor / 200f - 0.35f;
 				num395 *= 0.3f;
 				projectile.scale = num395 + 0.85f;
-				if (projectile.frameCounter >= 6f) {
+				if (projectile.frameCounter >= 6f)
+				{
 					projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
 					projectile.frameCounter = 0;
-					if (projectile.frame >= 8) {
+					if (projectile.frame >= 8)
+					{
 						projectile.frame = 0;
 
 						Vector2 vel = ArcVelocityHelper.GetArcVel(projectile.Center, target.Center, .4325f, 100, heightabovetarget: 20);
-						for (int i = 0; i < 25; i++) {
+						for (int i = 0; i < 25; i++)
+						{
 							Dust dust = Dust.NewDustDirect(projectile.Center - Vector2.UnitY * 5, projectile.width, projectile.height, ModContent.DustType<Dusts.Blood>(), 0f, -2f, 0, default, .85f);
 							dust.velocity = vel.RotatedByRandom(MathHelper.Pi / 14) * Main.rand.NextFloat(0.1f, 0.6f);
 						}
 
-						if (Main.netMode != NetmodeID.MultiplayerClient) {
-							Projectile.NewProjectile(projectile.Center, vel, mod.ProjectileType("HeartilleryMinionClump"), projectile.damage, 0, Main.myPlayer);
+						if (Main.netMode != NetmodeID.MultiplayerClient)
+						{
+							Projectile.NewProjectile(projectile.Center, vel, ModContent.ProjectileType<HeartilleryMinionClump>(), projectile.damage, 0, Main.myPlayer);
 							int numproj = Main.rand.Next(1, 4);
 							for (int i = 0; i < numproj; i++)
-								Projectile.NewProjectileDirect(projectile.Center, vel.RotatedByRandom(MathHelper.Pi / 8) * Main.rand.NextFloat(0.9f, 1.1f), mod.ProjectileType("HeartilleryMinionClump"), projectile.damage, 0, Main.myPlayer).netUpdate = true;
+								Projectile.NewProjectileDirect(projectile.Center, vel.RotatedByRandom(MathHelper.Pi / 8) * Main.rand.NextFloat(0.9f, 1.1f), ModContent.ProjectileType<HeartilleryMinionClump>(), projectile.damage, 0, Main.myPlayer).netUpdate = true;
 						}
 						projectile.netUpdate = true;
 						Main.PlaySound(SoundID.Item, projectile.Center, 95);  //make bow shooty sound
@@ -97,12 +102,12 @@ namespace SpiritMod.Projectiles.Summon
 			}
 
 			else if (projectile.frameCounter >= 10f)
-            {
-                projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
-                projectile.frameCounter = 0;
-                if (projectile.frame >= 3)
-                    projectile.frame = 0;
-            }
+			{
+				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
+				projectile.frameCounter = 0;
+				if (projectile.frame >= 3)
+					projectile.frame = 0;
+			}
 
             for (int index1 = 0; index1 < 3; ++index1)
             {

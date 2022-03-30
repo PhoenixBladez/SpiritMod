@@ -51,7 +51,7 @@ namespace SpiritMod.Items.Sets.AtlasDrops
 			return true;
 
 			/*if(Main.rand.Next(12) == 0) {
-				item.shoot = mod.ProjectileType("PrismBolt2");
+				item.shoot = ModContent.ProjectileType("PrismBolt2");
 				return true;
 			} else {
 				item.shoot = ModContent.ProjectileType<PrismaticBolt>();

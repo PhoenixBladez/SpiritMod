@@ -69,13 +69,14 @@ namespace SpiritMod.Projectiles.Summon
 							num5 = num4 / num5;
 
 						value *= num5;
-						int p = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value.X, value.Y, mod.ProjectileType("NovaBeam1"), projectile.damage, projectile.knockBack / 2f, projectile.owner, 0f, 0f);
+						int p = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value.X, value.Y, ModContent.ProjectileType<NovaBeam1>(), projectile.damage, projectile.knockBack / 2f, projectile.owner, 0f, 0f);
 						Main.projectile[p].minion = true;
 						Main.projectile[p].magic = false;
 					}
 				}
 			}
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
@@ -86,9 +87,7 @@ namespace SpiritMod.Projectiles.Summon
 			}
 			return false;
 		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return new Color(252, 252, 252, projectile.alpha);
-		}
+
+		public override Color? GetAlpha(Color lightColor) => new Color(252, 252, 252, projectile.alpha);
 	}
 }

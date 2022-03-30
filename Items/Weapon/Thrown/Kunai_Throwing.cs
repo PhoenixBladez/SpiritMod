@@ -57,9 +57,9 @@ namespace SpiritMod.Items.Weapon.Thrown
 		{
 			Vector2 direction = new Vector2(speedX,speedY);
 
-			Terraria.Projectile.NewProjectile(position, direction.RotatedBy(-0.2f), mod.ProjectileType("Kunai_Throwing"), damage, knockBack, player.whoAmI, 0f, 0f);
-			Terraria.Projectile.NewProjectile(position, direction, mod.ProjectileType("Kunai_Throwing"), damage, knockBack, player.whoAmI, 0f, 0f);
-			Terraria.Projectile.NewProjectile(position, direction.RotatedBy(0.2f), mod.ProjectileType("Kunai_Throwing"), damage, knockBack, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(position, direction.RotatedBy(-0.2f), mod.ProjectileType("Kunai_Throwing"), damage, knockBack, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(position, direction, mod.ProjectileType("Kunai_Throwing"), damage, knockBack, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(position, direction.RotatedBy(0.2f), mod.ProjectileType("Kunai_Throwing"), damage, knockBack, player.whoAmI, 0f, 0f);
 			return false;
 		}
 	}

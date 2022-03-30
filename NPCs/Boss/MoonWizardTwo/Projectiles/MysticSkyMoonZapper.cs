@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.NPCs.Boss.MoonWizard.Projectiles;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -39,19 +40,18 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
 			if (projectile.timeLeft == 20)
 			{
 				Main.PlaySound(SoundID.Item, projectile.position, 122);
-				int p = Projectile.NewProjectile(projectile.Center + new Vector2(0, 500), Vector2.Zero, mod.ProjectileType("MoonThunder"), projectile.damage, 0);
+				int p = Projectile.NewProjectile(projectile.Center + new Vector2(0, 500), Vector2.Zero, ModContent.ProjectileType<MoonThunder>(), projectile.damage, 0);
                 Main.projectile[p].hostile = true;
                 Main.projectile[p].friendly = true;
             }
 		}
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return Color.White;
-        }
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+
+		public override Color? GetAlpha(Color lightColor) => Color.White;
+
+		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             float sineAdd = (float)Math.Sin(alphaCounter) + 3;
-            Main.spriteBatch.Draw(SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49"), (projectile.Center - Main.screenPosition), null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + .6f), SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49"), projectile.Center - Main.screenPosition, null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + .6f), SpriteEffects.None, 0f);
         }
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Sets.GraniteSet;
+using SpiritMod.Projectiles;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -77,7 +78,7 @@ namespace SpiritMod.NPCs.GraniteSlime
 					float rotation = (float)(Main.rand.Next(0, 361) * (Math.PI / 180));
 					Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 					int proj = Projectile.NewProjectile(npc.Center.X, npc.Center.Y,
-						velocity.X, velocity.Y, mod.ProjectileType("GraniteShard1"), 13, 1, Main.myPlayer, 0, 0);
+						velocity.X, velocity.Y, ModContent.ProjectileType<GraniteShard1>(), 13, 1, Main.myPlayer, 0, 0);
 					Main.projectile[proj].friendly = false;
 					Main.projectile[proj].hostile = true;
 					Main.projectile[proj].velocity *= 4f;

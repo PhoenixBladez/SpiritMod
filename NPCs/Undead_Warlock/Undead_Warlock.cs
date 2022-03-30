@@ -96,9 +96,9 @@ namespace SpiritMod.NPCs.Undead_Warlock
 					if (crystalTimer == 45 && Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8, 1f, 0f);
-						crystal1 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 90, 0f, 0f, mod.ProjectileType("Undead_Warlock_Crystal"), 10, 3f, 0);
-						crystal2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 90, 0f, 0f, mod.ProjectileType("Undead_Warlock_Crystal"), 10, 3f, 0);
-						crystal3 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 90, 0f, 0f, mod.ProjectileType("Undead_Warlock_Crystal"), 10, 3f, 0);
+						crystal1 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 90, 0f, 0f, ModContent.ProjectileType<Undead_Warlock_Crystal>(), 10, 3f, 0);
+						crystal2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 90, 0f, 0f, ModContent.ProjectileType<Undead_Warlock_Crystal>(), 10, 3f, 0);
+						crystal3 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 90, 0f, 0f, ModContent.ProjectileType<Undead_Warlock_Crystal>(), 10, 3f, 0);
 						Main.projectile[crystal1].Center += new Vector2(0, 35).RotatedBy(MathHelper.ToRadians(120));
 						Main.projectile[crystal2].Center += new Vector2(0, 35).RotatedBy(MathHelper.ToRadians(240));
 						Main.projectile[crystal3].Center += new Vector2(0, 35).RotatedBy(MathHelper.ToRadians(360));
@@ -113,16 +113,16 @@ namespace SpiritMod.NPCs.Undead_Warlock
 						switch (Main.rand.Next(4))
 						{
 							case 0:
-								chosenProjectile = mod.ProjectileType("Letter_1");
+								chosenProjectile = ModContent.ProjectileType<Letter_1>();
 								break;
 							case 1:
-								chosenProjectile = mod.ProjectileType("Letter_2");
+								chosenProjectile = ModContent.ProjectileType<Letter_2>();
 								break;
 							case 2:
-								chosenProjectile = mod.ProjectileType("Letter_3");
+								chosenProjectile = ModContent.ProjectileType<Letter_3>();
 								break;
 							case 3:
-								chosenProjectile = mod.ProjectileType("Letter_4");
+								chosenProjectile = ModContent.ProjectileType<Letter_4>();
 								break;
 							default:
 								break;

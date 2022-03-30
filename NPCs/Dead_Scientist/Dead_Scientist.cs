@@ -71,10 +71,10 @@ namespace SpiritMod.NPCs.Dead_Scientist
 					float num15 = num5 / num14;
 					float num16 = num6 * num15;
 					float SpeedY = num8 * num15;
-					Projectile.NewProjectile(vector2.X, vector2.Y, num16, SpeedY, mod.ProjectileType("Zombie_Puke"), 10, 0.0f, Main.myPlayer, 0.0f, 0.0f);
+					Projectile.NewProjectile(vector2.X, vector2.Y, num16, SpeedY, ModContent.ProjectileType<Zombie_Puke>(), 10, 0.0f, Main.myPlayer, 0.0f, 0.0f);
 				}
 			}
-			if ((double)Vector2.Distance(player.Center, npc.Center) < (double)300f)
+			if (Vector2.Distance(player.Center, npc.Center) < 300f)
 				delayTimer++;
 			if (delayTimer >= 180)
 			{

@@ -1,4 +1,5 @@
 using SpiritMod.Items.Material;
+using SpiritMod.Projectiles.DonatorItems;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,7 +12,6 @@ namespace SpiritMod.Items.DonatorItems
 			DisplayName.SetDefault("Sluggy Throw");
 			Tooltip.SetDefault("Throw a dodgeball at snail speed");
 		}
-
 
 		public override void SetDefaults()
 		{
@@ -27,10 +27,11 @@ namespace SpiritMod.Items.DonatorItems
 			item.value = 4000;
 			item.rare = ItemRarityID.Green;
 			item.shootSpeed = 6f;
-			item.shoot = mod.ProjectileType("Dodgeball1");
+			item.shoot = ModContent.ProjectileType<Dodgeball1>();
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

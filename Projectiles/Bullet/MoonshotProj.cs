@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using SpiritMod.NPCs.Boss.MoonWizard.Projectiles;
 
 namespace SpiritMod.Projectiles.Bullet
 {
@@ -79,8 +80,8 @@ namespace SpiritMod.Projectiles.Bullet
 					{
 						direction *= .8f;
 						Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
-						int proj = Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, mod.ProjectileType("SineBall"), projectile.damage/3, projectile.knockBack * 0.25f, projectile.owner, 180);
-						int p1 = Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, mod.ProjectileType("SineBall"), projectile.damage/3, projectile.knockBack * 0.25f, projectile.owner, 0, proj + 1);
+						int proj = Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<SineBall>(), projectile.damage/3, projectile.knockBack * 0.25f, projectile.owner, 180);
+						int p1 = Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<SineBall>(), projectile.damage/3, projectile.knockBack * 0.25f, projectile.owner, 0, proj + 1);
 						Main.projectile[proj].hostile = false;
 						Main.projectile[p1].hostile = false;
 						Main.projectile[proj].friendly = true;

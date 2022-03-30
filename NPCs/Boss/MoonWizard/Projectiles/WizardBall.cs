@@ -72,13 +72,13 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
                 Dust d = Dust.NewDustPerfect(projectile.Center, 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(5), 0, default, 0.75f);
                 d.noGravity = true;
             }
-            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 3.75f * 2f, 3.75f * 2f, mod.ProjectileType("WizardBall_Projectile"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -3.75f * 2f, -3.75f * 2f, mod.ProjectileType("WizardBall_Projectile"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 3.75f * 2f, 3.75f * 2f, ModContent.ProjectileType<WizardBall_Projectile>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -3.75f * 2f, -3.75f * 2f, ModContent.ProjectileType<WizardBall_Projectile>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
 
-            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 7.5f * 2f, 0f, mod.ProjectileType("WizardBall_Projectile"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -7.5f * 2f, 0f, mod.ProjectileType("WizardBall_Projectile"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, 7.5f * 2f, mod.ProjectileType("WizardBall_Projectile"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, -7.5f * 2f, mod.ProjectileType("WizardBall_Projectile"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 7.5f * 2f, 0f, ModContent.ProjectileType<WizardBall_Projectile>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -7.5f * 2f, 0f, ModContent.ProjectileType<WizardBall_Projectile>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, 7.5f * 2f, ModContent.ProjectileType<WizardBall_Projectile>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, -7.5f * 2f, ModContent.ProjectileType<WizardBall_Projectile>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
 
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)

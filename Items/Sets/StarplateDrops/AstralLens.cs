@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
+using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,7 +16,6 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 			Tooltip.SetDefault("Shoots out bursts of electrical stars that reconverge on the player");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/StarplateDrops/AstralLens_Glow");
 		}
-
 
 		public override void SetDefaults()
 		{
@@ -34,19 +34,21 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 			item.rare = ItemRarityID.Orange;
 			item.UseSound = SoundID.NPCDeath7;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("Starshock1");
+			item.shoot = ModContent.ProjectileType<Starshock1>();
 			item.shootSpeed = 63f;
 		}
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			for (int I = 0; I < 2; I++) {
+			for (int i = 0; i < 2; i++)
+			{
 				Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-300, 300) / 30), speedY + ((float)Main.rand.Next(-300, 300) / 30), type, damage, knockBack, player.whoAmI, 0f, 0f);
-				if (Main.rand.Next(6) == 0) {
+				if (Main.rand.Next(6) == 0)
 					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-300, 300) / 30), speedY + ((float)Main.rand.Next(-300, 300) / 30), type, damage, knockBack, player.whoAmI, 0f, 0f);
-				}
 			}
 			return false;
 		}
+
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Lighting.AddLight(item.position, 0.08f, .28f, .38f);
@@ -69,6 +71,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 				0f
 			);
 		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

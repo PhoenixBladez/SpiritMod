@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using SpiritMod.Projectiles.Magic;
 
 namespace SpiritMod.Projectiles.Flail
 {
@@ -42,6 +43,7 @@ namespace SpiritMod.Projectiles.Flail
 			ProjectileExtras.FlailAI(projectile.whoAmI);
 			return false;
 		}
+
 		public static void DrawChain(int index, Vector2 to, string chainPath)
 		{
 			Texture2D texture = ModContent.GetTexture(chainPath);
@@ -53,18 +55,20 @@ namespace SpiritMod.Projectiles.Flail
 			Vector2 vector2 = to - vector;
 			float rotation = (float)Math.Atan2((double)vector2.Y, (double)vector2.X) - 1.57f;
 			bool flag = true;
-			if (float.IsNaN(vector.X) && float.IsNaN(vector.Y)) {
-				flag = false;
-			}
-			if (float.IsNaN(vector2.X) && float.IsNaN(vector2.Y)) {
-				flag = false;
-			}
 
-			while (flag) {
-				if ((double)vector2.Length() < (double)num + 1.0) {
+			if (float.IsNaN(vector.X) && float.IsNaN(vector.Y))
+				flag = false;
+			if (float.IsNaN(vector2.X) && float.IsNaN(vector2.Y))
+				flag = false;
+
+			while (flag)
+			{
+				if ((double)vector2.Length() < (double)num + 1.0)
+				{
 					flag = false;
 				}
-				else {
+				else
+				{
 					Vector2 value = vector2;
 					value.Normalize();
 					vector += value * num;
@@ -75,10 +79,7 @@ namespace SpiritMod.Projectiles.Flail
 				}
 			}
 		}
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-			return ProjectileExtras.FlailTileCollide(projectile.whoAmI, oldVelocity);
-		}
+		public override bool OnTileCollide(Vector2 oldVelocity) => ProjectileExtras.FlailTileCollide(projectile.whoAmI, oldVelocity);
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
@@ -88,32 +89,30 @@ namespace SpiritMod.Projectiles.Flail
 			ProjectileExtras.DrawAroundOrigin(projectile.whoAmI, lightColor);
 			return false;
 		}
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (target.life <= 0) {
-				if (projectile.friendly && !projectile.hostile) {
-					ProjectileExtras.Explode(projectile.whoAmI, 30, 30,
-					delegate {
-					});
+			if (target.life <= 0)
+			{
+				if (projectile.friendly && !projectile.hostile)
+					ProjectileExtras.Explode(projectile.whoAmI, 30, 30, () => { });
 
-				}
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
+
+				for (int i = 0; i < 20; i++)
 				{
-					for (int i = 0; i < 20; i++) {
-						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, 0f, -2f, 0, default, 2f);
-						Main.dust[num].noGravity = true;
-						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-						Main.dust[num].scale *= .25f;
-						if (Main.dust[num].position != projectile.Center)
-							Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
-					}
+					int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, 0f, -2f, 0, default, 2f);
+					Main.dust[num].noGravity = true;
+					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					Main.dust[num].scale *= .25f;
+					if (Main.dust[num].position != projectile.Center)
+						Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 				}
-				int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y,
-					0, 0, mod.ProjectileType("GraniteSpike1"), projectile.damage / 2, projectile.knockBack, projectile.owner);
+
+				int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, 0, ModContent.ProjectileType<GraniteSpike1>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
 				Main.projectile[proj].timeLeft = 2;
 			}
 		}
-
 	}
 }

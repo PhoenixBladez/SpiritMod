@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Projectiles.Bullet;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -68,12 +69,9 @@ namespace SpiritMod.Projectiles.Summon
 			if (projectile.ai[0] >= 30 && target.active && !target.friendly && projectile.Distance(target.Center) / 16 < range) {
 				projectile.ai[0] = 0;
 				Vector2 ShootArea = new Vector2(projectile.Center.X, projectile.Center.Y - 13);
-				Vector2 direction = target.Center - ShootArea;
-				direction.Normalize();
-				direction.X *= shootVelocity;
-				direction.Y *= shootVelocity;
+				Vector2 direction = Vector2.Normalize(target.Center - ShootArea) * shootVelocity;
 				if(Main.netMode != NetmodeID.MultiplayerClient) {
-					int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 13, direction.X, direction.Y, mod.ProjectileType("CoilBullet1"), projectile.damage, 0, Main.myPlayer);
+					int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 13, direction.X, direction.Y, ModContent.ProjectileType<CoilBullet1>(), projectile.damage, 0, Main.myPlayer);
 					Main.projectile[proj2].ranged = false;
 					Main.projectile[proj2].minion = true;
 				}

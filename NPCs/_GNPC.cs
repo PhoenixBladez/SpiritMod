@@ -897,7 +897,7 @@ namespace SpiritMod.NPCs
 					var dir = Vector2.Normalize(target.Center - randPos) * 6;
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
-						Projectile.NewProjectile(randPos.X, randPos.Y, dir.X, dir.Y, mod.ProjectileType("SacrificialDaggerProjectile"), (int)(damage * 0.75f), 0, projectile.owner);
+						Projectile.NewProjectile(randPos.X, randPos.Y, dir.X, dir.Y, ModContent.ProjectileType<SacrificialDaggerProjectile>(), (int)(damage * 0.75f), 0, projectile.owner);
 
 					DustHelper.DrawTriangle(target.Center, 173, 5, 1.5f, 1f);
 				}

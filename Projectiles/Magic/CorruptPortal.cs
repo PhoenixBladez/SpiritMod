@@ -91,14 +91,16 @@ namespace SpiritMod.Projectiles.Magic
 			if (projectile.aiStyle == -3) {
 				int n = 8;
 				int deviation = Main.rand.Next(0, 300);
+
 				for (int i = 0; i < n; i++) {
 					float rotation = MathHelper.ToRadians(270 / n * i + deviation);
 					Vector2 perturbedSpeed = new Vector2(projectile.velocity.X + 1, projectile.velocity.Y).RotatedBy(rotation);
 					perturbedSpeed.Normalize();
 					perturbedSpeed.X *= 2.5f;
 					perturbedSpeed.Y *= 2.5f;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("CorruptPortal_Star"), projectile.damage / 5 * 4, 2, projectile.owner);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<CorruptPortal_Star>(), projectile.damage / 5 * 4, 2, projectile.owner);
 				}
+
 				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 				ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
 					delegate {

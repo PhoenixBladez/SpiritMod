@@ -691,6 +691,19 @@ namespace SpiritMod.Items
 			}
 		}
 
+		/// <summary>Directly uses ammo given an index.</summary>
+		/// <param name="p">Player to use.</param>
+		/// <param name="index">Index of the item in player.inventory.</param>
+		public static void UseAmmoDirect(Player p, int index)
+		{
+			if (p.inventory[index].consumable && VanillaAmmoConsumption(p, p.inventory[index].ammo) && PlayerHooks.ConsumeAmmo(p, p.HeldItem, p.inventory[index])) //Do not consume ammo if possible
+			{
+				p.inventory[index].stack--;
+				if (p.inventory[index].stack <= 0)
+					p.inventory[index].TurnToAir();
+			}
+		}
+
 		public static bool VanillaAmmoConsumption(Player p, int ammo)
 		{
 			float chance = 0;

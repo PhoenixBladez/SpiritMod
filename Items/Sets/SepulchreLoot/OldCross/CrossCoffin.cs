@@ -103,10 +103,9 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 						projectile.velocity.Y -= 3;
 						for(int i = 0; i <= skeletstospawn; i++)
                         {
-							Projectile proj = Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, mod.ProjectileType("CrossSkelet"), projectile.damage, projectile.knockBack, projectile.owner, projectile.whoAmI, target.whoAmI);
+							Projectile proj = Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CrossSkelet>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.whoAmI, target.whoAmI);
 							proj.position.X += Main.rand.Next(-20, 21);
 							proj.damage = (int)(proj.damage * (0.5f / skeletstospawn + 0.5f));
-
                         }
 
 						for (int i = 0; i <= 12 + skeletstospawn; i++)

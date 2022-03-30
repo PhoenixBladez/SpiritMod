@@ -124,7 +124,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 							{
 								float scale = 1f - (Main.rand.NextFloat() * .3f);
 								Vector2 perturbedSpeed = toPlayer.RotatedByRandom(MathHelper.ToRadians(32)) * scale;
-								Projectile.NewProjectile(npc.Center.X + 23 * npc.direction, npc.Center.Y + 16, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("Sharp_Feather"), 22, 3f, Main.myPlayer);
+								Projectile.NewProjectile(npc.Center.X + 23 * npc.direction, npc.Center.Y + 16, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<Sharp_Feather>(), 22, 3f, Main.myPlayer);
 							}
 						}
 					}

@@ -14,8 +14,6 @@ namespace SpiritMod.Items.Weapon.Magic
 			Tooltip.SetDefault("Creats a violent sandnado from the player\nEnemies caught by the tornado are lifted upwards");
 		}
 
-
-
 		public override void SetDefaults()
 		{
 			item.damage = 38;
@@ -36,12 +34,13 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.UseSound = SoundID.Item20;
 			item.shoot = ModContent.ProjectileType<SandWall>();
 		}
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			speedX = 0;
 			speedY = -0.25f;
 			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SandWall>(), damage, knockBack, player.whoAmI, speedX, speedY);
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SandWall2"), damage, knockBack, player.whoAmI, speedX, speedY);
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SandWall2>(), damage, knockBack, player.whoAmI, speedX, speedY);
 			return false;
 		}
 

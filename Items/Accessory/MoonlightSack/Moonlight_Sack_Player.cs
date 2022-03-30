@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SpiritMod.Items.Accessory.MoonlightSack;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -8,11 +9,9 @@ namespace WhirlingWorlds.Items.Accessory.Moonlight_Sack
 	{
 		public bool isEquipped;
 		public int projectileTimer = 0;
-		public override void ResetEffects()
-		{
-			isEquipped = false;
-		}
-		
+
+		public override void ResetEffects() => isEquipped = false;
+
 		public override void PostUpdate()
 		{
 			if (isEquipped)
@@ -21,14 +20,12 @@ namespace WhirlingWorlds.Items.Accessory.Moonlight_Sack
 				for (int i = 0; i < Main.projectile.Length; i++)
 				{
 					Projectile projectile = Main.projectile[i];
-					if ((double)Vector2.Distance(player.Center, projectile.Center) <= (double)300f && projectile.owner == player.whoAmI && projectile.active && projectile.minion && projectile.type != mod.ProjectileType("Moonlight_Sack_Lightning"))
+					if (player.DistanceSQ(projectile.Center) <= 300 * 300 && projectile.owner == player.whoAmI && projectile.active && projectile.minion && projectile.type != ModContent.ProjectileType<Moonlight_Sack_Lightning>())
 					{		
 						if (projectileTimer % 5 == 0)
 						{
-							int pickedProjectile = mod.ProjectileType("Moonlight_Sack_Lightning");
-							Vector2 vector2_1 = new Vector2((float) player.Center.X, (float) player.Center.Y);
-							Vector2 vector2_2 = Vector2.Normalize(vector2_1 - projectile.Center) * 8f;
-							int p = Projectile.NewProjectile(player.Center.X, player.Center.Y, vector2_2.X, vector2_2.Y, pickedProjectile, (int)(12*player.minionDamage), 1f, player.whoAmI, 0.0f, 0.0f);
+							Vector2 vel = Vector2.Normalize(projectile.Center - projectile.Center) * 8f;
+							int p = Projectile.NewProjectile(player.Center.X, player.Center.Y, vel.X, vel.Y, ModContent.ProjectileType<Moonlight_Sack_Lightning>(), (int)(12*player.minionDamage), 1f, player.whoAmI, 0.0f, 0.0f);
 							Main.projectile[p].ai[0] = projectile.whoAmI;
 						}
 					}

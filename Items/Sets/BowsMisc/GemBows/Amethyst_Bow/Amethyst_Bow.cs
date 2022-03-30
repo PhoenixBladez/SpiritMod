@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Amethyst_Bow
 			item.knockBack = 0.5f;
 			item.rare = ItemRarityID.White;
 			item.noMelee = true;
-            item.value = Terraria.Item.sellPrice(0, 0, 22, 50);
+            item.value = Item.sellPrice(0, 0, 22, 50);
             item.ranged = true;
 		}
 
@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Amethyst_Bow
 				position += muzzleOffset;
 
 			if (type == ProjectileID.WoodenArrowFriendly)
-				type = mod.ProjectileType("Amethyst_Arrow");
+				type = ModContent.ProjectileType<Amethyst_Arrow>();
 			return true;
 		}
 

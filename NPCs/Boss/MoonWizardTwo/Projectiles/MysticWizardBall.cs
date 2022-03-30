@@ -73,13 +73,13 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
                 Dust d = Dust.NewDustPerfect(projectile.Center, 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(5), 0, default, 0.75f);
                 d.noGravity = true;
             }
-            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 3.75f * speed, 3.75f * speed, mod.ProjectileType("MysticWizardBall_Projectile"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -3.75f * speed, -3.75f * speed, mod.ProjectileType("MysticWizardBall_Projectile"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 3.75f * speed, 3.75f * speed, ModContent.ProjectileType<MysticWizardBall_Projectile>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -3.75f * speed, -3.75f * speed, ModContent.ProjectileType<MysticWizardBall_Projectile>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
 
-            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 7.5f * speed, 0f, mod.ProjectileType("MysticWizardBall_Projectile"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -7.5f * speed, 0f, mod.ProjectileType("MysticWizardBall_Projectile"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, 7.5f * speed, mod.ProjectileType("MysticWizardBall_Projectile"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, -7.5f * speed, mod.ProjectileType("MysticWizardBall_Projectile"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 7.5f * speed, 0f, ModContent.ProjectileType<MysticWizardBall_Projectile>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -7.5f * speed, 0f, ModContent.ProjectileType<MysticWizardBall_Projectile>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, 7.5f * speed, ModContent.ProjectileType<MysticWizardBall_Projectile>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, -7.5f * speed, ModContent.ProjectileType<MysticWizardBall_Projectile>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
 
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)

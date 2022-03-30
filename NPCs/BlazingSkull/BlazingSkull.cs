@@ -60,15 +60,18 @@ namespace SpiritMod.NPCs.BlazingSkull
 				&& player.active
 				&& !player.dead) ? 1 : 0;
 
-			if (npc.ai[0] == 0) {
+			if (npc.ai[0] == 0)
+			{
 				IdleMovement();
 				npc.ai[1] = 0; //dash timer
 				npc.ai[2] = 0; //targetting timer
 				npc.ai[3] = 0;
 			}
-			else { //set its target position as the player's center when it starts its enrage, then dash to it once per frame cycle. If it's close enough to the target position, explode and retarget
+			else
+			{ //set its target position as the player's center when it starts its enrage, then dash to it once per frame cycle. If it's close enough to the target position, explode and retarget
 
-				if (npc.ai[2] <= rechargetime) { //todo: make target position only update on client side in multiplayer, then sync that to the server? since it seems like the server stores player positions differently
+				if (npc.ai[2] <= rechargetime)
+				{ //todo: make target position only update on client side in multiplayer, then sync that to the server? since it seems like the server stores player positions differently
 					IdleMovement();
 					targetpos = player.Center;
 
@@ -77,8 +80,10 @@ namespace SpiritMod.NPCs.BlazingSkull
 					if (Main.netMode == NetmodeID.Server)
 						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI);
 				}
-				else {
-					if (npc.ai[3] == 0) {
+				else
+				{
+					if (npc.ai[3] == 0)
+					{
 						if (Main.netMode != NetmodeID.Server)
 							SpiritMod.primitives.CreateTrail(new PrimFireTrail(npc, new Color(255, 170, 0), 26));
 
@@ -87,11 +92,12 @@ namespace SpiritMod.NPCs.BlazingSkull
 
 					npc.spriteDirection = -Math.Sign(npc.velocity.X);
 
-					if (Main.expertMode) 
+					if (Main.expertMode)
 						targetpos = Vector2.Lerp(targetpos, player.Center, 0.03f);
-					
-					if (npc.ai[1] == 0) {
-						if(Main.netMode != NetmodeID.Server)
+
+					if (npc.ai[1] == 0)
+					{
+						if (Main.netMode != NetmodeID.Server)
 							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/skullscrem").WithPitchVariance(0.2f), npc.Center);
 
 						npc.velocity = npc.DirectionTo(targetpos) * 14;
@@ -102,15 +108,16 @@ namespace SpiritMod.NPCs.BlazingSkull
 					if (frame > 10)
 						npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.05f);
 
-					if (npc.Distance(targetpos) < 20) {
+					if (npc.Distance(targetpos) < 20)
+					{
 						Main.PlaySound(SoundID.Item14, npc.Center);
 						int damage = (Main.expertMode) ? npc.damage / 4 : npc.damage / 2;
-						for (int i = 0; i < 6; i++) {
-							Gore.NewGore(npc.Center + Main.rand.NextVector2Square(-20, 20), Main.rand.NextVector2Circular(3, 3), 11);
-						}
 
-						if(Main.netMode != NetmodeID.MultiplayerClient)
-							Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("WrathBoom"), damage, 1, Main.myPlayer);
+						for (int i = 0; i < 6; i++)
+							Gore.NewGore(npc.Center + Main.rand.NextVector2Square(-20, 20), Main.rand.NextVector2Circular(3, 3), 11);
+
+						if (Main.netMode != NetmodeID.MultiplayerClient)
+							Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<WrathBoom>(), damage, 1, Main.myPlayer);
 
 						npc.velocity = Vector2.Zero;
 						npc.ai[2] = 0;
@@ -127,7 +134,8 @@ namespace SpiritMod.NPCs.BlazingSkull
 		}
 		private void IdleMovement()
 		{
-			if (Main.rand.Next(10) == 0) {
+			if (Main.rand.Next(10) == 0)
+			{
 				npc.velocity = Main.rand.NextVector2Circular(0.75f, 0.75f);
 
 				if (Main.netMode == NetmodeID.Server)
@@ -140,7 +148,8 @@ namespace SpiritMod.NPCs.BlazingSkull
 		private void CheckPlatform()
 		{
 			bool onplatform = true;
-			for (int i = (int)npc.position.X; i < npc.position.X + npc.width; i += npc.width / 4) {
+			for (int i = (int)npc.position.X; i < npc.position.X + npc.width; i += npc.width / 4)
+			{
 				Tile tile = Framing.GetTileSafely(new Point((int)npc.position.X / 16, (int)(npc.position.Y + npc.height + 8) / 16));
 				if (!TileID.Sets.Platforms[tile.type])
 					onplatform = false;
@@ -153,11 +162,13 @@ namespace SpiritMod.NPCs.BlazingSkull
 		private void UpdateFrame(int framespersecond, int minframe, int maxframe)
 		{
 			npc.frameCounter++;
-			if (npc.frameCounter >= (60/framespersecond)) {
+			if (npc.frameCounter >= (60 / framespersecond))
+			{
 				frame++;
 				npc.frameCounter = 0;
 			}
-			if (frame >= maxframe || frame < minframe) {
+			if (frame >= maxframe || frame < minframe)
+			{
 				frame = minframe;
 				npc.ai[1] = 0;
 			}
@@ -165,19 +176,20 @@ namespace SpiritMod.NPCs.BlazingSkull
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			spriteBatch.Draw(mod.GetTexture("NPCs/BlazingSkull/BlazingSkull_glow"), 
-				npc.Center - Main.screenPosition - new Vector2(0, npc.gfxOffY + 16), 
-				npc.frame, 
-				Color.White, 
-				npc.rotation, 
-				npc.frame.Size() / 2, 
+			spriteBatch.Draw(mod.GetTexture("NPCs/BlazingSkull/BlazingSkull_glow"),
+				npc.Center - Main.screenPosition - new Vector2(0, npc.gfxOffY + 16),
+				npc.frame,
+				Color.White,
+				npc.rotation,
+				npc.frame.Size() / 2,
 				npc.scale,
-				(npc.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 
+				(npc.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
 				0);
 
-			if(npc.ai[0] == 1) {
+			if (npc.ai[0] == 1)
+			{
 				Texture2D target = mod.GetTexture("NPCs/BlazingSkull/TargetX");
-				spriteBatch.Draw(target, targetpos - Main.screenPosition, target.Bounds, Color.White * 0.75f * (npc.ai[2] / rechargetime), 0, target.Size()/2, 1.5f, SpriteEffects.None, 0);
+				spriteBatch.Draw(target, targetpos - Main.screenPosition, target.Bounds, Color.White * 0.75f * (npc.ai[2] / rechargetime), 0, target.Size() / 2, 1.5f, SpriteEffects.None, 0);
 			}
 		}
 
@@ -187,7 +199,8 @@ namespace SpiritMod.NPCs.BlazingSkull
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CarvedRock>(), Main.rand.Next(2) + 2);
-			for(int i = 1; i <= 2; i++) {
+			for (int i = 1; i <= 2; i++)
+			{
 				Gore.NewGore(npc.Center, npc.velocity, mod.GetGoreSlot("Gores/WrathfulSoul/wrathfulskullgore" + i.ToString()));
 			}
 		}

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,7 +15,6 @@ namespace SpiritMod.Items.Sets.DuskingDrops
 			Tooltip.SetDefault("Shoots out homing Shadow Balls");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/DuskingDrops/UmbraStaff_Glow");
 		}
-
 
 		public override void SetDefaults()
 		{
@@ -32,9 +32,10 @@ namespace SpiritMod.Items.Sets.DuskingDrops
 			item.magic = true;
 			item.autoReuse = true;
 			item.noMelee = true;
-			item.shoot = mod.ProjectileType("ShadowBall_Friendly");
+			item.shoot = ModContent.ProjectileType<ShadowBall_Friendly>();
 			item.shootSpeed = 10f;
 		}
+
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture;

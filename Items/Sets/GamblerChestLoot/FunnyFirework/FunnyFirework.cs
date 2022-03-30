@@ -13,7 +13,6 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.FunnyFirework
 			Tooltip.SetDefault("Does a funny");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = 44;
@@ -27,13 +26,14 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.FunnyFirework
 			item.value = Item.sellPrice(0, 0, 0, 0);
 			item.rare = ItemRarityID.Blue;
 			item.shootSpeed = 10f;
-			item.shoot = mod.ProjectileType("FunnyFireworkProj");
+			item.shoot = ModContent.ProjectileType<FunnyFireworkProj>();
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = false;
 			item.consumable = true;
 			item.maxStack = 999;
 		}
 	}
+
 	public class FunnyFireworkProj : ModProjectile
 	{
 		public override void SetStaticDefaults()

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,9 +7,14 @@ namespace SpiritMod.Items.Weapon.Swung.Punching_Bag
 {
 	public class Punching_Bag : ModItem
 	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Punching Bag");
+			Tooltip.SetDefault("Shoots a barrage of fists\n'The number one undead strength training method'");
+		}
+
 		public override void SetDefaults()
 		{
-			item.shoot = mod.ProjectileType("Punching_Bag_Projectile");
 			item.shootSpeed = 10f;
 			item.damage = 15;
 			item.knockBack = 6f;
@@ -30,13 +31,8 @@ namespace SpiritMod.Items.Weapon.Swung.Punching_Bag
 			item.autoReuse = true;
 			item.value = Item.buyPrice(gold: 1);
 			item.rare = ItemRarityID.Blue;
+			item.shoot = ModContent.ProjectileType<Punching_Bag_Projectile>();
 		}
-
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Punching Bag");
-			Tooltip.SetDefault("Shoots a barrage of fists\n'The number one undead strength training method'");
-		}	
 		
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{

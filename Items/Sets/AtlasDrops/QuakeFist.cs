@@ -37,10 +37,10 @@ namespace SpiritMod.Items.Sets.AtlasDrops
 			item.shoot = ModContent.ProjectileType<PrismaticBolt>();
 			item.shootSpeed = 16f;
 		}
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-
-			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("PrismBolt2"), damage, knockBack, player.whoAmI);
+			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PrismBolt2>(), damage, knockBack, player.whoAmI);
 			Projectile newProj = Main.projectile[proj];
 			newProj.friendly = true;
 			newProj.hostile = false;

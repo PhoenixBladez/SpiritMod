@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Items.Sets.CascadeSet;
 using SpiritMod.Items.Sets.FloatingItems;
 
 namespace SpiritMod.Items.Sets.CascadeSet.Basking_Shark
@@ -45,22 +44,15 @@ namespace SpiritMod.Items.Sets.CascadeSet.Basking_Shark
             recipe.AddRecipe();
         }
 
-        public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-4, 2);
-		}
-		
+		public override Vector2? HoldoutOffset() => new Vector2(-4, 2);
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 40f;
 			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
-			{
 				position += muzzleOffset;
-			}
 			if (type == ProjectileID.Bullet)
-			{
-				type = mod.ProjectileType("Basking_Shark_Projectile");
-			}
+				type = ModContent.ProjectileType<Basking_Shark_Projectile>();
 			Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(8));
 			speedX = perturbedSpeed.X;
 			speedY = perturbedSpeed.Y;

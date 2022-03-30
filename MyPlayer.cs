@@ -46,6 +46,9 @@ using SpiritMod.Items.Armor.StarjinxSet;
 using SpiritMod.Players;
 using SpiritMod.Items.Sets.BloodcourtSet.BloodCourt;
 using SpiritMod.Items.Sets.ReefhunterSet;
+using SpiritMod.Items.Accessory.SeaSnailVenom;
+using SpiritMod.Items.Accessory.MoonlightSack;
+using SpiritMod.Projectiles.Hostile;
 
 namespace SpiritMod
 {
@@ -2078,12 +2081,13 @@ namespace SpiritMod
 					else
 						Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, mod.ProjectileType(Main.rand.Next(smallDebris)), 7, 3, Main.myPlayer, 0.0f, 1);
 				}
+
 				if (MyWorld.rareStarfallEvent && Main.rand.Next(65) == 0)
 				{
 					if (ZoneAsteroid)
-						Projectile.NewProjectile(player.Center.X + Main.rand.Next(-800, 800), player.Center.Y + Main.rand.Next(-1000, -900), Main.rand.Next(26, 33) * Main.windSpeed, 4, mod.ProjectileType("Comet"), 0, 3, Main.myPlayer, 0.0f, 1);
+						Projectile.NewProjectile(player.Center.X + Main.rand.Next(-800, 800), player.Center.Y + Main.rand.Next(-1000, -900), Main.rand.Next(26, 33) * Main.windSpeed, 4, ModContent.ProjectileType<Comet>(), 0, 3, Main.myPlayer, 0.0f, 1);
 					else
-						Projectile.NewProjectile(player.Center.X + Main.rand.Next(-800, 800), player.Center.Y + Main.rand.Next(-1000, -900), Main.rand.Next(26, 33) * Main.windSpeed, 4, mod.ProjectileType("Comet"), 0, 3, Main.myPlayer, 0.0f, 1);
+						Projectile.NewProjectile(player.Center.X + Main.rand.Next(-800, 800), player.Center.Y + Main.rand.Next(-1000, -900), Main.rand.Next(26, 33) * Main.windSpeed, 4, ModContent.ProjectileType<Comet>(), 0, 3, Main.myPlayer, 0.0f, 1);
 				}
 			}
 
@@ -2744,7 +2748,7 @@ namespace SpiritMod
 
 		public override void PostUpdateEquips()
 		{
-			if (player.ownedProjectileCounts[mod.ProjectileType("MiningHelmet")] < 1 && player.head == 11)
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<MiningHelmet>()] < 1 && player.head == 11)
 				Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<MiningHelmet>(), 0, 0, player.whoAmI);
 
 			if (graniteSet)
@@ -3576,24 +3580,23 @@ namespace SpiritMod
 				starjinxtimer = player.HeldItem.useTime + 10; //nerf the effect on fast firing weapons since they're typically busted and also benefit more from ichor
 				Vector2 toMouse = Vector2.Normalize(Main.MouseWorld - player.Center) * 8f;
 				toMouse = toMouse.RotatedByRandom(MathHelper.Pi / 8);
-				Projectile.NewProjectile(player.Center, toMouse, mod.ProjectileType("ManajinxStar"), player.HeldItem.damage / 3, player.HeldItem.knockBack, player.whoAmI, 0, Main.rand.Next(10));
+				Projectile.NewProjectile(player.Center, toMouse, ModContent.ProjectileType<ManajinxStar>(), player.HeldItem.damage / 3, player.HeldItem.knockBack, player.whoAmI, 0, Main.rand.Next(10));
 			}
 
 			if (seaSnailVenom && player.miscCounter % 5 == 0 && player.velocity.X != 0f && player.velocity.Y == 0f && !player.mount.Active)
-				Projectile.NewProjectile(player.Center.X - 10 * player.direction, player.Center.Y + 5, 0f, 20f, mod.ProjectileType("Sea_Snail_Poison_Projectile"), 5, 0f, player.whoAmI, 0f, 0f);
+				Projectile.NewProjectile(player.Center.X - 10 * player.direction, player.Center.Y + 5, 0f, 20f, ModContent.ProjectileType<Sea_Snail_Poison_Projectile>(), 5, 0f, player.whoAmI, 0f, 0f);
 
 			if (moonlightSack)
 			{
 				for (int i = 0; i < Main.projectile.Length; i++)
 				{
 					Projectile projectile = Main.projectile[i];
-					if (Vector2.Distance(player.Center, projectile.Center) <= 240f && projectile.owner == player.whoAmI && projectile.active && projectile.minion && projectile.type != mod.ProjectileType("Moonlight_Sack_Lightning"))
+					if (projectile.active && player.DistanceSQ(projectile.Center) <= 240 * 240 && projectile.owner == player.whoAmI && projectile.minion && projectile.type != ModContent.ProjectileType<Moonlight_Sack_Lightning>())
 					{
 						if (player.miscCounter % 5 == 0)
 						{
-							int pickedProjectile = mod.ProjectileType("Moonlight_Sack_Lightning");
-							Vector2 vector2_1 = new Vector2(player.Center.X, player.Center.Y);
-							Vector2 vector2_2 = Vector2.Normalize(vector2_1 - projectile.Center) * 8f;
+							int pickedProjectile = ModContent.ProjectileType<Moonlight_Sack_Lightning>();
+							Vector2 vector2_2 = Vector2.Normalize(player.Center - projectile.Center) * 8f;
 							int p = Projectile.NewProjectile(player.Center.X, player.Center.Y, vector2_2.X, vector2_2.Y, pickedProjectile, (int)(12 * player.minionDamage), 1f, player.whoAmI, 0.0f, 0.0f);
 							Main.projectile[p].ai[0] = projectile.whoAmI;
 						}

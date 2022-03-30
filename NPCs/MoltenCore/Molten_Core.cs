@@ -59,7 +59,7 @@ namespace SpiritMod.NPCs.MoltenCore
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[2]++;
-					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("Molten_Core_Projectile"), 8, 0, 0);
+					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<Molten_Core_Projectile>(), 8, 0, 0);
 					Main.projectile[p].ai[1] = npc.whoAmI;
 				}
 				npc.netUpdate = true;

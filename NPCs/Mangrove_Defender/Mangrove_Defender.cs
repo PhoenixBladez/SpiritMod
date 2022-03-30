@@ -70,20 +70,24 @@ namespace SpiritMod.NPCs.Mangrove_Defender
 			Player player = Main.player[npc.target];
 			npc.ai[1]++;
 			npc.velocity.X = 0f;
+
 			if (npc.ai[1] == 280)
 			{
 				npc.frameCounter = 0;
 				npc.netUpdate = true;
 			}
+
 			if (npc.ai[1] == 281)
 				Main.PlaySound(SoundID.Trackable, (int)npc.position.X, (int)npc.position.Y, 143, 1f, -0.9f);
+
 			if (npc.ai[1] >= 321)
 			{
-				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 4f * npc.spriteDirection, 0f, mod.ProjectileType("Earth_Slam_Invisible"), 0, 0, player.whoAmI);
+				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 4f * npc.spriteDirection, 0f, ModContent.ProjectileType<Earth_Slam_Invisible>(), 0, 0, player.whoAmI);
 				npc.ai[1] = 0;
 				npc.netUpdate = true;
 			}
 		}
+
 		public void Movement()
 		{
 			int num1 = 30;

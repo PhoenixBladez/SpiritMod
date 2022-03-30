@@ -2,18 +2,15 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using SpiritMod.Projectiles.Clubs;
 
 namespace SpiritMod.Items.Sets.ClubSubclass
 {
     public class GoldClub : ModItem
     {
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Golden Greathammer");
 
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Golden Greathammer");
-        }
-
-        public override void SetDefaults()
+		public override void SetDefaults()
         {
             item.channel = true;
             item.damage = 20;
@@ -30,7 +27,7 @@ namespace SpiritMod.Items.Sets.ClubSubclass
 			item.value = Item.sellPrice(0, 0, 22, 0);
             item.rare = ItemRarityID.Blue;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("GoldClubProj");
+            item.shoot = ModContent.ProjectileType<GoldClubProj>();
             item.shootSpeed = 6f;
             item.noUseGraphic = true;
         }

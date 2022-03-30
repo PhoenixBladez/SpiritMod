@@ -83,9 +83,10 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 					Vector2 speed2 = new Vector2(speedX,speedY).RotatedBy(stray);
 					//speed *= Main.rand.NextFloat(0.9f, 1.1f);
 					position += speed2 * 8;
-					int type = Main.rand.Next(2)==0 ? mod.ProjectileType("StargloveChargeOrange") : mod.ProjectileType("StargloveChargePurple");
+					int type = Main.rand.Next(2)==0 ? ModContent.ProjectileType<StargloveChargeOrange>() : ModContent.ProjectileType<StargloveChargePurple>();
 					int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, projectile.damage, projectile.knockBack, player.whoAmI);
-					if (type == mod.ProjectileType("StargloveChargePurple"))
+
+					if (type == ModContent.ProjectileType<StargloveChargePurple>())
 					{
 						for (float num2 = 0.0f; (double)num2 < 10; ++num2) {
 							int dustIndex = Dust.NewDust(position - speed2 * 3, 2, 2, DustID.Clentaminator_Cyan, 0f, 0f, 0, default, 1.5f);
@@ -93,7 +94,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 							Main.dust[dustIndex].velocity = Vector2.Normalize((speed2 * 5).RotatedBy(Main.rand.NextFloat(6.28f))) * 2.5f;
 						}
 						for (int j = 0; j < 5; j++)
-							Projectile.NewProjectile(position, speed2, mod.ProjectileType("StargloveOrbiterPurple"), 0, 0, player.whoAmI, proj);
+							Projectile.NewProjectile(position, speed2, type, 0, 0, player.whoAmI, proj);
 					}
 					else
 					{
@@ -103,7 +104,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 							Main.dust[dustIndex].velocity = Vector2.Normalize((speed2 * 8).RotatedBy(Main.rand.NextFloat(6.28f))) * 2.5f;
 						}
 						for (int j = 0; j < 5; j++)
-							Projectile.NewProjectile(position, speed2, mod.ProjectileType("StargloveOrbiterOrange"), 0, 0, player.whoAmI, proj);
+							Projectile.NewProjectile(position, speed2, type, 0, 0, player.whoAmI, proj);
 					}
 				}
 			}

@@ -74,7 +74,7 @@ namespace SpiritMod.Projectiles
                             int distance = (int)Vector2.Distance(player.Center, Main.npc[npcFinder].Center);
                             if (!Main.npc[npcFinder].friendly && !Main.npc[npcFinder].townNPC && Main.npc[npcFinder].active && distance < 800 && Main.npc[npcFinder].CanBeChasedBy(this))
                             {
-                                int p = Projectile.NewProjectile(Main.npc[npcFinder].Center, Vector2.Zero, mod.ProjectileType("MoonThunder"), 20, 8);
+                                int p = Projectile.NewProjectile(Main.npc[npcFinder].Center, Vector2.Zero, ModContent.ProjectileType<MoonThunder>(), 20, 8);
                                 Main.PlaySound(SoundLoader.customSoundType, Main.projectile[p].Center, mod.GetSoundSlot(SoundType.Custom, "Sounds/Thunder2"));
                                 Main.npc[npcFinder].StrikeNPC(projectile.damage + (2 * chargeStacks), 12, 0, false);
                                 SpiritMod.tremorTime = 18;

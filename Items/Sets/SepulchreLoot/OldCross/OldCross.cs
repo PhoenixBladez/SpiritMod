@@ -12,11 +12,10 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 			item.CloneDefaults(ItemID.StaffoftheFrostHydra);
 			item.damage = 16;
 			item.Size = new Vector2(36, 52);
-			item.shoot = mod.ProjectileType("CrossCoffin");
+			item.shoot = ModContent.ProjectileType<CrossCoffin>();
 			item.value = Item.sellPrice(gold: 1);
 			item.rare = ItemRarityID.Green;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-            ProjectileID.Sets.MinionTargettingFeature[item.shoot] = true;
             item.UseSound = SoundID.Item77;
 			item.scale = 0.8f;
 		}
@@ -26,6 +25,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 			DisplayName.SetDefault("Old Cross");
 			Tooltip.SetDefault("Summons an ancient coffin full of angry skeletons");
 		}
+
 		public override bool AltFunctionUse(Player player) => true;
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

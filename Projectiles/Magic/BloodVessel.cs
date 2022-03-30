@@ -97,14 +97,15 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft)
 		{
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++)
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Blood);
-			}
+
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 103);
-			int n = 4;
-			for (int i = 0; i < n; i++) {
+
+			for (int i = 0; i < 4; i++)
+			{
 				Vector2 perturbedSpeed = Main.rand.NextVector2CircularEdge(2.5f, 2.5f);
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("Blood3"), projectile.damage / 5 * 4, 2, projectile.owner);
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<Blood3>(), projectile.damage / 5 * 4, 2, projectile.owner);
 			}
 		}
 	}

@@ -7,10 +7,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Reef_Wrath
 {
 	public class Reef_Wrath_Projectile_Alt : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Coral Reef");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Coral Reef");
 
 		public override void SetDefaults()
 		{

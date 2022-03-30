@@ -44,7 +44,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 				int distance = (int)Math.Sqrt((direction9.X * direction9.X) + (direction9.Y * direction9.Y));
 				direction9.Normalize();
 				if (projectile.timeLeft % 4 == 0 && distance < 1000 && other.active) {
-				//	int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, mod.ProjectileType("MoonLightning"), 30, 0);
+				//	int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, ModContent.ProjectileType("MoonLightning"), 30, 0);
 				//	Main.projectile[proj].timeLeft = (int)(distance / 30);
 				//	Main.projectile[proj].hostile = projectile.hostile;
 				//	Main.projectile[proj].friendly = projectile.friendly;

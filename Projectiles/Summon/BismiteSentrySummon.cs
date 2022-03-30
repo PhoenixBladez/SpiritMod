@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Projectiles.Magic;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -9,10 +10,7 @@ namespace SpiritMod.Projectiles.Summon
 {
 	public class BismiteSentrySummon : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bismite Crystal");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Bismite Crystal");
 
 		public override void SetDefaults()
 		{
@@ -75,10 +73,7 @@ namespace SpiritMod.Projectiles.Summon
 				if (mainTarget != null && mainTarget.CanBeChasedBy(projectile))
 				{
 					Vector2 ShootArea = new Vector2(projectile.Center.X, projectile.Center.Y - 13);
-					Vector2 direction = mainTarget.Center - ShootArea;
-					direction.Normalize();
-					direction.X *= shootVelocity;
-					direction.Y *= shootVelocity;
+					Vector2 direction = Vector2.Normalize(mainTarget.Center - ShootArea) * shootVelocity;
 					if (projectile.alpha <= 100)
 					{
 						for (int i = 0; i < 10; i++)
@@ -94,7 +89,7 @@ namespace SpiritMod.Projectiles.Summon
 						}
 						if (Main.netMode != NetmodeID.MultiplayerClient) {
 
-							int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 13, direction.X, direction.Y, mod.ProjectileType("BismiteShot"), projectile.damage, 0, Main.myPlayer);
+							int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 13, direction.X, direction.Y, ModContent.ProjectileType<BismiteShot>(), projectile.damage, 0, Main.myPlayer);
 							Main.projectile[proj2].ranged = false;
 							Main.projectile[proj2].minion = true;
 						}
@@ -105,10 +100,7 @@ namespace SpiritMod.Projectiles.Summon
 				else if (target != null && target.CanBeChasedBy(projectile))
 				{
 					Vector2 ShootArea = new Vector2(projectile.Center.X, projectile.Center.Y - 13);
-					Vector2 direction = target.Center - ShootArea;
-					direction.Normalize();
-					direction.X *= shootVelocity;
-					direction.Y *= shootVelocity;
+					Vector2 direction = Vector2.Normalize(target.Center - ShootArea) * shootVelocity;
 					if (projectile.alpha <= 100)
 					{
 						for (int i = 0; i < 10; i++)
@@ -124,7 +116,7 @@ namespace SpiritMod.Projectiles.Summon
 						}
 						if (Main.netMode != NetmodeID.MultiplayerClient) {
 
-							int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 13, direction.X, direction.Y, mod.ProjectileType("BismiteShot"), projectile.damage, 0, Main.myPlayer);
+							int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 13, direction.X, direction.Y, ModContent.ProjectileType<BismiteShot>(), projectile.damage, 0, Main.myPlayer);
 							Main.projectile[proj2].ranged = false;
 							Main.projectile[proj2].minion = true;
 						}
@@ -140,23 +132,24 @@ namespace SpiritMod.Projectiles.Summon
 		public void SpecialAttack()
         {
             Main.PlaySound(SoundID.DD2_CrystalCartImpact, projectile.Center);
+
             for (int i = 0; i < 10; i++)
             {
                 int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Plantera_Green, 0f, -2f, 0, default, 1.5f);
                 Main.dust[num].noGravity = true;
                 Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
                 Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+
                 if (Main.dust[num].position != projectile.Center)
-                {
                     Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 3f;
-                }
             }
+
             for (int i = 0; i < 10; i++)
             {
                 float rotation = (float)(Main.rand.Next(0, 361) * (Math.PI / 180));
                 Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
                 int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
-                    velocity.X, velocity.Y, mod.ProjectileType("BismiteShard"), projectile.damage / 2, projectile.knockBack, projectile.owner);
+                    velocity.X, velocity.Y, ModContent.ProjectileType<BismiteShard>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
                 Main.projectile[proj].minion = true;
                 Main.projectile[proj].magic = false;
                 Main.projectile[proj].velocity *= 1.5f;
@@ -168,6 +161,7 @@ namespace SpiritMod.Projectiles.Summon
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.DD2_WitherBeastHurt, (int)projectile.position.X, (int)projectile.position.Y);
+
 			for (int i = 0; i < 10; i++) {
 				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Plantera_Green, 0f, -2f, 0, default, 1.5f);
 				Main.dust[num].noGravity = true;

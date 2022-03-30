@@ -93,9 +93,9 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 			}
 			for (int index = 0; index < 9; ++index)
 			{
-				float SpeedX = (float)(-1 * Main.rand.Next(40, 70) * 0.00999999977648258 + Main.rand.Next(-20, 21) * 0.400000005960464);
-				float SpeedY = (float)(-1 * Main.rand.Next(40, 70) * 0.00999999977648258 + Main.rand.Next(-20, 21) * 0.400000005960464);
-				int p = Projectile.NewProjectile((float)(i * 16) + 8 + SpeedX, (float)(j * 16) + 12 + SpeedY, SpeedX, SpeedY, mod.ProjectileType("Visual_Projectile"), 0, 0f, player.whoAmI, 0.0f, 0.0f);
+				float SpeedX = (float)(-1 * Main.rand.Next(40, 70) * 0.00999999977648258 + Main.rand.Next(-20, 21) * 0.4f);
+				float SpeedY = (float)(-1 * Main.rand.Next(40, 70) * 0.00999999977648258 + Main.rand.Next(-20, 21) * 0.4f);
+				int p = Projectile.NewProjectile((float)(i * 16) + 8 + SpeedX, (float)(j * 16) + 12 + SpeedY, SpeedX, SpeedY, ModContent.ProjectileType<Visual_Projectile>(), 0, 0f, player.whoAmI, 0.0f, 0.0f);
 				Main.projectile[p].scale = Main.rand.Next(30, 150) * 0.01f;
 			}
 
@@ -349,9 +349,9 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 						player.AddBuff(ModContent.BuffType<Buffs.MidasTouch>(), 3600 * 5);
 						for (int numi = 0; numi < 8; numi++)
 						{
-							float SpeedX = (float)(-1 * Main.rand.Next(40, 70) * 0.00999999977648258 + Main.rand.Next(-20, 21) * 0.400000005960464);
-							float SpeedY = (float)(-1 * Main.rand.Next(40, 70) * 0.00999999977648258 + Main.rand.Next(-20, 21) * 0.400000005960464);
-							int p = Projectile.NewProjectile((float)(i * 16) + 8 + SpeedX, (float)(j * 16) + 12 + SpeedY, SpeedX, SpeedY, mod.ProjectileType("MidasProjectile"), 0, 0f, player.whoAmI, 0.0f, 0.0f);
+							float SpeedX = (float)(-1 * Main.rand.Next(40, 70) * 0.00999999977648258 + Main.rand.Next(-20, 21) * 0.4f);
+							float SpeedY = (float)(-1 * Main.rand.Next(40, 70) * 0.00999999977648258 + Main.rand.Next(-20, 21) * 0.4f);
+							int p = Projectile.NewProjectile((float)(i * 16) + 8 + SpeedX, (float)(j * 16) + 12 + SpeedY, SpeedX, SpeedY, ModContent.ProjectileType<MidasProjectile>(), 0, 0f, player.whoAmI, 0.0f, 0.0f);
 							Main.projectile[p].scale = Main.rand.Next(60, 150) * 0.01f;
 						}
 						break;

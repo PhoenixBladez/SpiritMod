@@ -2,6 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using SpiritMod.Projectiles.Clubs;
 
 namespace SpiritMod.Items.Sets.ClubSubclass
 {
@@ -30,7 +31,7 @@ namespace SpiritMod.Items.Sets.ClubSubclass
 			item.value = Item.buyPrice(0, 8, 0, 0);
             item.rare = ItemRarityID.Green;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("MacuahuitlProj");
+            item.shoot = ModContent.ProjectileType<MacuahuitlProj>();
             item.shootSpeed = 6f;
             item.noUseGraphic = true;
         }

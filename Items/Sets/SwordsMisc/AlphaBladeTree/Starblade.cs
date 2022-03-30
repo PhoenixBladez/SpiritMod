@@ -17,6 +17,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 		}
 
 		int charger;
+
 		public override void SetDefaults()
 		{
 			item.damage = 32;
@@ -68,10 +69,10 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			charger++;
-			if (charger >= 3) {
-				for (int i = 0; i < 3; i++) {
-					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("Starshock2"), damage / 2, knockBack, player.whoAmI, 0f, 0f);
-				}
+			if (charger >= 3)
+			{
+				for (int i = 0; i < 3; i++)
+					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<Starshock2>(), damage / 2, knockBack, player.whoAmI, 0f, 0f);
 				charger = 0;
 			}
 			return false;

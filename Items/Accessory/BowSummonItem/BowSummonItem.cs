@@ -1,4 +1,3 @@
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,9 +23,7 @@ namespace SpiritMod.Items.Accessory.BowSummonItem
 			item.summon = true;
 			item.accessory = true;
 		}
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-            player.GetSpiritPlayer().bowSummon = true;
-		}
+
+		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetSpiritPlayer().bowSummon = true;
 	}
 }

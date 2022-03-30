@@ -11,6 +11,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs;
+using SpiritMod.Projectiles;
 
 namespace SpiritMod.NPCs.Boss.SteamRaider
 {
@@ -157,12 +158,9 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					if (Main.expertMode)
 					{
 						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 91);
-						Vector2 direction = Main.player[npc.target].Center - npc.Center;
-						direction.Normalize();
-						direction.X *= 4f;
-						direction.Y *= 4f;
+						Vector2 direction = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 4f;
 
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, mod.ProjectileType("SteamBeam"), NPCUtils.ToActualDamage(18, 1.5f), 0, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<SteamBeam>(), NPCUtils.ToActualDamage(18, 1.5f), 0, Main.myPlayer, 0, 0);
 					}
 				}
 				if (timer == 600)

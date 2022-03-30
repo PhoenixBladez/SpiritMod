@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SpiritMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -67,8 +68,7 @@ namespace SpiritMod.Projectiles.Arrow
 								Main.dust[dust].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 						}
 					}
-					int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y,
-						0, 0, mod.ProjectileType("GraniteSpike1"), projectile.damage / 2, projectile.knockBack, projectile.owner);
+					int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, 0, ModContent.ProjectileType<GraniteSpike1>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
 					Main.projectile[proj].timeLeft = 2;
 				}
 				if (projectile.localAI[0] >= (float)(60 * num996))
@@ -139,17 +139,17 @@ namespace SpiritMod.Projectiles.Arrow
 					}
 				}
 				int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y,
-					0, 0, mod.ProjectileType("GraniteSpike1"), projectile.damage / 3 * 2, projectile.knockBack, projectile.owner);
+					0, 0, ModContent.ProjectileType<GraniteSpike1>(), projectile.damage / 3 * 2, projectile.knockBack, projectile.owner);
 				Main.projectile[proj].timeLeft = 2;
 			}
 		}
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
-			int d = 226;
+
 			for (int k = 0; k < 6; k++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default, 0.27f);
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default, 0.37f);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, 2.5f * 1, -2.5f, 0, default, 0.27f);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, 2.5f * 1, -2.5f, 0, default, 0.37f);
 			}
 		}
 	}

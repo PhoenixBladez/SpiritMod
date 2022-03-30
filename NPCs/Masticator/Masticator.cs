@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SpiritMod.NPCs.Putroma;
 using SpiritMod.Projectiles.Hostile;
 using System;
 using System.IO;
@@ -131,13 +132,15 @@ namespace SpiritMod.NPCs.Masticator
 						frame++;
 						npc.ai[2] = 0;
 					}
-					if (frame >= 10) {
+
+					if (frame >= 10)
 						frame = 5;
-					}
+
 					npc.rotation = 0f;
 					float num395 = Main.mouseTextColor / 200f - 0.25f;
 					num395 *= 0.2f;
 					npc.scale = num395 + 0.95f;
+
 					if (Main.rand.NextBool(12) && Main.netMode != NetmodeID.MultiplayerClient) {
 						npc.velocity.Y -= .1f;
 						bool expertMode = Main.expertMode;
@@ -145,10 +148,11 @@ namespace SpiritMod.NPCs.Masticator
 						Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 4, Main.rand.NextFloat(-.85f, .85f), Main.rand.NextFloat(4f, 6f), ModContent.ProjectileType<CorruptVomitProj>(), damage, 1, Main.myPlayer, 0, 0);
 						npc.netUpdate = true;
 					}
+
                     if (Main.rand.NextBool(16)) {
 
                         int tomaProj;
-                        tomaProj = Main.rand.Next(new int[] { mod.ProjectileType("Teratoma1"), mod.ProjectileType("Teratoma2"), mod.ProjectileType("Teratoma3") });
+                        tomaProj = Main.rand.Next(new int[] { ModContent.ProjectileType<Teratoma1>(), ModContent.ProjectileType<Teratoma2>(), ModContent.ProjectileType<Teratoma3>() });
                         bool expertMode = Main.expertMode;
                         Main.PlaySound(SoundID.Item20, npc.Center);
                         int damagenumber = expertMode ? 12 : 17;

@@ -6,10 +6,7 @@ namespace SpiritMod.Projectiles.Magic
 {
 	public class TerraProj : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Elemental Wrath");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Elemental Wrath");
 
 		public override void SetDefaults()
 		{
@@ -37,10 +34,10 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 30f, 0f, mod.ProjectileType("TerraProj2"), projectile.damage / 2, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -30f, 0f, mod.ProjectileType("TerraProj2"), projectile.damage / 2, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, -30f, mod.ProjectileType("TerraProj2"), projectile.damage / 2, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 10f, 30f, mod.ProjectileType("TerraProj2"), projectile.damage / 2, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 30f, 0f, ModContent.ProjectileType<TerraProj2>(), projectile.damage / 2, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -30f, 0f, ModContent.ProjectileType<TerraProj2>(), projectile.damage / 2, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, -30f, ModContent.ProjectileType<TerraProj2>(), projectile.damage / 2, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 10f, 30f, ModContent.ProjectileType<TerraProj2>(), projectile.damage / 2, 0f, projectile.owner, 0f, 0f);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -54,7 +51,6 @@ namespace SpiritMod.Projectiles.Magic
 			if (Main.rand.Next(3) == 0)
 				target.AddBuff(BuffID.CursedInferno, 300, true);
 		}
-
 	}
 }
 

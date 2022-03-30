@@ -69,10 +69,9 @@ namespace SpiritMod.NPCs.BottomFeeder
 					if (shoottimer >= 40 && shoottimer < 96) {
 						if (Main.rand.Next(3) == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
 							int bloodproj;
-							bloodproj = Main.rand.Next(new int[] { mod.ProjectileType("Feeder1"), mod.ProjectileType("Feeder2"), mod.ProjectileType("Feeder3") });
-							bool expertMode = Main.expertMode;
-							int damage = expertMode ? 10 : 15;
-							int p = Terraria.Projectile.NewProjectile(npc.Center.X + (7 * npc.direction), npc.Center.Y - 10, -(npc.position.X - target.position.X) / distance * 8, -(npc.position.Y - target.position.Y + Main.rand.Next(-50, 50)) / distance * 8, bloodproj, damage, 0);
+							bloodproj = Main.rand.Next(new int[] { ModContent.ProjectileType<Feeder1>(), ModContent.ProjectileType<Feeder2>(), ModContent.ProjectileType<Feeder3>() });
+							int damage = Main.expertMode ? 10 : 15;
+							Projectile.NewProjectile(npc.Center.X + (7 * npc.direction), npc.Center.Y - 10, -(npc.position.X - target.position.X) / distance * 8, -(npc.position.Y - target.position.Y + Main.rand.Next(-50, 50)) / distance * 8, bloodproj, damage, 0);
 						}
 					}
 					if (shoottimer >= 96) {

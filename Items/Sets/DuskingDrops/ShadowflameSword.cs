@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,7 +15,6 @@ namespace SpiritMod.Items.Sets.DuskingDrops
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/DuskingDrops/ShadowflameSword_Glow");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = item.height = 42;
@@ -24,12 +24,13 @@ namespace SpiritMod.Items.Sets.DuskingDrops
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = item.useAnimation = 20;
 			item.melee = true;
-			item.shoot = mod.ProjectileType("ShadowPulse1");
+			item.shoot = ModContent.ProjectileType<ShadowPulse1>();
 			item.shootSpeed = 2;
-			item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
+			item.value = Item.sellPrice(0, 5, 0, 0);
 			item.autoReuse = true;
 			item.UseSound = SoundID.Item33;
 		}
+
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture;

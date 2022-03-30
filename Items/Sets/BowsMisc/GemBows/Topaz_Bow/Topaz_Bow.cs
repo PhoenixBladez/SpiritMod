@@ -7,6 +7,12 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Topaz_Bow
 {
 	public class Topaz_Bow : ModItem
 	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Topaz Bow");
+			Tooltip.SetDefault("Turns wooden arrows into topaz arrows\nTopaz arrows have high velocity and are resistant to gravity");
+		}
+
 		public override void SetDefaults()
 		{
 			item.useStyle = ItemUseStyleID.HoldingOut;
@@ -26,19 +32,13 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Topaz_Bow
             item.ranged = true;
 		}
 		
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Topaz Bow");
-			Tooltip.SetDefault("Turns wooden arrows into topaz arrows\nTopaz arrows have high velocity and are resistant to gravity");
-		}
-
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 40f;
 			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
 				position += muzzleOffset;
 			if (type == ProjectileID.WoodenArrowFriendly)
-				type = mod.ProjectileType("Topaz_Arrow");
+				type = ModContent.ProjectileType<Topaz_Arrow>();
 			return true;
 		}
 

@@ -34,14 +34,14 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 		public override void AI()
         {
             alphaCounter += 0.04f;
-            int proj = 0;
-			if (projectile.timeLeft > 20 && projectile.timeLeft % 10 == 0) {
-				proj = Projectile.NewProjectile(projectile.Center, new Vector2(0, 25), mod.ProjectileType("MoonPredictorTrail"), 0, 0);
-			}
+
+			if (projectile.timeLeft > 20 && projectile.timeLeft % 10 == 0)
+				Projectile.NewProjectile(projectile.Center, new Vector2(0, 25), ModContent.ProjectileType<MoonPredictorTrail>(), 0, 0);
+
 			if (projectile.timeLeft == 10)
 			{
 				Main.PlaySound(SoundID.Item, projectile.position, 122);
-				int p = Projectile.NewProjectile(projectile.Center + new Vector2(0, 500), Vector2.Zero, mod.ProjectileType("MoonThunder"), projectile.damage, 0);
+				int p = Projectile.NewProjectile(projectile.Center + new Vector2(0, 500), Vector2.Zero, ModContent.ProjectileType<MoonThunder>(), projectile.damage, 0);
                 Main.projectile[p].hostile = true;
                 Main.projectile[p].friendly = true;
             }

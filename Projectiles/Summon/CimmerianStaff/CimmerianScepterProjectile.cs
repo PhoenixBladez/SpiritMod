@@ -194,16 +194,14 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
 							{
 								Vector2 pos = new Vector2(projectile.Center.X + Main.rand.Next(-30, 30), projectile.Center.Y + Main.rand.Next(-30, 30));
 								DustHelper.DrawStar(pos, 272, pointAmount: 5, mainSize: 1.425f, dustDensity: 2, dustSize: .5f, pointDepthMult: 0.3f, noGravity: true);
-								int proj2 = Projectile.NewProjectile(pos.X, pos.Y, direction.X + Main.rand.Next(-2, 2), direction.Y + Main.rand.Next(-2, 2), mod.ProjectileType("CimmerianStaffStar"), projectile.damage, 0, Main.myPlayer);
+								Projectile.NewProjectile(pos.X, pos.Y, direction.X + Main.rand.Next(-2, 2), direction.Y + Main.rand.Next(-2, 2), ModContent.ProjectileType<CimmerianStaffStar>(), projectile.damage, 0, Main.myPlayer);
 							}
-
 							break;
 						case 1: //explosion attack
 							colorVer = new Color(255, 20, 52);
 							Main.PlaySound(SoundID.DD2_GhastlyGlaiveImpactGhost, projectile.Center);
 							DustHelper.DrawCircle(projectile.Center, 130, 1, 1f, 1f, .85f, .85f);
-							int proj23 = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("CimmerianRedGlyph"), projectile.damage, 0, Main.myPlayer);
-
+							Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<CimmerianRedGlyph>(), projectile.damage, 0, Main.myPlayer);
 							break;
 						case 2: //lightning attack
 							colorVer = new Color(61, 184, 255);

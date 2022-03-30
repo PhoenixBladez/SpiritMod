@@ -1,11 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
-using SpiritMod.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,6 +9,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 {
 	public class JinxprobeWand : ModItem
 	{
+		public override bool Autoload(ref string name) => false;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Jinxprobe Wand");
@@ -26,7 +23,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 			item.CloneDefaults(ItemID.SpiderStaff);
 			item.damage = 56;
 			item.Size = new Vector2(36, 52);
-			item.shoot = mod.ProjectileType("Jinxprobe");
+			item.shoot = ModContent.ProjectileType<Jinxprobe>();
 			item.value = Item.sellPrice(gold: 12);
 			item.rare = ItemRarityID.Pink;
             ProjectileID.Sets.MinionTargettingFeature[item.shoot] = true;
@@ -38,7 +35,6 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
 			Projectile.NewProjectileDirect(Main.MouseWorld, Vector2.Normalize(Main.MouseWorld - player.Center).RotatedBy(MathHelper.PiOver2) * 10, type, damage, knockBack, player.whoAmI, 0);
-
             return false;
         }
 

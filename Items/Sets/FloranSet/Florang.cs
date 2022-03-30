@@ -1,8 +1,9 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Items.Sets.BriarDrops;
+using SpiritMod.Projectiles.Returning;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace SpiritMod.Items.Sets.FloranSet
 {
 	public class Florang : ModItem
@@ -12,7 +13,6 @@ namespace SpiritMod.Items.Sets.FloranSet
 			DisplayName.SetDefault("Floran Cutter");
 			Tooltip.SetDefault("Rolls along the ground, cutting up enemies \nVines occasionally ensnare the foes, reducing their movement speed \n'Sharp as a razorleaf'");
 		}
-
 
 		public override void SetDefaults()
 		{
@@ -25,23 +25,23 @@ namespace SpiritMod.Items.Sets.FloranSet
 			item.noUseGraphic = true;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 0;
-			item.value = Terraria.Item.sellPrice(0, 0, 15, 0);
+			item.value = Item.sellPrice(0, 0, 15, 0);
 			item.rare = ItemRarityID.Blue;
 			item.shootSpeed = 5f;
-			item.shoot = mod.ProjectileType("FloraP");
+			item.shoot = ModContent.ProjectileType<FloraP>();
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = false;
 		}
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if (speedX > 0) {
+			if (speedX > 0)
 				speedX = 2;
-			}
-			else {
+			else
 				speedX = -2;
-			}
 			return true;
 		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

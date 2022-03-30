@@ -29,14 +29,14 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 
 				for (int i = 0; i < 3; ++i)
 				{
-					Vector2 pos = projectile.Center + offsets[i] + new Vector2(16);
-					int p = Projectile.NewProjectile(pos, Vector2.Zero, ModContent.ProjectileType<SkullSentryEye>(), 0, 0f, projectile.owner, -1);
+					Vector2 pos = projectile.Center + offsets[i];
+					int p = Projectile.NewProjectile(pos, Vector2.Zero, ModContent.ProjectileType<SkullSentryEye>(), Main.player[projectile.owner].HeldItem.damage, 0f, projectile.owner, -1);
 
 					(Main.projectile[p].modProjectile as SkullSentryEye).anchor = pos;
 
 					eyeWhoAmIs[i] = p;
 				}
-			} 
+			}
 		}
 	}
 }

@@ -83,16 +83,15 @@ namespace SpiritMod.NPCs.Spirit
 		public override bool CheckDead()
 		{
 			Vector2 center = npc.Center;
-			Terraria.Projectile.NewProjectile(center.X, center.Y, 0f, 0f, mod.ProjectileType("UnstableWisp_Explosion"), 100, 0f, Main.myPlayer);
+			Projectile.NewProjectile(center.X, center.Y, 0f, 0f, ModContent.ProjectileType<UnstableWisp_Explosion>(), 100, 0f, Main.myPlayer);
 			return true;
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.10000000149011612;
-			if ((int)npc.frameCounter >= Main.npcFrameCount[npc.type]) {
-				npc.frameCounter -= (double)Main.npcFrameCount[npc.type];
-			}
+			npc.frameCounter += 0.1f;
+			if (npc.frameCounter >= Main.npcFrameCount[npc.type])
+				npc.frameCounter -= Main.npcFrameCount[npc.type];
 			int num = (int)npc.frameCounter;
 			npc.frame.Y = num * frameHeight;
 			npc.spriteDirection = npc.direction;
