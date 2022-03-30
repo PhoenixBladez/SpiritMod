@@ -344,7 +344,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 
 		public override void NPCLoot()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Golden_Egg>(), 1);
+			npc.DropItemInstanced(npc.position, npc.Size, ModContent.ItemType<GoldenEgg>(), 1, true);
 
 			if (Main.rand.Next(12) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Vulture_Matriarch_Mask>(), 1);
