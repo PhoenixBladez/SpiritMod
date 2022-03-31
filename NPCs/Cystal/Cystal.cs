@@ -21,6 +21,7 @@ namespace SpiritMod.NPCs.Cystal
 			DisplayName.SetDefault("Cystal");
 			Main.npcFrameCount[npc.type] = 8;
 		}
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = 0;
@@ -51,6 +52,7 @@ namespace SpiritMod.NPCs.Cystal
 			npc.spriteDirection = npc.direction;
 
 			Lighting.AddLight(npc.position, 0.0149f / 4 * npc.life, 0.0142f / 4 * npc.life, 0.0207f / 4 * npc.life);
+
 			if (npc.active && player.active && !shieldSpawned)
 			{
 				shieldSpawned = true;
@@ -71,7 +73,7 @@ namespace SpiritMod.NPCs.Cystal
 				Main.npc[shield4].ai[1] = npc.whoAmI;
 			}
 
-			if (npc.DistanceSQ(player.Center) < 150 * 150)
+			if (npc.DistanceSQ(player.Center) < 150 * 150 && Main.myPlayer == player.whoAmI)
 			{
 				Filters.Scene.Activate("CystalTower", player.position);
 				Filters.Scene.Activate("CystalBloodMoon", player.position);

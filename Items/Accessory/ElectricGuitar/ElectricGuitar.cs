@@ -118,8 +118,6 @@ namespace SpiritMod.Items.Accessory.ElectricGuitar
 		{
 			overcharge += 15;
 
-			Vector2 dirToMouse = (player.Center - target.Center);
-
 			ParticleHandler.SpawnParticle(new PulseCircle(Vector2.Zero, new Color(255, 36, 50) * 0.4f, (.7f) * 100, 20, PulseCircle.MovementType.OutwardsQuadratic)
 			{
 				RingColor = new Color(255, 36, 50) * 0.4f,

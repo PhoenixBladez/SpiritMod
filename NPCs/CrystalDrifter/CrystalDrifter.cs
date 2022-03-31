@@ -62,7 +62,7 @@ namespace SpiritMod.NPCs.CrystalDrifter
 			MyPlayer modPlayer = target.GetSpiritPlayer();
 
 			float distance = npc.DistanceSQ(target.Center);
-			if (distance < 500 * 500)
+			if (distance < 500 * 500 && Main.myPlayer == target.whoAmI)
 			{
 				target.AddBuff(BuffID.WindPushed, 90);
 				if (Main.netMode != NetmodeID.MultiplayerClient)
