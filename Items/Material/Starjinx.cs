@@ -9,6 +9,8 @@ namespace SpiritMod.Items.Material
 {
 	public class Starjinx : ModItem
 	{
+		public override bool Autoload(ref string name) => false;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starjinx Cluster");

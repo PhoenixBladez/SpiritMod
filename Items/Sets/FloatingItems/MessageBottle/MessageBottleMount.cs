@@ -92,6 +92,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.MessageBottle
 						mountData.runSpeed = 7;
 				}
 			}
+
 		}
 	}
 }

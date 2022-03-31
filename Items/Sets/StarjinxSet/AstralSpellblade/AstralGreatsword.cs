@@ -8,7 +8,9 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 {
     public class AstralGreatsword : ModItem
     {
-        public override void SetStaticDefaults()
+		public override bool Autoload(ref string name) => false;
+
+		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Spellblade");
 			Tooltip.SetDefault("Does a devastating spin attack after 2 swings\nReleases stars when swung or swinging");

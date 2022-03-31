@@ -8,13 +8,13 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 {
 	public class StarjinxSummoner : ModItem
 	{
+		public override bool Autoload(ref string name) => false;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starjinx Summoner");
 			Tooltip.SetDefault("Placeholder! Summons the Starjinx event.");
 		}
-
-		public override bool Autoload(ref string name) => false;
 
 		public override void SetDefaults()
 		{

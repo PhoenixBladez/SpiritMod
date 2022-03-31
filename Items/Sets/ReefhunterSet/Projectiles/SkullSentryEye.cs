@@ -34,10 +34,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 		public override void AI()
 		{
 			if (Target == -1 || InvalidTarget())
-			{
 				FindTarget();
-
-			}
 			else
 			{
 				NPC target = Main.npc[(int)Target];
@@ -45,7 +42,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 				if (Timer++ == 30)
 				{
 					Vector2 vel = projectile.DirectionTo(target.Center + target.velocity) * 20;
-					Projectile.NewProjectile(projectile.position, vel, ProjectileID.WoodenArrowFriendly, projectile.damage, 10.2f, projectile.owner);
+					Projectile.NewProjectile(projectile.position, vel, ProjectileID.ScutlixLaserFriendly, projectile.damage, 10.2f, projectile.owner);
 					Timer = 0;
 				}
 			}

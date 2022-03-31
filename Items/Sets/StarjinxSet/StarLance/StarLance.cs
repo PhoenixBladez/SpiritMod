@@ -13,6 +13,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarLance
 {
 	public class StarLance : ModItem
 	{
+		public override bool Autoload(ref string name) => false;
+
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Star Lance");
 
 		public override void SetDefaults()

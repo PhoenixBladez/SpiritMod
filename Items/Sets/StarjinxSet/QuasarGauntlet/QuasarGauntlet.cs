@@ -12,10 +12,18 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 {
 	public class QuasarGauntlet : ModItem
 	{
+		public override bool Autoload(ref string name) => false;
+
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Quasar Glove");
+			Tooltip.SetDefault("Launches a ball of cosmic energy\nGrows in size and power with every enemy it hits \nRight click to recall it");
+		}
+
 		public override void SetDefaults()
 		{
-            item.shoot = ModContent.ProjectileType<QuasarOrb>();
-            item.shootSpeed = 16f;
+			item.shoot = ModContent.ProjectileType<QuasarOrb>();
+			item.shootSpeed = 16f;
 			item.damage = 70;
 			item.knockBack = 3.3f;
 			item.magic = true;
@@ -33,23 +41,12 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			item.rare = ItemRarityID.Pink;
 		}
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Quasar Glove");
-			Tooltip.SetDefault("Launches a ball of cosmic energy\nGrows in size and power with every enemy it hits \nRight click to recall it");
-		}	
-
-		public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
+		public override bool AltFunctionUse(Player player) => true;
 
 		public override bool CanUseItem(Player player)
-        {
-            if (player.altFunctionUse != 2)
-            {
+		{
+			if (player.altFunctionUse != 2)
 				return player.ownedProjectileCounts[item.shoot] == 0;
-            }
 			else
 			{
 				bool foundproj = false;
@@ -58,9 +55,9 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 					Projectile proj = Main.projectile[i];
 					if (proj.active && proj.owner == Main.myPlayer && proj.type == ModContent.ProjectileType<QuasarOrb>())
 					{
-						if(proj.modProjectile is QuasarOrb orb)
+						if (proj.modProjectile is QuasarOrb orb)
 						{
-							if(orb.AiState == QuasarOrb.STATE_SLOWDOWN)
+							if (orb.AiState == QuasarOrb.STATE_SLOWDOWN)
 							{
 								orb.AiState = QuasarOrb.STATE_ANTICIPATION;
 								orb.Timer = 0;
@@ -73,7 +70,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 
 				return foundproj;
 			}
-        }
+		}
 
 		public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
 		{
@@ -87,7 +84,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 				return false;
 
 			Main.PlaySound(SoundID.Item117, player.Center);
-			int proj = Projectile.NewProjectile(position, new Vector2(speedX,speedY), type, damage, knockBack, player.whoAmI);
+			int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
 
 			for (int i = 0; i < 3; i++)
 			{
@@ -95,11 +92,6 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 				Main.projectile[p].netUpdate = true;
 			}
 			return false;
-		}
-
-		public override void HoldItem(Player player)
-		{
-
 		}
 
 		public override void AddRecipes()

@@ -9,6 +9,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 {
     public class StarfireLamp : ModItem
     {
+		public override bool Autoload(ref string name) => false;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starfire Lantern");

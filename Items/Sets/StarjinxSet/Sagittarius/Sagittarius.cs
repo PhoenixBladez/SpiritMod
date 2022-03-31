@@ -9,6 +9,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 {
 	public class Sagittarius : ModItem
 	{
+		public override bool Autoload(ref string name) => false;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sagittarius");
