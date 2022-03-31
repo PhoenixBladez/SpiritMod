@@ -9,10 +9,9 @@ namespace SpiritMod.Items.Accessory.UnstableTeslaCoil
 	public class Unstable_Tesla_Coil_Projectile : ModProjectile
 	{
 		public float x = 0f;
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Lightning Zap");
-		}
+
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Lightning Zap");
+
 		public override void SetDefaults()
 		{
 			projectile.width = 4;
@@ -24,14 +23,14 @@ namespace SpiritMod.Items.Accessory.UnstableTeslaCoil
 			projectile.timeLeft = 66;
 			projectile.tileCollide = false;
 		}
+
 		public override void AI()
 		{
 			projectile.localAI[0] += 1f;
 			
 			if (projectile.localAI[0] > -1f)
-			{
 				x = projectile.Center.Y + 50;
-			}
+
 			if (projectile.localAI[0] > -1f)
             {
 				for (int i = 0; i < 10; i++)
@@ -49,22 +48,16 @@ namespace SpiritMod.Items.Accessory.UnstableTeslaCoil
 				}
             }
 			
-			Vector2 vector2_1 = new Vector2(projectile.ai[0], projectile.ai[1]);
-			float speed = 16f;
-			float dX = vector2_1.X - projectile.Center.X;
-			float dY = vector2_1.Y - projectile.Center.Y;
-			
-			float dist = (float)Math.Sqrt((double)(dX * dX + dY * dY));
-			
-			speed /= dist;
-			
-			Vector2 randomSpeed = new Vector2(dX, dY).RotatedByRandom(MathHelper.ToRadians(90));
+			Vector2 destination = new Vector2(projectile.ai[0], projectile.ai[1]);
+			Vector2 dif = destination - projectile.Center;
+			float speed = 16f / dif.Length();
+
+			Vector2 randomSpeed = new Vector2(dif.X, dif.Y).RotatedByRandom(MathHelper.ToRadians(90));
 			
 			if (projectile.localAI[0] > 1f)
-			{
 				projectile.velocity = new Vector2(randomSpeed.X * speed, randomSpeed.Y * speed);
-			}
 		}
+
 		public override void Kill(int timeLeft)
 		{
 			int num = 22;
@@ -76,21 +69,6 @@ namespace SpiritMod.Items.Accessory.UnstableTeslaCoil
 				Main.dust[index2].position = Vector2.Lerp(Main.dust[index2].position, projectile.Center, 0.75f);
 			}
 			Main.PlaySound(SoundID.Trackable, (int)projectile.position.X, (int)projectile.position.Y, 141, 1f, 0f);
-		}
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			  Player player = Main.player[projectile.owner];
-            int num = -1;
-            for (int i = 0; i < 200; i++)
-            {
-                if (Main.npc[i].CanBeChasedBy(player, false) && Main.npc[i] == target)
-                {
-                    num = i;
-                }
-            }
-            {
-                player.MinionAttackTargetNPC = num;
-            }
 		}
 	}
 }

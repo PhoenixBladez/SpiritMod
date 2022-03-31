@@ -3604,7 +3604,7 @@ namespace SpiritMod
 			}
 
 			if (teslaCoil)
-				Attack(player);
+				TeslaStrike(player);
 
 			foreach (var effect in removedEffects)
 				if (!effects.Contains(effect)) effect.EffectRemoved(player);
@@ -3648,13 +3648,16 @@ namespace SpiritMod
 				shootDelay3--;
 		}
 
-		private void Attack(Player player)
+		private void TeslaStrike(Player player)
 		{
 			attackTimer++;
+
+			int npcsHit = 0;
 			for (int i = 0; i < Main.npc.Length; i++)
 			{
 				NPC npc = Main.npc[i];
-				if (Vector2.Distance(player.Center, npc.Center) <= 300f && !npc.friendly && npc.damage > 0 && npc.life > 0 && npc.life < npc.lifeMax && npc.active)
+
+				if (npc.active && Vector2.Distance(player.Center, npc.Center) <= 300f && npc.CanBeChasedBy())
 				{
 					if (attackTimer % 90 == 0)
 					{
@@ -3663,7 +3666,9 @@ namespace SpiritMod
 						Main.projectile[p].ai[1] = npc.position.Y;
 						Main.projectile[p].netUpdate = true;
 					}
-					break;
+
+					if (npcsHit++ > 3)
+						break;
 				}
 			}
 		}

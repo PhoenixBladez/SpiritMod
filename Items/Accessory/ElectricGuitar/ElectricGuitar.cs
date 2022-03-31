@@ -1,10 +1,8 @@
 ﻿using Terraria;
-using System;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Particles;
 
 namespace SpiritMod.Items.Accessory.ElectricGuitar
@@ -30,12 +28,11 @@ namespace SpiritMod.Items.Accessory.ElectricGuitar
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Items.Accessory.Ukelele.Ukelele>());
-			recipe.AddIngredient(ModContent.ItemType<Items.Accessory.UnstableTeslaCoil.Unstable_Tesla_Coil>());
+			recipe.AddIngredient(ModContent.ItemType<Ukelele.Ukelele>());
+			recipe.AddIngredient(ModContent.ItemType<UnstableTeslaCoil.Unstable_Tesla_Coil>());
 			recipe.AddTile(TileID.TinkerersWorkbench);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
-
 		}
 
 		public override void Update(ref float gravity, ref float maxFallSpeed) => Lighting.AddLight(item.Center, 0.075f, 0.231f, 0.255f);
@@ -84,12 +81,14 @@ namespace SpiritMod.Items.Accessory.ElectricGuitar
 			if (active)
 			{
 				attackTimer++;
+
+				int npcsHit = 0;
 				if (attackTimer >= 90)
 				{
 					for (int i = 0; i < Main.npc.Length; i++)
 					{
 						NPC npc = Main.npc[i];
-						if (Vector2.Distance(player.Center, npc.Center) <= 500f && !npc.friendly && npc.damage > 0 && npc.life > 0 && npc.life < npc.lifeMax && npc.active)
+						if (npc.CanBeChasedBy() && Vector2.Distance(player.Center, npc.Center) <= 500f)
 						{
 							int proj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<ElectricGuitarProjPlayer>(), 35, 2, player.whoAmI);
 							Main.projectile[proj].ai[0] = npc.position.X;
@@ -106,7 +105,9 @@ namespace SpiritMod.Items.Accessory.ElectricGuitar
 							Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 47).WithPitchVariance(0.8f).WithVolume(0.7f), player.Center);
 							Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 12).WithVolume(0.6f), player.Center);
 							Main.PlaySound(SoundID.DD2_LightningAuraZap, player.position);
-							break;
+
+							if (npcsHit++ > 3)
+								break;
 						}
 					}
 					attackTimer = 0;
@@ -140,10 +141,7 @@ namespace SpiritMod.Items.Accessory.ElectricGuitar
 		public NPC currentEnemy;
 		int animCounter = 5;
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Electric Guitar");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Electric Guitar");
 
 		public override void SetDefaults()
 		{
@@ -200,13 +198,9 @@ namespace SpiritMod.Items.Accessory.ElectricGuitar
 						NPC target = TargetNext(currentEnemy);
 						if (target != null && !target.friendly && !target.townNPC)
 						{
-							Vector2 dirToMouse = (currentEnemy.Center - target.Center);
-
 							projectile.Center = target.Center;
 							for (int k = 0; k < 3; k++)
-							{
 								DustHelper.DrawElectricity(currentEnemy.Center, target.Center, DustID.FireworkFountain_Red, 0.5f);
-							}
 
 							Target = target;
 						}
@@ -217,8 +211,6 @@ namespace SpiritMod.Items.Accessory.ElectricGuitar
 				SetOrigin(projectile.position);
 			}
 		}
-
-
 
 		private bool CanTarget(NPC target)
 		{
@@ -293,15 +285,14 @@ namespace SpiritMod.Items.Accessory.ElectricGuitar
 			projectile.localAI[0] += 1f;
 
 			if (projectile.localAI[0] > -1f)
-			{
 				x = projectile.Center.Y + 50;
-			}
+
 			if (projectile.localAI[0] > -1f)
 			{
 				for (int i = 0; i < 10; i++)
 				{
-					float PosX = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
-					float PosY = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
+					float PosX = projectile.Center.X - projectile.velocity.X / 10f * i;
+					float PosY = projectile.Center.Y - projectile.velocity.Y / 10f * i;
 
 					int dustIndex = Dust.NewDust(new Vector2(PosX, PosY), 0, 0, DustID.FireworkFountain_Red, 0f, 0f, 180, default, 0.5f);
 
@@ -313,22 +304,16 @@ namespace SpiritMod.Items.Accessory.ElectricGuitar
 				}
 			}
 
-			Vector2 vector2_1 = new Vector2(projectile.ai[0], projectile.ai[1]);
-			float speed = 16f;
-			float dX = vector2_1.X - projectile.Center.X;
-			float dY = vector2_1.Y - projectile.Center.Y;
+			Vector2 destination = new Vector2(projectile.ai[0], projectile.ai[1]);
+			Vector2 dif = destination - projectile.Center;
+			float speed = 16f / dif.Length();
 
-			float dist = (float)Math.Sqrt((double)(dX * dX + dY * dY));
-
-			speed /= dist;
-
-			Vector2 randomSpeed = new Vector2(dX, dY).RotatedByRandom(MathHelper.ToRadians(90));
+			Vector2 randomSpeed = new Vector2(dif.X, dif.Y).RotatedByRandom(MathHelper.ToRadians(90));
 
 			if (projectile.localAI[0] > 1f)
-			{
 				projectile.velocity = new Vector2(randomSpeed.X * speed, randomSpeed.Y * speed);
-			}
 		}
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<ElectricGuitarProj>(), projectile.damage / 2, 0, projectile.owner);
