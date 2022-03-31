@@ -9,10 +9,10 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 {
 	public class Manajinx : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Manajinx Pylon");
-		}
+		public override bool Autoload(ref string name) => false;
+
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Manajinx Pylon");
+
 		public override void SetDefaults()
 		{
 			projectile.width = 40;
@@ -24,19 +24,19 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 			projectile.alpha = 255;
 			projectile.scale = 0.5f;
 		}
+
 		public override bool CanDamage() => false;
+
 		public override void AI()
 		{
 			Player owner = Main.player[projectile.owner];
 			float grabrange = (owner.manaMagnet) ? 400 : 100;
+
 			if(projectile.Distance(owner.Center) < grabrange)
-			{
 				projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(owner.Center) * 4, 0.05f);
-			}
 			else
-			{
 				projectile.velocity = Vector2.Lerp(projectile.velocity, Vector2.Zero, 0.1f);
-			}
+
 			if (projectile.Hitbox.Intersects(owner.Hitbox))
 			{
 				projectile.Kill();

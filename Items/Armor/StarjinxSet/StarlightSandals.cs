@@ -7,11 +7,14 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 	[AutoloadEquip(EquipType.Legs)]
     public class StarlightSandals : ModItem
 	{
+		public override bool Autoload(ref string name) => false;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starlight Sandals");
 			Tooltip.SetDefault("8% increased magic damage\n25% increased movement speed and fall speed\nIncreases jump speed");
 		}
+
 		public override void SetDefaults()
         {
             item.width = 22;
@@ -20,6 +23,7 @@ namespace SpiritMod.Items.Armor.StarjinxSet
             item.rare = ItemRarityID.Pink;
             item.defense = 6;
         }
+
 		public override void UpdateEquip(Player player)
 		{
 			player.magicDamage += 0.08f;
@@ -27,6 +31,7 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 			player.jumpSpeedBoost += 1.75f;
 			player.maxFallSpeed *= 1.25f;
 		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

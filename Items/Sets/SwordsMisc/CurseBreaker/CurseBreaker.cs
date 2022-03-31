@@ -303,6 +303,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			hitDirection = Math.Sign(direction.X);
+
 			if (Empowered)
 			{
 				foreach (NPC npc in Main.npc)
@@ -316,7 +317,6 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			}
 			else if (target.HasBuff(ModContent.BuffType<CurseBreakerMark>()))
 			{
-
 				if (!cursed)
 				{
 					ParticleHandler.SpawnParticle(new PulseCircle(Player.Center, new Color(242, 41, 58) * 0.124f, (.9f) * 100, 20, PulseCircle.MovementType.OutwardsSquareRooted)

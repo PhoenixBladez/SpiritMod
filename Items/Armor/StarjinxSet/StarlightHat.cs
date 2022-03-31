@@ -8,6 +8,8 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 	[AutoloadEquip(EquipType.Head)]
     public class StarlightHat : ModItem
 	{
+		public override bool Autoload(ref string name) => false;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starlight Hat");
@@ -22,16 +24,18 @@ namespace SpiritMod.Items.Armor.StarjinxSet
             item.rare = ItemRarityID.Pink;
             item.defense = 7;
 		}
+
 		public override void DrawHair(ref bool drawHair, ref bool drawAltHair) => drawHair = drawAltHair = false;
 		public override bool DrawHead() => false;
+
 		public override void UpdateEquip(Player player)
 		{
 			player.magicDamage += 0.12f;
 			player.magicCrit += 6;
 		}
 		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor) => glowMaskColor = Color.White * 0.75f;
-		public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == mod.ItemType("StarlightMantle")
-																	  && legs.type == mod.ItemType("StarlightSandals");
+		public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == mod.ItemType("StarlightMantle") && legs.type == mod.ItemType("StarlightSandals");
+
 		public override void UpdateArmorSet(Player player)
         {
 			player.setBonus = ("Greatly increases mana useage and prevents useage of mana potions\n"

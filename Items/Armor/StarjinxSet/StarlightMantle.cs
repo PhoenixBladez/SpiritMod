@@ -7,11 +7,14 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 	[AutoloadEquip(EquipType.Body)]
     public class StarlightMantle : ModItem
 	{
+		public override bool Autoload(ref string name) => false;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starlight Mantle");
 			Tooltip.SetDefault("8% increased magic damage\n20% increased flight time");
 		}
+
 		public override void SetDefaults()
         {
             item.width = 26;
@@ -20,13 +23,16 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 			item.rare = ItemRarityID.Pink;
 			item.defense = 10;
 		}
+
 		public override void UpdateEquip(Player player)
 		{
 			player.magicDamage += 0.08f;
-			MyPlayer modplayer = (MyPlayer)player.GetModPlayer(mod, "MyPlayer");
+			MyPlayer modplayer = player.GetModPlayer<MyPlayer>();
 			modplayer.WingTimeMaxMultiplier += 0.2f;
 		}
+
 		public override bool DrawBody() => false;
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
