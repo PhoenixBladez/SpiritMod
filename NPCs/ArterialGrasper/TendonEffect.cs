@@ -9,6 +9,8 @@ namespace SpiritMod.NPCs.ArterialGrasper
 {
 	public class TendonEffect : ModProjectile
 	{
+		int TrapperID => ModContent.NPCType<CrimsonTrapper>();
+
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Flesh Tendon");
 
 		public override void SetDefaults()
@@ -24,10 +26,9 @@ namespace SpiritMod.NPCs.ArterialGrasper
 
 		bool stuck = false;
 
-		readonly int num1 = ModContent.NPCType<CrimsonTrapper>();
 		public override void AI()
 		{
-			if (!Main.npc[(int)projectile.ai[1]].active || Main.npc[(int)projectile.ai[1]].type != num1)
+			if (!Main.npc[(int)projectile.ai[1]].active || Main.npc[(int)projectile.ai[1]].type != TrapperID)
 			{
 				projectile.Kill();
 				return;
@@ -45,7 +46,7 @@ namespace SpiritMod.NPCs.ArterialGrasper
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			NPC parent = Main.npc[(int)projectile.ai[1]];
-			if (Main.npc[(int)projectile.ai[1]].active && Main.npc[(int)projectile.ai[1]].type == num1)
+			if (Main.npc[(int)projectile.ai[1]].active && Main.npc[(int)projectile.ai[1]].type == TrapperID)
 			{
 				Vector2 direction9 = Vector2.Normalize(parent.Center - projectile.Center);
 				ProjectileExtras.DrawChain(projectile.whoAmI, parent.Center,
