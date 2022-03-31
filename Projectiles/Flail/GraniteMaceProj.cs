@@ -10,10 +10,7 @@ namespace SpiritMod.Projectiles.Flail
 {
 	public class GraniteMaceProj : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Unstable Colonnade");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Unstable Colonnade");
 
 		public override void SetDefaults()
 		{
@@ -44,48 +41,11 @@ namespace SpiritMod.Projectiles.Flail
 			return false;
 		}
 
-		public static void DrawChain(int index, Vector2 to, string chainPath)
-		{
-			Texture2D texture = ModContent.GetTexture(chainPath);
-			Projectile projectile = Main.projectile[index];
-			Vector2 vector = projectile.Center;
-			Rectangle? sourceRectangle = null;
-			Vector2 origin = new Vector2((float)texture.Width * 0.5f, (float)texture.Height * 0.5f);
-			float num = (float)texture.Height;
-			Vector2 vector2 = to - vector;
-			float rotation = (float)Math.Atan2((double)vector2.Y, (double)vector2.X) - 1.57f;
-			bool flag = true;
-
-			if (float.IsNaN(vector.X) && float.IsNaN(vector.Y))
-				flag = false;
-			if (float.IsNaN(vector2.X) && float.IsNaN(vector2.Y))
-				flag = false;
-
-			while (flag)
-			{
-				if ((double)vector2.Length() < (double)num + 1.0)
-				{
-					flag = false;
-				}
-				else
-				{
-					Vector2 value = vector2;
-					value.Normalize();
-					vector += value * num;
-					vector2 = to - vector;
-					Color color = Color.White;
-					color = Color.White;
-					Main.spriteBatch.Draw(texture, vector - Main.screenPosition, sourceRectangle, color, rotation, origin, 1f, SpriteEffects.None, 0f);
-				}
-			}
-		}
 		public override bool OnTileCollide(Vector2 oldVelocity) => ProjectileExtras.FlailTileCollide(projectile.whoAmI, oldVelocity);
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			DrawChain(projectile.whoAmI, Main.player[projectile.owner].MountedCenter,
-				"SpiritMod/Projectiles/Flail/GraniteMace_Chain");
-
+		 	ProjectileExtras.DrawChain(projectile.whoAmI, Main.player[projectile.owner].MountedCenter, "SpiritMod/Projectiles/Flail/GraniteMace_Chain");
 			ProjectileExtras.DrawAroundOrigin(projectile.whoAmI, lightColor);
 			return false;
 		}
