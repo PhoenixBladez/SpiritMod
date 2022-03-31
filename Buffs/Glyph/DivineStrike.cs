@@ -16,31 +16,26 @@ namespace SpiritMod.Buffs.Glyph
 		public override bool ReApply(Player player, int time, int buffIndex)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if (modPlayer.divineStacks < 6) {
+			if (modPlayer.divineStacks < 6)
 				modPlayer.divineStacks++;
-			}
-
 			return false;
 		}
 
 		public override void Update(Player player, ref int buffIndex)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if (player.whoAmI == Main.myPlayer && !Main.dedServ) {
-				if (modPlayer.divineStacks == 1) {
+			if (player.whoAmI == Main.myPlayer && !Main.dedServ)
+			{
+				if (modPlayer.divineStacks == 1)
 					Main.buffTexture[Type] = mod.GetTexture("Buffs/Glyph/DivineStrike");
-				}
-				else {
+				else
 					Main.buffTexture[Type] = mod.GetTexture("Buffs/Glyph/DivineStrike_" + (modPlayer.divineStacks - 1).ToString());
-				}
 			}
 
-			if (modPlayer.glyph == GlyphType.Radiant) {
+			if (modPlayer.glyph == GlyphType.Radiant)
 				player.buffTime[buffIndex] = 2;
-			}
-			else {
+			else
 				player.DelBuff(buffIndex--);
-			}
 		}
 
 		public override void ModifyBuffTip(ref string tip, ref int rare)

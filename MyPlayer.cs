@@ -683,7 +683,6 @@ namespace SpiritMod
 
 			if (glyph != GlyphType.Radiant)
 				divineStacks = 1;
-			divineCounter = 0;
 
 			if (glyph != GlyphType.Storm)
 				stormStacks = 0;
@@ -2309,7 +2308,7 @@ namespace SpiritMod
 			else if (glyph == GlyphType.Radiant)
 			{
 				divineCounter++;
-				if (divineCounter >= 60)
+				if (divineCounter >= 90)
 				{
 					divineCounter = 0;
 					player.AddBuff(ModContent.BuffType<DivineStrike>(), 2);

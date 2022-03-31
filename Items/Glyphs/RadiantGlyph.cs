@@ -18,6 +18,7 @@ namespace SpiritMod.Items.Glyphs
 		public override Microsoft.Xna.Framework.Graphics.Texture2D Overlay => _textures[2];
 		public override Color Color => new Color { PackedValue = 0x28cacc };
 		public override string Effect => "Radiance";
+
 		public override string Addendum =>
 			"Not attacking builds stacks of Divine Strike\n" +
 			"The next hit is empowered by 11% per stack";
@@ -31,17 +32,14 @@ namespace SpiritMod.Items.Glyphs
 				"The next hit is empowered by 11% per stack");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = 28;
 			item.height = 28;
 			item.value = Item.sellPrice(0, 2, 0, 0);
 			item.rare = ItemRarityID.LightRed;
-
 			item.maxStack = 999;
 		}
-
 
 		public static void DivineStrike(Player player, ref int damage)
 		{
