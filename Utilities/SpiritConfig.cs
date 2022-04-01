@@ -81,10 +81,6 @@ namespace SpiritMod.Utilities
 		[DefaultValue(true)]
 		public bool VentCritters { get; set; }
 
-		[Label("$Mods.SpiritMod.OceanWater")]
-		[Tooltip("Allows ocean water to be fully transparent\nToggle to change the transparency of ocean water and underworld lava")]
-		[DefaultValue(SurfaceTransparencyOption.Ocean)]
-		public SurfaceTransparencyOption SurfaceWaterTransparency { get; set; }
 		public enum SurfaceTransparencyOption : int
 		{
 			Ocean,
@@ -92,6 +88,12 @@ namespace SpiritMod.Utilities
 			Both,
 			Disabled
 		}
+
+		[ReloadRequired]
+		[Label("$Mods.SpiritMod.OceanWater")]
+		[Tooltip("Allows ocean water to be fully transparent\nToggle to change the transparency of ocean water and underworld lava")]
+		[DefaultValue(SurfaceTransparencyOption.Ocean)]
+		public SurfaceTransparencyOption SurfaceWaterTransparency { get; set; }
 
 		[ReloadRequired]
 		[Label("$Mods.SpiritMod.WaterEnemies")]

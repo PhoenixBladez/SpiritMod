@@ -27,10 +27,12 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 		public static void Load()
 		{
-			IL.Terraria.Main.DoDraw += AddWaterShader; //Transparency shader
-
-			IL.Terraria.Main.DrawTiles += Main_DrawTiles; //Liquid slope fix (tentative)
-			IL.Terraria.Main.DrawBlack += Main_DrawBlack; //^^
+			if (ModContent.GetInstance<SpiritClientConfig>().SurfaceWaterTransparency != SpiritClientConfig.SurfaceTransparencyOption.Disabled)
+			{
+				IL.Terraria.Main.DoDraw += AddWaterShader; //Transparency shader
+				IL.Terraria.Main.DrawTiles += Main_DrawTiles; //Liquid slope fix (tentative)
+				IL.Terraria.Main.DrawBlack += Main_DrawBlack; //^^
+			}
 
 			IL.Terraria.GameContent.Shaders.WaterShaderData.QueueRipple_Vector2_Color_Vector2_RippleShape_float += IncreaseRippleSize; //Makes ripple bigger
 			IL.Terraria.GameContent.Shaders.WaterShaderData.DrawWaves += WaterShaderData_DrawWaves;
@@ -141,7 +143,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			var c = new ILCursor(il);
 
 			c.Emit(OpCodes.Ldarg_3);
-			c.Emit(OpCodes.Ldc_R4, 3f);
+			c.Emit(OpCodes.Ldc_R4, 2f);
 			var vec2Mul = typeof(Vector2).GetMethod("op_Multiply", new Type[2] { typeof(Vector2), typeof(float) }, new ParameterModifier[] { new ParameterModifier(3) });
 			c.Emit(OpCodes.Call, vec2Mul);
 			c.Emit(OpCodes.Starg, 3);
@@ -153,6 +155,8 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			var c = new ILCursor(il);
 
 			c.TryGotoNext(n => n.MatchLdfld<Main>("backWaterTarget")); //Back target
+
+			ILLabel labelVanillaBack = il.DefineLabel(c.Next);
 
 			c.TryGotoNext(n => n.MatchCallvirt<SpriteBatch>("Draw"));
 			c.Index++;
@@ -181,6 +185,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 		private static void NewDraw(bool back)
 		{
 			Main.spriteBatch.End();
+
 			SetShader(back);
 
 			if (back)
@@ -190,7 +195,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			}
 			else
 			{
-				Main.spriteBatch.Draw(Main.waterTarget, Main.sceneWaterPos - Main.screenPosition, Color.White * 0.2f);
+				Main.spriteBatch.Draw(Main.waterTarget, Main.sceneWaterPos - Main.screenPosition, Color.White * Main.liquidAlpha[Main.waterStyle]);
 				Terraria.Graphics.Effects.Overlays.Scene.Draw(Main.spriteBatch, Terraria.Graphics.Effects.RenderLayers.ForegroundWater);
 			}
 
@@ -214,9 +219,6 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			transparencyEffect = ModContent.GetInstance<SpiritMod>().GetEffect("Effects/SurfaceWaterModifications/SurfaceWaterFX");
 			transparencyEffect.Parameters["transparency"].SetValue(GetTransparency());
 
-			if (!back && !Main.LocalPlayer.ZoneBeach)
-				transparencyEffect.Parameters["transparency"].SetValue(0f);
-
 			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, transparencyEffect, Main.GameViewMatrix.ZoomMatrix);
 		}
 
@@ -224,14 +226,11 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 		{
 			var config = ModContent.GetInstance<SpiritClientConfig>().SurfaceWaterTransparency;
 
-			if (config == SpiritClientConfig.SurfaceTransparencyOption.Disabled)
-				return 0f;
-
-			bool aboveGround = Main.LocalPlayer.ZoneOverworldHeight || Main.LocalPlayer.ZoneSkyHeight;
+			bool aboveGround = Main.LocalPlayer.Center.Y / 16f < Main.worldSurface;
 			if (aboveGround && Main.LocalPlayer.ZoneBeach && (config == SpiritClientConfig.SurfaceTransparencyOption.Ocean || config == SpiritClientConfig.SurfaceTransparencyOption.Both))
-				return 1f;
+				return 1.25f;
 
-			return aboveGround ? 0.3f : 0.5f;
+			return aboveGround ? 1f : 0.5f;
 		}
 
 		// below is code for fixing the black tile rendering issue with slopes and transparency for the fake liquid that is drawn

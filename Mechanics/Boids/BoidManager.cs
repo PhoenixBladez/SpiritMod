@@ -29,12 +29,12 @@ namespace SpiritMod.Mechanics.Boids
 			Player player = Main.LocalPlayer;
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			//Test
-			if ((Main.GameUpdateCount % SPAWNRATE > 38 && Main.LocalPlayer.ZoneBeach) || (Main.GameUpdateCount % SPAWNRATE > 32 && modPlayer.nearLure))
+			if ((Main.GameUpdateCount % SPAWNRATE == 39 && Main.LocalPlayer.ZoneBeach) || (Main.GameUpdateCount % SPAWNRATE > 37 && modPlayer.nearLure))
 			{
 				int flock = Main.rand.Next(0, Flocks.Count);
 				int fluff = 1000;
 
-				Vector2 rand = new Vector2(
+				var rand = new Vector2(
 					Main.rand.Next(-Main.screenWidth / 2 - fluff, Main.screenWidth / 2 + fluff),
 					Main.rand.Next(-Main.screenHeight / 2 - fluff, Main.screenHeight / 2 + fluff));
 

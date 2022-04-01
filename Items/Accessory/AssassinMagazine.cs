@@ -15,6 +15,17 @@ namespace SpiritMod.Items.Accessory
 			Tooltip.SetDefault($"Double tap {tapDir} while holding a ranged weapon to swap ammo types\nWorks while in the inventory");
 		}
 
+		public override void ModifyTooltips(List<TooltipLine> tooltips)
+		{
+			string down = Main.ReversedUpDownArmorSetBonuses ? "UP" : "DOWN";
+
+			foreach (TooltipLine line in tooltips)
+			{
+				if (line.mod == "Terraria" && line.Name == "Tooltip0")
+					line.text = line.text.Replace("{0}", down);
+			}
+		}
+
 		public override void SetDefaults()
 		{
 			item.width = 32;
@@ -23,8 +34,8 @@ namespace SpiritMod.Items.Accessory
 			item.rare = ItemRarityID.Green;
 			item.accessory = true;
 		}
-		public override void UpdateInventory(Player player) => player.GetSpiritPlayer().assassinMag = true;
 
+		public override void UpdateInventory(Player player) => player.GetSpiritPlayer().assassinMag = true;
 		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetSpiritPlayer().assassinMag = true;
 	}
 }

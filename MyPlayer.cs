@@ -85,7 +85,7 @@ namespace SpiritMod
 
 		public bool crystalFlower = false;
 
-		public bool nearLure;
+		public bool nearLure = false;
 
 		public bool firewall = false;
 		public int clockX = 0;
