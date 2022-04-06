@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 
 		//The current frame being drawn, currently based on game time as to constantly increase
 		private int CurFrame => (int)((Main.GlobalTime * 11) % NumFrames);
-		private bool HoldingLamp => player.HeldItem.type == ModContent.ItemType<StarfireLamp>();
+		private bool HoldingLamp => player.HeldItem.type == ModContent.ItemType<StarfireLamp>() && false;
 
 		//The rectangle of the texture currently being drawn
 		private Rectangle DrawRectangle

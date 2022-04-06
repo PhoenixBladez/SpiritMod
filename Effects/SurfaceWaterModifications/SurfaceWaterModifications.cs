@@ -156,8 +156,6 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 			c.TryGotoNext(n => n.MatchLdfld<Main>("backWaterTarget")); //Back target
 
-			ILLabel labelVanillaBack = il.DefineLabel(c.Next);
-
 			c.TryGotoNext(n => n.MatchCallvirt<SpriteBatch>("Draw"));
 			c.Index++;
 			ILLabel label = il.DefineLabel(c.Next);

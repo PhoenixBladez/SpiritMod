@@ -58,13 +58,14 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		//Add in custom draw layers
 		public override void ModifyDrawLayers(List<PlayerLayer> layers)
 		{
-			if(player.HeldItem.type == ModContent.ItemType<StellanovaCannon>())
+			if(player.HeldItem.type == ModContent.ItemType<StellanovaCannon>() && false)
 				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(mod.Name, "StellanovaHeld",
 					delegate (PlayerDrawInfo info) { DrawItem(mod.GetTexture("Items/Sets/StarjinxSet/Stellanova/StellanovaCannon_held"), info); }));
 		}
+
 		public override void PostUpdate()
 		{
-			if (player.HeldItem.type == ModContent.ItemType<StellanovaCannon>())
+			if (player.HeldItem.type == ModContent.ItemType<StellanovaCannon>() && false)
 				player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawAdditiveLayer(sB); }, ExtraDrawOnPlayer.DrawType.Additive);
 		}
 
