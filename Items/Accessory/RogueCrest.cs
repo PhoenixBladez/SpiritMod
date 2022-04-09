@@ -13,7 +13,6 @@ namespace SpiritMod.Items.Accessory
 			Tooltip.SetDefault("Summons a rusted sword to fight for you\nThis sword does not take up minion slots");
 		}
 
-
 		public override void SetDefaults()
 		{
             item.damage = 5;
@@ -26,9 +25,7 @@ namespace SpiritMod.Items.Accessory
 			item.defense = 1;
 			item.accessory = true;
 		}
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-            player.GetSpiritPlayer().rogueCrest = true;
-		}
+
+		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetSpiritPlayer().rogueCrest = true;
 	}
 }

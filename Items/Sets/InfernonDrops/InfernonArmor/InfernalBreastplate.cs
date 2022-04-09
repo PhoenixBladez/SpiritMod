@@ -1,5 +1,3 @@
-
-using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,16 +19,14 @@ namespace SpiritMod.Items.Sets.InfernonDrops.InfernonArmor
 			item.height = 20;
 			item.rare = ItemRarityID.Pink;
 			item.value = 62000;
-
 			item.defense = 10;
 		}
-		public override void UpdateEquip(Player player)
-		{
-			player.statManaMax2 += 60;
-		}
+
+		public override void UpdateEquip(Player player) => player.statManaMax2 += 60;
+
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			var recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<InfernalAppendage>(), 16);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this, 1);
