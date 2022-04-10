@@ -47,13 +47,15 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 
 		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
-		//public override void AddRecipes()
-		//{
-		//	ModRecipe modRecipe = new ModRecipe(mod);
-		//	modRecipe.AddIngredient(ModContent.ItemType<FrigidFragment>(), 9);
-		//	modRecipe.AddTile(TileID.Anvils);
-		//	modRecipe.SetResult(this, 1);
-		//	modRecipe.AddRecipe();
-		//}
+		public override void AddRecipes()
+		{
+			var recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<IridescentScale>(), 14);
+			recipe.AddIngredient(ModContent.ItemType<SulfurDeposit>(), 5);
+			recipe.AddIngredient(ItemID.IronBar, 2);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
 	}
 }

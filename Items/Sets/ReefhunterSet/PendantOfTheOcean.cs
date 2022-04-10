@@ -36,5 +36,24 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 		}
 
 		public int TimerCount() => 1;
+
+		public override void AddRecipes()
+		{
+			var recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<IridescentScale>(), 8);
+			recipe.AddIngredient(ModContent.ItemType<SulfurDeposit>(), 4);
+			recipe.AddIngredient(ItemID.IronBar, 2);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+
+			recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<IridescentScale>(), 8);
+			recipe.AddIngredient(ModContent.ItemType<SulfurDeposit>(), 4);
+			recipe.AddIngredient(ItemID.LeadBar, 2);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
 	}
 }

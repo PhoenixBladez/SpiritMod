@@ -68,13 +68,14 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 			return true;
 		}
 
-		//public override void AddRecipes()
-		//{
-		//	var recipe = new ModRecipe(mod);
-		//	recipe.AddIngredient(ModContent.ItemType<GranitechMaterial>(), 12);
-		//	recipe.AddTile(TileID.MythrilAnvil);
-		//	recipe.SetResult(this, 1);
-		//	recipe.AddRecipe();
-		//}
+		public override void AddRecipes()
+		{
+			var recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<IridescentScale>(), 10);
+			recipe.AddIngredient(ModContent.ItemType<SulfurDeposit>(), 2);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
 	}
 }

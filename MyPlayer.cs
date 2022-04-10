@@ -1062,80 +1062,63 @@ namespace SpiritMod
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
 			int bobberIndex = -1;
 
-			if (config.EnemyFishing)
+			for (int i = 0; i < Main.maxProjectiles; i++)
+				if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber)
+					bobberIndex = i;
+
+			if (config.EnemyFishing && bobberIndex != -1)
 			{
+				Vector2 bobberPos = Main.projectile[bobberIndex].Center;
+
 				if (Main.bloodMoon && Main.rand.Next(20) == 0)
 				{
-					for (int i = 0; i < 1000; i++)
+					int id = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<NPCs.BottomFeeder.BottomFeeder>(), 0, 2, 1, 0, 0, Main.myPlayer);
+					if (Main.netMode == NetmodeID.MultiplayerClient)
+						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, id);
+
+					caughtType = ItemID.None;
+					return;
+				}
+
+				if (!mimicRepellent)
+				{
+					if (Main.rand.NextBool(player.cratePotion ? 85 : 125))
 					{
-						if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber)
-							bobberIndex = i;
-					}
-					if (bobberIndex != -1)
-					{
-						Vector2 bobberPos = Main.projectile[bobberIndex].Center;
-						caughtType = ModContent.NPCType<NPCs.BottomFeeder.BottomFeeder>();
-						int id = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<NPCs.BottomFeeder.BottomFeeder>(), 0, 2, 1, 0, 0, Main.myPlayer);
+						int id = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<WoodCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
 						if (Main.netMode == NetmodeID.MultiplayerClient)
 							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, id);
+
+						caughtType = ItemID.None;
+						return;
+					}
+
+					if (Main.rand.NextBool(player.cratePotion ? 90 : 145))
+					{
+						int id = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<IronCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
+						if (Main.netMode == NetmodeID.MultiplayerClient)
+							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, id);
+
+						caughtType = ItemID.None;
+						return;
+					}
+
+					if (Main.rand.NextBool(player.cratePotion ? 105 : 165))
+					{
+						int id = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<GoldCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
+						if (Main.netMode == NetmodeID.MultiplayerClient)
+							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, id);
+
+						caughtType = ItemID.None;
+						return;
 					}
 				}
 			}
-			
+
 			if (player.ZoneDungeon && power >= 30 && Main.rand.NextBool(25))
 				caughtType = ModContent.ItemType<MysticalCage>();
 
 			if (modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextBool(player.cratePotion ? 35 : 65))
-				caughtType = ModContent.ItemType<SpiritCrate>(); 
-
-			if (!mimicRepellent && config.EnemyFishing)
-			{
-				if (Main.rand.NextBool(player.cratePotion ? 90 : 125))
-				{
-					for (int i = 0; i < Main.maxProjectiles; i++)
-						if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber)
-							bobberIndex = i;
-
-					if (bobberIndex != -1)
-					{
-						Vector2 bobberPos = Main.projectile[bobberIndex].Center;
-						caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<WoodCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
-
-						if (Main.netMode == NetmodeID.MultiplayerClient)
-							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, caughtType);
-					}
-				}
-				if (Main.rand.NextBool(player.cratePotion ? 130 : 155))
-				{
-					for (int i = 0; i < Main.maxProjectiles; i++)
-						if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber)
-							bobberIndex = i;
-
-					if (bobberIndex != -1)
-					{
-						Vector2 bobberPos = Main.projectile[bobberIndex].Center;
-						caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<IronCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
-
-						if (Main.netMode == NetmodeID.MultiplayerClient)
-							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, caughtType);
-					}
-				}
-				if (Main.rand.NextBool(player.cratePotion ? 100 : 125) && Main.raining)
-				{
-					for (int i = 0; i < Main.maxProjectiles; i++)
-						if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber)
-							bobberIndex = i;
-
-					if (bobberIndex != -1)
-					{
-						Vector2 bobberPos = Main.projectile[bobberIndex].Center;
-						caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<GoldCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
-
-						if (Main.netMode == NetmodeID.MultiplayerClient)
-							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, caughtType);
-					}
-				}
-			}
+				caughtType = ModContent.ItemType<SpiritCrate>();
 
 			if (modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextBool(5))
 				caughtType = ModContent.ItemType<SpiritKoi>();

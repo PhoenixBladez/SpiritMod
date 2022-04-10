@@ -29,13 +29,15 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 			item.shoot = ModContent.ProjectileType<UrchinStaffProjectile>();
 		}
 
-		//public override void AddRecipes()
-		//{
-		//	var recipe = new ModRecipe(mod);
-		//	recipe.AddIngredient(ModContent.ItemType<GranitechMaterial>(), 12);
-		//	recipe.AddTile(TileID.MythrilAnvil);
-		//	recipe.SetResult(this, 1);
-		//	recipe.AddRecipe();
-		//}
+		public override void AddRecipes()
+		{
+			var recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<IridescentScale>(), 16);
+			recipe.AddIngredient(ModContent.ItemType<SulfurDeposit>(), 4);
+			recipe.AddIngredient(ItemID.IronBar, 2);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
 	}
 }
