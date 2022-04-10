@@ -20,8 +20,8 @@ namespace SpiritMod.Items.Material
 			item.value = Terraria.Item.sellPrice(0, 0, 10, 0);
 			item.noMelee = true;
 			item.autoReuse = false;
-
 		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe1 = new ModRecipe(mod);

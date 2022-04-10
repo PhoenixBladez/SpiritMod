@@ -2,7 +2,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-
 namespace SpiritMod.Items.Consumable
 {
 	public class FateToken : ModItem
@@ -11,9 +10,7 @@ namespace SpiritMod.Items.Consumable
 		{
 			DisplayName.SetDefault("Fate Token");
 			Tooltip.SetDefault("Taking fatal damage will instead return you to 500 health\n2 minute cooldown");
-
 		}
-
 
 		public override void SetDefaults()
 		{
@@ -29,24 +26,16 @@ namespace SpiritMod.Items.Consumable
 			item.consumable = true;
 		}
 
-
 		public override bool UseItem(Player player)
 		{
 			player.AddBuff(ModContent.BuffType<Buffs.FateToken>(), 3600);
-			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if (!modPlayer.fateToken) {
-				modPlayer.fateToken = true;
-			}
+			player.GetSpiritPlayer().fateToken = true;
+			player.GetSpiritPlayer().shootDelay3 = 7200;
+
 			Main.NewText("Fate has blessed you");
-			modPlayer.shootDelay3 = 7200;
 			return true;
 		}
-		public override bool CanUseItem(Player player)
-		{
-			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if (modPlayer.shootDelay3 == 0)
-				return true;
-			return false;
-		}
+
+		public override bool CanUseItem(Player player) => player.GetSpiritPlayer().shootDelay3 == 0;
 	}
 }

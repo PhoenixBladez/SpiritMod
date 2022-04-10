@@ -15,20 +15,15 @@ namespace SpiritMod.Items.Material
 			ItemID.Sets.ItemNoGravity[item.type] = true;
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = 18;
 			item.height = 18;
 			item.value = 100;
 			item.rare = ItemRarityID.Pink;
-
 			item.maxStack = 999;
 		}
 
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return Color.White;
-		}
+		public override Color? GetAlpha(Color lightColor) => Color.White;
 	}
 }
