@@ -23,14 +23,10 @@ namespace SpiritMod.Items.Pets
 
 		public override void UseStyle(Player player)
 		{
-			if (player.whoAmI == Main.myPlayer && player.itemTime == 0) {
+			if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
 				player.AddBuff(item.buffType, 3600, true);
-			}
 		}
 
-		public override bool CanUseItem(Player player)
-		{
-			return player.miscEquips[0].IsAir;
-		}
+		public override bool CanUseItem(Player player) => player.miscEquips[0].IsAir;
 	}
 }

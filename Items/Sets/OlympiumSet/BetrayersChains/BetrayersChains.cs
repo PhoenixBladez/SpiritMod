@@ -9,8 +9,6 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Particles;
 using System.Collections.Generic;
 using SpiritMod.Mechanics.Trails;
-using SpiritMod.Mechanics.Trails.CustomTrails;
-using SpiritMod.Projectiles;
 using SpiritMod.Prim;
 
 namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
@@ -18,20 +16,14 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 	public class BetrayersChains : ModItem
 	{
 		int combo;
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Blades of Chaos");
-			// Tooltip.SetDefault("Plugs into tiles, changing the chain into a shocking livewire");
-
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Blades of Chaos");
 
 		public override void SetDefaults()
 		{
 			item.width = 16;
 			item.height = 16;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useTime = 26;
-			item.useAnimation = 26;
+			item.useTime = item.useAnimation = 20;
 			item.shootSpeed = 1f;
 			item.knockBack = 4f;
 			item.UseSound = SoundID.Item116;
@@ -45,6 +37,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 			item.damage = 50;
 			item.rare = ItemRarityID.LightRed;
 		}
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			combo++;

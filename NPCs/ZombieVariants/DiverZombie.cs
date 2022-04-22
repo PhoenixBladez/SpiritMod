@@ -35,16 +35,17 @@ namespace SpiritMod.NPCs.ZombieVariants
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.78f);
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, .54f);
 			}
+			
 			if (npc.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DiverZombie/DiverZombie1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DiverZombie/DiverZombie2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DiverZombie/DiverZombie3"), 1f);
+				for (int i = 1; i < 4; ++i)
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DiverZombie/DiverZombie" + i), 1f);
 			}
 		}
 
 		int frameTimer;
 		int frame;
+
 		public override void AI()
 		{
 			npc.spriteDirection = npc.direction;
@@ -69,9 +70,7 @@ namespace SpiritMod.NPCs.ZombieVariants
 			{
 				npc.noGravity = false;
 				if (npc.velocity.Y != 0)
-				{
 					frame = 2;
-				}
 				else
 				{
 					if (frameTimer >= 12)
@@ -97,12 +96,8 @@ namespace SpiritMod.NPCs.ZombieVariants
 			if (Main.rand.Next(100) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Flipper);
 
-			string[] lootTable = { "DiverLegs", "DiverHead", "DiverBody" };
 			if (Main.rand.Next(65) == 0)
-			{
-				int loot = Main.rand.Next(lootTable.Length);
-				npc.DropItem(mod.ItemType(lootTable[loot]));
-			}
+				npc.DropItem(mod.ItemType(Main.rand.Next(new string[]{ "DiverLegs", "DiverHead", "DiverBody" })));
 		}
 	}
 }

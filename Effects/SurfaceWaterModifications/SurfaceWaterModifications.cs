@@ -225,7 +225,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			var config = ModContent.GetInstance<SpiritClientConfig>().SurfaceWaterTransparency;
 
 			bool aboveGround = Main.LocalPlayer.Center.Y / 16f < Main.worldSurface;
-			if (aboveGround && Main.LocalPlayer.ZoneBeach && (config == SpiritClientConfig.SurfaceTransparencyOption.Ocean || config == SpiritClientConfig.SurfaceTransparencyOption.Both))
+			if (aboveGround && Main.LocalPlayer.ZoneBeach && (config == SpiritClientConfig.SurfaceTransparencyOption.Ocean))
 				return 1.25f;
 
 			return aboveGround ? 1f : 0.5f;

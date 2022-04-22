@@ -48,21 +48,14 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 		}
 
 		const int NUMBEROFATTACKSP2 = 1;
-		private enum CurrentAttackP2
-		{
-			
-		}
+
 		private CurrentAttack NPCCurrentAttack
 		{
 			get => (CurrentAttack)(int)npc.ai[1];
 			set => npc.ai[1] = (int)value;
 		}
 
-		private CurrentAttackP2 NPCCurrentAttackP2
-		{
-			get => (CurrentAttackP2)(int)npc.ai[1];
-			set => npc.ai[1] = (int)value;
-		}
+		public override bool Autoload(ref string name) => false;
 
 		public override void SetStaticDefaults()
 		{

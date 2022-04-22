@@ -84,8 +84,6 @@ namespace SpiritMod.Utilities
 		public enum SurfaceTransparencyOption : int
 		{
 			Ocean,
-			Underworld,
-			Both,
 			Disabled
 		}
 

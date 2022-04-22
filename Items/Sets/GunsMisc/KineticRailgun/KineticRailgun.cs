@@ -85,9 +85,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 
 			player.itemTime = 5; // Set item time to 2 frames while we are used
 			player.itemAnimation = 5; // Set item animation time to 2 frames while we are used
-			direction = Main.MouseWorld - (player.Center);
-			direction.Normalize();
-			direction *= 70f;
+			direction = Vector2.Normalize(Main.MouseWorld - player.Center) * 70f;
 			projectile.position = player.Center + direction;
 			projectile.velocity = Vector2.Zero;
 			player.itemRotation = direction.ToRotation();
@@ -112,9 +110,11 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 				{
 					NPC npc = Main.npc[i];
 					Vector2 toNPC = npc.Center - player.Center;
-					if (toNPC.Length() < RANGE && npc.active && AnglesWithinCone(toNPC.ToRotation(), direction.ToRotation()) && (!npc.townNPC || !npc.friendly))
+
+					if (toNPC.Length() < RANGE && npc.CanBeChasedBy() && AnglesWithinCone(toNPC.ToRotation(), direction.ToRotation()))
 					{
 						bool targetted = false;
+
 						foreach (var npc2 in targets)
 						{
 							if (npc2.active)
@@ -123,6 +123,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 									targetted = true;
 							}
 						}
+
 						if (!targetted)
 						{
 							SpiritMod.primitives.CreateTrail(new RailgunPrimTrail(projectile, npc));
@@ -137,6 +138,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 						targets.Remove(npc);
 					}
 				}
+
 				foreach (var npc2 in targets.ToArray())
 				{
 					if (!npc2.active)

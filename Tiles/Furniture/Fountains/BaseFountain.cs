@@ -121,8 +121,8 @@ namespace SpiritMod.Tiles.Furniture.Fountains
 			item.useTime = 16;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.consumable = true;
-			item.rare = ItemRarityID.Red;
-			item.value = Item.buyPrice(0, 2, 0, 0);
+			item.rare = ItemRarityID.Blue;
+			item.value = Item.buyPrice(0, 4, 0, 0);
 			item.createTile = PlaceType;
 		}
 	}

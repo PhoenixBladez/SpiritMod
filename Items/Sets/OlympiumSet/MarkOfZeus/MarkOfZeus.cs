@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 
 		public override void SetDefaults()
 		{
-			item.damage = 50;
+			item.damage = 80;
 			item.noMelee = true;
 			item.channel = true;
 			item.rare = ItemRarityID.LightRed;
@@ -37,6 +37,8 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 			item.shootSpeed = 0f;
 			item.value = Item.sellPrice(0, 2, 0, 0);
 		}
+
+		public override bool CanUseItem(Player player) => player.statMana > 20;
 	}
 
 	public class MarkOfZeusProj : ModProjectile

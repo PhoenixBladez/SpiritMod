@@ -40,7 +40,6 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 		{
 			Player p = Main.player[projectile.owner];
 			p.heldProj = projectile.whoAmI;
-			GItem.ArmsTowardsMouse(p);
 
 			if (p.whoAmI != Main.myPlayer) return; //mp check (hopefully)
 
@@ -71,6 +70,7 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 				projectile.Center = p.Center - (new Vector2(1, 0).RotatedBy(_finalRotation) * 27) + new Vector2(21, 12);
 
 			projectile.rotation = Vector2.Normalize(p.MountedCenter - Main.MouseWorld).ToRotation() - MathHelper.Pi; //So it looks like the player is holding it properly
+			GItem.ArmsTowardsMouse(p);
 		}
 
 		private void Fire(Player p)

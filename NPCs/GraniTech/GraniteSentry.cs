@@ -318,7 +318,7 @@ namespace SpiritMod.NPCs.GraniTech
 			int x = spawnInfo.spawnTileX;
 			int y = spawnInfo.spawnTileY;
 			int tile = Main.tile[x, y].type;
-			return (tile == 368) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.06f : 0f;
+			return (tile == TileID.Granite) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.06f : 0f;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
