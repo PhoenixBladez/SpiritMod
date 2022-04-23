@@ -77,24 +77,31 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 		private void Fire(Player player)
 		{
-			var baseVel = player.DirectionTo(Main.MouseWorld).RotatedByRandom(0.02f) * player.HeldItem.shootSpeed;
+			if (GItem.UseAmmo(player, AmmoID.Bullet))
+			{
+				var baseVel = player.DirectionTo(Main.MouseWorld).RotatedByRandom(0.02f) * player.HeldItem.shootSpeed;
 
-			Vector2 pos = player.Center - new Vector2(0, 8);
-			Vector2 muzzleOffset = Vector2.Normalize(baseVel) * (player.HeldItem.width / 2f);
-			if (Collision.CanHit(pos, 0, 0, pos + muzzleOffset, 0, 0))
-				pos += muzzleOffset;
+				Vector2 pos = player.Center - new Vector2(0, 8);
+				Vector2 muzzleOffset = Vector2.Normalize(baseVel) * (player.HeldItem.width / 2f);
+				if (Collision.CanHit(pos, 0, 0, pos + muzzleOffset, 0, 0))
+					pos += muzzleOffset;
 
-			var p = Projectile.NewProjectileDirect(pos, baseVel, ModContent.ProjectileType<GranitechGunBullet>(), player.HeldItem.damage, 0f, player.whoAmI);
-			if (p.modProjectile is GranitechGunBullet bullet)
-				bullet.spawnRings = true;
+				var p = Projectile.NewProjectileDirect(pos, baseVel, ModContent.ProjectileType<GranitechGunBullet>(), player.HeldItem.damage, 0f, player.whoAmI);
+				if (p.modProjectile is GranitechGunBullet bullet)
+					bullet.spawnRings = true;
 
-			//Main.PlaySound(Terraria.ID.SoundID.Item11, projectile.Center);
-			if(!Main.dedServ)
-				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/EnergyShoot").WithPitchVariance(0.1f).WithVolume(0.25f), pos);
+				//Main.PlaySound(Terraria.ID.SoundID.Item11, projectile.Center);
+				if (!Main.dedServ)
+					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/EnergyShoot").WithPitchVariance(0.1f).WithVolume(0.25f), pos);
 
-			VFX(pos + muzzleOffset, baseVel * 0.2f);
+				VFX(pos + muzzleOffset, baseVel * 0.2f);
+			}
+			else
+			{
+				player.channel = false;
 
-			GItem.UseAmmo(player, AmmoID.Bullet);
+				projectile.Kill();
+			}
 		}
 
 		private void VFX(Vector2 position, Vector2 velocity)

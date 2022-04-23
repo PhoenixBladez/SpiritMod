@@ -1,10 +1,11 @@
+using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory
 {
-	public class GoldenApple : ModItem
+	public class GoldenApple : AccessoryItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -22,10 +23,13 @@ namespace SpiritMod.Items.Accessory
 			item.accessory = true;
 		}
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
+		public override void SafeUpdateAccessory(Player player, bool hideVisual)
 		{
-			float defBoost = ((float)player.statLifeMax2 - player.statLife) / player.statLifeMax2 * 15f;
-			player.statDefense += (int)defBoost;
+			if (!player.HasAccessory<GoldShield>() || !player.HasAccessory<MedusaShield>())
+			{
+				float defBoost = ((float)player.statLifeMax2 - player.statLife) / player.statLifeMax2 * 15f;
+				player.statDefense += (int)defBoost;
+			}
 		}
 	}
 }

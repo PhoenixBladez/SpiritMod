@@ -673,14 +673,14 @@ namespace SpiritMod.Items
 			}
 		}
 
-		/// <summary>Uses ammo, given vanilla ammo effects and ModPlayer hooks.</summary>
+		/// <summary>Uses ammo, given vanilla ammo effects and ModPlayer hooks. Returns true if ammo is found, false if no valid ammo is found.</summary>
 		/// <param name="p">Player to check against.</param>
 		/// <param name="ammoType">Ammo type to check for.</param>
-		public static void UseAmmo(Player p, int ammoType)
+		public static bool UseAmmo(Player p, int ammoType)
 		{
 			for (int i = 0; i < p.inventory.Length; ++i) //Consume ammo here so it's used when shot rather than when clicked
 			{
-				if (p.inventory[i].ammo == ammoType)
+				if (p.inventory[i].ammo == ammoType && p.inventory[i].stack > 0)
 				{
 					if (p.inventory[i].consumable && VanillaAmmoConsumption(p, p.inventory[i].ammo) && PlayerHooks.ConsumeAmmo(p, p.HeldItem, p.inventory[i])) //Do not consume ammo if possible
 					{
@@ -688,9 +688,10 @@ namespace SpiritMod.Items
 						if (p.inventory[i].stack <= 0)
 							p.inventory[i].TurnToAir();
 					}
-					break;
+					return true;
 				}
 			}
+			return false;
 		}
 
 		/// <summary>Directly uses ammo given an index.</summary>

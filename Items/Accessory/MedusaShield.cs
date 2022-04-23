@@ -1,3 +1,4 @@
+using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -5,7 +6,7 @@ using Terraria.ModLoader;
 namespace SpiritMod.Items.Accessory
 {
 	[AutoloadEquip(EquipType.Shield)]
-	public class MedusaShield : ModItem
+	public class MedusaShield : AccessoryItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -33,12 +34,19 @@ namespace SpiritMod.Items.Accessory
 			recipe.AddRecipe();
 		}
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
+		public override void SafeUpdateAccessory(Player player, bool hideVisual)
 		{
 			player.noKnockback = true;
-			float defBoost = (float)(player.statLifeMax2 - player.statLife) / (float)player.statLifeMax2 * 20f;
-			player.statDefense += (int)defBoost;
 			player.buffImmune[BuffID.Stoned] = true;
+
+			float mult = 25f;
+			if (player.HasAccessory<GoldShield>())
+				mult += 6;
+			if (player.HasAccessory<GoldenApple>())
+				mult += 4;
+
+			float defBoost = (float)(player.statLifeMax2 - player.statLife) / player.statLifeMax2 * mult;
+			player.statDefense += (int)defBoost;
 		}
 	}
 }

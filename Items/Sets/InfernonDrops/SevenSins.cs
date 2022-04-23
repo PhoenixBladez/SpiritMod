@@ -7,14 +7,14 @@ namespace SpiritMod.Items.Sets.InfernonDrops
 {
 	public class SevenSins : ModItem
 	{
+		int charger;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("The Seven Sins");
-			Tooltip.SetDefault("Occasionally shoots out a fire lash the combusts foes.");
+			Tooltip.SetDefault("Occasionally shoots out a volley of flames");
 		}
 
-
-		int charger;
 		public override void SetDefaults()
 		{
 			item.damage = 44;
@@ -34,22 +34,24 @@ namespace SpiritMod.Items.Sets.InfernonDrops
 			item.value = Item.sellPrice(0, 2, 0, 0);
 			item.autoReuse = true;
 			item.shootSpeed = 13f;
-
 		}
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
+			if (charger++ >= 5)
 			{
+				for (int i = 0; i < 5; ++i)
 				{
-					charger++;
-					if (charger >= 5) {
-						for (int I = 0; I < 1; I++) {
-							//Projectile.NewProjectile(position.X, position.Y, speedX * 4, speedY * 4, ModContent.ProjectileType<FireSin>(), 50, knockBack, player.whoAmI, 0f, 0f);
-						}
-						charger = 0;
-					}
-					return true;
+					Vector2 vel = new Vector2(speedX, speedY).RotatedByRandom(0.5f);
+					int proj = Projectile.NewProjectile(position.X, position.Y, vel.X, vel.Y, ProjectileID.GreekFire3, 50, knockBack, player.whoAmI, 0f, 0f);
+
+					Main.projectile[proj].hostile = false;
+					Main.projectile[proj].friendly = true;
+					Main.projectile[proj].penetrate = 2;
 				}
+				charger = 0;
 			}
+			return true;
 		}
 	}
 }

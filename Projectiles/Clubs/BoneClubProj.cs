@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles.Clubs
                 float rotation = (float)(Main.rand.Next(180, 361) * (Math.PI / 180));
                 float rotation2 = (float)(Main.rand.Next(180, 270) * (Math.PI / 180));
                 Vector2 velocity = new Vector2((float)Math.Cos(rotation2), (float)Math.Sin(rotation));
-                int proj = Projectile.NewProjectile(projectile.Center - new Vector2(0, 32), velocity * new Vector2(-4, 4), ProjectileType<BoneShard>(), (int)(projectile.damage / 4f), projectile.knockBack, projectile.owner);
+                int proj = Projectile.NewProjectile(projectile.Center - new Vector2(0, 32), velocity * new Vector2(-4 * Main.player[projectile.owner].direction, 4), ProjectileType<BoneShard>(), (int)(projectile.damage / 4f), projectile.knockBack, projectile.owner);
                 Main.projectile[proj].scale *= Main.rand.NextFloat(.6f, 1f);
             }
         }
