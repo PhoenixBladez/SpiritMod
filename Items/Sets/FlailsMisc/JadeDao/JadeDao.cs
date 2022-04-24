@@ -17,12 +17,8 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 	public class JadeDao : ModItem
 	{
 		public int combo;
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Jade Daos");
-			// Tooltip.SetDefault("Plugs into tiles, changing the chain into a shocking livewire");
 
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Jade Daos");
 
 		public override void SetDefaults()
 		{
@@ -44,6 +40,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			item.damage = 70;
 			item.rare = ItemRarityID.LightPurple;
 		}
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			combo++;
@@ -57,7 +54,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			Projectile proj = Projectile.NewProjectileDirect(position, direction, type, damage, knockBack, player.whoAmI);
 			if (proj.modProjectile is JadeDaoProj modProj)
 			{
-				modProj.SwingTime = (int)(item.useTime * (slam ? 1.75f : 1));
+				modProj.SwingTime = (int)(item.useTime * UseTimeMultiplier(player) * (slam ? 1.75f : 1));
 				modProj.SwingDistance = player.Distance(Main.MouseWorld) * distanceMult;
 				modProj.Curvature = 0.33f * curvatureMult;
 				modProj.Flip = combo % 2 == 1;
@@ -69,7 +66,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 				Projectile proj2 = Projectile.NewProjectileDirect(position, direction, type, damage, knockBack, player.whoAmI);
 				if (proj2.modProjectile is JadeDaoProj modProj2)
 				{
-					modProj2.SwingTime = (int)(item.useTime * (slam ? 1.75f : 1));
+					modProj2.SwingTime = (int)(item.useTime * UseTimeMultiplier(player) * (slam ? 1.75f : 1));
 					modProj2.SwingDistance = player.Distance(Main.MouseWorld) * distanceMult;
 					modProj2.Curvature = 0.33f * curvatureMult;
 					modProj2.Flip = combo % 2 == 0;
@@ -84,7 +81,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			return false;
 		}
 
-		public override float UseTimeMultiplier(Player player) => base.UseTimeMultiplier(player) * player.meleeSpeed; //Scale with melee speed buffs, like whips
+		public override float UseTimeMultiplier(Player player) => player.meleeSpeed; //Scale with melee speed buffs, like whips
 	}
 
 	public class JadeDaoProj : ModProjectile

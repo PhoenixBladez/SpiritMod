@@ -39,7 +39,7 @@ namespace SpiritMod.NPCs.Automata
 			npc.height = 36;
 			npc.damage = 70;
 			npc.defense = 30;
-			npc.lifeMax = 600;
+			npc.lifeMax = 350;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.value = 180f;

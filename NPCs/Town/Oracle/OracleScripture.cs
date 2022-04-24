@@ -28,25 +28,23 @@ namespace SpiritMod.NPCs.Town.Oracle
 			item.noUseGraphic = true;
 		}
 
+		public override bool CanUseItem(Player player) => player.GetSpiritPlayer().inMarble;
+
 		public override bool UseItem(Player player)
 		{
-			if (player.GetSpiritPlayer().inMarble)
+			int w = NPC.FindFirstNPC(ModContent.NPCType<Oracle>());
+			if (w != -1)
 			{
-				int w = NPC.FindFirstNPC(ModContent.NPCType<Oracle>());
-				if (w != -1)
-				{
-					var oracle = Main.npc[w].modNPC as Oracle;
-					oracle.Teleport = 200;
-					oracle.TeleportX = player.Center.X;
-					oracle.TeleportY = player.Center.Y;
+				var oracle = Main.npc[w].modNPC as Oracle;
+				oracle.Teleport = 200;
+				oracle.TeleportX = player.Center.X;
+				oracle.TeleportY = player.Center.Y;
 
-					int glyphnum = Main.rand.Next(10);
-					DustHelper.DrawDustImage(new Vector2(player.Center.X, player.Center.Y - 25), ModContent.DustType<Dusts.MarbleDust>(), 0.05f, "SpiritMod/Effects/Glyphs/Glyph" + glyphnum, 1f);
-					Main.PlaySound(SoundID.DD2_DarkMageHealImpact, player.Center);
+				int glyphnum = Main.rand.Next(10);
+				DustHelper.DrawDustImage(new Vector2(player.Center.X, player.Center.Y - 25), ModContent.DustType<Dusts.MarbleDust>(), 0.05f, "SpiritMod/Effects/Glyphs/Glyph" + glyphnum, 1f);
+				Main.PlaySound(SoundID.DD2_DarkMageHealImpact, player.Center);
 
-
-					return true;
-				}
+				return true;
 			}
 			return false;
 		}

@@ -56,9 +56,9 @@ namespace SpiritMod.NPCs.GraniTech
 		{
 			npc.width = 44; //Stats placeholder -->
 			npc.height = 46;
-			npc.damage = 60;
+			npc.damage = 0;
 			npc.defense = 24;
-			npc.lifeMax = 1800; // <--
+			npc.lifeMax = 800; // <--
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.value = 800;
@@ -147,18 +147,17 @@ namespace SpiritMod.NPCs.GraniTech
 
 		private void Spawn()
 		{
-			//lets hit that fat scan
 			bool[] validGrounds = new bool[2] { false, false };
 
 			Point tilePos = npc.position.ToTileCoordinates();
 
 			for (int j = tilePos.Y; j < tilePos.Y + GroundDistance; j++) //below
 				if (Framing.GetTileSafely(tilePos.X, j).active() && Main.tileSolid[Framing.GetTileSafely(tilePos.X, j).type])
-					validGrounds[1] = true;
+					validGrounds[0] = true;
 
 			for (int j = tilePos.Y; j > tilePos.Y - GroundDistance; j--) //above
 				if (Framing.GetTileSafely(tilePos.X, j).active() && Main.tileSolid[Framing.GetTileSafely(tilePos.X, j).type])
-					validGrounds[0] = true;
+					validGrounds[1] = true;
 
 			if (!validGrounds.Any(x => x))
 				npc.active = false; //Delete me if I don't have anchoring
@@ -172,7 +171,7 @@ namespace SpiritMod.NPCs.GraniTech
 				safety++;
 			} while (validGrounds[index] && safety < 100);
 
-			BaseState = index + 1; //woo I did it
+			BaseState = index + 1;
 
 			switch (BaseState)
 			{
@@ -243,8 +242,7 @@ namespace SpiritMod.NPCs.GraniTech
 							npc.rotation = (float)(Math.Sin(scanTimer + recoil) * MathHelper.PiOver2) + MathHelper.PiOver2;
 							break;
 					}
-					Projectile.NewProjectile(laserOrigin, (npc.rotation + 3.14f).ToRotationVector2() * 20, ModContent.ProjectileType<GraniteSentryBolt>(),
-						NPCUtils.ToActualDamage(npc.damage), 3, npc.target);
+					Projectile.NewProjectile(laserOrigin, (npc.rotation + 3.14f).ToRotationVector2() * 20, ModContent.ProjectileType<GraniteSentryBolt>(), NPCUtils.ToActualDamage(90), 3, Main.myPlayer);
 
 					laserRotations = null;
 					npc.netUpdate = true;
@@ -318,7 +316,7 @@ namespace SpiritMod.NPCs.GraniTech
 			int x = spawnInfo.spawnTileX;
 			int y = spawnInfo.spawnTileY;
 			int tile = Main.tile[x, y].type;
-			return (tile == TileID.Granite) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.06f : 0f;
+			return (tile == TileID.Granite) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 200f : 0f;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

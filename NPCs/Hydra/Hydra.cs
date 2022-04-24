@@ -85,7 +85,7 @@ namespace SpiritMod.NPCs.Hydra
 				return;
 			}
 
-			if (--attackCounter > 300 / heads.Count())
+			if (++attackCounter > 300 / heads.Count())
 			{
 				attackIndex %= heads.Count();
 				attackCounter = 0;

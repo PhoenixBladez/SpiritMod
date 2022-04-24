@@ -51,19 +51,20 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 			Projectile proj = Projectile.NewProjectileDirect(position, direction, type, damage, knockBack, player.whoAmI);
 			if (proj.modProjectile is BetrayersChainsProj modProj)
 			{
-				modProj.SwingTime = (int)((item.useTime) * (slam ? 1.8f : 1));
+				modProj.SwingTime = (int)(item.useTime * UseTimeMultiplier(player) * (slam ? 1.8f : 1));
 				modProj.SwingDistance = player.Distance(Main.MouseWorld) * distanceMult;
 				modProj.Curvature = 0.33f * curvatureMult;
 				modProj.Flip = combo % 2 == 1;
 				modProj.Slam = slam;
 				modProj.PreSlam = combo % 3 == 1;
 			}
+
 			if (slam)
 			{
 				Projectile proj2 = Projectile.NewProjectileDirect(position, direction, type, damage, knockBack, player.whoAmI);
 				if (proj2.modProjectile is BetrayersChainsProj modProj2)
 				{
-					modProj2.SwingTime = (int)(item.useTime * 1.8f);
+					modProj2.SwingTime = (int)(item.useTime * UseTimeMultiplier(player) * 1.8f);
 					modProj2.SwingDistance = player.Distance(Main.MouseWorld) * distanceMult;
 					modProj2.Curvature = 0.33f * curvatureMult;
 					modProj2.Flip = combo % 2 == 0;
@@ -76,7 +77,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 			return false;
 		}
 
-		public override float UseTimeMultiplier(Player player) => base.UseTimeMultiplier(player) * player.meleeSpeed; //Scale with melee speed buffs, like whips
+		public override float UseTimeMultiplier(Player player) => player.meleeSpeed; //Scale with melee speed buffs, like whips
 	}
 
 	public class BetrayersChainsProj : ModProjectile
