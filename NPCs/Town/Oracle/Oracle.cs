@@ -21,7 +21,6 @@ namespace SpiritMod.NPCs.Town.Oracle
 
 		private float RealAuraRadius => AuraRadius * RealAuraScale;
 		private float RealAuraScale => Math.Min(AttackTimer / 150f, 1f);
-		//public override string[] AltTextures => new string[] { "SpiritMod/NPCs/Town/Adventurer_Alt_1" };
 
 		private float timer = 0;
 		private float movementDir = 0;
@@ -99,7 +98,10 @@ namespace SpiritMod.NPCs.Town.Oracle
 				movementTimer = 100;
 
 				if (Teleport == 195)
-					CombatText.NewText(new Rectangle((int)npc.Center.X, (int)npc.Center.Y - 40, npc.width, 20), Color.LightGoldenrodYellow, "I sense a call...");
+				{
+					string message = Collision.DrownCollision(npc.position, npc.width, npc.height) ? "This water irks me..." : "I sense a call...";
+					CombatText.NewText(new Rectangle((int)npc.Center.X, (int)npc.Center.Y - 40, npc.width, 20), Color.LightGoldenrodYellow, message);
+				}
 
 				if (Teleport == 50)
 				{
@@ -204,6 +206,21 @@ namespace SpiritMod.NPCs.Town.Oracle
 				npc.velocity.Y += 0.36f; //Grounds the NPC
 			if ((npc.Center.Y / 16f) > tileDist - (5 + adjustLevHeight))
 				npc.velocity.Y -= 0.36f; //Raises the NPC
+
+			if (Collision.DrownCollision(npc.position, npc.width, npc.height))
+			{
+				if (npc.breath <= 0 && Teleport < 0)
+				{
+					Vector2 relativePos = npc.Center - new Vector2(Main.rand.Next(-400, 400), Main.rand.Next(-400, 400));
+
+					if (!Collision.SolidCollision(relativePos, npc.width, npc.height))
+					{
+						Teleport = 200;
+						TeleportX = relativePos.X;
+						TeleportY = relativePos.Y;
+					}
+				}
+			}
 		}
 
 		private void ScanForLand()

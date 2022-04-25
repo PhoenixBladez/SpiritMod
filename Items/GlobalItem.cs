@@ -25,96 +25,107 @@ namespace SpiritMod.Items
 		public override bool InstancePerEntity => true;
 		public override bool CloneNewInstances => true;
 
-        public GlyphType Glyph { get; private set; } = 0;
+		public GlyphType Glyph { get; private set; } = 0;
 
 		public override void SetDefaults(Item item)
 		{
-			if (item.type == ItemID.ArmoredCavefish) {
+			if (item.type == ItemID.ArmoredCavefish)
+			{
 				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.useTime = item.useAnimation = 20;
 				item.noMelee = true;
 				item.consumable = true;
 				item.autoReuse = true;
 			}
-			if (item.type == ItemID.Damselfish) {
+			if (item.type == ItemID.Damselfish)
+			{
 				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.useTime = item.useAnimation = 20;
 				item.noMelee = true;
 				item.consumable = true;
 				item.autoReuse = true;
 			}
-			if (item.type == ItemID.CrimsonTigerfish) {
+			if (item.type == ItemID.CrimsonTigerfish)
+			{
 				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.useTime = item.useAnimation = 20;
 				item.noMelee = true;
 				item.consumable = true;
 				item.autoReuse = true;
 			}
-			if (item.type == ItemID.GoldenCarp) {
+			if (item.type == ItemID.GoldenCarp)
+			{
 				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.useTime = item.useAnimation = 20;
 				item.noMelee = true;
 				item.consumable = true;
 				item.autoReuse = true;
 			}
-			if (item.type == ItemID.SpecularFish) {
+			if (item.type == ItemID.SpecularFish)
+			{
 				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.useTime = item.useAnimation = 20;
 				item.noMelee = true;
 				item.consumable = true;
 				item.autoReuse = true;
 			}
-			if (item.type == ItemID.Prismite) {
+			if (item.type == ItemID.Prismite)
+			{
 				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.useTime = item.useAnimation = 20;
 				item.noMelee = true;
 				item.consumable = true;
 				item.autoReuse = true;
 			}
-			if (item.type == ItemID.Ebonkoi) {
+			if (item.type == ItemID.Ebonkoi)
+			{
 				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.useTime = item.useAnimation = 20;
 				item.noMelee = true;
 				item.consumable = true;
 				item.autoReuse = true;
 			}
-			if (item.type == ItemID.NeonTetra) {
+			if (item.type == ItemID.NeonTetra)
+			{
 				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.useTime = item.useAnimation = 20;
 				item.noMelee = true;
 				item.consumable = true;
 				item.autoReuse = true;
 			}
-			if (item.type == ItemID.AtlanticCod) {
+			if (item.type == ItemID.AtlanticCod)
+			{
 				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.useTime = item.useAnimation = 20;
 				item.noMelee = true;
 				item.consumable = true;
 				item.autoReuse = true;
 			}
-			if (item.type == ItemID.FrostMinnow) {
+			if (item.type == ItemID.FrostMinnow)
+			{
 				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.useTime = item.useAnimation = 20;
 				item.noMelee = true;
 				item.consumable = true;
 				item.autoReuse = true;
 			}
-			if (item.type == ItemID.RedSnapper) {
+			if (item.type == ItemID.RedSnapper)
+			{
 				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.useTime = item.useAnimation = 20;
 				item.noMelee = true;
 				item.consumable = true;
 				item.autoReuse = true;
 			}
-            if (item.type == ItemID.VariegatedLardfish)
-            {
-                item.useStyle = ItemUseStyleID.SwingThrow;
-                item.useTime = item.useAnimation = 20;
-                item.noMelee = true;
-                item.consumable = true;
-                item.autoReuse = true;
-            }
-        }
+			if (item.type == ItemID.VariegatedLardfish)
+			{
+				item.useStyle = ItemUseStyleID.SwingThrow;
+				item.useTime = item.useAnimation = 20;
+				item.noMelee = true;
+				item.consumable = true;
+				item.autoReuse = true;
+			}
+		}
 		public void SetGlyph(Item item, GlyphType glyph)
 		{
 			if (this.Glyph == glyph)
@@ -126,7 +137,8 @@ namespace SpiritMod.Items
 
 		public override void UpdateAccessory(Item item, Player player, bool hideVisual)
 		{
-			if (item.type == ItemID.RoyalGel) {
+			if (item.type == ItemID.RoyalGel)
+			{
 				player.npcTypeNoAggro[ModContent.NPCType<LunarSlime>()] = true;
 				player.npcTypeNoAggro[ModContent.NPCType<ReachSlime>()] = true;
 				player.npcTypeNoAggro[ModContent.NPCType<NPCs.GraniteSlime.GraniteSlime>()] = true;
@@ -149,7 +161,8 @@ namespace SpiritMod.Items
 			float size = 0;
 			int tileBoost = 0;
 
-			switch (Glyph) {
+			switch (Glyph)
+			{
 				case GlyphType.Blaze:
 					velocity += 1;
 					damage += 0.03f;
@@ -183,7 +196,8 @@ namespace SpiritMod.Items
 			}
 			item.crit += s * crit;
 			item.tileBoost += s * tileBoost;
-			if (remove) {
+			if (remove)
+			{
 				if (item.knockBack > norm.knockBack - .0001 &&
 					item.knockBack < norm.knockBack + .0001)
 					item.knockBack = norm.knockBack;
@@ -234,7 +248,8 @@ namespace SpiritMod.Items
 			if (context != "goodieBag")
 				return;
 			ItemUtils.DropCandy(player);
-			if (Main.rand.Next(3) == 0) {
+			if (Main.rand.Next(3) == 0)
+			{
 				int[] lootTable = {
 					ModContent.ItemType<MaskSchmo>(),
 					ModContent.ItemType<MaskGraydee>(),
@@ -267,13 +282,15 @@ namespace SpiritMod.Items
 		public override void ModifyWeaponDamage(Item item, Player player, ref float add, ref float mult, ref float flat)
 		{
 			MyPlayer spirit = player.GetModPlayer<MyPlayer>();
-			if (Glyph == GlyphType.Phase) {
+			if (Glyph == GlyphType.Phase)
+			{
 				float boost = 0.005f * spirit.SpeedMPH;
 				if (boost > 0.5f)
 					boost = 0.5f;
 				mult = 1 + 1 * boost;
 			}
-			if (item.summon && spirit.silkenSet) {
+			if (item.summon && spirit.silkenSet)
+			{
 				flat += 1;
 			}
 		}
@@ -292,7 +309,8 @@ namespace SpiritMod.Items
 
 		public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockBack, bool crit)
 		{
-			switch (Glyph) {
+			switch (Glyph)
+			{
 				case GlyphType.Frost:
 					Glyphs.FrostGlyph.CreateIceSpikes(player, target, crit);
 					break;
@@ -320,7 +338,8 @@ namespace SpiritMod.Items
 
 		public override void OnHitPvp(Item item, Player player, Player target, int damage, bool crit)
 		{
-			switch (Glyph) {
+			switch (Glyph)
+			{
 				case GlyphType.Sanguine:
 					Glyphs.SanguineGlyph.BloodCorruption(player, target, damage);
 					break;
@@ -333,8 +352,10 @@ namespace SpiritMod.Items
 		public override void UseStyle(Item item, Player player)
 		{
 			//First frame of useage
-			if (player.itemAnimation == player.itemAnimationMax - 1 && (player.reuseDelay > 0 || player.HeldItem.reuseDelay == 0)) {
-				if (Glyph == GlyphType.Storm) {
+			if (player.itemAnimation == player.itemAnimationMax - 1 && (player.reuseDelay > 0 || player.HeldItem.reuseDelay == 0))
+			{
+				if (Glyph == GlyphType.Storm)
+				{
 					MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
 					Glyphs.StormGlyph.WindBurst(modPlayer, item);
 				}
@@ -344,36 +365,43 @@ namespace SpiritMod.Items
 		public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if (modPlayer.talonSet && (item.ranged || item.magic) && Main.rand.Next(10) == 0) {
+			if (modPlayer.talonSet && (item.ranged || item.magic) && Main.rand.Next(10) == 0)
+			{
 				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY + 2), ProjectileID.HarpyFeather, 10, 2f, player.whoAmI);
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].friendly = true;
 			}
-			if (modPlayer.cultistScarf && item.magic && Main.rand.Next(8) == 0) {
+			if (modPlayer.cultistScarf && item.magic && Main.rand.Next(8) == 0)
+			{
 				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<WildMagic>(), 66, 2f, player.whoAmI);
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].friendly = true;
 			}
-			if (modPlayer.timScroll && item.magic && Main.rand.Next(12) == 0) {
+			if (modPlayer.timScroll && item.magic && Main.rand.Next(12) == 0)
+			{
 				int p = Main.rand.Next(9, 23);
-				if (p != 11 && p != 13 && p != 18 && p != 17 && p != 21) {
+				if (p != 11 && p != 13 && p != 18 && p != 17 && p != 21)
+				{
 					int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, p, damage, knockBack, player.whoAmI, 0f, 0f);
 					Main.projectile[proj].friendly = true;
 					Main.projectile[proj].hostile = false;
 				}
 			}
-			if (modPlayer.crystal && item.ranged && Main.rand.Next(8) == 0) {
+			if (modPlayer.crystal && item.ranged && Main.rand.Next(8) == 0)
+			{
 				int proj = Projectile.NewProjectile(position.X, position.Y, speedX * (float)(Main.rand.Next(100, 165) / 100), speedY * (float)(Main.rand.Next(100, 165) / 100), type, damage, knockBack, player.whoAmI, 0f, 0f);
 				Main.projectile[proj].friendly = true;
 				Main.projectile[proj].hostile = false;
 			}
 
-			if (modPlayer.fireMaw && item.magic && Main.rand.Next(4) == 0) {
+			if (modPlayer.fireMaw && item.magic && Main.rand.Next(4) == 0)
+			{
 				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<FireMaw>(), 30, 2f, player.whoAmI);
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].friendly = true;
 			}
-			if (modPlayer.manaWings && item.magic && Main.rand.Next(7) == 0) {
+			if (modPlayer.manaWings && item.magic && Main.rand.Next(7) == 0)
+			{
 				float d1 = 20 + ((player.statManaMax2 - player.statMana) / 3);
 				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<ManaSpark>(), (int)d1, 2f, player.whoAmI);
 				Main.projectile[proj].hostile = false;
@@ -382,9 +410,10 @@ namespace SpiritMod.Items
 
 			return true;
 		}
+
 		public override void GrabRange(Item item, Player player, ref int grabRange)
 		{
-			int[] metalItems = new int[] { ItemID.IronOre, ItemID.CopperOre, ItemID.SilverOre, ItemID.GoldOre, ItemID.TinOre, ItemID.LeadOre, ItemID.TungstenOre, ItemID.PlatinumOre, ItemID.Meteorite, ItemID.LunarOre, ItemID.ChlorophyteOre, 
+			int[] metalItems = new int[] { ItemID.IronOre, ItemID.CopperOre, ItemID.SilverOre, ItemID.GoldOre, ItemID.TinOre, ItemID.LeadOre, ItemID.TungstenOre, ItemID.PlatinumOre, ItemID.Meteorite, ItemID.LunarOre, ItemID.ChlorophyteOre,
 				ItemID.DemoniteOre, ItemID.CrimtaneOre, ItemID.Obsidian, ItemID.Hellstone, ItemID.CobaltOre, ItemID.PalladiumOre, ItemID.MythrilOre, ItemID.OrichalcumOre, ItemID.AdamantiteOre, ItemID.TitaniumOre };
 
 			if (player.GetModPlayer<MyPlayer>().MetalBand)
@@ -399,11 +428,14 @@ namespace SpiritMod.Items
 		public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
 		{
 			bool insertStats = false;
-			if (Glyph != GlyphType.None) {
+
+			if (Glyph != GlyphType.None)
+			{
 				insertStats = true;
 
 				var lookup = Glyphs.GlyphBase.FromType(Glyph);
-				if (lookup.Effect != null && lookup.Addendum != null) {
+				if (lookup.Effect != null && lookup.Addendum != null)
+				{
 					TooltipLine tip = new TooltipLine(mod, "Glyph", lookup.Effect)
 					{
 						overrideColor = lookup.Color
@@ -421,7 +453,8 @@ namespace SpiritMod.Items
 		private void InsertStatInfo(Item item, List<TooltipLine> tooltips)
 		{
 			int index = 0;
-			for (int i = tooltips.Count - 1; i >= 0; i--) {
+			for (int i = tooltips.Count - 1; i >= 0; i--)
+			{
 				TooltipLine curr = tooltips[i];
 				if (curr.mod != "Terraria")
 					continue;
@@ -439,9 +472,10 @@ namespace SpiritMod.Items
 			string line;
 			TooltipLine tip;
 
-			if (compare.damage != item.damage) {
-				double damage = (double)((float)item.damage - (float)compare.damage);
-				damage = damage / (double)((float)compare.damage) * 100.0;
+			if (compare.damage != item.damage)
+			{
+				double damage = (item.damage - compare.damage);
+				damage = damage / ((float)compare.damage) * 100.0;
 				damage = Math.Round(damage);
 				if (damage > 0.0)
 					line = "+" + damage + Language.GetTextValue("LegacyTooltip.39");
@@ -456,9 +490,10 @@ namespace SpiritMod.Items
 				tooltips.Insert(index++, tip);
 			}
 
-			if (compare.useAnimation != item.useAnimation) {
-				double speed = (double)((float)item.useAnimation - (float)compare.useAnimation);
-				speed = speed / (double)((float)compare.useAnimation) * 100.0;
+			if (compare.useAnimation != item.useAnimation)
+			{
+				double speed = (item.useAnimation - compare.useAnimation);
+				speed = speed / ((float)compare.useAnimation) * 100.0;
 				speed = Math.Round(speed);
 				speed *= -1.0;
 				if (speed > 0.0)
@@ -474,8 +509,9 @@ namespace SpiritMod.Items
 				tooltips.Insert(index++, tip);
 			}
 
-			if (compare.crit != item.crit) {
-				double crit = (double)((float)item.crit - (float)compare.crit);
+			if (compare.crit != item.crit)
+			{
+				double crit = (item.crit - compare.crit);
 				if (crit > 0.0)
 					line = "+" + crit + Language.GetTextValue("LegacyTooltip.41");
 				else
@@ -489,9 +525,10 @@ namespace SpiritMod.Items
 				tooltips.Insert(index++, tip);
 			}
 
-			if (compare.mana != item.mana) {
-				double mana = (double)((float)item.mana - (float)compare.mana);
-				mana = mana / (double)((float)compare.mana) * 100.0;
+			if (compare.mana != item.mana)
+			{
+				double mana = (item.mana - compare.mana);
+				mana = mana / ((float)compare.mana) * 100.0;
 				mana = Math.Round(mana);
 				if (mana > 0.0)
 					line = "+" + mana + Language.GetTextValue("LegacyTooltip.42");
@@ -506,9 +543,10 @@ namespace SpiritMod.Items
 				tooltips.Insert(index++, tip);
 			}
 
-			if (compare.scale != item.scale) {
-				double scale = (double)(item.scale - compare.scale);
-				scale = scale / (double)compare.scale * 100.0;
+			if (compare.scale != item.scale)
+			{
+				double scale = (item.scale - compare.scale);
+				scale = scale / compare.scale * 100.0;
 				scale = Math.Round(scale);
 				if (scale > 0.0)
 					line = "+" + scale + Language.GetTextValue("LegacyTooltip.43");
@@ -523,9 +561,10 @@ namespace SpiritMod.Items
 				tooltips.Insert(index++, tip);
 			}
 
-			if (compare.shootSpeed != item.shootSpeed) {
-				double velocity = (double)(item.shootSpeed - compare.shootSpeed);
-				velocity = velocity / (double)compare.shootSpeed * 100.0;
+			if (compare.shootSpeed != item.shootSpeed)
+			{
+				double velocity = item.shootSpeed - compare.shootSpeed;
+				velocity = velocity / compare.shootSpeed * 100.0;
 				velocity = Math.Round(velocity);
 				if (velocity > 0.0)
 					line = "+" + velocity + Language.GetTextValue("LegacyTooltip.44");
@@ -540,9 +579,10 @@ namespace SpiritMod.Items
 				tooltips.Insert(index++, tip);
 			}
 
-			if (compare.knockBack != item.knockBack) {
-				double knockback = (double)(item.knockBack - compare.knockBack);
-				knockback = knockback / (double)compare.knockBack * 100.0;
+			if (compare.knockBack != item.knockBack)
+			{
+				double knockback = (item.knockBack - compare.knockBack);
+				knockback = knockback / compare.knockBack * 100.0;
 				knockback = Math.Round(knockback);
 				if (knockback > 0.0)
 					line = "+" + knockback + Language.GetTextValue("LegacyTooltip.45");
@@ -557,59 +597,42 @@ namespace SpiritMod.Items
 				tooltips.Insert(index++, tip);
 			}
 		}
+
 		public override bool UseItem(Item item, Player player)
 		{
-			if (item.type == ItemID.AtlanticCod) {
-				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<AtlanticCod>());
+			int spawnType = -1;
+
+			if (item.type == ItemID.AtlanticCod)
+				spawnType = ModContent.NPCType<AtlanticCod>();
+			else if (item.type == ItemID.NeonTetra)
+				spawnType = ModContent.NPCType<NeonTetra>();
+			else if (item.type == ItemID.ArmoredCavefish)
+				spawnType = ModContent.NPCType<Cavefish>();
+			else if (item.type == ItemID.Damselfish)
+				spawnType = ModContent.NPCType<Damselfish>();
+			else if (item.type == ItemID.CrimsonTigerfish)
+				spawnType = ModContent.NPCType<CrismonTigerfish>();
+			else if (item.type == ItemID.GoldenCarp)
+				spawnType = ModContent.NPCType<GoldenCarp>();
+			else if (item.type == ItemID.SpecularFish)
+				spawnType = ModContent.NPCType<SpecularFish>();
+			else if (item.type == ItemID.Ebonkoi)
+				spawnType = ModContent.NPCType<Ebonkoi>();
+			else if (item.type == ItemID.Prismite)
+				spawnType = ModContent.NPCType<Prismite>();
+			else if (item.type == ItemID.FrostMinnow)
+				spawnType = ModContent.NPCType<FrostMinnow>();
+			else if (item.type == ItemID.RedSnapper)
+				spawnType = ModContent.NPCType<RedSnapper>();
+			else if (item.type == ItemID.VariegatedLardfish)
+				spawnType = ModContent.NPCType<Lardfish>();
+
+			if (spawnType != -1)
+			{
+				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, spawnType);
 				return true;
 			}
-			if (item.type == ItemID.NeonTetra) {
-				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<NeonTetra>());
-				return true;
-			}
-			if (item.type == ItemID.ArmoredCavefish) {
-				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Cavefish>());
-				return true;
-			}
-			if (item.type == ItemID.Damselfish) {
-				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Damselfish>());
-				return true;
-			}
-			if (item.type == ItemID.CrimsonTigerfish) {
-				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<CrismonTigerfish>());
-				return true;
-			}
-			if (item.type == ItemID.GoldenCarp) {
-				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<GoldenCarp>());
-				return true;
-			}
-			if (item.type == ItemID.SpecularFish) {
-				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<SpecularFish>());
-				return true;
-			}
-			if (item.type == ItemID.Ebonkoi) {
-				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Ebonkoi>());
-				return true;
-			}
-			if (item.type == ItemID.Prismite) {
-				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Prismite>());
-				return true;
-			}
-			if (item.type == ItemID.FrostMinnow) {
-				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<FrostMinnow>());
-				return true;
-			}
-			if (item.type == ItemID.RedSnapper) {
-				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<RedSnapper>());
-				return true;
-			}
-			if (item.type == ItemID.VariegatedLardfish) {
-				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Lardfish>());
-				return true;
-			}
-			else {
-				return false;
-			}
+			return false;
 		}
 
 		private static readonly Vector2 SlotDimensions = new Vector2(52, 52);
@@ -619,7 +642,8 @@ namespace SpiritMod.Items
 				return;
 
 			float slotScale = 1f;
-			if (frame.Width > 32 || frame.Height > 32) {
+			if (frame.Width > 32 || frame.Height > 32)
+			{
 				if (frame.Width > frame.Height)
 					slotScale = 32f / frame.Width;
 				else
@@ -630,7 +654,8 @@ namespace SpiritMod.Items
 			slotOrigin -= SlotDimensions * (.5f * Main.inventoryScale);
 
 			Texture2D texture = Glyphs.GlyphBase.FromType(Glyph).Overlay;
-			if (texture != null) {
+			if (texture != null)
+			{
 				Vector2 offset = SlotDimensions;
 				offset -= texture.Size();
 				offset -= new Vector2(4f);
@@ -644,7 +669,8 @@ namespace SpiritMod.Items
 		{
 			Color glowColor = new Color(250, 250, 250, item.alpha);
 			IGlowing glow = item.modItem as IGlowing;
-			if (glow != null) {
+			if (glow != null)
+			{
 				Texture2D texture = glow.Glowmask(out float bias);
 				Color alpha = Color.Lerp(alphaColor, glowColor, bias);
 				Vector2 origin = new Vector2(texture.Width >> 1, texture.Height >> 1);
@@ -654,9 +680,11 @@ namespace SpiritMod.Items
 				spriteBatch.Draw(texture, position, null, alpha, rotation, origin, scale, SpriteEffects.None, 0f);
 			}
 
-			if (Glyph != GlyphType.None) {
+			if (Glyph != GlyphType.None)
+			{
 				Texture2D texture = Glyphs.GlyphBase.FromType(Glyph).Overlay;
-				if (texture != null) {
+				if (texture != null)
+				{
 					Vector2 position = item.position - Main.screenPosition;
 					position.X += (item.width >> 1);
 					position.Y += 2 + item.height - (Main.itemTexture[item.type].Height >> 1);
@@ -680,13 +708,14 @@ namespace SpiritMod.Items
 		{
 			for (int i = 0; i < p.inventory.Length; ++i) //Consume ammo here so it's used when shot rather than when clicked
 			{
-				if (p.inventory[i].ammo == ammoType && p.inventory[i].stack > 0)
+				Item item = p.inventory[i];
+				if (!item.IsAir && item.ammo == ammoType)
 				{
-					if (p.inventory[i].consumable && VanillaAmmoConsumption(p, p.inventory[i].ammo) && PlayerHooks.ConsumeAmmo(p, p.HeldItem, p.inventory[i])) //Do not consume ammo if possible
+					if (item.consumable && VanillaAmmoConsumption(p, item.ammo) && PlayerHooks.ConsumeAmmo(p, p.HeldItem, item)) //Do not consume ammo if possible
 					{
-						p.inventory[i].stack--;
-						if (p.inventory[i].stack <= 0)
-							p.inventory[i].TurnToAir();
+						item.stack--;
+						if (item.stack <= 0)
+							item.TurnToAir();
 					}
 					return true;
 				}

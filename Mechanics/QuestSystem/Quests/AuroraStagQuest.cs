@@ -25,8 +25,9 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ItemID.HandWarmer, 1),
 			(ItemID.ChristmasTree, 1),
 			(ItemID.PineTreeBlock, 120),
-			(Terraria.ID.ItemID.GoldCoin, 3)
+			(ItemID.GoldCoin, 3)
 		};
+
         public override void OnActivate()
 		{
 			QuestGlobalNPC.OnEditSpawnPool += QuestGlobalNPC_OnEditSpawnPool;
@@ -38,13 +39,13 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			QuestGlobalNPC.OnEditSpawnPool -= QuestGlobalNPC_OnEditSpawnPool;
 			base.OnDeactivate();
 		}
+
 		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
 		{
 			if (pool[ModContent.NPCType<NPCs.AuroraStag.AuroraStag>()] > 0f && !NPC.AnyNPCs(ModContent.NPCType<NPCs.AuroraStag.AuroraStag>()))
-			{
 				pool[ModContent.NPCType<NPCs.AuroraStag.AuroraStag>()] = .05f;
-			}
 		}
+
 		private AuroraStagQuest()
         {
 			_tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Consumable.Food.IceBerries>(), 1, "Retrieve"))

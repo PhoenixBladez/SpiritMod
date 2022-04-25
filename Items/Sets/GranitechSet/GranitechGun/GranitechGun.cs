@@ -47,5 +47,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();
 		}
+
+		public override bool ConsumeAmmo(Player player) => false; //Dont consume ammo by myself
 	}
 }
