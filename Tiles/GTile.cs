@@ -8,11 +8,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Tiles.Ambient;
 using SpiritMod.Mechanics.Fathomless_Chest;
-using SpiritMod.Tiles.Ambient.Kelp;
 using Microsoft.Xna.Framework;
 using SpiritMod.Tiles.Ambient.IceSculpture.Hostile;
 using SpiritMod.Tiles.Ambient.IceSculpture;
-using SpiritMod.Tiles.Ambient.Ocean;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Tiles
 {
@@ -187,6 +186,95 @@ namespace SpiritMod.Tiles
 					Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<IceBerries>(), Main.rand.Next(1, 3));
 			}
 			return true;
+		}
+
+		/// <summary>
+		/// Code from Vortex, thanks for slogging through vanilla to get this!
+		/// </summary>
+		public static void DrawSlopedGlowMask(int i, int j, Texture2D texture, Color drawColor, Vector2 positionOffset, bool overrideFrame = false)
+		{
+			Tile tile = Main.tile[i, j];
+			int frameX = tile.frameX;
+			int frameY = tile.frameY;
+
+			if (overrideFrame)
+			{
+				frameX = 0;
+				frameY = 0;
+			}
+
+			int width = 16;
+			int height = 16;
+			Vector2 location = new Vector2(i * 16, j * 16);
+			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
+			Vector2 offsets = -Main.screenPosition + zero + positionOffset;
+			Vector2 drawCoordinates = location + offsets;
+
+			if ((tile.slope() == 0 && !tile.halfBrick()) || (Main.tileSolid[tile.type] && Main.tileSolidTop[tile.type])) //second one should be for platforms
+				Main.spriteBatch.Draw(texture, drawCoordinates, new Rectangle(frameX, frameY, width, height), drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			else if (tile.halfBrick())
+				Main.spriteBatch.Draw(texture, new Vector2(drawCoordinates.X, drawCoordinates.Y + 8), new Rectangle(frameX, frameY, width, 8), drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			else
+			{
+				byte b = tile.slope();
+				Rectangle frame;
+				Vector2 drawPos;
+
+				if (b == 1 || b == 2)
+				{
+					int length;
+					int height2;
+
+					for (int a = 0; a < 8; ++a)
+					{
+						if (b == 2)
+						{
+							length = 16 - a * 2 - 2;
+							height2 = 14 - a * 2;
+						}
+						else
+						{
+							length = a * 2;
+							height2 = 14 - length;
+						}
+
+						frame = new Rectangle(frameX + length, frameY, 2, height2);
+						drawPos = new Vector2(i * 16 + length, j * 16 + a * 2) + offsets;
+						Main.spriteBatch.Draw(texture, drawPos, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+					}
+
+					frame = new Rectangle(frameX, frameY + 14, 16, 2);
+					drawPos = new Vector2(i * 16, j * 16 + 14) + offsets;
+					Main.spriteBatch.Draw(texture, drawPos, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+				}
+				else
+				{
+					int length;
+					int height2;
+
+					for (int a = 0; a < 8; ++a)
+					{
+						if (b == 3)
+						{
+							length = a * 2;
+							height2 = 16 - length;
+						}
+						else
+						{
+							length = 16 - a * 2 - 2;
+							height2 = 16 - a * 2;
+						}
+
+						frame = new Rectangle(frameX + length, frameY + 16 - height2, 2, height2);
+						drawPos = new Vector2(i * 16 + length, j * 16) + offsets;
+						Main.spriteBatch.Draw(texture, drawPos, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+					}
+
+					drawPos = new Vector2(i * 16, j * 16) + offsets;
+					frame = new Rectangle(frameX, frameY, 16, 2);
+					Main.spriteBatch.Draw(texture, drawPos, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+				}
+			}
 		}
 	}
 }

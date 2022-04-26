@@ -40,7 +40,6 @@ namespace SpiritMod.Mechanics.QuestSystem
 				AddQuestQueue(NPCID.Mechanic, QuestManager.GetQuest<GranitechQuest>());
 				AddQuestQueue(ModContent.NPCType<NPCs.Town.Adventurer>(), QuestManager.GetQuest<AuroraStagQuest>());
 
-
 				if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
 					AddQuestQueue(NPCID.Dryad, QuestManager.GetQuest<CritterCaptureSoulOrb>());
 			}
@@ -230,7 +229,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 			if (!NPCQuestQueue.ContainsKey(npcID))
 				NPCQuestQueue.Add(npcID, new Queue<Quest>());
 
-			NPCQuestQueue[npcID].Enqueue(quest);
+			if (!NPCQuestQueue[npcID].Contains(quest) && !QuestManager.GetQuest(quest).IsUnlocked)
+				NPCQuestQueue[npcID].Enqueue(quest);
 		}
 	}
 }

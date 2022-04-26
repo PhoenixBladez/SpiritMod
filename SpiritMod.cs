@@ -645,6 +645,7 @@ namespace SpiritMod
 				_lastViewSize = Main.ViewSize;
 				_lastViewPort = Main.graphics.GraphicsDevice.Viewport;
 			}
+
 			QuestManager.Load();
 			BoonLoader.Load();
 			SpiritMultiplayer.Load();

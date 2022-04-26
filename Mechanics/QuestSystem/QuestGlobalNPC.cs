@@ -80,12 +80,12 @@ namespace SpiritMod.Mechanics.QuestSystem
 			if (type == NPCID.Merchant)
 			{
 				if (QuestManager.GetQuest<AnglerStatueQuest>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<Items.Placeable.Furniture.GiantAnglerStatue>(), false);
+					shop.item[nextSlot++].SetDefaults(ItemType<GiantAnglerStatue>(), false);
 			}
 			if (type == NPCID.Demolitionist)
             {
 				if (QuestManager.GetQuest<RescueQuestStylist>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<Items.Accessory.LongFuse>(), false);
+					shop.item[nextSlot++].SetDefaults(ItemType<LongFuse>(), false);
 			}
 			if (type == NPCType<Adventurer>())
 			{

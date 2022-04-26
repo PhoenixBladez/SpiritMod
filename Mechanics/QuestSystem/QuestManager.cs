@@ -227,8 +227,16 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public static Quest GetQuest<T>()
         {
-			if (_questDict.TryGetValue(typeof(T), out Quest q)) return q;
+			if (_questDict.TryGetValue(typeof(T), out Quest q))
+				return q;
             return null;
+		}
+
+		public static Quest GetQuest(Quest q)
+		{
+			if (_questDict.TryGetValue(q.GetType(), out Quest quest))
+				return quest;
+			return null;
 		}
 
 		public static void UnlockQuest<T>(bool showInChat = true)

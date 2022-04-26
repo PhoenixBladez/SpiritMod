@@ -6,11 +6,7 @@ namespace SpiritMod.Items.Placeable.Tiles
 {
 	public class NeonBlockRedItem : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Red Fluorescent Block");
-		}
-
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Red Fluorescent Block");
 
 		public override void SetDefaults()
 		{
@@ -29,6 +25,7 @@ namespace SpiritMod.Items.Placeable.Tiles
 
 			item.createTile = ModContent.TileType<NeonBlockRed>();
 		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

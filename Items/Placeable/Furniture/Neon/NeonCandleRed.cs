@@ -7,10 +7,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Neon
 {
 	public class NeonCandleRed : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Red Fluorescent Candle");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Red Fluorescent Candle");
 
 		public override void SetDefaults()
 		{
@@ -31,11 +28,12 @@ namespace SpiritMod.Items.Placeable.Furniture.Neon
 
 			item.createTile = ModContent.TileType<RedNeonCandle>();
 		}
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Placeable.Tiles.TechBlockItem>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<Items.Material.SynthMaterial>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<Tiles.TechBlockItem>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<SynthMaterial>(), 1);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 3);
             recipe.AddRecipe();
