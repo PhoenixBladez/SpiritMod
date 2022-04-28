@@ -5,7 +5,6 @@ using SpiritMod.Items.Pins;
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Town;
 using SpiritMod.NPCs.Tides.Tide;
-using SpiritMod.Projectiles;
 using SpiritMod.Skies;
 using SpiritMod.Skies.Overlays;
 using SpiritMod.Utilities;
@@ -42,9 +41,7 @@ using SpiritMod.UI.QuestUI;
 using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Mechanics.BoonSystem;
 using System.Collections.Concurrent;
-using Terraria.DataStructures;
 using SpiritMod.Effects.Stargoop;
-using SpiritMod.NPCs.ExplosiveBarrel;
 using SpiritMod.Mechanics.PortraitSystem;
 using SpiritMod.Mechanics.Boids;
 using SpiritMod.Mechanics.AutoSell;
@@ -53,14 +50,12 @@ using System.Linq;
 using SpiritMod.Items.Weapon.Magic.Rhythm;
 using SpiritMod.Items.Weapon.Magic.Rhythm.Anthem;
 using SpiritMod.Mechanics.EventSystem;
-using static Terraria.ModLoader.Core.TmodFile;
 using SpiritMod.Skies.Starjinx;
 using SpiritMod.NPCs.StarjinxEvent;
 using SpiritMod.Mechanics.Trails;
-using SpiritMod.Items.Sets.FloatingItems;
-using SpiritMod.Effects.SurfaceWaterModifications;
 using SpiritMod.Items.Sets.OlympiumSet;
 using SpiritMod.Mechanics.Coverings;
+using static Terraria.ModLoader.Core.TmodFile;
 
 namespace SpiritMod
 {

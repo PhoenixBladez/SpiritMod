@@ -55,10 +55,10 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			{
 				p.itemTime = p.HeldItem.useTime;
 				p.itemAnimation = p.HeldItem.useAnimation;
-				projectile.Center = p.Center - (Vector2.Normalize(p.MountedCenter - Main.MouseWorld) * 27) + new Vector2(21, 12 + p.gfxOffY);
+				projectile.Center = p.Center - (Vector2.Normalize(p.MountedCenter - Main.MouseWorld) * 27) + new Vector2(21, 18 + p.gfxOffY);
 			}
 			else
-				projectile.Center = p.Center - (new Vector2(1, 0).RotatedBy(_finalRotation) * 27) + new Vector2(21, 12 + p.gfxOffY);
+				projectile.Center = p.Center - (new Vector2(1, 0).RotatedBy(_finalRotation) * 27) + new Vector2(21, 18 + p.gfxOffY);
 
 			if (!p.channel && _endCharge == -1) //the player has stopped shooting
 			{
@@ -81,7 +81,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			{
 				var baseVel = player.DirectionTo(Main.MouseWorld).RotatedByRandom(0.02f) * player.HeldItem.shootSpeed;
 
-				Vector2 pos = player.Center - new Vector2(0, 8);
+				Vector2 pos = player.Center;
 				Vector2 muzzleOffset = Vector2.Normalize(baseVel) * (player.HeldItem.width / 2f);
 				if (Collision.CanHit(pos, 0, 0, pos + muzzleOffset, 0, 0))
 					pos += muzzleOffset;

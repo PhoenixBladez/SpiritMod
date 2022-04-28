@@ -308,7 +308,7 @@ namespace SpiritMod.NPCs.GraniTech
 			for (int i = 1; i <= 2; i++)
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot($"Gores/GraniTech/GraniteSentryGore{i}"), 1f);
 
-			npc.DropItem(ModContent.ItemType<GranitechMaterial>(), Main.rand.Next(4, 7));
+			npc.DropItem(ModContent.ItemType<GranitechMaterial>(), Main.rand.Next(1, 4));
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -316,7 +316,7 @@ namespace SpiritMod.NPCs.GraniTech
 			int x = spawnInfo.spawnTileX;
 			int y = spawnInfo.spawnTileY;
 			int tile = Main.tile[x, y].type;
-			return (tile == TileID.Granite) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 200f : 0f;
+			return (tile == TileID.Granite) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.1f : 0f;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

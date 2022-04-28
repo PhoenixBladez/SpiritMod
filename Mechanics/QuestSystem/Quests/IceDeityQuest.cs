@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Armor.HunterArmor.SnowRangerBody>(), 1),
 			(ModContent.ItemType<Items.Armor.HunterArmor.SnowRangerLegs>(), 1),
 			(ModContent.ItemType<Items.Placeable.IceSculpture.WinterbornSculpture>(), 3),
-			(Terraria.ID.ItemID.GoldCoin, 3)
+			(ItemID.GoldCoin, 3)
 		};
 		public override void OnActivate()
 		{

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -42,8 +37,9 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
 		{
-			if (pool[ModContent.NPCType<NPCs.AuroraStag.AuroraStag>()] > 0f && !NPC.AnyNPCs(ModContent.NPCType<NPCs.AuroraStag.AuroraStag>()))
-				pool[ModContent.NPCType<NPCs.AuroraStag.AuroraStag>()] = .05f;
+			int stagID = ModContent.NPCType<NPCs.AuroraStag.AuroraStag>();
+			if (pool.ContainsKey(stagID) && pool[stagID] > 0f && !NPC.AnyNPCs(stagID))
+				pool[stagID] = .05f;
 		}
 
 		private AuroraStagQuest()

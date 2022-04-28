@@ -304,16 +304,6 @@ namespace SpiritMod.NPCs.AuroraStag
 
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit) => Scared = true;
 
-		/*public void AdditiveCall(SpriteBatch spriteBatch)
-		{
-			Texture2D orbTexture = mod.GetTexture("NPCs/AuroraStag/AuroraOrbParticle");
-			Vector2 orbOrigin = new Vector2(orbTexture.Width / 2, orbTexture.Height / 2);
-			float opacity = 0.5f * (TameAnimationLength - TameAnimationTimer) / TameAnimationLength;
-			float scale = ((float)(Math.Sin(TameAnimationTimer / 30) / 4) + 1f) * ((TameAnimationTimer - TameAnimationLength) / TameAnimationLength);
-			if (TameAnimationTimer > 0)
-				spriteBatch.Draw(orbTexture, npc.Center - Main.screenPosition, null, new Color(184, 244, 255) * opacity, 0f, orbOrigin, scale, SpriteEffects.None, 0f);
-		}*/
-
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			Texture2D stagTexture = Main.npcTexture[npc.type];

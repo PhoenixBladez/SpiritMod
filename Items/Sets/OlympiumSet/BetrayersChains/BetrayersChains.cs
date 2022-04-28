@@ -85,6 +85,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blades of Chaos");
+
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
@@ -312,6 +313,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 			}
 			return base.Colliding(projHitbox, targetHitbox);
 		}
+
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			if (Slam)

@@ -29,7 +29,9 @@ namespace SpiritMod.UI.QuestUI
 		{
 			QuestManager.OnQuestActivate += AddQuest;
 			QuestManager.OnQuestDeactivate += RemoveQuest;
+
 			_questDisplays = new List<QuestDisplay>();
+			_isActive = true;
 		}
 
 		public void Toggle() => _isActive = !_isActive;
@@ -49,7 +51,7 @@ namespace SpiritMod.UI.QuestUI
 		{
 			if (!_isActive) return;
 
-			float y = 350f;
+			float y = 365f + (Main.playerInventory ? 0 : GetInfoOffset());
 
 			// update all the quest displays, drawing them if need be.
 			for (int i = 0; i < _questDisplays.Count; i++)
@@ -62,6 +64,20 @@ namespace SpiritMod.UI.QuestUI
 
 				_questDisplays[i].Draw(spriteBatch, ref y);
 			}
+		}
+
+		//Offset for info accessories
+		private int GetInfoOffset()
+		{
+			Player p = Main.LocalPlayer;
+			bool[] accs = new bool[] {  p.accCalendar, p.accCritterGuide, p.accFishFinder, p.accWatch > 0, p.accOreFinder, p.accThirdEye, p.accJarOfSouls, p.accDreamCatcher, p.accStopwatch, p.accDepthMeter > 0, p.accCompass > 0 };
+
+			int offset = 0;
+			foreach (bool item in accs)
+				if (item)
+					offset += 24;
+
+			return offset;
 		}
 
 		private class QuestDisplay
@@ -110,7 +126,7 @@ namespace SpiritMod.UI.QuestUI
 				string text = QuestUtils.WrapText(Main.fontMouseText, allSnippets, _prevText, 260f, 0.8f);
 				string[] lines = text.Split('\n');
 
-				float x = Main.screenWidth - (Main.playerInventory ? 450 : 298);
+				float x = Main.screenWidth - (Main.playerInventory ? 450 : 280);
 
 				float lineHeight = Main.fontMouseText.MeasureString(" ").Y * 0.8f - 1f;
 

@@ -5,43 +5,25 @@ using Terraria.Enums;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.GameContent.UI.Elements;
-using Terraria.ModLoader.UI;
-using Terraria.UI;
-using Terraria.GameContent.UI;
 
 namespace SpiritMod.Tiles.Furniture.SlotMachine
 {
 	public class SlotMachine : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Slot Machine");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Slot Machine");
 
 		public override void SetDefaults()
 		{
 			item.width = 36;
 			item.height = 34;
 			item.value = 150;
-
 			item.maxStack = 99;
-
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 10;
 			item.useAnimation = 15;
-
 			item.useTurn = true;
 			item.autoReuse = true;
 			item.consumable = true;
-
 			item.createTile = ModContent.TileType<SlotMachineTile>();
 		}
 	}
@@ -53,7 +35,7 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
-			animationFrameHeight = 54;
+
 			TileObjectData.newTile.UsesCustomCanPlace = true;
 			TileObjectData.newTile.Width = 3;
 			TileObjectData.newTile.Height = 3;
@@ -70,10 +52,13 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 			TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
 			TileObjectData.addAlternate(1);
 			TileObjectData.addTile(Type);
-			dustType = -1;
+
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Slot Machine");
-			AddMapEntry(new Microsoft.Xna.Framework.Color(200, 200, 200), name);
+			AddMapEntry(new Color(200, 200, 200), name);
+
+			dustType = -1;
+			animationFrameHeight = 54;
 		}
 
 		public override void AnimateTile(ref int frame, ref int frameCounter)
@@ -89,17 +74,19 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 
 		public override bool NewRightClick(int i, int j)
 		{
-			float minLength = 9999;
+			float minLength = float.MaxValue;
 			Player nearestPlayer = Main.player[Main.myPlayer];
+
 			foreach (Player player in Main.player)
 			{
 				Vector2 dist = player.Center - new Vector2(i * 16, j * 16);
-				if (dist.Length() < minLength)
+				if (dist.LengthSquared() < minLength)
 				{
 					nearestPlayer = player;
-					minLength = dist.Length();
+					minLength = dist.LengthSquared();
 				}
 			}
+
 			if (Main.player[Main.myPlayer] == nearestPlayer)
 			{
 				if (ModContent.GetInstance<SpiritMod>().SlotUserInterface.CurrentState is UISlotState currentSlotState && currentSlotState != null)
@@ -110,6 +97,7 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 					ModContent.GetInstance<SpiritMod>().SlotUserInterface.SetState(new UISlotState(i, j, nearestPlayer));
 				}
 			}
+
 			return true;
 		}
 
