@@ -6,8 +6,6 @@ using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using System;
-using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod.Tiles.Ambient.Ocean
 {
@@ -33,7 +31,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 		public override bool UseItem(Player player)
 		{
 			item.placeStyle = Main.rand.Next(2);
-			return base.UseItem(player);
+			return false;
 		}
 
 		public override void AddRecipes()
@@ -62,7 +60,6 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			TileObjectData.newTile.Origin = new Point16(0, 0);
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 18 };
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, TileObjectData.newTile.Width, 0);
-			//TileObjectData.newTile.AnchorValidTiles = new int[] { TileID.Sand, TileID.Crimsand, TileID.Ebonsand };
 			TileObjectData.newTile.RandomStyleRange = 1;
 			TileObjectData.addTile(Type);
 
@@ -73,6 +70,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			name.SetDefault("Hydrothermal Vent");
 			AddMapEntry(new Color(64, 54, 66), name);
 		}
+
 		public override bool NewRightClick(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
@@ -80,21 +78,21 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 				HitWire(i, j);
 			return true;
 		}
+
 		public sealed override void HitWire(int i, int j)
 		{
 			if (Wiring.CheckMech(i, j, 7200))
 			{
 				for (int k = 0; k <= 20; k++)
-				{
-					Dust.NewDustPerfect(new Vector2(i * 16 + 12, j * 16 - 36), DustType<Dusts.BoneDust>(), new Vector2(0, 6).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1));
-				}
+					Dust.NewDustPerfect(new Vector2(i * 16 + 12, j * 16 - 36), ModContent.DustType<Dusts.BoneDust>(), new Vector2(0, 6).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1));
+
 				for (int k = 0; k <= 20; k++)
-				{
-					Dust.NewDustPerfect(new Vector2(i * 16 + 12, j * 16 - 36), DustType<Dusts.FireClubDust>(), new Vector2(0, 6).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1));
-				}
-				int a = Projectile.NewProjectile(i * 16 + 12, j * 16 - 36, 0, -7, ModContent.ProjectileType<Projectiles.HydrothermalVentPlume>(), 5, 0f);
+					Dust.NewDustPerfect(new Vector2(i * 16 + 12, j * 16 - 36), ModContent.DustType<Dusts.FireClubDust>(), new Vector2(0, 6).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1));
+
+				Projectile.NewProjectile(i * 16 + 12, j * 16 - 36, 0, -7, ModContent.ProjectileType<Projectiles.HydrothermalVentPlume>(), 5, 0f);
 			}
 		}
+
 		public sealed override void MouseOver(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
@@ -102,6 +100,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			player.showItemIcon = true;
 			player.showItemIcon2 = ModContent.ItemType<LargeVentItem>();
 		}
+
 		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 		public override void SetSpriteEffects(int i, int j, ref SpriteEffects spriteEffects) => spriteEffects = (i % 2 == 0) ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
@@ -124,12 +123,13 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 						if (NPC.MechSpawn((float)i * 16, (float)j * 16, ModContent.NPCType<NPCs.Critters.TinyCrab>()))
 							npcIndex = NPC.NewNPC(i * 16, j * 16, ModContent.NPCType<NPCs.Critters.TinyCrab>());
 					}
+
 					if (npcIndex >= 0)
 					{
 						Main.npc[npcIndex].value = 0f;
 						Main.npc[npcIndex].npcSlots = 0f;
-
 					}
+
 					int npcIndex1 = -1;
 					if (!Framing.GetTileSafely(i + 1, j).active() && !Framing.GetTileSafely(i - 1, j).active() && !Framing.GetTileSafely(i + 2, j).active() && !Framing.GetTileSafely(i - 2, j).active())
 					{
@@ -139,12 +139,14 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 								npcIndex1 = NPC.NewNPC(i * 16, j * 16, ModContent.NPCType<NPCs.Critters.Crinoid>());
 						}
 					}
+
 					if (npcIndex1 >= 0)
 					{
 						Main.npc[npcIndex1].value = 0f;
 						Main.npc[npcIndex1].npcSlots = 0f;
 
 					}
+
 					int npcIndex2 = -1;
 					if (!Framing.GetTileSafely(i + 1, j).active() && !Framing.GetTileSafely(i - 1, j).active())
 					{
@@ -154,11 +156,11 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 								npcIndex2 = NPC.NewNPC(i * 16, j * 16, ModContent.NPCType<NPCs.Critters.TubeWorm>());
 						}
 					}
+
 					if (npcIndex2 >= 0)
 					{
 						Main.npc[npcIndex2].value = 0f;
 						Main.npc[npcIndex2].npcSlots = 0f;
-
 					}
 				}
 			}

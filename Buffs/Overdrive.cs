@@ -9,6 +9,7 @@ namespace SpiritMod.Buffs
 		{
 			DisplayName.SetDefault("Overdrive");
 			Description.SetDefault("Your movement speed and melee speed are charged up!");
+
 			Main.buffNoTimeDisplay[Type] = true;
 		}
 

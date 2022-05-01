@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pendant of the Ocean");
-			Tooltip.SetDefault("Double tap {0} to call an ancient storm to the cursor location");
+			Tooltip.SetDefault("Double tap {0} to gain unhindered movement underwater for a short time");
 		}
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)

@@ -99,7 +99,6 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			else
 			{
 				player.channel = false;
-
 				projectile.Kill();
 			}
 		}
@@ -126,7 +125,6 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 			const int Width = 82;
 			const int Height = 38;
-
 			const int MuzzleFlashDuration = 2;
 
 			var frame = new Rectangle(0, 0, Width, Height);

@@ -117,15 +117,17 @@ namespace SpiritMod.NPCs.Boss.Infernon
 						float speedY = player.Center.Y - npc.Center.Y;
 						float length = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
 						float speed = 6;
-						if (npc.life < npc.lifeMax * 0.75)
-							speed = 6f;
-						if (npc.life < npc.lifeMax * 0.5)
-							speed = 8f;
-						if (npc.life < npc.lifeMax * 0.25)
+
+						if (npc.life < npc.lifeMax * 0.25f)
 							speed = 10f;
+						else if (npc.life < npc.lifeMax * 0.5f)
+							speed = 8f;
+						else if (npc.life < npc.lifeMax * 0.75f)
+							speed = 6f;
+
 						float num12 = speed / length;
-						speedX = speedX * num12;
-						speedY = speedY * num12;
+						speedX *= num12;
+						speedY *= num12;
 						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
 					}
 				}
@@ -149,7 +151,6 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				npc.TargetClosest(true);
 				Player player = Main.player[npc.target];
 
-				float currentXDist = Math.Abs(npc.Center.X - player.Center.X);
 				if (npc.Center.X < player.Center.X && npc.ai[2] < 0)
 					npc.ai[2] = 0;
 				if (npc.Center.X > player.Center.X && npc.ai[2] > 0)
@@ -205,16 +206,16 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			else if (npc.ai[0] == 2)
 			{
 				if (npc.velocity.X > 0)
-					npc.velocity.X -= 0.1F;
+					npc.velocity.X -= 0.1f;
 				if (npc.velocity.X < 0)
-					npc.velocity.X += 0.1F;
-				if (npc.velocity.X > -0.2F && npc.velocity.X < 0.2F)
+					npc.velocity.X += 0.1f;
+				if (npc.velocity.X > -0.2f && npc.velocity.X < 0.2f)
 					npc.velocity.X = 0;
 				if (npc.velocity.Y > 0)
-					npc.velocity.Y -= 0.1F;
+					npc.velocity.Y -= 0.1f;
 				if (npc.velocity.Y < 0)
-					npc.velocity.Y += 0.1F;
-				if (npc.velocity.Y > -0.2F && npc.velocity.Y < 0.2F)
+					npc.velocity.Y += 0.1f;
+				if (npc.velocity.Y > -0.2f && npc.velocity.Y < 0.2f)
 					npc.velocity.Y = 0;
 
 				npc.rotation = npc.velocity.X * 0.03F;
@@ -410,10 +411,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			npc.DropItem(ModContent.ItemType<Trophy4>(), 1f / 10);
 		}
 
-		public override void BossLoot(ref string name, ref int potionType)
-		{
-			potionType = ItemID.GreaterHealingPotion;
-		}
+		public override void BossLoot(ref string name, ref int potionType) => potionType = ItemID.GreaterHealingPotion;
 
 		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,
 			out string name, out Func<bool> downedCondition, ref BossChecklistDataHandler.BCIDData identificationData,

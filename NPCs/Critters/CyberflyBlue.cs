@@ -15,6 +15,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			DisplayName.SetDefault("Cyberfly");
 			Main.npcFrameCount[npc.type] = 2;
+			Main.npcCatchable[npc.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -27,16 +28,13 @@ namespace SpiritMod.NPCs.Critters
 			npc.dontCountMe = true;
 			npc.HitSound = SoundID.NPCHit3;
 			npc.DeathSound = SoundID.NPCDeath4;
-			Main.npcCatchable[npc.type] = true;
 			npc.catchItem = (short)ModContent.ItemType<CyberflyBlueItem>();
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 64;
 			npc.npcSlots = 0;
-			npc.friendly = true;
-			npc.dontTakeDamageFromHostiles = false;
 			npc.noGravity = true;
+
 			aiType = NPCID.Firefly;
-			Main.npcFrameCount[npc.type] = 2;
 		}
 
 		public override void AI()
@@ -44,6 +42,7 @@ namespace SpiritMod.NPCs.Critters
 			npc.spriteDirection = npc.direction;
 
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2f)) / 16f), (int)((npc.position.Y + (npc.height / 2f)) / 16f), .2f, .3f, .5f);
+
 			if (Main.rand.Next(45) == 0)
 			{
 				int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Electric, 0f, 0f, 100, default, .5f);
@@ -55,8 +54,7 @@ namespace SpiritMod.NPCs.Critters
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 			return false;
 		}
 
@@ -74,8 +72,8 @@ namespace SpiritMod.NPCs.Critters
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 2.5f * hitDirection, -2.5f, 0, default, 0.57f);
 					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 0f, -2f, 0, new Color(0, 255, 142), .6f);
-					Main.dust[num].noGravity = true;
 					Dust dust = Main.dust[num];
+					dust.noGravity = true;
 					dust.position.X += ((Main.rand.Next(-50, 51) / 20) - 1.5f);
 					dust.position.Y += ((Main.rand.Next(-50, 51) / 20) - 1.5f);
 					if (Main.dust[num].position != npc.Center)
@@ -94,19 +92,16 @@ namespace SpiritMod.NPCs.Critters
 
 		public void DrawSpecialGlow(SpriteBatch spriteBatch, Color drawColor)
 		{
-			float num108 = 4;
 			float num107 = (float)Math.Cos((Main.GlobalTime % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
-			float num106 = 0f;
 
 			SpriteEffects spriteEffects3 = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			Color color29 = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.LightBlue);
-			for (int num103 = 0; num103 < 4; num103++)
+			Color drawCol = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.LightBlue);
+
+			for (int i = 0; i < 4; i++)
 			{
-				Color color28 = color29;
-				color28 = npc.GetAlpha(color28);
-				color28 *= 1f - num107;
-				Vector2 vector29 = new Vector2(npc.Center.X, npc.Center.Y - 2) + (num103 / num108 * 6.28318548f + npc.rotation + num106).ToRotationVector2() * (4f * num107 + 2f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * (float)num103;
-				spriteBatch.Draw(Main.npcTexture[npc.type], vector29, npc.frame, color28, npc.rotation, npc.frame.Size() / 2f, npc.scale, spriteEffects3, 0f);
+				drawCol = npc.GetAlpha(drawCol) * (1f - num107);
+				Vector2 vector29 = npc.Center + (i / 4f * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * (4f * num107 + 2f) - Main.screenPosition + new Vector2(0, npc.gfxOffY - 2) - npc.velocity * i;
+				spriteBatch.Draw(Main.npcTexture[npc.type], vector29, npc.frame, drawCol, npc.rotation, npc.frame.Size() / 2f, npc.scale, spriteEffects3, 0f);
 			}
 		}
 
@@ -114,8 +109,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			npc.frameCounter += 0.15f;
 			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			npc.frame.Y = (int)npc.frameCounter * frameHeight;
 		}
 	}
 }

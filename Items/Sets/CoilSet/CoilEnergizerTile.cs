@@ -40,6 +40,7 @@ namespace SpiritMod.Items.Sets.CoilSet
 			g = .3f;
 			b = 0.5f;
 		}
+
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
 			Tile tile = Main.tile[i, j];
@@ -54,8 +55,10 @@ namespace SpiritMod.Items.Sets.CoilSet
 			if (tile.frameX == 18 && tile.frameY == 18)
 				DoDustEffect(new Vector2(i * 16f + 8, j * 16f + 8), 74f);
 		}
+
 		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
 		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
+
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<CoilEnergizerItem>());
@@ -64,13 +67,17 @@ namespace SpiritMod.Items.Sets.CoilSet
 
 		public override void NearbyEffects(int i, int j, bool closer)
 		{
-			if (closer) {
+			if (closer)
+			{
 				Player player = Main.LocalPlayer;
-				float speed = player.velocity.Length();
-				if (speed < 8f && Main.rand.Next(7) == 0) {
-					DoDustEffect(player.MountedCenter, 46f - speed * 4.5f, 1.08f - speed * 0.13f, 2.08f - speed * 0.24f, player);
+
+				if (player.active && !player.dead)
+				{
+					float speed = player.velocity.Length();
+					if (speed < 8f && Main.rand.Next(7) == 0)
+						DoDustEffect(player.MountedCenter, 46f - speed * 4.5f, 1.08f - speed * 0.13f, 2.08f - speed * 0.24f, player);
+					player.AddBuff(ModContent.BuffType<OverDrive>(), 60);
 				}
-				player.AddBuff(ModContent.BuffType<OverDrive>(), 60);
 			}
 		}
 

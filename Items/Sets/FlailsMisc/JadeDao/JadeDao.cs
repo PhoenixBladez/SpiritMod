@@ -52,6 +52,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 
 			Vector2 direction = new Vector2(speedX, speedY).RotatedBy(Main.rand.NextFloat(-0.2f, 0.2f));
 			Projectile proj = Projectile.NewProjectileDirect(position, direction, type, damage, knockBack, player.whoAmI);
+
 			if (proj.modProjectile is JadeDaoProj modProj)
 			{
 				modProj.SwingTime = (int)(item.useTime * UseTimeMultiplier(player) * (slam ? 1.75f : 1));
@@ -61,9 +62,11 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 				modProj.Slam = slam;
 				modProj.PreSlam = combo % 5 == 3;
 			}
+
 			if (slam)
 			{
 				Projectile proj2 = Projectile.NewProjectileDirect(position, direction, type, damage, knockBack, player.whoAmI);
+
 				if (proj2.modProjectile is JadeDaoProj modProj2)
 				{
 					modProj2.SwingTime = (int)(item.useTime * UseTimeMultiplier(player) * (slam ? 1.75f : 1));
@@ -72,12 +75,14 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 					modProj2.Flip = combo % 2 == 0;
 					modProj2.Slam = slam;
 				}
+
 				if (Main.netMode != NetmodeID.SinglePlayer)
 					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj2.whoAmI);
 			}
 
 			if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
+
 			return false;
 		}
 

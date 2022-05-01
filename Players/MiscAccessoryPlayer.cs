@@ -99,6 +99,7 @@ namespace SpiritMod.Players
 			if ((player.HasAccessory<Twilight1>() && Main.rand.NextBool(13)) || (player.HasAccessory<ShadowGauntlet>() && Main.rand.NextBool(2)))
 				target.AddBuff(BuffID.ShadowFlame, 180);
 
+			// Ace of Spades
 			if (player.GetModPlayer<MyPlayer>().AceOfSpades && crit)
 			{
 				damage = (int)(damage * 1.1f + 0.5f);

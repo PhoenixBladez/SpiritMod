@@ -22,11 +22,7 @@ namespace SpiritMod.Items.Accessory
 			item.rare = ItemRarityID.Pink;
 			item.accessory = true;
 		}
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
 
-			player.GetSpiritPlayer().manaWings = true;
-		}
-
+		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetSpiritPlayer().manaWings = true;
 	}
 }

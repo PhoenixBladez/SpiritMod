@@ -11,10 +11,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 {
 	public class SmallVentItem : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Small Hydrothermal Vent");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Small Hydrothermal Vent");
 
 		public override void SetDefaults()
 		{
@@ -34,8 +31,9 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 		public override bool UseItem(Player player)
 		{
 			item.placeStyle = Main.rand.Next(0, 2);
-			return base.UseItem(player);
+			return false;
 		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -46,6 +44,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			recipe.AddRecipe();
 		}
 	}
+
 	public class HydrothermalVent1x2 : ModTile
 	{
 		public override void SetDefaults()
@@ -61,7 +60,6 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			TileObjectData.newTile.Origin = new Point16(0, 0);
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, TileObjectData.newTile.Width, 0);
-			//TileObjectData.newTile.AnchorValidTiles = new int[] { TileID.Sand, TileID.Crimsand, TileID.Ebonsand };
 			TileObjectData.newTile.RandomStyleRange = 1;
 			TileObjectData.addTile(Type);
 
@@ -163,9 +161,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 		public static void SpawnSmoke(Vector2 pos)
 		{
 			if (Main.rand.NextBool(16))
-			{
 				Gore.NewGorePerfect(pos, new Vector2(0, Main.rand.NextFloat(-2.2f, -1.5f)), 99, Main.rand.NextFloat(0.5f, 0.8f));
-			}
 		}
 	}
 }
