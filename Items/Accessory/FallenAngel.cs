@@ -12,7 +12,6 @@ namespace SpiritMod.Items.Accessory
 			Tooltip.SetDefault("Magic attacks may fire an angelic spark\nThis spark deals more damage the less mana the player has left");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = 32;

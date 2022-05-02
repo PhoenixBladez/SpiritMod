@@ -35,17 +35,14 @@ namespace SpiritMod.Items.Glyphs
 				"Enemies afflicted with Wind Burst receive amplified knockback");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = 28;
 			item.height = 28;
 			item.value = Item.sellPrice(0, 2, 0, 0);
 			item.rare = ItemRarityID.Green;
-
 			item.maxStack = 999;
 		}
-
 
 		public static void WindBurst(MyPlayer player, Item item)
 		{

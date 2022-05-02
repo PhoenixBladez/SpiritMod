@@ -4,6 +4,7 @@ using Terraria.ID;
 using System.IO;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
+using SpiritMod.Items.Sets.ReefhunterSet;
 
 namespace SpiritMod.NPCs.Bloatfish
 {
@@ -98,6 +99,8 @@ namespace SpiritMod.NPCs.Bloatfish
 
 			if (Main.rand.NextBool(45))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BalloonPufferfish);
+
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<IridescentScale>(), Main.rand.Next(3, 7));
 		}
 
 		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
@@ -113,12 +116,8 @@ namespace SpiritMod.NPCs.Bloatfish
 				}
 
 				if (npc.life <= 0)
-				{
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bloatfish/Bloatfish1"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bloatfish/Bloatfish2"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bloatfish/Bloatfish3"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bloatfish/Bloatfish4"), 1f);
-				}
+					for (int i = 1; i < 5; ++i)
+						Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bloatfish/Bloatfish" + i), 1f);
 			}
 		}
 

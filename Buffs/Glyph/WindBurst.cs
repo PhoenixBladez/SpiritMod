@@ -19,8 +19,9 @@ namespace SpiritMod.Buffs.Glyph
 		{
 			npc.GetGlobalNPC<GNPC>().stormBurst = true;
 
-			if (Main.rand.NextDouble() < 0.1) {
-				Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, ModContent.DustType<Wind>());
+			if (Main.rand.NextDouble() < 0.1)
+			{
+				var dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, ModContent.DustType<Wind>());
 				dust.customData = new WindAnchor(npc.Center, dust.position);
 			}
 		}

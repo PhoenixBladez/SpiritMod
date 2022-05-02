@@ -42,7 +42,6 @@ using SpiritMod.Projectiles.Summon.SacrificialDagger;
 using Terraria.Audio;
 using SpiritMod.Items.Sets.SummonsMisc.PigronStaff;
 using SpiritMod.Items.Sets.LaunchersMisc.Liberty;
-using static Terraria.ModLoader.ModContent;
 using Terraria.Localization;
 using SpiritMod.Tiles.Block;
 using SpiritMod.Tiles.Walls.Natural;
@@ -50,6 +49,7 @@ using SpiritMod.Utilities;
 using SpiritMod.Items.Placeable.Furniture.Paintings;
 using SpiritMod.Items.Sets.PirateStuff;
 using SpiritMod.Items.Accessory.MageTree;
+using SpiritMod.Items.Sets.ReefhunterSet;
 
 namespace SpiritMod.NPCs
 {
@@ -161,9 +161,10 @@ namespace SpiritMod.NPCs
 				if (bloodInfusion > 150)
 				{
 					bloodInfusion = 0;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ModContent.ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
 				}
 			}
+
 			Player player = Main.player[Main.myPlayer];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			Vector2 dist = npc.position - player.position;
@@ -208,10 +209,10 @@ namespace SpiritMod.NPCs
 							Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 					}
 					Vector2 spawnAt = npc.Center + new Vector2(0f, npc.height / 2f);
-					NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y,NPCType<NPCs.CracklingCore.GraniteCore>());
+					NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y,ModContent.NPCType<NPCs.CracklingCore.GraniteCore>());
 				}
 			}
-			if (npc.life <= 0 && npc.FindBuffIndex(BuffType<WanderingPlague>()) >= 0)
+			if (npc.life <= 0 && npc.FindBuffIndex(ModContent.BuffType<WanderingPlague>()) >= 0)
 				UnholyGlyph.ReleasePoisonClouds(npc, 0);
 		}
 
@@ -223,7 +224,7 @@ namespace SpiritMod.NPCs
 			int damageBefore = damage;
 			if (angelLightStacks > 0)
 			{
-				if (npc.FindBuffIndex(BuffType<AngelLight>()) < 0)
+				if (npc.FindBuffIndex(ModContent.BuffType<AngelLight>()) < 0)
 				{
 					angelLightStacks = 0;
 					return;
@@ -231,7 +232,7 @@ namespace SpiritMod.NPCs
 			}
 			if (angelWrathStacks > 0)
 			{
-				if (npc.FindBuffIndex(BuffType<AngelWrath>()) < 0)
+				if (npc.FindBuffIndex(ModContent.BuffType<AngelWrath>()) < 0)
 				{
 					angelWrathStacks = 0;
 					return;
@@ -429,10 +430,10 @@ namespace SpiritMod.NPCs
 
 			if (Main.halloween && !Main.dayTime && AllowTrickOrTreat(npc) && modPlayer.CanTrickOrTreat(npc))
 			{
-				if (npc.type == NPCID.Guide && !player.HasItem(ItemType<CandyBag>()))
+				if (npc.type == NPCID.Guide && !player.HasItem(ModContent.ItemType<CandyBag>()))
 				{
 					chat = "Take this bag; you can use it to store your Candy. \"How do I get candy?\", you ask? Try talking to the other villagers.";
-					player.QuickSpawnItem(ItemType<CandyBag>());
+					player.QuickSpawnItem(ModContent.ItemType<CandyBag>());
 				}
 				else
 				{
@@ -442,7 +443,7 @@ namespace SpiritMod.NPCs
 			}
 		}
 
-		internal bool AllowTrickOrTreat(NPC npc) => npc.type != NPCID.OldMan && npc.homeTileX != -1 && npc.homeTileY != -1 && !GetInstance<SpiritMod>().NPCCandyBlacklist.Contains(npc.type);
+		internal bool AllowTrickOrTreat(NPC npc) => npc.type != NPCID.OldMan && npc.homeTileX != -1 && npc.homeTileY != -1 && !ModContent.GetInstance<SpiritMod>().NPCCandyBlacklist.Contains(npc.type);
 
 		internal string TrickOrTreat(MyPlayer player, NPC npc)
 		{
@@ -597,21 +598,21 @@ namespace SpiritMod.NPCs
 					else
 						return "Wiping a counter all day has made me appreciate the little things in life, like candy. Care for a piece?";
 			}
-			if (npc.type == NPCType<Adventurer>())
+			if (npc.type == ModContent.NPCType<Adventurer>())
 			{
 				if (dialogue == 0)
 					return "You wouldn't believe me if I told you I got this from a faraway kingdom made of CANDY! I promise it has an exquisite taste.";
 				else
 					return "I hear you can get more candy from the goodie bags that monsters hold. As if I needed an excuse to slay some zombies!";
 			}
-			else if (npc.type == NPCType<Rogue>())
+			else if (npc.type == ModContent.NPCType<Rogue>())
 			{
 				if (dialogue == 0)
 					return "You want some candy? Here, catch!";
 				else
 					return "Hiyah! Candy attack! Oh, it's you. sorry.";
 			}
-			else if (npc.type == NPCType<RuneWizard>())
+			else if (npc.type == ModContent.NPCType<RuneWizard>())
 			{
 				if (dialogue == 0)
 					return "Behold! Enchanted candy! Enchantingly tasty, that is!";
@@ -619,7 +620,7 @@ namespace SpiritMod.NPCs
 					return "Watch closely, for I shall channel the power of the spirits to summon... Candy!";
 
 			}
-			else if (npc.type == NPCType<Gambler>())
+			else if (npc.type == ModContent.NPCType<Gambler>())
 			{
 				if (dialogue == 0)
 					return "Reach into the bowl. You never know what you'll pull out";
@@ -635,7 +636,7 @@ namespace SpiritMod.NPCs
 
 		public override Color? GetAlpha(NPC npc, Color drawColor)
 		{
-			if (npc.HasBuff(BuffType<TopazMarked>()))
+			if (npc.HasBuff(ModContent.BuffType<TopazMarked>()))
 				return Color.Lerp(base.GetAlpha(npc, drawColor) ?? Color.Transparent, new Color(158, 255, 253), 0.75f);
 			return null;
 		}
@@ -645,24 +646,24 @@ namespace SpiritMod.NPCs
 			if (type == NPCID.Merchant)
 			{
 				if (Main.halloween && Main.halloween)
-					shop.item[nextSlot++].SetDefaults(ItemType<CandyBowl>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<CandyBowl>(), false);
 			}
 			else if (type == NPCID.ArmsDealer)
 			{
-				shop.item[nextSlot].SetDefaults(ItemType<Items.Ammo.Bullet.RubberBullet>(), false);
-				shop.item[nextSlot].SetDefaults(ItemType<Warhead>(), false);
-				if (Main.player.Where(x => x.HasItem(ItemType<Moonshot>())).Any())
-					shop.item[nextSlot++].SetDefaults(ItemType<TinyLunazoaItem>(), false);
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Ammo.Bullet.RubberBullet>(), false);
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Warhead>(), false);
+				if (Main.player.Where(x => x.HasItem(ModContent.ItemType<Moonshot>())).Any())
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<TinyLunazoaItem>(), false);
 			}
 			else if (type == NPCID.Cyborg)
 			{
-				shop.item[nextSlot++].SetDefaults(ItemType<Items.Armor.FreemanSet.FreemanHead>(), false);
-				shop.item[nextSlot++].SetDefaults(ItemType<Items.Armor.FreemanSet.FreemanBody>(), false);
-				shop.item[nextSlot++].SetDefaults(ItemType<Items.Armor.FreemanSet.FreemanLegs>(), false);
+				shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Armor.FreemanSet.FreemanHead>(), false);
+				shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Armor.FreemanSet.FreemanBody>(), false);
+				shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Armor.FreemanSet.FreemanLegs>(), false);
 			}
 			else if (type == NPCID.Clothier)
 			{
-				shop.item[nextSlot++].SetDefaults(ItemType<TheCouch>(), false);
+				shop.item[nextSlot++].SetDefaults(ModContent.ItemType<TheCouch>(), false);
 				shop.item[nextSlot].SetDefaults(410, false);
 				shop.item[nextSlot++].shopCustomPrice = 200000;
 				shop.item[nextSlot].SetDefaults(411, false);
@@ -670,67 +671,67 @@ namespace SpiritMod.NPCs
 
 				if (MyWorld.downedRaider)
 				{
-					shop.item[nextSlot++].SetDefaults(ItemType<Items.Armor.CommandoSet.CommandoHead>(), false);
-					shop.item[nextSlot++].SetDefaults(ItemType<Items.Armor.CommandoSet.CommandoBody>(), false);
-					shop.item[nextSlot++].SetDefaults(ItemType<Items.Armor.CommandoSet.CommandoLegs>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Armor.CommandoSet.CommandoHead>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Armor.CommandoSet.CommandoBody>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Armor.CommandoSet.CommandoLegs>(), false);
 				}
 			}
 			else if (type == NPCID.Dryad)
 			{
-				shop.item[nextSlot++].SetDefaults(ItemType<Items.Placeable.MusicBox.TranquilWindsBox>(), false);
+				shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Placeable.MusicBox.TranquilWindsBox>(), false);
 				if (NPC.downedMoonlord && Main.halloween)
-					shop.item[nextSlot++].SetDefaults(ItemType<Items.Placeable.Tiles.HalloweenGrass>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Placeable.Tiles.HalloweenGrass>(), false);
 
 				if (Main.LocalPlayer.GetSpiritPlayer().ZoneReach)
-					shop.item[nextSlot++].SetDefaults(ItemType<Items.Placeable.Tiles.BriarGrassSeeds>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Placeable.Tiles.BriarGrassSeeds>(), false);
 			}
 			else if (type == NPCID.Wizard)
 			{
-				shop.item[nextSlot++].SetDefaults(ItemType<Items.Consumable.SurrenderBell>(), false);
+				shop.item[nextSlot++].SetDefaults(ModContent.ItemType<SurrenderBell>(), false);
 			}
 			else if (type == NPCID.Steampunker)
 			{
-				shop.item[nextSlot++].SetDefaults(ItemType<Items.Ammo.SpiritSolution>());
-				shop.item[nextSlot++].SetDefaults(ItemType<Items.Ammo.OliveSolution>());
-				shop.item[nextSlot++].SetDefaults(ItemType<Items.Ammo.SoullessSolution>());
+				shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Ammo.SpiritSolution>());
+				shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Ammo.OliveSolution>());
+				shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Ammo.SoullessSolution>());
 			}
 			else if (type == NPCID.PartyGirl)
 			{
 				if (NPC.downedMechBossAny)
 				{
-					shop.item[nextSlot++].SetDefaults(ItemType<Items.Sets.GunsMisc.Partystarter.PartyStarter>(), false);
-					shop.item[nextSlot].SetDefaults(ItemType<Items.Placeable.MusicBox.NeonMusicBox>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Sets.GunsMisc.Partystarter.PartyStarter>(), false);
+					shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Placeable.MusicBox.NeonMusicBox>(), false);
 					shop.item[nextSlot++].shopCustomPrice = 50000;
-					shop.item[nextSlot++].SetDefaults(ItemType<SpiritPainting>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<SpiritPainting>(), false);
 				}
 			}
 			else if (type == NPCID.WitchDoctor)
-				shop.item[nextSlot++].SetDefaults(ItemType<Items.Sets.ClubSubclass.Macuahuitl>());
+				shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Sets.ClubSubclass.Macuahuitl>());
 			else if (type == NPCID.Painter)
 			{
-				shop.item[nextSlot++].SetDefaults(ItemType<Canvas>(), false);
-				shop.item[nextSlot++].SetDefaults(ItemType<FloppaPainting>(), false);
+				shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Canvas>(), false);
+				shop.item[nextSlot++].SetDefaults(ModContent.ItemType<FloppaPainting>(), false);
 
-				shop.item[nextSlot++].SetDefaults(ItemType<SatchelReward>(), false);
+				shop.item[nextSlot++].SetDefaults(ModContent.ItemType<SatchelReward>(), false);
 
-				if (GetInstance<StarjinxEvent.StarjinxEventWorld>().StarjinxDefeated)
-					shop.item[nextSlot++].SetDefaults(ItemType<ScrunklyPaintingItem>(), false);
+				if (ModContent.GetInstance<StarjinxEvent.StarjinxEventWorld>().StarjinxDefeated)
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<ScrunklyPaintingItem>(), false);
 			}
 			else if (type == NPCID.Demolitionist)
 			{
-				shop.item[nextSlot++].SetDefaults(ItemType<LibertyItem>(), false);
-				shop.item[nextSlot++].SetDefaults(ItemType<Warhead>(), false);
-				shop.item[nextSlot++].SetDefaults(ItemType<ShortFuse>(), false);
-				shop.item[nextSlot++].SetDefaults(ItemType<LongFuse>(), false);
+				shop.item[nextSlot++].SetDefaults(ModContent.ItemType<LibertyItem>(), false);
+				shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Warhead>(), false);
+				shop.item[nextSlot++].SetDefaults(ModContent.ItemType<ShortFuse>(), false);
+				shop.item[nextSlot++].SetDefaults(ModContent.ItemType<LongFuse>(), false);
 			}
 		}
 
 		public override void SetupTravelShop(int[] shop, ref int nextSlot)
 		{
-			if (Main.rand.NextBool(8) && NPC.downedPlantBoss) //Add Jade dao to shop
-				shop[nextSlot++] = ItemType<JadeDao>();
-			if (Main.rand.NextBool(8) && NPC.downedPlantBoss) //Add Jade dao to shop
-				shop[nextSlot++] = ItemType<BladeOfTheDragon>();
+			if (Main.rand.NextBool(8) && NPC.downedPlantBoss)
+				shop[nextSlot++] = ModContent.ItemType<JadeDao>();
+			if (Main.rand.NextBool(8) && NPC.downedPlantBoss)
+				shop[nextSlot++] = ModContent.ItemType<BladeOfTheDragon>();
 		}
 
 		public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
@@ -761,11 +762,11 @@ namespace SpiritMod.NPCs
 				maxSpawns = (int)(maxSpawns * 1.18f);
 				spawnRate = 2;
 			}
+
 			if (player.GetSpiritPlayer().oliveBranchBuff)
 			{
 				spawnRate = (int)(spawnRate * 4.5f);
 				maxSpawns = (int)(maxSpawns * .5f);
-
 			}
 		}
 
@@ -783,59 +784,55 @@ namespace SpiritMod.NPCs
 				pool.Clear();
 			}
 
-			if (spawnInfo.spawnTileY <= Main.worldSurface)
-			{
-				if (MyWorld.BlueMoon && !Main.dayTime)
-					pool.Remove(0);
-			}
+			if (spawnInfo.spawnTileY <= Main.worldSurface && MyWorld.BlueMoon && !Main.dayTime)
+				pool.Remove(0);
 
 			if (spawnInfo.player.GetSpiritPlayer().ZoneAsteroid)
 			{
 				if (!spawnInfo.playerSafe)
 				{
 					pool.Clear();
-					pool.Add(NPCType<Shockhopper.DeepspaceHopper>(), .35f);
-					pool.Add(NPCType<AstralAmalgam.AstralAmalgram>(), 0.16f);
+					pool.Add(ModContent.NPCType<Shockhopper.DeepspaceHopper>(), .35f);
+					pool.Add(ModContent.NPCType<AstralAmalgam.AstralAmalgram>(), 0.16f);
 
 					if (NPC.downedBoss2)
-						pool.Add(NPCType<Orbitite.Mineroid>(), 0.3f);
+						pool.Add(ModContent.NPCType<Orbitite.Mineroid>(), 0.3f);
 				}
-				pool.Add(NPCType<Gloop.GloopGloop>(), 0.24f);
+
+				pool.Add(ModContent.NPCType<Gloop.GloopGloop>(), 0.24f);
+
 				if (NPC.downedBoss3)
-					pool.Add(NPCType<Starfarer.CogTrapperHead>(), 0.45f);
+					pool.Add(ModContent.NPCType<Starfarer.CogTrapperHead>(), 0.45f);
+
 				if (NPC.downedBoss1 || NPC.downedBoss3 || NPC.downedBoss3)
-				{
-					if (!NPC.AnyNPCs(NPCType<MoonjellyEvent.DistressJelly>()))
-						pool.Add(NPCType<MoonjellyEvent.DistressJelly>(), .055f);
-				}
+					if (!NPC.AnyNPCs(ModContent.NPCType<MoonjellyEvent.DistressJelly>()))
+						pool.Add(ModContent.NPCType<MoonjellyEvent.DistressJelly>(), .055f);
 			}
 
 			if (MyWorld.jellySky && (spawnInfo.player.ZoneOverworldHeight || spawnInfo.player.ZoneOverworldHeight))
 			{
-				pool.Add(NPCType<MoonjellyEvent.TinyLunazoa>(), 9.35f);
-				pool.Add(NPCType<MoonjellyEvent.ExplodingMoonjelly>(), 8.35f);
-				pool.Add(NPCType<MoonjellyEvent.MoonlightPreserver>(), 3.25f);
-				if (!NPC.AnyNPCs(NPCType<MoonjellyEvent.MoonjellyGiant>()))
-					pool.Add(NPCType<MoonjellyEvent.MoonjellyGiant>(), .85f);
-				if (!NPC.AnyNPCs(NPCType<MoonjellyEvent.DreamlightJelly>()))
-					pool.Add(NPCType<MoonjellyEvent.DreamlightJelly>(), .85f);
+				pool.Add(ModContent.NPCType<MoonjellyEvent.TinyLunazoa>(), 9.35f);
+				pool.Add(ModContent.NPCType<MoonjellyEvent.ExplodingMoonjelly>(), 8.35f);
+				pool.Add(ModContent.NPCType<MoonjellyEvent.MoonlightPreserver>(), 3.25f);
+
+				if (!NPC.AnyNPCs(ModContent.NPCType<MoonjellyEvent.MoonjellyGiant>()))
+					pool.Add(ModContent.NPCType<MoonjellyEvent.MoonjellyGiant>(), .85f);
+
+				if (!NPC.AnyNPCs(ModContent.NPCType<MoonjellyEvent.DreamlightJelly>()))
+					pool.Add(ModContent.NPCType<MoonjellyEvent.DreamlightJelly>(), .85f);
 			}
 
-			for (int k = 0; k < Main.maxPlayers; k++)
+			if (spawnInfo.player.active && spawnInfo.player.ZoneBeach && MyWorld.luminousOcean && !Main.dayTime)
 			{
-				Player player1 = Main.player[k];
-				if (player1.active && player1.ZoneBeach && MyWorld.luminousOcean && !Main.dayTime)
+				pool.Clear();
+				if (spawnInfo.water)
 				{
-					pool.Clear();
-					if (spawnInfo.water)
-					{
-						if (MyWorld.luminousType == 1)
-							pool.Add(NPCType<GreenAlgae2>(), 3f);
-						if (MyWorld.luminousType == 2)
-							pool.Add(NPCType<BlueAlgae2>(), 3f);
-						if (MyWorld.luminousType == 3)
-							pool.Add(NPCType<PurpleAlgae2>(), 3f);
-					}
+					if (MyWorld.luminousType == 1)
+						pool.Add(ModContent.NPCType<GreenAlgae2>(), 3f);
+					else if (MyWorld.luminousType == 2)
+						pool.Add(ModContent.NPCType<BlueAlgae2>(), 3f);
+					else if (MyWorld.luminousType == 3)
+						pool.Add(ModContent.NPCType<PurpleAlgae2>(), 3f);
 				}
 			}
 			return;
@@ -845,12 +842,10 @@ namespace SpiritMod.NPCs
 		{
 			if (stormBurst)
 			{
-				knockback = 0;
 				float before = knockback;
-				knockback *= 2f;
-				if (knockback > 0.5 && knockback < 2)
-					knockback = 2f;
-				else if (knockback > 8f)
+				knockback *= 1.5f;
+
+				if (knockback > 8f)
 					knockback = before > 8 ? before : 8;
 			}
 		}
@@ -861,7 +856,7 @@ namespace SpiritMod.NPCs
 			{
 				for (int i = 0; i < 8; i++)
 				{
-					var dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, DustType<Wind>());
+					var dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, ModContent.DustType<Wind>());
 					dust.customData = new WindAnchor(npc.Center, npc.velocity, dust.position);
 				}
 			}
@@ -884,7 +879,7 @@ namespace SpiritMod.NPCs
 			if (summon)
 				damage += summonTag;
 
-			if (sacrificialDaggerBuff && summon && projectile.type != ProjectileType<SacrificialDaggerProj>() && projectile.type != ProjectileType<SacrificialDaggerProjectile>())
+			if (sacrificialDaggerBuff && summon && projectile.type != ModContent.ProjectileType<SacrificialDaggerProj>() && projectile.type != ModContent.ProjectileType<SacrificialDaggerProjectile>())
 			{
 				if (Main.rand.NextBool(4))
 				{
@@ -910,7 +905,7 @@ namespace SpiritMod.NPCs
 			{
 				for (int i = 0; i < 8; i++)
 				{
-					var dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, DustType<Wind>());
+					var dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, ModContent.DustType<Wind>());
 					dust.customData = new WindAnchor(npc.Center, npc.velocity, dust.position);
 				}
 			}
@@ -918,15 +913,15 @@ namespace SpiritMod.NPCs
 
 		private int GlyphsHeldBy(NPC boss)
 		{
-			if (boss.type == NPCID.KingSlime || boss.type == NPCType<Scarabeus>() || boss.type == NPCID.EyeofCthulhu)
+			if (boss.type == NPCID.KingSlime || boss.type == ModContent.NPCType<Scarabeus>() || boss.type == NPCID.EyeofCthulhu)
 				return 2;
-			else if (boss.type == NPCType<ReachBoss1>() || boss.type == NPCID.QueenBee || boss.type == NPCID.SkeletronHead || boss.type == NPCType<AncientFlyer>() || boss.type == NPCType<SteamRaiderHead>())
+			else if (boss.type == ModContent.NPCType<ReachBoss1>() || boss.type == NPCID.QueenBee || boss.type == NPCID.SkeletronHead || boss.type == ModContent.NPCType<AncientFlyer>() || boss.type == ModContent.NPCType<SteamRaiderHead>())
 				return 3;
 			else if (boss.type == NPCID.WallofFlesh)
 				return 5;
-			else if (boss.type == NPCID.TheDestroyer || boss.type == NPCType<Infernon>() || boss.type == NPCType<InfernoSkull>() || boss.type == NPCID.SkeletronPrime || boss.type == NPCType<Dusking>())
+			else if (boss.type == NPCID.TheDestroyer || boss.type == ModContent.NPCType<Infernon>() || boss.type == ModContent.NPCType<InfernoSkull>() || boss.type == NPCID.SkeletronPrime || boss.type == ModContent.NPCType<Dusking>())
 				return 4;
-			else if (boss.type == NPCID.Plantera || boss.type == NPCID.Golem || boss.type == NPCID.DukeFishron || boss.type == NPCID.CultistBoss || boss.type == NPCType<Atlas>())
+			else if (boss.type == NPCID.Plantera || boss.type == NPCID.Golem || boss.type == NPCID.DukeFishron || boss.type == NPCID.CultistBoss || boss.type == ModContent.NPCType<Atlas>())
 				return 5;
 			else if (boss.type == NPCID.MoonLordCore)
 				return 8;
@@ -942,10 +937,10 @@ namespace SpiritMod.NPCs
 				Main.PlaySound(SoundLoader.customSoundType, closest.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/BannerSfx"));
 
 			if (bloodInfused)
-				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
+				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ModContent.ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
 
 			if (closest.GetSpiritPlayer().wayfarerSet)
-				closest.AddBuff(BuffType<Buffs.Armor.ExplorerFight>(), 240);
+				closest.AddBuff(ModContent.BuffType<Buffs.Armor.ExplorerFight>(), 240);
 
 			#region Glyph
 			if (npc.boss && (npc.modNPC == null || npc.modNPC.bossBag > 0))
@@ -956,12 +951,12 @@ namespace SpiritMod.NPCs
 				if (!droppedGlyphs)
 				{
 					int glyphs = GlyphsHeldBy(npc);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Glyph>(), glyphs * Main.ActivePlayersCount);
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Glyph>(), glyphs * Main.ActivePlayersCount);
 					MyWorld.droppedGlyphs[name] = true;
 				}
 			}
-			else if (!npc.SpawnedFromStatue && npc.CanDamage() && Main.rand.Next(750) == 0 && npc.type != ModContent.NPCType<NPCs.Boss.ReachBoss.ExplodingSpore>())
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Glyph>());
+			else if (!npc.SpawnedFromStatue && npc.CanDamage() && Main.rand.Next(750) == 0 && npc.type != ModContent.NPCType<ExplodingSpore>())
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Glyph>());
 			#endregion
 
 			ItemLoot(npc, closest);
@@ -988,91 +983,92 @@ namespace SpiritMod.NPCs
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Star);
 
 			if (player.GetSpiritPlayer().ZoneAsteroid && Main.rand.Next(50) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.GunsMisc.Blaster.Blaster>());
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.GunsMisc.Blaster.Blaster>());
 
 			if (npc.type == NPCID.PirateShip || npc.type == NPCID.PirateCaptain)
 			{
 				if (Main.rand.Next(50) <= 2)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.GunsMisc.CaptainsRegards.CaptainsRegards>());
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.GunsMisc.CaptainsRegards.CaptainsRegards>());
 				if (npc.type == NPCID.PirateShip && Main.rand.NextBool(3))
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<PirateCrate>());
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PirateCrate>());
 			}
 
 			if (npc.type == NPCID.Demon && NPC.downedBoss3 && Main.rand.Next(4) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.SlagSet.CarvedRock>(), Main.rand.Next(1) + 2);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.SlagSet.CarvedRock>(), Main.rand.Next(1) + 2);
 
 			if (player.GetSpiritPlayer().floranSet && Main.rand.Next(9) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<RawMeat>(), 1);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawMeat>(), 1);
 
 			if (npc.type == NPCID.EaterofWorldsTail && !NPC.AnyNPCs(NPCID.EaterofWorldsHead) && !NPC.AnyNPCs(NPCID.EaterofWorldsBody) && Main.rand.Next(3) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Sets.SpearsMisc.RotScourge.EoWSpear>(), 1);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.SpearsMisc.RotScourge.EoWSpear>(), 1);
 
 			if (!npc.SpawnedFromStatue)
 			{
-				DropLoot(150, 100, ItemType<Items.Accessory.InfernalPact>(), npc, NPCID.Lavabat, NPCID.RedDevil);
-				DropLoot(150, 100, ItemType<Items.Sets.SwordsMisc.CurseBreaker.CurseBreaker>(), npc, NPCID.RedDevil);
+				DropLoot(150, 100, ModContent.ItemType<InfernalPact>(), npc, NPCID.Lavabat, NPCID.RedDevil);
+				DropLoot(150, 100, ModContent.ItemType<Items.Sets.SwordsMisc.CurseBreaker.CurseBreaker>(), npc, NPCID.RedDevil);
 
-				DropLoot(150, 150, ItemType<IceVikingSculpture>(), npc, NPCID.UndeadViking);
-				DropLoot(150, 150, ItemType<IceFlinxSculpture>(), npc, NPCID.SnowFlinx);
-				DropLoot(150, 150, ItemType<IceBatSculpture>(), npc, NPCID.IceBat);
-				DropLoot(150, 150, ItemType<Items.Accessory.RabbitFoot.Rabbit_Foot>(), npc, NPCID.Bunny);
-				DropLoot(150, 150, ItemType<WinterbornSculpture>(), npc, NPCType<Winterborn.WinterbornMelee>(), NPCType<WinterbornHerald.WinterbornMagic>());
-				DropLoot(5, 5, ItemType<Items.Consumable.Potion.BottomlessHealingPotion>(), npc, NPCID.Mimic);
-				DropLoot(5, 5, ItemType<Items.Sets.MagicMisc.MagicDeck.MagicDeck>(), npc, NPCID.Mimic);
+				DropLoot(150, 150, ModContent.ItemType<IceVikingSculpture>(), npc, NPCID.UndeadViking);
+				DropLoot(150, 150, ModContent.ItemType<IceFlinxSculpture>(), npc, NPCID.SnowFlinx);
+				DropLoot(150, 150, ModContent.ItemType<IceBatSculpture>(), npc, NPCID.IceBat);
+				DropLoot(150, 150, ModContent.ItemType<Items.Accessory.RabbitFoot.Rabbit_Foot>(), npc, NPCID.Bunny);
+				DropLoot(150, 150, ModContent.ItemType<WinterbornSculpture>(), npc, ModContent.NPCType<Winterborn.WinterbornMelee>(), ModContent.NPCType<WinterbornHerald.WinterbornMagic>());
+				DropLoot(5, 5, ModContent.ItemType<Items.Consumable.Potion.BottomlessHealingPotion>(), npc, NPCID.Mimic);
+				DropLoot(5, 5, ModContent.ItemType<Items.Sets.MagicMisc.MagicDeck.MagicDeck>(), npc, NPCID.Mimic);
 
 				if (player.ZoneSnow)
-					DropLoot(100, 100, ItemType<IceWheezerSculpture>(), npc, NPCType<Wheezer.Wheezer>());
+					DropLoot(100, 100, ModContent.ItemType<IceWheezerSculpture>(), npc, ModContent.NPCType<Wheezer.Wheezer>());
 			}
 
 			if (MyWorld.downedScarabeus)
-				DropLoot(40, 40, ItemType<DesertSlab>(), npc, NPCID.TombCrawlerHead);
+				DropLoot(40, 40, ModContent.ItemType<DesertSlab>(), npc, NPCID.TombCrawlerHead);
 
-			DropLoot(1, 1, ItemType<Glyph>(), npc, NPCID.Tim, NPCID.RuneWizard);
-			DropLoot(100, 100, ItemType<Items.Consumable.Potion.BottomlessAle>(), npc, NPCID.Pixie);
-			DropLoot(250, 200, ItemType<Items.Accessory.Ukelele.Ukelele>(), npc, NPCID.AngryNimbus);
-			DropLoot(100, 95, ItemType<Items.Accessory.BowSummonItem.BowSummonItem>(), npc, NPCID.GoblinArcher);
-			DropLoot(100, 100, ItemType<Items.Accessory.FlyingFishFin.Flying_Fish_Fin>(), npc, NPCID.FlyingFish);
-			DropLoot(3, 3, ItemType<Items.Accessory.SeaSnailVenom.Sea_Snail_Poison>(), npc, NPCID.SeaSnail);
-			DropLoot(100, 100, ItemType<PossessedHammer>(), npc, NPCID.PossessedArmor);
-			DropLoot(90, 75, ItemType<GoblinSorcererStaff>(), npc, NPCID.GoblinSorcerer);
-			DropLoot(110, 95, ItemType<Items.Sets.ClubSubclass.BoneClub>(), npc, NPCID.AngryBones, NPCID.AngryBonesBig, NPCID.AngryBonesBigMuscle);
-			DropLoot(45, 45, ItemType<Items.Sets.BowsMisc.StarSpray.StarlightBow>(), npc, NPCID.Harpy);
-			DropLoot(45, 45, ItemType<Items.Sets.MagicMisc.ZephyrBreath.BreathOfTheZephyr>(), npc, NPCID.Harpy);
-			DropLoot(1, 1, ItemType<TimScroll>(), npc, NPCID.Tim);
+			DropLoot(1, 1, ModContent.ItemType<Glyph>(), npc, NPCID.Tim, NPCID.RuneWizard);
+			DropLoot(100, 100, ModContent.ItemType<Items.Consumable.Potion.BottomlessAle>(), npc, NPCID.Pixie);
+			DropLoot(250, 200, ModContent.ItemType<Items.Accessory.Ukelele.Ukelele>(), npc, NPCID.AngryNimbus);
+			DropLoot(100, 95, ModContent.ItemType<Items.Accessory.BowSummonItem.BowSummonItem>(), npc, NPCID.GoblinArcher);
+			DropLoot(100, 100, ModContent.ItemType<Items.Accessory.FlyingFishFin.Flying_Fish_Fin>(), npc, NPCID.FlyingFish);
+			DropLoot(3, 3, ModContent.ItemType<Items.Accessory.SeaSnailVenom.Sea_Snail_Poison>(), npc, NPCID.SeaSnail);
+			DropLoot(100, 100, ModContent.ItemType<PossessedHammer>(), npc, NPCID.PossessedArmor);
+			DropLoot(90, 75, ModContent.ItemType<GoblinSorcererStaff>(), npc, NPCID.GoblinSorcerer);
+			DropLoot(110, 95, ModContent.ItemType<Items.Sets.ClubSubclass.BoneClub>(), npc, NPCID.AngryBones, NPCID.AngryBonesBig, NPCID.AngryBonesBigMuscle);
+			DropLoot(45, 45, ModContent.ItemType<Items.Sets.BowsMisc.StarSpray.StarlightBow>(), npc, NPCID.Harpy);
+			DropLoot(45, 45, ModContent.ItemType<Items.Sets.MagicMisc.ZephyrBreath.BreathOfTheZephyr>(), npc, NPCID.Harpy);
+			DropLoot(1, 1, ModContent.ItemType<TimScroll>(), npc, NPCID.Tim);
 			DropLoot(30, 30, ItemID.SnowGlobe, npc, NPCID.IcyMerman);
-			DropLoot(1, 1, ItemType<PrintPrime>(), Main.rand.Next(2) + 1, npc, NPCID.SkeletronPrime);
-			DropLoot(1, 1, ItemType<BlueprintTwins>(), Main.rand.Next(2) + 1, npc, NPCID.Retinazer, NPCID.Spazmatism);
-			DropLoot(1, 1, ItemType<PrintProbe>(), Main.rand.Next(2) + 1, npc, NPCID.TheDestroyer);
-			DropLoot(50, 50, ItemType<ChaosCrystal>(), npc, NPCID.ChaosElemental);
-			DropLoot(120, 92, ItemType<Items.Weapon.Thrown.PiecesOfEight.PiecesOfEight>(), npc, NPCID.PirateDeckhand);
-			DropLoot(23, 23, ItemType<SaucerBeacon>(), npc, NPCID.MartianOfficer);
-			DropLoot(35, 35, ItemType<SnapperHat>(), npc, NPCID.Crawdad, NPCID.Crawdad2);
-			DropLoot(50, 50, ItemType<TrapperGlove>(), npc, NPCID.ManEater);
-			DropLoot(500, 500, ItemType<SnakeStaff>(), npc, NPCID.Lihzahrd, NPCID.LihzahrdCrawler);
-			DropLoot(42, 42, ItemType<Items.Sets.MagicMisc.TerraStaffTree.DungeonStaff>(), npc, NPCID.DarkCaster);
-			DropLoot(200, 200, ItemType<Items.Sets.GunsMisc.Swordsplosion.Swordsplosion>(), npc, NPCID.RustyArmoredBonesAxe, NPCID.RustyArmoredBonesFlail, NPCID.RustyArmoredBonesSword, NPCID.RustyArmoredBonesSwordNoArmor, NPCID.BlueArmoredBones, NPCID.BlueArmoredBonesMace,
+			DropLoot(1, 1, ModContent.ItemType<PrintPrime>(), Main.rand.Next(2) + 1, npc, NPCID.SkeletronPrime);
+			DropLoot(1, 1, ModContent.ItemType<BlueprintTwins>(), Main.rand.Next(2) + 1, npc, NPCID.Retinazer, NPCID.Spazmatism);
+			DropLoot(1, 1, ModContent.ItemType<PrintProbe>(), Main.rand.Next(2) + 1, npc, NPCID.TheDestroyer);
+			DropLoot(50, 50, ModContent.ItemType<ChaosCrystal>(), npc, NPCID.ChaosElemental);
+			DropLoot(120, 92, ModContent.ItemType<Items.Weapon.Thrown.PiecesOfEight.PiecesOfEight>(), npc, NPCID.PirateDeckhand);
+			DropLoot(23, 23, ModContent.ItemType<SaucerBeacon>(), npc, NPCID.MartianOfficer);
+			DropLoot(35, 35, ModContent.ItemType<SnapperHat>(), npc, NPCID.Crawdad, NPCID.Crawdad2);
+			DropLoot(50, 50, ModContent.ItemType<TrapperGlove>(), npc, NPCID.ManEater);
+			DropLoot(500, 500, ModContent.ItemType<SnakeStaff>(), npc, NPCID.Lihzahrd, NPCID.LihzahrdCrawler);
+			DropLoot(42, 42, ModContent.ItemType<Items.Sets.MagicMisc.TerraStaffTree.DungeonStaff>(), npc, NPCID.DarkCaster);
+			DropLoot(200, 200, ModContent.ItemType<Items.Sets.GunsMisc.Swordsplosion.Swordsplosion>(), npc, NPCID.RustyArmoredBonesAxe, NPCID.RustyArmoredBonesFlail, NPCID.RustyArmoredBonesSword, NPCID.RustyArmoredBonesSwordNoArmor, NPCID.BlueArmoredBones, NPCID.BlueArmoredBonesMace,
 				NPCID.BlueArmoredBonesNoPants, NPCID.BlueArmoredBonesSword, NPCID.HellArmoredBones, NPCID.HellArmoredBonesSpikeShield, NPCID.HellArmoredBonesMace, NPCID.HellArmoredBonesSword);
-			DropLoot(175, 175, ItemType<Items.Sets.BowsMisc.Morningtide.Morningtide>(), npc, NPCID.HellArmoredBones, NPCID.HellArmoredBonesSpikeShield, NPCID.HellArmoredBonesMace, NPCID.HellArmoredBonesSword);
-			DropLoot(3, 3, ItemType<FrigidFragment>(), Main.rand.Next(1, 3), npc, NPCID.ZombieEskimo, NPCID.IceSlime, NPCID.IceBat, NPCID.ArmoredViking);
-			DropLoot(50, 40, ItemType<FrostGiantBelt>(), 1, npc, NPCID.UndeadViking);
-			DropLoot(1, 1, ItemType<FrigidFragment>(), Main.rand.Next(1, 3), npc, NPCID.SpikedIceSlime, NPCID.ArmedZombieEskimo);
-			DropLoot(20, 10, ItemType<SweetThrow>(), npc, NPCID.QueenBee);
-			DropLoot(2, 2, ItemType<OldLeather>(), Main.rand.Next(1, 3), npc, NPCID.Zombie, NPCID.BaldZombie, NPCID.SlimedZombie, NPCID.SwampZombie, NPCID.TwiggyZombie, NPCID.ZombieRaincoat, NPCID.PincushionZombie);
-			DropLoot(50, 50, ItemType<SolarRattle>(), npc, NPCID.SolarDrakomire, NPCID.SolarDrakomireRider);
-			DropLoot(50, 50, ItemType<EngineeringRod>(), npc, NPCID.GrayGrunt, NPCID.RayGunner, NPCID.BrainScrambler);
-			DropLoot(5, 5, ItemType<Items.Sets.BowsMisc.Eyeshot.Eyeshot>(), npc, NPCID.EyeofCthulhu);
-			DropLoot(2, 2, ItemType<Martian>(), npc, NPCID.MartianSaucer);
-			DropLoot(1, 1, Main.rand.NextBool(2) ? ItemType<Ancient>() : ItemType<CultistScarf>(), npc, NPCID.CultistBoss);
-			DropLoot(50, 50, ItemType<IchorPendant>(), npc, NPCID.IchorSticker);
-			DropLoot(1, 1, ItemType<Typhoon>(), npc, NPCID.DukeFishron);
-			DropLoot(6, 4, ItemType<PigronStaffItem>(), npc, NPCID.PigronCorruption, NPCID.PigronHallow, NPCID.PigronCrimson);
-			DropLoot(18, 18, ItemType<TheFireball>(), npc, NPCID.FireImp);
-			DropLoot(50, 50, ItemType<CursedPendant>(), npc, NPCID.Clinger);
-			DropLoot(50, 50, ItemType<MagnifyingGlass>(), npc, NPCID.DemonEye, NPCID.DemonEye2, NPCID.DemonEyeOwl, NPCID.DemonEyeSpaceship);
-			DropLoot(1, 1, ItemType<PirateKey>(), npc, NPCID.PirateShip);
-			DropLoot(6, 6, ItemType<Items.Sets.SummonsMisc.SanguineFlayer.SanguineFlayerItem>(), npc, NPCID.BigMimicCrimson);
-			DropLoot(6, 6, ItemType<Items.Accessory.OpalFrog.OpalFrogItem>(), npc, NPCID.BigMimicHallow);
-			DropLoot(15, 15, ItemType<Items.Sets.SwordsMisc.CurseBreaker.CurseBreaker>(), npc, NPCID.RedDevil);
+			DropLoot(175, 175, ModContent.ItemType<Items.Sets.BowsMisc.Morningtide.Morningtide>(), npc, NPCID.HellArmoredBones, NPCID.HellArmoredBonesSpikeShield, NPCID.HellArmoredBonesMace, NPCID.HellArmoredBonesSword);
+			DropLoot(3, 3, ModContent.ItemType<FrigidFragment>(), Main.rand.Next(1, 3), npc, NPCID.ZombieEskimo, NPCID.IceSlime, NPCID.IceBat, NPCID.ArmoredViking);
+			DropLoot(50, 40, ModContent.ItemType<FrostGiantBelt>(), 1, npc, NPCID.UndeadViking);
+			DropLoot(1, 1, ModContent.ItemType<FrigidFragment>(), Main.rand.Next(1, 3), npc, NPCID.SpikedIceSlime, NPCID.ArmedZombieEskimo);
+			DropLoot(20, 10, ModContent.ItemType<SweetThrow>(), npc, NPCID.QueenBee);
+			DropLoot(2, 2, ModContent.ItemType<OldLeather>(), Main.rand.Next(1, 3), npc, NPCID.Zombie, NPCID.BaldZombie, NPCID.SlimedZombie, NPCID.SwampZombie, NPCID.TwiggyZombie, NPCID.ZombieRaincoat, NPCID.PincushionZombie);
+			DropLoot(50, 50, ModContent.ItemType<SolarRattle>(), npc, NPCID.SolarDrakomire, NPCID.SolarDrakomireRider);
+			DropLoot(50, 50, ModContent.ItemType<EngineeringRod>(), npc, NPCID.GrayGrunt, NPCID.RayGunner, NPCID.BrainScrambler);
+			DropLoot(5, 5, ModContent.ItemType<Items.Sets.BowsMisc.Eyeshot.Eyeshot>(), npc, NPCID.EyeofCthulhu);
+			DropLoot(2, 2, ModContent.ItemType<Martian>(), npc, NPCID.MartianSaucer);
+			DropLoot(1, 1, Main.rand.NextBool(2) ? ModContent.ItemType<Ancient>() : ModContent.ItemType<CultistScarf>(), npc, NPCID.CultistBoss);
+			DropLoot(50, 50, ModContent.ItemType<IchorPendant>(), npc, NPCID.IchorSticker);
+			DropLoot(1, 1, ModContent.ItemType<Typhoon>(), npc, NPCID.DukeFishron);
+			DropLoot(6, 4, ModContent.ItemType<PigronStaffItem>(), npc, NPCID.PigronCorruption, NPCID.PigronHallow, NPCID.PigronCrimson);
+			DropLoot(18, 18, ModContent.ItemType<TheFireball>(), npc, NPCID.FireImp);
+			DropLoot(50, 50, ModContent.ItemType<CursedPendant>(), npc, NPCID.Clinger);
+			DropLoot(50, 50, ModContent.ItemType<MagnifyingGlass>(), npc, NPCID.DemonEye, NPCID.DemonEye2, NPCID.DemonEyeOwl, NPCID.DemonEyeSpaceship);
+			DropLoot(1, 1, ModContent.ItemType<PirateKey>(), npc, NPCID.PirateShip);
+			DropLoot(6, 6, ModContent.ItemType<Items.Sets.SummonsMisc.SanguineFlayer.SanguineFlayerItem>(), npc, NPCID.BigMimicCrimson);
+			DropLoot(6, 6, ModContent.ItemType<Items.Accessory.OpalFrog.OpalFrogItem>(), npc, NPCID.BigMimicHallow);
+			DropLoot(15, 15, ModContent.ItemType<Items.Sets.SwordsMisc.CurseBreaker.CurseBreaker>(), npc, NPCID.RedDevil);
+			DropLoot(1, 1, ModContent.ItemType<IridescentScale>(), Main.rand.Next(2, 5), npc, NPCID.Shark);
 		}
 
 		/// <summary>Drops an item given the specific conditions.</summary>
@@ -1129,15 +1125,15 @@ namespace SpiritMod.NPCs
 						int type = -1;
 
 						if (Main.tile[xAxis, yAxis].type == TileID.Dirt)
-							type = TileType<SpiritDirt>();
+							type = ModContent.TileType<SpiritDirt>();
 						if (Grasses.Contains(Main.tile[xAxis, yAxis].type))
-							type = TileType<SpiritGrass>();
+							type = ModContent.TileType<SpiritGrass>();
 						else if (Ices.Contains(Main.tile[xAxis, yAxis].type))
-							type = TileType<SpiritIce>();
+							type = ModContent.TileType<SpiritIce>();
 						else if (Stones.Contains(Main.tile[xAxis, yAxis].type))
-							type = TileType<SpiritStone>();
+							type = ModContent.TileType<SpiritStone>();
 						else if (Sands.Contains(Main.tile[xAxis, yAxis].type))
-							type = TileType<Spiritsand>();
+							type = ModContent.TileType<Spiritsand>();
 
 						if (xAxis < xAxisMid - 1)
 							distanceFromCenter = xAxisMid - xAxis;
@@ -1148,13 +1144,13 @@ namespace SpiritMod.NPCs
 							Main.tile[xAxis, yAxis].type = (ushort)type; //Converts tiles
 
 						if (WallID.Sets.Conversion.Grass[Main.tile[xAxis, yAxis].wall] && Main.rand.NextBool(50) && Main.rand.Next(distanceFromCenter) < 18)
-							Main.tile[xAxis, yAxis].wall = (ushort)WallType<SpiritWall>(); //Converts walls
+							Main.tile[xAxis, yAxis].wall = (ushort)ModContent.WallType<SpiritWall>(); //Converts walls
 
 						if (Decors.Contains(Main.tile[xAxis, yAxis].type) && Main.rand.NextBool(nullRandom) && Main.rand.Next(distanceFromCenter) < 18)
 							Main.tile[xAxis, yAxis].active(false); //Removes decor
 
-						if (Main.tile[xAxis, yAxis].type == TileType<SpiritStone>() && yAxis > (int)((Main.rockLayer + Main.maxTilesY - 500) / 2f) && Main.rand.NextBool(300))
-							WorldGen.TileRunner(xAxis, yAxis, WorldGen.genRand.Next(5, 7), 1, TileType<Items.Sets.SpiritSet.SpiritOreTile>(), false, 0f, 0f, true, true); //Adds ore
+						if (Main.tile[xAxis, yAxis].type == ModContent.TileType<SpiritStone>() && yAxis > (int)((Main.rockLayer + Main.maxTilesY - 500) / 2f) && Main.rand.NextBool(300))
+							WorldGen.TileRunner(xAxis, yAxis, WorldGen.genRand.Next(5, 7), 1, ModContent.TileType<Items.Sets.SpiritSet.SpiritOreTile>(), false, 0f, 0f, true, true); //Adds ore
 					}
 				}
 			}
