@@ -227,21 +227,5 @@ namespace SpiritMod.Players
 			}
 			return false;
 		}
-
-		internal void DoubleTapEffects(int keyDir)
-		{
-			if (keyDir == (Main.ReversedUpDownArmorSetBonuses ? 0 : 1)) //Double tap "UP" effects
-			{
-
-			}
-			else if (keyDir == (Main.ReversedUpDownArmorSetBonuses ? 1 : 0)) //Double tap "DOWN" effects
-			{
-				if (player.HasAccessory<PendantOfTheOcean>() && player.ItemTimer<PendantOfTheOcean>() <= 0)
-				{
-					player.AddBuff(ModContent.BuffType<EmpoweredSwim>(), 60 * 10);
-					player.SetItemTimer<PendantOfTheOcean>(60 * 45);
-				}
-			}
-		}
 	}
 }

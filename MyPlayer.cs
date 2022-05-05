@@ -31,7 +31,6 @@ using Terraria.ID;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using SpiritMod.Items.Equipment;
 using SpiritMod.NPCs.Boss.Scarabeus;
 using Terraria.Audio;
 using SpiritMod.NPCs.AuroraStag;
@@ -43,9 +42,7 @@ using SpiritMod.Projectiles.Bullet;
 using System.Linq;
 using SpiritMod.Skies.Overlays;
 using SpiritMod.Items.Armor.StarjinxSet;
-using SpiritMod.Players;
 using SpiritMod.Items.Sets.BloodcourtSet.BloodCourt;
-using SpiritMod.Items.Sets.ReefhunterSet;
 using SpiritMod.Items.Accessory.SeaSnailVenom;
 using SpiritMod.Items.Accessory.MoonlightSack;
 using SpiritMod.Projectiles.Hostile;
@@ -59,10 +56,11 @@ namespace SpiritMod
 		internal static bool swingingCheck;
 		internal static Item swingingItem;
 
-		public int Shake = 0;
 		public List<SpiritPlayerEffect> effects = new List<SpiritPlayerEffect>();
 		public List<SpiritPlayerEffect> removedEffects = new List<SpiritPlayerEffect>();
 		public SpiritPlayerEffect setbonus = null;
+
+		public int Shake = 0;
 		public int Soldiers = 0;
 		public bool clockActive = false;
 		public bool QuacklingMinion = false;
@@ -75,18 +73,14 @@ namespace SpiritMod
 		public float ziplineCounter = 0f;
 		public int shieldCounter = 0;
 		public int bismiteShieldStacks;
-
 		public bool MetalBand = false;
 		public bool KoiTotem = false;
 		public bool VampireCloak = false;
 		public bool starplateGlitchEffect = false;
 		public bool HealCloak = false;
 		public bool SpiritCloak = false;
-
 		public bool crystalFlower = false;
-
 		public bool nearLure = false;
-
 		public bool firewall = false;
 		public int clockX = 0;
 		public int clockY = 0;
@@ -160,9 +154,7 @@ namespace SpiritMod
 		public bool illusionistEye = false;
 		public bool sacredVine = false;
 		public bool BlueDust = false;
-
 		public bool reachFireflies = false;
-
 		public bool onGround = false;
 		public bool moving = false;
 		public bool flying = false;
@@ -177,9 +169,9 @@ namespace SpiritMod
 		public int damageStacks = 1;
 		public int movementStacks = 1;
 
-		public int shootDelay = 0;
 		public bool bloodfireShield;
 		public int bloodfireShieldStacks;
+		public int shootDelay = 0;
 		public int shootDelay1 = 0;
 		public int shootDelay2 = 0;
 		public int shootDelay3 = 0;
@@ -194,7 +186,6 @@ namespace SpiritMod
 		public bool clatterboneShield = false;
 		public bool terror4Summon = false;
 		public bool minior = false;
-
 		public double pressedSpecial;
 		public Entity LastEnemyHit = null;
 		public bool TiteRing = false;
@@ -216,7 +207,6 @@ namespace SpiritMod
 		public bool ProbeMinion = false;
 		public int frigidGloveStacks;
 		public int weaponAnimationCounter;
-
 		public bool gemPickaxe = false;
 		public int hexBowAnimationFrame;
 		public bool carnivorousPlantMinion = false;
@@ -254,13 +244,12 @@ namespace SpiritMod
 		public bool SwordPet = false;
 		public bool shadowPet = false;
 		public bool starachnidPet = false;
-
 		public bool strikeshield = false;
 
-		//Adventurer related
 		public float SpeedMPH { get; private set; }
 		public DashType ActiveDash { get; private set; }
 		public GlyphType glyph;
+
 		public int voidStacks = 1;
 		public int camoCounter;
 		public int veilCounter;
@@ -4395,49 +4384,7 @@ namespace SpiritMod
 
 		public void DoubleTapEffects(int keyDir)
 		{
-			if (keyDir == (Main.ReversedUpDownArmorSetBonuses ? 0 : 1))
-			{
-				//Double tap up
-				if (deathRose && !player.HasBuff(ModContent.BuffType<DeathRoseCooldown>()))
-				{
-					player.AddBuff(ModContent.BuffType<DeathRoseCooldown>(), 240);
-					Vector2 mouse = Main.MouseScreen + Main.screenPosition;
-					Projectile.NewProjectile(mouse, Vector2.Zero, ModContent.ProjectileType<BrambleTrap>(), 30, 0, Main.myPlayer, mouse.X, mouse.Y);
-				}
-
-				if (assassinMag && player.HeldItem.useAmmo > AmmoID.None)
-				{
-					var ammoItems = new List<Item>();
-					var ammoPos = new List<int>();
-					// 54-57 are the ammo slots
-					for (int i = 54; i < 58; i++)
-					{
-						if (!player.inventory[i].IsAir && player.inventory[i].ammo == player.HeldItem.useAmmo)
-						{
-							ammoItems.Add(player.inventory[i]);
-							ammoPos.Add(i);
-						}
-					}
-					if (ammoItems.Count > 0)
-					{
-						// Shift the top item to the bottom
-						var temp = ammoItems[0];
-						ammoItems.RemoveAt(0);
-						ammoItems.Add(temp);
-						// Move the items around accordingly and trigger sync messages
-						for (int i = 0; i < ammoItems.Count; i++)
-						{
-							player.inventory[ammoPos[i]] = ammoItems[i];
-							if (Main.netMode == NetmodeID.MultiplayerClient)
-								NetMessage.SendData(MessageID.SyncEquipment, -1, -1, null, player.whoAmI, ammoPos[i]);
-						}
-						//Display a text for the item you just swapped to
-						Rectangle textPos = new Rectangle((int)player.position.X, (int)player.position.Y, player.width, player.height);
-						CombatText.NewText(textPos, ammoItems[0].RarityColor(), ammoItems[0].Name);
-					}
-				}
-			}
-			else if (keyDir == (Main.ReversedUpDownArmorSetBonuses ? 1 : 0))
+			if (keyDir == (Main.ReversedUpDownArmorSetBonuses ? 1 : 0))
 			{
 				if (jellynautHelm)
 				{

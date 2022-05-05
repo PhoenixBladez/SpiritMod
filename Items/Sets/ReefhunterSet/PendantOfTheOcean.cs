@@ -1,3 +1,5 @@
+using SpiritMod.Players;
+using SpiritMod.Utilities;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -7,6 +9,12 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 {
 	public class PendantOfTheOcean : AccessoryItem, ITimerItem
 	{
+		public override bool Autoload(ref string name)
+		{
+			DoubleTapPlayer.OnDoubleTap += DoubleTapUp;
+			return base.Autoload(ref name);
+		}
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pendant of the Ocean");
@@ -33,6 +41,15 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 			item.melee = true;
 			item.accessory = true;
 			item.knockBack = 5f;
+		}
+
+		private void DoubleTapUp(Player player, int keyDir)
+		{
+			if (keyDir == 0 && player.HasAccessory<PendantOfTheOcean>() && player.ItemTimer<PendantOfTheOcean>() <= 0)
+			{
+				player.AddBuff(ModContent.BuffType<Buffs.EmpoweredSwim>(), 60 * 10);
+				player.SetItemTimer<PendantOfTheOcean>(60 * 45);
+			}
 		}
 
 		public int TimerCount() => 1;

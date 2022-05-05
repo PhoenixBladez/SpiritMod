@@ -1,19 +1,37 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Localization;
+using System.Collections.Generic;
+using SpiritMod.Players;
+using SpiritMod.Buffs;
+using Microsoft.Xna.Framework;
 
 namespace SpiritMod.Items.Sets.VinewrathDrops
 {
 	public class DeathRose : ModItem
 	{
-		public override void SetStaticDefaults()
+		public override bool Autoload(ref string name)
 		{
-			string tapDir = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.DOWN" : "Key.UP");
-			DisplayName.SetDefault("Briar Blossom");
-			Tooltip.SetDefault($"Double tap {tapDir} to ensnare an enemy at the cursor position\n4 second cooldown");
+			DoubleTapPlayer.OnDoubleTap += DoubleTapPlayer_OnDoubleTap;
+			return base.Autoload(ref name);
 		}
 
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Briar Blossom");
+			Tooltip.SetDefault("Double tap {0} to ensnare an enemy at the cursor position\n4 second cooldown");
+		}
+
+		public override void ModifyTooltips(List<TooltipLine> tooltips)
+		{
+			string down = !Main.ReversedUpDownArmorSetBonuses ? "UP" : "DOWN";
+
+			foreach (TooltipLine line in tooltips)
+			{
+				if (line.mod == "Terraria" && line.Name == "Tooltip0")
+					line.text = line.text.Replace("{0}", down);
+			}
+		}
 
 		public override void SetDefaults()
 		{
@@ -25,9 +43,16 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 			item.expert = true;
 		}
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
+		private void DoubleTapPlayer_OnDoubleTap(Player player, int keyDir)
 		{
-			player.GetSpiritPlayer().deathRose = true;
+			if (keyDir == 1 && player.GetSpiritPlayer().deathRose && !player.HasBuff(ModContent.BuffType<DeathRoseCooldown>()))
+			{
+				player.AddBuff(ModContent.BuffType<DeathRoseCooldown>(), 240);
+				Vector2 mouse = Main.MouseScreen + Main.screenPosition;
+				Projectile.NewProjectile(mouse, Vector2.Zero, ModContent.ProjectileType<Projectiles.BrambleTrap>(), 30, 0, Main.myPlayer, mouse.X, mouse.Y);
+			}
 		}
+
+		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetSpiritPlayer().deathRose = true;
 	}
 }

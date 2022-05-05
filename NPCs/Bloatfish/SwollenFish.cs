@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using System.IO;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
 using SpiritMod.Items.Sets.ReefhunterSet;
@@ -10,6 +9,9 @@ namespace SpiritMod.NPCs.Bloatfish
 {
 	public class SwollenFish : ModNPC
 	{
+		public ref float Frame => ref npc.ai[0];
+		public ref float DashTimer => ref npc.ai[1];
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bloatfish");
@@ -35,39 +37,30 @@ namespace SpiritMod.NPCs.Bloatfish
 			bannerItem = ModContent.ItemType<Items.Banners.BloatfishBanner>();
 		}
 
-		int frame = 1;
-		int timer = 0;
-		int dashtimer = 0;
-
 		public override void AI()
 		{
 			Player target = Main.player[npc.target];
+
 			if (target.wet)
 			{
 				npc.noGravity = false;
 				npc.spriteDirection = -npc.direction;
 
-				timer++;
-				dashtimer++;
-				if (timer == 3)
+				if (npc.frameCounter++ == 3)
 				{
-					frame++;
-					timer = 0;
+					Frame++;
+					npc.frameCounter = 0;
 				}
 
-				if (frame >= 5)
-					frame = 1;
+				if (Frame >= 5)
+					Frame = 1;
 
-				if (dashtimer >= 60 && Main.tile[(int)(npc.position.X / 16), (int)(npc.position.Y / 16 - 2)].liquid == 255)
+				if (DashTimer++ >= 60 && Main.tile[(int)(npc.position.X / 16), (int)(npc.position.Y / 16 - 2)].liquid == 255)
 				{
-					Vector2 direction = Main.player[npc.target].Center - npc.Center;
-					direction.Normalize();
-					npc.spriteDirection = (int)(1 * npc.velocity.X);
-
-					npc.velocity.Y = direction.Y * Main.rand.Next(10, 20);
-					npc.velocity.X = direction.X * Main.rand.Next(10, 20);
+					var direction = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
+					npc.velocity = direction * Main.rand.Next(10, 20);
 					npc.rotation = npc.velocity.X * 0.2f;
-					dashtimer = 0;
+					DashTimer = 0;
 				}
 			}
 			else
@@ -76,16 +69,15 @@ namespace SpiritMod.NPCs.Bloatfish
 				npc.aiStyle = 16;
 				npc.noGravity = true;
 				aiType = NPCID.Goldfish;
-				timer++;
-				dashtimer++;
-				if (timer == 3)
+
+				if (npc.frameCounter++ == 3)
 				{
-					frame++;
-					timer = 0;
+					Frame++;
+					npc.frameCounter = 0;
 				}
 
-				if (frame >= 5)
-					frame = 1;
+				if (Frame >= 5)
+					Frame = 1;
 			}
 		}
 
@@ -103,7 +95,7 @@ namespace SpiritMod.NPCs.Bloatfish
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<IridescentScale>(), Main.rand.Next(3, 7));
 		}
 
-		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
+		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * (int)Frame;
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
@@ -119,20 +111,6 @@ namespace SpiritMod.NPCs.Bloatfish
 					for (int i = 1; i < 5; ++i)
 						Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bloatfish/Bloatfish" + i), 1f);
 			}
-		}
-
-		public override void SendExtraAI(BinaryWriter writer)
-		{
-			writer.Write(frame);
-			writer.Write(timer);
-			writer.Write(dashtimer);
-		}
-
-		public override void ReceiveExtraAI(BinaryReader reader)
-		{
-			frame = reader.ReadInt32();
-			timer = reader.ReadInt32();
-			dashtimer = reader.ReadInt32();
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

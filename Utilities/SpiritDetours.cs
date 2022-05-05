@@ -423,7 +423,9 @@ namespace SpiritMod.Utilities
 			orig(self, keyDir);
 
 			self.GetSpiritPlayer().DoubleTapEffects(keyDir);
-			self.GetModPlayer<MiscAccessoryPlayer>().DoubleTapEffects(keyDir);
+
+			if (keyDir == 0)
+				self.GetModPlayer<DoubleTapPlayer>().DoubleTapDown();
 		}
 
 		private static void Player_ToggleInv(On.Terraria.Player.orig_ToggleInv orig, Player self)
