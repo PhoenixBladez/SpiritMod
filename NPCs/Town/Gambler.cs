@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static SpiritMod.NPCUtils;
-using static Terraria.ModLoader.ModContent;
 using Terraria.Localization;
-using Microsoft.Xna.Framework;
+using static Terraria.ModLoader.ModContent;
+using static SpiritMod.NPCUtils;
+using SpiritMod.Tiles.Furniture.SlotMachine;
 
 namespace SpiritMod.NPCs.Town
 {
@@ -96,35 +96,19 @@ namespace SpiritMod.NPCs.Town
 				"Gambling's bad for you. Unless you win.",
 				"Win or lose, the thrill of the game is worth the money.",
 				"You have the face of a winner. Step up!",
+				"Get a sense of pride and accomplishment, for just a few coins!"
 			};
+
 			int merchant = NPC.FindFirstNPC(NPCID.Merchant);
-			if (merchant >= 0) {
+			if (merchant >= 0)
 				dialogue.Add($"Unlike {Main.npc[merchant].GivenName}, I don't hoard my wealth.");
-			}
+
+			int goblin = NPC.FindFirstNPC(NPCID.GoblinTinkerer);
+			if (goblin >= 0)
+				dialogue.Add($"Tell {Main.npc[goblin].GivenName} to stop taking MY customers!");
 
 			return Main.rand.Next(dialogue);
 		}
-
-		/* 
-		// Consider using this alternate approach to choosing a random thing. Very useful for a variety of use cases.
-		// The WeightedRandom class needs "using Terraria.Utilities;" to use
-		public override string GetChat()
-		{
-			WeightedRandom<string> chat = new WeightedRandom<string>();
-
-			int partyGirl = NPC.FindFirstNPC(NPCID.PartyGirl);
-			if (partyGirl >= 0 && Main.rand.Next(4) == 0)
-			{
-				chat.Add("Can you please tell " + Main.npc[partyGirl].GivenName + " to stop decorating my house with colors?");
-			}
-			chat.Add("Sometimes I feel like I'm different from everyone else here.");
-			chat.Add("What's your favorite color? My favorite colors are white and black.");
-			chat.Add("What? I don't have any arms or legs? Oh, don't be ridiculous!");
-			chat.Add("This message has a weight of 5, meaning it appears 5 times more often.", 5.0);
-			chat.Add("This message has a weight of 0.1, meaning it appears 10 times as rare.", 0.1);
-			return chat; // chat is implicitly cast to a string. You can also do "return chat.Get();" if that makes you feel better
-		}
-		*/
 
 		public override void SetChatButtons(ref string button, ref string button2) => button = Language.GetTextValue("LegacyInterface.28");
 
@@ -169,7 +153,9 @@ namespace SpiritMod.NPCs.Town
 					AddItem(ref shop, ref nextSlot, ItemType<AceOfSpades>());
 					break;
 			}
+
 			AddItem(ref shop, ref nextSlot, ItemType<Dartboard>());
+			AddItem(ref shop, ref nextSlot, ItemType<SlotMachine>());
 		}
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)

@@ -23,17 +23,15 @@ namespace SpiritMod.Items.Consumable
 			item.value = Item.sellPrice(0, 0, 1, 0);
 			item.useTime = item.useAnimation = 20;
 			item.bait = 20;
-
 			item.noMelee = true;
 			item.consumable = true;
 			item.autoReuse = true;
-
 		}
+
 		public override bool UseItem(Player player)
 		{
 			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<CyberflyPink>());
 			return true;
 		}
-
 	}
 }

@@ -20,11 +20,11 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 		{
 			item.damage = 0;
 			item.noMelee = true;
-			item.channel = true; //Channel so that you can held the weapon [Important]
+			item.channel = true;
 			item.rare = ItemRarityID.Pink;
 			item.width = 42;
 			item.height = 58;
-			item.useTime = 20;
+			item.useTime = item.useAnimation = 12;
 			item.UseSound = SoundID.Item8;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.expert = true;
@@ -32,6 +32,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 			item.shootSpeed = 0f;
 			item.noUseGraphic = true;
 		}
+
 		public override bool UseItem(Player player)
 		{
 			if (player.HasBuff(ModContent.BuffType<Buffs.AstralMapCooldown>()))
@@ -40,24 +41,24 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 				AstralTeleport(player);
 			return true;
 		}
+
 		private void AstralTeleport(Player player)
 		{
-			Vector2 prePos = player.position;
-			Vector2 pos  = Main.MouseScreen + Main.screenPosition;
-			if (pos != prePos)
+			if (!Collision.SolidCollision(Main.MouseWorld, player.width, player.height))
 			{
-				RunTeleport(player, new Vector2(pos.X, pos.Y));
+				RunTeleport(player, Main.MouseWorld);
 				player.AddBuff(ModContent.BuffType<Buffs.AstralMapCooldown>(), 600);
 			}
 		}
+
 		private void RunTeleport(Player player, Vector2 pos)
 		{
 			player.Teleport(pos, 2, 0);
 			player.velocity = Vector2.Zero;
 			Main.PlaySound(SoundID.Item6, player.Center);
 			DustHelper.DrawStar(player.Center, DustID.GoldCoin, pointAmount: 4, mainSize: 1.7425f, dustDensity: 6, dustSize: .65f, pointDepthMult: 3.6f, noGravity: true);
-
 		}
+
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Lighting.AddLight(item.position, 0.2f, .142f, .032f);
@@ -65,6 +66,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 			Texture2D glow = ModContent.GetTexture(Texture + "_Glow");
 			Texture2D outline = ModContent.GetTexture(Texture + "_Outline");
 			float Timer = (float)Math.Sin(Main.GlobalTime * 3) / 2 + 0.5f;
+
 			void DrawTex(Texture2D tex, float opacity, Vector2? offset = null) => spriteBatch.Draw(tex, item.Center + (offset ?? Vector2.Zero) - Main.screenPosition, null, Color.White * opacity, rotation, tex.Size() / 2, scale, SpriteEffects.None, 0);
 
 			for (int i = 0; i < 6; i++)

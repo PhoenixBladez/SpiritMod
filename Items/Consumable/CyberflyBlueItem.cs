@@ -34,6 +34,5 @@ namespace SpiritMod.Items.Consumable
 			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<CyberflyBlue>());
 			return true;
 		}
-
 	}
 }

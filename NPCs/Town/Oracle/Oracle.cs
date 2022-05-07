@@ -44,6 +44,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Oracle");
+
 			Main.npcFrameCount[npc.type] = 8;
 		}
 
@@ -345,6 +346,93 @@ namespace SpiritMod.NPCs.Town.Oracle
 			}
 		}
 
+		public override string GetChat()
+		{
+			var options = new List<string>
+			{
+				$"The heavens have certainly spoken of you, {Main.LocalPlayer.name}.",
+				"The divinity I offer isn't for any simple coin, traveler.",
+				"Have you caught wind of a man named Zagreus? ...nevermind.",
+				"Oh, how far I'd go for some ichor...",
+				"I have a little scroll for sale, if you wish to find me elsewhere.",
+				"Not having eyes is a blessing from the gods when you work where I work.",
+				"Warm greetings, warrior. I sense power within you, perhaps I can aid in its growth. The creatures within these walls hold mighty tokens, in which I am interested. If you were to trade them with me, I would grant you a weapon enchanted by the gods themselves!",
+				"Ah, what I would give for some aged wine... Has Anthesteria arrived already?",
+				"My epic tale has no end, and may never have one!",
+				"Mythology? What part of this makes you believe it is a myth?",
+				"I have lost track of time, and the gods refuse to tell me where it is!",
+				"Lorem ipsum dolor sit amet... Be patient, I'm not finished.",
+				"I am unable to die unless I am forgotten. I wonder who still remembers me...",
+				"What do you need? I don't have unending time. Hm...on second thought...",
+				"I had all life to write a glorious tale, but I cannot get past 'the'.",
+				"Between you and me, reptiles cause me great distress.",
+				"I ponder about the presence of ambient song in the distance, yet cannot stop myself from indulging in it.",
+				"Boons? You want them? They're yours, my friend!",
+				"Ah, I see. Or do I? Intriguing, is it not?",
+				"The reason I float is simple - why should I not, if I can?"
+			};
+			return Main.rand.Next(options);
+		}
+
+		public override string TownNPCName()
+		{
+			string[] names = { "Pythia", "Cassandra", "Chrysame", "Eritha", "Theoclea", "Hypatia", "Themistoclea", "Phemonoe" };
+			return Main.rand.Next(names);
+		}
+
+		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+		{
+			if (firstButton)
+				shop = true;
+		}
+
+		public override void SetupShop(Chest shop, ref int nextSlot)
+		{
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Sets.OlympiumSet.ArtemisHunt.ArtemisHunt>());
+			shop.item[nextSlot].shopCustomPrice = 25;
+			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
+			nextSlot++;
+
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Sets.OlympiumSet.MarkOfZeus.MarkOfZeus>());
+			shop.item[nextSlot].shopCustomPrice = 25;
+			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
+			nextSlot++;
+
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Sets.OlympiumSet.BetrayersChains.BetrayersChains>());
+			shop.item[nextSlot].shopCustomPrice = 25;
+			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
+			nextSlot++;
+
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Sets.OlympiumSet.Eleutherios.Eleutherios>());
+			shop.item[nextSlot].shopCustomPrice = 20;
+			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
+			nextSlot++;
+
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Consumable.Potion.MirrorCoat>());
+			shop.item[nextSlot].shopCustomPrice = 2;
+			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
+			nextSlot ++;
+
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Consumable.OliveBranch>());
+			shop.item[nextSlot].shopCustomPrice = 2;
+			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
+			nextSlot++;
+
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<OracleScripture>());
+			shop.item[nextSlot].shopCustomPrice = 1;
+			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
+			nextSlot++;
+
+			shop.item[nextSlot].SetDefaults(ItemID.PocketMirror);
+			shop.item[nextSlot].shopCustomPrice = 10;
+			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
+			nextSlot++;
+		}
+
+		public override void SetChatButtons(ref string button, ref string button2) => button = Language.GetTextValue("LegacyInterface.28");
+
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => Main.hardMode && !NPC.AnyNPCs(ModContent.NPCType<Oracle>()) && spawnInfo.marble ? 0.1f : 0f;
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			if (AttackTimer > 10 || Teleport > 50)
@@ -487,87 +575,5 @@ namespace SpiritMod.NPCs.Town.Oracle
 
 			ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, font, text, position + new Vector2(16f, 14f), baseColor, 0f, stringSize * 0.5f, scale);
 		}
-
-		public override string GetChat()
-		{
-			var options = new List<string>
-			{
-				$"The heavens have certainly spoken of you, {Main.LocalPlayer.name}.",
-				"The divinity I offer isn't for any simple coin, traveler.",
-				"Have you caught wind of a man named Zagreus? ...nevermind.",
-				"Oh, how far I'd go for some ichor...",
-				"I have a little scroll for sale, if you wish to find me elsewhere.",
-				"Not having eyes is a blessing from the gods when you work where I work.",
-				"Warm greetings, warrior. I sense power within you, perhaps I can aid in its growth. The creatures within these walls hold mighty tokens, in which I am interested. If you were to trade them with me, I would grant you a weapon enchanted by the gods themselves!",
-				"Ah, what I would give for some aged wine... Has Anthesteria arrived already?",
-				"My epic tale has no end, and may never have one!",
-				"Mythology? What part of this makes you believe it is a myth?",
-				"I have lost track of time, and the gods refuse to tell me where it is!",
-				"Lorem ipsum dolor sit amet... Be patient, I'm not finished.",
-				"I am unable to die unless I am forgotten. I wonder who still remembers me...",
-				"What do you need? I don't have unending time. Hm...on second thought...",
-				"I had all life to write a glorious tale, but I cannot get past 'the'.",
-				"Between you and me, reptiles cause me great distress.",
-				"I ponder about the presence of ambient song in the distance, yet cannot stop myself from indulging in it.",
-				"Boons? You want them? They're yours, my friend!",
-				"Ah, I see. Or do I? Intriguing, is it not?",
-				"The reason I float is simple - why should I not, if I can?"
-			};
-			return Main.rand.Next(options);
-		}
-
-		public override string TownNPCName()
-		{
-			string[] names = { "Pythia", "Cassandra", "Chrysame", "Eritha", "Theoclea", "Hypatia", "Themistoclea", "Phemonoe" };
-			return Main.rand.Next(names);
-		}
-
-		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
-		{
-			if (firstButton)
-				shop = true;
-		}
-
-		public override void SetupShop(Chest shop, ref int nextSlot)
-		{
-			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Sets.OlympiumSet.ArtemisHunt.ArtemisHunt>());
-			shop.item[nextSlot].shopCustomPrice = 25;
-			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
-			nextSlot++;
-
-			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Sets.OlympiumSet.MarkOfZeus.MarkOfZeus>());
-			shop.item[nextSlot].shopCustomPrice = 25;
-			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
-			nextSlot++;
-
-			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Sets.OlympiumSet.BetrayersChains.BetrayersChains>());
-			shop.item[nextSlot].shopCustomPrice = 25;
-			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
-			nextSlot++;
-
-			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Sets.OlympiumSet.Eleutherios.Eleutherios>());
-			shop.item[nextSlot].shopCustomPrice = 20;
-			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
-			nextSlot++;
-
-			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Consumable.Potion.MirrorCoat>());
-			shop.item[nextSlot].shopCustomPrice = 2;
-			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
-			nextSlot ++;
-
-			shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Consumable.OliveBranch>());
-			shop.item[nextSlot].shopCustomPrice = 2;
-			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
-			nextSlot++;
-
-			shop.item[nextSlot].SetDefaults(ModContent.ItemType<OracleScripture>());
-			shop.item[nextSlot].shopCustomPrice = 1;
-			shop.item[nextSlot].shopSpecialCurrency = SpiritMod.OlympiumCurrencyID;
-			nextSlot++;
-		}
-
-		public override void SetChatButtons(ref string button, ref string button2) => button = Language.GetTextValue("LegacyInterface.28");
-
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => Main.hardMode && !NPC.AnyNPCs(ModContent.NPCType<Oracle>()) && spawnInfo.marble ? 0.1f : 0f;
 	}
 }

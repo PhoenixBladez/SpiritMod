@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 	{
 		public override void ModifyDrawLayers(List<PlayerLayer> layers)
 		{
-			if(player.HeldItem.type == ModContent.ItemType<Sagittarius>())
+			if (player.HeldItem.type == ModContent.ItemType<Sagittarius>() && false)
 			{
 				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(mod.Name, "SagittariusHeld",
 					delegate (PlayerDrawInfo info) { DrawItem(mod.GetTexture("Items/Sets/StarjinxSet/Sagittarius/Sagittarius_held"), 

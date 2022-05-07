@@ -286,8 +286,8 @@ namespace SpiritMod.Utilities
 				//	DrawPortraitName(talkNPC, size); //Draws the name
 				//}
 
-				if (talkNPC.type == NPCID.Angler)
-					focusText = ""; // empty string, we'll add our own angler quest button
+				//if (talkNPC.type == NPCID.Angler)
+				//	focusText = ""; // empty string, we'll add our own angler quest button
 
 				var queue = ModContent.GetInstance<QuestWorld>().NPCQuestQueue;
 

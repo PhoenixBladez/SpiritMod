@@ -16,7 +16,7 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 		{
 			item.width = 36;
 			item.height = 34;
-			item.value = 150;
+			item.value = Item.buyPrice(0, 50, 0, 0);
 			item.maxStack = 99;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 10;
@@ -97,7 +97,6 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 					ModContent.GetInstance<SpiritMod>().SlotUserInterface.SetState(new UISlotState(i, j, nearestPlayer));
 				}
 			}
-
 			return true;
 		}
 

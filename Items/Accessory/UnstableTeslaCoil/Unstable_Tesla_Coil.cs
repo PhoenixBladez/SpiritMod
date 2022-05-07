@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory.UnstableTeslaCoil
@@ -13,6 +11,7 @@ namespace SpiritMod.Items.Accessory.UnstableTeslaCoil
 			DisplayName.SetDefault("Unstable Tesla Coil");
 			Tooltip.SetDefault("Electrocutes up to 3 nearby enemies\nIncreases pickup range for ores");
 		}
+
 		public override void SetDefaults()
 		{
 			item.width = 24;

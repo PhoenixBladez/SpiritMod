@@ -56,6 +56,7 @@ using SpiritMod.Mechanics.Trails;
 using SpiritMod.Items.Sets.OlympiumSet;
 using SpiritMod.Mechanics.Coverings;
 using static Terraria.ModLoader.Core.TmodFile;
+using SpiritMod.Items.Sets.DyesMisc.HairDye;
 
 namespace SpiritMod
 {
@@ -831,7 +832,7 @@ namespace SpiritMod
 
 				ShaderDict = new Dictionary<string, Effect>();
 				var tmodfile = (TmodFile)typeof(SpiritMod).GetProperty("File", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Instance);
-				IDictionary<string, FileEntry> files = (IDictionary<string, FileEntry>)typeof(TmodFile).GetField("files", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(tmodfile);
+				var files = (IDictionary<string, FileEntry>)typeof(TmodFile).GetField("files", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(tmodfile);
 				foreach (KeyValuePair<string, FileEntry> kvp in files.Where(x => x.Key.Contains("Effects/") && x.Key.Contains(".xnb")))
 					ShaderDict.Add(kvp.Key.Remove(kvp.Key.Length - ".xnb".Length, ".xnb".Length).Remove(0, "Effects/".Length), GetEffect(kvp.Key.Remove(kvp.Key.Length - ".xnb".Length, ".xnb".Length)));
 
@@ -852,13 +853,12 @@ namespace SpiritMod
 
 				SpiritModAutoSellTextures.Load();
 
-				GameShaders.Hair.BindShader(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.SeafoamDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(Color.Cyan, Color.White, MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(3f + Main.GlobalTime * 1.3f) + 1f) * 0.5f)))));
-				GameShaders.Hair.BindShader(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.MeteorDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorHades")).UseImage("Images/Misc/noise").UseColor(Color.Orange).UseSecondaryColor(Color.DarkOrange).UseSaturation(5.3f);
-				GameShaders.Hair.BindShader(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.ViciousDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorVortex")).UseImage("Images/Misc/noise").UseColor(Color.Crimson).UseSaturation(3.3f);
-				GameShaders.Hair.BindShader(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.CystalDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorNebula")).UseImage("Images/Misc/Perlin").UseColor(Color.Plum).UseSaturation(5.3f);
-				GameShaders.Hair.BindShader(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.SnowMirageDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorMirage")).UseImage("Images/Misc/Perlin").UseColor(Color.PaleTurquoise).UseSaturation(2.3f);
-				//GameShaders.Hair.BindShader(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.BrightbloodDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorAcid")).UseImage("Images/Misc/noise").UseColor(Color.Red).UseSaturation(2.3f);
-				GameShaders.Hair.BindShader(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.BrightbloodDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorGel")).UseImage("Images/Misc/noise").UseColor(Color.Red).UseSecondaryColor(Color.Tomato).UseSaturation(2.3f);
+				GameShaders.Hair.BindShader(ModContent.ItemType<SeafoamDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(Color.Cyan, Color.White, MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(3f + Main.GlobalTime * 1.3f) + 1f) * 0.5f)))));
+				GameShaders.Hair.BindShader(ModContent.ItemType<MeteorDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorHades")).UseImage("Images/Misc/noise").UseColor(Color.Orange).UseSecondaryColor(Color.DarkOrange).UseSaturation(5.3f);
+				GameShaders.Hair.BindShader(ModContent.ItemType<ViciousDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorVortex")).UseImage("Images/Misc/noise").UseColor(Color.Crimson).UseSaturation(3.3f);
+				GameShaders.Hair.BindShader(ModContent.ItemType<CystalDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorNebula")).UseImage("Images/Misc/Perlin").UseColor(Color.Plum).UseSaturation(5.3f);
+				GameShaders.Hair.BindShader(ModContent.ItemType<SnowMirageDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorMirage")).UseImage("Images/Misc/Perlin").UseColor(Color.PaleTurquoise).UseSaturation(2.3f);
+				GameShaders.Hair.BindShader(ModContent.ItemType<BrightbloodDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorGel")).UseImage("Images/Misc/noise").UseColor(Color.Red).UseSecondaryColor(Color.Tomato).UseSaturation(2.3f);
 
 				PortraitManager.Load();
 
@@ -1004,7 +1004,7 @@ namespace SpiritMod
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/AshStorm"), ItemType("AshfallBox"), TileType("AshfallBox"));
 
 
-				Mechanics.AutoSell.AutoSellUI.visible = false;
+				AutoSellUI.visible = false;
 				Mechanics.AutoSell.Sell_NoValue.Sell_NoValue.visible = false;
 				Mechanics.AutoSell.Sell_Lock.Sell_Lock.visible = false;
 				Mechanics.AutoSell.Sell_Weapons.Sell_Weapons.visible = false;
@@ -1374,7 +1374,6 @@ namespace SpiritMod
 
 		private void CrossModContent()
 		{
-			Mod fargos = ModLoader.GetMod("Fargowiltas");
 			Mod census = ModLoader.GetMod("Census");
 			if (census != null)
 			{
@@ -1383,6 +1382,8 @@ namespace SpiritMod
 				census.Call("TownNPCCondition", ModContent.NPCType<Rogue>(), "Rescue the Bandit from the Bandit Hideout\nIf your world does not have a Goblin Tower, have at least 1 Gold in your inventory");
 				census.Call("TownNPCCondition", ModContent.NPCType<RuneWizard>(), "Have a Blank Glyph in your inventory");
 			}
+
+			Mod fargos = ModLoader.GetMod("Fargowiltas");
 			if (fargos != null)
 			{
 				// AddSummon, order or value in terms of vanilla bosses, your mod internal name, summon   

@@ -26,8 +26,8 @@ namespace SpiritMod.NPCs.Critters
 			npc.defense = 0;
 			npc.lifeMax = 5;
 			npc.dontCountMe = true;
-			npc.HitSound = SoundID.NPCHit3;
-			npc.DeathSound = SoundID.NPCDeath4;
+			npc.HitSound = SoundID.NPCHit1;
+			npc.DeathSound = SoundID.NPCDeath1;
 			npc.catchItem = (short)ModContent.ItemType<CyberflyBlueItem>();
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 64;

@@ -21,7 +21,6 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		private (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Books.Book_LuminousArt>(), 1),
-			(ModContent.ItemType<Items.Books.Book_LuminousArt>(), 1),
 			(ModContent.ItemType<Items.Placeable.MusicBox.LuminousNightBox>(), 1),
 			(ModContent.ItemType<Items.Consumable.MapScroll>(), 2),
 			(Terraria.ID.ItemID.SilverCoin, 75)
