@@ -2,8 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Sets.HuskstalkSet;
 using SpiritMod.Items.Pins;
-using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Town;
+using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Tides.Tide;
 using SpiritMod.Skies;
 using SpiritMod.Skies.Overlays;
@@ -1398,6 +1398,7 @@ namespace SpiritMod
 		}
 
 		private bool _questBookHover;
+		private bool _questBookToggle = false;
 
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
@@ -1428,8 +1429,10 @@ namespace SpiritMod
 									position = new Vector2(20, 258);
 									break;
 							}
+
 							Rectangle frame = new Rectangle(0, 0, 50, 52);
 							bool hover = false;
+
 							if (Main.MouseScreen.Between(position, position + bookSize))
 							{
 								hover = true;
@@ -1438,7 +1441,7 @@ namespace SpiritMod
 								if (Main.mouseLeft && Main.mouseLeftRelease)
 								{
 									Main.mouseLeftRelease = false;
-									QuestManager.SetBookState(true);
+									QuestManager.SetBookState(_questBookToggle = !_questBookToggle);
 								}
 							}
 

@@ -1,20 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
 using Terraria;
-using Terraria.GameContent.UI.Elements;
-using Terraria.UI;
-
-using SpiritMod.UI.Elements;
 using SpiritMod.Utilities;
 using SpiritMod.Mechanics.QuestSystem;
-using SpiritMod.Mechanics.QuestSystem.Quests;
 using Terraria.UI.Chat;
 
 namespace SpiritMod.UI.QuestUI

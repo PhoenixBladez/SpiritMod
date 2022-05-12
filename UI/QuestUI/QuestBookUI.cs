@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
-
 using SpiritMod.UI.Elements;
-using SpiritMod.Utilities;
 using SpiritMod.Mechanics.QuestSystem;
-using SpiritMod.Mechanics.QuestSystem.Quests;
-using Terraria.UI.Chat;
 
 namespace SpiritMod.UI.QuestUI
 {
@@ -82,26 +73,27 @@ namespace SpiritMod.UI.QuestUI
             mainWindow.ForceScreenStick = true;
 
 			// DEBUGGING FEATURE
-			// TODO: REMOVE BEFORE RELEASE!
-			mainWindow.OnMiddleDoubleClick += (UIMouseEvent evt, UIElement listeningElement) =>
-			{
-				if (Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftControl) &&
-					Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftAlt) &&
-					Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftShift))
-				{
-					QuestManager.RestartEverything();
-					QuestManager.UnlockQuest<FirstAdventure>(false);
-				}
-			};
-			mainWindow.OnRightDoubleClick += (UIMouseEvent evt, UIElement listeningElement) =>
-			{
-				if (Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftControl) &&
-					Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftAlt) &&
-					Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftShift))
-				{
-					foreach (Quest quest in QuestManager.Quests) QuestManager.UnlockQuest(quest, false);
-				}
-			};
+			// TODO: REMOVE BEFORE RELEASE! -- you got it bud
+			//mainWindow.OnMiddleDoubleClick += (UIMouseEvent evt, UIElement listeningElement) =>
+			//{
+			//	if (Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftControl) &&
+			//		Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftAlt) &&
+			//		Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftShift))
+			//	{
+			//		QuestManager.RestartEverything();
+			//		QuestManager.UnlockQuest<FirstAdventure>(false);
+			//	}
+			//};
+			//
+			//mainWindow.OnRightDoubleClick += (UIMouseEvent evt, UIElement listeningElement) =>
+			//{
+			//	if (Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftControl) &&
+			//		Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftAlt) &&
+			//		Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftShift))
+			//	{
+			//		foreach (Quest quest in QuestManager.Quests) QuestManager.UnlockQuest(quest, false);
+			//	}
+			//};
 
 			_bookOverlay = new UIShaderImage(null);
 			_bookOverlay.Left.Set(0f, 0f);
@@ -478,13 +470,9 @@ namespace SpiritMod.UI.QuestUI
             for (int i = 0; i < texts.Length; i++) 
             {
                 if (!equalWidths)
-                {
                     widths[i] /= totalWidth;
-                }
                 else
-                {
                     widths[i] = 1f / texts.Length;
-                }
             }
 
             // create the buttons

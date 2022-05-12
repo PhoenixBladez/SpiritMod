@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace SpiritMod.Mechanics.AutoSell
@@ -23,7 +22,7 @@ namespace SpiritMod.Mechanics.AutoSell
 			playButton.OnClick += new MouseEvent(PlayButtonClicked);
 			
 			playButton.Append(fullBrightUI);
-			base.Append(playButton);
+			Append(playButton);
 		}
 
 		private void PlayButtonClicked(UIMouseEvent evt, UIElement listeningElement)
