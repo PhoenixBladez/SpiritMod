@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SpiritMod.Items.Sets.ReefhunterSet;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -28,12 +29,15 @@ namespace SpiritMod.Projectiles
 
 		public override bool PreAI()
 		{
-			int side = Math.Sign(projectile.velocity.Y);
-			if (projectile.timeLeft % 10 == 0)
+			if (projectile.timeLeft % 7 == 0 && Main.rand.NextBool(2))
 			{
-				if (Main.rand.NextBool(2))
-					Item.NewItem(new Vector2(projectile.Center.X + Main.rand.Next(-10, 10), projectile.Center.Y + Main.rand.Next(-10, 10)), 0, 0, ModContent.ItemType<Items.Sets.CascadeSet.DeepCascadeShard>(), 1, false, 0, false);
+				int type = Main.rand.Next(new int[] { ModContent.ItemType<Items.Sets.CascadeSet.DeepCascadeShard>(), ModContent.ItemType<SulfurDeposit>() });
+				int slot = Item.NewItem(new Vector2(projectile.Center.X + Main.rand.Next(-10, 10), projectile.Center.Y + Main.rand.Next(-10, 10)), 0, 0, type, 1, false, 0, false);
+
+				if (Main.netMode != NetmodeID.SinglePlayer)
+					NetMessage.SendData(MessageID.SyncItem, -1, -1, null, slot, 1f);
 			}
+
 			if (projectile.ai[0] == 0f)
 			{
 				projectile.ai[1] += 1f;
@@ -50,6 +54,8 @@ namespace SpiritMod.Projectiles
 					dust.position = projectile.Center + new Vector2(0f, -projectile.height / 2f).RotatedBy(projectile.rotation, default) * 1.1f;
 				}
 			}
+
+			int side = Math.Sign(projectile.velocity.Y);
 			float speedY = -2.5f * (0f - side);
 			Dust dust81 = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, Utils.SelectRandom(Main.rand, 6, 259, 31), 0f, speedY, 0, default, 1f)];
 			dust81.alpha = 200;

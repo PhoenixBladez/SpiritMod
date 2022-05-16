@@ -73,9 +73,8 @@ namespace SpiritMod.Items.Sets.CascadeSet
 
 		public override bool UseItem(Player player)
 		{
-			if (player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2)
 				player.MinionNPCTargetAim();
-			}
 			return base.UseItem(player);
 		}
 		

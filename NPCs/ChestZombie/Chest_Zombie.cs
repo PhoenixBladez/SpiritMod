@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -163,6 +164,18 @@ namespace SpiritMod.NPCs.ChestZombie
 			}
 			else
 				npc.frame.Y = 0 * frameHeight;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(dashTimer);
+			writer.Write(isDashing);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			dashTimer = reader.ReadInt32();
+			isDashing = reader.ReadBoolean();
 		}
 	}
 }

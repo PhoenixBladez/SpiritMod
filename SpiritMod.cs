@@ -217,38 +217,37 @@ namespace SpiritMod
 				priority = MusicPriority.BossMedium; 
 			}
 
-			if (player.GetModPlayer<NPCs.StarjinxEvent.StarjinxPlayer>().zoneStarjinxEvent)
+			if (player.GetModPlayer<StarjinxPlayer>().zoneStarjinxEvent)
 			{
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Starjinx");
 				priority = MusicPriority.BossMedium; //Should take precedence even over most bosses, same as pillars 
 			}
-
-			if (priority > MusicPriority.Event)
-				return;
 
 			if (TideWorld.TheTide && player.ZoneBeach)
 			{
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion");
 				priority = MusicPriority.Event;
 			}
+
 			if (MyWorld.ashRain && player.ZoneUnderworldHeight && config.ashfallMusic)
-            {
+			{
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/AshStorm");
 				priority = MusicPriority.Event;
 			}
+
 			if (config.NeonBiomeMusic && spirit.ZoneSynthwave)
 			{
 				if (Main.dayTime)
-				{
 					music = GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech1");
-					priority = MusicPriority.Event;
-				}
 				else
-				{
 					music = GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech");
-					priority = MusicPriority.Event;
-				}
+
+				priority = MusicPriority.BiomeLow;
 			}
+
+			if (priority > MusicPriority.Event)
+				return;
+
 			if (Main.invasionType == 2 && config.FrostLegionMusic && player.ZoneOverworldHeight && Main.invasionProgressNearInvasion)
 			{
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/FrostLegion");
@@ -854,11 +853,11 @@ namespace SpiritMod
 				SpiritModAutoSellTextures.Load();
 
 				GameShaders.Hair.BindShader(ModContent.ItemType<SeafoamDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(Color.Cyan, Color.White, MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(3f + Main.GlobalTime * 1.3f) + 1f) * 0.5f)))));
+				GameShaders.Hair.BindShader(ModContent.ItemType<BrightbloodDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.IndianRed));
 				GameShaders.Hair.BindShader(ModContent.ItemType<MeteorDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorHades")).UseImage("Images/Misc/noise").UseColor(Color.Orange).UseSecondaryColor(Color.DarkOrange).UseSaturation(5.3f);
 				GameShaders.Hair.BindShader(ModContent.ItemType<ViciousDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorVortex")).UseImage("Images/Misc/noise").UseColor(Color.Crimson).UseSaturation(3.3f);
 				GameShaders.Hair.BindShader(ModContent.ItemType<CystalDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorNebula")).UseImage("Images/Misc/Perlin").UseColor(Color.Plum).UseSaturation(5.3f);
 				GameShaders.Hair.BindShader(ModContent.ItemType<SnowMirageDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorMirage")).UseImage("Images/Misc/Perlin").UseColor(Color.PaleTurquoise).UseSaturation(2.3f);
-				GameShaders.Hair.BindShader(ModContent.ItemType<BrightbloodDye>(), new HairShaderData(Main.PixelShaderRef, "ArmorGel")).UseImage("Images/Misc/noise").UseColor(Color.Red).UseSecondaryColor(Color.Tomato).UseSaturation(2.3f);
 
 				PortraitManager.Load();
 
