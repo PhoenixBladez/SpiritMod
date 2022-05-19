@@ -9,8 +9,9 @@ namespace SpiritMod.NPCs.Bloatfish
 {
 	public class SwollenFish : ModNPC
 	{
-		public ref float Frame => ref npc.ai[0];
 		public ref float DashTimer => ref npc.ai[1];
+
+		public int frame = 0;
 
 		public override void SetStaticDefaults()
 		{
@@ -46,15 +47,6 @@ namespace SpiritMod.NPCs.Bloatfish
 				npc.noGravity = false;
 				npc.spriteDirection = -npc.direction;
 
-				if (npc.frameCounter++ == 3)
-				{
-					Frame++;
-					npc.frameCounter = 0;
-				}
-
-				if (Frame >= 5)
-					Frame = 1;
-
 				if (DashTimer++ >= 60 && Main.tile[(int)(npc.position.X / 16), (int)(npc.position.Y / 16 - 2)].liquid == 255)
 				{
 					var direction = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
@@ -69,16 +61,16 @@ namespace SpiritMod.NPCs.Bloatfish
 				npc.aiStyle = 16;
 				npc.noGravity = true;
 				aiType = NPCID.Goldfish;
-
-				if (npc.frameCounter++ == 3)
-				{
-					Frame++;
-					npc.frameCounter = 0;
-				}
-
-				if (Frame >= 5)
-					Frame = 1;
 			}
+
+			if (npc.frameCounter++ == 3)
+			{
+				frame++;
+				npc.frameCounter = 0;
+			}
+
+			if (frame >= 4)
+				frame = 1;
 		}
 
 		public override void NPCLoot()
@@ -95,7 +87,7 @@ namespace SpiritMod.NPCs.Bloatfish
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<IridescentScale>(), Main.rand.Next(3, 7));
 		}
 
-		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * (int)Frame;
+		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

@@ -107,12 +107,6 @@ namespace SpiritMod.NPCs.Town
 			return Main.rand.Next(dialogue);
 		}
 
-		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
-		{
-			if (firstButton)
-				shop = true;
-		}
-
 		public override void SetupShop(Chest shop, ref int nextSlot)
 		{
 			AddItem(ref shop, ref nextSlot, ItemID.TrapsightPotion, 2000);
@@ -166,6 +160,20 @@ namespace SpiritMod.NPCs.Town
 			randomOffset = 2f;
 		}
 
-		public override void SetChatButtons(ref string button, ref string button2) => button = Language.GetTextValue("LegacyInterface.28");
+		public override void SetChatButtons(ref string button, ref string button2)
+		{
+			button = Language.GetTextValue("LegacyInterface.28");
+
+			if (!Mechanics.QuestSystem.QuestManager.QuestBookUnlocked)
+				button2 = "Quest Book";
+		}
+
+		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+		{
+			if (firstButton)
+				shop = true;
+			else
+				Mechanics.QuestSystem.QuestManager.UnlockQuestBook();
+		}
 	}
 }

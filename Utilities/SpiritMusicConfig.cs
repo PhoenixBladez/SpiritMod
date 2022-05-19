@@ -96,6 +96,6 @@ namespace SpiritMod.Utilities
 		[Label("$Mods.SpiritMod.AshfallMusic")]
 		[Tooltip("Enables a unique track for the Ashfall weather in the Underworld")]
 		[DefaultValue(true)]
-		public bool ashfallMusic { get; set; }
+		public bool AshfallMusic { get; set; }
 	}
 }

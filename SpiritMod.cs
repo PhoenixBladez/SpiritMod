@@ -229,7 +229,7 @@ namespace SpiritMod
 				priority = MusicPriority.Event;
 			}
 
-			if (MyWorld.ashRain && player.ZoneUnderworldHeight && config.ashfallMusic)
+			if (MyWorld.ashRain && player.ZoneUnderworldHeight && config.AshfallMusic)
 			{
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/AshStorm");
 				priority = MusicPriority.Event;

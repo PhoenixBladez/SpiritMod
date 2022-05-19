@@ -27,7 +27,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 		public static void Load()
 		{
-			if (ModContent.GetInstance<SpiritClientConfig>().SurfaceWaterTransparency != SpiritClientConfig.SurfaceTransparencyOption.Disabled)
+			if (ModContent.GetInstance<SpiritClientConfig>().SurfaceWaterTransparency)
 			{
 				IL.Terraria.Main.DoDraw += AddWaterShader; //Transparency shader
 				IL.Terraria.Main.DrawTiles += Main_DrawTiles; //Liquid slope fix (tentative)
@@ -222,10 +222,8 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 		private static float GetTransparency()
 		{
-			var config = ModContent.GetInstance<SpiritClientConfig>().SurfaceWaterTransparency;
-
 			bool aboveGround = Main.LocalPlayer.Center.Y / 16f < Main.worldSurface;
-			if (aboveGround && Main.LocalPlayer.ZoneBeach && (config == SpiritClientConfig.SurfaceTransparencyOption.Ocean))
+			if (aboveGround && Main.LocalPlayer.ZoneBeach && ModContent.GetInstance<SpiritClientConfig>().SurfaceWaterTransparency)
 				return 1.25f;
 
 			return aboveGround ? 1f : 0.5f;

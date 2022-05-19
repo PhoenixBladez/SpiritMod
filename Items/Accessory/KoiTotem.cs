@@ -64,7 +64,7 @@ namespace SpiritMod.Items.Accessory
 			if (closer)
 			{
 				Main.LocalPlayer.GetSpiritPlayer().KoiTotem = true;
-				Main.LocalPlayer.AddBuff(ModContent.BuffType<KoiTotemBuff>(), 6);
+				Main.LocalPlayer.AddBuff(ModContent.BuffType<KoiTotemBuff>(), 12);
 			}
 		}
 

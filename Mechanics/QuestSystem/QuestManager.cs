@@ -370,6 +370,15 @@ namespace SpiritMod.Mechanics.QuestSystem
 			else if (Main.netMode == NetmodeID.Server) NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(text), colour, -1);
 		}
 
+		public static void UnlockQuestBook()
+		{
+			QuestBookUnlocked = true;
+			UnlockQuest<Quests.FirstAdventure>(true);
+			SayInChat("Press 'C' to open the Quest Journal!", Color.White);
+			SayInChat("Press 'V' to keep track of your progress wih the HUD!", Color.White);
+			SetBookState(true);
+		}
+
 		public struct QuestCategory
 		{
 			public int Index;

@@ -2,12 +2,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Halloween.DevMasks;
 using SpiritMod.NPCs.Critters;
-using SpiritMod.NPCs;
 using SpiritMod.NPCs.Reach;
 using SpiritMod.NPCs.BlueMoon.LunarSlime;
 using SpiritMod.NPCs.OceanSlime;
 using SpiritMod.Projectiles;
-using SpiritMod.Projectiles.Sword;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -128,10 +126,10 @@ namespace SpiritMod.Items
 		}
 		public void SetGlyph(Item item, GlyphType glyph)
 		{
-			if (this.Glyph == glyph)
+			if (Glyph == glyph)
 				return;
 			AdjustStats(item, true);
-			this.Glyph = glyph;
+			Glyph = glyph;
 			AdjustStats(item);
 		}
 

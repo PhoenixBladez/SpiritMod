@@ -46,6 +46,7 @@ using SpiritMod.Items.Sets.BloodcourtSet.BloodCourt;
 using SpiritMod.Items.Accessory.SeaSnailVenom;
 using SpiritMod.Items.Accessory.MoonlightSack;
 using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Mechanics.QuestSystem;
 
 namespace SpiritMod
 {
@@ -980,10 +981,10 @@ namespace SpiritMod
 			}
 
 			// quest related hotkeys
-			if (SpiritMod.QuestBookHotkey.JustPressed) // swap the quest book's state around, if it's open, close it, and vice versa.
+			if (SpiritMod.QuestBookHotkey.JustPressed && QuestManager.QuestBookUnlocked) // swap the quest book's state around, if it's open, close it, and vice versa.
 				Mechanics.QuestSystem.QuestManager.SetBookState(!(SpiritMod.Instance.BookUserInterface.CurrentState is UI.QuestUI.QuestBookUI));
 
-			if (SpiritMod.QuestHUDHotkey.JustPressed) // swap the quest book's state around, if it's open, close it, and vice versa.
+			if (SpiritMod.QuestHUDHotkey.JustPressed && QuestManager.QuestBookUnlocked) // swap the quest book's state around, if it's open, close it, and vice versa.
 				SpiritMod.QuestHUD.Toggle();
 		}
 

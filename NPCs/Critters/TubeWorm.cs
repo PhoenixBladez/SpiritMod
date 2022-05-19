@@ -16,6 +16,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			DisplayName.SetDefault("Tubeworm");
 			Main.npcFrameCount[npc.type] = 6;
+			Main.npcCatchable[npc.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -28,7 +29,6 @@ namespace SpiritMod.NPCs.Critters
 			npc.lifeMax = 5;
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath1;
-			Main.npcCatchable[npc.type] = true;
 			npc.catchItem = (short)ModContent.ItemType<TubewormItem>();
 			npc.knockBackResist = 0f;
 			npc.aiStyle = 0;
@@ -36,20 +36,20 @@ namespace SpiritMod.NPCs.Critters
 			npc.alpha = 255;
 			aiType = NPCID.WebbedStylist;
         }
+
 		bool hasPicked = false;
 		int pickedType;
+
 		public override void AI()
         {
 			if (npc.alpha > 0)
-            {
 				npc.alpha -= 5;
-            }
+
 			if (!hasPicked)
             {
 				npc.scale = Main.rand.NextFloat(.6f, 1.15f);
 				pickedType = Main.rand.Next(0, 4);
 				hasPicked = true;
-
 			}
         }
 
@@ -62,18 +62,19 @@ namespace SpiritMod.NPCs.Critters
 			npc.frame.X = 18 * pickedType;
 			npc.frame.Width = 18;
 		}
+
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(pickedType);
 			writer.Write(hasPicked);
-
 		}
+
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			pickedType = reader.ReadInt32();
 			hasPicked = reader.ReadBoolean();
-
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));
@@ -86,9 +87,7 @@ namespace SpiritMod.NPCs.Critters
 		public override void HitEffect(int hitDirection, double damage)
 		{
             if (npc.life <= 0)
-            {
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/TubewormGore"), 1f);
-            }
         }
 	}
 }

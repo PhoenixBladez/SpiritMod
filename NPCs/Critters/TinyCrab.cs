@@ -10,7 +10,9 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Palecrab");
+
 			Main.npcFrameCount[npc.type] = 4;
+			Main.npcCatchable[npc.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -23,13 +25,13 @@ namespace SpiritMod.NPCs.Critters
 			npc.lifeMax = 5;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
-			Main.npcCatchable[npc.type] = true;
 			npc.catchItem = (short)ModContent.ItemType<TinyCrabItem>();
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 67;
 			npc.npcSlots = 0;
 			aiType = NPCID.Bunny;
         }
+
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.15f;
@@ -37,13 +39,13 @@ namespace SpiritMod.NPCs.Critters
 			int frame = (int)npc.frameCounter;
 			npc.frame.Y = frame * frameHeight;
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
             if (npc.life <= 0)
             {
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/TinyCrabGore"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/TinyCrabGore"), Main.rand.NextFloat(.5f, .7f));
-
 			}
 		}
 	}

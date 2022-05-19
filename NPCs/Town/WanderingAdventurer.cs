@@ -1,13 +1,8 @@
-using SpiritMod.Items.Accessory;
-using SpiritMod.Items.Ammo.Arrow;
-using SpiritMod.Items.Material;
 using SpiritMod.Items.Pins;
 using SpiritMod.Items.Placeable.Furniture;
 using SpiritMod.Items.Sets.HuskstalkSet;
-using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -179,8 +174,8 @@ namespace SpiritMod.NPCs.Town
 		{
 			button = Language.GetTextValue("LegacyInterface.28");
 
-			// TODO: only show this if the player hasn't gotten their quest book yet?
-			button2 = "Quest Book";
+			if (!Mechanics.QuestSystem.QuestManager.QuestBookUnlocked)
+				button2 = "Quest Book";
 		}
 
 		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
@@ -188,13 +183,7 @@ namespace SpiritMod.NPCs.Town
 			if (firstButton) 
 				shop = true;
 			else
-			{
-				Mechanics.QuestSystem.QuestManager.QuestBookUnlocked = true;
-				Mechanics.QuestSystem.QuestManager.UnlockQuest<Mechanics.QuestSystem.Quests.FirstAdventure>(true);
-				Mechanics.QuestSystem.QuestManager.SayInChat("Press 'C' to open the Quest Journal!", Color.White);
-				Mechanics.QuestSystem.QuestManager.SayInChat("Press 'V' to keep track of your progress wih the HUD!", Color.White);
-				Mechanics.QuestSystem.QuestManager.SetBookState(true);
-			}
+				Mechanics.QuestSystem.QuestManager.UnlockQuestBook();
 		}
 	}
 }

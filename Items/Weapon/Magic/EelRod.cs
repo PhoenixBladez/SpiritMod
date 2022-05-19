@@ -17,7 +17,6 @@ namespace SpiritMod.Items.Weapon.Magic
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Magic/EelRod_Glow");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = 48;
@@ -38,16 +37,19 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.shootSpeed = 8f;
 			item.autoReuse = true;
 		}
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY - 3)) * 45f;
-			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
+			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
 				position += muzzleOffset;
-			}
+
 			Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0, new Vector2(speedX, speedY).ToRotation());
 			return false;
 		}
+
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0;
+
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture;

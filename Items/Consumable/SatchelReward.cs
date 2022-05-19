@@ -1,9 +1,4 @@
-using SpiritMod.Items.Material;
-using SpiritMod.Items.Placeable.Furniture;
-using SpiritMod.Items.Placeable.Furniture.Paintings;
-using SpiritMod.Items.Weapon.Thrown;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Consumable
@@ -16,7 +11,6 @@ namespace SpiritMod.Items.Consumable
 			Tooltip.SetDefault("'The Painter's been feeling inspired!'\nContains two random paintings");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = 52;
@@ -27,44 +21,15 @@ namespace SpiritMod.Items.Consumable
 			item.useAnimation = 15;
 			item.useTime = 10;
 			item.consumable = true;
-
+			item.value = Item.buyPrice(0, 6, 0, 0);
 		}
 
 		public override bool CanRightClick() => true;
 
 		public override void RightClick(Player player)
 		{
-			int[] lootTable = {
-				ModContent.ItemType<AdvPainting1>(),
-				ModContent.ItemType<AdvPainting2>(),
-				ModContent.ItemType<AdvPainting3>(),
-				ModContent.ItemType<AdvPainting4>(),
-				ModContent.ItemType<AdvPainting5>(),
-				ModContent.ItemType<AdvPainting6>(),
-				ModContent.ItemType<AdvPainting7>(),
-				ModContent.ItemType<AdvPainting8>(),
-				ModContent.ItemType<AdvPainting9>(),
-				ModContent.ItemType<AdvPainting10>(),
-				ModContent.ItemType<AdvPainting11>(),
-				ModContent.ItemType<AdvPainting12>(),
-				ModContent.ItemType<AdvPainting13>(),
-				ModContent.ItemType<AdvPainting14>(),
-				ModContent.ItemType<AdvPainting15>(),
-				ModContent.ItemType<AdvPainting16>(),
-				ModContent.ItemType<AdvPainting17>(),
-				ModContent.ItemType<AdvPainting18>(),
-				ModContent.ItemType<AdvPainting19>(),
-                ModContent.ItemType<AdvPainting20>(),
-                ModContent.ItemType<AdvPainting21>(),
-                ModContent.ItemType<AdvPainting22>(),
-                ModContent.ItemType<AdvPainting23>(),
-
-            };
-			int loot = Main.rand.Next(lootTable.Length);
-			int loot1 = Main.rand.Next(lootTable.Length);
-
-			player.QuickSpawnItem(lootTable[loot]);
-			player.QuickSpawnItem(lootTable[loot1]);
+			player.QuickSpawnItem(mod.ItemType("AdvPainting" + Main.rand.Next(1, 24)));
+			player.QuickSpawnItem(mod.ItemType("AdvPainting" + Main.rand.Next(1, 24)));
 		}
 	}
 }
