@@ -1,23 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Terraria;
 using Terraria.ModLoader;
-
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Ammo.Arrow;
-using SpiritMod.Items.Material;
-using SpiritMod.Items.Pins;
 using SpiritMod.Items.Placeable.Furniture;
 using SpiritMod.Mechanics.QuestSystem.Quests;
 using SpiritMod.NPCs.Town;
 using SpiritMod.Items.Consumable.Quest;
-
-using static Terraria.ModLoader.ModContent;
-
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -38,114 +28,114 @@ namespace SpiritMod.Mechanics.QuestSystem
 			if (npc.type == NPCID.Zombie || npc.type == NPCID.BaldZombie || npc.type == NPCID.SlimedZombie || npc.type == NPCID.SwampZombie || npc.type == NPCID.TwiggyZombie || npc.type == NPCID.ZombieRaincoat || npc.type == NPCID.PincushionZombie || npc.type == NPCID.ZombieEskimo) {
 				if (!QuestWorld.zombieQuestStart && QuestManager.GetQuest<FirstAdventure>().IsCompleted)
 					if (Main.rand.Next(40) == 0)
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<OccultistMap>());
+						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<OccultistMap>());
 			}
 
-            if (npc.type == NPCID.EyeofCthulhu || npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.SkeletronHead || npc.type == NPCType<NPCs.Boss.Scarabeus.Scarabeus>() || 
-				npc.type == NPCType<NPCs.Boss.AncientFlyer>() || npc.type == NPCType<NPCs.Boss.MoonWizard.MoonWizard>() || npc.type == NPCType<NPCs.Boss.SteamRaider.SteamRaiderHead>())
+            if (npc.type == NPCID.EyeofCthulhu || npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.SkeletronHead || npc.type == ModContent.NPCType<NPCs.Boss.Scarabeus.Scarabeus>() || 
+				npc.type == ModContent.NPCType<NPCs.Boss.AncientFlyer>() || npc.type == ModContent.NPCType<NPCs.Boss.MoonWizard.MoonWizard>() || npc.type == ModContent.NPCType<NPCs.Boss.SteamRaider.SteamRaiderHead>())
             {
-				GetInstance<QuestWorld>().AddQuestQueue(NPCType<Adventurer>(), QuestManager.GetQuest<SlayerQuestOccultist>());
-				GetInstance<QuestWorld>().AddQuestQueue(NPCType<Adventurer>(), QuestManager.GetQuest<UnidentifiedFloatingObjects>());
+				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<SlayerQuestOccultist>());
+				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<UnidentifiedFloatingObjects>());
             }
 
             if (npc.type == NPCID.EaterofWorldsHead)
-				GetInstance<QuestWorld>().AddQuestQueue(NPCType<Adventurer>(), QuestManager.GetQuest<SlayerQuestMarble>());
+				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<SlayerQuestMarble>());
 
             if (npc.type == NPCID.SkeletronHead)
             {
-				GetInstance<QuestWorld>().AddQuestQueue(NPCType<Adventurer>(), QuestManager.GetQuest<RaidingTheStars>());
-				GetInstance<QuestWorld>().AddQuestQueue(NPCType<Adventurer>(), QuestManager.GetQuest<StrangeSeas>());
-				GetInstance<QuestWorld>().AddQuestQueue(NPCType<RuneWizard>(), QuestManager.GetQuest<IceDeityQuest>());
+				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<RaidingTheStars>());
+				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<StrangeSeas>());
+				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<RuneWizard>(), QuestManager.GetQuest<IceDeityQuest>());
 			}
 			OnNPCLoot?.Invoke(npc);
         }
 
 		public override void SetupShop(int type, Chest shop, ref int nextSlot)
 		{
-			if (type == NPCType<RuneWizard>() && QuestManager.GetQuest<FirstAdventure>().IsCompleted && !Main.dayTime)
-				shop.item[nextSlot++].SetDefaults(ItemType<OccultistMap>(), false);
+			if (type == ModContent.NPCType<RuneWizard>() && QuestManager.GetQuest<FirstAdventure>().IsCompleted && !Main.dayTime)
+				shop.item[nextSlot++].SetDefaults(ModContent.ItemType<OccultistMap>(), false);
 
 			if (type == NPCID.Stylist)
             {
 				if (QuestManager.GetQuest<StylistQuestSeafoam>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<Items.Sets.DyesMisc.HairDye.SeafoamDye>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.SeafoamDye>(), false);
 
 				if (QuestManager.GetQuest<StylistQuestMeteor>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<Items.Sets.DyesMisc.HairDye.MeteorDye>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.MeteorDye>(), false);
 				if (QuestManager.GetQuest<StylistQuestCorrupt>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<Items.Sets.DyesMisc.HairDye.CystalDye>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.CystalDye>(), false);
 				if (QuestManager.GetQuest<StylistQuestCrimson>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<Items.Sets.DyesMisc.HairDye.ViciousDye>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.ViciousDye>(), false);
 			}
 			if (type == NPCID.Merchant)
 			{
 				if (QuestManager.GetQuest<AnglerStatueQuest>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<GiantAnglerStatue>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<GiantAnglerStatue>(), false);
 			}
 			if (type == NPCID.Demolitionist)
             {
 				if (QuestManager.GetQuest<RescueQuestStylist>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<LongFuse>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<LongFuse>(), false);
 			}
-			if (type == NPCType<Adventurer>())
+			if (type == ModContent.NPCType<Adventurer>())
 			{
 				if (QuestManager.GetQuest<FirstAdventure>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<DurasilkSheaf>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<DurasilkSheaf>(), false);
 
 				if (QuestManager.GetQuest<ExplorerQuestAsteroid>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<ExplorerScrollAsteroidFull>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<ExplorerScrollAsteroidFull>(), false);
 				if (QuestManager.GetQuest<ExplorerQuestGranite>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<ExplorerScrollGraniteFull>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<ExplorerScrollGraniteFull>(), false);
 				if (QuestManager.GetQuest<ExplorerQuestMarble>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<ExplorerScrollMarbleFull>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<ExplorerScrollMarbleFull>(), false);
 				if (QuestManager.GetQuest<ExplorerQuestHive>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<ExplorerScrollHiveFull>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<ExplorerScrollHiveFull>(), false);
 				if (QuestManager.GetQuest<ExplorerQuestMushroom>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<ExplorerScrollMushroomFull>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<ExplorerScrollMushroomFull>(), false);
 
 				if (QuestManager.GetQuest<CritterCaptureFloater>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<Items.Weapon.Magic.LuminanceSeacone.LuminanceSeacone>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Weapon.Magic.LuminanceSeacone.LuminanceSeacone>(), false);
 
 				if (QuestManager.GetQuest<ManicMage>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<Items.Sets.MagicMisc.Lightspire.AkaviriStaff>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Sets.MagicMisc.Lightspire.AkaviriStaff>(), false);
 
 				if (QuestManager.GetQuest<SkyHigh>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<Tiles.Furniture.JadeDragonStatue.DragonStatueItem>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Tiles.Furniture.JadeDragonStatue.DragonStatueItem>(), false);
 
 				if (QuestManager.GetQuest<SlayerQuestCavern>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<Items.Weapon.Thrown.ClatterSpear>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Weapon.Thrown.ClatterSpear>(), false);
 
 				if (QuestManager.GetQuest<ZombieOriginQuest>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<Items.Weapon.Swung.Punching_Bag.Punching_Bag>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Weapon.Swung.Punching_Bag.Punching_Bag>(), false);
 
 				if (QuestManager.GetQuest<DecrepitDepths>().IsCompleted) {
-					shop.item[nextSlot++].SetDefaults(ItemType<SepulchreArrow>(), false);
-					shop.item[nextSlot++].SetDefaults(ItemType<SepulchreBannerItem>(), false);
-					shop.item[nextSlot++].SetDefaults(ItemType<SepulchreChest>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<SepulchreArrow>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<SepulchreBannerItem>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<SepulchreChest>(), false);
 				}
 
 				if (QuestManager.GetQuest<SkyHigh>().IsCompleted) {
-					shop.item[nextSlot++].SetDefaults(ItemType<PottedSakura>(), false);
-					shop.item[nextSlot++].SetDefaults(ItemType<PottedWillow>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<PottedSakura>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<PottedWillow>(), false);
 				}
 				if (QuestManager.GetQuest<ItsNoSalmon>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<Items.Accessory.KoiTotem>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<KoiTotem>(), false);
 				if (QuestManager.GetQuest<SporeSalvage>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<Tiles.Furniture.Critters.VibeshroomJarItem>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Tiles.Furniture.Critters.VibeshroomJarItem>(), false);
 				if (QuestManager.GetQuest<SlayerQuestDrBones>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<Items.Consumable.SeedBag>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Consumable.SeedBag>(), false);
 				if (QuestManager.GetQuest<IceDeityQuest>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<Items.Weapon.Thrown.CryoKnife>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Weapon.Thrown.CryoKnife>(), false);
 				if (QuestManager.GetQuest<IceDeityQuest>().IsCompleted)
-					shop.item[nextSlot++].SetDefaults(ItemType<Items.Placeable.IceSculpture.IceDeitySculpture>(), false);
+					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Placeable.IceSculpture.IceDeitySculpture>(), false);
 			}
 			OnSetupShop?.Invoke(type, shop, nextSlot);
 		}
 
 		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor) //Draws the exclamation mark on the NPC when they have a quest
 		{
-			bool valid = GetInstance<SpiritClientConfig>().ShowNPCQuestNotice && npc.CanTalk; //Check if the NPC talks and if the config allows
-			if (valid && GetInstance<QuestWorld>().NPCQuestQueue.ContainsKey(npc.type) && GetInstance<QuestWorld>().NPCQuestQueue[npc.type].Count > 0)
+			bool valid = ModContent.GetInstance<SpiritClientConfig>().ShowNPCQuestNotice && npc.CanTalk; //Check if the NPC talks and if the config allows
+			if (valid && ModContent.GetInstance<QuestWorld>().NPCQuestQueue.ContainsKey(npc.type) && ModContent.GetInstance<QuestWorld>().NPCQuestQueue[npc.type].Count > 0)
 			{
 				Texture2D tex = mod.GetTexture("UI/QuestUI/Textures/ExclamationMark");
 				float scale = (float)Math.Sin(Main.time * 0.08f) * 0.14f;

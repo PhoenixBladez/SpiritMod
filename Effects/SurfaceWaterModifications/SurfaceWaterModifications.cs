@@ -5,6 +5,7 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using SpiritMod.Mechanics.OceanWavesSystem;
 using SpiritMod.Utilities;
+using SpiritMod.Utilities.Helpers;
 using System;
 using System.Reflection;
 using Terraria;
@@ -30,8 +31,8 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			if (ModContent.GetInstance<SpiritClientConfig>().SurfaceWaterTransparency)
 			{
 				IL.Terraria.Main.DoDraw += AddWaterShader; //Transparency shader
-				IL.Terraria.Main.DrawTiles += Main_DrawTiles; //Liquid slope fix (tentative)
-				IL.Terraria.Main.DrawBlack += Main_DrawBlack; //^^
+				//IL.Terraria.Main.DrawTiles += Main_DrawTiles; //Liquid slope fix (tentative)
+				//IL.Terraria.Main.DrawBlack += Main_DrawBlack; //^^
 			}
 
 			IL.Terraria.GameContent.Shaders.WaterShaderData.QueueRipple_Vector2_Color_Vector2_RippleShape_float += IncreaseRippleSize; //Makes ripple bigger
@@ -154,31 +155,64 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 		{
 			var c = new ILCursor(il);
 
-			c.TryGotoNext(n => n.MatchLdfld<Main>("backWaterTarget")); //Back target
+			ILHelper.CompleteLog(c, true);
+
+			//BACK TARGET
+			c.TryGotoNext(n => n.MatchLdfld<Main>("backWaterTarget"));
 
 			c.TryGotoNext(n => n.MatchCallvirt<SpriteBatch>("Draw"));
 			c.Index++;
-			ILLabel label = il.DefineLabel(c.Next);
+			ILLabel postDrawLabel = c.MarkLabel();
 
-			c.TryGotoPrev(n => n.MatchLdfld<Main>("backWaterTarget"));
+			c.TryGotoPrev(MoveType.Before, n => n.MatchLdfld<Main>("backWaterTarget"));
+			c.TryGotoNext(MoveType.Before, n => n.MatchLdsfld<Main>("sceneBackgroundPos"));
+
+			ILLabel exitLabel = c.MarkLabel();
+
+			c.TryGotoPrev(MoveType.Before, n => n.MatchLdfld<Main>("backWaterTarget"));
+			c.Index++;
+
+			c.EmitDelegate<Func<bool>>(IsWaterTransparent);
+			c.Emit(OpCodes.Brfalse, exitLabel);
+			c.Emit(OpCodes.Nop);
+
+			c.Index--;
 			c.Emit(OpCodes.Pop);
 			c.Emit(OpCodes.Pop);
 			c.Emit(OpCodes.Ldc_I4_0); //Push 0 because this is the back
 			c.EmitDelegate<Action<bool>>(NewDraw);
-			c.Emit(OpCodes.Br, label);
+			c.Emit(OpCodes.Br, postDrawLabel);
 
-			c.TryGotoNext(n => n.MatchLdsfld<Main>("waterTarget")); //Front target
+			//FRONT TARGET
+			c.TryGotoNext(n => n.MatchLdsfld<Main>("waterTarget"));
 
 			c.TryGotoNext(n => n.MatchCallvirt<SpriteBatch>("Draw"));
 			c.Index++;
-			ILLabel label2 = il.DefineLabel(c.Next);
+			ILLabel label2 = c.MarkLabel();
 
 			c.TryGotoPrev(n => n.MatchLdsfld<Main>("waterTarget"));
+			c.TryGotoNext(MoveType.Before, n => n.MatchLdsfld<Main>("sceneWaterPos"));
+
+			ILLabel exitLabelFront = c.MarkLabel();
+
+			c.TryGotoPrev(n => n.MatchLdsfld<Main>("waterTarget"));
+			c.Index++;
+
+			c.EmitDelegate<Func<bool>>(IsWaterTransparent);
+			c.Emit(OpCodes.Brfalse, exitLabelFront);
+			c.Emit(OpCodes.Nop);
+
+			c.Index--;
+			c.Emit(OpCodes.Pop);
 			c.Emit(OpCodes.Pop);
 			c.Emit(OpCodes.Ldc_I4_1); //Push 1 since this is the front
 			c.EmitDelegate<Action<bool>>(NewDraw);
 			c.Emit(OpCodes.Br, label2);
+
+			ILHelper.CompleteLog(c);
 		}
+
+		private static bool IsWaterTransparent() => Main.LocalPlayer.ZoneBeach;
 
 		private static void NewDraw(bool back)
 		{

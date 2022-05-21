@@ -383,5 +383,24 @@ namespace SpiritMod.World
 				}
 			}
 		}
+
+		public static int AreaCount(int i, int j, int width, int height)
+		{
+			int count = 0; 
+
+			for (int x = i; x < i + width; ++x)
+			{
+				for (int y = j; y < j + height; ++y)
+				{
+					Tile tile = Framing.GetTileSafely(x, y);
+					if (tile.active() && Main.tileSolid[tile.type])
+						count++;
+				}
+			}
+
+			return count;
+		}
+
+		public static bool AreaClear(int i, int j, int width, int height) => AreaCount(i, j, width, height) == 0;
 	}
 }

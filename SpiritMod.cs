@@ -1429,7 +1429,7 @@ namespace SpiritMod
 									break;
 							}
 
-							Rectangle frame = new Rectangle(0, 0, 50, 52);
+							Rectangle frame = new Rectangle(0, 0, 49, 52);
 							bool hover = false;
 
 							if (Main.MouseScreen.Between(position, position + bookSize))

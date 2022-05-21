@@ -1,4 +1,5 @@
-﻿using Terraria.ID;
+﻿using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Ammo
@@ -17,7 +18,7 @@ namespace SpiritMod.Items.Ammo
 			item.ammo = AmmoID.Solution;
 			item.width = 10;
 			item.height = 12;
-			item.value = 0;
+			item.value = Item.buyPrice(0, 0, 25, 0);
 			item.rare = ItemRarityID.Orange;
 			item.maxStack = 999;
 			item.consumable = true;

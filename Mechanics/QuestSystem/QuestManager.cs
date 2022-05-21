@@ -366,17 +366,22 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public static void SayInChat(string text, Color colour)
 		{
-			if (Main.netMode == NetmodeID.SinglePlayer) Main.NewText(text, colour.R, colour.G, colour.B, false);
-			else if (Main.netMode == NetmodeID.Server) NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(text), colour, -1);
+			if (Main.netMode == NetmodeID.SinglePlayer)
+				Main.NewText(text, colour.R, colour.G, colour.B, false);
+			else if (Main.netMode == NetmodeID.Server)
+				NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(text), colour, -1);
 		}
 
 		public static void UnlockQuestBook()
 		{
-			QuestBookUnlocked = true;
-			UnlockQuest<Quests.FirstAdventure>(true);
-			SayInChat("Press 'C' to open the Quest Journal!", Color.White);
-			SayInChat("Press 'V' to keep track of your progress wih the HUD!", Color.White);
-			SetBookState(true);
+			if (!QuestBookUnlocked)
+			{
+				QuestBookUnlocked = true;
+				UnlockQuest<Quests.FirstAdventure>(true);
+				SayInChat("Press 'C' to open the Quest Journal!", Color.White);
+				SayInChat("Press 'V' to keep track of your progress wih the HUD!", Color.White);
+				SetBookState(true);
+			}
 		}
 
 		public struct QuestCategory

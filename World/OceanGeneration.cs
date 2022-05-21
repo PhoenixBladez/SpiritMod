@@ -125,7 +125,7 @@ namespace SpiritMod.World
 				for (int k = i; k < i + width; ++k)
 				{
 					Tile t = Framing.GetTileSafely(k, j);
-					if (!t.active() || t.type != type || t.topSlope())
+					if (!t.active() || t.type != type || t.topSlope() || !Main.tileSolid[t.type])
 						return false;
 				}
 				return true;
@@ -202,7 +202,7 @@ namespace SpiritMod.World
 					}
 
 					//Hydrothermal vents
-					if (WorldGen.genRand.Next(7) < 2 && tilesFromInnerEdge > 143 && ValidGround(i, j, 1, TileID.Sand) && OpenArea(i, j - 3, 1, 3))
+					if (WorldGen.genRand.Next(7) < 3 && tilesFromInnerEdge > 135 && ValidGround(i, j, 1, TileID.Sand) && OpenArea(i, j - 3, 1, 3))
 					{
 						int type = WorldGen.genRand.NextBool(3) ? ModContent.TileType<HydrothermalVent1x3>() : ModContent.TileType<HydrothermalVent1x2>();
 						int offset = type == ModContent.TileType<HydrothermalVent1x2>() ? 2 : 3;
@@ -249,9 +249,10 @@ namespace SpiritMod.World
 
 		private static void PlacePirateChest(int innerEdge, int side)
 		{
-			int guaranteeChestX = innerEdge - WorldGen.genRand.Next(120, innerEdge - 40);
+		retry:
+			int guaranteeChestX = innerEdge - WorldGen.genRand.Next(100, innerEdge - 60);
 			if (side == 1)
-				guaranteeChestX = innerEdge + WorldGen.genRand.Next(120, Main.maxTilesX - innerEdge - 40);
+				guaranteeChestX = innerEdge + WorldGen.genRand.Next(100, Main.maxTilesX - innerEdge - 60);
 
 			var chest = new Point(guaranteeChestX, (int)(Main.maxTilesY * 0.35f / 16f));
 			while (!WorldGen.SolidTile(chest.X, chest.Y - 1))
@@ -259,7 +260,8 @@ namespace SpiritMod.World
 			chest.Y--;
 			chest.X--;
 
-			int BarStack() => WorldGen.genRand.Next(3, 7);
+			if (!WorldMethods.AreaClear(chest.X, chest.Y - 2, 2, 2))
+				goto retry; //uh oh! goto! I'm a lazy programmer seethe & rage
 
 			for (int i = 0; i < 2; ++i)
 			{
@@ -267,6 +269,8 @@ namespace SpiritMod.World
 				WorldGen.PlaceTile(chest.X + i, chest.Y + 1, TileID.HardenedSand, true, false);
 				Framing.GetTileSafely(chest.X + i, chest.Y + 1).slope(0);
 			}
+
+			int BarStack() => WorldGen.genRand.Next(3, 7);
 
 			PlaceChest(chest.X, chest.Y, ModContent.TileType<OceanPirateChest>(), 
 				new (int, int)[] //Primary items
