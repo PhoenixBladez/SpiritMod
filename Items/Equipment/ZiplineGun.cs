@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Projectiles.Summon.LaserGate;
 using SpiritMod.Projectiles.Summon.Zipline;
 using Terraria;
 using Terraria.ID;
@@ -14,6 +13,9 @@ namespace SpiritMod.Items.Equipment
 		bool rightactive = false;
 		int right = 0;
 		int left = 0;
+
+		public override bool Autoload(ref string name) => false;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Rail-gun");
@@ -53,10 +55,7 @@ namespace SpiritMod.Items.Equipment
 				right = 0;
 				left = 0;
 			}
-			/*  if (player.statMana <= 12)
-              {
-                  return false;
-              }*/
+
 			if (player.altFunctionUse == 2) {
 				if (rightactive) {
 					Main.projectile[right].active = false;

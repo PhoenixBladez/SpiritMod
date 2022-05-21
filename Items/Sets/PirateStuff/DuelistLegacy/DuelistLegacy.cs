@@ -1,14 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Dusts;
 using System;
 using SpiritMod.Utilities;
 using Terraria;
 using Terraria.Enums;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Particles;
 
 namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 {
@@ -18,10 +15,9 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 
 		private int charge;
 
-		public override bool AltFunctionUse(Player player) => true;
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Duelist's Legacy");
+			DisplayName.SetDefault("First Mate");
 			Tooltip.SetDefault("Right click to fire a powerful shotgun blast \nCharges up a super attack after 2 swings\nRelease this special attack as either a slash or a blast");
 		}
 
@@ -46,6 +42,8 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 			item.noUseGraphic = true;
 			item.noMelee = true;
 		}
+
+		public override bool AltFunctionUse(Player player) => true;
 
 		public override bool CanUseItem(Player player)
 		{

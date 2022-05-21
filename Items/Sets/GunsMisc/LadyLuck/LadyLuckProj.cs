@@ -5,7 +5,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
-using SpiritMod.Prim;
 
 namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
 {
@@ -37,42 +36,47 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
                 projectile.frame = 1 - projectile.frame; //cheeky
                 projectile.frameCounter = 0;
             }
+
             if (Main.rand.Next(10) == 0)
                 Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.GoldCoin, 0, 0).velocity = Vector2.Zero;
+
             Lighting.AddLight(projectile.Center, Color.Gold.R * 0.0007f, Color.Gold.G * 0.0007f, Color.Gold.B * 0.0007f);
             cooldown--;
             Rectangle Hitbox = new Rectangle((int)projectile.Center.X - 30, (int)projectile.Center.Y - 30, 60, 60);
             var list = Main.projectile.Where(x => x.Hitbox.Intersects(Hitbox));
+
             foreach (var proj in list)
             {
                 if (proj.ranged && proj.active && proj.friendly && !proj.hostile && proj.GetGlobalProjectile<LLProj>().shotFromGun && cooldown < 0)
                 {
                     for (int i = 0; i < 5; i++)
                         Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.GoldCoin).velocity *= 0.4f;
-					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Ricochet").WithPitchVariance(0.4f).WithVolume(0.6f), projectile.Center);
+
+					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Ricochet").WithPitchVariance(0.4f).WithVolume(0.6f), projectile.Center);
 					projectile.velocity = proj.velocity / 2;
                     float attackRange = 800;
                     NPC target = Main.npc.Where(n => n.CanBeChasedBy() && Vector2.Distance(n.Center, projectile.Center) < attackRange).OrderBy(n => n.life / n.lifeMax).FirstOrDefault();
+
                     if (target != default)
                     {
-                        Vector2 direction = target.Center - proj.Center;
-                        direction.Normalize();
+                        Vector2 direction = Vector2.Normalize(target.Center - proj.Center);
 						float velocity = proj.velocity.Length();
 
 						direction *= velocity;
                         proj.velocity = direction;
-                        proj.damage = (int)(proj.damage * (5.75f - projectile.penetrate));
+                        proj.damage = (int)(proj.damage * 3f);
 						SpiritMod.primitives.CreateTrail(new LLPrimTrail(proj, Color.Gold));
 
 						proj.GetGlobalProjectile<LLProj>().hit = true;
 						proj.GetGlobalProjectile<LLProj>().target = target;
 						proj.GetGlobalProjectile<LLProj>().initialVel = velocity;
-
 						proj.GetGlobalProjectile<LLProj>().shotFromGun = false;
                     }
                     else
                         proj.velocity = proj.velocity.RotatedBy(Main.rand.NextFloat(6.28f));
+
                     projectile.penetrate--;
+
                     if (projectile.penetrate == 0)
                         for (int i = 1; i < 3; ++i)
                             Gore.NewGore(projectile.Center, Vector2.Zero, mod.GetGoreSlot("Gores/CoinGores/CoinHalf" + i), 1f);
@@ -83,6 +87,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
             if (Math.Abs(projectile.velocity.Y) < 2f)
                 projectile.velocity.Y *= 0.98f;
             projectile.velocity *= .996f;
+			projectile.velocity.Y -= 0.1f;
         }
 
 		public override void Kill(int timeLeft)

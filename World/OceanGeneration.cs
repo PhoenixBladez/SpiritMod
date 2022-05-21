@@ -275,7 +275,7 @@ namespace SpiritMod.World
 			PlaceChest(chest.X, chest.Y, ModContent.TileType<OceanPirateChest>(), 
 				new (int, int)[] //Primary items
 				{
-					(ModContent.ItemType<DuelistLegacy>(), 1), (ModContent.ItemType<LadyLuck>(), 1)
+					(side == 0 ? ModContent.ItemType<LadyLuck>() : ModContent.ItemType<DuelistLegacy>(), 1)
 				}, 
 				new (int, int)[] //Sub items (woo)
 				{   

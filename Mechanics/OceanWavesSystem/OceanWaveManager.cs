@@ -54,7 +54,7 @@ namespace SpiritMod.Mechanics.OceanWavesSystem
 
 		public static void UpdateWaves(bool left, bool right, Vector2 offset)
 		{
-			List<Wave> removals = new List<Wave>();
+			var removals = new List<Wave>();
 
 			for (int i = 0; i < waves.Count; ++i)
 			{

@@ -1470,32 +1470,32 @@ namespace SpiritMod
 				);
 
 				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer(
-				"SpiritMod: SellUI",
-				delegate
-				{
-					DrawUpdateToggles();
-					if (AutoSellUI.visible)
+					"SpiritMod: SellUI",
+					delegate
 					{
-						AutoSellUI_INTERFACE.Update(Main._drawInterfaceGameTime);
-						AutoSellUI_SHORTCUT.Draw(Main.spriteBatch);
-					}
-					if (Mechanics.AutoSell.Sell_NoValue.Sell_NoValue.visible)
-					{
-						SellNoValue_INTERFACE.Update(Main._drawInterfaceGameTime);
-						SellNoValue_SHORTCUT.Draw(Main.spriteBatch);
-					}
-					if (Mechanics.AutoSell.Sell_Lock.Sell_Lock.visible)
-					{
-						SellLock_INTERFACE.Update(Main._drawInterfaceGameTime);
-						SellLock_SHORTCUT.Draw(Main.spriteBatch);
-					}
-					if (Mechanics.AutoSell.Sell_Weapons.Sell_Weapons.visible)
-					{
-						SellWeapons_INTERFACE.Update(Main._drawInterfaceGameTime);
-						SellWeapons_SHORTCUT.Draw(Main.spriteBatch);
-					}
-					return true;
-				},
+						DrawUpdateToggles();
+						if (AutoSellUI.visible)
+						{
+							AutoSellUI_INTERFACE.Update(Main._drawInterfaceGameTime);
+							AutoSellUI_SHORTCUT.Draw(Main.spriteBatch);
+						}
+						if (Mechanics.AutoSell.Sell_NoValue.Sell_NoValue.visible)
+						{
+							SellNoValue_INTERFACE.Update(Main._drawInterfaceGameTime);
+							SellNoValue_SHORTCUT.Draw(Main.spriteBatch);
+						}
+						if (Mechanics.AutoSell.Sell_Lock.Sell_Lock.visible)
+						{
+							SellLock_INTERFACE.Update(Main._drawInterfaceGameTime);
+							SellLock_SHORTCUT.Draw(Main.spriteBatch);
+						}
+						if (Mechanics.AutoSell.Sell_Weapons.Sell_Weapons.visible)
+						{
+							SellWeapons_INTERFACE.Update(Main._drawInterfaceGameTime);
+							SellWeapons_SHORTCUT.Draw(Main.spriteBatch);
+						}
+						return true;
+					},
 					InterfaceScaleType.UI)
 				);
 
@@ -1510,7 +1510,7 @@ namespace SpiritMod
 			if (TideWorld.TheTide)
 			{
 				int index = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
-				LegacyGameInterfaceLayer NewLayer = new LegacyGameInterfaceLayer("InstallFix2: NewLayer",
+				LegacyGameInterfaceLayer NewLayer = new LegacyGameInterfaceLayer("SpiritMod: Tide UI",
 					delegate
 					{
 						DrawEventUI(Main.spriteBatch);
