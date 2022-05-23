@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Utilities
+namespace SpiritMod.Players
 {
 	/// <summary>
 	/// ModPlayer class managing extra additive or alphablend draw calls on top of a player, due to the inflexibility of playerlayers.
@@ -58,8 +58,8 @@ namespace SpiritMod.Utilities
 		/// </summary>
 		public static void DrawPlayers()
 		{
-			List<ExtraDrawOnPlayer> additiveCallPlayers = new List<ExtraDrawOnPlayer>();
-			List<ExtraDrawOnPlayer> alphaBlendCallPlayers = new List<ExtraDrawOnPlayer>();
+			var additiveCallPlayers = new List<ExtraDrawOnPlayer>();
+			var alphaBlendCallPlayers = new List<ExtraDrawOnPlayer>();
 			foreach (Player player in Main.player.Where(x => x.active && x != null))
 			{
 				if (player.GetModPlayer<ExtraDrawOnPlayer>().AnyOfType(DrawType.Additive))
@@ -71,7 +71,7 @@ namespace SpiritMod.Utilities
 
 			if (additiveCallPlayers.Any())
 			{
-				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 				foreach (ExtraDrawOnPlayer player in additiveCallPlayers)
 					player.DrawAllCallsOfType(Main.spriteBatch, DrawType.Additive);
 				Main.spriteBatch.End();
@@ -79,7 +79,7 @@ namespace SpiritMod.Utilities
 
 			if (alphaBlendCallPlayers.Any())
 			{
-				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 				foreach (ExtraDrawOnPlayer player in alphaBlendCallPlayers)
 					player.DrawAllCallsOfType(Main.spriteBatch, DrawType.AlphaBlend);
 				Main.spriteBatch.End();

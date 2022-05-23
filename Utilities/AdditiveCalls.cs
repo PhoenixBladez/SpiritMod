@@ -39,7 +39,7 @@ namespace SpiritMod
 			//Only restart spritebatch if needed
 			if(CallList.Count > 0)
 			{
-				Main.spriteBatch.Begin(default, BlendState.Additive, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
+				Main.spriteBatch.Begin(default, BlendState.Additive, default, default, RasterizerState.CullNone, default, Main.GameViewMatrix.ZoomMatrix);
 				foreach (IDrawAdditive drawAdditive in CallList)
 					drawAdditive.AdditiveCall(sb);
 

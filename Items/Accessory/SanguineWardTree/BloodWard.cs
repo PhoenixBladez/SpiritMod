@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Particles;
+using SpiritMod.Players;
 using SpiritMod.Utilities;
 using System;
 using Terraria;

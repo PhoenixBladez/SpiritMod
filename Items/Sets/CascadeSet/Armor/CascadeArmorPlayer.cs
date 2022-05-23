@@ -1,9 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Dusts;
+using SpiritMod.Players;
+using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.CascadeSet.Armor
@@ -13,6 +18,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 		public const float MaxResist = 0.20f;
 
 		internal float bubbleStrength = 0;
+		internal float bubbleVisual = 0;
 		internal bool setActive = false;
 
 		public override void ResetEffects() => setActive = false;
@@ -47,6 +53,23 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 			}
 		}
 
+		public override void PostUpdate()
+		{
+			if (setActive)
+			{
+				player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawBubble(sB); }, ExtraDrawOnPlayer.DrawType.Additive);
+				player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawBubble(sB, true); }, ExtraDrawOnPlayer.DrawType.AlphaBlend);
+			}
+
+			else if (bubbleStrength > 0) //Kill bubble if armor piece unequipped
+				PopBubble();
+
+			if (bubbleVisual < bubbleStrength) //smooth transition for visual
+				bubbleVisual = MathHelper.Lerp(bubbleVisual, bubbleStrength, 0.1f);
+
+			bubbleVisual = Math.Min(bubbleVisual, bubbleStrength); //Cap visual strength at real strength value
+		}
+
 		private void PopBubble()
 		{
 			int radius = (int)(300 * bubbleStrength);
@@ -54,9 +77,9 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 			for (int i = 0; i < 16; i++)
 			{
 				Vector2 vel = new Vector2(0, Main.rand.NextFloat(7f, 10f)).RotatedByRandom(MathHelper.Pi);
-				Dust.NewDustPerfect(player.Center, ModContent.DustType<Dusts.DarkWaterDust>(), vel, 0, default, Main.rand.NextFloat(.6f, 1.25f));
+				Dust.NewDustPerfect(player.Center, ModContent.DustType<DarkWaterDust>(), vel, 0, default, Main.rand.NextFloat(.6f, 1.25f));
 
-				Dust dust = Dust.NewDustPerfect(player.Center + new Vector2(Main.rand.Next(-50, 50), Main.rand.Next(0, 30)), ModContent.DustType<Dusts.BubbleDust>(), vel, 0, Color.LightSlateGray, Main.rand.NextFloat(1f, 2.5f));
+				Dust dust = Dust.NewDustPerfect(player.Center + new Vector2(Main.rand.Next(-50, 50), Main.rand.Next(0, 30)), ModContent.DustType<BubbleDust>(), vel, 0, Color.White, Main.rand.NextFloat(1f, 2.5f));
 				dust.velocity = new Vector2(0, Main.rand.NextFloat(-2f, -.5f));
 			}
 
@@ -67,50 +90,46 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 					npc.StrikeNPC(1, 3f * bubbleStrength, player.Center.X < npc.Center.X ? 1 : -1);
 			}
 
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 54).WithPitchVariance(0.2f), player.Center);
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 3).WithPitchVariance(0.2f), player.Center);
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 112).WithPitchVariance(0.2f).WithVolume(.6f), player.Center);
-			Main.PlaySound(Terraria.ID.SoundID.Item86, player.Center);
+			Main.PlaySound(new LegacySoundStyle(2, 54).WithPitchVariance(0.2f), player.Center);
+			Main.PlaySound(new LegacySoundStyle(4, 3).WithPitchVariance(0.2f), player.Center);
+			Main.PlaySound(new LegacySoundStyle(2, 112).WithPitchVariance(0.2f).WithVolume(.6f), player.Center);
+			Main.PlaySound(SoundID.Item86, player.Center);
 
 			bubbleStrength = 0f;
+			bubbleVisual = 0f;
 		}
 
-		public static readonly PlayerLayer Bubble = new PlayerLayer("SpiritMod", "CascadeBubbleShield", PlayerLayer.MiscEffectsBack, delegate (PlayerDrawInfo drawInfo)
+		private void DrawBubble(SpriteBatch sB, bool outline = false)
 		{
-			if (drawInfo.shadow != 0f)
+			if (player.shadow != 0f)
 				return;
 
-			Player drawPlayer = drawInfo.drawPlayer;
 			Mod mod = SpiritMod.Instance;
-			CascadeArmorPlayer modPlayer = drawPlayer.GetModPlayer<CascadeArmorPlayer>();
 
-			if (modPlayer.bubbleStrength > 0f)
+			if (bubbleVisual > 0f)
 			{
-				Texture2D texture = mod.GetTexture("Items/Sets/CascadeSet/Armor/BubbleShield");
-				Texture2D outline = mod.GetTexture("Items/Sets/CascadeSet/Armor/BubbleShieldOutline");
+				string texturePath = "Items/Sets/CascadeSet/Armor/BubbleShield";
+				if (outline)
+					texturePath += "Outline";
 
-				Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-				Vector2 drawPos = drawPlayer.Center - Main.screenPosition + new Vector2(0, drawPlayer.gfxOffY);
+				Texture2D texture = mod.GetTexture(texturePath);
 
-				float scale = modPlayer.bubbleStrength;
-				float sin1 = 2.5f;
-				float sinValue = (float)(Math.Cos((double)Main.GlobalTime % sin1 / sin1 * MathHelper.TwoPi) / (sin1 * 1.5f) + (sin1 / 5));
+				Vector2 drawPos = player.Center - Main.screenPosition + new Vector2(0, player.gfxOffY);
 
-				DrawData data = new DrawData(texture, drawPos, null, Color.White * scale * 0.125f, 0f, texture.Size() / 2f, scale * .4f + sinValue, SpriteEffects.None, 0);
-				DrawData outlineData = new DrawData(outline, drawPos, null, Color.White * scale * 0.35f, 0f, texture.Size() / 2f, scale * .4f + sinValue, SpriteEffects.None, 0);
+				float baseScale = EaseFunction.EaseCubicOut.Ease(bubbleVisual); //Quadratic out easing
 
-				Main.playerDrawData.Add(data);
-				Main.playerDrawData.Add(outlineData);
+				//Returns a value based on a sine function and the global timer, interpolated closer to 1 to reduce the total range of the sine function
+				float GetSineTimer(float cyclesPerSecond, float lerpStrength = 0) => MathHelper.Lerp((float)Math.Sin(Main.GlobalTime / 6 * (MathHelper.TwoPi * cyclesPerSecond)), 1, lerpStrength);
 
+				baseScale *= GetSineTimer(1f, 0.95f);
+				float squishDelta = GetSineTimer(6) / 15;
+				Vector2 scaleVector = new Vector2(1 + squishDelta, 1 - squishDelta) * baseScale;
 
+				float opacity = outline ? 0.25f : 1f;
+				Color lightColor = Lighting.GetColor((int)(player.Center.X / 16), (int)(player.Center.Y / 16));
+
+				sB.Draw(texture, drawPos, null, lightColor * bubbleVisual * opacity, 0f, texture.Size() / 2f, scaleVector, SpriteEffects.None, 0);
 			}
-		});
-
-		public override void ModifyDrawLayers(List<PlayerLayer> layers)
-		{
-			Bubble.visible = true;
-			layers.Insert(0, Bubble);
-			layers.Add(Bubble);
 		}
 	}
 }

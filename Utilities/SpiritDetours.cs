@@ -452,7 +452,7 @@ namespace SpiritMod.Utilities
 
 		private static void DrawParticles(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
 		{
-			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
+			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, default, default, RasterizerState.CullNone, default, Main.GameViewMatrix.ZoomMatrix);
 			ParticleHandler.DrawAllParticles(Main.spriteBatch);
 			Main.spriteBatch.End();
 

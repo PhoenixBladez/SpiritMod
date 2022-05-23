@@ -52,9 +52,7 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 		private Player Target => Main.player[(int)projectile.ai[1]];
 		private int RotationDirection => (int)projectile.ai[0];
 
-		private Chain _chain = null;
-		private float _sinCounter;
-		private float _sinAmplitude = 0;
+		private Vector2[] _posArray = new Vector2[10];
 
 		public override void AI()
 		{
@@ -106,10 +104,12 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 					if (projectile.velocity.Length() > 3)
 						projectile.velocity *= 0.97f;
 
-					_sinAmplitude = MathHelper.Lerp(_sinAmplitude, 12f, 0.1f);
-					_sinCounter += 0.3f;
 					projectile.velocity = projectile.velocity.Length() * Vector2.Normalize(Vector2.Lerp(projectile.velocity, projectile.DirectionTo(Target.Center) * projectile.velocity.Length(), 0.1f));
 					projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(Target.Center) * 3, 0.02f);
+
+					float sinePeriod = LOCKONTIME;
+					float sineStrength = MathHelper.PiOver4;
+					projectile.position += (projectile.velocity.RotatedBy(sineStrength * Math.Sin(MathHelper.TwoPi * AiTimer / sinePeriod)) / 4) - (projectile.velocity/4);
 					if (AiTimer > LOCKONTIME)
 					{
 						AiState = STATE_ACCELERATE;
@@ -122,9 +122,11 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 					if (projectile.velocity.Length() < 22)
 						projectile.velocity *= 1.035f;
 
-					_sinCounter += 0.4f;
-					_sinAmplitude = MathHelper.Lerp(_sinAmplitude, 8f, 0.1f);
 					projectile.velocity = projectile.velocity.Length() * Vector2.Normalize(Vector2.Lerp(projectile.velocity, projectile.DirectionTo(Target.Center) * projectile.velocity.Length(), 0.02f));
+					
+					sinePeriod = ACCELLIFETIME / 4;
+					sineStrength = MathHelper.Pi / 6;
+					projectile.position += (projectile.velocity.RotatedBy(sineStrength * Math.Sin(MathHelper.TwoPi * AiTimer / sinePeriod)) / 2) - (projectile.velocity / 2);
 
 					if (AiTimer > ACCELLIFETIME)
 					{
@@ -149,10 +151,15 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 			if (Main.rand.NextBool(4) && !Main.dedServ)
 				ParticleHandler.SpawnParticle(new GlowParticle(projectile.Center, projectile.velocity * Main.rand.NextFloat(0.2f), Color.Red * projectile.Opacity * 1.5f, Main.rand.NextFloat(0.04f, 0.06f) * projectile.scale, 40));
 
-			if (_chain == null)
-				_chain = new Chain(3, 18, projectile.Center, new ChainPhysics(0.8f, 0f, 0f), true, false, 7);
-			else
-				_chain.Update(projectile.Center, projectile.Center);
+			if (AiTimer == 1 && AiState == STATE_PASSIVEMOVEMENT) //initialize on first tick
+				for (int i = 0; i < _posArray.Length; i++)
+					_posArray[i] = projectile.Center;
+
+			//Old position array for drawing tail
+			for (int i = _posArray.Length - 1; i > 0; i--)
+				_posArray[i] = _posArray[i - 1];
+
+			_posArray[0] = projectile.Center;
 		}
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => base.Colliding(projHitbox, targetHitbox);
@@ -171,53 +178,43 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			if (_chain != null)
+			Effect effect = SpiritMod.ShaderDict["PrimitiveTextureMap"];
+			effect.Parameters["uTexture"].SetValue(mod.GetTexture("NPCs/Boss/Occultist/SoulTrail"));
+
+			Vector2[] vertices = _posArray;
+			var strip = new PrimitiveStrip
 			{
-				Effect effect = SpiritMod.ShaderDict["PrimitiveTextureMap"];
-				effect.Parameters["uTexture"].SetValue(mod.GetTexture("NPCs/Boss/Occultist/SoulTrail"));
+				Color = Color.White * projectile.Opacity,
+				Width = 13 * projectile.scale,
+				PositionArray = vertices,
+				TaperingType = StripTaperType.None,
+			};
+			PrimitiveRenderer.DrawPrimitiveShape(strip, effect);
 
-				Vector2[] vertices = _chain.VerticesArray();
-				vertices.IterateArray(delegate (ref Vector2 vertex, int index, float progress) { IterateVerticesSine(ref vertex, progress); });
-				var strip = new PrimitiveStrip
-				{
-					Color = Color.White * projectile.Opacity,
-					Width = 13 * projectile.scale,
-					PositionArray = vertices,
-					TaperingType = StripTaperType.None,
-				};
-				PrimitiveRenderer.DrawPrimitiveShape(strip, effect);
-
-				Texture2D projTexture = Main.projectileTexture[projectile.type];
-				var origin = new Vector2(projectile.DrawFrame().Width / 2, projectile.DrawFrame().Height + 2);
-				spriteBatch.Draw(projTexture, _chain.StartPosition - Main.screenPosition, projectile.DrawFrame(), projectile.GetAlpha(Color.White), _chain.StartRotation + MathHelper.PiOver2, origin, projectile.scale, SpriteEffects.None, 0);
-			}
+			Texture2D projTexture = Main.projectileTexture[projectile.type];
+			var origin = new Vector2(projectile.DrawFrame().Width / 2, projectile.DrawFrame().Height);
+			float headRotation = (_posArray[0] - _posArray[1]).ToRotation() + MathHelper.PiOver2;
+			spriteBatch.Draw(projTexture, _posArray[0] - Main.screenPosition, projectile.DrawFrame(), projectile.GetAlpha(Color.White), headRotation, origin, projectile.scale, SpriteEffects.None, 0);
+			
 			return false;
 		}
 
 		public void AdditiveCall(SpriteBatch sB)
 		{
-			if (_chain != null)
+			Vector2[] vertices = _posArray;
+			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
+
+			for (int i = 1; i < vertices.Length; i++)
 			{
-				Vector2[] vertices = _chain.VerticesArray();
-				vertices.IterateArray(delegate (ref Vector2 vertex, int index, float progress) { IterateVerticesSine(ref vertex, progress); });
-				Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
-
-				for (int i = 0; i < vertices.Length; i++)
-				{
-					float progress = i / (float)vertices.Length;
-					float scale = MathHelper.Lerp(0.25f, 0f, progress);
-					sB.Draw(bloom, vertices[i] - Main.screenPosition, null, Color.Red * Math.Min(1.2f * projectile.Opacity, 0.6f), 0, bloom.Size() / 2, scale, SpriteEffects.None, 0);
-				}
-				sB.Draw(bloom, projectile.Center - Main.screenPosition, null, Color.Red * Math.Min(1.2f * projectile.Opacity, 0.6f) * projectile.Opacity, 0, bloom.Size() / 2, 0.3f, SpriteEffects.None, 0);
+				float progress = i / (float)vertices.Length;
+				float scale = MathHelper.Lerp(0.25f, 0f, progress);
+				float dist = Vector2.Distance(vertices[i], vertices[i - 1]);
+				float rot = (vertices[i] - vertices[i - 1]).ToRotation();
+				Vector2 scaleVec = scale * new Vector2(dist / 20, 3);
+				sB.Draw(bloom, vertices[i] - Main.screenPosition, null, Color.Red * Math.Min(1.2f * projectile.Opacity, 0.6f), rot + MathHelper.PiOver2, bloom.Size() / 2, scaleVec, SpriteEffects.None, 0);
 			}
-		}
-
-		private void IterateVerticesSine(ref Vector2 vertex, float progress)
-		{
-			var DirectionUnit = Vector2.Normalize(projectile.position - vertex);
-			DirectionUnit = DirectionUnit.RotatedBy(MathHelper.PiOver2);
-			float numwaves = 1;
-			vertex += DirectionUnit * (float)Math.Sin(_sinCounter + progress * MathHelper.TwoPi * numwaves) * progress * _sinAmplitude;
+			float headRotation = (_posArray[0] - _posArray[1]).ToRotation() + MathHelper.PiOver2;
+			sB.Draw(bloom, projectile.Center - new Vector2(0, projectile.DrawFrame().Height / 4).RotatedBy(headRotation) - Main.screenPosition, null, Color.Red * Math.Min(1.2f * projectile.Opacity, 0.6f) * projectile.Opacity, 0, bloom.Size() / 2, 0.3f, SpriteEffects.None, 0);
 		}
 	}
 }

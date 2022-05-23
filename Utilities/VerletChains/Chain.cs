@@ -99,16 +99,16 @@ namespace SpiritMod.VerletChains
 			return verticeslist.ToArray();
 		}
 
-		public void Draw(SpriteBatch sB, Texture2D texture, Texture2D headTexture = null, Texture2D tailTexture = null)
+		public void Draw(SpriteBatch sB, Texture2D texture, Texture2D headTexture = null, Texture2D tailTexture = null, float scale = 1)
 		{
 			foreach (var segment in Segments)
 			{
 				if (segment == Segments.Last() && headTexture != null)
-					segment.Draw(sB, headTexture);
+					segment.Draw(sB, headTexture, scale);
 				else if (segment == Segments.First() && tailTexture != null)
-					segment.Draw(sB, tailTexture);
+					segment.Draw(sB, tailTexture, scale);
 				else
-					segment.Draw(sB, texture);
+					segment.Draw(sB, texture, scale);
 			}
 		}
 	}
