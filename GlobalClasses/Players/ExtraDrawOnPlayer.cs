@@ -1,13 +1,10 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Utilities
+namespace SpiritMod.GlobalClasses.Players
 {
 	/// <summary>
 	/// ModPlayer class managing extra additive or alphablend draw calls on top of a player, due to the inflexibility of playerlayers.

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.GlobalClasses.Players;
 using SpiritMod.Particles;
 using SpiritMod.Utilities;
 using System;

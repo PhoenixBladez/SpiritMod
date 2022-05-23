@@ -8,34 +8,63 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 {
 	public class SkullSentry : ModItem
 	{
+		const float MAX_DISTANCE = 600f;
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Maneater");
-			Tooltip.SetDefault("Summons a skull which fights nearby enemies");
+			DisplayName.SetDefault("Maneater Skull");
+			Tooltip.SetDefault("Summons a skull infested by maneater worms that fire red mucus at nearby enemies");
 		}
 
 		public override void SetDefaults()
 		{
+			item.CloneDefaults(ItemID.StaffoftheFrostHydra);
 			item.damage = 24;
 			item.width = 28;
 			item.height = 14;
 			item.useTime = item.useAnimation = 30;
 			item.knockBack = 2f;
 			item.shootSpeed = 0f;
-			item.noUseGraphic = true;
 			item.noMelee = true;
 			item.autoReuse = true;
 			item.sentry = true;
-			item.rare = ItemRarityID.LightRed;
+			item.rare = ItemRarityID.Blue;
 			item.value = Item.sellPrice(gold: 2);
-			item.useStyle = ItemUseStyleID.HoldingOut;
+			item.useStyle = ItemUseStyleID.HoldingUp;
+			item.UseSound = SoundID.Item77;
 			item.shoot = ModContent.ProjectileType<SkullSentrySentry>();
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			position = Main.MouseWorld;
-			return true;
+			if (MouseTooFar(player))
+				position = player.DirectionTo(position) * MAX_DISTANCE;
+
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+			player.UpdateMaxTurrets();
+			return false;
+		}
+
+		public override bool CanUseItem(Player player)
+		{
+			if (MouseTooFar(player))
+				return false;
+
+			Projectile dummy = new Projectile();
+			dummy.SetDefaults(item.shoot);
+
+			Point topLeft = (Main.MouseWorld - dummy.Size / 2).ToTileCoordinates();
+			Point bottomRight = (Main.MouseWorld + dummy.Size / 2).ToTileCoordinates();
+
+			return !Collision.SolidTilesVersatile(topLeft.X, bottomRight.X, topLeft.Y, bottomRight.Y);
+		}
+
+		private bool MouseTooFar(Player player)
+		{
+			if (player.Distance(Main.MouseWorld) >= MAX_DISTANCE)
+				return true;
+
+			return false;
 		}
 	}
 }

@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 
 			item.value = 100;
 			item.maxStack = 999;
-			item.rare = ItemRarityID.Pink;
+			item.rare = ItemRarityID.Blue;
 			item.width = 28;
 			item.height = 28;
 		}

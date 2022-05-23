@@ -6,7 +6,7 @@ namespace SpiritMod.Utilities
 {
 	public static class ArcVelocityHelper
 	{
-		public static Vector2 GetArcVel(Vector2 startingPos, Vector2 targetPos, float gravity, float? minArcHeight = null, float? maxArcHeight = null, float? maxXvel = null, float? heightabovetarget = null)
+		public static Vector2 GetArcVel(Vector2 startingPos, Vector2 targetPos, float gravity, float? minArcHeight = null, float? maxArcHeight = null, float? maxXvel = null, float? heightabovetarget = null, float downwardsYVelMult = 1f)
 		{
 			Vector2 DistanceToTravel = targetPos - startingPos;
 			float MaxHeight = DistanceToTravel.Y - (heightabovetarget ?? 0);
@@ -24,7 +24,7 @@ namespace SpiritMod.Utilities
 			}
 
 			else {
-				neededYvel = 0;
+				neededYvel = Vector2.Normalize(DistanceToTravel).Y * downwardsYVelMult;
 				TravelTime = (-neededYvel + (float)Math.Sqrt(Math.Pow(neededYvel, 2) - (4 * -DistanceToTravel.Y * gravity / 2))) / (gravity); //time down
 			}
 
@@ -34,6 +34,7 @@ namespace SpiritMod.Utilities
 			return new Vector2(DistanceToTravel.X / TravelTime, neededYvel);
 		}
 
-		public static Vector2 GetArcVel(this Entity ent, Vector2 targetPos, float gravity, float? minArcHeight = null, float? maxArcHeight = null, float? maxXvel = null, float? heightabovetarget = null) => GetArcVel(ent.Center, targetPos, gravity, minArcHeight, maxArcHeight, maxXvel, heightabovetarget);
+		public static Vector2 GetArcVel(this Entity ent, Vector2 targetPos, float gravity, float? minArcHeight = null, float? maxArcHeight = null, float? maxXvel = null, float? heightabovetarget = null, float downwardsYVelMult = 1f) => GetArcVel(ent.Center, targetPos, gravity, minArcHeight, maxArcHeight, maxXvel, heightabovetarget, downwardsYVelMult);
+
 	}
 }

@@ -18,17 +18,18 @@ namespace SpiritMod
 			return new Rectangle(0, projectile.frame * texture.Height / Main.projFrames[projectile.type], texture.Width, texture.Height / Main.projFrames[projectile.type]);
 		}
 
-		public static void QuickDraw(this Projectile projectile, SpriteBatch spriteBatch, float? rotation = null, SpriteEffects? spriteEffects = null, Color? drawColor = null)
+		public static void QuickDraw(this Projectile projectile, SpriteBatch spriteBatch, float? rotation = null, SpriteEffects? spriteEffects = null, Color? drawColor = null, Vector2? drawOrigin = null)
 		{
 			Texture2D tex = Main.projectileTexture[projectile.type];
 			Color color = drawColor ?? Lighting.GetColor((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16);
 			if(spriteEffects == null)
 				spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, projectile.DrawFrame(), projectile.GetAlpha(color), rotation ?? projectile.rotation, projectile.DrawFrame().Size() / 2, projectile.scale, spriteEffects ?? (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
+			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, projectile.DrawFrame(), projectile.GetAlpha(color), rotation ?? projectile.rotation, 
+				drawOrigin ?? projectile.DrawFrame().Size() / 2, projectile.scale, spriteEffects ?? (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
 		}
 
-		public static void QuickDrawGlow(this Projectile projectile, SpriteBatch spriteBatch, Color? color = null, float? rotation = null, SpriteEffects? spriteEffects = null)
+		public static void QuickDrawGlow(this Projectile projectile, SpriteBatch spriteBatch, Color? color = null, float? rotation = null, SpriteEffects? spriteEffects = null, Vector2? drawOrigin = null)
 		{
 			if (!ModContent.TextureExists(projectile.modProjectile.Texture + "_glow"))
 				return;
@@ -38,10 +39,11 @@ namespace SpiritMod
 			if (spriteEffects == null)
 				spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, color ?? Color.White, rotation ?? projectile.rotation, frame.Size() / 2, projectile.scale, spriteEffects ?? (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
+			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, color ?? Color.White, rotation ?? projectile.rotation, drawOrigin ?? frame.Size() / 2, projectile.scale, 
+				spriteEffects ?? (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
 		}
 
-		public static void QuickDrawTrail(this Projectile projectile, SpriteBatch spriteBatch, float baseOpacity = 0.5f, float? rotation = null, SpriteEffects? spriteEffects = null, Color? drawColor = null)
+		public static void QuickDrawTrail(this Projectile projectile, SpriteBatch spriteBatch, float baseOpacity = 0.5f, float? rotation = null, SpriteEffects? spriteEffects = null, Color? drawColor = null, Vector2? drawOrigin = null)
 		{
 			Texture2D tex = Main.projectileTexture[projectile.type];
 			Color color = drawColor ?? Lighting.GetColor((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16);
@@ -54,12 +56,12 @@ namespace SpiritMod
 				opacityMod *= baseOpacity;
 				Vector2 drawPosition = projectile.oldPos[i] + (projectile.Size / 2) - Main.screenPosition;
 				spriteBatch.Draw(tex, drawPosition, projectile.DrawFrame(), projectile.GetAlpha(color) * opacityMod, 
-					rotation ?? projectile.oldRot[i], projectile.DrawFrame().Size() / 2, projectile.scale, 
+					rotation ?? projectile.oldRot[i], drawOrigin ?? projectile.DrawFrame().Size() / 2, projectile.scale, 
 					spriteEffects ?? (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
 			}
 		}
 
-		public static void QuickDrawGlowTrail(this Projectile projectile, SpriteBatch spriteBatch, float Opacity = 0.5f, Color? color = null, float? rotation = null, SpriteEffects? spriteEffects = null)
+		public static void QuickDrawGlowTrail(this Projectile projectile, SpriteBatch spriteBatch, float Opacity = 0.5f, Color? color = null, float? rotation = null, SpriteEffects? spriteEffects = null, Vector2? drawOrigin = null)
 		{
 			if (!ModContent.TextureExists(projectile.modProjectile.Texture + "_glow"))
 				return;
@@ -73,7 +75,8 @@ namespace SpiritMod
 			{
 				float opacity = (ProjectileID.Sets.TrailCacheLength[projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[projectile.type];
 				opacity *= Opacity;
-				spriteBatch.Draw(tex, projectile.oldPos[i] + projectile.Size / 2 - Main.screenPosition, frame, (color ?? Color.White) * opacity, rotation ?? projectile.oldRot[i], frame.Size() / 2, projectile.scale, spriteEffects ?? (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
+				spriteBatch.Draw(tex, projectile.oldPos[i] + projectile.Size / 2 - Main.screenPosition, frame, (color ?? Color.White) * opacity, rotation ?? projectile.oldRot[i], 
+					drawOrigin ?? frame.Size() / 2, projectile.scale, spriteEffects ?? (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
 			}
 		}
 

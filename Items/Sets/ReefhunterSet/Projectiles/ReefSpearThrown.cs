@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,7 +13,12 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 		private bool hasTarget = false;
 		private Vector2 relativePoint = Vector2.Zero;
 
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Reefe Tridente");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Reef Trident");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+		}
 
 		public override void SetDefaults()
 		{
@@ -33,14 +39,9 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 		{
 			if (!hasTarget)
 			{
-				if (projectile.ai[0]++ > 60)
-				{
-					projectile.velocity.X *= 0.97f;
-					projectile.velocity.Y += 0.3f;
-				}
+				projectile.velocity.Y += 0.3f;
 
 				projectile.rotation = projectile.velocity.ToRotation();
-				projectile.velocity.Y += 0.05f;
 			}
 			else
 			{
@@ -82,13 +83,32 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 			relativePoint = projectile.Center - target.Center;
 		}
 
-		public override void ModifyDamageHitbox(ref Rectangle hitbox)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Vector2 pos = projectile.Center - new Vector2(-10, 10);
-			pos += Vector2.Normalize(projectile.velocity) * 26;
+			Texture2D projTex = Main.projectileTexture[projectile.type];
+			const int halfTipWidth = 15;
+			Vector2 drawOrigin = new Vector2(projectile.spriteDirection > 0 ? projTex.Width - halfTipWidth : halfTipWidth, projTex.Height / 2);
+			if(!hasTarget)
+				projectile.QuickDrawTrail(spriteBatch, 0.25f, drawOrigin: drawOrigin);
 
-			hitbox.X = (int)pos.X;
-			hitbox.Y = (int)pos.Y;
+			projectile.QuickDraw(spriteBatch, drawOrigin: drawOrigin);
+			return false;
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			Main.PlaySound(SoundID.Dig, projectile.Center);
+			Vector2 goreVel = hasTarget ? Vector2.Zero : projectile.oldVelocity / 3;
+			Vector2 pos = projectile.Center;
+			for (int i = 1; i <= 6; i++)
+			{
+				if (i >= 4)
+					pos -= Vector2.Normalize(projectile.oldVelocity) * (15 + (i - 3) * 3);
+
+				Gore g = Gore.NewGorePerfect(pos, goreVel, mod.GetGoreSlot("Gores/Projectiles/ReefTrident/Trident" + i));
+				g.timeLeft = 0;
+				g.rotation = projectile.rotation;
+			}
 		}
 	}
 }
