@@ -50,6 +50,7 @@ using SpiritMod.Items.Placeable.Furniture.Paintings;
 using SpiritMod.Items.Sets.PirateStuff;
 using SpiritMod.Items.Accessory.MageTree;
 using SpiritMod.Items.Sets.ReefhunterSet;
+using SpiritMod.Buffs.DoT;
 
 namespace SpiritMod.NPCs
 {
@@ -92,7 +93,7 @@ namespace SpiritMod.NPCs
 		public bool starDestiny = false;
 		public int bloodInfusion = 0;
 		public bool bloodInfused = false;
-		public bool Death = false;
+		public bool death = false;
 		public bool iceCrush = false;
 		public bool pestilence = false;
 		public bool moonBurn = false;
@@ -129,7 +130,7 @@ namespace SpiritMod.NPCs
 			clatterPierce = false;
 			DoomDestiny = false;
 			sFracture = false;
-			Death = false;
+			death = false;
 			starDestiny = false;
 			SoulFlare = false;
 			afflicted = false;
@@ -349,7 +350,7 @@ namespace SpiritMod.NPCs
 				}
 			}
 
-			if (Death)
+			if (death)
 			{
 				drain = true;
 				npc.lifeRegen -= 10000;

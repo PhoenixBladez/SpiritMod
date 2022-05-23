@@ -32,7 +32,7 @@ namespace SpiritMod.NPCs.Snaptrapper
     		npc.rarity = 3;
 			npc.HitSound = SoundID.NPCHit32;
             npc.buffImmune[BuffID.Poisoned] = true;
-            npc.buffImmune[ModContent.BuffType<Buffs.FesteringWounds>()] = true;
+            npc.buffImmune[ModContent.BuffType<Buffs.DoT.FesteringWounds>()] = true;
             npc.buffImmune[BuffID.Venom] = true;
             npc.DeathSound = SoundID.NPCDeath25;
 			npc.value = 629f;

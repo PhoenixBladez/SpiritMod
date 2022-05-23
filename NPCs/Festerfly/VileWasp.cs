@@ -32,6 +32,7 @@ namespace SpiritMod.NPCs.Festerfly
 			npc.aiStyle = 44;
 			aiType = NPCID.FlyingAntlion;
 		}
+
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.15f;
@@ -39,14 +40,14 @@ namespace SpiritMod.NPCs.Festerfly
 			int frame = (int)npc.frameCounter;
 			npc.frame.Y = frame * frameHeight;
 		}
-		public override void AI()
-		{
-			npc.spriteDirection = npc.direction;
-		}
+
+		public override void AI() => npc.spriteDirection = npc.direction;
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
-			for (int k = 0; k < npc.oldPos.Length; k++) {
+			for (int k = 0; k < npc.oldPos.Length; k++)
+			{
 				var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 				Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
 				Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
@@ -54,17 +55,16 @@ namespace SpiritMod.NPCs.Festerfly
 			}
 			return true;
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			int d = 167;
-			for (int k = 0; k < 30; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.Purple, 0.3f);
-			}
-			if (npc.life <= 0) {
-				{
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly5"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly6"), 1f);
-				}
+			for (int k = 0; k < 30; k++)
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Plantera_Green, 2.5f * hitDirection, -2.5f, 0, Color.Purple, 0.3f);
+
+			if (npc.life <= 0)
+			{
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly5"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly6"), 1f);
 			}
 		}
 	}

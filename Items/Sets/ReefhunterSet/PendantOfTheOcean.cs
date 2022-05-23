@@ -1,9 +1,9 @@
-using SpiritMod.Players;
 using SpiritMod.Utilities;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.GlobalClasses.Players;
 
 namespace SpiritMod.Items.Sets.ReefhunterSet
 {

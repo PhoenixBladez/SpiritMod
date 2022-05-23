@@ -11,6 +11,7 @@ namespace SpiritMod.NPCs.Festerfly
 		int moveSpeed = 0;
 		int moveSpeedY = 0;
 		float HomeY = 120f;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Festerfly");
@@ -29,10 +30,7 @@ namespace SpiritMod.NPCs.Festerfly
 			npc.value = 110f;
 			npc.noGravity = true;
 			npc.noTileCollide = false;
-
 			npc.buffImmune[BuffID.Confused] = true;
-
-
 			npc.knockBackResist = .45f;
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.FesterflyBanner>();
@@ -40,18 +38,16 @@ namespace SpiritMod.NPCs.Festerfly
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			int d = 167;
-			for (int k = 0; k < 30; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.Purple, 0.3f);
-			}
-			if (npc.life <= 0) {
+			for (int k = 0; k < 30; k++)
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Plantera_Green, 2.5f * hitDirection, -2.5f, 0, Color.Purple, 0.3f);
+
+			if (npc.life <= 0)
+			{
 				Main.PlaySound(SoundID.NPCKilled, npc.Center, 38);
-				{
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly1"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly2"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly3"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly4"), 1f);
-				}
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly1"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly4"), 1f);
 			}
 		}
 		public override void FindFrame(int frameHeight)
@@ -61,14 +57,14 @@ namespace SpiritMod.NPCs.Festerfly
 			int frame = (int)npc.frameCounter;
 			npc.frame.Y = frame * frameHeight;
 		}
+
 		public override void AI()
 		{
-			if (Main.rand.NextFloat() < 0.431579f) {
-				{
-					Vector2 position = npc.Center;
-					int d = Dust.NewDust(npc.position, npc.width, npc.height + 10, DustID.ScourgeOfTheCorruptor, 0, 1f, 0, new Color(), 0.7f);
-					Main.dust[d].velocity *= .1f;
-				}
+			if (Main.rand.NextFloat() < 0.431579f)
+			{
+				Vector2 position = npc.Center;
+				int d = Dust.NewDust(npc.position, npc.width, npc.height + 10, DustID.ScourgeOfTheCorruptor, 0, 1f, 0, new Color(), 0.7f);
+				Main.dust[d].velocity *= .1f;
 			}
 			Player player = Main.player[npc.target];
 			npc.rotation = npc.velocity.X * 0.1f;
@@ -91,37 +87,37 @@ namespace SpiritMod.NPCs.Festerfly
 
 			npc.velocity.Y = moveSpeedY * 0.06f;
 			timer++;
-			if (timer >= 100 && Main.netMode != NetmodeID.MultiplayerClient) {
+			if (timer >= 100 && Main.netMode != NetmodeID.MultiplayerClient)
+			{
 				Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
 				int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector2_2.X, vector2_2.Y, ModContent.ProjectileType<VileWaspProjectile>(), 0, 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
 				Main.projectile[p].hostile = true;
-                timer = 0;
+				timer = 0;
 			}
-            npc.ai[3]++;
-            {
-				if (npc.ai[3] >= 300 && NPC.CountNPCS(ModContent.NPCType<VileWasp>()) < 2)
-                {
-                    npc.ai[3] = 0;
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        Main.PlaySound(SoundID.Zombie, npc.Center, 51);
-                        for (int j = 0; j < 10; j++)
-                        {
-                            Vector2 vector2 = Vector2.UnitX * -npc.width / 2f;
-                            vector2 += -Utils.RotatedBy(Vector2.UnitY, (j * 3.141591734f / 6f), default) * new Vector2(8f, 16f);
-                            vector2 = Utils.RotatedBy(vector2, (npc.rotation - 1.57079637f), default);
-                            int num8 = Dust.NewDust(npc.Center, 0, 0, DustID.ScourgeOfTheCorruptor, 0f, 0f, 160, new Color(), 1f);
-                            Main.dust[num8].scale = 1.3f;
-                            Main.dust[num8].noGravity = true;
-                            Main.dust[num8].position = npc.Center + vector2;
-                            Main.dust[num8].velocity = npc.velocity * 0.1f;
-                            Main.dust[num8].noLight = true;
-                            Main.dust[num8].velocity = Vector2.Normalize(npc.Center - npc.velocity * 3f - Main.dust[num8].position) * 1.25f;
-                        }
-                        NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<VileWasp>());
-                    }
-                }
-            }
+
+			npc.ai[3]++;
+			if (npc.ai[3] >= 300 && NPC.CountNPCS(ModContent.NPCType<VileWasp>()) < 2)
+			{
+				npc.ai[3] = 0;
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					Main.PlaySound(SoundID.Zombie, npc.Center, 51);
+					for (int j = 0; j < 10; j++)
+					{
+						Vector2 vector2 = Vector2.UnitX * -npc.width / 2f;
+						vector2 += -Utils.RotatedBy(Vector2.UnitY, (j * 3.141591734f / 6f), default) * new Vector2(8f, 16f);
+						vector2 = Utils.RotatedBy(vector2, (npc.rotation - 1.57079637f), default);
+						int num8 = Dust.NewDust(npc.Center, 0, 0, DustID.ScourgeOfTheCorruptor, 0f, 0f, 160, new Color(), 1f);
+						Main.dust[num8].scale = 1.3f;
+						Main.dust[num8].noGravity = true;
+						Main.dust[num8].position = npc.Center + vector2;
+						Main.dust[num8].velocity = npc.velocity * 0.1f;
+						Main.dust[num8].noLight = true;
+						Main.dust[num8].velocity = Vector2.Normalize(npc.Center - npc.velocity * 3f - Main.dust[num8].position) * 1.25f;
+					}
+					NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<VileWasp>());
+				}
+			}
 
 			npc.spriteDirection = npc.direction;
 		}

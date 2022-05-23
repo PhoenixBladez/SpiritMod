@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using SpiritMod.Items.Sets.BloodcourtSet;
 using Terraria.ModLoader;
 using SpiritMod.Buffs;
+using SpiritMod.Buffs.DoT;
 
 namespace SpiritMod.NPCs.BottomFeeder
 {
@@ -15,6 +15,7 @@ namespace SpiritMod.NPCs.BottomFeeder
 			DisplayName.SetDefault("Bottom Feeder");
 			Main.npcFrameCount[npc.type] = 11;
 		}
+
 		public override void SetDefaults()
 		{
 			npc.width = 60;
@@ -24,10 +25,8 @@ namespace SpiritMod.NPCs.BottomFeeder
 			npc.lifeMax = 175;
 			npc.HitSound = SoundID.NPCHit18;
 			npc.DeathSound = SoundID.NPCDeath5;
-
-			npc.buffImmune[ModContent.BuffType<BCorrupt>()] = true;
+			npc.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
 			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
-
 			npc.value = 800f;
 			npc.knockBackResist = 0.34f;
 			npc.aiStyle = 3;
@@ -36,9 +35,11 @@ namespace SpiritMod.NPCs.BottomFeeder
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.BottomFeederBanner>();
 		}
+
 		int frame = 1;
 		int timer = 0;
 		int shoottimer = 0;
+
 		public override void AI()
 		{
 			npc.spriteDirection = -npc.direction;
@@ -49,62 +50,69 @@ namespace SpiritMod.NPCs.BottomFeeder
 				Player player = Main.player[npc.target];
 				int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
 
-				if (timer == 4) {
+				if (timer == 4)
+				{
 					frame++;
 					timer = 0;
 				}
-				if (frame >= 8 && distance >= 180) {
+
+				if (frame >= 8 && distance >= 180)
 					frame = 1;
-				}
-				else if (frame == 11 && distance < 180) {
+				else if (frame == 11 && distance < 180)
 					frame = 8;
-				}
-				if (distance < 178) {
+
+				if (distance < 178)
+				{
 					shoottimer++;
-					if (!npc.wet) {
-                        npc.velocity.X = .01f * npc.spriteDirection;
-                        npc.spriteDirection = -npc.direction;
-                        npc.velocity.Y = 10f;
-                    }
-					if (shoottimer >= 40 && shoottimer < 96) {
-						if (Main.rand.Next(3) == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
+
+					if (!npc.wet)
+					{
+						npc.velocity.X = .01f * npc.spriteDirection;
+						npc.spriteDirection = -npc.direction;
+						npc.velocity.Y = 10f;
+					}
+
+					if (shoottimer >= 40 && shoottimer < 96)
+					{
+						if (Main.rand.Next(3) == 0 && Main.netMode != NetmodeID.MultiplayerClient)
+						{
 							int bloodproj;
 							bloodproj = Main.rand.Next(new int[] { ModContent.ProjectileType<Feeder1>(), ModContent.ProjectileType<Feeder2>(), ModContent.ProjectileType<Feeder3>() });
 							int damage = Main.expertMode ? 10 : 15;
 							Projectile.NewProjectile(npc.Center.X + (7 * npc.direction), npc.Center.Y - 10, -(npc.position.X - target.position.X) / distance * 8, -(npc.position.Y - target.position.Y + Main.rand.Next(-50, 50)) / distance * 8, bloodproj, damage, 0);
 						}
 					}
-					if (shoottimer >= 96) {
-						shoottimer = 0;
-					}
-				}
 
+					if (shoottimer >= 96)
+						shoottimer = 0;
+				}
 			}
 		}
-		public override void FindFrame(int frameHeight)
-		{
-			npc.frame.Y = frameHeight * frame;
-		}
+
+		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
+
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(20) == 1) {
+			if (Main.rand.Next(20) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.GunsMisc.Belcher.BottomFeederGun>());
-			}
-            if (Main.rand.Next(20) == 1)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Consumable.Food.FishFingers>());
-            }
+
+			if (Main.rand.Next(20) == 1)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Consumable.Food.FishFingers>());
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0 || npc.life >= 0) {
-				int d = 5;
-				for (int k = 0; k < 25; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
-					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, .97f);
+			if (npc.life <= 0 || npc.life >= 0)
+			{
+				for (int k = 0; k < 25; k++)
+				{
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, Color.White, .97f);
 				}
 			}
-			if (npc.life <= 0) {
+
+			if (npc.life <= 0)
+			{
 				Gore.NewGore(npc.position, npc.velocity * 1.11f, mod.GetGoreSlot("Gores/FeederGore"), 1f);
 				Gore.NewGore(npc.position, npc.velocity * 1.11f, mod.GetGoreSlot("Gores/FeederGore1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity * 1.11f, mod.GetGoreSlot("Gores/FeederGore1"), 1f);

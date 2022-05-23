@@ -2,6 +2,7 @@ using SpiritMod.Buffs;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using SpiritMod.Buffs.DoT;
 
 namespace SpiritMod.Projectiles.Returning
 {

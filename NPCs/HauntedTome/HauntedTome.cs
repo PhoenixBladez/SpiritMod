@@ -11,6 +11,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Buffs.DoT;
 
 namespace SpiritMod.NPCs.HauntedTome
 {
@@ -33,7 +34,7 @@ namespace SpiritMod.NPCs.HauntedTome
 			npc.defense = 8;
 			npc.noTileCollide = true;
 			npc.noGravity = true;
-			npc.buffImmune[ModContent.BuffType<BCorrupt>()] = true;
+			npc.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
 			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
 			npc.buffImmune[BuffID.Confused] = true;
 			npc.buffImmune[BuffID.OnFire] = true;

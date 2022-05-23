@@ -1,4 +1,3 @@
-using Microsoft.Xna.Framework;
 using SpiritMod.Items.Armor;
 using Terraria;
 using Terraria.ID;
@@ -52,12 +51,14 @@ namespace SpiritMod.NPCs.LostMime
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			int d = 5;
-			for (int k = 0; k < 10; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default, 0.27f);
-				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default, 0.87f);
+			for (int k = 0; k < 10; k++)
+			{
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, 0.27f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, 0.87f);
 			}
-			if (npc.life <= 0) {
+
+			if (npc.life <= 0)
+			{
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LostMimeGore"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, 99);
 				Gore.NewGore(npc.position, npc.velocity, 99);
@@ -69,9 +70,9 @@ namespace SpiritMod.NPCs.LostMime
 		{
 			if (Main.rand.NextBool(16))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeMask>(), 1);
-            if (Main.rand.NextBool(30))
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Consumable.Food.Baguette>());
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeBomb>(), Main.rand.Next(12, 23));
+			if (Main.rand.NextBool(30))
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Consumable.Food.Baguette>());
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeBomb>(), Main.rand.Next(12, 23));
 		}
 	}
 }

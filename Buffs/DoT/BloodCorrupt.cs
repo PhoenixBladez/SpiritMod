@@ -2,9 +2,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Buffs
+namespace SpiritMod.Buffs.DoT
 {
-	public class BCorrupt : ModBuff
+	public class BloodCorrupt : ModBuff
 	{
 		public override void SetDefaults()
 		{
@@ -19,11 +19,10 @@ namespace SpiritMod.Buffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			if (!npc.friendly) {
-				if (npc.lifeRegen > 0) {
+			if (!npc.friendly)
+			{
+				if (npc.lifeRegen > 0)
 					npc.lifeRegen = 0;
-				}
-
 				npc.lifeRegen -= 4;
 
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood);
@@ -32,10 +31,8 @@ namespace SpiritMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			if (player.lifeRegen > 0) {
+			if (player.lifeRegen > 0)
 				player.lifeRegen = 0;
-			}
-
 			player.lifeRegen -= 4;
 
 			Dust.NewDust(player.position, player.width, player.height, DustID.Blood);

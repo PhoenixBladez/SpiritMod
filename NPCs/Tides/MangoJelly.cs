@@ -1,12 +1,9 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Projectiles.Hostile;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.NPCs.Tides.Tide;
 using SpiritMod.Items.Sets.TideDrops;
 
 namespace SpiritMod.NPCs.Tides
@@ -38,32 +35,25 @@ namespace SpiritMod.NPCs.Tides
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.MangoWarBanner>();
 		}
-		//npc.ai[0]: base timer
+
 		int xoffset = 0;
 		bool createdLaser = false;
 		float bloomCounter = 1;
+
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			if (npc.ai[3] == 1) {
+			if (npc.ai[3] == 1)
 				Main.spriteBatch.Draw(SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49"), (npc.Center - Main.screenPosition) - new Vector2(-2, 8), null, new Color((int)(22.5f * bloomCounter), (int)(13.8f * bloomCounter), (int)(21.6f * bloomCounter), 0), 0f, new Vector2(50, 50), 0.125f * (bloomCounter + 3), SpriteEffects.None, 0f);
-			}
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			int d = 173;
-			for (int k = 0; k < 20; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
-			}
-			if (npc.life <= 0) {
-				{
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MangoJelly/MangoJelly1"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MangoJelly/MangoJelly2"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MangoJelly/MangoJelly3"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MangoJelly/MangoJelly4"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MangoJelly/MangoJelly5"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MangoJelly/MangoJelly6"), 1f);
-				}
-			}
+			for (int k = 0; k < 20; k++)
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.ShadowbeamStaff, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
+
+			if (npc.life <= 0)
+				for (int i = 1; i < 7; ++i)
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MangoJelly/MangoJelly" + i), 1f);
 		}
 
 		public override void AI()
@@ -71,37 +61,47 @@ namespace SpiritMod.NPCs.Tides
 			npc.TargetClosest();
 			Player player = Main.player[npc.target];
 			npc.ai[0]++;
-			if (player.position.X > npc.position.X) {
+
+			if (player.position.X > npc.position.X)
 				xoffset = 24;
-			}
-			else {
+			else
 				xoffset = -24;
-			}
-			if (npc.ai[0] == 400 && Main.netMode != NetmodeID.MultiplayerClient) {
+
+			if (npc.ai[0] == 400 && Main.netMode != NetmodeID.MultiplayerClient)
+			{
 				npc.ai[2] = 1;
 				createdLaser = false;
 				npc.frameCounter = 0;
 				npc.netUpdate = true;
 			}
-			if (npc.ai[0] == 550) {
+
+			if (npc.ai[0] == 550)
+			{
 				bloomCounter = 1;
-				if (Main.netMode != NetmodeID.MultiplayerClient) {
+
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
 					npc.ai[3] = 0;
 					Vector2 vel = new Vector2(30f, 0).RotatedBy((float)(Main.rand.Next(90) * Math.PI / 180));
 					Main.PlaySound(SoundID.Item, npc.Center, 91);
-					for (int i = 0; i < 4; i++) {
+					for (int i = 0; i < 4; i++)
+					{
 						int lozar = Projectile.NewProjectile(npc.position + vel.RotatedBy(i * 1.57f) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage / 3, 0, Main.myPlayer);
 						Main.projectile[lozar].netUpdate = true;
 					}
 					npc.netUpdate = true;
 				}
 			}
-			if (npc.ai[0] >= 570 && Main.netMode != NetmodeID.MultiplayerClient) {
+
+			if (npc.ai[0] >= 570 && Main.netMode != NetmodeID.MultiplayerClient)
+			{
 				npc.ai[2] = 0;
 				npc.ai[0] = 0;
 				npc.netUpdate = true;
 			}
-			if (npc.ai[2] == 1) { //shooting
+
+			if (npc.ai[2] == 1)
+			{ //shooting
 				float num395 = Main.mouseTextColor / 200f - 0.35f;
 				num395 *= 0.2f;
 				npc.scale = num395 + 0.95f;
@@ -110,23 +110,29 @@ namespace SpiritMod.NPCs.Tides
 				bloomCounter += 0.02f;
 				npc.rotation = 0f;
 			}
-			else {
+			else
+			{
 				npc.knockBackResist = .9f;
 				#region regular movement
 				npc.velocity.X *= 0.99f;
-				if (npc.ai[1] == 0) { //not jumping
-					if (npc.velocity.Y < 2.5f) {
+				if (npc.ai[1] == 0)
+				{ //not jumping
+					if (npc.velocity.Y < 2.5f)
+					{
 						npc.velocity.Y += 0.1f;
 					}
-					if (player.position.Y < npc.position.Y && npc.ai[0] % 30 == 0) {
+					if (player.position.Y < npc.position.Y && npc.ai[0] % 30 == 0)
+					{
 						npc.ai[1] = 1;
 						npc.velocity.X = xoffset / 1.25f;
 						npc.velocity.Y = -6;
 					}
 				}
-				if (npc.ai[1] == 1) { //jumping
+				if (npc.ai[1] == 1)
+				{ //jumping
 					npc.velocity *= 0.97f;
-					if (Math.Abs(npc.velocity.X) < 0.125f) {
+					if (Math.Abs(npc.velocity.X) < 0.125f)
+					{
 						npc.ai[1] = 0;
 					}
 					npc.rotation = npc.velocity.ToRotation() + 1.57f;
@@ -136,21 +142,20 @@ namespace SpiritMod.NPCs.Tides
 		}
 		public override void NPCLoot()
 		{
-			if (Main.rand.NextBool(25)) {
+			if (Main.rand.NextBool(25))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MagicConch>());
-			}
-			if (Main.rand.NextBool(25)) {
+
+			if (Main.rand.NextBool(25))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MangoJellyStaff>());
-			}
 		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return new Color(255, 255, 255);
-		}
+
+		public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255);
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));
-			for (int k = 0; k < npc.oldPos.Length; k++) {
+			for (int k = 0; k < npc.oldPos.Length; k++)
+			{
 				var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 				Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
 				Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
@@ -162,25 +167,27 @@ namespace SpiritMod.NPCs.Tides
 		public override void FindFrame(int frameHeight)
 		{
 			Player player = Main.player[npc.target];
-			if (npc.ai[2] == 0) {
-				if (player.position.Y < npc.position.Y) {
+			if (npc.ai[2] == 0)
+			{
+				if (player.position.Y < npc.position.Y)
 					npc.frameCounter += 0.10f;
-				}
+
 				npc.frameCounter += 0.05f;
 				npc.frameCounter %= 4;
 				int frame = (int)npc.frameCounter;
 				npc.frame.Y = frame * frameHeight;
 			}
-			else {
-				if (npc.frameCounter < 2.8f) {
+			else
+			{
+				if (npc.frameCounter < 2.8f)
 					npc.frameCounter += 0.1f;
-				}
-				else if (npc.ai[3] == 0 && npc.frameCounter < 3.8f) {
+				else if (npc.ai[3] == 0 && npc.frameCounter < 3.8f)
 					npc.frameCounter += 0.08f;
-				}
-				if (npc.frameCounter >= 2.8f && !createdLaser) {
-					if(Main.netMode != NetmodeID.MultiplayerClient)
-					npc.ai[3] = 1;
+
+				if (npc.frameCounter >= 2.8f && !createdLaser)
+				{
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+						npc.ai[3] = 1;
 					createdLaser = true;
 					npc.netUpdate = true;
 				}

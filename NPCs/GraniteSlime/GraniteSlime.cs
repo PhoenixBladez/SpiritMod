@@ -6,10 +6,13 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace SpiritMod.NPCs.GraniteSlime
 {
 	public class GraniteSlime : ModNPC
 	{
+		bool jump;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Granite Slime");
@@ -35,6 +38,7 @@ namespace SpiritMod.NPCs.GraniteSlime
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.GraniteSlimeBanner>();
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -42,11 +46,9 @@ namespace SpiritMod.NPCs.GraniteSlime
 							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 			return false;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/GraniteSlime/GraniteSlime_Glow"));
-		}
-		bool jump;
+
+		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/GraniteSlime/GraniteSlime_Glow"));
+
 		public override void AI()
 		{
 			Player target = Main.player[npc.target];
@@ -54,11 +56,14 @@ namespace SpiritMod.NPCs.GraniteSlime
 			bool expertMode = Main.expertMode;
 			npc.direction = npc.spriteDirection;
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.12f, 0.29f, .42f);
-			if (!npc.collideY) {
+
+			if (!npc.collideY)
 				jump = true;
-			}
-			if (npc.collideY && jump && Main.rand.Next(3) == 0) {
-				for (int i = 0; i < 20; i++) {
+
+			if (npc.collideY && jump && Main.rand.Next(3) == 0)
+			{
+				for (int i = 0; i < 20; i++)
+				{
 					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 0f, -2f, 0, default, 2f);
 					Main.dust[num].noGravity = true;
 					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -70,11 +75,13 @@ namespace SpiritMod.NPCs.GraniteSlime
 				jump = false;
 				Main.PlaySound(SoundID.Item, npc.Center, 110);
 				int damage = expertMode ? 11 : 21;
-				if (distance < 92) {
+				if (distance < 92)
+				{
 					target.AddBuff(BuffID.Confused, 180);
 					target.AddBuff(BuffID.Shine, 180);
 				}
-				for (int i = 0; i < 2; i++) {
+				for (int i = 0; i < 2; i++)
+				{
 					float rotation = (float)(Main.rand.Next(0, 361) * (Math.PI / 180));
 					Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 					int proj = Projectile.NewProjectile(npc.Center.X, npc.Center.Y,
@@ -85,51 +92,56 @@ namespace SpiritMod.NPCs.GraniteSlime
 				}
 			}
 		}
+
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(2) == 0) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GraniteChunk>(), 1);
-			}
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Gel, Main.rand.Next(1, 3) + 1);
-			if (Main.rand.Next(1000) == 33) {
+
+			if (Main.rand.Next(2) == 0)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GraniteChunk>(), 1);
+
+			if (Main.rand.Next(1000) == 33)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.NightVisionHelmet);
-			}
-			if (Main.rand.Next(10000) == 0) {
+
+			if (Main.rand.Next(10000) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SlimeStaff);
-			}
 		}
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			int x = spawnInfo.spawnTileX;
 			int y = spawnInfo.spawnTileY;
 			int tile = (int)Main.tile[x, y].type;
 			return (tile == 368) && NPC.downedBoss2 && spawnInfo.spawnTileY > Main.rockLayer ? 0.17f : 0f;
-
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0) {
-				int d = 226;
-				for (int k = 0; k < 20; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default, 0.27f);
+			if (npc.life <= 0)
+			{
+				for (int k = 0; k < 20; k++)
+				{
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 2.5f * hitDirection, -2.5f, 0, default, 0.27f);
 					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Granite, 2.5f * hitDirection, -2.5f, 0, default, 0.87f);
 				}
 			}
-			if (Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0 && Main.rand.Next(3) == 0) {
+
+			if (Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0 && Main.rand.Next(3) == 0)
+			{
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
+				for (int i = 0; i < 20; i++)
 				{
-					for (int i = 0; i < 20; i++) {
-						int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 0f, -2f, 0, default, 2f);
-						Main.dust[num].noGravity = true;
-						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-						Main.dust[num].scale *= .25f;
-						if (Main.dust[num].position != npc.Center)
-							Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
-					}
-					Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
-					NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<NPCs.CracklingCore.GraniteCore>());
+					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 0f, -2f, 0, default, 2f);
+					Main.dust[num].noGravity = true;
+					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					Main.dust[num].scale *= .25f;
+					if (Main.dust[num].position != npc.Center)
+						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 				}
+
+				Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
+				NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<NPCs.CracklingCore.GraniteCore>());
 			}
 		}
 	}

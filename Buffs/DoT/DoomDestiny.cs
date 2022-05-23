@@ -2,7 +2,7 @@ using SpiritMod.NPCs;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Buffs
+namespace SpiritMod.Buffs.DoT
 {
 	public class DoomDestiny : ModBuff
 	{

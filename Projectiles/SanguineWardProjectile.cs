@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
+using SpiritMod.Buffs.DoT;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
@@ -33,14 +34,13 @@ namespace SpiritMod.Projectiles
 			Player player = Main.player[projectile.owner];
 			projectile.Center = new Vector2(player.Center.X + (player.direction > 0 ? 0 : 0), player.position.Y + 30);   // I dont know why I had to set it to -60 so that it would look right   (change to -40 to 40 so that it's on the floor)
 
-			var list = Main.npc.Where(x => x.active && x.Hitbox.Intersects(projectile.Hitbox));
+			var list = Main.npc.Where(x => x.CanBeChasedBy() && x.Hitbox.Intersects(projectile.Hitbox));
 
 			foreach (var npc in list)
 			{
-				if (!npc.friendly)
-					npc.AddBuff(ModContent.BuffType<BCorrupt>(), 20);
+				npc.AddBuff(ModContent.BuffType<BloodCorrupt>(), 20);
 
-				if (_npcAliveLast[npc.whoAmI] && npc.life <= 0 && !npc.friendly && Main.rand.Next(4) == 0) //if the npc was alive last frame and is now dead
+				if (_npcAliveLast[npc.whoAmI] && npc.life <= 0 && Main.rand.Next(4) == 0) //if the npc was alive last frame and is now dead
 				{
 					int healNumber = Main.rand.Next(4, 7);
 					player.HealEffect(healNumber);

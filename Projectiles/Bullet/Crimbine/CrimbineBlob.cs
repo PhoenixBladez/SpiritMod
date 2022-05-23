@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
+using SpiritMod.Buffs.DoT;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -66,29 +67,21 @@ namespace SpiritMod.Projectiles.Bullet.Crimbine
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].noLight = false;
 			}
-
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(4) == 0)
-				target.AddBuff(ModContent.BuffType<BCorrupt>(), 180);
+				target.AddBuff(ModContent.BuffType<BloodCorrupt>(), 180);
 		}
+
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			int d = 5;
-			for (int k = 0; k < 6; k++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
-			}
-
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
+			for (int k = 0; k < 6; k++) 
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Blood, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
 			return true;
 		}
-		public override void Kill(int timeLeft)
-			=> Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
+
+		public override void Kill(int timeLeft) => Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 	}
 }

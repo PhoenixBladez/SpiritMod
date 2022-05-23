@@ -1,4 +1,4 @@
-using SpiritMod.Players;
+using SpiritMod.GlobalClasses.Players;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;

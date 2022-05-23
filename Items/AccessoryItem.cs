@@ -1,4 +1,4 @@
-﻿using SpiritMod.Players;
+﻿using SpiritMod.GlobalClasses.Players;
 using Terraria;
 using Terraria.ModLoader;
 

@@ -1,4 +1,4 @@
-using SpiritMod.Buffs;
+using SpiritMod.Buffs.DoT;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,7 +7,6 @@ namespace SpiritMod.Projectiles.Thrown
 {
 	public class CryoKnife : ModProjectile
 	{
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cryolite Bomb");
@@ -19,9 +18,7 @@ namespace SpiritMod.Projectiles.Thrown
 		{
 			projectile.width = 16;
 			projectile.height = 14;
-
 			projectile.aiStyle = 2;
-
 			projectile.friendly = true;
 			projectile.hostile = false;
 			projectile.ranged = true;
@@ -44,10 +41,7 @@ namespace SpiritMod.Projectiles.Thrown
 			if (Main.rand.Next(4) == 0)
 				target.AddBuff(ModContent.BuffType<CryoCrush>(), 240);
 		}
-		public override bool PreAI()
-		{
-			//    projectile.rotation += 0.1f;
-			return true;
-		}
+
+		public override bool PreAI() => true;
 	}
 }

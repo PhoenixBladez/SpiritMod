@@ -14,6 +14,8 @@ namespace SpiritMod.NPCs.Critters
 		{
 			DisplayName.SetDefault("Rotslug");
 			Main.npcFrameCount[npc.type] = 4;
+			Main.npcFrameCount[npc.type] = 4;
+			Main.npcCatchable[npc.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -26,36 +28,27 @@ namespace SpiritMod.NPCs.Critters
 			npc.dontCountMe = true;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
-			Main.npcCatchable[npc.type] = true;
 			npc.catchItem = (short)ModContent.ItemType<RotSlugItem>();
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 66;
 			npc.npcSlots = 0;
             npc.noGravity = false; ;
 			aiType = NPCID.Grubby;
-			Main.npcFrameCount[npc.type] = 4;
 			npc.dontTakeDamageFromHostiles = false;
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0) {
-                int d = 194;
                 for (int k = 0; k < 10; k++)
-                {
-                    Dust.NewDust(npc.position, npc.width, npc.height, d, 1.75f * hitDirection, -1.75f, 0, new Color(), 0.6f);
-                }
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Scarecrow, 1.75f * hitDirection, -1.75f, 0, new Color(), 0.6f);
             }
-			
 		}
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
-        {
-            return spawnInfo.player.ZoneCorrupt && spawnInfo.player.ZoneOverworldHeight ? .07f : 0f;
-        }
-		public override void AI()
-        {
-            npc.spriteDirection = npc.direction;
-        }
-        public override void FindFrame(int frameHeight)
+
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.player.ZoneCorrupt && spawnInfo.player.ZoneOverworldHeight ? .07f : 0f;
+		public override void AI() => npc.spriteDirection = npc.direction;
+
+		public override void FindFrame(int frameHeight)
         {
             if (npc.velocity != Vector2.Zero)
             {

@@ -2,10 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using SpiritMod.Items.Placeable.Furniture;
-using Terraria.Enums;
 using Terraria.ObjectData;
-using SpiritMod.Players;
 
 namespace SpiritMod.Items.Sets.FloatingItems
 {

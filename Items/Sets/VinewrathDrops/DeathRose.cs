@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Collections.Generic;
-using SpiritMod.Players;
+using SpiritMod.GlobalClasses.Players;
 using SpiritMod.Buffs;
 using Microsoft.Xna.Framework;
 

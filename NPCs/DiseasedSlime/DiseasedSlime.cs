@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.IO;
+using SpiritMod.Buffs.DoT;
 
 namespace SpiritMod.NPCs.DiseasedSlime
 {
@@ -39,8 +40,10 @@ namespace SpiritMod.NPCs.DiseasedSlime
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.DiseasedSlimeBanner>();
 		}
+
 		public bool hasPicked = false;
 		int pickedType;
+
 		public override void AI()
 		{
 			if (!hasPicked)
@@ -50,30 +53,32 @@ namespace SpiritMod.NPCs.DiseasedSlime
 				hasPicked = true;
 			}
 		}
+
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frame.X = 50 * pickedType;
 			npc.frame.Width = 50;
 		}
+
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(pickedType);
 			writer.Write(hasPicked);
-
 		}
+
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			pickedType = reader.ReadInt32();
 			hasPicked = reader.ReadBoolean();
-
 		}
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe) {
+			if (spawnInfo.playerSafe)
 				return 0f;
-			}
 			return SpawnCondition.Underground.Chance * 0.27f;
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 extraOffset = new Vector2(-26, -17);
@@ -84,42 +89,42 @@ namespace SpiritMod.NPCs.DiseasedSlime
 			spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
 			return false;
 		}
+
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BismiteCrystal>(), Main.rand.Next(4, 7));
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Gel, Main.rand.Next(1, 3) + 1);
 
-			if (Main.rand.Next(10000) == 0) {
+			if (Main.rand.Next(10000) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SlimeStaff);
-			}
-            if (Main.rand.NextBool(25))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Cake>());
-            }
-        }
+
+			if (Main.rand.NextBool(25))
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Cake>());
+		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (Main.rand.Next(3) == 0) {
+			if (Main.rand.Next(3) == 0)
 				target.AddBuff(ModContent.BuffType<FesteringWounds>(), 240);
-			}
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			int d = 193;
 			if (npc.life > 0)
+			{
 				for (int k = 0; k < 12; k++)
-					Dust.NewDust(npc.position, npc.width, npc.height, d, hitDirection, -2.5f, 0, Color.Green * .14f, 0.7f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.SlimeBunny, hitDirection, -2.5f, 0, Color.Green * .14f, 0.7f);
+			}
 			else
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
+				{
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<NoxiousGas>(), 0, 1, Main.myPlayer, 0, 0);
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<NoxiousIndicator>(), 0, 1, Main.myPlayer, 0, 0);
-					Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/GasHiss"));
+					Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/GasHiss"));
 				}
 				for (int k = 0; k < 25; k++)
-					Dust.NewDust(npc.position, npc.width, npc.height, d, 2 * hitDirection, -2.5f, 0, Color.Green * .14f, 0.7f);
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.SlimeBunny, 2 * hitDirection, -2.5f, 0, Color.Green * .14f, 0.7f);
 			}
 		}
 	}

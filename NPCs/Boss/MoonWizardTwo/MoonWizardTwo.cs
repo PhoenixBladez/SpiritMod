@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles;
 using SpiritMod.Prim;
 using SpiritMod.Utilities;
+using SpiritMod.Buffs.DoT;
 
 namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 {

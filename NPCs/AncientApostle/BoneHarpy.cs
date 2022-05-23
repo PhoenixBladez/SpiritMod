@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using SpiritMod.Items.Consumable;
-using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs;
+using SpiritMod.Buffs.DoT;
 
 namespace SpiritMod.NPCs.AncientApostle
 {
@@ -29,7 +29,7 @@ namespace SpiritMod.NPCs.AncientApostle
 			npc.buffImmune[BuffID.Poisoned] = true;
 			npc.buffImmune[BuffID.Confused] = true;
 			npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
-			npc.buffImmune[ModContent.BuffType<BCorrupt>()] = true;
+			npc.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
 			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
 			npc.noTileCollide = false;
 			npc.HitSound = SoundID.NPCHit2;
@@ -38,48 +38,48 @@ namespace SpiritMod.NPCs.AncientApostle
 			bannerItem = ModContent.ItemType<Items.Banners.AncientApostleBanner>();
 		}
 
-		private ref float moveSpeed => ref npc.ai[1];
-		private ref float moveSpeedY => ref npc.ai[2];
-		private ref float counter => ref npc.ai[3];
+		private ref float MoveSpeed => ref npc.ai[1];
+		private ref float MoveSpeedY => ref npc.ai[2];
+		private ref float Counter => ref npc.ai[3];
 
 		public override void AI()
 		{
-			if(counter == 0) {
+			if(Counter == 0) {
 				npc.ai[0] = 150;
 			}
-			counter++;
+			Counter++;
 			npc.spriteDirection = npc.direction;
 			Player player = Main.player[npc.target];
 			npc.rotation = npc.velocity.X * 0.1f;
-			if (npc.Center.X >= player.Center.X && moveSpeed >= -60) // flies to players x position
+			if (npc.Center.X >= player.Center.X && MoveSpeed >= -60) // flies to players x position
 			{
-				moveSpeed--;
+				MoveSpeed--;
 			}
 
-			if (npc.Center.X <= player.Center.X && moveSpeed <= 60) {
-				moveSpeed++;
+			if (npc.Center.X <= player.Center.X && MoveSpeed <= 60) {
+				MoveSpeed++;
 			}
 
-			npc.velocity.X = moveSpeed * 0.06f;
+			npc.velocity.X = MoveSpeed * 0.06f;
 
-			if (npc.Center.Y >= player.Center.Y - npc.ai[0] && moveSpeedY >= -50) //Flies to players Y position
+			if (npc.Center.Y >= player.Center.Y - npc.ai[0] && MoveSpeedY >= -50) //Flies to players Y position
 			{
-				moveSpeedY--;
+				MoveSpeedY--;
 				npc.ai[0] = 150f;
 			}
 
-			if (npc.Center.Y <= player.Center.Y - npc.ai[0] && moveSpeedY <= 50) {
-				moveSpeedY++;
+			if (npc.Center.Y <= player.Center.Y - npc.ai[0] && MoveSpeedY <= 50) {
+				MoveSpeedY++;
 			}
 
-			npc.velocity.Y = moveSpeedY * 0.12f;
+			npc.velocity.Y = MoveSpeedY * 0.12f;
 			if (Main.rand.Next(220) == 8 && Main.netMode != NetmodeID.MultiplayerClient) {
 				npc.ai[0] = -25f;
 				npc.netUpdate = true;
 			}
-			if (counter >= 240) //Fires desert feathers like a shotgun
+			if (Counter >= 240) //Fires desert feathers like a shotgun
 			{
-				counter = 0;
+				Counter = 0;
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 73);
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{

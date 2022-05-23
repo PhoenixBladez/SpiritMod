@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Players
+namespace SpiritMod.GlobalClasses.Players
 {
 	/// <summary>Class that handles double tap abilities in either direction.</summary>
 	class DoubleTapPlayer : ModPlayer

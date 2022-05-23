@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs;
 using SpiritMod.Projectiles;
+using SpiritMod.Buffs.DoT;
 
 namespace SpiritMod.NPCs.CracklingCore
 {
@@ -30,17 +31,16 @@ namespace SpiritMod.NPCs.CracklingCore
 			npc.value = 360f;
 			npc.knockBackResist = .3f;
 			npc.aiStyle = 44;
-
 			npc.buffImmune[BuffID.Poisoned] = true;
 			npc.buffImmune[BuffID.Confused] = true;
 			npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
-			npc.buffImmune[ModContent.BuffType<BCorrupt>()] = true;
+			npc.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
 			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
 
 			aiType = NPCID.FlyingAntlion;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.CracklingCoreBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.CracklingCoreBanner>();
+		}
 
 		public override void FindFrame(int frameHeight)
 		{
@@ -52,21 +52,22 @@ namespace SpiritMod.NPCs.CracklingCore
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			int d = 226;
-			for (int k = 0; k < 20; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default, 0.27f);
-				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default, 0.87f);
+			for (int k = 0; k < 20; k++)
+			{
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 2.5f * hitDirection, -2.5f, 0, default, 0.27f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 2.5f * hitDirection, -2.5f, 0, default, 0.87f);
 			}
 		}
 
 		public override void AI()
 		{
 			npc.spriteDirection = npc.direction;
-			Player target = Main.player[npc.target];
 			npc.localAI[0] += 1f;
-			if (npc.localAI[0] == 12f) {
+			if (npc.localAI[0] == 12f)
+			{
 				npc.localAI[0] = 0f;
-				for (int j = 0; j < 12; j++) {
+				for (int j = 0; j < 12; j++)
+				{
 					Vector2 vector2 = Vector2.UnitX * -npc.width / 2f;
 					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default) * new Vector2(8f, 16f);
 					vector2 = Utils.RotatedBy(vector2, (npc.rotation - 1.57079637f), default);
@@ -79,10 +80,12 @@ namespace SpiritMod.NPCs.CracklingCore
 				}
 			}
 		}
+
 		public override bool CheckDead()
 		{
 			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 110));
-			for (int i = 0; i < 20; i++) {
+			for (int i = 0; i < 20; i++)
+			{
 				int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 0f, -2f, 0, default, 2f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -91,7 +94,9 @@ namespace SpiritMod.NPCs.CracklingCore
 				if (Main.dust[num].position != npc.Center)
 					Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 			}
-			for (int i = 0; i < 4; i++) {
+
+			for (int i = 0; i < 4; i++)
+			{
 				float rotation = (float)(Main.rand.Next(0, 361) * (Math.PI / 180));
 				Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 				int proj = Projectile.NewProjectile(npc.Center.X, npc.Center.Y,

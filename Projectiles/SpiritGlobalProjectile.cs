@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
 using SpiritMod.Buffs.Armor;
+using SpiritMod.Buffs.DoT;
 using SpiritMod.Items;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,6 @@ namespace SpiritMod.Projectiles
 {
 	public class SpiritGlobalProjectile : GlobalProjectile
 	{
-		public static int[] Explosives
-		{
-			get => new int[] { ProjectileID.Bomb, ProjectileID.BombFish, ProjectileID.BouncyBomb, ProjectileID.Grenade, ProjectileID.BouncyGrenade,
-			ProjectileID.StickyGrenade, ProjectileID.Dynamite, ProjectileID.BouncyDynamite, ProjectileID.StickyDynamite };
-		}
-
 		public override bool InstancePerEntity => true;
 
 		public List<SpiritProjectileEffect> effects = new List<SpiritProjectileEffect>();
@@ -50,15 +45,19 @@ namespace SpiritMod.Projectiles
 		public bool shotFromMaliwanShockCommon = false;
 		public bool shotFromMaliwanFreezeCommon = false;
 
+		float alphaCounter;
+
 		public override bool PreDraw(Projectile projectile, SpriteBatch spriteBatch, Color lightColor)
 		{
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
+
 			if (projectile.minion && modPlayer.stellarSet && player.HasBuff(ModContent.BuffType<StellarMinionBonus>()))
 			{
 				float sineAdd = (float)Math.Sin(alphaCounter) + 3;
 				Main.spriteBatch.Draw(SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49"), projectile.Center - Main.screenPosition, null, new Color((int)(20f * sineAdd), (int)(16f * sineAdd), (int)(4f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + .25f), SpriteEffects.None, 0f);
 			}
+
 			if (throwerGloveBoost && projectile.thrown)
 			{
 				Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
@@ -68,12 +67,11 @@ namespace SpiritMod.Projectiles
 					Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / projectile.oldPos.Length);
 					spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
 				}
-				return true;
 			}
 			return true;
 		}
 
-		float alphaCounter;
+
 		public override bool PreAI(Projectile projectile)
 		{
 			foreach (var effect in effects)
@@ -103,8 +101,6 @@ namespace SpiritMod.Projectiles
 					projectile.knockBack += 2;
 					throwerGloveBoost = true;
 				}
-				else if (modPlayer.longFuse && Explosives.Contains(projectile.type)) //Long fuse functionality
-					projectile.timeLeft = (int)(projectile.timeLeft * 1.5f); //Makes it last 150% longer
 			}
 
 			runOnce = true;
@@ -322,7 +318,7 @@ namespace SpiritMod.Projectiles
 			else if (shotFromSpazLung)
 				target.AddBuff(BuffID.CursedInferno, 120);
 			else if (shotFromBloodshot)
-				target.AddBuff(ModContent.BuffType<BCorrupt>(), 120);
+				target.AddBuff(ModContent.BuffType<BloodCorrupt>(), 120);
 			else if (shotFromNightSky && Main.rand.NextBool(8))
 				target.AddBuff(ModContent.BuffType<StarFlame>(), 179);
 

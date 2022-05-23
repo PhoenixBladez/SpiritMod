@@ -9,6 +9,7 @@ using System.IO;
 using SpiritMod.World.Sepulchre;
 using System.Linq;
 using SpiritMod.Buffs;
+using SpiritMod.Buffs.DoT;
 
 namespace SpiritMod.NPCs.Enchanted_Armor
 {
