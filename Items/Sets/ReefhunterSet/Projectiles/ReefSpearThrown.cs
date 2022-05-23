@@ -94,5 +94,21 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 			projectile.QuickDraw(spriteBatch, drawOrigin: drawOrigin);
 			return false;
 		}
+
+		public override void Kill(int timeLeft)
+		{
+			Main.PlaySound(SoundID.Dig, projectile.Center);
+			Vector2 goreVel = hasTarget ? Vector2.Zero : projectile.oldVelocity / 3;
+			Vector2 pos = projectile.Center;
+			for (int i = 1; i <= 6; i++)
+			{
+				if (i >= 4)
+					pos -= Vector2.Normalize(projectile.oldVelocity) * (15 + (i - 3) * 3);
+
+				Gore g = Gore.NewGorePerfect(pos, goreVel, mod.GetGoreSlot("Gores/Projectiles/ReefTrident/Trident" + i));
+				g.timeLeft = 0;
+				g.rotation = projectile.rotation;
+			}
+		}
 	}
 }
