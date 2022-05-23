@@ -18,7 +18,6 @@ using SpiritMod.Items.Sets.ToolsMisc.Evergreen;
 using SpiritMod.Mechanics.BackgroundSystem;
 using System.Collections.Generic;
 using SpiritMod.Mechanics.Trails;
-using SpiritMod.Players;
 using SpiritMod.Effects.SurfaceWaterModifications;
 using SpiritMod.Items.Sets.FloatingItems.MessageBottle;
 using MonoMod.RuntimeDetour.HookGen;
@@ -28,6 +27,7 @@ using SpiritMod.NPCs.Town.Oracle;
 using SpiritMod.NPCs.Hydra;
 using SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder;
 using SpiritMod.Mechanics.CollideableNPC;
+using SpiritMod.GlobalClasses.Players;
 
 namespace SpiritMod.Utilities
 {

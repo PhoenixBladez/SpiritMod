@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using SpiritMod.Buffs;
 using SpiritMod.Mechanics.BoonSystem;
+using SpiritMod.Buffs.DoT;
 
 namespace SpiritMod.NPCs.StymphalianBat
 {
@@ -36,7 +37,7 @@ namespace SpiritMod.NPCs.StymphalianBat
 			npc.buffImmune[BuffID.Poisoned] = true;
 			npc.buffImmune[BuffID.Venom] = true;
 			npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
-			npc.buffImmune[ModContent.BuffType<BCorrupt>()] = true;
+			npc.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
 			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.StymphalianBatBanner>();

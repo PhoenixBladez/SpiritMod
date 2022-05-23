@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
-using SpiritMod.Buffs;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using SpiritMod.Buffs.DoT;
 
 namespace SpiritMod.Projectiles.Clubs
 {
@@ -11,10 +11,7 @@ namespace SpiritMod.Projectiles.Clubs
 	{
 		private bool[] _npcAliveLast;
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Toxin Field");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Toxin Field");
 
 		public override void SetDefaults()
 		{
@@ -33,35 +30,34 @@ namespace SpiritMod.Projectiles.Clubs
 				_npcAliveLast = new bool[200];
 
 			Player player = Main.player[projectile.owner];
-			
-			var list = Main.npc.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
-			foreach (var npc in list) {
-				if (!npc.friendly) {
-					npc.AddBuff(ModContent.BuffType<AcidBurn>(), 360);
+
+			var list = Main.npc.Where(x => x.CanBeChasedBy() && x.Hitbox.Intersects(projectile.Hitbox));
+			foreach (var npc in list)
+				npc.AddBuff(ModContent.BuffType<AcidBurn>(), 360);
+
+			if (Main.rand.NextBool(3))
+			{
+				for (int num621 = 0; num621 < 9; num621++)
+				{
+					Dust dust = Main.dust[Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 2f), projectile.width, projectile.height, ModContent.DustType<Dusts.PoisonGas>(), projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, new Color(), 5f)];
+					dust.noGravity = true;
+					dust.velocity.X = dust.velocity.X * 0.3f;
+					dust.velocity.Y = (dust.velocity.Y * 0.2f) - 1;
 				}
 			}
-			if (Main.rand.NextBool(3))
-            {
-                for (int num621 = 0; num621 < 9; num621++)
-                {
-                    Dust dust = Main.dust[Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 2f), projectile.width, projectile.height, ModContent.DustType<Dusts.PoisonGas>(), projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, new Color(), 5f)];
-                    dust.noGravity = true;
-                    dust.velocity.X = dust.velocity.X * 0.3f;
-                    dust.velocity.Y = (dust.velocity.Y * 0.2f) - 1;
-                }
-            }
 		}
-        public override void Kill(int timeLeft)
-        {
-            for (int num621 = 0; num621 < 16; num621++)
-            {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height,
-                    DustID.Grass, 0f, 0f, 100, default, .7f);
-                Dust dust = Main.dust[Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 2f), projectile.width, projectile.height, ModContent.DustType<Dusts.PoisonGas>(), projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, new Color(), 8f)];
-                dust.noGravity = true;
-                dust.velocity.X = dust.velocity.X * 0.3f;
-                dust.velocity.Y = (dust.velocity.Y * 0.2f) - 1;
-            }
-        }
-    }
+
+		public override void Kill(int timeLeft)
+		{
+			for (int num621 = 0; num621 < 16; num621++)
+			{
+				Dust.NewDust(projectile.position, projectile.width, projectile.height,
+					DustID.Grass, 0f, 0f, 100, default, .7f);
+				Dust dust = Main.dust[Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 2f), projectile.width, projectile.height, ModContent.DustType<Dusts.PoisonGas>(), projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, new Color(), 8f)];
+				dust.noGravity = true;
+				dust.velocity.X = dust.velocity.X * 0.3f;
+				dust.velocity.Y = (dust.velocity.Y * 0.2f) - 1;
+			}
+		}
+	}
 }

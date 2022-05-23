@@ -1,14 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Buffs;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Sets.CryoliteSet;
-using SpiritMod.Projectiles.Hostile;
 using SpiritMod.Dusts;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Buffs.DoT;
 
 namespace SpiritMod.NPCs.WinterbornHerald
 {
@@ -24,11 +23,9 @@ namespace SpiritMod.NPCs.WinterbornHerald
 		{
 			npc.width = 30;
 			npc.height = 44;
-
 			npc.lifeMax = 400;
 			npc.defense = 6;
 			npc.damage = 0;
-
 			npc.HitSound = SoundID.NPCDeath15;
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.buffImmune[BuffID.OnFire] = true;
@@ -61,10 +58,12 @@ namespace SpiritMod.NPCs.WinterbornHerald
 			if (npc.ai[0] == 0)
 				npc.ai[0] = 500f;
 
-			if (npc.ai[2] != 0 && npc.ai[3] != 0) {
+			if (npc.ai[2] != 0 && npc.ai[3] != 0)
+			{
 				// Teleport effects: away.
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
-				for (int index1 = 0; index1 < 50; ++index1) {
+				for (int index1 = 0; index1 < 50; ++index1)
+				{
 					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Flare_Blue, 0.0f, 0.0f, 100, new Color(), 1.5f);
 					Main.dust[newDust].velocity *= 3f;
 					Main.dust[newDust].noGravity = true;
@@ -77,7 +76,8 @@ namespace SpiritMod.NPCs.WinterbornHerald
 				npc.ai[3] = 0.0f;
 				// Teleport effects: arrived.
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
-				for (int index1 = 0; index1 < 50; ++index1) {
+				for (int index1 = 0; index1 < 50; ++index1)
+				{
 					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Flare_Blue, 0.0f, 0.0f, 100, new Color(), 1.5f);
 					Main.dust[newDust].velocity *= 3f;
 					Main.dust[newDust].noGravity = true;
@@ -86,39 +86,46 @@ namespace SpiritMod.NPCs.WinterbornHerald
 
 			++npc.ai[0];
 
-			if (npc.ai[0] == 100 || npc.ai[0] == 300) {
+			if (npc.ai[0] == 100 || npc.ai[0] == 300)
+			{
 				npc.ai[1] = 30f;
 				npc.netUpdate = true;
 			}
 
 			bool teleport = false;
-			// Teleport
-			if (npc.ai[0] >= 500 && Main.netMode != NetmodeID.MultiplayerClient) {
+			if (npc.ai[0] >= 500 && Main.netMode != NetmodeID.MultiplayerClient)
 				teleport = true;
-			}
 
-			if (teleport) {
+			if (teleport)
+			{
 				Teleport();
 				npc.ai[0] = 1;
 				npc.ai[1] = 0;
 			}
-			if (npc.ai[1] > 0) {
+
+			if (npc.ai[1] > 0)
+			{
 				--npc.ai[1];
-				if (npc.ai[1] == 15) {
+				if (npc.ai[1] == 15)
+				{
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
-					if (Main.netMode != NetmodeID.MultiplayerClient) {
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
 						int amountOfProjectiles = 1;
 						int flakenum = Main.rand.Next(3);
 						DustHelper.DrawDustImage(new Vector2(npc.Center.X, npc.Center.Y - 40), ModContent.DustType<WinterbornDust>(), 0.25f, "SpiritMod/Effects/Snowflakes/Flake" + flakenum, 1.33f);
-						for (int i = 0; i < amountOfProjectiles; ++i) {
-							if (Main.rand.Next(2) == 0) {
+						for (int i = 0; i < amountOfProjectiles; ++i)
+						{
+							if (Main.rand.Next(2) == 0)
+							{
 								int somedamage = expertMode ? 15 : 30;
 								int p = Projectile.NewProjectile(Main.player[npc.target].Center.X, Main.player[npc.target].Center.Y - 300, 0, 0, ModContent.ProjectileType<IceCloudHostile>(), somedamage, 1, Main.myPlayer, 0, 0);
 								Main.projectile[p].hostile = true;
 								Main.projectile[p].friendly = false;
 								Main.projectile[p].tileCollide = false;
 							}
-							else {
+							else
+							{
 								Vector2 direction = Main.player[npc.target].Center - (npc.Center - new Vector2(0, 30));
 								direction.Normalize();
 								direction.X *= 4.9f;
@@ -165,19 +172,24 @@ namespace SpiritMod.NPCs.WinterbornHerald
 			int num5 = 20;
 			int num6 = 0;
 			bool flag1 = false;
-			if (Math.Abs(npc.position.X - Main.player[npc.target].position.X) + Math.Abs(npc.position.Y - Main.player[npc.target].position.Y) > 2000.0) {
+			if (Math.Abs(npc.position.X - Main.player[npc.target].position.X) + Math.Abs(npc.position.Y - Main.player[npc.target].position.Y) > 2000.0)
+			{
 				num6 = 100;
 				flag1 = true;
 			}
-			while (!flag1 && num6 < 100) {
+			while (!flag1 && num6 < 100)
+			{
 				++num6;
 				int index1 = Main.rand.Next(num1 - num5, num1 + num5);
-				for (int index2 = Main.rand.Next(num2 - num5, num2 + num5); index2 < num2 + num5; ++index2) {
-					if ((index2 < num2 - 4 || index2 > num2 + 4 || (index1 < num1 - 4 || index1 > num1 + 4)) && (index2 < num4 - 1 || index2 > num4 + 1 || (index1 < num3 - 1 || index1 > num3 + 1)) && Main.tile[index1, index2].nactive()) {
+				for (int index2 = Main.rand.Next(num2 - num5, num2 + num5); index2 < num2 + num5; ++index2)
+				{
+					if ((index2 < num2 - 4 || index2 > num2 + 4 || (index1 < num1 - 4 || index1 > num1 + 4)) && (index2 < num4 - 1 || index2 > num4 + 1 || (index1 < num3 - 1 || index1 > num3 + 1)) && Main.tile[index1, index2].nactive())
+					{
 						bool flag2 = true;
 						if (Main.tile[index1, index2 - 1].lava())
 							flag2 = false;
-						if (flag2 && Main.tileSolid[(int)Main.tile[index1, index2].type] && !Collision.SolidTiles(index1 - 1, index1 + 1, index2 - 4, index2 - 1)) {
+						if (flag2 && Main.tileSolid[(int)Main.tile[index1, index2].type] && !Collision.SolidTiles(index1 - 1, index1 + 1, index2 - 4, index2 - 1))
+						{
 							npc.ai[1] = 20f;
 							npc.ai[2] = (float)index1;
 							npc.ai[3] = (float)index2;
@@ -205,30 +217,25 @@ namespace SpiritMod.NPCs.WinterbornHerald
 			npc.spriteDirection = npc.direction;
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return NPC.downedBoss3 && (spawnInfo.spawnTileY > Main.rockLayer && spawnInfo.player.ZoneSnow) ? 0.035f : 0f;
-		}
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => NPC.downedBoss3 && (spawnInfo.spawnTileY > Main.rockLayer && spawnInfo.player.ZoneSnow) ? 0.035f : 0f;
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			int d = 206;
-			int d1 = 187;
-			for (int k = 0; k < 5; k++) {
-				{
-					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
-					Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
-				}
+			for (int k = 0; k < 5; k++)
+			{
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedWhiteBluePurple, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Flare_Blue, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
 			}
-			if (npc.life <= 0) {
-				{
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore1"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore2"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore2"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore3"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore3"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore4"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore5"), 1f);
-				}
+
+			if (npc.life <= 0)
+			{
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore1"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore4"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore5"), 1f);
 
 				npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
@@ -236,13 +243,15 @@ namespace SpiritMod.NPCs.WinterbornHerald
 				npc.height = 30;
 				npc.position.X = npc.position.X - (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-				for (int num621 = 0; num621 < 20; num621++) {
+
+				for (int num621 = 0; num621 < 20; num621++)
+				{
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Flare_Blue, 0f, 0f, 100, default, .8f);
-					if (Main.rand.Next(2) == 0) {
+					if (Main.rand.Next(2) == 0)
 						Main.dust[num622].scale = 0.35f;
-					}
 				}
-				for (int num623 = 0; num623 < 40; num623++) {
+				for (int num623 = 0; num623 < 40; num623++)
+				{
 					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.BlueCrystalShard, 0f, 0f, 100, default, .43f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 3f;

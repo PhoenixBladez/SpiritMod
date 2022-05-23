@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using SpiritMod.Buffs;
+using SpiritMod.Buffs.DoT;
 
 namespace SpiritMod.NPCs.Boss.Atlas
 {
@@ -12,10 +13,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 		int timer = 0;
 		bool start = true;
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Cobbled Eye");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Cobbled Eye");
 
 		public override void SetDefaults()
 		{
@@ -29,7 +27,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			npc.buffImmune[BuffID.Poisoned] = true;
 			npc.buffImmune[BuffID.Venom] = true;
 			npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
-			npc.buffImmune[ModContent.BuffType<BCorrupt>()] = true;
+			npc.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
 			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
 
 			npc.lifeMax = 2700;

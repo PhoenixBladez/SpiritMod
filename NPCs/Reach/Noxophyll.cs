@@ -3,7 +3,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.NPCs.Reach
 {
@@ -13,6 +12,7 @@ namespace SpiritMod.NPCs.Reach
 		{
 			DisplayName.SetDefault("Noxophyll");
 			Main.npcFrameCount[npc.type] = 8;
+			Main.npcCatchable[npc.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -22,7 +22,6 @@ namespace SpiritMod.NPCs.Reach
 			npc.damage = 0;
 			npc.defense = 0;
 			npc.lifeMax = 5;
-			Main.npcCatchable[npc.type] = true;
 			npc.catchItem = (short)ModContent.ItemType<Items.Sets.BriarDrops.ReachFishingCatch>();
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
@@ -42,31 +41,22 @@ namespace SpiritMod.NPCs.Reach
 			npc.frame.Y = frame * frameHeight;
 		}
 
-
 		public override void HitEffect(int hitDirection, double damage)
 		{
-            int d = 3;
-            int d1 = 7;
-            for (int k = 0; k < 30; k++)
-            {
-                Dust.NewDust(npc.position, npc.width, npc.height, d, 1.5f * hitDirection, -1.5f, 0, Color.White, 0.7f);
-                Dust.NewDust(npc.position, npc.width, npc.height, d1, 1.5f * hitDirection, -1.5f, 0, default, .34f);
-            }
-        }
-		public override void AI()
-		{
-			npc.spriteDirection = npc.direction;
-		}
-		public override void NPCLoot()
-		{
-			if (Main.rand.Next(2) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawFish>(), 1);
+			for (int k = 0; k < 30; k++)
+			{
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.GrassBlades, 1.5f * hitDirection, -1.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 7, 1.5f * hitDirection, -1.5f, 0, default, .34f);
 			}
 		}
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return spawnInfo.player.GetSpiritPlayer().ZoneReach && spawnInfo.water ? 0.511f : 0f;
-		}
 
+		public override void AI() => npc.spriteDirection = npc.direction;
+
+		public override void NPCLoot()
+		{
+			if (Main.rand.Next(2) == 1)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawFish>(), 1);
+		}
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.player.GetSpiritPlayer().ZoneReach && spawnInfo.water ? 0.511f : 0f;
 	}
 }

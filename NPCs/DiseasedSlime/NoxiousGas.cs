@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using SpiritMod.Buffs;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using SpiritMod.Buffs.DoT;
 
 namespace SpiritMod.NPCs.DiseasedSlime
 {
@@ -33,10 +33,7 @@ namespace SpiritMod.NPCs.DiseasedSlime
 			}
 
 			if (Main.rand.NextBool(2))
-			{
-				Dust dust = Main.dust[Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 2f), projectile.width, projectile.height, ModContent.DustType<Dusts.NoxiousDust>(), Main.rand.NextFloat(-1.5f, 1.5f), 0f, 100, new Color(), Main.rand.NextFloat(1.5f, 1.75f))];
-
-			}
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Dusts.NoxiousDust>(), Main.rand.NextFloat(-1.5f, 1.5f), 0f, 100, new Color(), Main.rand.NextFloat(1.5f, 1.75f));
 		}
     }
 }

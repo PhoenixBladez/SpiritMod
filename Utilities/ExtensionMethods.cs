@@ -1,8 +1,8 @@
 ﻿using SpiritMod.Items;
-using SpiritMod.Players;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using SpiritMod.GlobalClasses.Players;
 
 namespace SpiritMod.Utilities
 {

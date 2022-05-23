@@ -65,12 +65,12 @@ namespace SpiritMod.NPCs.BlazingRattler
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			npc.scale -= .02f;
-			int d = 0;
-			int d1 = 6;
+
 			for (int k = 0; k < 30; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
-				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default, .34f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Dirt, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 2.5f * hitDirection, -2.5f, 0, default, .34f);
 			}
+
 			hitCounter++;
 			if (hitCounter >= 3) {
 				hitCounter = 0;

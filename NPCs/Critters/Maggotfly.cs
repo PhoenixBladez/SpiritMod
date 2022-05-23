@@ -1,7 +1,5 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Consumable;
-using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,6 +11,8 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Maggotfly");
+			Main.npcFrameCount[npc.type] = 2;
+			Main.npcCatchable[npc.type] = true;
 			Main.npcFrameCount[npc.type] = 2;
 		}
 
@@ -26,37 +26,28 @@ namespace SpiritMod.NPCs.Critters
 			npc.dontCountMe = true;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
-			Main.npcCatchable[npc.type] = true;
 			npc.catchItem = (short)ModContent.ItemType<MaggotflyItem>();
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 64;
 			npc.npcSlots = 0;
 			npc.noGravity = true;
 			aiType = NPCID.Firefly;
-			Main.npcFrameCount[npc.type] = 2;
 			npc.dontTakeDamageFromHostiles = false;
 		}
-		public override void HitEffect(int hitDirection, double damage)
-        {
-            if (npc.life <= 0)
-            {
-                int d = 184;
-                for (int k = 0; k < 10; k++)
-                {
-                    Dust.NewDust(npc.position, npc.width, npc.height, d, 2.75f * hitDirection, -2.75f, 0, new Color(), 0.6f);
-                }
-            }
 
-        }
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
-        {
-            return spawnInfo.player.ZoneCorrupt && spawnInfo.player.ZoneOverworldHeight ? .1f : 0f;
-        }
-        public override void AI()
-        {
-            npc.spriteDirection = npc.direction;
-        }
-        public override void FindFrame(int frameHeight)
+		public override void HitEffect(int hitDirection, double damage)
+		{
+			if (npc.life <= 0)
+			{
+				for (int k = 0; k < 10; k++)
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.ScourgeOfTheCorruptor, 2.75f * hitDirection, -2.75f, 0, new Color(), 0.6f);
+			}
+		}
+
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.player.ZoneCorrupt && spawnInfo.player.ZoneOverworldHeight ? .1f : 0f;
+		public override void AI() => npc.spriteDirection = npc.direction;
+
+		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.25f;
 			npc.frameCounter %= Main.npcFrameCount[npc.type];

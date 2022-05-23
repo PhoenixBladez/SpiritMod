@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Buffs;
-using SpiritMod.Items.Material;
+using SpiritMod.Buffs.DoT;
 using SpiritMod.Projectiles.Sword;
 using Terraria;
 using Terraria.ID;
@@ -19,6 +18,7 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 		}
 
 		int counter = 5;
+
 		public override void SetDefaults()
 		{
 			item.damage = 33;
@@ -36,6 +36,7 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 			item.shoot = ModContent.ProjectileType<CryoPillar>();
 			item.shootSpeed = 8;
 		}
+
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Lighting.AddLight(item.position, 0.06f, .16f, .22f);
@@ -58,11 +59,13 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 				0f
 			);
 		}
+
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
 			if (Main.rand.Next(4) == 0)
 				target.AddBuff(ModContent.BuffType<CryoCrush>(), 300);
 		}
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			counter--;
@@ -85,6 +88,7 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 			}
 			return false;
 		}
+
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
 			if (Main.rand.Next(5) == 0) {
@@ -101,6 +105,5 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 			modRecipe.SetResult(this);
 			modRecipe.AddRecipe();
 		}
-
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
+using SpiritMod.Buffs.DoT;
 using SpiritMod.Dusts;
 using SpiritMod.Mechanics.Trails;
 using SpiritMod.Particles;
@@ -33,10 +34,10 @@ namespace SpiritMod.Projectiles.Bullet
 			if (!Main.dedServ)
 			{
 				ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, -projectile.velocity.RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(),
-							new Color(135, 253, 255), new Color(0, 21, 255), Main.rand.NextFloat(0.35f, 0.5f), 6, delegate (Particle particle)
-							{
-								particle.Velocity *= 0.94f;
-							}));
+					new Color(135, 253, 255), new Color(0, 21, 255), Main.rand.NextFloat(0.35f, 0.5f), 6, delegate (Particle particle)
+					{
+						particle.Velocity *= 0.94f;
+					}));
 
 				if (Main.rand.NextBool(3))
 					ParticleHandler.SpawnParticle(new SmokeParticle(projectile.Center, -projectile.velocity.RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(0.1f), new Color(30, 30, 90) * 0.5f, Main.rand.NextFloat(0.2f, 0.3f), 12));
@@ -44,7 +45,6 @@ namespace SpiritMod.Projectiles.Bullet
 		}
 
 		public override void AbstractHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<CryoCrush>(), 300, true);
-
 
 		public override void ExplodeEffect()
 		{

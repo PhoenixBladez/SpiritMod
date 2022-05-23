@@ -15,10 +15,8 @@ using System.Collections.Generic;
 using SpiritMod.Items;
 using System;
 using System.Linq;
-using SpiritMod.Items.Sets.ReefhunterSet;
-using SpiritMod.Items.Sets.ReefhunterSet.Buffs;
 
-namespace SpiritMod.Players
+namespace SpiritMod.GlobalClasses.Players
 {
 	public class MiscAccessoryPlayer : ModPlayer
 	{

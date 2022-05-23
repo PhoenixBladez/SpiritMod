@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace SpiritMod.Buffs
+namespace SpiritMod.Buffs.DoT
 {
 	public class AcidBurn : ModBuff
 	{

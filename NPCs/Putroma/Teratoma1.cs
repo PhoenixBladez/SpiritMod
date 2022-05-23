@@ -38,16 +38,10 @@ namespace SpiritMod.NPCs.Putroma
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			Main.PlaySound(SoundID.Dig, projectile.Center);
-			int d = 184;
-			for (int k = 0; k < 6; k++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
-			}
 
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
+			for (int k = 0; k < 6; k++)
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.ScourgeOfTheCorruptor, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
+
 			projectile.penetrate--;
 			if (projectile.penetrate <= 0)
 				projectile.Kill();

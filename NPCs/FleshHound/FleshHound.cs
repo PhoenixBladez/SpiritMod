@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
-using SpiritMod.Items.Sets.BloodcourtSet;
+using SpiritMod.Buffs.DoT;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,39 +28,40 @@ namespace SpiritMod.NPCs.FleshHound
 			npc.HitSound = SoundID.NPCHit6;
 			npc.DeathSound = SoundID.NPCDeath5;
 			npc.value = 180f;
-			npc.buffImmune[ModContent.BuffType<BCorrupt>()] = true;
+			npc.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
 			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
 			npc.knockBackResist = .2f;
 			npc.aiStyle = 3;
 			aiType = NPCID.WalkingAntlion;
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return spawnInfo.spawnTileY < Main.rockLayer && (Main.bloodMoon) && NPC.downedBoss1 ? 0.12f : 0f;
-		}
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.spawnTileY < Main.rockLayer && (Main.bloodMoon) && NPC.downedBoss1 ? 0.12f : 0f;
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for (int k = 0; k < 40; k++) {
+			for (int k = 0; k < 40; k++)
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection * 2.5f, -1f, 0, default, Main.rand.NextFloat(.45f, 1.15f));
-			}
-			if (npc.life <= 0) {
+
+			if (npc.life <= 0)
+			{
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hound1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hound2"), 1f);
-				for (int k = 0; k < 40; k++) {
+
+				for (int k = 0; k < 40; k++)
 					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection * 2.5f, -1f, 0, default, Main.rand.NextFloat(.45f, 1.15f));
-				}
 			}
 		}
+
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
-			if (trailbehind) {
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+
+			if (trailbehind)
+			{
 				Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
-				for (int k = 0; k < npc.oldPos.Length; k++) {
+				for (int k = 0; k < npc.oldPos.Length; k++)
+				{
 					Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
 					Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
 					spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
@@ -75,18 +76,24 @@ namespace SpiritMod.NPCs.FleshHound
 			int frame = (int)npc.frameCounter;
 			npc.frame.Y = frame * frameHeight;
 		}
+
 		int timer;
 		bool trailbehind = false;
 		float num34616;
+
 		public override void AI()
 		{
 			npc.spriteDirection = npc.direction;
 			timer++;
-			if (timer == 400 && Main.netMode != NetmodeID.MultiplayerClient) {
+
+			if (timer == 400 && Main.netMode != NetmodeID.MultiplayerClient)
+			{
 				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 7);
 				npc.netUpdate = true;
 			}
-			if (timer == 400 && Main.netMode != NetmodeID.MultiplayerClient) {
+
+			if (timer == 400 && Main.netMode != NetmodeID.MultiplayerClient)
+			{
 				num34616 = .55f;
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
@@ -100,10 +107,11 @@ namespace SpiritMod.NPCs.FleshHound
 				trailbehind = true;
 				npc.knockBackResist = 0f;
 			}
-			else {
+			else
 				num34616 = .25f;
-			}
-			if (timer >= 551) {
+
+			if (timer >= 551)
+			{
 				timer = 0;
 				npc.netUpdate = true;
 				trailbehind = false;
@@ -111,9 +119,6 @@ namespace SpiritMod.NPCs.FleshHound
 			}
 		}
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<BCorrupt>(), 180);
-		}
+		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<BloodCorrupt>(), 180);
 	}
 }

@@ -17,7 +17,7 @@ namespace SpiritMod.Buffs
 		public override void Update(NPC npc, ref int buffIndex)
 		{
 			if (!npc.boss)
-				npc.GetGlobalNPC<GNPC>().Death = true;
+				npc.GetGlobalNPC<GNPC>().death = true;
 		}
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Dusts;
-using SpiritMod.Players;
+using SpiritMod.GlobalClasses.Players;
 using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;

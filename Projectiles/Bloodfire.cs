@@ -1,4 +1,4 @@
-﻿using SpiritMod.Buffs;
+﻿using SpiritMod.Buffs.DoT;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -8,10 +8,7 @@ namespace SpiritMod.Projectiles
 {
 	class Bloodfire : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bloodfire");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Bloodfire");
 
 		public override void SetDefaults()
 		{
@@ -42,10 +39,6 @@ namespace SpiritMod.Projectiles
 			Main.dust[dust].scale = 1.9f;
 		}
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<BCorrupt>(), 180);
-		}
-
+		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<BloodCorrupt>(), 180);
 	}
 }

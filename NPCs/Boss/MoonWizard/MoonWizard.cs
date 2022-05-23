@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using SpiritMod.Items.Placeable.MusicBox;
 using SpiritMod.Items.Equipment;
 using SpiritMod.Items.Consumable.Potion;
+using SpiritMod.Buffs.DoT;
 
 namespace SpiritMod.NPCs.Boss.MoonWizard
 {

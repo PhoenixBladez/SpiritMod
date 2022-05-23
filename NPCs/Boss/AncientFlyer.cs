@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using SpiritMod.Items.Placeable.MusicBox;
 using SpiritMod.Items.Consumable;
+using SpiritMod.Buffs.DoT;
 
 namespace SpiritMod.NPCs.Boss
 {
@@ -46,7 +47,7 @@ namespace SpiritMod.NPCs.Boss
 			npc.buffImmune[BuffID.Poisoned] = true;
 			npc.buffImmune[BuffID.Confused] = true;
 			npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
-			npc.buffImmune[ModContent.BuffType<BCorrupt>()] = true;
+			npc.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
 			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
 
 			npc.noGravity = true;

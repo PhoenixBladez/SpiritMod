@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
+using SpiritMod.Buffs.DoT;
 using System;
 using Terraria;
 using Terraria.ID;

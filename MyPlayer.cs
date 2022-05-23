@@ -47,6 +47,7 @@ using SpiritMod.Items.Accessory.SeaSnailVenom;
 using SpiritMod.Items.Accessory.MoonlightSack;
 using SpiritMod.Projectiles.Hostile;
 using SpiritMod.Mechanics.QuestSystem;
+using SpiritMod.Buffs.DoT;
 
 namespace SpiritMod
 {
@@ -1394,7 +1395,7 @@ namespace SpiritMod
 			if (bloodfireSet && proj.magic)
 			{
 				if (Main.rand.NextBool(15))
-					target.AddBuff(ModContent.BuffType<BCorrupt>(), 180);
+					target.AddBuff(ModContent.BuffType<BloodCorrupt>(), 180);
 
 				if (Main.rand.NextBool(30))
 				{

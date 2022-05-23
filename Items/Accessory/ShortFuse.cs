@@ -1,5 +1,4 @@
-using SpiritMod.Projectiles;
-using System.Linq;
+using SpiritMod.GlobalClasses.Projectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,8 +10,9 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Short Fuse");
-			Tooltip.SetDefault("Explosives burn quickly when this is in the inventory"); //needs reword
+			Tooltip.SetDefault("Explosives burn quicker\nWorks when in the inventory");
 		}
+
 		public override void SetDefaults()
 		{
 			item.Size = new Microsoft.Xna.Framework.Vector2(18, 26);
@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Accessory
 			for (int i = 0; i < Main.maxProjectiles; ++i) 
 			{
 				Projectile p = Main.projectile[i];
-				if (p.active && p.owner == player.whoAmI && SpiritGlobalProjectile.Explosives.Contains(p.type) && p.timeLeft % 12 == 0)
+				if (p.active && p.owner == player.whoAmI && ExplosivesCache.AllExplosives.Contains(p.type) && p.timeLeft % 12 == 0)
 					p.timeLeft -= 5; //5/12ths faster I think. Or 7/12ths. idk
 			} 
 		}

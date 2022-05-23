@@ -43,51 +43,52 @@ namespace SpiritMod.NPCs.GladiatorSpirit
 		{
 			int x = spawnInfo.spawnTileX;
 			int y = spawnInfo.spawnTileY;
-			int tile = (int)Main.tile[x, y].type;
 			return spawnInfo.player.GetSpiritPlayer().ZoneMarble && spawnInfo.spawnTileY > Main.rockLayer && NPC.downedBoss2 ? 0.135f : 0f;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			int d = 54;
-			for (int k = 0; k < 10; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default, 0.27f);
-			}
-			if (npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, 99);
-				Gore.NewGore(npc.position, npc.velocity, 99);
-				Gore.NewGore(npc.position, npc.velocity, 99);
+			for (int k = 0; k < 10; k++)
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Wraith, 2.5f * hitDirection, -2.5f, 0, default, 0.27f);
+
+			if (npc.life <= 0)
+			{
+				for (int i = 0; i < 3; ++i)
+					Gore.NewGore(npc.position, npc.velocity, 99);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GladSpirit/GladSpirit1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GladSpirit/GladSpirit2"), 1f);
-
 			}
-        }
-        public override void FindFrame(int frameHeight)
-        {
-            npc.frameCounter += 0.15f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
-        }
-        bool reflectPhase;
+		}
+
+		public override void FindFrame(int frameHeight)
+		{
+			npc.frameCounter += 0.15f;
+			npc.frameCounter %= Main.npcFrameCount[npc.type];
+			int frame = (int)npc.frameCounter;
+			npc.frame.Y = frame * frameHeight;
+		}
+
+		bool reflectPhase;
 		int reflectTimer;
+
 		public override void AI()
 		{
-            npc.spriteDirection = -npc.direction;
+			npc.spriteDirection = -npc.direction;
 			reflectTimer++;
-			if (reflectTimer == 720) {
+
+			if (reflectTimer == 720)
 				Main.PlaySound(SoundID.DD2_WitherBeastAuraPulse, npc.Center);
-			}
-			if (reflectTimer > 720) {
+
+			if (reflectTimer > 720)
 				reflectPhase = true;
-			}
-			else {
+			else
 				reflectPhase = false;
-			}
-			if (reflectTimer >= 1000) {
+
+			if (reflectTimer >= 1000)
 				reflectTimer = 0;
-			}
-			if (reflectPhase) {
+
+			if (reflectPhase)
+			{
 				npc.velocity = Vector2.Zero;
 				npc.defense = 9999;
 				Vector2 vector2 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2((float)npc.height, (float)npc.height) * npc.scale * 1.85f / 2f;
@@ -95,10 +96,10 @@ namespace SpiritMod.NPCs.GladiatorSpirit
 				Main.dust[index].position = npc.Center + vector2;
 				Main.dust[index].velocity = Vector2.Zero;
 			}
-			else {
+			else
 				npc.defense = 9;
-			}
 		}
+
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			{
@@ -107,7 +108,8 @@ namespace SpiritMod.NPCs.GladiatorSpirit
 								 lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 				{
 					Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
-					for (int k = 0; k < npc.oldPos.Length; k++) {
+					for (int k = 0; k < npc.oldPos.Length; k++)
+					{
 						Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
 						Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
 						spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
@@ -115,27 +117,26 @@ namespace SpiritMod.NPCs.GladiatorSpirit
 				}
 			}
 		}
+
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
 		{
-			if (reflectPhase && !projectile.minion && !projectile.sentry && !Main.player[projectile.owner].channel) {
+			if (reflectPhase && !projectile.minion && !projectile.sentry && !Main.player[projectile.owner].channel)
+			{
 				projectile.hostile = true;
 				projectile.friendly = false;
 				projectile.penetrate = 2;
-				projectile.velocity.X = projectile.velocity.X * -1f;
+				projectile.velocity.X *= -1f;
 			}
 		}
+
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MarbleChunk>());
 
-			if (Main.rand.Next(120) == 2) {
+			if (Main.rand.Next(120) == 2)
+			{
 				int[] lootTable = new int[] { 3187, 3188, 3189 };
-				{
-					{
-						npc.DropItem(lootTable[Main.rand.Next(3)]);
-					}
-				}
-
+				npc.DropItem(lootTable[Main.rand.Next(3)]);
 			}
 		}
 	}

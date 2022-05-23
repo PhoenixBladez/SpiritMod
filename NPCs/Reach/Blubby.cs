@@ -14,6 +14,8 @@ namespace SpiritMod.NPCs.Reach
 		{
 			DisplayName.SetDefault("Blubby");
 			Main.npcFrameCount[npc.type] = 2;
+			Main.npcCatchable[npc.type] = true;
+			Main.npcFrameCount[npc.type] = 2;
 		}
 
 		public override void SetDefaults()
@@ -26,47 +28,39 @@ namespace SpiritMod.NPCs.Reach
 			npc.dontCountMe = true;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
-			Main.npcCatchable[npc.type] = true;
 			npc.catchItem = (short)ModContent.ItemType<BlubbyItem>();
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 66;
 			npc.npcSlots = 0;
-            npc.noGravity = false; ;
+			npc.noGravity = false; ;
 			aiType = NPCID.Grubby;
-			Main.npcFrameCount[npc.type] = 2;
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0) {
-                int d = 194;
-                for (int k = 0; k < 10; k++)
-                {
-                    Dust.NewDust(npc.position, npc.width, npc.height, d, 2.75f * hitDirection, -2.75f, 0, new Color(), 0.6f);
-                }
-            }
-			
+			if (npc.life <= 0)
+				for (int k = 0; k < 10; k++)
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Scarecrow, 2.75f * hitDirection, -2.75f, 0, new Color(), 0.6f);
 		}
+
 		public override void AI()
-        {
-            npc.spriteDirection = npc.direction;
+		{
+			npc.spriteDirection = npc.direction;
 			if (npc.life == npc.lifeMax)
-            {
-                npc.defense = 999;
-            }
+				npc.defense = 999;
 			else
-            {
-                npc.defense = 0;
-            }
-        }
-        public override void FindFrame(int frameHeight)
-        {
-            if (npc.velocity != Vector2.Zero)
-            {
-                npc.frameCounter += 0.12f;
-                npc.frameCounter %= Main.npcFrameCount[npc.type];
-                int frame = (int)npc.frameCounter;
-                npc.frame.Y = frame * frameHeight;
-            }
-        }
-    }
+				npc.defense = 0;
+		}
+
+		public override void FindFrame(int frameHeight)
+		{
+			if (npc.velocity != Vector2.Zero)
+			{
+				npc.frameCounter += 0.12f;
+				npc.frameCounter %= Main.npcFrameCount[npc.type];
+				int frame = (int)npc.frameCounter;
+				npc.frame.Y = frame * frameHeight;
+			}
+		}
+	}
 }

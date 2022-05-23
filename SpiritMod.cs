@@ -57,6 +57,7 @@ using SpiritMod.Items.Sets.OlympiumSet;
 using SpiritMod.Mechanics.Coverings;
 using static Terraria.ModLoader.Core.TmodFile;
 using SpiritMod.Items.Sets.DyesMisc.HairDye;
+using SpiritMod.GlobalClasses.Projectiles;
 
 namespace SpiritMod
 {
@@ -1029,6 +1030,11 @@ namespace SpiritMod
 
 			// using a mildly specific name to avoid mod clashes
 			ChatManager.Register<UI.Chat.QuestTagHandler>(new string[] { "sq", "spiritQuest" });
+		}
+
+		public override void PostAddRecipes()
+		{
+			ExplosivesCache.Initialize(this);
 		}
 
 		public void CheckScreenSize()

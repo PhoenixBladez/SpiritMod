@@ -7,14 +7,13 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
-using SpiritMod.Buffs;
+using SpiritMod.Buffs.DoT;
 
 namespace SpiritMod.NPCs.AstralAmalgam
 {
 	public class AstralAmalgram : ModNPC
 	{
 		private bool hasSpawnedBoys = false;
-		private static int[] SpawnTiles = { };
 		private ref float chargetimer => ref npc.ai[2];
 
 		public override void SetStaticDefaults()
@@ -40,7 +39,6 @@ namespace SpiritMod.NPCs.AstralAmalgam
 			npc.noGravity = true;
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.AstralAmalgamBanner>();
-
 		}
 
 

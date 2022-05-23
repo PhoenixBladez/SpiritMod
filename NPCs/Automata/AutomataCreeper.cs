@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using SpiritMod.Mechanics.BoonSystem;
 using SpiritMod.Buffs;
 using Terraria.Audio;
+using SpiritMod.Buffs.DoT;
 
 namespace SpiritMod.NPCs.Automata
 {
@@ -47,7 +48,7 @@ namespace SpiritMod.NPCs.Automata
 			npc.buffImmune[BuffID.Poisoned] = true;
 			npc.buffImmune[BuffID.Venom] = true;
 			npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
-			npc.buffImmune[ModContent.BuffType<BCorrupt>()] = true;
+			npc.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
 			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
 			npc.noGravity = true;
 			initialDirection = (Main.rand.Next(2) * 2) - 1;
