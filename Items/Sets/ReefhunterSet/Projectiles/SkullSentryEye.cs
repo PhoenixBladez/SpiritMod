@@ -27,24 +27,26 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 32;
-			projectile.height = 32;
+			projectile.width = 16;
+			projectile.height = 16;
 			projectile.friendly = true;
 			projectile.penetrate = -1;
 			projectile.aiStyle = -1;
 			projectile.hide = true;
-			projectile.tileCollide = false;
+			projectile.tileCollide = true; 
+			projectile.timeLeft = Projectile.SentryLifeTime;
 		}
 
 		public override bool CanDamage() => false;
 
+		private bool ParentActive() => parent.active && parent != null && parent.type == ModContent.ProjectileType<SkullSentrySentry>() && parent.owner == projectile.owner;
+
 		public override void AI()
 		{
-			if (!parent.active || parent == null || parent.type != ModContent.ProjectileType<SkullSentrySentry>() || parent.owner != projectile.owner) //parent active check
+			if (!ParentActive()) //parent active check
 				projectile.Kill();
-
 			else
-				projectile.timeLeft = 4;
+				projectile.timeLeft = Projectile.SentryLifeTime;
 
 			projectile.scale = parent.scale;
 			Timer++;
@@ -52,13 +54,20 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 			float distMod = Utilities.EaseFunction.EaseQuadOut.Ease(Math.Min(Timer / 480, 1)); //Ease worm distance from skull out over a few seconds
 			Vector2 targetCenter = anchor + parent.Center + Vector2.Normalize(anchor) * 25 * distMod;
 
+			float temp = Target;
 			FindTarget();
+			if (temp != Target) //If target changes, sync
+				projectile.netUpdate = true;
+
 			if (Target == -1 || InvalidTarget((int)Target)) //Circular motion while idle
 			{
 				Vector2 displacement = Vector2.Normalize(anchor.RotatedBy(MathHelper.TwoPi * Timer / 240)) * 5 * distMod;
 				targetCenter += displacement;
-				projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(targetCenter), 0.02f * distMod);
-				pupilPos = Vector2.Lerp(pupilPos, Vector2.Normalize(projectile.velocity) * 2, 0.03f); //Look in direction of movement
+				if(projectile.Center != targetCenter) //Prevent NaN (why is this necessary)
+					projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(targetCenter), 0.02f * distMod);
+
+				if(projectile.velocity.LengthSquared() > 0)
+					pupilPos = Vector2.Lerp(pupilPos, Vector2.Normalize(projectile.velocity) * 2, 0.03f); //Look in direction of movement
 			}
 
 			else
@@ -68,8 +77,12 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 				Vector2 movementDelta = Vector2.Normalize(vel) * distMod * 2.5f; //Base factor for how shot projectile velocity affects this projectile's movement
 				const float ANTICIPATION_TIME = SHOOT_TIME * 0.25f;
 
-				if (Timer % SHOOT_TIME >= SHOOT_TIME - ANTICIPATION_TIME) //Right before shooting projectile, move backwards quickly in anticipatiopn
-					projectile.position -= 4 * movementDelta / (ANTICIPATION_TIME);
+				if (Timer % SHOOT_TIME >= SHOOT_TIME - ANTICIPATION_TIME) //Right before shooting projectile, move backwards quickly in anticipation
+				{
+					Vector2 newPos = projectile.position - (4 * movementDelta / (ANTICIPATION_TIME));
+					if (!Collision.SolidCollision(newPos, projectile.width, projectile.height))
+						projectile.position = newPos;
+				}
 
 				if (Timer % SHOOT_TIME == 0) //Move with shot projectile 
 				{
@@ -96,7 +109,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 		private bool InvalidTarget(int target)
 		{
 			NPC npc = Main.npc[target];
-			return !npc.CanBeChasedBy(this) || npc.Distance(parent.Center) > MAX_DISTANCE;
+			return !npc.CanBeChasedBy(this) || npc.Distance(parent.Center) > MAX_DISTANCE || !Collision.CanHitLine(projectile.Center, 0, 0, npc.Center, 0, 0);
 		}
 
 		/// <summary>
@@ -188,6 +201,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.WriteVector2(anchor);
+			writer.WriteVector2(pupilPos);
 
 			if (parent == null)
 				writer.Write(-1);
@@ -198,12 +212,21 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			anchor = reader.ReadVector2();
+			pupilPos = reader.ReadVector2();
 
 			int parentwhoAmI = reader.ReadInt32();
 			if (parentwhoAmI == -1)
 				parent = null;
 			else
 				parent = Main.projectile[parentwhoAmI];
+		}
+
+		public override bool PreKill(int timeLeft) => !ParentActive();
+
+		public override bool OnTileCollide(Vector2 oldVelocity)
+		{
+			projectile.Bounce(oldVelocity, 1f);
+			return false;
 		}
 	}
 }

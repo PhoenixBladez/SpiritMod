@@ -8,6 +8,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 {
 	public class SkullSentry : ModItem
 	{
+		const float MAX_DISTANCE = 600f;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Maneater Skull");
@@ -35,13 +36,34 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			Vector2 mouse = Main.MouseWorld;
-			float maxDist = 600f;
-			if (player.Distance(mouse) >= 600f)
-				mouse = player.DirectionTo(mouse) * maxDist;
+			position = Main.MouseWorld;
+			if (MouseTooFar(player))
+				position = player.DirectionTo(position) * MAX_DISTANCE;
 
-			Projectile.NewProjectile(mouse.X, mouse.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 			player.UpdateMaxTurrets();
+			return false;
+		}
+
+		public override bool CanUseItem(Player player)
+		{
+			if (MouseTooFar(player))
+				return false;
+
+			Projectile dummy = new Projectile();
+			dummy.SetDefaults(item.shoot);
+
+			Point topLeft = (Main.MouseWorld - dummy.Size / 2).ToTileCoordinates();
+			Point bottomRight = (Main.MouseWorld + dummy.Size / 2).ToTileCoordinates();
+
+			return !Collision.SolidTilesVersatile(topLeft.X, bottomRight.X, topLeft.Y, bottomRight.Y);
+		}
+
+		private bool MouseTooFar(Player player)
+		{
+			if (player.Distance(Main.MouseWorld) >= MAX_DISTANCE)
+				return true;
+
 			return false;
 		}
 	}

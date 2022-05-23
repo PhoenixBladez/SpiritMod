@@ -56,6 +56,8 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 			projectile.velocity.Y = (float)System.Math.Sin(projectile.timeLeft / 30f) / 6; //Subtle hovering
 		}
 
+		public override bool CanDamage() => false;
+
 		public override void Kill(int timeLeft)
 		{
 			DoDust();
