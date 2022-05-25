@@ -8,6 +8,7 @@ using Terraria.ObjectData;
 
 namespace SpiritMod.Tiles.Ambient.IceSculpture
 {
+	[TileTag(TileTags.Indestructible)]
 	public class IceVikingPassive : ModTile
 	{
 		public override void SetDefaults()

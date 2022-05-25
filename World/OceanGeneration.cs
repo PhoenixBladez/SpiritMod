@@ -247,7 +247,7 @@ namespace SpiritMod.World
 			}
 		}
 
-		private static void PlacePirateChest(int innerEdge, int side)
+		public static void PlacePirateChest(int innerEdge, int side)
 		{
 		retry:
 			int guaranteeChestX = innerEdge - WorldGen.genRand.Next(100, innerEdge - 60);
@@ -255,24 +255,22 @@ namespace SpiritMod.World
 				guaranteeChestX = innerEdge + WorldGen.genRand.Next(100, Main.maxTilesX - innerEdge - 60);
 
 			var chest = new Point(guaranteeChestX, (int)(Main.maxTilesY * 0.35f / 16f));
-			while (!WorldGen.SolidTile(chest.X, chest.Y - 1))
+			while (!WorldGen.SolidTile(chest.X, chest.Y))
 				chest.Y++;
-			chest.Y--;
-			chest.X--;
 
 			if (!WorldMethods.AreaClear(chest.X, chest.Y - 2, 2, 2))
 				goto retry; //uh oh! goto! I'm a lazy programmer seethe & rage
 
 			for (int i = 0; i < 2; ++i)
 			{
-				WorldGen.KillTile(chest.X + i, chest.Y + 1, false, false, true);
-				WorldGen.PlaceTile(chest.X + i, chest.Y + 1, TileID.HardenedSand, true, false);
-				Framing.GetTileSafely(chest.X + i, chest.Y + 1).slope(0);
+				WorldGen.KillTile(chest.X + i, chest.Y, false, false, true);
+				WorldGen.PlaceTile(chest.X + i, chest.Y , TileID.HardenedSand, true, false);
+				Framing.GetTileSafely(chest.X + i, chest.Y).slope(0);
 			}
 
 			int BarStack() => WorldGen.genRand.Next(3, 7);
 
-			PlaceChest(chest.X, chest.Y, ModContent.TileType<OceanPirateChest>(), 
+			PlaceChest(chest.X, chest.Y - 1, ModContent.TileType<OceanPirateChest>(), 
 				new (int, int)[] //Primary items
 				{
 					(side == 0 ? ModContent.ItemType<LadyLuck>() : ModContent.ItemType<DuelistLegacy>(), 1)

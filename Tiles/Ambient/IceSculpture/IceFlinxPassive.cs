@@ -8,6 +8,7 @@ using Terraria.ObjectData;
 
 namespace SpiritMod.Tiles.Ambient.IceSculpture
 {
+	[TileTag(TileTags.Indestructible)]
 	public class IceFlinxPassive : ModTile
 	{
 		public override void SetDefaults()
@@ -18,11 +19,7 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
 			TileObjectData.newTile.Height = 2;
 			TileObjectData.newTile.Width = 2;
-			TileObjectData.newTile.CoordinateHeights = new int[]
-			{
-			16,
-			16
-			};
+			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Frozen Snow Flinx");

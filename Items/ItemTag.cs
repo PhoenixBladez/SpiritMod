@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SpiritMod.Items.Tags
+namespace SpiritMod.Items
 {
 	public class ItemTagAttribute : Attribute
 	{

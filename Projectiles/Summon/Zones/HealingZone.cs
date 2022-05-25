@@ -41,12 +41,12 @@ namespace SpiritMod.Projectiles.Summon.Zones
                 player.AddBuff(ModContent.BuffType<HealingZoneBuff>(), 300);
                 if (Main.rand.NextBool(30))
                 {
-                    int num143 = Gore.NewGore(new Vector2(projectile.Center.X + Main.rand.Next(-50, 50), projectile.Center.Y + Main.rand.Next(-50, 50)), new Vector2((float)Main.rand.Next(-10, 11) * 0.1f, (float)Main.rand.Next(-20, -10) * 0.1f), 331, (float)Main.rand.Next(80, 120) * 0.01f);
-
+					var pos = new Vector2(projectile.Center.X + Main.rand.Next(-50, 50), projectile.Center.Y + Main.rand.Next(-50, 50));
+					Gore.NewGore(pos, new Vector2(Main.rand.Next(-10, 11) * 0.1f, Main.rand.Next(-20, -10) * 0.1f), 331, Main.rand.Next(80, 120) * 0.01f);
                 }
             }
-			
 		}
+
         public void AdditiveCall(SpriteBatch spriteBatch)
         {
             {

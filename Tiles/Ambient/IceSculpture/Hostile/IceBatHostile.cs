@@ -8,6 +8,7 @@ using Terraria.ObjectData;
 
 namespace SpiritMod.Tiles.Ambient.IceSculpture.Hostile
 {
+	[TileTag(TileTags.Indestructible)]
 	public class IceBatHostile : ModTile
 	{
 		public override void SetDefaults()
@@ -18,12 +19,7 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture.Hostile
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
 			TileObjectData.newTile.Height = 3;
 			TileObjectData.newTile.Width = 3;
-			TileObjectData.newTile.CoordinateHeights = new int[]
-			{
-			16,
-			16,
-			16
-			};
+			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Frozen Ice Bats");

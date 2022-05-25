@@ -1,7 +1,6 @@
 
 using Microsoft.Xna.Framework;
 using SpiritMod.NPCs.Boss;
-using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,31 +8,22 @@ using Terraria.ObjectData;
 
 namespace SpiritMod.Tiles.Ambient
 {
+	[TileTag(TileTags.Indestructible)]
 	public class AvianEgg : ModTile
 	{
 		public override void SetDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
-
 			Main.tileCut[Type] = false;
-
 			Main.tileLavaDeath[Type] = true;
+
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
 			TileObjectData.newTile.Height = 8;
 			TileObjectData.newTile.Width = 6;
-			TileObjectData.newTile.CoordinateHeights = new int[]
-			{
-			16,
-			16,
-			16,
-			16,
-			16,
-			16,
-			16,
-			16
-			};
+			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16, 16, 16, 16, 16 };
 			TileObjectData.addTile(Type);
+
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Avian Egg");
 			AddMapEntry(new Color(227, 195, 124), name);

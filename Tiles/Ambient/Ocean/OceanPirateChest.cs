@@ -23,7 +23,10 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileValue[Type] = 500;
+
 			TileID.Sets.HasOutlines[Type] = true;
+			TileID.Sets.CanBeClearedDuringGeneration[Type] = false;
+			TileID.Sets.CanBeClearedDuringOreRunner[Type] = false;
 
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.newTile.Origin = new Point16(0, 1);

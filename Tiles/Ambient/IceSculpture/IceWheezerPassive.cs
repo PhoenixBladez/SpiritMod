@@ -8,6 +8,7 @@ using Terraria.ObjectData;
 
 namespace SpiritMod.Tiles.Ambient.IceSculpture
 {
+	[TileTag(TileTags.Indestructible)]
 	public class IceWheezerPassive : ModTile
 	{
 		public override void SetDefaults()

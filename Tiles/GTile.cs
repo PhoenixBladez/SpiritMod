@@ -17,64 +17,6 @@ namespace SpiritMod.Tiles
 {
 	public class GTile : GlobalTile
 	{
-		static readonly int[] IceSculptures = new int[] { ModContent.TileType<IceWheezerHostile>(), ModContent.TileType<IceVikingHostile>(), ModContent.TileType<IceFlinxHostile>(), ModContent.TileType<IceBatHostile>(),
-			ModContent.TileType<IceWheezerPassive>(), ModContent.TileType<IceVikingPassive>(), ModContent.TileType<IceBatPassive>(), ModContent.TileType<IceFlinxPassive>() };
-
-		readonly int[] indestructibletiles = new int[] { ModContent.TileType<StarBeacon>(), ModContent.TileType<AvianEgg>(), ModContent.TileType<Fathomless_Chest>(), ModContent.TileType<BloodBlossom>() };
-
-		public override bool CanKillTile(int i, int j, int type, ref bool blockDamaged)
-		{
-			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
-
-			if (indestructibletiles.Contains(tileAbove.type) && type != tileAbove.type)
-				return false;
-			else if (IceSculptures.Contains(type) || IceSculptures.Contains(tileAbove.type))
-				return false;
-
-			return true;
-		}
-
-		public override bool TileFrame(int i, int j, int type, ref bool resetFrame, ref bool noBreak)
-		{
-			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
-			if (indestructibletiles.Contains(tileAbove.type) && type != tileAbove.type && TileID.Sets.Falling[type])
-			{
-				//add something here to make the frame of the tile reset properly
-				return false;
-			}
-			return true;
-		}
-
-		public override bool PreHitWire(int i, int j, int type)
-		{
-			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
-			if (indestructibletiles.Contains(tileAbove.type) && type != tileAbove.type)
-				Main.tile[i, j].inActive(false);
-			return true;
-		}
-
-		public override bool Slope(int i, int j, int type)
-		{
-			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
-			ushort flowerType = (ushort)ModContent.TileType<BloodBlossom>();
-			if (type == flowerType || tileAbove.type == flowerType)
-				return false;
-			else if (IceSculptures.Contains(type) || IceSculptures.Contains(tileAbove.type))
-				return false;
-			return true;
-		}
-
-		public override bool CanExplode(int i, int j, int type)
-		{
-			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
-
-			if (indestructibletiles.Contains(tileAbove.type) && type != tileAbove.type)
-				return false;
-			if (IceSculptures.Contains(type) || IceSculptures.Contains(tileAbove.type))
-				return false;
-			return base.CanExplode(i, j, type);
-		}
-
 		readonly int[] DirtAndDecor = { TileID.Dirt, TileID.Plants, TileID.SmallPiles, TileID.LargePiles, TileID.LargePiles2, TileID.MushroomPlants, TileID.Pots };
 
 		public override void RandomUpdate(int i, int j, int type)
@@ -109,11 +51,13 @@ namespace SpiritMod.Tiles
 							WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Corpsebloom>());
 							NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<Corpsebloom>(), 0, 0, -1, -1);
 						}
+
 						if (Main.rand.Next(450) == 0)
 						{
 							WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Corpsebloom1>());
 							NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<Corpsebloom1>(), 0, 0, -1, -1);
 						}
+
 						if (Main.rand.Next(450) == 0)
 						{
 							WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Corpsebloom2>());

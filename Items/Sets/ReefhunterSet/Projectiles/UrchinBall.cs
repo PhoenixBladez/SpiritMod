@@ -62,7 +62,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 			{
 				NPC npc = Main.npc[(int)projectile.ai[1]];
 
-				if (!npc.CanBeChasedBy(this))
+				if (!npc.CanBeChasedBy(this) && npc.type != NPCID.TargetDummy)
 				{
 					projectile.netUpdate = true;
 					projectile.tileCollide = true;

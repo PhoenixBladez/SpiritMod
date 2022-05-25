@@ -1,4 +1,4 @@
-﻿using SpiritMod.Items.Tags;
+﻿using SpiritMod.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;

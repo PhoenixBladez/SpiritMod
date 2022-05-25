@@ -1,8 +1,6 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Buffs;
 using SpiritMod.Buffs.DoT;
 using SpiritMod.Items.Sets.BismiteSet;
-using SpiritMod.Items.Tags;
 using SpiritMod.NPCs.DiseasedSlime;
 using Terraria;
 using Terraria.ID;
@@ -39,6 +37,7 @@ namespace SpiritMod.Items.Sets.Explosives.Thrown
 			item.shootSpeed = 7.5f;
 			item.noUseGraphic = true;
 			item.consumable = true;
+			item.maxStack = 999;
 		}
 
 		public override void AddRecipes()
@@ -115,5 +114,6 @@ namespace SpiritMod.Items.Sets.Explosives.Thrown
 		}
 
 		public override bool CanHitPlayer(Player target) => target.whoAmI == projectile.owner;
+		public override bool? CanHitNPC(NPC target) => !target.friendly;
 	}
 }

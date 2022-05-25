@@ -58,6 +58,7 @@ using SpiritMod.Mechanics.Coverings;
 using static Terraria.ModLoader.Core.TmodFile;
 using SpiritMod.Items.Sets.DyesMisc.HairDye;
 using SpiritMod.GlobalClasses.Projectiles;
+using SpiritMod.GlobalClasses.Tiles;
 
 namespace SpiritMod
 {
@@ -1035,6 +1036,7 @@ namespace SpiritMod
 		public override void PostAddRecipes()
 		{
 			ExplosivesCache.Initialize(this);
+			ModContent.GetInstance<IndestructibleGlobalTile>().Load(this);
 		}
 
 		public void CheckScreenSize()

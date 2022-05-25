@@ -13,6 +13,7 @@ using Terraria.ObjectData;
 
 namespace SpiritMod.Tiles.Ambient
 {
+	[TileTag(TileTags.Indestructible)]
 	public class StarBeacon : ModTile
 	{
 		public override void SetDefaults()

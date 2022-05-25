@@ -8,15 +8,14 @@ using SpiritMod.Items.Glyphs;
 using Terraria.DataStructures;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.GameInput;
 using Terraria.ObjectData;
-using Terraria.Enums;
-using static Terraria.ModLoader.ModContent;
-using Steamworks;
 using System.Linq;
+using SpiritMod.Tiles;
+using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod.Mechanics.Fathomless_Chest
 {
+	[TileTag(TileTags.Indestructible)]
 	public class Fathomless_Chest : ModTile
 	{
 		public override void SetDefaults()

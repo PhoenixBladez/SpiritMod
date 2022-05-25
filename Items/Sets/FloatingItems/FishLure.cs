@@ -32,20 +32,6 @@ namespace SpiritMod.Items.Sets.FloatingItems
 			item.noMelee = true;
 			item.autoReuse = false;
 		}
-
-		public override bool UseItem(Player player)
-		{
-			Point tPos = Main.MouseWorld.ToTileCoordinates();
-			Tile bel = Framing.GetTileSafely(tPos.X, tPos.Y + 1);
-			Tile cur = Framing.GetTileSafely(tPos.X, tPos.Y);
-
-			if (WorldGen.SolidTile(tPos.X, tPos.Y + 1) && bel.active() && !cur.active() && cur.liquid > 100 && !bel.topSlope())
-			{
-				WorldGen.PlaceTile(tPos.X, tPos.Y, ModContent.TileType<FishLureTile>(), false, true);
-				return true;
-			}
-			return false;
-		}
 	}
 
 	public class FishLureTile : ModTile
@@ -58,6 +44,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
+			TileObjectData.newTile.WaterPlacement = Terraria.Enums.LiquidPlacement.OnlyInFullLiquid;
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Bar");

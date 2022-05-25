@@ -6,11 +6,10 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using SpiritMod.Items.Armor.Masks;
-using SpiritMod.Utilities;
 
 namespace SpiritMod.Tiles
 {
+	[TileTag(TileTags.Indestructible)]
 	public class BloodBlossom : ModTile
 	{
 		public override void SetDefaults()

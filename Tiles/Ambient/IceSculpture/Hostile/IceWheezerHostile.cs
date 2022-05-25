@@ -1,7 +1,6 @@
 
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Placeable.Tiles;
-using SpiritMod.NPCs;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,6 +8,7 @@ using Terraria.ObjectData;
 
 namespace SpiritMod.Tiles.Ambient.IceSculpture.Hostile
 {
+	[TileTag(TileTags.Indestructible)]
 	public class IceWheezerHostile : ModTile
 	{
 		public override void SetDefaults()

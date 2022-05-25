@@ -16,17 +16,15 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		private (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Books.Book_Lumoth>(), 1),
-			(Terraria.ID.ItemID.ShinePotion, 3),
-			(Terraria.ID.ItemID.SilverCoin, 35)
+			(ItemID.ShinePotion, 3),
+			(ItemID.SilverCoin, 35)
 		};
+
 		public override void OnQuestComplete()
 		{
-			bool showUnlocks = true;
-
-			QuestManager.UnlockQuest<CritterCaptureBlossmoon>(showUnlocks);
-			QuestManager.UnlockQuest<CritterCaptureFloater>(showUnlocks);
-			QuestManager.UnlockQuest<SporeSalvage>(showUnlocks);
-
+			QuestManager.UnlockQuest<CritterCaptureBlossmoon>(true);
+			QuestManager.UnlockQuest<CritterCaptureFloater>(true);
+			QuestManager.UnlockQuest<SporeSalvage>(true);
 
 			base.OnQuestComplete();
 

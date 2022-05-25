@@ -16,6 +16,7 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 			Tooltip.SetDefault("Summons a healing zone at the cursor position\nHealing zones increase player life regen while standing inside\nZones count as sentries");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/ArcaneZoneSubclass/HealingCodex_Glow");
         }
+
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Lighting.AddLight(item.position, 0.19f, .031f, .091f);
@@ -60,22 +61,18 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 			item.buffType = ModContent.BuffType<HealthZoneTimer>();
 			item.buffTime = Projectile.SentryLifeTime;
 		}
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
-        public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
+
+		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
+		public override bool AltFunctionUse(Player player) => true;
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			Vector2 value18 = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY);
-			position = value18;
+			position = Main.MouseWorld;
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
             player.UpdateMaxTurrets();
 			return false;
 		}
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
