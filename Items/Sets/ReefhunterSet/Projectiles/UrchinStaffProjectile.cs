@@ -91,9 +91,9 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 		{
 			float shotAngle = velocity.ToRotation();
 			float rotationTangent = (projectile.rotation + MathHelper.PiOver4 * player.direction) - (player.direction < 0 ? MathHelper.PiOver2 : 0);
-			float maxAngleDif = 0.12f;
+			float maxAngleDif = 0.104f;
 
-			bool shotAngleTooHigh = Math.Abs(shotAngle + MathHelper.PiOver2) < 1f; //true if the shot angle is too high for the projectile rotation's tangent angle to ever be close to it
+			bool shotAngleTooHigh = Math.Abs(shotAngle + MathHelper.PiOver2) < 1.1f; //true if the shot angle is too high for the projectile rotation's tangent angle to ever be close to it
 			const int tooHighShotTime = 25;
 
 			return Math.Abs(MathHelper.WrapAngle(shotAngle - rotationTangent)) <= maxAngleDif //Check if the difference between the angle of the shot and the current tangent of the projectile's rotation is small enough
