@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 
 			if (p.whoAmI != Main.myPlayer) return; //mp check (hopefully)
 
-			projectile.Center = p.Center;
+			projectile.Center = p.MountedCenter;
 			projectile.timeLeft = p.itemAnimation;
 
 			projectile.rotation = ((1 - (p.itemAnimation / (float)p.itemAnimationMax)) * MathHelper.Pi) - MathHelper.PiOver2;
@@ -63,7 +63,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 				return;
 
 			Vector2 pos = player.Center + new Vector2(27, -50).RotatedBy(projectile.rotation);
-			Vector2 vel = Utilities.ArcVelocityHelper.GetArcVel(pos, TargetPosition, 0.2f, null, 150, 8, 25, 5f);
+			Vector2 vel = Utilities.ArcVelocityHelper.GetArcVel(pos, TargetPosition + player.MountedCenter, 0.2f, null, 150, 8, 25, 5f);
 
 			if (CanShootUrchin(player, vel))
 			{
@@ -91,7 +91,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 		{
 			float shotAngle = velocity.ToRotation();
 			float rotationTangent = (projectile.rotation + MathHelper.PiOver4 * player.direction) - (player.direction < 0 ? MathHelper.PiOver2 : 0);
-			float maxAngleDif = 0.104f;
+			float maxAngleDif = 0.12f;
 
 			bool shotAngleTooHigh = Math.Abs(shotAngle + MathHelper.PiOver2) < 1f; //true if the shot angle is too high for the projectile rotation's tangent angle to ever be close to it
 			const int tooHighShotTime = 25;
