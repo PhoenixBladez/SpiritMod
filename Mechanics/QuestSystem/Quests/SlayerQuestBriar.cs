@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Terraria;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using SpiritMod.NPCs.Reach;
+using SpiritMod.NPCs.Town;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
-    public class SlayerQuestBriar : Quest
+	public class SlayerQuestBriar : Quest
     {
         public override string QuestName => "Flowery Fiends";
 		public override string QuestClient => "The Adventurer";
@@ -34,12 +28,13 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
         public override void OnQuestComplete()
 		{
             bool showUnlocks = true;
-			QuestManager.UnlockQuest<RootOfTheProblem>(showUnlocks);
             QuestManager.UnlockQuest<SlayerQuestValkyrie>(showUnlocks);
 			QuestManager.UnlockQuest<SlayerQuestDrBones>(showUnlocks);
 			QuestManager.UnlockQuest<SlayerQuestNymph>(showUnlocks);
 			QuestManager.UnlockQuest<SlayerQuestUGDesert>(showUnlocks);
 			QuestManager.UnlockQuest<SlayerQuestCavern>(showUnlocks);
+
+			ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<ReturnToYourRoots>());
 
 			base.OnQuestComplete();
         }

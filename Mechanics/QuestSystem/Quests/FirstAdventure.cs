@@ -1,14 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using SpiritMod.UI.Elements;
-using System;
+using SpiritMod.NPCs.Town;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
@@ -26,34 +20,36 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		private (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Consumable.MapScroll>(), 2),
-			(Terraria.ID.ItemID.GoldCoin, 1)
+			(ItemID.GoldCoin, 1)
 		};
 
 		private FirstAdventure()
         {
 			_tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Consumable.Quest.DurasilkSheaf>(), 3))
-				  .AddParallelTasks(new RetrievalTask(ModContent.ItemType<Items.Armor.WayfarerSet.WayfarerHead>(), 1, "Craft"), 
-									new RetrievalTask(ModContent.ItemType<Items.Armor.WayfarerSet.WayfarerBody>(), 1, "Craft"),
-									new RetrievalTask(ModContent.ItemType<Items.Armor.WayfarerSet.WayfarerLegs>(), 1, "Craft"));
+				.AddParallelTasks(new RetrievalTask(ModContent.ItemType<Items.Armor.WayfarerSet.WayfarerHead>(), 1, "Craft"), 
+					new RetrievalTask(ModContent.ItemType<Items.Armor.WayfarerSet.WayfarerBody>(), 1, "Craft"),
+					new RetrievalTask(ModContent.ItemType<Items.Armor.WayfarerSet.WayfarerLegs>(), 1, "Craft"));
 		}
 
 		public override void OnQuestComplete()
 		{
-			// a lot of quests, so not showing their unlocks. Feel free to change that:
-			bool showUnlocks = true;
-			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Guide, QuestManager.GetQuest<RootOfTheProblem>());
 			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Demolitionist, QuestManager.GetQuest<RescueQuestStylist>());
 			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Dryad, QuestManager.GetQuest<LumothQuest>());
 			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.TravellingMerchant, QuestManager.GetQuest<TravelingMerchantDesertQuest>());
 			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Angler, QuestManager.GetQuest<ExplorerQuestOcean>());
+			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Guide, QuestManager.GetQuest<HeartCrystalQuest>());
+			ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Guide, QuestManager.GetQuest<SlayerQuestScreechOwls>());
+			ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<SlayerQuestBriar>());
+			ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<IdleIdol>());
+			ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<BareNecessities>());
+
+			if (WorldGen.crimson)
+				ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Guide, QuestManager.GetQuest<ExplorerQuestCrimson>());
+			else
+				ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Guide, QuestManager.GetQuest<ExplorerQuestCorrupt>());
 
 
-			QuestManager.UnlockQuest<ExplorerQuestCrimson>(showUnlocks);
-			QuestManager.UnlockQuest<ExplorerQuestCorrupt>(showUnlocks);
-			QuestManager.UnlockQuest<HeartCrystalQuest>(showUnlocks);
-			QuestManager.UnlockQuest<SlayerQuestScreechOwls>(showUnlocks);
-
-			QuestManager.SayInChat("It looks like the Guide wants to talk about something!", Color.White);
+			QuestManager.SayInChat("Your residents want to talk to you. Chat with them to get more quests!", Color.ForestGreen);
 
 			base.OnQuestComplete();
 		}

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Terraria;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
@@ -13,7 +6,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
     {
         public override string QuestName => "A Return to Your Roots";
 		public override string QuestClient => "The Adventurer";
-		public override string QuestDescription => "Did you know that I was part of a research team that tried to survey the Briar? It was led by some scientist- Laywatts, I think. She learned about some interestin' stuff down there. Apparently, all the roots in the Briar connect to one central... thing. That monster is a menace to everyone, so could you deal with it once an' for all, lad?";
+		public override string QuestDescription => "You know, while I was trapped down there, I noticed something...apparently, all the roots in the Briar connect to one central... thing. I don't know what it is, but I'm not going to find out for myself...at least not for a while. Could you take a look?";
 		public override int Difficulty => 4;
 		public override string QuestCategory => "Main";
 

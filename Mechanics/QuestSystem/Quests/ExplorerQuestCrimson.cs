@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Xna.Framework;
-
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
@@ -36,7 +28,6 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override void OnQuestComplete()
 		{
             bool showUnlocks = true;
-			QuestManager.UnlockQuest<RootOfTheProblem>(showUnlocks);
             QuestManager.UnlockQuest<ExplorerQuestMarble>(showUnlocks);
 			QuestManager.UnlockQuest<ExplorerQuestGranite>(showUnlocks);
 			QuestManager.UnlockQuest<ExplorerQuestAsteroid>(showUnlocks);

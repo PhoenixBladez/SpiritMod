@@ -25,9 +25,7 @@ namespace SpiritMod.Items.Consumable
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.value = Item.sellPrice(0, 0, 1, 0);
 			item.useTime = item.useAnimation = 20;
-			item.bait = 20 +
-				((!Main.dayTime) ? 4 : 0) +
-				((MyWorld.jellySky) ? 11 : 0);
+			item.bait = 20;
 			item.ammo = item.type;
 			item.shoot = ModContent.ProjectileType<LunazoaProj>();
 			item.noMelee = true;
@@ -45,8 +43,8 @@ namespace SpiritMod.Items.Consumable
 		public override void UpdateInventory(Player player)
 		{
 			item.bait = 30 +
-				((!Main.dayTime) ? 15 : 0) +
-				((MyWorld.jellySky) ? 20 : 0);
+				(!Main.dayTime ? 15 : 0) +
+				(MyWorld.jellySky ? 20 : 0);
 		}
 	}
 }

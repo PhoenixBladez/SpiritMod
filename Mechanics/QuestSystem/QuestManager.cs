@@ -72,9 +72,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 				// load related quest image
 				string tex = "UI/QuestUI/Textures/Quests/" + type.Name;
 				if (SpiritMod.Instance.TextureExists(tex) && !Main.dedServ)
-				{
+				
 					q.QuestImage = SpiritMod.Instance.GetTexture(tex);
-				}
 
 				q.WhoAmI = Quests.Count;
 
@@ -202,9 +201,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 					{
 						quest.IsUnlocked = false;
 						if (quest.AnnounceRelocking)
-						{
 							SayInChat("[[sQ/" + quest.WhoAmI + ":" + quest.QuestName + "]] has been locked again.", Color.White);
-						}
 					}
 				}
 			}
@@ -249,7 +246,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public static void UnlockQuest(Quest quest, bool showInChat = true)
 		{
-			if (quest.IsUnlocked) return;
+			if (quest.IsUnlocked)
+				return;
 
 			quest.IsUnlocked = true;
 			quest.OnUnlock();

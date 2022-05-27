@@ -76,7 +76,7 @@ namespace SpiritMod.NPCs.Town
 
 		public override string GetChat()
 		{
-			List<string> dialogue = new List<string>
+			var dialogue = new List<string>
 			{
 				"I've been all around this world, and I've got so many things for you to see.",
 				"Lovely house you've got here. It's much better lodging than when those savages from The Briar hung me over a spit.",

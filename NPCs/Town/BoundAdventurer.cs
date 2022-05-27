@@ -30,25 +30,16 @@ namespace SpiritMod.NPCs.Town
 			npc.knockBackResist = 0f;
 			npc.rarity = 1;
 		}
-		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
-		{
-			return false;
-		}
-		public override string GetChat()
-		{
-			return "I thought I was a real goner there! If you didn't butt in, I probably would've been fed to whatever those monsters were trying to conjure up over there. I wouldn't touch it if I were you... Look, you have my thanks; but just between you and me, it's been a long few months, and all I want is a vacation from adventuring for a while. Life is short, and I'd rather not make it shorter. D'you have a place to stay?";
-		}
 
-        public override void AI()
+		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => false;
+
+		public override string GetChat() => "I thought I was a real goner there! If you didn't butt in, I probably would've been fed to whatever those monsters were trying to conjure up over there. I wouldn't touch it if I were you... Look, you have my thanks; but just between you and me, it's been a long few months, and all I want is a vacation from adventuring for a while. Life is short, and I'd rather not make it shorter. D'you have a place to stay?";
+
+		public override void AI()
         {
-			if (!Mechanics.QuestSystem.QuestManager.GetQuest<Mechanics.QuestSystem.Quests.RootOfTheProblem>().IsUnlocked)
-			{
-				npc.hide = true;
-			}
-			else
-			{
-				npc.hide = false;
-			}
+			if (Mechanics.QuestSystem.QuestManager.GetQuest<Mechanics.QuestSystem.Quests.ExplorerQuestGranite>().IsUnlocked)
+				Main.NewText("egg");
+
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 npc.homeless = false;
@@ -58,9 +49,8 @@ namespace SpiritMod.NPCs.Town
             }
 
             if (npc.wet)
-            {
                 npc.life = 250;
-            }
+
             foreach (var player in Main.player)
             {
                 if (!player.active) continue;
@@ -71,6 +61,7 @@ namespace SpiritMod.NPCs.Town
                 }
             }
         }
+
 		public void Rescue()
         {
             npc.Transform(NPCType<Adventurer>());

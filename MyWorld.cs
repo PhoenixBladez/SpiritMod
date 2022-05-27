@@ -83,13 +83,8 @@ namespace SpiritMod
 		public static int CorruptHazards = 0;
 		public static int CrimHazards = 0;
 
-		public static bool Magicite = false;
-		public static bool Cryolite = false;
 		public static bool spiritBiome = false;
 		public static bool rockCandy = false;
-		public static bool gmOre = false;
-		public static bool starMessage = false;
-		public static bool essenceMessage = false;
 		public static int asteroidSide = 0;
 		public static bool gennedTower = false;
 		public static bool gennedBandits = false;
@@ -366,41 +361,15 @@ namespace SpiritMod
 			ashRain = false;
 			dayTimeLast = Main.dayTime;
 			dayTimeSwitched = false;
+
 			if (!Main.dedServ)
 				AdditiveCallManager.Load();
 
 			if (SpiritMod.TrailManager != null)
 				SpiritMod.TrailManager.ClearAllTrails(); //trails break on world unload and reload(their projectile is still counted as being active???), so this just clears them all on reload
 
-			if (NPC.downedBoss2 == true)
-				gmOre = true;
-			else
-				gmOre = false;
-
-			if (NPC.downedBoss1 == true)
-				Magicite = true;
-			else
-				Magicite = false;
-
-			if (NPC.downedMechBoss3 == true || NPC.downedMechBoss2 == true || NPC.downedMechBoss1 == true)
-				spiritBiome = true;
-			else
-				spiritBiome = false;
-
-			if (Main.hardMode)
-				rockCandy = true;
-			else
-				rockCandy = false;
-
-			if (NPC.downedBoss3)
-				starMessage = true;
-			else
-				starMessage = false;
-
-			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
-				essenceMessage = true;
-			else
-				essenceMessage = false;
+			spiritBiome = NPC.downedMechBoss3 || NPC.downedMechBoss2 || NPC.downedMechBoss1;
+			rockCandy = Main.hardMode;
 
 			downedScarabeus = false;
 			downedAncientFlier = false;

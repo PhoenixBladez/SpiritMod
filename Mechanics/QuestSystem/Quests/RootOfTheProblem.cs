@@ -1,15 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Terraria;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
+	[System.Obsolete("Quest is not in use until it is redone.", true)]
     public class RootOfTheProblem : Quest
     {
         public override string QuestName => "Root of the Problem";
@@ -35,26 +28,13 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override void OnQuestComplete()
 		{
 			bool showUnlocks = true;
+
 			QuestManager.UnlockQuest<ReturnToYourRoots>(showUnlocks);
 			QuestManager.UnlockQuest<IdleIdol>(showUnlocks);
-
 			QuestManager.UnlockQuest<BareNecessities>(showUnlocks);
-			
 			QuestManager.UnlockQuest<SlayerQuestBriar>(showUnlocks);
 
 			base.OnQuestComplete();
 		}
-
-		/*public override void OnActivate()
-		{
-			QuestGlobalNPC.OnNPCLoot += QuestGlobalNPC_OnNPCLoot;
-			base.OnActivate();
-		}
-
-		public override void OnDeactivate()
-		{
-			QuestGlobalNPC.OnNPCLoot -= QuestGlobalNPC_OnNPCLoot;
-			base.OnDeactivate();
-		}*/
     }
 }

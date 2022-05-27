@@ -291,7 +291,7 @@ namespace SpiritMod.Utilities
 
 				var queue = ModContent.GetInstance<QuestWorld>().NPCQuestQueue;
 
-				if (queue.ContainsKey(talkNPC.type) && queue[talkNPC.type].Count > 0) //If this NPC has a quest
+				if (QuestManager.QuestBookUnlocked && queue.ContainsKey(talkNPC.type) && queue[talkNPC.type].Count > 0) //If this NPC has a quest
 				{
 					// TODO: localization
 					string questText = "Quest";

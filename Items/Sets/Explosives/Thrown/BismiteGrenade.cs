@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Sets.Explosives.Thrown
 		{
 			item.damage = 45;
 			item.noMelee = true;
-			item.ranged = true;
+			item.thrown = true;
 			item.width = 18;
 			item.height = 20;
 			item.useTime = 25;
