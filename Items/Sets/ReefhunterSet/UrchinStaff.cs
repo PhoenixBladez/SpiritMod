@@ -51,7 +51,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 			Projectile proj = Projectile.NewProjectileDirect(player.MountedCenter, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
 			if(proj.modProjectile is UrchinStaffProjectile staffProj)
 			{
-				staffProj.TargetPosition = targetPos;
+				staffProj.TargetPosition = targetPos - player.MountedCenter;
 				if (Main.netMode != NetmodeID.SinglePlayer) //sync extra ai as projectile is made
 					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
 			}
