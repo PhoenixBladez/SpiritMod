@@ -213,9 +213,11 @@ namespace SpiritMod.Mechanics.QuestSystem
 				quest.Update();
 				if (syncMP)
 				{
-					if (Main.netMode == NetmodeID.MultiplayerClient) quest.OnMPSync();
+					if (Main.netMode == NetmodeID.MultiplayerClient)
+						quest.OnMPSync();
 					else
 					{
+
 						// TODO: Sync data with other clients.
 					}
 				}

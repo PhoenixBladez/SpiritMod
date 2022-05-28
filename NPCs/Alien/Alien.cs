@@ -1,4 +1,3 @@
-using SpiritMod.Items.Accessory;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,23 +29,15 @@ namespace SpiritMod.NPCs.Alien
 			aiType = NPCID.Unicorn;
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-            if (NPC.downedMechBossAny && Main.eclipse && spawnInfo.player.ZoneOverworldHeight)
-            {
-                return 0.07f;
-            }
-			return 0f;
-		}
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => NPC.downedMechBossAny && Main.eclipse && spawnInfo.player.ZoneOverworldHeight ? 0.07f : 0;
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0) {
+			if (npc.life <= 0)
+			{
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Alien1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Alien2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Alien2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Alien2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Alien2"), 1f);
+				for (int i = 0; i < 4; ++i)
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Alien2"), 1f);
 			}
 		}
 
@@ -58,10 +49,8 @@ namespace SpiritMod.NPCs.Alien
 			npc.frame.Y = frame * frameHeight;
 		}
 
-		public override void AI()
-		{
-			npc.spriteDirection = npc.direction;
-		}
+		public override void AI() => npc.spriteDirection = npc.direction;
+
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
 			if (Main.rand.Next(4) == 1) {
