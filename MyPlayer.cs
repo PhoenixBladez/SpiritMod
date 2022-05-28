@@ -413,7 +413,6 @@ namespace SpiritMod
 			bool region2 = ZoneSpirit && player.position.Y / 16 >= Main.maxTilesY - 300;
 
 			bool showJellies = ((player.ZoneOverworldHeight || player.ZoneSkyHeight) && MyWorld.jellySky) || NPC.AnyNPCs(ModContent.NPCType<MoonWizard>());
-
 			bool underwater = player.ZoneBeach && isFullySubmerged;
 
 			bool greenOcean = player.ZoneBeach && MyWorld.luminousType == 1 && MyWorld.luminousOcean;
@@ -501,7 +500,6 @@ namespace SpiritMod
 					if (ashrain.GetShader().Intensity <= 0)
 						ashrain.Deactivate();
 				}
-
 				return;
 			}
 			else if (!ashrain.IsActive())

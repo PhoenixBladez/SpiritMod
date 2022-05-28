@@ -42,7 +42,8 @@ namespace SpiritMod.UI.QuestUI
 		{
 			if (!_isActive) return;
 
-			float y = 365f + (Main.playerInventory ? 0 : GetInfoOffset());
+			float offset = Main.mapStyle == 0 ? -Main.miniMapHeight : 0;
+			float y = 365f + (Main.playerInventory ? 0 : GetInfoOffset() + offset);
 
 			// update all the quest displays, drawing them if need be.
 			for (int i = 0; i < _questDisplays.Count; i++)

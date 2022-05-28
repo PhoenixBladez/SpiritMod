@@ -1,5 +1,3 @@
-
-using SpiritMod.Items.Material;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
