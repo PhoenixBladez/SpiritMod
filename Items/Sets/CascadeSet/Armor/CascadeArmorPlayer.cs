@@ -25,13 +25,13 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 
 		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
 		{
-			if(setActive)
+			if (setActive)
 				bubbleStrength = MathHelper.Clamp(bubbleStrength += 0.125f, 0, 1);
 		}
 
 		public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
 		{
-			if(setActive)
+			if (setActive)
 				bubbleStrength = MathHelper.Clamp(bubbleStrength += 0.125f, 0, 1);
 		}
 
@@ -51,6 +51,16 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 				damage = (int)(damage * (1 - (MaxResist * bubbleStrength)));
 				PopBubble();
 			}
+		}
+
+		public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+		{
+			if (bubbleStrength > 0f && (damageSource.SourceOtherIndex == 2 || damageSource.SourceOtherIndex == 3))
+			{
+				damage = (int)(damage * (1 - (MaxResist * bubbleStrength)));
+				PopBubble();
+			}
+			return true;
 		}
 
 		public override void PostUpdate()

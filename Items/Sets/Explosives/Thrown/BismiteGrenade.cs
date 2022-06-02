@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Sets.Explosives.Thrown
 			item.useTurn = false;
 			item.value = Item.sellPrice(0, 0, 1, 0);
 			item.rare = ItemRarityID.Blue;
-			item.UseSound = SoundID.Item5;
+			item.UseSound = SoundID.Item1;
 			item.autoReuse = false;
 			item.shootSpeed = 7.5f;
 			item.noUseGraphic = true;
@@ -86,10 +86,12 @@ namespace SpiritMod.Items.Sets.Explosives.Thrown
 
 				Exploded = true;
 
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<NoxiousGas>(), 0, 1, Main.myPlayer, 0, 0);
+				Vector2 off = new Vector2(30);
+				Projectile.NewProjectile(projectile.Center.X - off.X, projectile.Center.Y - off.Y, 0f, 0f, ModContent.ProjectileType<NoxiousGas>(), 0, 1, Main.myPlayer, 0, 0);
 				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<NoxiousIndicator>(), 0, 1, Main.myPlayer, 0, 0);
 
 				Main.PlaySound(SoundLoader.customSoundType, projectile.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/GasHiss"));
+				Main.PlaySound(SoundID.Item14, projectile.position);
 			}
 		}
 

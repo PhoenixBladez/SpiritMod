@@ -18,12 +18,11 @@ namespace SpiritMod.Particles
 			Position += addedVelocity;
 
 			Color = ((GetHashCode() % 2 == 0) ? new Color(50, 160, 149) : new Color(179, 86, 158)) * (float)Math.Sin(MathHelper.TwoPi * ((TimeActive - MaxTime) / (float)MaxTime));
+			Color *= 0.8f;
 		}
 
 		public override bool ActiveCondition => Main.LocalPlayer.GetModPlayer<MyPlayer>().ZoneSynthwave;
-
-		public override float ScreenSpawnChance => 0.2f;
-
+		public override float ScreenSpawnChance => 0.12f;
 		public override bool UseAdditiveBlend => true;
 
 		public override void OnSpawnAttempt()

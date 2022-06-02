@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("G-TEK Grenade");
-			Tooltip.SetDefault("Slows and electrocutes enemies in it's aura \nCan be destroyed by the player \nDestroying it causes an explosion");
+			Tooltip.SetDefault("Slows and electrocutes enemies in it's aura\nCan be destroyed by the player\nDestroying it causes an explosion");
 		}
 
 		public override void SetDefaults()
@@ -55,6 +55,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 		private const int DESPAWN_TIME = 10; //How long the projectile takes to shrink before despawning
 
 		private bool DamageAura => projectile.frame > 4;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gtech Grenade");
@@ -83,11 +84,25 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 			}
 			return false;
 		}
+
 		public override void AI()
 		{
 			++Timer;
 
-			if(Timer < ACTIVATION_TIME)
+			//Kill self when hit by a friendly projectile
+			for (int i = 0; i < Main.maxProjectiles; ++i)
+			{
+				Projectile p = Main.projectile[i];
+				if (p.active && p.friendly && p.DistanceSQ(projectile.Center) < 20 * 20 && p.owner == projectile.owner)
+				{
+					projectile.Kill();
+					p.velocity *= -1;
+					ProjectileLoader.OnTileCollide(p, -p.velocity);
+					return;
+				}
+			}
+
+			if (Timer < ACTIVATION_TIME)
 			{
 				projectile.velocity *= 0.94f;
 				float progress = Timer / ACTIVATION_TIME;
@@ -100,10 +115,9 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 				projectile.rotation = numFullRotations * MathHelper.TwoPi * EaseFunction.EaseQuadOut.Ease(progress) * (Math.Sign(projectile.velocity.X) > 0 ? 1 : -1);
 				projectile.rotation %= 6.28f;
 			}
-
 			else
 			{
-				if(Timer == ACTIVATION_TIME)
+				if (Timer == ACTIVATION_TIME)
 					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 92).WithPitchVariance(0.2f), projectile.Center);
 
 				projectile.velocity = Vector2.Zero;
@@ -111,7 +125,6 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 				projectile.UpdateFrame(12, 7);
 
 				float rotationOffset = DamageAura ? 0 : (float)Math.Sin(projectile.frameCounter * 0.5f) * MathHelper.Lerp(0.05f, 0.02f, projectile.frameCounter / 25f);
-
 				float rotDifference = ((((0f - projectile.rotation) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
 
 				projectile.rotation = MathHelper.Lerp(projectile.rotation, projectile.rotation + rotDifference, 0.2f) + rotationOffset;
@@ -210,7 +223,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 				spriteBatch.Draw(tex, projectile.Center + offset - Main.screenPosition, frame, Color.White.MultiplyRGBA(colorMod),
 					projectile.rotation, projectile.DrawFrame().Size() / 2, projectile.scale, SpriteEffects.None, 0);
 			});
-	
+
 			return false;
 		}
 	}
@@ -218,6 +231,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 	public class GtechGrenadeExplode : ModProjectile
 	{
 		private bool damaging => projectile.frame >= 2 && projectile.frame < 4;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gtech Grenade");
@@ -245,6 +259,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 					projectile.active = false;
 			}
 		}
+
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
 			if (!damaging)
@@ -260,7 +275,6 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-
 			Texture2D tex = Main.projectileTexture[projectile.type];
 			int frameHeight = tex.Height / Main.projFrames[projectile.type];
 			Rectangle frame = new Rectangle(0, frameHeight * projectile.frame, tex.Width, frameHeight);

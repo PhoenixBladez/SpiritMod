@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ObjectData;
 
 namespace SpiritMod.Tiles.Ambient.Kelp
 {
@@ -25,6 +26,11 @@ namespace SpiritMod.Tiles.Ambient.Kelp
             Main.tileMergeDirt[Type] = false; //Don't merge with dirt (or anything else ever)
             Main.tileBlockLight[Type] = false; //Don't block light
 			Main.tileFrameImportant[Type] = true;
+
+			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
+			TileObjectData.newTile.WaterPlacement = Terraria.Enums.LiquidPlacement.OnlyInLiquid;
+			TileObjectData.addTile(Type);
+
 			drop = ModContent.ItemType<Items.Sets.FloatingItems.Kelp>();
 			AddMapEntry(new Color(21, 92, 19));
             dustType = DustID.Grass;

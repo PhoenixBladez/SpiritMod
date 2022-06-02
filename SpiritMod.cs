@@ -1427,7 +1427,10 @@ namespace SpiritMod
 							switch (loc)
 							{
 								case QuestUtils.QuestInvLocation.Minimap:
-									position = new Vector2(Main.miniMapX - bookSize.X - 10, Main.miniMapY + 4);
+									position = new Vector2(Main.screenWidth - Main.miniMapWidth - bookSize.X * 2.3f, Main.miniMapY + 4);
+
+									if (Main.screenWidth < 900)
+										position.Y -= 60;
 									break;
 								case QuestUtils.QuestInvLocation.Trashcan:
 									position = new Vector2(388, 258);

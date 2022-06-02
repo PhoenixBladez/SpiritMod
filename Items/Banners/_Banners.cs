@@ -99,7 +99,7 @@ namespace SpiritMod.Items.Banners
             item.consumable = true;
             item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
-            item.createTile = TileType<Tiles.Ambient.Kelp.OceanKelp>();//TileType<BannerTile>();
+            item.createTile = TileType<BannerTile>();
 			item.placeStyle = 4;
         }
     }
