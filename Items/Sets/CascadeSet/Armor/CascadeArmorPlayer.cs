@@ -35,31 +35,13 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 				bubbleStrength = MathHelper.Clamp(bubbleStrength += 0.125f, 0, 1);
 		}
 
-		public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
-		{
-			if (bubbleStrength > 0f)
-			{
-				damage = (int)(damage * (1 - (MaxResist * bubbleStrength)));
-				PopBubble();
-			}
-		}
-
-		public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
-		{
-			if (bubbleStrength > 0f)
-			{
-				damage = (int)(damage * (1 - (MaxResist * bubbleStrength)));
-				PopBubble();
-			}
-		}
+		public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit) => TryPopBubble(ref damage);
+		public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit) => TryPopBubble(ref damage);
 
 		public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
 		{
-			if (bubbleStrength > 0f && (damageSource.SourceOtherIndex == 2 || damageSource.SourceOtherIndex == 3))
-			{
-				damage = (int)(damage * (1 - (MaxResist * bubbleStrength)));
-				PopBubble();
-			}
+			if ((damageSource.SourceOtherIndex == 2 || damageSource.SourceOtherIndex == 3))
+				TryPopBubble(ref damage);
 			return true;
 		}
 
@@ -70,7 +52,6 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 				player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawBubble(sB); }, ExtraDrawOnPlayer.DrawType.Additive);
 				player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawBubble(sB, true); }, ExtraDrawOnPlayer.DrawType.AlphaBlend);
 			}
-
 			else if (bubbleStrength > 0) //Kill bubble if armor piece unequipped
 				PopBubble();
 
@@ -78,6 +59,15 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 				bubbleVisual = MathHelper.Lerp(bubbleVisual, bubbleStrength, 0.1f);
 
 			bubbleVisual = Math.Min(bubbleVisual, bubbleStrength); //Cap visual strength at real strength value
+		}
+
+		private void TryPopBubble(ref int damage)
+		{
+			if (bubbleStrength > 0f)
+			{
+				damage = (int)(damage * (1 - (MaxResist * bubbleStrength)));
+				PopBubble();
+			}
 		}
 
 		private void PopBubble()

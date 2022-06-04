@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Mechanics.QuestSystem
 {
@@ -125,8 +126,19 @@ namespace SpiritMod.Mechanics.QuestSystem
 			_killCount = 0;
 		}
 
-		public override void Activate()
+		public override void Activate(Quest fromQuest)
 		{
+			if (Main.netMode == NetmodeID.Server)
+			{
+				QuestManager.SayInChat("got the it", Microsoft.Xna.Framework.Color.White);
+				//ModPacket packet = SpiritMod.Instance.GetPacket(MessageType.Quest, 4);
+				//packet.Write((byte)QuestMessageType.SyncSlayTask);
+				//packet.Write(true);
+				//packet.Write(fromQuest.QuestName);
+				//packet.Write((byte)Main.myPlayer);
+				//packet.Send();
+			}
+
 			QuestGlobalNPC.OnNPCLoot += QuestGlobalNPC_OnNPCLoot;
 			QuestGlobalNPC.OnEditSpawnPool += QuestGlobalNPC_OnEditSpawnPool;
 		}

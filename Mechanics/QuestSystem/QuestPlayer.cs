@@ -1,9 +1,11 @@
-﻿using SpiritMod.Utilities;
-using Terraria;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 using SpiritMod.Mechanics.QuestSystem.Quests;
+using Terraria.ID;
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SpiritMod.Mechanics.QuestSystem
 {
@@ -13,6 +15,73 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			if (player.ZoneJungle && QuestManager.GetQuest<ItsNoSalmon>().IsActive && Main.rand.NextBool(10))
 				caughtType = ModContent.ItemType<Items.Consumable.Quest.HornetfishQuest>();
+		}
+
+		public override void OnEnterWorld(Player player)
+		{
+			if (Main.netMode == NetmodeID.MultiplayerClient)
+			{
+				ModContent.GetInstance<SpiritMod>().Logger.Debug("Asking for manager...");
+				ModPacket packet = SpiritMod.Instance.GetPacket(MessageType.RequestQuestManager, 1);
+				packet.Write((byte)player.whoAmI);
+				packet.Send();
+			}
+		}
+
+		/// <summary>Handles syncing the QuestManager from server.</summary>
+		internal static void RecieveManager(BinaryReader reader)
+		{
+			QuestManager.QuestBookUnlocked = reader.ReadBoolean();
+			int questCount = reader.ReadInt16();
+
+			if (questCount != QuestManager.Quests.Count)
+				throw new Exception("Inconsistent quest sizes. Network error?");
+
+			var datas = new List<Tuple<StoredQuestData, string>>();
+
+			for (int i = 0; i < questCount; ++i)
+			{
+				string name = reader.ReadString();
+				long flags = reader.ReadInt64();
+
+				var data = QuestMultiplayer.ReadQuestFromLong(flags);
+
+				byte bufferLength = reader.ReadByte();
+				byte[] buffer = null;
+				if (bufferLength > 0)
+				{
+					buffer = new byte[bufferLength];
+					for (int j = 0; j < bufferLength; ++j)
+						buffer[j] = reader.ReadByte();
+				}
+
+				data.Buffer = buffer;
+				datas.Add(new Tuple<StoredQuestData, string>(data, name));
+			}
+
+			foreach (var item in datas) //Might be ordered properly already but I don't care
+			{
+				Quest q = QuestManager.Quests.FirstOrDefault(x => x.QuestName == item.Item2);
+
+				if (q is null)
+					ModContent.GetInstance<SpiritMod>().Logger.Debug($"No quest of name {item.Item2} exists on client.");
+				else
+				{
+					StoredQuestData data = item.Item1;
+					q.IsUnlocked = data.IsUnlocked;
+					q.IsCompleted = data.IsCompleted;
+					q.RewardsGiven = data.RewardsGiven;
+
+					if (data.IsActive)
+					{
+						QuestManager.ActivateQuest(q);
+						q.ReadFromDataBuffer(data.Buffer ?? new byte[0]); //Extra security so I don't pass null
+					}
+
+					q.ActiveTime = data.TimeLeftActive;
+					q.UnlockTime = data.TimeLeftUnlocked;
+				}
+			}
 		}
 	}
 }

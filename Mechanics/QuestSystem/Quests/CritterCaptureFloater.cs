@@ -33,13 +33,14 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			QuestGlobalNPC.OnEditSpawnPool -= QuestGlobalNPC_OnEditSpawnPool;
 			base.OnDeactivate();
 		}
+
 		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
 		{
-			if (pool[ModContent.NPCType<NPCs.Critters.Floater>()] > 0f && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Critters.Floater>()))
-			{
-				pool[ModContent.NPCType<NPCs.Critters.Floater>()] = .25f;
-			}
+			int stagID = ModContent.NPCType<NPCs.Critters.Floater>();
+			if (pool.ContainsKey(stagID) && pool[stagID] > 0f && !NPC.AnyNPCs(stagID))
+				pool[stagID] = .25f;
 		}
+
 		private CritterCaptureFloater()
         {
 			TaskBuilder branch1 = new TaskBuilder();

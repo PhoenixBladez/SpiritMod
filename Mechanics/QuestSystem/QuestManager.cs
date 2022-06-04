@@ -1,12 +1,9 @@
-﻿using log4net;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -20,10 +17,6 @@ namespace SpiritMod.Mechanics.QuestSystem
 		
 		 * NPC text override and quest buttons. (a helper class with a bunch of queued up quests to give for town npcs!) (I think this is done, but I'll keep this here just in case I'm wrong - Gabe)
 		 * New clients joining servers need to sync their quest managers up.
-		 * 
-		 * 
-		 * 
-		 * 
 
 		*/
 		public const int MAX_QUESTS_ACTIVE = 5;
@@ -40,6 +33,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public static event Action<Quest> OnQuestActivate;
 		public static event Action<Quest> OnQuestDeactivate;
+
+		public static bool Quiet = false;
 
         public static void Load()
         {
@@ -113,20 +108,23 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public static bool ActivateQuest(Quest quest)
 		{
-			if (quest.IsActive) return false;
-			if (ActiveQuests.Count >= MAX_QUESTS_ACTIVE)
-			{
-				// cannot activate quest.
+			if (quest.IsActive || ActiveQuests.Count >= MAX_QUESTS_ACTIVE)
 				return false;
-			}
 
-			// set to active.
 			quest.IsActive = true;
 
 			ActiveQuests.Add(quest);
-
 			OnQuestActivate?.Invoke(quest);
 
+			if (!Quiet && Main.netMode == NetmodeID.MultiplayerClient) //Tell server to activate the current quest. This only runs on host.
+			{
+				ModPacket packet = SpiritMod.Instance.GetPacket(MessageType.Quest, 4);
+				packet.Write((byte)QuestMessageType.Activate);
+				packet.Write(true);
+				packet.Write(quest.QuestName);
+				packet.Write((byte)Main.myPlayer);
+				packet.Send();
+			}
 			return true;
 		}
 
@@ -134,17 +132,24 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public static void DeactivateQuest(Quest quest)
 		{
-			if (!quest.IsActive) return;
-			if (!ActiveQuests.Contains(quest)) return;
+			if (!quest.IsActive || !ActiveQuests.Contains(quest))
+				return;
 
 			ActiveQuests.Remove(quest);
-
 			OnQuestDeactivate?.Invoke(quest);
 
 			quest.ResetAllProgress();
-
-			// set to not active.
 			quest.IsActive = false;
+
+			if (!Quiet && Main.netMode == NetmodeID.MultiplayerClient) //Tell server to deactivate the current quest. This only runs on host.
+			{
+				ModPacket packet = SpiritMod.Instance.GetPacket(MessageType.Quest, 4);
+				packet.Write((byte)QuestMessageType.Deactivate);
+				packet.Write(true);
+				packet.Write(quest.QuestName);
+				packet.Write((byte)Main.myPlayer);
+				packet.Send();
+			}
 		}
 
 		public static void RestartEverything()
@@ -158,7 +163,10 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public static void GiveRewards(Quest quest)
 		{
-			if (quest.RewardsGiven) return;
+			if (quest.RewardsGiven)
+				return;
+
+			quest.GiveRewards();
 			quest.RewardsGiven = true;
 		}
 
@@ -217,7 +225,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 						quest.OnMPSync();
 					else
 					{
-
+						if (Main.netMode == NetmodeID.Server)
+							Console.WriteLine($"SYNC QUEST: {quest.QuestName}");
 						// TODO: Sync data with other clients.
 					}
 				}
@@ -319,6 +328,18 @@ namespace SpiritMod.Mechanics.QuestSystem
 			return q.WhoAmI;
 		}
 
+		public static void SyncToClient(int toClient)
+		{
+			var log = ModContent.GetInstance<SpiritMod>().Logger;
+			log.Debug("Sending manager...");
+
+			ModPacket packet = SpiritMod.Instance.GetPacket(MessageType.RecieveQuestManager, 1);
+			packet.Write(QuestBookUnlocked);
+			packet.Write((short)Quests.Count);
+			Quests.ForEach(x => QuestMultiplayer.WriteQuestToPacket(packet, x));
+			packet.Send(toClient, -1);
+		}
+
 		public static void ModCallUnlockQuest(object[] args)
 		{
 			if (!QuestUtils.TryUnbox(args[1], out int questIndex, "Quest ID"))
@@ -374,6 +395,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public static void UnlockQuestBook()
 		{
+			Main.NewText("egg: " + (Main.netMode == NetmodeID.MultiplayerClient) + " " + Main.netMode);
+
 			if (!QuestBookUnlocked)
 			{
 				QuestBookUnlocked = true;
@@ -403,5 +426,14 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public short TimeLeftUnlocked;
 		public short TimeLeftActive;
 		public byte[] Buffer;
+
+		public override string ToString()
+		{
+			string buffer = string.Empty;
+			if (Buffer != null && Buffer.Length > 0)
+				for (int i = 0; i < Buffer.Length; ++i)
+					buffer += Buffer[i] + " ";
+			return $"Unlocked: {IsUnlocked}\nActive: {IsActive}\nCompleted: {IsCompleted}\nRewarded: {RewardsGiven}\nTime Left U/A {TimeLeftUnlocked} / {TimeLeftActive}" + (buffer != string.Empty ? $"\nBuffer: {buffer}\n" : "\n");
+		}
 	}
 }

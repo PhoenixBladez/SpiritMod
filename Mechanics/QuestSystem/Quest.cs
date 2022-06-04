@@ -46,6 +46,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public int ActiveTime { get; set; }
 
 		public int QuestCategoryIndex => QuestManager.GetCategoryInfo(QuestCategory).Index;
+
 		public bool IsActive
 		{
 			get => _questActive; set
@@ -53,10 +54,13 @@ namespace SpiritMod.Mechanics.QuestSystem
 				_questActive = value;
 				OnQuestStateChanged?.Invoke(this);
 
-				if (value) OnActivate();
-				else OnDeactivate();
+				if (value)
+					OnActivate();
+				else
+					OnDeactivate();
 			}
 		}
+
 		public virtual bool IsUnlocked { get => _questUnlocked; set { _questUnlocked = value; OnQuestStateChanged?.Invoke(this); } }
 		public bool IsCompleted { get => _questCompleted; set { _questCompleted = value; OnQuestStateChanged?.Invoke(this); } }
 		public bool RewardsGiven { get => _rewardsGiven; set { _rewardsGiven = value; OnQuestStateChanged?.Invoke(this); } }
@@ -117,31 +121,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public virtual void OnQuestComplete()
 		{
-			IsCompleted = true;
-
-			List<Player> players = new List<Player>();
-
-			// get all the players to give items to
-			if (Main.netMode == NetmodeID.SinglePlayer) players.Add(Main.LocalPlayer);
-			else if (Main.netMode == NetmodeID.Server)
-			{
-				for (int i = 0; i < Main.player.Length; i++)
-				{
-					if (!Main.player[i].active) continue;
-
-					players.Add(Main.player[i]);
-				}
-			}
-
-			// spawn items
-			foreach (var itemPair in QuestRewards)
-			{
-				foreach (Player player in players)
-				{
-					player.QuickSpawnItem(itemPair.Item1, itemPair.Item2);
-				}
-			}
-			
+			IsCompleted = true;			
 			QuestManager.SayInChat("You have completed a quest! [[sQ/" + WhoAmI + ":" + QuestName + "]]", Color.White);
 		}
 
@@ -151,7 +131,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			_currentTask = _tasks.Start;
 
-			_currentTask.Activate();
+			_currentTask.Activate(this);
 		}
 
 		public virtual void OnDeactivate()
@@ -189,35 +169,48 @@ namespace SpiritMod.Mechanics.QuestSystem
 				if (ActiveTime <= 0)
 				{
 					if (AnnounceDeactivation)
-					{
 						QuestManager.SayInChat("[[sQ/" + WhoAmI + ":" + QuestName + "]] is no longer active.", Color.White);
-					}
 					QuestManager.DeactivateQuest(this);
 				}
 			}
 
 			if (_currentTask.CheckCompletion())
 			{
-				// this counter is here so the HUD works. that's all.
-				_completedCounter++;
+				_completedCounter++; //This counter is here so the HUD works. that's all.
 				if (_completedCounter >= 3)
-				{
-					_currentTask.Completed = true;
-					_currentTask.Deactivate();
+					RunCompletion();
+			}
+		}
 
-					_currentTask = _currentTask.NextTask;
-					if (_currentTask == null)
-					{
-						// quest completed
-						OnQuestComplete();
+		internal void RunCompletion()
+		{
+			if (IsCompleted)
+				return;
 
-						QuestManager.DeactivateQuest(this);
-					}
-					else
-					{
-						_currentTask.Activate();
-					}
-				}
+			_currentTask.Completed = true;
+			_currentTask.Deactivate();
+			_currentTask = _currentTask.NextTask;
+
+			if (_currentTask == null) //Quest completed
+			{
+				Main.NewText("Completed quest");
+				OnQuestComplete();
+				QuestManager.DeactivateQuest(this);
+			}
+			else //Quest continues
+			{
+				Main.NewText("Completed task");
+				_currentTask.Activate(this);
+			}
+
+			if (!QuestManager.Quiet && Main.netMode == NetmodeID.MultiplayerClient) //Tell server to progress the quest.
+			{
+				ModPacket packet = SpiritMod.Instance.GetPacket(MessageType.Quest, 4);
+				packet.Write((byte)QuestMessageType.ProgressOrComplete);
+				packet.Write(true);
+				packet.Write(QuestName);
+				packet.Write((byte)Main.myPlayer);
+				packet.Send();
 			}
 		}
 
@@ -256,6 +249,19 @@ namespace SpiritMod.Mechanics.QuestSystem
 					_currentTask = _tasks[taskId];
 					_currentTask.ReadData(reader);
 				}
+			}
+		}
+
+		public void GiveRewards()
+		{
+			if (Main.netMode == NetmodeID.Server)
+				return;
+
+			foreach (var itemPair in QuestRewards)
+			{
+				int slot = Item.NewItem(Main.LocalPlayer.getRect(), itemPair.Item1, itemPair.Item2);
+				if (Main.netMode != NetmodeID.SinglePlayer)
+					NetMessage.SendData(MessageID.SyncItem, -1, -1, null, slot, 1f);
 			}
 		}
 

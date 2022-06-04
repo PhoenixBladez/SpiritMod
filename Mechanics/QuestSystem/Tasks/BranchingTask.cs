@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpiritMod.Mechanics.QuestSystem.Tasks
 {
@@ -51,21 +47,17 @@ namespace SpiritMod.Mechanics.QuestSystem.Tasks
 			}
 		}
 
-		public override void Activate()
+		public override void Activate(Quest fromQuest)
 		{
 			foreach (QuestTask task in _tasks)
-			{
-				task.Activate();
-			}
-			base.Activate();
+				task.Activate(fromQuest);
+			base.Activate(fromQuest);
 		}
 
 		public override void Deactivate()
 		{
 			foreach (QuestTask task in _tasks)
-			{
 				task.Deactivate();
-			}
 			base.Deactivate();
 		}
 

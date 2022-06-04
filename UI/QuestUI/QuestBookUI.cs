@@ -372,9 +372,7 @@ namespace SpiritMod.UI.QuestUI
 					else
 					{
 						if (QuestManager.ActiveQuests.Count >= QuestManager.MAX_QUESTS_ACTIVE)
-						{
 							_interactionWarningText.Text = "You cannot activate any more quests.";
-						}
 					}
 				}
 				else

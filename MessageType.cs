@@ -17,6 +17,17 @@
 		DestroySuperSunFlower,
 		SpawnExplosiveBarrel,
 		StarjinxData,
-		BoonData
+		BoonData,
+		RequestQuestManager,
+		RecieveQuestManager,
+		Quest
+	}
+
+	public enum QuestMessageType : byte
+	{
+		Deactivate = 0,
+		Activate,
+		ProgressOrComplete,
+		SyncSlayTask,
 	}
 }

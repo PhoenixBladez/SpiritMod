@@ -47,7 +47,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public virtual QuestTask Parse(object[] args) => throw new NotImplementedException();
 
 		public virtual bool CheckCompletion() => true;
-		public virtual void Activate() { }
+		public virtual void Activate(Quest fromQuest) { }
 		public virtual void Deactivate() { }
 		public virtual void OnMPSyncTick() { }
 		public virtual void ResetProgress() => Completed = false;

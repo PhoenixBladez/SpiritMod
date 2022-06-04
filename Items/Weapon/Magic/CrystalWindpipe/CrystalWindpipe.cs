@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Projectiles.Magic;
 using System;
 using System.IO;
 using Terraria;

@@ -66,13 +66,11 @@ namespace SpiritMod.Mechanics.QuestSystem
 			}
 		}
 
-		public override void Activate()
+		public override void Activate(Quest fromQuest)
 		{
-			base.Activate();
 			foreach (QuestTask task in _tasks)
-			{
-				task.Activate();
-			}
+				task.Activate(fromQuest);
+			base.Activate(fromQuest);
 		}
 
 		public override void Deactivate()

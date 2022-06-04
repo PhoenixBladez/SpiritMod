@@ -1,17 +1,11 @@
 ﻿using System;
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
-
 using SpiritMod.Mechanics.QuestSystem.Quests;
-
 using Terraria.ModLoader.IO;
-
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace SpiritMod.Mechanics.QuestSystem
 {
@@ -102,7 +96,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 					quest.ActiveTime = data.TimeLeftActive;
 					quest.UnlockTime = data.TimeLeftUnlocked;
 
-					if (allQuests.Contains(key)) allQuests.Remove(key);
+					if (allQuests.Contains(key))
+						allQuests.Remove(key);
 				}
 
 				// get all the unloaded quests
@@ -114,7 +109,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 				zombieQuestStart = tag.GetBool("zombieQuestStart");
 				downedWeaponsMaster = tag.GetBool("downedWeaponsMaster");
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				SpiritMod.Instance.Logger.Error("Error loading quests! Error:\n" + e);
 			}
@@ -122,11 +117,11 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public override TagCompound Save()
 		{
-			var tag = new TagCompound();
-
-			//Adventurer Bools
-			tag.Add("zombieQuestStart", zombieQuestStart);
-			tag.Add("downedWeaponsMaster", downedWeaponsMaster);
+			var tag = new TagCompound
+			{
+				{ "zombieQuestStart", zombieQuestStart },
+				{ "downedWeaponsMaster", downedWeaponsMaster }
+			};
 
 			List<string> allQuestNames = new List<string>();
 
@@ -136,23 +131,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			for (int i = 0; i < QuestManager.Quests.Count; i++)
 			{
 				Quest quest = QuestManager.Quests[i];
-
-				StoredQuestData data = new StoredQuestData
-				{
-					IsActive = quest.IsActive,
-					IsUnlocked = quest.IsUnlocked,
-					IsCompleted = quest.IsCompleted,
-					RewardsGiven = quest.RewardsGiven,
-					TimeLeftActive = (short)quest.ActiveTime,
-					TimeLeftUnlocked = (short)quest.UnlockTime
-				};
-
-				if (quest.IsActive)
-				{
-					byte[] buffer = quest.GetTaskDataBuffer();
-					data.Buffer = buffer;
-					//QuestManager.DeactivateQuest(quest);
-				}
+				var data = ToStoredQuest(quest);
 
 				allQuestNames.Add("SpiritMod:" + quest.QuestName);
 				tag.Add(allQuestNames[i], Convert(data));
@@ -179,16 +158,39 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 			return tag;
 		}
+
+		public static StoredQuestData ToStoredQuest(Quest quest)
+		{
+			var data = new StoredQuestData
+			{
+				IsActive = quest.IsActive,
+				IsUnlocked = quest.IsUnlocked,
+				IsCompleted = quest.IsCompleted,
+				RewardsGiven = quest.RewardsGiven,
+				TimeLeftActive = (short)quest.ActiveTime,
+				TimeLeftUnlocked = (short)quest.UnlockTime
+			};
+
+			if (quest.IsActive)
+			{
+				byte[] buffer = quest.GetTaskDataBuffer();
+				data.Buffer = buffer;
+			}
+			return data;
+		}
+
 		public override void NetSend(BinaryWriter writer)
 		{
 			BitsByte adventurerQuests = new BitsByte(zombieQuestStart);
 			writer.Write(adventurerQuests);
 		}
+
 		public override void NetReceive(BinaryReader reader)
 		{
 			BitsByte adventurerQuests = reader.ReadByte();
 			zombieQuestStart = adventurerQuests[0];
 		}
+
 		private TagCompound Convert(StoredQuestData data)
 		{
 			var tag = new TagCompound

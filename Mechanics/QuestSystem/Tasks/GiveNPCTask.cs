@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Terraria;
+using Terraria.ID;
 
 namespace SpiritMod.Mechanics.QuestSystem
 {
@@ -16,12 +17,14 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public readonly bool TakeItems = true;
 		public readonly string NPCText = "Hey thanks for the stuff!";
 
-		private int _npcType;
-		private string _objective;
-		private int[] _itemIDs;
-		private int[] _itemStacks;
+		private readonly int _npcType;
+		private readonly string _objective;
+		private readonly int[] _itemIDs;
+		private readonly int[] _itemStacks;
+		private readonly int _optionalReward;
+
 		private bool _takenItems;
-		private int _optionalReward;
+		private bool _givenToNPC;
 
 		public GiveNPCTask() { }
 
@@ -45,10 +48,12 @@ namespace SpiritMod.Mechanics.QuestSystem
 			NPCText = text;
 
 			_takenItems = false;
+			_givenToNPC = false;
 		}
 
-		public GiveNPCTask(int npcType, int giveItem, int stack, string text, string objective, bool requireAll = true, bool takeItems = true, Nullable<int> optionalReward = null) : this(npcType, new int[] { giveItem }, new int[] { stack }, text, objective, requireAll, takeItems, optionalReward)
+		public GiveNPCTask(int npcType, int giveItem, int stack, string text, string objective, bool requireAll = true, bool takeItems = true, int? optionalReward = null) : this(npcType, new int[] { giveItem }, new int[] { stack }, text, objective, requireAll, takeItems, optionalReward)
 		{ }
+
 		public override QuestTask Parse(object[] args)
 		{
 			//NPC type
@@ -69,42 +74,45 @@ namespace SpiritMod.Mechanics.QuestSystem
 			}
 
 			// TODO: Make this parsing work for int arrays, not sure how to best do that.
-
 			return new GiveNPCTask(npcID, new int[] { 1 }, new int[] { 1 }, objective);
 		}
 
 		public override bool CheckCompletion()
 		{
-			if (Main.netMode == Terraria.ID.NetmodeID.SinglePlayer)
+			if (_givenToNPC)
+				return true;
+
+			if (Main.netMode == NetmodeID.SinglePlayer)
 			{
 				if (Main.LocalPlayer.talkNPC != -1 && Main.npc[Main.LocalPlayer.talkNPC].type == _npcType)
 				{
 					if (ScanForItems(Main.LocalPlayer))
 					{
 						if (TakeItems && !_takenItems)
-						{
 							RemoveItems(Main.LocalPlayer);
-						}
-						Main.LocalPlayer.QuickSpawnItem((int)_optionalReward);
+
+						Main.LocalPlayer.QuickSpawnItem(_optionalReward);
 						Main.npcChatText = NPCText;
 						return true;
 					}
 				}
 			}
-			else if (Main.netMode == Terraria.ID.NetmodeID.Server)
+			else if (Main.netMode == NetmodeID.MultiplayerClient)
 			{
 				for (int i = 0; i < Main.player.Length; i++)
 				{
-					if (Main.player[i].active && Main.player[i].talkNPC >= 0 && Main.npc[Main.player[i].talkNPC].netID == _npcType)
+					Player player = Main.player[i];
+					if (player.active && player.talkNPC >= 0 && Main.npc[player.talkNPC].netID == _npcType)
 					{
-						if (ScanForItems(Main.player[i]))
+						if (ScanForItems(player))
 						{
 							if (TakeItems && !_takenItems)
-							{
-								RemoveItems(Main.player[i]);
-							}
+								RemoveItems(player);
+
 							Main.player[i].QuickSpawnItem(_optionalReward);
 							Main.npcChatText = NPCText;
+
+							_givenToNPC = true;
 							return true;
 						}
 					}

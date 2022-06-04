@@ -646,7 +646,7 @@ namespace SpiritMod.NPCs
 		{
 			if (type == NPCID.Merchant)
 			{
-				if (Main.halloween && Main.halloween)
+				if (Main.halloween)
 					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<CandyBowl>(), false);
 			}
 			else if (type == NPCID.ArmsDealer)
@@ -1050,7 +1050,7 @@ namespace SpiritMod.NPCs
 				NPCID.BlueArmoredBonesNoPants, NPCID.BlueArmoredBonesSword, NPCID.HellArmoredBones, NPCID.HellArmoredBonesSpikeShield, NPCID.HellArmoredBonesMace, NPCID.HellArmoredBonesSword);
 			DropLoot(175, 175, ModContent.ItemType<Items.Sets.BowsMisc.Morningtide.Morningtide>(), npc, NPCID.HellArmoredBones, NPCID.HellArmoredBonesSpikeShield, NPCID.HellArmoredBonesMace, NPCID.HellArmoredBonesSword);
 			DropLoot(3, 3, ModContent.ItemType<FrigidFragment>(), Main.rand.Next(1, 3), npc, NPCID.ZombieEskimo, NPCID.IceSlime, NPCID.IceBat, NPCID.ArmoredViking);
-			DropLoot(50, 40, ModContent.ItemType<FrostGiantBelt>(), 1, npc, NPCID.UndeadViking);
+			DropLoot(20, 16, ModContent.ItemType<FrostGiantBelt>(), 1, npc, NPCID.UndeadViking);
 			DropLoot(1, 1, ModContent.ItemType<FrigidFragment>(), Main.rand.Next(1, 3), npc, NPCID.SpikedIceSlime, NPCID.ArmedZombieEskimo);
 			DropLoot(20, 10, ModContent.ItemType<SweetThrow>(), npc, NPCID.QueenBee);
 			DropLoot(2, 2, ModContent.ItemType<OldLeather>(), Main.rand.Next(1, 3), npc, NPCID.Zombie, NPCID.BaldZombie, NPCID.SlimedZombie, NPCID.SwampZombie, NPCID.TwiggyZombie, NPCID.ZombieRaincoat, NPCID.PincushionZombie);

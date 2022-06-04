@@ -41,13 +41,9 @@ namespace SpiritMod.Mechanics.QuestSystem
 			if (!QuestUtils.TryUnbox(args[1], out npcID))
 			{
 				if (QuestUtils.TryUnbox(args[1], out short IDasShort, "NPC Type"))
-				{
 					npcID = IDasShort;
-				}
 				else
-				{
 					return null;
-				}
 			}
 
 			// get the name override, if there is one
@@ -55,9 +51,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			if (args.Length > 2)
 			{
 				if (!QuestUtils.TryUnbox(args[2], out objective, "Talk NPC Objective"))
-				{
 					return null;
-				}
 			}
 
 			return new TalkNPCTask(npcID, objective);
@@ -65,7 +59,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public override bool CheckCompletion()
 		{
-			if (Main.netMode == Terraria.ID.NetmodeID.SinglePlayer)
+			if (Main.netMode == NetmodeID.SinglePlayer)
 			{
 				if (Main.LocalPlayer.talkNPC != -1 && Main.npc[Main.LocalPlayer.talkNPC].type == _npcType)
 				{
@@ -78,7 +72,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 					return Main.npc[Main.LocalPlayer.talkNPC].type == _npcType;
 				}
 			}
-			else if (Main.netMode == Terraria.ID.NetmodeID.Server)
+			else if (Main.netMode == NetmodeID.MultiplayerClient)
 			{
 				for (int i = 0; i < Main.player.Length; i++)
 				{
@@ -87,7 +81,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 						Main.npcChatText = NPCText;
 						if (!hasTakenItems)
 						{
-							Main.player[i].QuickSpawnItem((int)_itemReceived);
+							Main.player[i].QuickSpawnItem(_itemReceived);
 							hasTakenItems = true;
 						}
 						return true;
@@ -96,15 +90,9 @@ namespace SpiritMod.Mechanics.QuestSystem
 			}
 			return false;
 		}
-		public override void Activate()
-		{
-			QuestGlobalNPC.OnEditSpawnPool += QuestGlobalNPC_OnEditSpawnPool;
-		}
 
-		public override void Deactivate()
-		{
-			QuestGlobalNPC.OnEditSpawnPool -= QuestGlobalNPC_OnEditSpawnPool;
-		}
+		public override void Activate(Quest fromQuest) => QuestGlobalNPC.OnEditSpawnPool += QuestGlobalNPC_OnEditSpawnPool;
+		public override void Deactivate() => QuestGlobalNPC.OnEditSpawnPool -= QuestGlobalNPC_OnEditSpawnPool;
 
 		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
 		{

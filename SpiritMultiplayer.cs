@@ -30,10 +30,7 @@ namespace SpiritMod
 
 		private static List<Wait> _waits = new List<Wait>();
 
-		public static void Load()
-		{
-			Main.OnTick += OnTick;
-		}
+		public static void Load() => Main.OnTick += OnTick;
 
 		public static void Unload()
 		{
@@ -56,10 +53,7 @@ namespace SpiritMod
 			}
 		}
 
-		public static void WaitUntil(Func<bool> condition, Action whenTrue)
-		{
-			_waits.Add(new Wait() { Condition = condition, Result = whenTrue });
-		}
+		public static void WaitUntil(Func<bool> condition, Action whenTrue) => _waits.Add(new Wait() { Condition = condition, Result = whenTrue });
 
 		// This is deprecated, DO NOT USE IT. Only here for compatability until later stages when we decide to swap it out for the new one.
 		public static ModPacket WriteToPacket(ModPacket packet, byte msg, params object[] param)
@@ -109,7 +103,7 @@ namespace SpiritMod
 
 		public static void HandlePacket(BinaryReader reader, int whoAmI)
 		{
-			MessageType id = (MessageType)reader.ReadByte();
+			var id = (MessageType)reader.ReadByte();
 			byte player;
 			switch (id)
 			{
@@ -200,15 +194,14 @@ namespace SpiritMod
 					int projindex = reader.ReadInt32();
 
 					if (Main.netMode == NetmodeID.Server)
-					{ //if received by the server, send to all clients instead
+					{ 
+						//If received by the server, send to all clients instead
 						WriteToPacket(SpiritMod.Instance.GetPacket(), (byte)MessageType.SpawnTrail, projindex).Send();
 						break;
 					}
 
-					IManualTrailProjectile trailproj = (Main.projectile[projindex].modProjectile as IManualTrailProjectile);
-					if (trailproj != null)
-						trailproj.DoTrailCreation(SpiritMod.TrailManager);
-
+					if (Main.projectile[projindex].modProjectile is IManualTrailProjectile trailProj)
+						trailProj.DoTrailCreation(SpiritMod.TrailManager);
 					break;
 				case MessageType.PlaceSuperSunFlower:
 					MyWorld.superSunFlowerPositions.Add(new Point16(reader.ReadUInt16(), reader.ReadUInt16()));
@@ -230,7 +223,7 @@ namespace SpiritMod
 					ret.npc = Main.npc[index];
 					SpiritMod.Instance.Logger.Debug($"received new boon data, index: {index} boonType: {boonType} which is {BoonLoader.LoadedBoonTypes[boonType].Name}");
 					// wait until the npc at the specified index becomes the type we expect it to be, then set the boons up
-					WaitUntil(() => Main.npc[index].type == (int)npcType, () =>
+					WaitUntil(() => Main.npc[index].type == npcType, () =>
 					{
 						Main.npc[index].GetGlobalNPC<BoonNPC>().currentBoon = ret;
 						Main.npc[index].GetGlobalNPC<BoonNPC>().currentBoon.SpawnIn();
@@ -238,9 +231,17 @@ namespace SpiritMod
 						SpiritMod.Instance.Logger.Debug($"current boon is now: {Main.npc[index].GetGlobalNPC<BoonNPC>().currentBoon.GetType().Name}");
 					});
 					break;
-				//case MessageType.QuestData:
-				//	QuestManager.HandlePacket(reader, whoAmI);
-				//	break;
+				case MessageType.RequestQuestManager:
+					player = reader.ReadByte();
+					QuestManager.SyncToClient(player);
+					break;
+				case MessageType.RecieveQuestManager:
+					QuestPlayer.RecieveManager(reader);
+					ModContent.GetInstance<SpiritMod>().Logger.Debug("Recieved manager.");
+					break;
+				case MessageType.Quest:
+					QuestMultiplayer.HandlePacket(reader, (QuestMessageType)reader.ReadByte(), reader.ReadBoolean());
+					break;
 				default:
 					SpiritMod.Instance.Logger.Error("Unknown net message (" + id + ")");
 					break;

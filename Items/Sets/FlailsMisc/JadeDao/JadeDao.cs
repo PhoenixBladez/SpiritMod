@@ -8,9 +8,6 @@ using SpiritMod.Utilities;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Particles;
 using System.Collections.Generic;
-using SpiritMod.Mechanics.Trails;
-using SpiritMod.Mechanics.Trails.CustomTrails;
-using SpiritMod.Projectiles;
 
 namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 {
@@ -93,7 +90,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sanguine Flayer");
+			DisplayName.SetDefault("Jade Daos");
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
