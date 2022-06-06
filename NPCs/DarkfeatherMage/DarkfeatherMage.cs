@@ -311,7 +311,7 @@ namespace SpiritMod.NPCs.DarkfeatherMage
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Mechanics.Fathomless_Chest.Mystical_Dice>());
         }
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.player.ZoneOverworldHeight && !NPC.AnyNPCs(ModContent.NPCType<DarkfeatherMage>()) && (spawnInfo.spawnTileX < Main.maxTilesX / 3 || spawnInfo.spawnTileX > Main.maxTilesX / 1.5f) && NPC.downedBoss2 ? 0.0000165f : 0f;
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.player.ZoneOverworldHeight && !NPC.AnyNPCs(ModContent.NPCType<DarkfeatherMage>()) && (spawnInfo.spawnTileX < Main.maxTilesX / 3 || spawnInfo.spawnTileX > Main.maxTilesX / 1.5f) && NPC.downedBoss2 ? 0.00002f : 0f;
 
 		public override void HitEffect(int hitDirection, double damage)
         {

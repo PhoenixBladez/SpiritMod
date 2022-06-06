@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests

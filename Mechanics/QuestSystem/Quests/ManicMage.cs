@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -44,20 +39,12 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			base.OnDeactivate();
 		}
 
-		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
-		{
-			if (pool.ContainsKey(ModContent.NPCType<NPCs.DarkfeatherMage.DarkfeatherMage>()))
-			{
-				pool[ModContent.NPCType<NPCs.DarkfeatherMage.DarkfeatherMage>()] = 0.75f;
-			}
-		}
+		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo) => ModifySpawnRateUnique(pool, ModContent.NPCType<NPCs.DarkfeatherMage.DarkfeatherMage>(), 0.75f);
 
 		private void QuestGlobalNPC_OnNPCLoot(NPC npc)
 		{
 			if (npc.type == ModContent.NPCType<NPCs.Hookbat.Hookbat>())
-			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.DarkfeatherVisage.DarkfeatherVisage>());
-			}
 		}
     }
 }
