@@ -265,6 +265,12 @@ namespace SpiritMod.Mechanics.QuestSystem
 			}
 		}
 
+		public void ModifySpawnRateUnique(IDictionary<int, float> pool, int id, float rate)
+		{
+			if (pool.ContainsKey(id) && pool[id] > 0f && !NPC.AnyNPCs(id))
+				pool[id] = rate;
+		}
+
 		// TODO: Write Packet and ReadPacket
 		// TODO: Have each quest section have it's own WritePacket and ReadPacket
 	}

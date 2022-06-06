@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,11 +15,8 @@ namespace SpiritMod.Items.Books.MaterialPages
 		{
 			if (player.whoAmI != Main.LocalPlayer.whoAmI) return true;
 
-			if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name)
-            {
-            }
-            else
-            {
+			if (!(ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name))
+			{
                 Main.PlaySound(SoundID.MenuOpen);
                 ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(new UI.MaterialUI.UIMarbleMaterialPageState());
             }
@@ -39,11 +34,8 @@ namespace SpiritMod.Items.Books.MaterialPages
 		{
 			if (player.whoAmI != Main.LocalPlayer.whoAmI) return true;
 
-			if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name)
-            {
-            }
-            else
-            {
+			if (!(ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name))
+			{
                 Main.PlaySound(SoundID.MenuOpen);
                 ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(new UI.MaterialUI.UIEnchantedLeafPageState());
             }
@@ -61,11 +53,8 @@ namespace SpiritMod.Items.Books.MaterialPages
 		{
 			if (player.whoAmI != Main.LocalPlayer.whoAmI) return true;
 
-			if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name)
-            {
-            }
-            else
-            {
+			if (!(ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name))
+			{
                 Main.PlaySound(SoundID.MenuOpen);
                 ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(new UI.MaterialUI.UIGraniteMaterialPageState());
             }
@@ -83,11 +72,8 @@ namespace SpiritMod.Items.Books.MaterialPages
 		{
 			if (player.whoAmI != Main.LocalPlayer.whoAmI) return true;
 
-			if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name)
-            {
-            }
-            else
-            {
+			if (!(ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name))
+			{
                 Main.PlaySound(SoundID.MenuOpen);
                 ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(new UI.MaterialUI.UIHeartScalePageState());
             }
@@ -105,11 +91,8 @@ namespace SpiritMod.Items.Books.MaterialPages
 		{
 			if (player.whoAmI != Main.LocalPlayer.whoAmI) return true;
 
-			if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name)
-            {
-            }
-            else
-            {
+			if (!(ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name))
+			{
                 Main.PlaySound(SoundID.MenuOpen);
                 ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(new UI.MaterialUI.UIBismitePageStsate());
             }
@@ -127,11 +110,8 @@ namespace SpiritMod.Items.Books.MaterialPages
 		{
 			if (player.whoAmI != Main.LocalPlayer.whoAmI) return true;
 
-			if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name)
-            {
-            }
-            else
-            {
+			if (!(ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name))
+			{
                 Main.PlaySound(SoundID.MenuOpen);
                 ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(new UI.MaterialUI.UIGlowrootPageState());
             }
@@ -147,12 +127,10 @@ namespace SpiritMod.Items.Books.MaterialPages
         }
         public override bool UseItem(Player player)
 		{
-			if (player.whoAmI != Main.LocalPlayer.whoAmI) return true;
+			if (player.whoAmI != Main.LocalPlayer.whoAmI)
+				return true;
 
-			if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name)
-            {
-            }
-            else
+            if (!(ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name))
             {
                 Main.PlaySound(SoundID.MenuOpen);
                 ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(new UI.MaterialUI.UIFrigidFragmentPageState());

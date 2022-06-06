@@ -14,7 +14,7 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Skeleton Brute");
+			DisplayName.SetDefault("Brutish Slam");
 			Main.projFrames[projectile.type] = 10;
 		}
 
@@ -29,6 +29,7 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 			projectile.alpha = 255;
 			projectile.hide = true;
 		}
+
 
 		private const int FADEINTIME = 40;
 		public const int TOTALTIME = 75;

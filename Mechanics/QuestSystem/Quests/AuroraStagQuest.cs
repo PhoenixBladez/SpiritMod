@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SpiritMod.NPCs.AuroraStag;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -35,12 +36,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			base.OnDeactivate();
 		}
 
-		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
-		{
-			int stagID = ModContent.NPCType<NPCs.AuroraStag.AuroraStag>();
-			if (pool.ContainsKey(stagID) && pool[stagID] > 0f && !NPC.AnyNPCs(stagID))
-				pool[stagID] = .05f;
-		}
+		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo) => ModifySpawnRateUnique(pool, ModContent.NPCType<AuroraStag>(), 0.05f);
 
 		private AuroraStagQuest()
         {

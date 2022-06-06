@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -41,12 +36,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			QuestGlobalNPC.OnEditSpawnPool -= QuestGlobalNPC_OnEditSpawnPool;
 			base.OnDeactivate();
 		}
-		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
-		{
-			if (pool[ModContent.NPCType<NPCs.Valkyrie.Valkyrie>()] > 0f && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Valkyrie.Valkyrie>()))
-			{
-				pool[ModContent.NPCType<NPCs.Valkyrie.Valkyrie>()] = 0.15f;
-			}
-		}
-    }
+
+		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo) => ModifySpawnRateUnique(pool, ModContent.NPCType<NPCs.Valkyrie.Valkyrie>(), 0.15f);
+	}
 }

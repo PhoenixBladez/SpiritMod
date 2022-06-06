@@ -12,7 +12,7 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Skeleton Brute");
+			DisplayName.SetDefault("Brutish Shockwave");
 			Main.projFrames[projectile.type] = 4;
 		}
 

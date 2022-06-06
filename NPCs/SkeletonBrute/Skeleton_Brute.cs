@@ -23,7 +23,6 @@ namespace SpiritMod.NPCs.SkeletonBrute
 			npc.lifeMax = 250;
 			npc.defense = 10;
 			npc.value = 400f;
-			aiType = 0;
 			npc.knockBackResist = 0.3f;
 			npc.width = 35;
 			npc.height = 80;
@@ -33,8 +32,10 @@ namespace SpiritMod.NPCs.SkeletonBrute
 			npc.alpha = 0;
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath2;
+
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.SkeletonBruteBanner>();
+			aiType = 0;
 		}
 
 		public override void AI()
@@ -43,7 +44,7 @@ namespace SpiritMod.NPCs.SkeletonBrute
 
 			npc.TargetClosest(true);
 			npc.spriteDirection = npc.direction;
-			if (Vector2.Distance(player.Center, npc.Center) <= 120f)
+			if (player.DistanceSQ(npc.Center) <= 120f * 120f)
 			{
 				attacking = 1;
 				npc.aiStyle = 0;
@@ -55,6 +56,7 @@ namespace SpiritMod.NPCs.SkeletonBrute
 				npc.aiStyle = 3;
 				frameRes = true;	
 			}
+
 			if (attacking == 1)
 			{
 				if (!frameRes)
@@ -74,6 +76,7 @@ namespace SpiritMod.NPCs.SkeletonBrute
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Bone, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default, 0.5f);
 			}
+
 			if (npc.life <= 0)
 				for (int i = 1; i < 6; ++i)
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SkeletonBrute/SkeletonBruteGore" + i), 1f);
@@ -97,39 +100,29 @@ namespace SpiritMod.NPCs.SkeletonBrute
         public override void FindFrame(int frameHeight)
         {
 			npc.frame.Width = 240;
-			Player player = Main.player[npc.target];
             npc.frameCounter++;
+
+			void SetFrame(int frameX, int yOffset) => npc.frame.Location = new Point(frameX, frameHeight * yOffset); 
 
             if (npc.velocity.Y != 0f)
                 npc.frame.Y = 2 * frameHeight;
             else if (attacking == 0 && npc.velocity.X == 0f)
-            {
-                npc.frame.Y = 2 * frameHeight;
-                npc.frame.X = 0;
-            }
+				SetFrame(0, 2);
             else if (attacking == 1)
             {
                 if (npc.frameCounter < 4)
-                {
-                    npc.frame.Y = 3 * frameHeight;
-                    npc.frame.X = 0;
-                }
+					SetFrame(0, 3);
                 else if (npc.frameCounter < 8)
-                {
-                    npc.frame.Y = 3 * frameHeight;
-                    npc.frame.X = 240;
-                }
+					SetFrame(240, 3);
                 else if (npc.frameCounter < 12)
-                {
-                    npc.frame.Y = 4 * frameHeight;
-                    npc.frame.X = 0;
-                }
+					SetFrame(0, 4);
                 else if (npc.frameCounter < 16)
                 {
-                    npc.frame.Y = 4 * frameHeight;
-                    npc.frame.X = 240;
-                    if (npc.frameCounter == 13 && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0) && Vector2.Distance(player.Center, npc.Center) <= 150f)
-                    {
+					SetFrame(240, 4);
+
+					Player player = Main.player[npc.target];
+					if (npc.frameCounter == 13 && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0) && player.DistanceSQ(npc.Center) <= 150f * 150f)
+					{
                         player.Hurt(PlayerDeathReason.LegacyDefault(), (int)(npc.damage * 1.5f), 0, false, false, false, -1);
                         Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 37, 1f, 0.3f);
                         player.velocity.X = npc.direction * 13f;
@@ -137,55 +130,27 @@ namespace SpiritMod.NPCs.SkeletonBrute
                     }
                 }
                 else if (npc.frameCounter < 20)
-                {
-                    npc.frame.Y = 5 * frameHeight;
-                    npc.frame.X = 0;
-                }
+					SetFrame(0, 5);
                 else if (npc.frameCounter < 24)
-                {
-                    npc.frame.Y = 5 * frameHeight;
-                    npc.frame.X = 240;
-                }
+					SetFrame(240, 5);
                 else if (npc.frameCounter < 28)
-                {
-                    npc.frame.Y = 6 * frameHeight;
-                    npc.frame.X = 0;
-                }
+					SetFrame(0, 6);
                 else if (npc.frameCounter < 32)
-                {
-                    npc.frame.Y = 6 * frameHeight;
-                    npc.frame.X = 240;
-                }
+					SetFrame(240, 6);
                 else if (npc.frameCounter < 36)
-                {
-                    npc.frame.Y = 7 * frameHeight;
-                    npc.frame.X = 0;
-                }
+					SetFrame(0, 7);
                 else if (npc.frameCounter < 40)
-                {
-                    npc.frame.Y = 7 * frameHeight;
-                    npc.frame.X = 240;
-                }
+					SetFrame(240, 7);
                 else if (npc.frameCounter < 44)
-                {
-                    npc.frame.Y = 8 * frameHeight;
-                    npc.frame.X = 0;
-                }
+					SetFrame(0, 8);
                 else if (npc.frameCounter < 48)
-                {
-                    npc.frame.Y = 8 * frameHeight;
-                    npc.frame.X = 240;
-                }
+					SetFrame(240, 8);
                 else if (npc.frameCounter < 52)
-                {
-                    npc.frame.Y = 9 * frameHeight;
-                    npc.frame.X = 0;
-                }
+					SetFrame(0, 9);
                 else if (npc.frameCounter < 70)
                 {
-                    npc.frame.Y = 9 * frameHeight;
-                    npc.frame.X = 240;
-                    if (npc.frameCounter == 69)
+					SetFrame(240, 9);
+					if (npc.frameCounter == 69)
                     {
                         attacking = 0;
                         frameRes = false;
@@ -197,35 +162,17 @@ namespace SpiritMod.NPCs.SkeletonBrute
             else if (attacking == 0)
             {
                 if (npc.frameCounter < 7)
-                {
-                    npc.frame.Y = 0;
-                    npc.frame.X = 0;
-                }
+					SetFrame(0, 0);
                 else if (npc.frameCounter < 14)
-                {
-                    npc.frame.Y = 0;
-                    npc.frame.X = 240;
-                }
+					SetFrame(240, 0);
                 else if (npc.frameCounter < 21)
-                {
-                    npc.frame.Y = frameHeight;
-                    npc.frame.X = 0;
-                }
+					SetFrame(0, 1);
                 else if (npc.frameCounter < 28)
-                {
-                    npc.frame.Y = frameHeight;
-                    npc.frame.X = 240;
-                }
+					SetFrame(240, 1);
                 else if (npc.frameCounter < 35)
-                {
-                    npc.frame.Y = 2 * frameHeight;
-                    npc.frame.X = 0;
-                }
+					SetFrame(0, 2);
                 else if (npc.frameCounter < 42)
-                {
-                    npc.frame.Y = 2 * frameHeight;
-                    npc.frame.X = 240;
-                }
+					SetFrame(240, 2);
                 else
                     npc.frameCounter = 0;
             }
