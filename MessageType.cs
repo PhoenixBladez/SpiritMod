@@ -28,6 +28,9 @@
 		Deactivate = 0,
 		Activate,
 		ProgressOrComplete,
-		SyncSlayTask,
+		SyncOnNPCLoot,
+		SyncOnEditSpawnPool,
+		ObtainQuestBook,
+		Unlock,
 	}
 }

@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public GiveNPCTask() { }
 
-		public GiveNPCTask(int npcType, int[] giveItem, int[] stack, string text, string objective = null, bool requireAll = true, bool takeItems = true, Nullable<int> optionalReward = null)
+		public GiveNPCTask(int npcType, int[] giveItem, int[] stack, string text, string objective = null, bool requireAll = true, bool takeItems = true, int? optionalReward = null)
 		{
 			_npcType = npcType;
 			_objective = objective;
@@ -109,7 +109,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 							if (TakeItems && !_takenItems)
 								RemoveItems(player);
 
-							Main.player[i].QuickSpawnItem(_optionalReward);
+							player.QuickSpawnItem(_optionalReward);
 							Main.npcChatText = NPCText;
 
 							_givenToNPC = true;

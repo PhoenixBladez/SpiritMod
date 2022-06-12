@@ -30,42 +30,32 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public override QuestTask Parse(object[] args)
 		{
 			// get the item ID
-			int itemID = -1;
-			if (!QuestUtils.TryUnbox(args[1], out itemID))
+			if (!QuestUtils.TryUnbox(args[1], out int itemID))
 			{
-				if (QuestUtils.TryUnbox(args[1], out short IDasShort, "Item ID"))
-				{
-					itemID = IDasShort;
-				}
+				if (QuestUtils.TryUnbox(args[1], out short idShort, "Item ID"))
+					itemID = idShort;
 				else
-				{
 					return null;
-				}
 			}
 
 			// get the amount
 			if (!QuestUtils.TryUnbox(args[2], out int amount, "Item amount"))
-			{
 				return null;
-			}
 
 			// get the word choice, if there is one
 			string wordChoice = "Retrieve";
 			if (args.Length > 3)
 			{
 				if (!QuestUtils.TryUnbox(args[3], out wordChoice, "Word choice"))
-				{
 					return null;
-				}
 			}
+
 			// get the name override, if there is one
 			string objective = null;
 			if (args.Length > 4)
 			{
 				if (!QuestUtils.TryUnbox(args[4], out objective, "Approach NPC Objective"))
-				{
 					return null;
-				}
 			}
 
 			return new RetrievalTask(itemID, amount, wordChoice, objective);
@@ -76,7 +66,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public string GetObjectives(bool showProgress)
 		{
-			StringBuilder builder = new StringBuilder();
+			var builder = new StringBuilder();
 
 			if (_objective != null)
 			{
@@ -110,14 +100,13 @@ namespace SpiritMod.Mechanics.QuestSystem
 			}
 			else if (Main.netMode == NetmodeID.MultiplayerClient)
 			{
-				int count = 0;
+				_lastCount = 0;
 				for (int i = 0; i < Main.maxPlayers; i++)
 				{
 					Player p = Main.player[i];
 					if (p.active)
-						count += Main.LocalPlayer.CountItem(_itemID, _itemsNeeded);
+						_lastCount += p.CountItem(_itemID, _itemsNeeded);
 				}
-				_lastCount = count;
 			}
 			return _lastCount >= _itemsNeeded;
 		}

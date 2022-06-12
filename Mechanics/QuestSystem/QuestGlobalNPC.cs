@@ -15,40 +15,62 @@ using SpiritMod.Utilities;
 
 namespace SpiritMod.Mechanics.QuestSystem
 {
-    public class QuestGlobalNPC : GlobalNPC
-    {
+	public class QuestGlobalNPC : GlobalNPC
+	{
 		public static event Action<IDictionary<int, float>, NPCSpawnInfo> OnEditSpawnPool;
-        public static event Action<NPC> OnNPCLoot;
-        public static event Action<int, Chest, int> OnSetupShop;
+
+		public static event Action<NPC> OnNPCLoot;
+		public static event Action<int, Chest, int> OnSetupShop;
 
 		public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo) => OnEditSpawnPool?.Invoke(pool, spawnInfo);
 
 		public override void NPCLoot(NPC npc)
-        {     
-			if (npc.type == NPCID.Zombie || npc.type == NPCID.BaldZombie || npc.type == NPCID.SlimedZombie || npc.type == NPCID.SwampZombie || npc.type == NPCID.TwiggyZombie || npc.type == NPCID.ZombieRaincoat || npc.type == NPCID.PincushionZombie || npc.type == NPCID.ZombieEskimo) {
-				if (!QuestWorld.zombieQuestStart && QuestManager.GetQuest<FirstAdventure>().IsCompleted)
-					if (Main.rand.Next(40) == 0)
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<OccultistMap>());
+		{
+			if (npc.type == NPCID.Zombie || npc.type == NPCID.BaldZombie || npc.type == NPCID.SlimedZombie || npc.type == NPCID.SwampZombie || npc.type == NPCID.TwiggyZombie || npc.type == NPCID.ZombieRaincoat || npc.type == NPCID.PincushionZombie || npc.type == NPCID.ZombieEskimo)
+			{
+				if (!QuestWorld.zombieQuestStart && QuestManager.GetQuest<FirstAdventure>().IsCompleted && Main.rand.Next(40) == 0)
+				{
+					int slot = Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<OccultistMap>());
+
+					if (Main.netMode == NetmodeID.Server)
+						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, slot, 1f);
+				}
 			}
 
-            if (npc.type == NPCID.EyeofCthulhu || npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.SkeletronHead || npc.type == ModContent.NPCType<NPCs.Boss.Scarabeus.Scarabeus>() || 
+			if (Main.netMode == NetmodeID.SinglePlayer)
+				ClientNPCLoot(npc);
+			else if (Main.netMode == NetmodeID.Server)
+			{
+				ModPacket packet = SpiritMod.Instance.GetPacket(MessageType.Quest, 4);
+				packet.Write((byte)QuestMessageType.SyncOnNPCLoot);
+				packet.Write(false);
+				packet.Write((byte)npc.whoAmI);
+				packet.Send(-1, 256);
+			}
+		}
+
+		/// <summary>Contains everything needed for clients to know what NPC died without needing untoward syncing. If you need to add quest queues, do it here.</summary>
+		public void ClientNPCLoot(NPC npc)
+		{
+			if (npc.type == NPCID.EyeofCthulhu || npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.SkeletronHead || npc.type == ModContent.NPCType<NPCs.Boss.Scarabeus.Scarabeus>() ||
 				npc.type == ModContent.NPCType<NPCs.Boss.AncientFlyer>() || npc.type == ModContent.NPCType<NPCs.Boss.MoonWizard.MoonWizard>() || npc.type == ModContent.NPCType<NPCs.Boss.SteamRaider.SteamRaiderHead>())
-            {
+			{
 				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<SlayerQuestOccultist>());
 				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<UnidentifiedFloatingObjects>());
-            }
+			}
 
-            if (npc.type == NPCID.EaterofWorldsHead)
+			if (npc.type == NPCID.EaterofWorldsHead)
 				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<SlayerQuestMarble>());
 
-            if (npc.type == NPCID.SkeletronHead)
-            {
+			if (npc.type == NPCID.SkeletronHead)
+			{
 				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<RaidingTheStars>());
 				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<StrangeSeas>());
 				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<RuneWizard>(), QuestManager.GetQuest<IceDeityQuest>());
 			}
+
 			OnNPCLoot?.Invoke(npc);
-        }
+		}
 
 		public override void SetupShop(int type, Chest shop, ref int nextSlot)
 		{
@@ -56,7 +78,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 				shop.item[nextSlot++].SetDefaults(ModContent.ItemType<OccultistMap>(), false);
 
 			if (type == NPCID.Stylist)
-            {
+			{
 				if (QuestManager.GetQuest<StylistQuestSeafoam>().IsCompleted)
 					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.SeafoamDye>(), false);
 
@@ -73,7 +95,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<GiantAnglerStatue>(), false);
 			}
 			if (type == NPCID.Demolitionist)
-            {
+			{
 				if (QuestManager.GetQuest<RescueQuestStylist>().IsCompleted)
 					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<LongFuse>(), false);
 			}
@@ -108,13 +130,15 @@ namespace SpiritMod.Mechanics.QuestSystem
 				if (QuestManager.GetQuest<ZombieOriginQuest>().IsCompleted)
 					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Items.Weapon.Swung.Punching_Bag.Punching_Bag>(), false);
 
-				if (QuestManager.GetQuest<DecrepitDepths>().IsCompleted) {
+				if (QuestManager.GetQuest<DecrepitDepths>().IsCompleted)
+				{
 					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<SepulchreArrow>(), false);
 					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<SepulchreBannerItem>(), false);
 					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<SepulchreChest>(), false);
 				}
 
-				if (QuestManager.GetQuest<SkyHigh>().IsCompleted) {
+				if (QuestManager.GetQuest<SkyHigh>().IsCompleted)
+				{
 					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<PottedSakura>(), false);
 					shop.item[nextSlot++].SetDefaults(ModContent.ItemType<PottedWillow>(), false);
 				}

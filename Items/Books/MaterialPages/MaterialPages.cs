@@ -23,6 +23,7 @@ namespace SpiritMod.Items.Books.MaterialPages
             return true;
         }
     }
+
     class EnchantedLeafPage : MaterialPage
     {
         public override void SetStaticDefaults()
@@ -42,6 +43,7 @@ namespace SpiritMod.Items.Books.MaterialPages
             return true;
         }
     }
+
     class GranitePage : MaterialPage
     {
         public override void SetStaticDefaults()
@@ -61,6 +63,7 @@ namespace SpiritMod.Items.Books.MaterialPages
             return true;
         }
     }
+
     class HeartScalePage : MaterialPage
     {
         public override void SetStaticDefaults()
@@ -80,6 +83,7 @@ namespace SpiritMod.Items.Books.MaterialPages
             return true;
         }
     }
+
     class BismitePage : MaterialPage
     {
         public override void SetStaticDefaults()
@@ -99,6 +103,7 @@ namespace SpiritMod.Items.Books.MaterialPages
             return true;
         }
     }
+
     class GlowrootPage : MaterialPage
     {
         public override void SetStaticDefaults()
@@ -117,7 +122,8 @@ namespace SpiritMod.Items.Books.MaterialPages
             }
             return true;
         }
-    } 
+    }
+
     class FrigidFragmentPage : MaterialPage
     {
         public override void SetStaticDefaults()

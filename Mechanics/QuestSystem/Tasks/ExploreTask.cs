@@ -92,16 +92,15 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			if (!Main.dedServ && _exploreFunc(Main.LocalPlayer))
 			{
-				float distanceMoved = Vector2.Distance(Main.LocalPlayer.oldPosition, Main.LocalPlayer.position);
+				float distanceMoved = Main.LocalPlayer.velocity.Length();
 
-				// TODO: finish MP syncing
 				switch (Main.netMode)
 				{
 					case NetmodeID.SinglePlayer:
 						_distancedTravelled += distanceMoved;
 						break;
 					case NetmodeID.MultiplayerClient:
-						_storedDistance += distanceMoved;
+						_distancedTravelled += distanceMoved;
 						break;
 				}
 			}

@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
@@ -24,7 +23,8 @@ namespace SpiritMod.Items.Pins
 		public override void NetSend(BinaryWriter writer)
 		{
 			writer.Write(pins.Count);
-			foreach (var pair in pins) {
+			foreach (var pair in pins)
+			{
 				writer.Write(pair.Key);
 				writer.WriteVector2(pins.Get<Vector2>(pair.Key));
 			}
@@ -32,7 +32,8 @@ namespace SpiritMod.Items.Pins
 
 		public override void NetReceive(BinaryReader reader)
 		{
-			for (int i = 0; i < reader.ReadInt32(); i++)
+			int count = reader.ReadInt32();
+			for (int i = 0; i < count; i++)
 				pins[reader.ReadString()] = reader.ReadVector2();
 		}
 	}

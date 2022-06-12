@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem
@@ -9,8 +10,6 @@ namespace SpiritMod.Mechanics.QuestSystem
 	{
 		internal static void HandlePacket(BinaryReader reader, QuestMessageType messageType, bool forServer)
 		{
-			Main.NewText("Quest message recieved: " + messageType.ToString());
-
 			if (forServer) //The server handles informing all clients that we need X thing done
 			{
 				if (messageType == QuestMessageType.Deactivate)
@@ -18,24 +17,53 @@ namespace SpiritMod.Mechanics.QuestSystem
 					ModPacket packet = SpiritMod.Instance.GetPacket(MessageType.Quest, 4);
 					packet.Write((byte)QuestMessageType.Deactivate);    //Packet requires a QuestMessageType and a forServer bool
 					packet.Write(false);                                //That way I don't need to spam MessageTypes but there's
-					packet.Write(reader.ReadString());                  //Still the functionality there
-					packet.Send(-1, reader.ReadByte());                 //The rest of the params depend on the QuestMessageType
+					string name = reader.ReadString();                  //Still the functionality there
+					packet.Write(name);                                 //The rest of the params depend on the QuestMessageType
+					packet.Send(-1, reader.ReadByte());
+
+					DeactivateQuest(name); //Deactivate quest on server to ensure incoming clients are synced properly. Do this for everything.
 				}
 				else if (messageType == QuestMessageType.Activate)
 				{
 					ModPacket packet = SpiritMod.Instance.GetPacket(MessageType.Quest, 4);
 					packet.Write((byte)QuestMessageType.Activate);
 					packet.Write(false);
-					packet.Write(reader.ReadString());
+					string name = reader.ReadString();
+					packet.Write(name);
 					packet.Send(-1, reader.ReadByte());
+
+					ActivateQuest(name);
 				}
 				else if (messageType == QuestMessageType.ProgressOrComplete)
 				{
 					ModPacket packet = SpiritMod.Instance.GetPacket(MessageType.Quest, 4);
 					packet.Write((byte)QuestMessageType.ProgressOrComplete);
 					packet.Write(false);
-					packet.Write(reader.ReadString());
+					string name = reader.ReadString();
+					packet.Write(name);
 					packet.Send(-1, reader.ReadByte());
+
+					CompleteQuestOrTask(name);
+				}
+				else if (messageType == QuestMessageType.ObtainQuestBook)
+				{
+					ModPacket packet = SpiritMod.Instance.GetPacket(MessageType.Quest, 3);
+					packet.Write((byte)QuestMessageType.ObtainQuestBook);
+					packet.Write(false);
+					packet.Send(-1, reader.ReadByte());
+
+					QuestManager.UnlockQuestBook(false);
+				}
+				else if (messageType == QuestMessageType.Unlock)
+				{
+					ModPacket packet = SpiritMod.Instance.GetPacket(MessageType.Quest, 4);
+					packet.Write((byte)QuestMessageType.Unlock);
+					packet.Write(false);
+					string name = reader.ReadString();
+					packet.Write(name);
+					packet.Send(-1, reader.ReadByte());
+
+					UnlockQuest(name);
 				}
 			}
 			else //And then we clear it up with clients
@@ -46,6 +74,12 @@ namespace SpiritMod.Mechanics.QuestSystem
 					ActivateQuest(reader.ReadString());
 				else if (messageType == QuestMessageType.ProgressOrComplete)
 					CompleteQuestOrTask(reader.ReadString());
+				else if (messageType == QuestMessageType.SyncOnNPCLoot) //Client only as this is only run on the server
+					ModContent.GetInstance<QuestGlobalNPC>().ClientNPCLoot(Main.npc[reader.ReadByte()]);
+				else if (messageType == QuestMessageType.ObtainQuestBook)
+					QuestManager.UnlockQuestBook(false);
+				else if (messageType == QuestMessageType.Unlock)
+					DeactivateQuest(reader.ReadString());
 			}
 		}
 
@@ -123,6 +157,18 @@ namespace SpiritMod.Mechanics.QuestSystem
 			{
 				QuestManager.Quiet = true;
 				quest.RunCompletion();
+				QuestManager.Quiet = false;
+			}
+		}
+
+		internal static void UnlockQuest(string questName)
+		{
+			var quest = QuestManager.Quests.FirstOrDefault(x => x.QuestName == questName);
+
+			if (quest != null && !quest.IsUnlocked)
+			{
+				QuestManager.Quiet = true;
+				QuestManager.UnlockQuest(quest, Main.netMode != NetmodeID.Server);
 				QuestManager.Quiet = false;
 			}
 		}

@@ -121,8 +121,10 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public virtual void OnQuestComplete()
 		{
-			IsCompleted = true;			
-			QuestManager.SayInChat("You have completed a quest! [[sQ/" + WhoAmI + ":" + QuestName + "]]", Color.White);
+			IsCompleted = true;
+
+			if (Main.netMode != NetmodeID.Server)
+				QuestManager.SayInChat("You have completed a quest! [[sQ/" + WhoAmI + ":" + QuestName + "]]", Color.White);
 		}
 
 		public virtual void OnUnlock() { }
@@ -193,15 +195,11 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 			if (_currentTask == null) //Quest completed
 			{
-				Main.NewText("Completed quest");
 				OnQuestComplete();
 				QuestManager.DeactivateQuest(this);
 			}
 			else //Quest continues
-			{
-				Main.NewText("Completed task");
 				_currentTask.Activate(this);
-			}
 
 			if (!QuestManager.Quiet && Main.netMode == NetmodeID.MultiplayerClient) //Tell server to progress the quest.
 			{

@@ -33,7 +33,9 @@ namespace SpiritMod.NPCs.ScreechOwl
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.ScreechOwlBanner>();
 		}
+
         int frame = 0;
+
         public override void AI()
         {
             npc.spriteDirection = npc.direction;
@@ -47,15 +49,12 @@ namespace SpiritMod.NPCs.ScreechOwl
                     npc.ai[3] = 0;
                     npc.netUpdate = true;
                 }
+
                 if (frame >= 6)
-                {
                     frame = 0;
-                }
             }
 			else
-            {
                 frame = 7;
-            }
 
             npc.ai[2]++;
 			if (npc.ai[2] > 300)
@@ -75,9 +74,7 @@ namespace SpiritMod.NPCs.ScreechOwl
                 direction.Y *= 2.7f;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    float A = (float)Main.rand.Next(-150, 150) * 0.03f;
-                    float B = (float)Main.rand.Next(-150, 150) * 0.03f;
-                    int p = Projectile.NewProjectile(npc.Center.X + (10 * npc.spriteDirection), npc.Center.Y - 12, direction.X, direction.Y, ModContent.ProjectileType<ScreechOwlNote>(), 9, 1, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(npc.Center.X + (10 * npc.spriteDirection), npc.Center.Y - 12, direction.X, direction.Y, ModContent.ProjectileType<ScreechOwlNote>(), 9, 1, Main.myPlayer, 0, 0);
 					for (int i = 0; i < 10; i++)
                     {
                         float angle = Main.rand.NextFloat(MathHelper.PiOver4, -MathHelper.Pi - MathHelper.PiOver4);
@@ -101,24 +98,16 @@ namespace SpiritMod.NPCs.ScreechOwl
                 npc.velocity.Y *= .5f;
                 npc.rotation = 0f;
                 if (player.position.X > npc.position.X)
-                {
                     npc.spriteDirection = 1;
-                }
                 else
-                {
                     npc.spriteDirection = -1;
-                }
             }
 			else
             {
                 if (player.position.X > npc.position.X)
-                {
                     npc.spriteDirection = 1;
-                }
                 else
-                {
                     npc.spriteDirection = -1;
-                }
                 npc.aiStyle = -1;
                 float num1 = 4f;
                 float moveSpeed = 0.09f;
@@ -149,45 +138,29 @@ namespace SpiritMod.NPCs.ScreechOwl
                 {
                     npc.velocity.X = npc.oldVelocity.X * -0.5f;
                     if (npc.direction == -1 && npc.velocity.X > 0f && npc.velocity.X < 2f)
-                    {
                         npc.velocity.X = 2f;
-                    }
                     if (npc.direction == 1 && npc.velocity.X < 0f && npc.velocity.X > -2f)
-                    {
                         npc.velocity.X = -2f;
-                    }
                 }
                 if (npc.collideY)
                 {
                     npc.velocity.Y = npc.oldVelocity.Y * -0.5f;
                     if (npc.velocity.Y > 0f && npc.velocity.Y < 1f)
-                    {
                         npc.velocity.Y = 1f;
-                    }
                     if (npc.velocity.Y < 0f && npc.velocity.Y > -1f)
-                    {
                         npc.velocity.Y = -1f;
-                    }
                 }
             }
         }
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
-        {
-            return spawnInfo.spawnTileY < Main.worldSurface && spawnInfo.player.ZoneSnow && !Main.dayTime && !spawnInfo.playerSafe ? 0.025f : 0f;
-        }
-        public override void HitEffect(int hitDirection, double damage)
+
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.spawnTileY < Main.worldSurface && spawnInfo.player.ZoneSnow && !Main.dayTime && !spawnInfo.playerSafe ? 0.05f : 0f;
+		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
-            {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScreechOwl/ScreechOwl1"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScreechOwl/ScreechOwl2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScreechOwl/ScreechOwl3"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScreechOwl/ScreechOwl4"), 1f);
-            }
+				for (int i = 1; i < 5; ++i)
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScreechOwl/ScreechOwl" + i), 1f);
         }
-        public override void FindFrame(int frameHeight)
-        {
-            npc.frame.Y = frameHeight * frame;
-        }
-    }
+	}
 }

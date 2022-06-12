@@ -173,7 +173,18 @@ namespace SpiritMod.NPCs.Town
 			if (firstButton)
 				shop = true;
 			else
+			{
 				Mechanics.QuestSystem.QuestManager.UnlockQuestBook();
+
+				if (Main.netMode != NetmodeID.SinglePlayer)
+				{
+					ModPacket packet = SpiritMod.Instance.GetPacket(MessageType.Quest, 4);
+					packet.Write((byte)QuestMessageType.ObtainQuestBook);
+					packet.Write(true);
+					packet.Write((byte)Main.myPlayer);
+					packet.Send();
+				}
+			}
 		}
 	}
 }

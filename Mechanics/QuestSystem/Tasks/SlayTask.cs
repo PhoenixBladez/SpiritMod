@@ -23,24 +23,24 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public SlayTask() { }
 
-		public SlayTask(int monsterID, int amount, string monsterNameOverride = null, float? spawnIncrease = null, bool sing = false)
+		public SlayTask(int monsterID, int amount, string monsterNameOverride = null, float? spawnIncrease = null, bool singular = false)
 		{
 			_monsterIDs = new int[] { monsterID };
 			_killsRequired = amount;
 			_monsterNameOverride = monsterNameOverride;
 			_spawnIncrease = spawnIncrease;
 
-			_Singular = sing;
+			_Singular = singular;
 		}
 
-		public SlayTask(int[] monsterIDs, int amount, string monsterNameOverride = null, float? spawnIncrease = null, bool sing = false)
+		public SlayTask(int[] monsterIDs, int amount, string monsterNameOverride = null, float? spawnIncrease = null, bool singular = false)
 		{
 			_monsterIDs = monsterIDs;
 			_killsRequired = amount;
 			_monsterNameOverride = monsterNameOverride;
 			_spawnIncrease = spawnIncrease;
 
-			_Singular = sing;
+			_Singular = singular;
 		}
 
 		public override QuestTask Parse(object[] args)
@@ -128,17 +128,6 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public override void Activate(Quest fromQuest)
 		{
-			if (Main.netMode == NetmodeID.Server)
-			{
-				QuestManager.SayInChat("got the it", Microsoft.Xna.Framework.Color.White);
-				//ModPacket packet = SpiritMod.Instance.GetPacket(MessageType.Quest, 4);
-				//packet.Write((byte)QuestMessageType.SyncSlayTask);
-				//packet.Write(true);
-				//packet.Write(fromQuest.QuestName);
-				//packet.Write((byte)Main.myPlayer);
-				//packet.Send();
-			}
-
 			QuestGlobalNPC.OnNPCLoot += QuestGlobalNPC_OnNPCLoot;
 			QuestGlobalNPC.OnEditSpawnPool += QuestGlobalNPC_OnEditSpawnPool;
 		}

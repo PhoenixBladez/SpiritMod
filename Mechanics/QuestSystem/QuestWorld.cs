@@ -19,6 +19,9 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public override void PostUpdate()
 		{
+			if (!QuestManager.QuestBookUnlocked) //Do nothing if we don't have the book
+				return;
+
 			if (zombieQuestStart)
                 QuestManager.UnlockQuest<ZombieOriginQuest>(true);
 
@@ -145,17 +148,6 @@ namespace SpiritMod.Mechanics.QuestSystem
 			}
 
 			tag.Add("SpiritMod:AllQuests", allQuestNames);
-
-			/*foreach (Quest quest in QuestManager.Quests)
-			{
-				quest.ResetEverything();
-			}
-
-			if (!Main.dedServ)
-			{
-				SpiritMod.QuestHUD.Clear();
-			}*/
-
 			return tag;
 		}
 

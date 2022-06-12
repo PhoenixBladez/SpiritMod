@@ -3,7 +3,7 @@
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
 	[System.Obsolete("Quest is not in use until it is redone.", true)]
-    public class RootOfTheProblem : Quest
+    public abstract class RootOfTheProblem : Quest
     {
         public override string QuestName => "Root of the Problem";
 		public override string QuestClient => "The Guide";
