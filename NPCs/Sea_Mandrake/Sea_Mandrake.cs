@@ -8,6 +8,7 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Fish;
 using SpiritMod.Items.Weapon.Magic.LuminanceSeacone;
+using SpiritMod.Mechanics.QuestSystem;
 
 namespace SpiritMod.NPCs.Sea_Mandrake
 {
@@ -175,6 +176,9 @@ namespace SpiritMod.NPCs.Sea_Mandrake
 
 			if (Main.rand.NextBool(2))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawFish>(), 1);
+
+			if (QuestManager.GetQuest<Mechanics.QuestSystem.Quests.StylistQuestSeafoam>().IsActive)
+				Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.SeaMandrakeSac>());
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

@@ -320,6 +320,16 @@ namespace SpiritMod.Utilities
 							QuestManager.UnlockQuest(q, true);
 
 							Main.npcChatText = q.QuestDescription;
+
+							if (Main.netMode == NetmodeID.MultiplayerClient)
+							{
+								ModPacket packet = SpiritMod.Instance.GetPacket(MessageType.Quest, 4);
+								packet.Write((byte)QuestMessageType.SyncNPCQueue);
+								packet.Write(true);
+								packet.Write((ushort)talkNPC.type);
+								packet.Write((byte)Main.myPlayer);
+								packet.Send();
+							}
 						}
 					}
 					else

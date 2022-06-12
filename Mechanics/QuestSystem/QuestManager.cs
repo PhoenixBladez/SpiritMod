@@ -264,12 +264,12 @@ namespace SpiritMod.Mechanics.QuestSystem
 			quest.IsUnlocked = true;
 			quest.OnUnlock();
 
-			if (showInChat && quest.IsQuestPossible())
+			if (showInChat && quest.IsQuestPossible() && Main.netMode != NetmodeID.Server)
 				SayInChat("You have unlocked a new quest! [[sQ/" + quest.WhoAmI + ":" + quest.QuestName + "]]", Color.White);
 
 			if (!Quiet && Main.netMode == NetmodeID.MultiplayerClient)
 			{
-				ModPacket packet = SpiritMod.Instance.GetPacket(MessageType.Quest, 3);
+				ModPacket packet = SpiritMod.Instance.GetPacket(MessageType.Quest, 4);
 				packet.Write((byte)QuestMessageType.Unlock);
 				packet.Write(true);
 				packet.Write(quest.QuestName);
@@ -394,11 +394,11 @@ namespace SpiritMod.Mechanics.QuestSystem
 			return task.Parse(args);
 		}
 
-		public static void SayInChat(string text, Color colour)
+		public static void SayInChat(string text, Color colour, bool noServer = false)
 		{
 			if (Main.netMode == NetmodeID.SinglePlayer || Main.netMode == NetmodeID.MultiplayerClient)
 				Main.NewText(text, colour.R, colour.G, colour.B, false);
-			else if (Main.netMode == NetmodeID.Server)
+			else if (Main.netMode == NetmodeID.Server && !noServer)
 				NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(text), colour, -1);
 		}
 
@@ -409,11 +409,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 				QuestBookUnlocked = true;
 				UnlockQuest<Quests.FirstAdventure>(true);
 
-				if (Main.netMode != NetmodeID.Server)
-				{
-					SayInChat("Press 'C' to open the Quest Journal!", Color.White);
-					SayInChat("Press 'V' to keep track of your progress wih the HUD!", Color.White);
-				}
+				SayInChat("Press 'C' to open the Quest Journal!", Color.White, true);
+				SayInChat("Press 'V' to keep track of your progress wih the HUD!", Color.White, true);
 
 				if (openBook)
 					SetBookState(true);

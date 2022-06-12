@@ -48,40 +48,23 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			else
 				ModContent.GetInstance<QuestWorld>().AddQuestQueue(NPCID.Guide, QuestManager.GetQuest<ExplorerQuestCorrupt>());
 
-
-			QuestManager.SayInChat("Your residents want to talk to you. Chat with them to get more quests!", Color.ForestGreen);
-
+			QuestManager.SayInChat("Your residents want to talk to you. Chat with them to get more quests!", Color.ForestGreen, true);
+			QuestManager.SayInChat("Click on quests in the chat to open them in the book!", Color.GreenYellow, true);
 			base.OnQuestComplete();
 		}
 
 		public override void OnActivate()
 		{
 			QuestGlobalNPC.OnEditSpawnPool += QuestGlobalNPC_OnEditSpawnPool;
-			QuestGlobalNPC.OnNPCLoot += QuestGlobalNPC_OnNPCLoot;
 			base.OnActivate();
 		}
 
 		public override void OnDeactivate()
 		{
 			QuestGlobalNPC.OnEditSpawnPool -= QuestGlobalNPC_OnEditSpawnPool;
-			QuestGlobalNPC.OnNPCLoot -= QuestGlobalNPC_OnNPCLoot;
 			base.OnDeactivate();
 		}
 
-		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
-		{
-			if (pool.ContainsKey(ModContent.NPCType<NPCs.Hookbat.Hookbat>()))
-			{
-				pool[ModContent.NPCType<NPCs.Hookbat.Hookbat>()] = 0.75f;
-			}
-		}
-
-		private void QuestGlobalNPC_OnNPCLoot(NPC npc)
-		{
-			if (npc.type == ModContent.NPCType<NPCs.Hookbat.Hookbat>())
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Consumable.Quest.DurasilkSheaf>());
-			}
-		}
+		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo) => ModifySpawnRateUnique(pool, ModContent.NPCType<NPCs.Hookbat.Hookbat>(), 0.75f);
 	}
 }

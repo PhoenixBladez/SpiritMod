@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Sets.CryoliteSet;
+using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Projectiles.Hostile;
 using System;
 using Terraria;
@@ -65,6 +66,7 @@ namespace SpiritMod.NPCs.CrystalDrifter
 			if (distance < 500 * 500 && Main.myPlayer == target.whoAmI)
 			{
 				target.AddBuff(BuffID.WindPushed, 90);
+
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 					modPlayer.windEffect2 = true;
 			}
@@ -163,6 +165,12 @@ namespace SpiritMod.NPCs.CrystalDrifter
 				target.AddBuff(BuffID.Frostburn, 150);
 		}
 
-		public override void NPCLoot() => Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CryoliteOre>(), Main.rand.Next(8, 14) + 1);
+		public override void NPCLoot()
+		{
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CryoliteOre>(), Main.rand.Next(8, 14) + 1);
+
+			if (QuestManager.GetQuest<Mechanics.QuestSystem.Quests.IceDeityQuest>().IsActive)
+				Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.IceDeityShard2>());
+		}
 	}
 }

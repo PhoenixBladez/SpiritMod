@@ -1,12 +1,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Buffs;
 using SpiritMod.Items.Sets.CryoliteSet;
 using SpiritMod.Items.Consumable.Food;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs.DoT;
+using SpiritMod.Mechanics.QuestSystem;
 
 namespace SpiritMod.NPCs.Winterborn
 {
@@ -106,16 +106,19 @@ namespace SpiritMod.NPCs.Winterborn
 
 		public override void AI()
 		{
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.079f, 0.132f, .2f);
-
+			Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), 0.079f, 0.132f, .2f);
 			npc.spriteDirection = npc.direction;
 		}
 
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CryoliteOre>(), 2 + Main.rand.Next(3, 7));
+
 			if (Main.rand.NextBool(16))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Popsicle>());
+
+			if (QuestManager.GetQuest<Mechanics.QuestSystem.Quests.IceDeityQuest>().IsActive && Main.rand.NextBool(5))
+				Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.IceDeityShard1>());
 		}
 	}
 }

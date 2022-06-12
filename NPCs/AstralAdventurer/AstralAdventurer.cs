@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using SpiritMod.Mechanics.QuestSystem;
 
 namespace SpiritMod.NPCs.AstralAdventurer
 {
@@ -24,6 +25,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
 			NPCID.Sets.TrailCacheLength[npc.type] = 10; 
 			NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
+
 		public override void SetDefaults()
 		{
 			npc.lifeMax = 65;
@@ -43,13 +45,16 @@ namespace SpiritMod.NPCs.AstralAdventurer
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.AstralAdventurerBanner>();
 		}
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = (int)(npc.lifeMax * bossLifeScale);
+
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(mod.GetTexture("NPCs/AstralAdventurer/AstralAdventurer_Glow"), new Vector2(npc.Center.X, npc.Center.Y + 5) - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
 							 Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 		}
+
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];
@@ -228,6 +233,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
 			  npc.velocity.Y = -2f;
 			}
 		}
+
 		public void Walking()
 		{
 			int num1 = 30;
@@ -487,16 +493,17 @@ namespace SpiritMod.NPCs.AstralAdventurer
 				}
 			}
 		}
+
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(5) == 0)
-			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 116, 1);
-			}
+
 			if (Main.rand.Next(33) == 0)
-			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MeteoriteSpewer"), 1);
-			}
+
+			if (QuestManager.GetQuest<Mechanics.QuestSystem.Quests.StylistQuestMeteor>().IsActive && Main.rand.NextBool(3))
+				Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.MeteorDyeMaterial>());
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
@@ -547,83 +554,45 @@ namespace SpiritMod.NPCs.AstralAdventurer
 				if (pickedWeapon == 0)
 				{
 					if (npc.frameCounter < 6)
-					{
 						npc.frame.Y = 0 * frameHeight;
-						
-					}
 					else if (npc.frameCounter < 12)
-					{
 						npc.frame.Y = 1 * frameHeight;
-						
-					}
 					else if (npc.frameCounter < 18)
-					{
 						npc.frame.Y = 2 * frameHeight;
-						
-					}
 					else if (npc.frameCounter < 24)
-					{
 						npc.frame.Y = 3 * frameHeight;
-						
-					}
 					else if (npc.frameCounter < 30)
-					{
 						npc.frame.Y = 4 * frameHeight;
-						
-					}
 					else if (npc.frameCounter < 36)
-					{
 						npc.frame.Y = 5 * frameHeight;
-						
-					}
 					else
-					{
 						npc.frameCounter = 0;
-					}
 				}
 				else
 				{
 					if (npc.frameCounter < 6)
-					{
 						npc.frame.Y = 6 * frameHeight;
-						
-					}
 					else if (npc.frameCounter < 12)
-					{
 						npc.frame.Y = 7 * frameHeight;
-						
-					}
 					else if (npc.frameCounter < 18)
-					{
 						npc.frame.Y = 8 * frameHeight;
-						
-					}
 					else if (npc.frameCounter < 24)
-					{
 						npc.frame.Y = 9 * frameHeight;
-						
-					}
 					else if (npc.frameCounter < 30)
-					{
 						npc.frame.Y = 10 * frameHeight;
-						
-					}
 					else if (npc.frameCounter < 36)
-					{
 						npc.frame.Y = 11 * frameHeight;
-						
-					}
 					else
-					{
 						npc.frameCounter = 0;
-					}
 				}	
 			}
+
 			if (pickedWeapon == 0 && npc.velocity.Y != 0f)
 			{
 				npc.frame.Y = 5 * frameHeight;
 				npc.frame.X = 0;
 			}
+
 			if (pickedWeapon == 1 && npc.velocity.Y != 0f)
 			{
 				npc.frame.Y = 11 * frameHeight;

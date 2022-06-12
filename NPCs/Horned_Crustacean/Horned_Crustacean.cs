@@ -8,6 +8,7 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Fish;
 using SpiritMod.Items.Sets.ReefhunterSet;
+using SpiritMod.Mechanics.QuestSystem;
 
 namespace SpiritMod.NPCs.Horned_Crustacean
 {

@@ -20,7 +20,7 @@
 		BoonData,
 		RequestQuestManager,
 		RecieveQuestManager,
-		Quest
+		Quest,
 	}
 
 	public enum QuestMessageType : byte
@@ -32,5 +32,6 @@
 		SyncOnEditSpawnPool,
 		ObtainQuestBook,
 		Unlock,
+		SyncNPCQueue
 	}
 }

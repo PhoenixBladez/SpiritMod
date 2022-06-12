@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
@@ -35,9 +34,6 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			QuestManager.UnlockQuest<ExplorerQuestMushroom>(showUnlocks);
 			QuestManager.UnlockQuest<ExplorerQuestAurora>(showUnlocks);
 			QuestManager.UnlockQuest<ExplorerQuestLuminous>(showUnlocks);
-
-			QuestManager.SayInChat("Click on quests in the chat to open them in the book!", Color.White);
-
 			base.OnQuestComplete();
         }
     }

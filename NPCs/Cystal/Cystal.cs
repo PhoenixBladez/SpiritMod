@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 using Terraria.ID;
+using SpiritMod.Mechanics.QuestSystem;
+using SpiritMod.Mechanics.QuestSystem.Quests;
 
 namespace SpiritMod.NPCs.Cystal
 {
@@ -201,6 +203,9 @@ namespace SpiritMod.NPCs.Cystal
 
 			if (Main.rand.Next(2) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 68, Main.rand.Next(1, 3));
+
+			if (QuestManager.GetQuest<StylistQuestCorrupt>().IsActive)
+				Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.CorruptDyeMaterial>());
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

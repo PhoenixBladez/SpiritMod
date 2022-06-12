@@ -4,6 +4,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using SpiritMod.Mechanics.QuestSystem;
+using SpiritMod.Mechanics.QuestSystem.Quests;
 
 namespace SpiritMod.NPCs.Hookbat
 {
@@ -31,7 +33,6 @@ namespace SpiritMod.NPCs.Hookbat
             npc.noTileCollide = false;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath4;
-
         }
 
         int frame;
@@ -174,7 +175,13 @@ namespace SpiritMod.NPCs.Hookbat
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void NPCLoot()
+		{
+			if (QuestManager.GetQuest<FirstAdventure>().IsActive)
+				SpiritMultiplayer.NewItemSynced(npc.Center, ModContent.ItemType<Items.Consumable.Quest.DurasilkSheaf>());
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (npc.ai[1] == 1f)
             {

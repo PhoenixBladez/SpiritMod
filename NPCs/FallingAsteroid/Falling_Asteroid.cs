@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Mechanics.QuestSystem;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -194,6 +195,7 @@ namespace SpiritMod.NPCs.FallingAsteroid
 				npc.netUpdate = true;
 			}
 		}
+
 		public override void FindFrame(int frameHeight)
 		{
 			Player player = Main.player[npc.target];
@@ -234,6 +236,9 @@ namespace SpiritMod.NPCs.FallingAsteroid
 		{
 			if (Main.rand.Next(10) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 116, Main.rand.Next(2, 5));
+
+			if (QuestManager.GetQuest<Mechanics.QuestSystem.Quests.StylistQuestMeteor>().IsActive && Main.rand.NextBool(3))
+				Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.MeteorDyeMaterial>());
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

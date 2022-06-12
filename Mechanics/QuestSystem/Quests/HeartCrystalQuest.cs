@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-
-namespace SpiritMod.Mechanics.QuestSystem.Quests
+﻿namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
     public class HeartCrystalQuest : Quest
     {
@@ -23,12 +21,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			QuestManager.UnlockQuest<SkyHigh>(showUnlocks);
 			QuestManager.UnlockQuest<ItsNoSalmon>(showUnlocks);
 			QuestManager.UnlockQuest<ManicMage>(showUnlocks);
-
 			QuestManager.UnlockQuest<FriendSafari>(showUnlocks);
 			QuestManager.UnlockQuest<BreakingAndEntering>(showUnlocks);
-
-			QuestManager.SayInChat("Click on quests in the chat to open them in the book!", Color.White);
-
 			base.OnQuestComplete();
 		}
 

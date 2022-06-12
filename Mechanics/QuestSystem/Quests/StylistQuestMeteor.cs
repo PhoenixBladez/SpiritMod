@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Terraria;
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
@@ -24,27 +17,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Sets.DyesMisc.HairDye.MeteorDye>(), 1),
 			(ModContent.ItemType<Items.Sets.CoilSet.TechDrive>(), 5),
 			(ModContent.ItemType<Items.Ammo.FaerieStar>(), 75),
-			(Terraria.ID.ItemID.SilverCoin, 45)
+			(ItemID.SilverCoin, 45)
 		};
-		public override void OnActivate()
-		{
-			QuestGlobalNPC.OnNPCLoot += QuestGlobalNPC_OnNPCLoot;
-			base.OnActivate();
-		}
-
-		public override void OnDeactivate()
-		{
-			QuestGlobalNPC.OnNPCLoot -= QuestGlobalNPC_OnNPCLoot;
-			base.OnDeactivate();
-		}
-		private void QuestGlobalNPC_OnNPCLoot(NPC npc)
-		{
-			if (npc.type == ModContent.NPCType<NPCs.FallingAsteroid.Falling_Asteroid>() || npc.type == ModContent.NPCType<NPCs.AstralAdventurer.AstralAdventurer>() || npc.type == ModContent.NPCType<NPCs.MoltenCore.Molten_Core>())
-			{
-				if (Main.rand.NextBool(3))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.MeteorDyeMaterial>());
-			}
-		}
 
 		private StylistQuestMeteor()
         {

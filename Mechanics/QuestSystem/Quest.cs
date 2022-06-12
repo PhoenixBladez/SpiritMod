@@ -122,9 +122,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public virtual void OnQuestComplete()
 		{
 			IsCompleted = true;
-
-			if (Main.netMode != NetmodeID.Server)
-				QuestManager.SayInChat("You have completed a quest! [[sQ/" + WhoAmI + ":" + QuestName + "]]", Color.White);
+			QuestManager.SayInChat("You have completed a quest! [[sQ/" + WhoAmI + ":" + QuestName + "]]", Color.White, true);
 		}
 
 		public virtual void OnUnlock() { }
@@ -171,7 +169,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 				if (ActiveTime <= 0)
 				{
 					if (AnnounceDeactivation)
-						QuestManager.SayInChat("[[sQ/" + WhoAmI + ":" + QuestName + "]] is no longer active.", Color.White);
+						QuestManager.SayInChat("[[sQ/" + WhoAmI + ":" + QuestName + "]] has run out of time!", Color.White);
 					QuestManager.DeactivateQuest(this);
 				}
 			}
@@ -256,11 +254,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 				return;
 
 			foreach (var itemPair in QuestRewards)
-			{
-				int slot = Item.NewItem(Main.LocalPlayer.getRect(), itemPair.Item1, itemPair.Item2);
-				if (Main.netMode != NetmodeID.SinglePlayer)
-					NetMessage.SendData(MessageID.SyncItem, -1, -1, null, slot, 1f);
-			}
+				SpiritMultiplayer.NewItemSynced(Main.LocalPlayer.getRect(), itemPair.Item1, itemPair.Item2);
 		}
 
 		public void ModifySpawnRateUnique(IDictionary<int, float> pool, int id, float rate)

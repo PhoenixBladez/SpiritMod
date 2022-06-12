@@ -213,7 +213,7 @@ namespace SpiritMod
 					NPC.NewNPC(reader.ReadInt32(), reader.ReadInt32(), ModContent.NPCType<ExplosiveBarrel>(), 0, 2, 1, 0, 0); // gets forwarded to all clients
 					break;
 				case MessageType.StarjinxData:
-
+					//TBD in future
 					break;
 				case MessageType.BoonData:
 					ushort npcType = reader.ReadUInt16();
@@ -246,6 +246,21 @@ namespace SpiritMod
 					SpiritMod.Instance.Logger.Error("Unknown net message (" + id + ")");
 					break;
 			}
+		}
+
+		public static int NewItemSynced(Vector2 pos, int type, int stack = 1, bool noBroadcast = false, int prefix = 0, bool grabDelay = true, bool reverseLookup = false)
+		{
+			int slot = Item.NewItem(pos, type, stack, noBroadcast, prefix, !grabDelay, reverseLookup);
+
+			if (Main.netMode != NetmodeID.SinglePlayer)
+				NetMessage.SendData(MessageID.SyncItem, -1, -1, null, slot, 1f);
+			return slot;
+		}
+
+		public static int NewItemSynced(Rectangle pos, int type, int stack = 1, bool noBroadcast = false, int prefix = 0, bool grabDelay = true, bool reverseLookup = false)
+		{
+			Vector2 realPos = pos.Location.ToVector2() + new Vector2(Main.rand.NextFloat(pos.Width), Main.rand.NextFloat(pos.Height));
+			return NewItemSynced(realPos, type, stack, noBroadcast, prefix, grabDelay, reverseLookup);
 		}
 	}
 }

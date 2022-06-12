@@ -25,19 +25,19 @@ namespace SpiritMod.Items.Sets.MaterialsMisc.QuestItems
 		{
 			if (!QuestManager.GetQuest<StylistQuestSeafoam>().IsCompleted)
 			{
-				TooltipLine line = new TooltipLine(mod, "ItemName", "Quest Item") {
+				var line = new TooltipLine(mod, "ItemName", "Quest Item")
+				{
 					overrideColor = new Color(100, 222, 122)
 				};
 				tooltips.Add(line);
 			}
-			TooltipLine line1 = new TooltipLine(mod, "FavoriteDesc", "'The embers within the rock still burn'") {
+			var line1 = new TooltipLine(mod, "FavoriteDesc", "'The embers within the rock still burn'")
+			{
 				overrideColor = new Color(255, 255, 255)
 			};
 			tooltips.Add(line1);
 		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return Color.White;
-		}
+
+		public override Color? GetAlpha(Color lightColor) => Color.White;
 	}
 }

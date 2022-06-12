@@ -6,6 +6,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
 using SpiritMod.Items.Sets.EvilBiomeDrops.Heartillery;
+using SpiritMod.Mechanics.QuestSystem;
+using SpiritMod.Mechanics.QuestSystem.Quests;
 
 namespace SpiritMod.NPCs.ArterialGrasper
 {
@@ -178,6 +180,9 @@ namespace SpiritMod.NPCs.ArterialGrasper
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HeartilleryBeacon>());
 			if (Main.rand.NextBool(16))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Meatballs>());
+
+			if (QuestManager.GetQuest<StylistQuestCrimson>().IsActive)
+				Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.CrimsonDyeMaterial>());
 		}
 	}
 }

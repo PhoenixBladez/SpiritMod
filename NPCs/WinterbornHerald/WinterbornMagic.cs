@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs.DoT;
+using SpiritMod.Mechanics.QuestSystem;
 
 namespace SpiritMod.NPCs.WinterbornHerald
 {
@@ -44,8 +45,12 @@ namespace SpiritMod.NPCs.WinterbornHerald
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CryoliteOre>(), 1 + Main.rand.Next(3, 7));
+
 			if (Main.rand.Next(5) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WintryCharmMage>());
+
+			if (QuestManager.GetQuest<Mechanics.QuestSystem.Quests.IceDeityQuest>().IsActive && Main.rand.NextBool(5))
+				Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.IceDeityShard1>());
 		}
 
 		public override bool PreAI()

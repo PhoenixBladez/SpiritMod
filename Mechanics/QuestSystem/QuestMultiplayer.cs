@@ -65,6 +65,17 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 					UnlockQuest(name);
 				}
+				else if (messageType == QuestMessageType.SyncNPCQueue)
+				{
+					ModPacket packet = SpiritMod.Instance.GetPacket(MessageType.Quest, 4);
+					packet.Write((byte)QuestMessageType.SyncNPCQueue);
+					packet.Write(false);
+					ushort npcID = reader.ReadUInt16();
+					packet.Write(npcID);
+					packet.Send(-1, reader.ReadByte());
+
+					RemoveFromNPCQueue(npcID);
+				}
 			}
 			else //And then we clear it up with clients
 			{
@@ -79,7 +90,9 @@ namespace SpiritMod.Mechanics.QuestSystem
 				else if (messageType == QuestMessageType.ObtainQuestBook)
 					QuestManager.UnlockQuestBook(false);
 				else if (messageType == QuestMessageType.Unlock)
-					DeactivateQuest(reader.ReadString());
+					UnlockQuest(reader.ReadString());
+				else if (messageType == QuestMessageType.SyncNPCQueue)
+					RemoveFromNPCQueue(reader.ReadUInt16());
 			}
 		}
 
@@ -172,5 +185,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 				QuestManager.Quiet = false;
 			}
 		}
+
+		internal static void RemoveFromNPCQueue(ushort npcID) => ModContent.GetInstance<QuestWorld>().NPCQuestQueue[npcID].Dequeue();
 	}
 }

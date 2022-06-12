@@ -33,21 +33,15 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			// get the func
 			if (!QuestUtils.TryUnbox(args[1], out Func<Player, bool> func, "Explore function"))
-			{
 				return null;
-			}
 
 			// get the distance
 			if (!QuestUtils.TryUnbox(args[2], out float distance, "Distance"))
-			{
 				return null;
-			}
 
 			// get the area's name
 			if (!QuestUtils.TryUnbox(args[3], out string name, "Area name"))
-			{
 				return null;
-			}
 
 			return new ExploreTask(func, distance, name);
 		}
@@ -100,6 +94,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 						_distancedTravelled += distanceMoved;
 						break;
 					case NetmodeID.MultiplayerClient:
+
 						_distancedTravelled += distanceMoved;
 						break;
 				}
@@ -113,14 +108,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			_storedDistance = 0;
 		}
 
-		public override void ReadData(BinaryReader reader)
-		{
-			_distancedTravelled = reader.ReadSingle();
-		}
-
-		public override void WriteData(BinaryWriter writer)
-		{
-			writer.Write(_distancedTravelled);
-		}
+		public override void ReadData(BinaryReader reader) => _distancedTravelled = reader.ReadSingle();
+		public override void WriteData(BinaryWriter writer) => writer.Write(_distancedTravelled);
 	}
 }

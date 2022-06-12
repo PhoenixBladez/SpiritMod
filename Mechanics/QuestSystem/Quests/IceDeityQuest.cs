@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Mechanics.QuestSystem.Tasks;
@@ -30,30 +24,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Placeable.IceSculpture.WinterbornSculpture>(), 3),
 			(ItemID.GoldCoin, 3)
 		};
-		public override void OnActivate()
-		{
-			QuestGlobalNPC.OnNPCLoot += QuestGlobalNPC_OnNPCLoot;
-			base.OnActivate();
-		}
 
-		public override void OnDeactivate()
-		{
-			QuestGlobalNPC.OnNPCLoot -= QuestGlobalNPC_OnNPCLoot;
-			base.OnDeactivate();
-		}
-
-		private void QuestGlobalNPC_OnNPCLoot(NPC npc)
-		{
-			if (npc.type == ModContent.NPCType<NPCs.Winterborn.WinterbornMelee>() || npc.type == ModContent.NPCType<NPCs.WinterbornHerald.WinterbornMagic>())
-			{
-				if (Main.rand.NextBool(5))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<IceDeityShard1>());
-			}
-			if (npc.type == ModContent.NPCType<NPCs.CrystalDrifter.CrystalDrifter>())
-            {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<IceDeityShard2>());
-			}
-		}
 		private IceDeityQuest()
         {
 			TaskBuilder branch2 = new TaskBuilder();

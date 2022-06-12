@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
+using SpiritMod.Mechanics.QuestSystem;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,6 +15,7 @@ namespace SpiritMod.NPCs.MoltenCore
 			DisplayName.SetDefault("Molten Core");
 			Main.npcFrameCount[npc.type] = 5;
 		}
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -35,15 +36,14 @@ namespace SpiritMod.NPCs.MoltenCore
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.MoltenCoreBanner>();
 		}
-		public override void OnHitPlayer (Player target, int damage, bool crit)
-		{
-			target.AddBuff(24, 60*3);
-		}
+
+		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(24, 60 * 3);
+
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];
 			npc.spriteDirection = npc.direction;
-			movement();
+			Movement();
 			CheckPlatform();
 			
 			if (Main.rand.Next(15) == 0)
@@ -65,6 +65,7 @@ namespace SpiritMod.NPCs.MoltenCore
 				npc.netUpdate = true;
 			}
 		}
+
 		private void CheckPlatform()
 		{
 			bool onplatform = true;
@@ -78,7 +79,8 @@ namespace SpiritMod.NPCs.MoltenCore
 			else
 				npc.noTileCollide = false;
 		}
-		private void movement()
+
+		private void Movement()
 		{
 			npc.noGravity = true;
 			if (!npc.noTileCollide)
@@ -229,68 +231,47 @@ namespace SpiritMod.NPCs.MoltenCore
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
 			}
 		}
+
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(10) == 0)
-			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 116, 1);
-			}
+
 			if (Main.rand.Next(33) == 0)
-			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MeteoriteSpewer"), 1);
-			}
+
+			if (QuestManager.GetQuest<Mechanics.QuestSystem.Quests.StylistQuestMeteor>().IsActive && Main.rand.NextBool(3))
+				Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.MeteorDyeMaterial>());
 		}
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return SpawnCondition.Meteor.Chance * 0.15f;
-		}
+
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => SpawnCondition.Meteor.Chance * 0.15f;
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 			return false;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/MoltenCore/MoltenCore_Glow"));
-		}
+
+		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/MoltenCore/MoltenCore_Glow"));
+
 		public override void FindFrame(int frameHeight)
 		{
-			const int Frame_1 = 0;
-			const int Frame_2 = 1;
-			const int Frame_3 = 2;
-			const int Frame_4 = 3;
-			const int Frame_5 = 4;
-			int animationSpeed;
+			const int AnimationSpeed = 5;
 
-			Player player = Main.player[npc.target];
 			npc.frameCounter++;
-			animationSpeed = 5;
-			if (npc.frameCounter < animationSpeed * 1)
-			{
-				npc.frame.Y = Frame_1 * frameHeight;
-			}
-			else if (npc.frameCounter < animationSpeed * 2)
-			{
-				npc.frame.Y = Frame_2 * frameHeight;
-			}
-			else if (npc.frameCounter < animationSpeed * 3)
-			{
-				npc.frame.Y = Frame_3 * frameHeight;
-			}
-			else if (npc.frameCounter < animationSpeed * 4)
-			{
-				npc.frame.Y = Frame_4 * frameHeight;
-			}
-			else if (npc.frameCounter < animationSpeed * 5)
-			{
-				npc.frame.Y = Frame_5 * frameHeight;
-			}
+			if (npc.frameCounter < AnimationSpeed * 1)
+				npc.frame.Y = 0 * frameHeight;
+			else if (npc.frameCounter < AnimationSpeed * 2)
+				npc.frame.Y = 1 * frameHeight;
+			else if (npc.frameCounter < AnimationSpeed * 3)
+				npc.frame.Y = 2 * frameHeight;
+			else if (npc.frameCounter < AnimationSpeed * 4)
+				npc.frame.Y = 3 * frameHeight;
+			else if (npc.frameCounter < AnimationSpeed * 5)
+				npc.frame.Y = 4 * frameHeight;
 			else
-			{
 				npc.frameCounter = 0;
-			}
 		}
 	}
 }
