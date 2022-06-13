@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;

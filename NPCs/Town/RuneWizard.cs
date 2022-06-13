@@ -71,7 +71,8 @@ namespace SpiritMod.NPCs.Town
 			};
 
 			int wizard = NPC.FindFirstNPC(NPCID.Wizard);
-			if (wizard >= 0) {
+			if (wizard >= 0)
+			{
 				dialogue.Add($"{Main.npc[wizard].GivenName} and I often scry the runes together");
 			}
 
@@ -88,66 +89,75 @@ namespace SpiritMod.NPCs.Town
 
 		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
 		{
-			if (firstButton) {
+			if (firstButton)
+			{
 				shop = true;
 			}
 		}
 
 		public override void SetupShop(Chest shop, ref int nextSlot)
 		{
-            AddItem(ref shop, ref nextSlot, ItemType<NullGlyph>());
+			AddItem(ref shop, ref nextSlot, ItemType<NullGlyph>());
 
-            Item item = shop.item[nextSlot++];
+			Item item = shop.item[nextSlot++];
 			CustomWare(item, ItemType<FrostGlyph>());
 
 			item = shop.item[nextSlot++];
 			CustomWare(item, ItemType<EfficiencyGlyph>());
 
-			if (NPC.downedBoss1) {
+			if (NPC.downedBoss1)
+			{
 				item = shop.item[nextSlot++];
 				CustomWare(item, ItemType<RadiantGlyph>());
 				item = shop.item[nextSlot++];
 				CustomWare(item, ItemType<SanguineGlyph>(), 3);
 			}
 
-			if (MyWorld.downedReachBoss) {
+			if (MyWorld.downedReachBoss)
+			{
 				item = shop.item[nextSlot++];
 				CustomWare(item, ItemType<StormGlyph>(), 2);
 			}
 
-			if (NPC.downedBoss2) {
+			if (NPC.downedBoss2)
+			{
 				item = shop.item[nextSlot++];
 				CustomWare(item, ItemType<UnholyGlyph>(), 2);
 			}
 
-			if (NPC.downedBoss3) {
+			if (NPC.downedBoss3)
+			{
 				item = shop.item[nextSlot++];
 				CustomWare(item, ItemType<VeilGlyph>(), 3);
 			}
 
-			if (NPC.downedQueenBee) {
+			if (NPC.downedQueenBee)
+			{
 				item = shop.item[nextSlot++];
 				CustomWare(item, ItemType<BeeGlyph>(), 3);
 			}
 
-			if (Main.hardMode) {
+			if (Main.hardMode)
+			{
 				item = shop.item[nextSlot++];
 				CustomWare(item, ItemType<BlazeGlyph>(), 3);
 			}
 
-			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3) {
+			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
+			{
 				item = shop.item[nextSlot++];
 				CustomWare(item, ItemType<VoidGlyph>(), 4);
 			}
 
-			if (MyWorld.downedDusking) {
+			if (MyWorld.downedDusking)
+			{
 				item = shop.item[nextSlot++];
 				CustomWare(item, ItemType<PhaseGlyph>(), 4);
 			}
-            AddItem(ref shop, ref nextSlot, ItemType<Items.Armor.WitchSet.WitchHead>(), 12000, !Main.dayTime);
-            AddItem(ref shop, ref nextSlot, ItemType<Items.Armor.WitchSet.WitchBody>(), 15000, !Main.dayTime);
-            AddItem(ref shop, ref nextSlot, ItemType<Items.Armor.WitchSet.WitchLegs>(), 10000, !Main.dayTime);
-        }
+			AddItem(ref shop, ref nextSlot, ItemType<Items.Armor.WitchSet.WitchHead>(), 12000, !Main.dayTime);
+			AddItem(ref shop, ref nextSlot, ItemType<Items.Armor.WitchSet.WitchBody>(), 15000, !Main.dayTime);
+			AddItem(ref shop, ref nextSlot, ItemType<Items.Armor.WitchSet.WitchLegs>(), 10000, !Main.dayTime);
+		}
 
 		private static void CustomWare(Item item, int type, int price = 1)
 		{

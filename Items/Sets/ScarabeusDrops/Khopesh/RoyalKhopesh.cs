@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.Khopesh
 			item.height = 44;
 			item.useTime = 12;
 			item.useAnimation = 12;
-			item.reuseDelay = 20;
+			item.reuseDelay = 4;
 			item.channel = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.knockBack = 5.5f;

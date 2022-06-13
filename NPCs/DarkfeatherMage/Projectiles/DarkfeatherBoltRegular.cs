@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using SpiritMod.Buffs;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,10 +8,7 @@ namespace SpiritMod.NPCs.DarkfeatherMage.Projectiles
 {
 	public class DarkfeatherBoltRegular : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Darkfeather Bolt");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Darkfeather Bolt");
 
 		public override void SetDefaults()
 		{

@@ -7,6 +7,8 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 using SpiritMod.UI.Elements;
 using SpiritMod.Mechanics.QuestSystem;
+using Terraria.ModLoader;
+using SpiritMod.Utilities;
 
 namespace SpiritMod.UI.QuestUI
 {
@@ -344,14 +346,17 @@ namespace SpiritMod.UI.QuestUI
 			_questInteractButton.NormalOutlineColour = new Color(102, 86, 67) * 0.5f;
 			_questInteractButton.SelectedOutlineColour = new Color(102, 86, 67) * 0.9f;
 			_questInteractButton.HoverOutlineColour = new Color(102, 86, 67) * 0.7f;
+
 			_questInteractButton.OnMouseDown += (UIMouseEvent evt, UIElement listeningElement) => 
 			{
 				_questInteractButton.IsSelected = true;
 			};
+
 			_questInteractButton.OnMouseUp += (UIMouseEvent evt, UIElement listeningElement) =>
 			{
 				_questInteractButton.IsSelected = false;
 			};
+
 			_questInteractButton.OnClick += (UIMouseEvent evt, UIElement listeningElement) =>
 			{
 				if (SelectedQuest.RewardsGiven) return;
@@ -365,10 +370,7 @@ namespace SpiritMod.UI.QuestUI
 				{
 					bool success = QuestManager.ActivateQuest(_selectedQuestIndex);
 					if (success)
-					{
-						ChangeSection(1); // change section to active section
 						UpdateCurrentQuest();
-					}
 					else
 					{
 						if (QuestManager.ActiveQuests.Count >= QuestManager.MAX_QUESTS_ACTIVE)
@@ -495,11 +497,18 @@ namespace SpiritMod.UI.QuestUI
 
 		private void UpdateCurrentQuest()
 		{
-			if (SelectedQuest == null) return;
+			if (SelectedQuest == null)
+				return;
 
-			if (SelectedQuest.IsCompleted) ChangeSection(2);
-			else if (SelectedQuest.IsActive) ChangeSection(1);
-			else ChangeSection(0);
+			if (ModContent.GetInstance<SpiritClientConfig>().QuestBookSwitching)
+			{
+				if (SelectedQuest.IsCompleted)
+					ChangeSection(2);
+				else if (SelectedQuest.IsActive)
+					ChangeSection(1);
+				else
+					ChangeSection(0);
+			}
 
 			SelectQuest(SelectedQuest, false);
 		}

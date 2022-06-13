@@ -55,6 +55,11 @@ namespace SpiritMod.Utilities
 		[DrawTicks]
 		public QuestUtils.QuestInvLocation QuestBookLocation { get; set; }
 
+		[Label("$Mods.SpiritMod.QuestBookSwitching")]
+		[Tooltip("Switches from the current tab to the Active or Complete tab when a quest is activated or completed")]
+		[DefaultValue(true)]
+		public bool QuestBookSwitching { get; set; }
+
 		/*[Label("Town NPC Portraits")]
 		[Tooltip("Enables the showing of NPC portraits when talking to a Town NPC")]
 		[DefaultValue(true)]
@@ -74,7 +79,6 @@ namespace SpiritMod.Utilities
 		[Tooltip("Modifies the Ocean generation in certain ways\nDefaults to a Piecewise_V generation\nThe Piecewise_V generation is recommended for Spirit playthroughs")]
 		[DefaultValue(OceanGeneration.OceanShape.Piecewise_V)]
 		public OceanGeneration.OceanShape OceanShape { get; set; }
-
 
 		[Label("$Mods.SpiritMod.OceanVents")]
 		[Tooltip("Enables the spawning of numerous critters around Hydrothermal Vents\nThese critters do not interfere with regular enemy spawnrates\nHowever, they do contribute to the maximum NPC limit")]

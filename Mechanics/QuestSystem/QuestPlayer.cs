@@ -21,7 +21,6 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			if (Main.netMode == NetmodeID.MultiplayerClient)
 			{
-				ModContent.GetInstance<SpiritMod>().Logger.Debug("Asking for manager...");
 				ModPacket packet = SpiritMod.Instance.GetPacket(MessageType.RequestQuestManager, 1);
 				packet.Write((byte)player.whoAmI);
 				packet.Send();

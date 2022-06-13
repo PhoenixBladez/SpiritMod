@@ -203,7 +203,6 @@ namespace SpiritMod.NPCs.DarkfeatherMage
                     bool expertMode = Main.expertMode;
                     int damage = expertMode ? 11 : 18;
                     Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<DarkfeatherBoltRegular>(), damage, 1, Main.myPlayer, 0, 0);
-
                 }
                 if (npc.ai[0] > 420f)
                 {

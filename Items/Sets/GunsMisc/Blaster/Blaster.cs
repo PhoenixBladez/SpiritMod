@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles;
 using System;
 using System.Collections.Generic;
@@ -14,8 +13,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 	public class Blaster : ModItem
 	{
 		public static string[] RandNames = { "Luminous", "Ecliptic", "Aphelaic", "Cosmic", "Perihelaic", "Ionized", "Axial" };
-		protected ushort nameIndex;
-		//protected int counter;
+		protected byte nameIndex;
 
 		public string WeaponName => RandNames[nameIndex % RandNames.Length] + " Blaster";
 		public int elementSecondary;
@@ -23,8 +21,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 
 		public override bool CloneNewInstances => true;
 		public int fireType = 1;
-
-		//Stats
+		int dustType;
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Blaster");
 
@@ -64,32 +61,33 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 			return myClone;
 		}
 
-		int dustType;
-
-		//Behavior
-
 		public override bool CanRightClick() => true;
 		public override bool ConsumeItem(Player player) => false;
 
 		public override void HoldItem(Player player)
 		{
-			if (elementPrimary <= 1 && fireType == 1) {
+			if (elementPrimary <= 1 && fireType == 1)
+			{
 				SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/GunsMisc/Blaster/Blaster_FireGlow");
 				dustType = DustID.Fire;
 			}
-			if (elementPrimary >= 2 && fireType == 1) {
+			if (elementPrimary >= 2 && fireType == 1)
+			{
 				SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/GunsMisc/Blaster/Blaster_CorrosiveGlow");
 				dustType = 163;
 			}
-			if (elementSecondary <= 4 && fireType == 2) {
+			if (elementSecondary <= 4 && fireType == 2)
+			{
 				SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/GunsMisc/Blaster/Blaster_ShockGlow");
 				dustType = DustID.Electric;
 			}
-			if (elementSecondary >= 5 && fireType == 2) {
+			if (elementSecondary >= 5 && fireType == 2)
+			{
 				SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/GunsMisc/Blaster/Blaster_FreezeGlow");
 				dustType = DustID.DungeonSpirit;
 			}
 		}
+
 		public override void RightClick(Player player)
 		{
 			if (elementPrimary <= 1)
@@ -103,53 +101,53 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 
 			if (fireType == 1)
 			{
-				item.useAnimation = elementPrimary;
-				CombatText.NewText(new Rectangle((int)player.position.X, (int)player.position.Y - 10, player.width, player.height), new Color(255, 255, 255, 100),
-			   elementalType2);
+				CombatText.NewText(new Rectangle((int)player.position.X, (int)player.position.Y - 10, player.width, player.height), new Color(255, 255, 255, 100), elementalType2);
 				fireType++;
 			}
 			else if (fireType == 2)
 			{
-				item.useAnimation = item.useTime;
-				CombatText.NewText(new Rectangle((int)player.position.X, (int)player.position.Y - 10, player.width, player.height), new Color(255, 255, 255, 100),
-			   elementalType);
+				CombatText.NewText(new Rectangle((int)player.position.X, (int)player.position.Y - 10, player.width, player.height), new Color(255, 255, 255, 100), elementalType);
 				fireType--;
 			}
 		}
 
-
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MaliwanShot1"));
+
+			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY - 1)) * 38f;
+			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
+				position += muzzleOffset;
+
+			float spread = MathHelper.ToRadians(4f);
+			float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
+			double baseAngle = Math.Atan2(speedX, speedY);
+			double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
+			speedX = baseSpeed * (float)Math.Sin(randomAngle);
+			speedY = baseSpeed * (float)Math.Cos(randomAngle);
+
+			if (elementPrimary <= 1 && fireType == 1)
 			{
-				Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY - 1)) * 38f;
-				if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
-					position += muzzleOffset;
-				}
-				float spread = MathHelper.ToRadians(4f); //45 degrees converted to radians
-				float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-				double baseAngle = Math.Atan2(speedX, speedY);
-				double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
-				speedX = baseSpeed * (float)Math.Sin(randomAngle);
-				speedY = baseSpeed * (float)Math.Cos(randomAngle);
-			}
-			if (elementPrimary <= 1 && fireType == 1) {
 				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 				Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanFireCommon = true;
 			}
-			if (elementPrimary >= 2 && fireType == 1) {
+			if (elementPrimary >= 2 && fireType == 1)
+			{
 				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 				Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanAcidCommon = true;
 			}
-			if (elementSecondary <= 4 && fireType == 2) {
+			if (elementSecondary <= 4 && fireType == 2)
+			{
 				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 				Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanShockCommon = true;
 			}
-			if (elementSecondary >= 5 && fireType == 2) {
+			if (elementSecondary >= 5 && fireType == 2)
+			{
 				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 				Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanFreezeCommon = true;
 			}
-			for (int index1 = 0; index1 < 5; ++index1) {
+			for (int index1 = 0; index1 < 5; ++index1)
+			{
 				int index2 = Dust.NewDust(new Vector2(position.X, position.Y), item.width - 64, item.height - 16, dustType, speedX, speedY, (int)byte.MaxValue, new Color(), (float)SpiritMod.Instance.spiritRNG.Next(10, 17) * 0.1f);
 				Main.dust[index2].noLight = true;
 				Main.dust[index2].noGravity = true;
@@ -158,72 +156,71 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 			}
 			return false;
 		}
-		//Rendering
+
 		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
-		public override TagCompound Save() => new TagCompound {
-			{ nameof(nameIndex),nameIndex },
-			{ nameof(elementPrimary),elementPrimary },
-			{ nameof(elementSecondary),elementSecondary }
+		public override TagCompound Save() => new TagCompound
+		{
+			{ nameof(nameIndex), nameIndex },
+			{ nameof(elementPrimary), elementPrimary },
+			{ nameof(elementSecondary), elementSecondary }
 		};
+
 		public override void Load(TagCompound tag)
 		{
 			if (!tag.ContainsKey(nameof(nameIndex)))
 				return;
 
-			nameIndex = tag.Get<ushort>(nameof(nameIndex));
+			nameIndex = tag.Get<byte>(nameof(nameIndex));
 			elementPrimary = tag.Get<int>(nameof(elementPrimary));
 			elementSecondary = tag.Get<int>(nameof(elementSecondary));
 
 			ApplyStats();
 		}
 
-		//Net
 		public override void NetSend(BinaryWriter writer)
 		{
 			writer.Write(nameIndex);
 			writer.Write(elementPrimary);
 			writer.Write(elementSecondary);
 		}
+
 		public override void NetRecieve(BinaryReader reader)
 		{
-			nameIndex = reader.ReadUInt16();
+			nameIndex = reader.ReadByte();
 			elementPrimary = reader.ReadInt32();
 			elementSecondary = reader.ReadInt32();
 
 			ApplyStats();
 		}
+
 		public void Generate()
 		{
-			nameIndex = (ushort)SpiritMod.Instance.spiritRNG.Next(RandNames.Length); ;
+			nameIndex = (byte)SpiritMod.Instance.spiritRNG.Next(RandNames.Length);
 			elementPrimary = SpiritMod.Instance.spiritRNG.Next(0, 3);
 			elementSecondary = SpiritMod.Instance.spiritRNG.Next(3, 6);
 
 			ApplyStats();
 		}
+
 		public void ApplyStats() => item.SetNameOverride(WeaponName);
+
 		public string elementalType;
 		public string elementalType2;
+
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
-			if (elementPrimary <= 1) {
+			if (elementPrimary <= 1)
 				elementalType = "Fire";
-			}
-			if (elementPrimary >= 2) {
+			if (elementPrimary >= 2)
 				elementalType = "Poison";
-			}
-			if (elementSecondary <= 4) {
+			if (elementSecondary <= 4)
 				elementalType2 = "Shock";
-			}
-			if (elementSecondary >= 5) {
+			if (elementSecondary >= 5)
 				elementalType2 = "Freeze";
-			}
+
 			var line = new TooltipLine(mod, "", "Right-click in inventory to toggle between " + elementalType + " & " + elementalType2);
 			tooltips.Add(line);
-		}
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-		{
-			scale *= .85f;
 		}
 	}
 }

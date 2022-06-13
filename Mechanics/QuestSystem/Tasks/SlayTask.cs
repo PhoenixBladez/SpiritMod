@@ -158,18 +158,6 @@ namespace SpiritMod.Mechanics.QuestSystem
 			}
 		}
 
-		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
-		{
-			for (int i = 0; i < _monsterIDs.Length; i++)
-			{
-		    	if (pool.ContainsKey(_monsterIDs[i]) && _spawnIncrease != null)
-			    {
-				    pool[_monsterIDs[i]] = (float)_spawnIncrease;
-                    break;
-			    }
-            }
-		}
-
 		public override void ReadData(BinaryReader reader) => _killCount = reader.ReadInt32();
 		public override void WriteData(BinaryWriter writer) => writer.Write(_killCount);
 	}

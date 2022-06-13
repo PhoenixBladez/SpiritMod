@@ -1,6 +1,4 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.NPCs.Boss.Atlas;
-using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -10,7 +8,7 @@ namespace SpiritMod.Items.Consumable
 {
 	public class SurrenderBell : ModItem
 	{
-		public override void SetStaticDefaults() => Tooltip.SetDefault("Stops any invasion when used\n'A heavenly chime'");
+		public override void SetStaticDefaults() => Tooltip.SetDefault("Stops any invasion when used\nCan only be used when the invasion has arrived, not when the invasion is approaching\n'A heavenly chime'");
 
 		public override void SetDefaults()
 		{
@@ -19,10 +17,8 @@ namespace SpiritMod.Items.Consumable
 			item.rare = ItemRarityID.Cyan;
 			item.maxStack = 99;
 			item.value = Item.buyPrice(gold: 25);
-
 			item.useStyle = ItemUseStyleID.HoldingUp;
 			item.useTime = item.useAnimation = 20;
-
 			item.noMelee = true;
 			item.consumable = true;
 			item.autoReuse = false;
