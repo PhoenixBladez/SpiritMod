@@ -52,19 +52,5 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			QuestManager.SayInChat("Click on quests in the chat to open them in the book!", Color.GreenYellow, true);
 			base.OnQuestComplete();
 		}
-
-		public override void OnActivate()
-		{
-			QuestGlobalNPC.OnEditSpawnPool += QuestGlobalNPC_OnEditSpawnPool;
-			base.OnActivate();
-		}
-
-		public override void OnDeactivate()
-		{
-			QuestGlobalNPC.OnEditSpawnPool -= QuestGlobalNPC_OnEditSpawnPool;
-			base.OnDeactivate();
-		}
-
-		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo) => ModifySpawnRateUnique(pool, ModContent.NPCType<NPCs.Hookbat.Hookbat>(), 0.75f);
 	}
 }

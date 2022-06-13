@@ -1,5 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Consumable;
+using SpiritMod.Mechanics.QuestSystem;
+using SpiritMod.Mechanics.QuestSystem.Quests;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -37,14 +39,18 @@ namespace SpiritMod.NPCs.Critters
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			int d1 = 173;
-			for (int k = 0; k < 30; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.2f, .8f));
-			}
+			for (int k = 0; k < 30; k++)
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.ShadowbeamStaff, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.2f, .8f));
 		}
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.spawnTileY < Main.rockLayer && !Main.dayTime && MyWorld.calmNight && !spawnInfo.invasion && !spawnInfo.sky && !Main.eclipse ? 0.0759f : 0f;
+			bool valid = spawnInfo.spawnTileY < Main.rockLayer && !Main.dayTime && MyWorld.calmNight && !spawnInfo.invasion && !spawnInfo.sky && !Main.eclipse;
+			if (!valid)
+				return 0f;
+			if (QuestManager.GetQuest<CritterCaptureBlossmoon>().IsActive && !NPC.AnyNPCs(npc.type))
+				return 0.25f;
+			return 0.076f;
 		}
 
 		public override void FindFrame(int frameHeight)

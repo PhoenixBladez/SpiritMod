@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Consumable.Fish;
+using SpiritMod.Mechanics.QuestSystem;
+using SpiritMod.Mechanics.QuestSystem.Quests;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,24 +36,25 @@ namespace SpiritMod.NPCs.Critters
 			npc.npcSlots = 0;
 			aiType = NPCID.PinkJellyfish;
 		}
+
 		bool txt = false;
+
 		public override bool PreAI()
 		{
-			if (!txt) {
-				for (int i = 0; i < 8; ++i) {
-					Vector2 dir = Main.player[npc.target].Center - npc.Center;
-					dir.Normalize();
-					dir *= 1;
+			if (!txt)
+			{
+				for (int i = 0; i < 8; ++i)
+				{
+					Vector2 dir = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
 					int newNPC = NPC.NewNPC((int)npc.Center.X + (Main.rand.Next(-20, 20)), (int)npc.Center.Y + (Main.rand.Next(-20, 20)), ModContent.NPCType<Floater1>(), npc.whoAmI);
 					Main.npc[newNPC].velocity = dir;
 				}
 				txt = true;
 				npc.netUpdate = true;
-				Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .3f, .2f, .3f);
+				Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), .3f, .2f, .3f);
 			}
 			return true;
 		}
-
 
 		public override void FindFrame(int frameHeight)
 		{
@@ -63,11 +66,13 @@ namespace SpiritMod.NPCs.Critters
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe || Main.dayTime) {
+			if (spawnInfo.playerSafe || Main.dayTime)
 				return 0f;
-			}
+			if (QuestManager.GetQuest<CritterCaptureFloater>().IsActive && !NPC.AnyNPCs(npc.type))
+				return SpawnCondition.OceanMonster.Chance * 0.25f;
 			return SpawnCondition.OceanMonster.Chance * 0.173f;
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;

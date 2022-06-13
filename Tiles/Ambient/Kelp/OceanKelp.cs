@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -28,7 +29,10 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 			Main.tileFrameImportant[Type] = true;
 
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
-			TileObjectData.newTile.WaterPlacement = Terraria.Enums.LiquidPlacement.OnlyInLiquid;
+			TileObjectData.newTile.WaterPlacement = LiquidPlacement.OnlyInLiquid;
+			TileObjectData.newTile.AnchorBottom = new Terraria.DataStructures.AnchorData(AnchorType.SolidTile | AnchorType.AlternateTile, 1, 0);
+			TileObjectData.newTile.AnchorValidTiles = new int[] { TileID.Sand, Type };
+			TileObjectData.newTile.AnchorAlternateTiles = new int[] { TileID.Sand, Type };
 			TileObjectData.addTile(Type);
 
 			drop = ModContent.ItemType<Items.Sets.FloatingItems.Kelp>();

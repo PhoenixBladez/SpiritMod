@@ -22,25 +22,6 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ItemID.SilverCoin, 55)
 		};
 
-        public override void OnActivate()
-		{
-			QuestGlobalNPC.OnEditSpawnPool += QuestGlobalNPC_OnEditSpawnPool;
-			base.OnActivate();
-		}
-
-		public override void OnDeactivate()
-		{
-			QuestGlobalNPC.OnEditSpawnPool -= QuestGlobalNPC_OnEditSpawnPool;
-			base.OnDeactivate();
-		}
-
-		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
-		{
-			int blossID = ModContent.NPCType<NPCs.Critters.Blossmoon>();
-			if (pool.ContainsKey(blossID) && pool[blossID] > 0f && !NPC.AnyNPCs(blossID))
-				pool[blossID] = .25f;
-		}
-
 		private CritterCaptureBlossmoon()
         {
             _tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Consumable.BlossmoonItem>(), 2, "Capture"))

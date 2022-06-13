@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Terraria;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
@@ -31,23 +24,5 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
         {
             _tasks.AddTask(new SlayTask(Terraria.ID.NPCID.DoctorBones, 1, null, null, true));    
         }
-
-        public override void OnActivate()
-		{
-			QuestGlobalNPC.OnEditSpawnPool += QuestGlobalNPC_OnEditSpawnPool;
-			base.OnActivate();
-		}
-
-		public override void OnDeactivate()
-		{
-			QuestGlobalNPC.OnEditSpawnPool -= QuestGlobalNPC_OnEditSpawnPool;
-			base.OnDeactivate();
-		}
-
-        private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
-		{
-			if (!Main.dayTime && spawnInfo.player.ZoneJungle && !spawnInfo.playerSafe && spawnInfo.spawnTileY < Main.worldSurface && !NPC.AnyNPCs(Terraria.ID.NPCID.DoctorBones))
-				pool[Terraria.ID.NPCID.DoctorBones] = 0.09f;
-		}
     }
 }

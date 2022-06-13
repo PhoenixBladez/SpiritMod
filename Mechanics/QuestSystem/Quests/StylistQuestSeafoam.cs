@@ -1,6 +1,5 @@
 ﻿using SpiritMod.NPCs.Sea_Mandrake;
 using System.Collections.Generic;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -22,18 +21,6 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ItemID.SilverCoin, 30)
 		};
 
-		public override void OnActivate()
-		{
-			QuestGlobalNPC.OnEditSpawnPool += QuestGlobalNPC_OnEditSpawnPool;
-			base.OnActivate();
-		}
-
-		public override void OnDeactivate()
-		{
-			QuestGlobalNPC.OnEditSpawnPool -= QuestGlobalNPC_OnEditSpawnPool;
-			base.OnDeactivate();
-		}
-
 		public override void OnQuestComplete()
 		{
 			bool showUnlocks = true;
@@ -41,8 +28,6 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			QuestManager.UnlockQuest<StylistQuestCrimson>(showUnlocks);
 			base.OnQuestComplete();
 		}
-
-		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo) => ModifySpawnRateUnique(pool, ModContent.NPCType<Sea_Mandrake>(), 0.15f);
 
 		private StylistQuestSeafoam()
         {

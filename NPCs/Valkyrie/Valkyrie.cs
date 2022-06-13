@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Mechanics.QuestSystem;
+using SpiritMod.Mechanics.QuestSystem.Quests;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -116,7 +118,14 @@ namespace SpiritMod.NPCs.Valkyrie
 			}
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.sky && !NPC.AnyNPCs(ModContent.NPCType<Valkyrie>()) ? 0.09f : 0f;
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		{
+			if (NPC.AnyNPCs(ModContent.NPCType<Valkyrie>()) || !spawnInfo.sky)
+				return 0;
+			if (QuestManager.GetQuest<SlayerQuestValkyrie>().IsActive)
+				return 0.15f;
+			return 0.09f;
+		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

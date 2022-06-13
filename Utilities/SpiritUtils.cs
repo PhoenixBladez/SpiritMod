@@ -31,19 +31,21 @@ namespace SpiritMod
 			&& (player.position.X + player.width) / 16f + Player.tileRangeX + player.inventory[player.selectedItem].tileBoost - 1f + player.blockRange >= x
 			&& player.position.Y / 16f - Player.tileRangeY - player.inventory[player.selectedItem].tileBoost - player.blockRange <= y
 			&& (player.position.Y + player.height) / 16f + Player.tileRangeY + player.inventory[player.selectedItem].tileBoost - 2f + player.blockRange >= y;
-		
+
 
 		public static Vector2 NextVec2CircularEven(this UnifiedRandom rand, float halfWidth, float halfHeight)
 		{
 			double x = rand.NextDouble();
 			double y = rand.NextDouble();
-			if (x + y > 1) {
+			if (x + y > 1)
+			{
 				x = 1 - x;
 				y = 1 - y;
 			}
 
 			double s = 1 / (x + y);
-			if (double.IsNaN(s)) {
+			if (double.IsNaN(s))
+			{
 				return Vector2.Zero;
 			}
 

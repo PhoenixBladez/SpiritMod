@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using SpiritMod.Mechanics.QuestSystem.Tasks;
+﻿using SpiritMod.Mechanics.QuestSystem.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -37,19 +36,5 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		}
 
 		public override bool IsQuestPossible() => WorldGen.crimson;
-
-		public override void OnActivate()
-		{
-			QuestGlobalNPC.OnEditSpawnPool += QuestGlobalNPC_OnEditSpawnPool;
-			base.OnActivate();
-		}
-
-		public override void OnDeactivate()
-		{
-			QuestGlobalNPC.OnEditSpawnPool -= QuestGlobalNPC_OnEditSpawnPool;
-			base.OnDeactivate();
-		}
-
-		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo) => ModifySpawnRateUnique(pool, ModContent.NPCType<NPCs.ArterialGrasper.CrimsonTrapper>(), 0.185f);
 	}
 }

@@ -6,6 +6,8 @@ using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using SpiritMod.NPCs.DarkfeatherMage.Projectiles;
 using System;
+using SpiritMod.Mechanics.QuestSystem;
+using SpiritMod.Mechanics.QuestSystem.Quests;
 
 namespace SpiritMod.NPCs.DarkfeatherMage
 {
@@ -36,7 +38,6 @@ namespace SpiritMod.NPCs.DarkfeatherMage
 			npc.noTileCollide = false;
 			npc.HitSound = SoundID.DD2_GoblinBomberDeath;
 			npc.DeathSound = SoundID.DD2_GoblinBomberHurt;
-
 		}
 
         public override bool PreNPCLoot()
@@ -311,7 +312,15 @@ namespace SpiritMod.NPCs.DarkfeatherMage
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Mechanics.Fathomless_Chest.Mystical_Dice>());
         }
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.player.ZoneOverworldHeight && !NPC.AnyNPCs(ModContent.NPCType<DarkfeatherMage>()) && (spawnInfo.spawnTileX < Main.maxTilesX / 3 || spawnInfo.spawnTileX > Main.maxTilesX / 1.5f) && NPC.downedBoss2 ? 0.00002f : 0f;
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		{
+			bool valid = spawnInfo.player.ZoneOverworldHeight && !NPC.AnyNPCs(ModContent.NPCType<DarkfeatherMage>()) && (spawnInfo.spawnTileX < Main.maxTilesX / 3 || spawnInfo.spawnTileX > Main.maxTilesX / 1.5f) && NPC.downedBoss2;
+			if (!valid)
+				return 0f;
+			if (QuestManager.GetQuest<ManicMage>().IsActive)
+				return 0.5f;
+			return 0.0005f;
+		}
 
 		public override void HitEffect(int hitDirection, double damage)
         {

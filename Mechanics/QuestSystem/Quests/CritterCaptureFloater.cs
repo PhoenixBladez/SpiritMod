@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Terraria;
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Mechanics.QuestSystem.Tasks;
 
@@ -20,26 +18,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Sets.FloatingItems.SunkenTreasure>(), 1),
 			(ItemID.JellyfishNecklace, 1),
 			(ItemID.SonarPotion, 3),
-			(Terraria.ID.ItemID.SilverCoin, 55)
+			(ItemID.SilverCoin, 55)
 		};
-        public override void OnActivate()
-		{
-			QuestGlobalNPC.OnEditSpawnPool += QuestGlobalNPC_OnEditSpawnPool;
-			base.OnActivate();
-		}
-
-		public override void OnDeactivate()
-		{
-			QuestGlobalNPC.OnEditSpawnPool -= QuestGlobalNPC_OnEditSpawnPool;
-			base.OnDeactivate();
-		}
-
-		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
-		{
-			int stagID = ModContent.NPCType<NPCs.Critters.Floater>();
-			if (pool.ContainsKey(stagID) && pool[stagID] > 0f && !NPC.AnyNPCs(stagID))
-				pool[stagID] = .25f;
-		}
 
 		private CritterCaptureFloater()
         {
@@ -57,7 +37,6 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			branch4.AddTask(new TalkNPCTask(NPCID.Dryad, "That rotten, spoiled child! I have let him off the hook time and time again for fishing up rare creatures, but now he has gone too far. These species are meant to be admired, not gobbled up! Thank you for telling me about his nasty plan- your commitment to the natural world is admirable. Take this as thanks! Don't forget those Luminous Floaters, now!", "Or tell the Dryad about the Angler's plans", null, ItemID.PureWaterFountain))
 				   .AddTask(new RetrievalTask(ModContent.ItemType<Items.Consumable.FloaterItem>(), 1, "Capture"))
 				   .AddTask(new GiveNPCTask(NPCID.Dryad, ModContent.ItemType<Items.Consumable.FloaterItem>(), 1, "These marvels of nature light up the ocean with their glow. I certainly would not want to see them perish by the hands of sea monsters and greedy fishermen. They will look beautiful in my arcane nature preserve. Thank you again.", "Bring the Luminous Floater back to the Dryad", true, true));
-
 
 			TaskBuilder branch2 = new TaskBuilder();
 			branch2.AddTask(new TalkNPCTask(NPCID.Angler, "That high and mighty Dryad always thinks she knows what's best for the fish. Well, I don't care! What's best for me is those jellyfish in my tummy, stat! Don't let 'em go to waste- chop 'em up for me and I'll make us an a-MAZ-ing seafood dish. What're you waiting for?", "Or ask the Angler about Luminous Floaters"))

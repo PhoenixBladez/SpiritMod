@@ -153,9 +153,16 @@ namespace SpiritMod.NPCs.ArterialGrasper
 			npc.frame.Y = frame * frameHeight;
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].wall > 0 && spawnInfo.player.ZoneCrimson
-			&& (spawnInfo.player.ZoneRockLayerHeight || spawnInfo.player.ZoneDirtLayerHeight) ? SpawnCondition.Crimson.Chance * 0.21f : 0f;
-
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		{
+			bool wall = Framing.GetTileSafely(spawnInfo.spawnTileX, spawnInfo.spawnTileY).wall > 0;
+			bool valid = wall && spawnInfo.player.ZoneCrimson && (spawnInfo.player.ZoneRockLayerHeight || spawnInfo.player.ZoneDirtLayerHeight);
+			if (!valid)
+				return 0;
+			if (QuestManager.GetQuest<StylistQuestCrimson>().IsActive)
+				return SpawnCondition.Crimson.Chance * 0.2f;
+			return SpawnCondition.Crimson.Chance * 0.1f;
+		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 30; k++)

@@ -17,12 +17,11 @@ namespace SpiritMod.Mechanics.QuestSystem
 {
 	public class QuestGlobalNPC : GlobalNPC
 	{
-		public static event Action<IDictionary<int, float>, NPCSpawnInfo> OnEditSpawnPool;
-
 		public static event Action<NPC> OnNPCLoot;
 		public static event Action<int, Chest, int> OnSetupShop;
 
-		public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo) => OnEditSpawnPool?.Invoke(pool, spawnInfo);
+		public static Dictionary<int, float> SpawnPoolMods = new Dictionary<int, float>();
+		public static Dictionary<int, int> PoolModsCount = new Dictionary<int, int>();
 
 		public override void NPCLoot(NPC npc)
 		{
@@ -164,6 +163,56 @@ namespace SpiritMod.Mechanics.QuestSystem
 				Texture2D tex = mod.GetTexture("UI/QuestUI/Textures/ExclamationMark");
 				float scale = (float)Math.Sin(Main.time * 0.08f) * 0.14f;
 				spriteBatch.Draw(tex, new Vector2(npc.Center.X - 2, npc.Center.Y - 40) - Main.screenPosition, new Rectangle(0, 0, 6, 24), Color.White, 0f, new Vector2(3, 12), 1f + scale, SpriteEffects.None, 0f);
+			}
+		}
+
+		public static void AddToPool(int id, float weight)
+		{
+			if (SpawnPoolMods.ContainsKey(id))
+			{
+				if (SpawnPoolMods[id] < weight)
+					SpawnPoolMods[id] = weight;
+				PoolModsCount[id]++;
+			}
+			else
+			{
+				SpawnPoolMods.Add(id, weight);
+				PoolModsCount.Add(id, 1);
+			}
+		}
+
+		public static void RemoveFromPool(int id)
+		{
+			if (SpawnPoolMods.ContainsKey(id))
+			{
+				PoolModsCount[id]--;
+
+				if (PoolModsCount[id] == 0)
+					SpawnPoolMods.Remove(id);
+			}
+		}
+
+		public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
+		{
+			foreach (int item in SpawnPoolMods.Keys)
+				pool[item] = SpawnPoolMods[item];
+
+			if (QuestManager.GetQuest<SlayerQuestClown>().IsActive)
+			{
+				if (pool.ContainsKey(NPCID.Clown))
+					pool[NPCID.Clown] = 0.1f;
+			}
+
+			if (QuestManager.GetQuest<SlayerQuestDrBones>().IsActive)
+			{
+				if (!Main.dayTime && spawnInfo.player.ZoneJungle && !spawnInfo.playerSafe && spawnInfo.spawnTileY < Main.worldSurface && !NPC.AnyNPCs(NPCID.DoctorBones) && pool.ContainsKey(NPCID.DoctorBones))
+					pool[NPCID.DoctorBones] = 0.1f;
+			}
+
+			if (QuestManager.GetQuest<SlayerQuestDrBones>().IsActive)
+			{
+				if (spawnInfo.player.ZoneRockLayerHeight && !spawnInfo.playerSafe && spawnInfo.spawnTileY > Main.rockLayer && !NPC.AnyNPCs(NPCID.LostGirl) && pool.ContainsKey(NPCID.LostGirl))
+					pool[NPCID.LostGirl] = 0.05f;
 			}
 		}
 	}

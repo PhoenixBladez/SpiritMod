@@ -10,14 +10,14 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
 using SpiritMod.Utilities;
-using SpiritMod.Buffs;
+using SpiritMod.Mechanics.QuestSystem;
+using SpiritMod.Mechanics.QuestSystem.Quests;
 
 namespace SpiritMod.NPCs.Beholder
 {
 	[AutoloadBossHead]
 	public class Beholder : ModNPC, IBCRegistrable
 	{
-
 		public int dashTimer;
 		int frame = 0;
 		int timer = 0;
@@ -49,57 +49,57 @@ namespace SpiritMod.NPCs.Beholder
 			npc.buffImmune[BuffID.Confused] = true;
 			npc.aiStyle = 14;
 			npc.noGravity = true;
-			aiType = NPCID.Slimer;
+			npc.noTileCollide = true;
 			npc.rarity = 3;
+			aiType = NPCID.Slimer;
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.BeholderBanner>();
-
-			npc.noTileCollide = true;
 		}
+
 		public override bool PreAI()
 		{
 			Player player = Main.player[npc.target];
 			float num5 = npc.position.X + (float)(npc.width / 2) - player.position.X - (float)(player.width / 2);
 			float num6 = npc.position.Y + (float)npc.height - 59f - player.position.Y - (float)(player.height / 2);
 			float num7 = (float)Math.Atan2((double)num6, (double)num5) + 1.57f;
-			if (num7 < 0f) {
+
+			if (num7 < 0f)
 				num7 += 6.283f;
-			}
-			else if ((double)num7 > 6.283) {
+			else if ((double)num7 > 6.283)
 				num7 -= 6.283f;
+
+			const float RotationSpeed = 0.1f;
+
+			if (npc.rotation < num7)
+			{
+				if (num7 - npc.rotation > 3.1415)
+					npc.rotation -= RotationSpeed;
+				else
+					npc.rotation += RotationSpeed;
 			}
-			float num8 = 0.1f;
-			if (npc.rotation < num7) {
-				if ((double)(num7 - npc.rotation) > 3.1415) {
-					npc.rotation -= num8;
-				}
-				else {
-					npc.rotation += num8;
-				}
+			else if (npc.rotation > num7)
+			{
+				if (npc.rotation - num7 > 3.1415)
+					npc.rotation += RotationSpeed;
+				else
+					npc.rotation -= RotationSpeed;
 			}
-			else if (npc.rotation > num7) {
-				if ((double)(npc.rotation - num7) > 3.1415) {
-					npc.rotation += num8;
-				}
-				else {
-					npc.rotation -= num8;
-				}
-			}
-			if (npc.rotation > num7 - num8 && npc.rotation < num7 + num8) {
+
+			if (npc.rotation > num7 - RotationSpeed && npc.rotation < num7 + RotationSpeed)
 				npc.rotation = num7;
-			}
-			if (npc.rotation < 0f) {
+
+			if (npc.rotation < 0f)
 				npc.rotation += 6.283f;
-			}
-			else if ((double)npc.rotation > 6.283) {
+
+			else if (npc.rotation > 6.283)
 				npc.rotation -= 6.283f;
-			}
-			if (npc.rotation > num7 - num8 && npc.rotation < num7 + num8) {
+
+			if (npc.rotation > num7 - RotationSpeed && npc.rotation < num7 + RotationSpeed)
 				npc.rotation = num7;
-			}
 			npc.spriteDirection = npc.direction;
 			return true;
 		}
+
 		public override void AI()
 		{
 			npc.spriteDirection = npc.direction;
@@ -107,34 +107,39 @@ namespace SpiritMod.NPCs.Beholder
 
 			npc.TargetClosest(true);
 			dashTimer++;
-			if (dashTimer == 210 || dashTimer == 420 || dashTimer == 630) {
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
-				direction.Normalize();
+			if (dashTimer == 210 || dashTimer == 420 || dashTimer == 630)
+			{
+				Vector2 direction = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
 				Main.PlaySound(SoundID.DD2_WyvernDiveDown, npc.Center);
-				direction.X = direction.X * Main.rand.Next(6, 9);
-				direction.Y = direction.Y * Main.rand.Next(6, 9);
-				npc.velocity.X = direction.X;
-				npc.velocity.Y = direction.Y;
-				npc.velocity *= 0.98f;
+				direction.X *= Main.rand.Next(6, 9);
+				direction.Y *= Main.rand.Next(6, 9);
+				npc.velocity = direction * 0.98f;
 			}
+
 			timer++;
-			if (timer >= 6) {
+
+			if (timer >= 6)
+			{
 				frame++;
 				timer = 0;
 			}
-			if (frame >= 7) {
+
+			if (frame >= 7)
 				frame = 0;
-			}
-			if (dashTimer == 770 && Main.netMode != NetmodeID.MultiplayerClient) {
+
+			if (dashTimer == 770 && Main.netMode != NetmodeID.MultiplayerClient)
+			{
 				Main.PlaySound(SoundID.DD2_WitherBeastAuraPulse, npc.Center);
 				npc.position.X = player.position.X + Main.rand.NextFloat(-200f, 200f);
 				npc.position.Y = player.position.Y + Main.rand.NextFloat(-100f, -200f);
-				
+
 				npc.netUpdate = true;
 			}
+
 			if (dashTimer == 771)
 			{
-				for (int i = 0; i < 30; i++) {
+				for (int i = 0; i < 30; i++)
+				{
 					Vector2 vector23 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2(100f, 20f) * npc.scale * 1.85f / 2f;
 					int index1 = Dust.NewDust(npc.Center + vector23, 0, 0, DustID.GoldCoin, 0.0f, 0.0f, 0, new Color(), 1f);
 					Main.dust[index1].position = npc.Center + vector23;
@@ -145,46 +150,49 @@ namespace SpiritMod.NPCs.Beholder
 					Main.dust[index3].velocity = Vector2.Zero;
 				}
 			}
-			if (dashTimer == 800) {
+
+			if (dashTimer == 800)
 				Main.PlaySound(SoundID.DD2_WyvernScream, npc.Center);
-			}
-			if (dashTimer >= 800 && dashTimer <= 1000) {
+
+			if (dashTimer >= 800 && dashTimer <= 1000)
+			{
 				frame = 8;
 				npc.velocity.X *= .008f * npc.direction;
 				npc.velocity.Y *= 0f;
 				shootTimer++;
-				if (shootTimer >= 40 && Main.netMode != NetmodeID.MultiplayerClient) {
-					Vector2 direction = Main.player[npc.target].Center - npc.Center;
-					direction.Normalize();
-					direction.X *= 5f;
-					direction.Y *= 5f;
+				if (shootTimer >= 40 && Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					Vector2 direction = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 5f;
 					shootTimer = 0;
 					int amountOfProjectiles = 1;
 					bool expertMode = Main.expertMode;
 					int damage = expertMode ? 11 : 16;
-					for (int i = 0; i < amountOfProjectiles; ++i) {
+					for (int i = 0; i < amountOfProjectiles; ++i)
+					{
 						float A = (float)Main.rand.Next(-50, 50) * 0.02f;
 						float B = (float)Main.rand.Next(-50, 50) * 0.02f;
 						int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y + 20, direction.X + A, direction.Y + B, ProjectileID.Fireball, damage, 1, Main.myPlayer, 0, 0);
-						for (int k = 0; k < 11; k++) {
+						for (int k = 0; k < 11; k++)
 							Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, direction.X + A, direction.Y + B, 0, default, .61f);
-						}
 						Main.projectile[p].hostile = true;
 					}
 				}
 			}
-			else {
+			else
 				shootTimer = 0;
-			}
-			if (dashTimer >= 1020) {
+
+			if (dashTimer >= 1020)
 				dashTimer = 0;
-			}
-			if (manaSteal) {
+
+			if (manaSteal)
+			{
 				manaStealTimer++;
 				int distance = (int)Math.Sqrt((npc.Center.X - player.Center.X) * (npc.Center.X - player.Center.X) + (npc.Center.Y - player.Center.Y) * (npc.Center.Y - player.Center.Y));
-				if (distance < 300 && player.statMana > 0) {
+				if (distance < 300 && player.statMana > 0)
+				{
 					player.statMana--;
-					for (int i = 0; i < 2; i++) {
+					for (int i = 0; i < 2; i++)
+					{
 						int dust = Dust.NewDust(npc.Center, npc.width, npc.height, DustID.PurificationPowder);
 						Main.dust[dust].velocity *= -1f;
 						Main.dust[dust].scale *= 1.4f;
@@ -199,14 +207,16 @@ namespace SpiritMod.NPCs.Beholder
 					}
 				}
 			}
-			else {
+			else
 				manaStealTimer = 0;
-			}
-			if (manaStealTimer >= 120) {
+
+			if (manaStealTimer >= 120)
+			{
 				manaSteal = false;
 				manaStealTimer = 0;
 			}
 		}
+
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(dashTimer);
@@ -216,6 +226,7 @@ namespace SpiritMod.NPCs.Beholder
 			writer.Write(manaSteal);
 			writer.Write(manaStealTimer);
 		}
+
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			dashTimer = reader.ReadInt32();
@@ -224,71 +235,64 @@ namespace SpiritMod.NPCs.Beholder
 			shootTimer = reader.ReadInt32();
 			manaSteal = reader.ReadBoolean();
 			manaStealTimer = reader.ReadInt32();
-
 		}
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-        {
-            int x = spawnInfo.spawnTileX;
-            int y = spawnInfo.spawnTileY;
-            int tile = (int)Main.tile[x, y].type;
-            return spawnInfo.player.GetSpiritPlayer().ZoneMarble && NPC.downedBoss2 && !NPC.AnyNPCs(ModContent.NPCType<Beholder>()) && spawnInfo.spawnTileY > Main.rockLayer ? 0.002765f : 0f;
-
-        }
-		public override void FindFrame(int frameHeight)
 		{
-			npc.frame.Y = frameHeight * frame;
+			if (NPC.AnyNPCs(ModContent.NPCType<Beholder>()) || !spawnInfo.player.GetSpiritPlayer().ZoneMarble || !NPC.downedBoss2 || spawnInfo.spawnTileY <= Main.rockLayer)
+				return 0;
+			if (QuestManager.GetQuest<SlayerQuestMarble>().IsActive)
+				return 0.15f;
+			return 0.002765f;
 		}
+
+		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));
-			for (int k = 0; k < npc.oldPos.Length; k++) {
+			for (int k = 0; k < npc.oldPos.Length; k++)
+			{
 				var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 				Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
-				Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
+				Color color = npc.GetAlpha(lightColor) * (float)(((npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
 				spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
 			}
 			return true;
 		}
-        public override bool PreNPCLoot()
-        {
-            Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
-            MyWorld.downedBeholder = true;
-            return true;
-        }
-        public override void HitEffect(int hitDirection, double damage)
+		public override bool PreNPCLoot()
 		{
-			if (npc.life <= 0) {
+			Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
+			MyWorld.downedBeholder = true;
+			return true;
+		}
+		public override void HitEffect(int hitDirection, double damage)
+		{
+			if (npc.life <= 0)
+			{
 				Main.PlaySound(SoundID.DD2_WyvernScream, npc.Center);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder3"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder4"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder5"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder6"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder7"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder8"), 1f);
+
+				for (int i = 1; i < 9; ++i)
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder" + i), 1f);
 			}
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (Main.rand.Next(4) == 1) {
+			if (Main.rand.Next(4) == 1)
 				target.AddBuff(BuffID.Bleeding, 180);
-			}
 			manaSteal = true;
 		}
 
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MarbleChunk>(), Main.rand.Next(4, 7) + 1);
-			if (Main.rand.Next(2) == 0) {
+			if (Main.rand.Next(2) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BeholderYoyo>());
-            }
-            if (Main.rand.NextBool(5))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TofuSatay>());
-            }
-        }
+
+			if (Main.rand.NextBool(5))
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TofuSatay>());
+		}
 
 		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,
 			out string name, out Func<bool> downedCondition, ref BossChecklistDataHandler.BCIDData identificationData,

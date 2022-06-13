@@ -159,14 +159,21 @@ namespace SpiritMod.NPCs.Hookbat
             }
         }
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.spawnTileY < Main.rockLayer && (!Main.dayTime) && spawnInfo.player.ZoneOverworldHeight && !NPC.AnyNPCs(ModContent.NPCType<Hookbat>()) ? 0.003f : 0f;
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		{
+			bool valid = spawnInfo.spawnTileY < Main.rockLayer && !Main.dayTime && spawnInfo.player.ZoneOverworldHeight && !NPC.AnyNPCs(ModContent.NPCType<Hookbat>());
+			if (!valid)
+				return 0f;
+			if (QuestManager.GetQuest<FirstAdventure>().IsActive)
+				return 0.25f;
+			return 0.01f;
+		}
 
 		public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 10; k++)
-            {
                 Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection * 2.5f, -1f, 0, default, Main.rand.NextFloat(.45f, 1.15f));
-            }
+
             if (npc.life <= 0)
             {
 				for (int i = 1; i < 4; ++i)

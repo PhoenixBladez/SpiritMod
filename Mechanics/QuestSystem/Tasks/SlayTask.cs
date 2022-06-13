@@ -129,13 +129,20 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public override void Activate(Quest fromQuest)
 		{
 			QuestGlobalNPC.OnNPCLoot += QuestGlobalNPC_OnNPCLoot;
-			QuestGlobalNPC.OnEditSpawnPool += QuestGlobalNPC_OnEditSpawnPool;
+
+			for (int i = 0; i < _monsterIDs.Length; i++)
+			{
+				if (_spawnIncrease != null)
+					QuestGlobalNPC.AddToPool(_monsterIDs[i], _spawnIncrease.Value);
+			}
 		}
 
 		public override void Deactivate()
 		{
 			QuestGlobalNPC.OnNPCLoot -= QuestGlobalNPC_OnNPCLoot;
-			QuestGlobalNPC.OnEditSpawnPool -= QuestGlobalNPC_OnEditSpawnPool;
+
+			for (int i = 0; i < _monsterIDs.Length; i++)
+				QuestGlobalNPC.RemoveFromPool(_monsterIDs[i]);
 		}
 
 		public override bool CheckCompletion() => _killCount >= _killsRequired;

@@ -5,6 +5,8 @@ using SpiritMod.Items;
 using SpiritMod.Items.Equipment.AuroraSaddle;
 using SpiritMod.Mechanics.EventSystem;
 using SpiritMod.Mechanics.EventSystem.Events;
+using SpiritMod.Mechanics.QuestSystem;
+using SpiritMod.Mechanics.QuestSystem.Quests;
 using SpiritMod.Particles;
 using System;
 using System.Collections.Generic;
@@ -100,9 +102,12 @@ namespace SpiritMod.NPCs.AuroraStag
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.player.ZoneSnow && MyWorld.aurora && Main.hardMode && !NPC.AnyNPCs(npc.type))
+			if (NPC.AnyNPCs(npc.type))
+				return 0f;
+			if (QuestManager.GetQuest<AuroraStagQuest>().IsActive)
+				return 0.05f;
+			if (spawnInfo.player.ZoneSnow && MyWorld.aurora && Main.hardMode)
 				return 0.0015f;
-
 			return 0f;
 		}
 
@@ -301,7 +306,6 @@ namespace SpiritMod.NPCs.AuroraStag
 		}
 
 		public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit) => Scared = true;
-
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit) => Scared = true;
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Fish;
 using SpiritMod.Items.Weapon.Magic.LuminanceSeacone;
 using SpiritMod.Mechanics.QuestSystem;
+using SpiritMod.Mechanics.QuestSystem.Quests;
 
 namespace SpiritMod.NPCs.Sea_Mandrake
 {
@@ -177,7 +178,7 @@ namespace SpiritMod.NPCs.Sea_Mandrake
 			if (Main.rand.NextBool(2))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawFish>(), 1);
 
-			if (QuestManager.GetQuest<Mechanics.QuestSystem.Quests.StylistQuestSeafoam>().IsActive)
+			if (QuestManager.GetQuest<StylistQuestSeafoam>().IsActive)
 				Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.SeaMandrakeSac>());
 		}
 
@@ -199,7 +200,13 @@ namespace SpiritMod.NPCs.Sea_Mandrake
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.AncientLight, 2.5f * hitDirection, -2.5f, 0, new Color(r, g, b), Main.rand.NextFloat(0.5f, 1.2f));
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => SpawnCondition.OceanMonster.Chance * 0.05f;
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		{
+			if (QuestManager.GetQuest<StylistQuestSeafoam>().IsActive)
+				return SpawnCondition.OceanMonster.Chance * 0.2f;
+			return SpawnCondition.OceanMonster.Chance * 0.05f;
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) => false;
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)

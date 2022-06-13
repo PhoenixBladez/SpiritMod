@@ -32,19 +32,5 @@ namespace SpiritMod.Items.Sets.FloatingItems
 			item.useAnimation = 15;
 			item.useTime = 10;
 		}
-
-		public override bool UseItem(Player player)
-		{
-			Point tPos = Main.MouseWorld.ToTileCoordinates();
-			Tile bel = Framing.GetTileSafely(tPos.X, tPos.Y + 1);
-			Tile cur = Framing.GetTileSafely(tPos.X, tPos.Y);
-
-			if (bel.active() && (bel.type == TileID.Sand || bel.type == ModContent.TileType<OceanKelp>()) && !cur.active() && cur.liquid > 100 && !bel.topSlope())
-			{
-				WorldGen.PlaceTile(tPos.X, tPos.Y, ModContent.TileType<OceanKelp>(), false, true);
-				return true;
-			}
-			return false;
-		}
 	}
 }

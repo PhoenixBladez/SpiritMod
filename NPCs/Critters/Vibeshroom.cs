@@ -1,5 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Consumable;
+using SpiritMod.Mechanics.QuestSystem;
+using SpiritMod.Mechanics.QuestSystem.Quests;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,6 +14,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			DisplayName.SetDefault("Quivershroom");
 			Main.npcFrameCount[npc.type] = 14;
+			Main.npcCatchable[npc.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -24,7 +27,6 @@ namespace SpiritMod.NPCs.Critters
 			npc.lifeMax = 5;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
-			Main.npcCatchable[npc.type] = true;
 			npc.catchItem = (short)ModContent.ItemType<VibeshroomItem>();
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 0;
@@ -35,20 +37,21 @@ namespace SpiritMod.NPCs.Critters
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for (int k = 0; k < 20; k++) {
+			for (int k = 0; k < 20; k++)
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Corruption_Gravity, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.2f, .8f));
-			}
-			if (npc.life <= 0) {
+
+			if (npc.life <= 0)
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Vibeshroom1"), 1f);
-			}
 		}
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			int x = spawnInfo.spawnTileX;
-			int y = spawnInfo.spawnTileY;
-			int tile = (int)Main.tile[x, y].type;
-			return (tile == TileID.MushroomGrass) && NPC.CountNPCS(ModContent.NPCType<Vibeshroom>()) < 5 ? .003f : 0f;
-
+			bool valid = spawnInfo.spawnTileType == TileID.MushroomGrass && NPC.CountNPCS(ModContent.NPCType<Vibeshroom>()) < 5;
+			if (!valid)
+				return 0;
+			if (QuestManager.GetQuest<SporeSalvage>().IsActive && !NPC.AnyNPCs(ModContent.NPCType<Vibeshroom>()))
+				return 1.15f;
+			return 0.03f;
 		}
 
 		public override void FindFrame(int frameHeight)
