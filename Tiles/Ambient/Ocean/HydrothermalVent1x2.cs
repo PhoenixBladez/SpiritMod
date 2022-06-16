@@ -20,7 +20,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.value = 0;
 			item.rare = ItemRarityID.Blue;
-			item.createTile = ModContent.TileType<HydrothermalVent1x2>();
+			item.createTile = ModContent.TileType<Breakable1x2Vent>();
 			item.maxStack = 999;
 			item.autoReuse = true;
 			item.consumable = true;
@@ -39,12 +39,13 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.AshBlock, 10);
 			recipe.AddIngredient(ItemID.Obsidian, 1);
-			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
+			recipe.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}
 	}
 
+	[TileTag(TileTags.Indestructible)]
 	public class HydrothermalVent1x2 : ModTile
 	{
 		public override void SetDefaults()
@@ -163,5 +164,19 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			if (Main.rand.NextBool(16))
 				Gore.NewGorePerfect(pos, new Vector2(0, Main.rand.NextFloat(-2.2f, -1.5f)), 99, Main.rand.NextFloat(0.5f, 0.8f));
 		}
+	}
+
+	[TileTag()]
+	public class Breakable1x2Vent : HydrothermalVent1x2
+	{
+		public override bool Autoload(ref string name, ref string texture)
+		{
+			texture = texture.Replace(nameof(Breakable1x2Vent), nameof(HydrothermalVent1x2));
+			return base.Autoload(ref name, ref texture);
+		}
+
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<LargeVentItem>());
+		public override bool CanExplode(int i, int j) => true;
+		public override bool CanKillTile(int i, int j, ref bool blockDamaged) => true;
 	}
 }

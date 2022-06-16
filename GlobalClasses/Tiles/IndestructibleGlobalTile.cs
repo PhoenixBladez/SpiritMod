@@ -57,14 +57,7 @@ namespace SpiritMod.GlobalClasses.Tiles
 			return true;
 		}
 
-		public override bool Slope(int i, int j, int type)
-		{
-			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
-
-			if (Indestructibles.Contains(type) || Indestructibles.Contains(tileAbove.type))
-				return false;
-			return true;
-		}
+		public override bool Slope(int i, int j, int type) => !Indestructibles.Contains(type);
 
 		public override bool CanExplode(int i, int j, int type)
 		{

@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Summon.LaserGate;
-using System;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
@@ -10,12 +9,15 @@ namespace SpiritMod.Items.Weapon.Summon
 {
 	public class GateStaff : ModItem
 	{
-		readonly static int righthopper = ModContent.ProjectileType<RightHopper>();
-		readonly static int lefthopper = ModContent.ProjectileType<LeftHopper>();
+		int RightHopper => ModContent.ProjectileType<RightHopper>();
+		int LeftHopper => ModContent.ProjectileType<LeftHopper>();
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gate Staff");
 			Tooltip.SetDefault("Left click and right click to summon an electric field");
+
+			Item.staff[item.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -28,7 +30,6 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.useTime = 55;
 			item.useAnimation = 55;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
 			item.noMelee = true;
 			item.knockBack = 5;
 			item.value = 20000;
@@ -38,35 +39,43 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.shoot = ModContent.ProjectileType<RightHopper>();
 			item.shootSpeed = 0f;
 		}
+
 		public override bool AltFunctionUse(Player player) => true;
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			type = (player.altFunctionUse == 2) ? righthopper : lefthopper;
+			type = (player.altFunctionUse == 2) ? RightHopper : LeftHopper;
 			float[] scanarray = new float[3];
 			float dist = player.Distance(Main.MouseWorld);
 			Collision.LaserScan(player.Center, player.DirectionTo(Main.MouseWorld), 0, dist, scanarray);
 			dist = 0;
-			foreach (float array in scanarray) {
+
+			foreach (float array in scanarray)
 				dist += array / (scanarray.Length);
-			}
+
 			Vector2 spawnpos = player.Center + player.DirectionTo(Main.MouseWorld) * dist;
 			Projectile.NewProjectileDirect(spawnpos, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0, -1);
 			return false;
 		}
+
 		public override bool CanUseItem(Player player)
 		{
-			if (player.statMana <= 12) {
+			if (player.statMana <= 12)
 				return false;
-			}
-			if (player.altFunctionUse == 2) {
-				if(player.ownedProjectileCounts[righthopper] > 0) {
-					foreach (Projectile proj in Main.projectile.Where(x => x.active && x.owner == player.whoAmI && x.type == righthopper))
+
+			if (player.altFunctionUse == 2)
+			{
+				if (player.ownedProjectileCounts[RightHopper] > 0)
+				{
+					foreach (Projectile proj in Main.projectile.Where(x => x.active && x.owner == player.whoAmI && x.type == RightHopper))
 						proj.Kill();
 				}
 			}
-			else {
-				if (player.ownedProjectileCounts[lefthopper] > 0) {
-					foreach (Projectile proj in Main.projectile.Where(x => x.active && x.owner == player.whoAmI && x.type == lefthopper))
+			else
+			{
+				if (player.ownedProjectileCounts[LeftHopper] > 0)
+				{
+					foreach (Projectile proj in Main.projectile.Where(x => x.active && x.owner == player.whoAmI && x.type == LeftHopper))
 						proj.Kill();
 				}
 			}

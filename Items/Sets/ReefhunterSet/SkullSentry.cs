@@ -59,12 +59,17 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 			return !Collision.SolidTilesVersatile(topLeft.X, bottomRight.X, topLeft.Y, bottomRight.Y);
 		}
 
-		private bool MouseTooFar(Player player)
+		public override void AddRecipes()
 		{
-			if (player.Distance(Main.MouseWorld) >= MAX_DISTANCE)
-				return true;
-
-			return false;
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<IridescentScale>(), 12);
+			recipe.AddIngredient(ItemID.Lens, 3);
+			recipe.AddIngredient(ItemID.Worm);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
 		}
+
+		private bool MouseTooFar(Player player) => player.Distance(Main.MouseWorld) >= MAX_DISTANCE;
 	}
 }

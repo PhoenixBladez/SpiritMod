@@ -96,7 +96,7 @@ namespace SpiritMod.NPCs.Reach
 				npc.netUpdate = true;
 			}
 
-			if ((timer >= 500 && timer <= 720))
+			if (timer >= 500 && timer <= 720)
 			{
 				throwing = true;
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 0f, -2.5f, 0, default, 0.6f);
@@ -159,12 +159,14 @@ namespace SpiritMod.NPCs.Reach
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GladeWraith/GladeWraith2"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GladeWraith/GladeWraith3"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GladeWraith/GladeWraith4"));
+
 				npc.position.X = npc.position.X + (npc.width / 2);
 				npc.position.Y = npc.position.Y + (npc.height / 2);
 				npc.width = 30;
 				npc.height = 30;
 				npc.position.X = npc.position.X - (npc.width / 2);
 				npc.position.Y = npc.position.Y - (npc.height / 2);
+
 				for (int num621 = 0; num621 < 20; num621++)
 				{
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Plantera_Green, 0f, 0f, 100, default, 2f);
@@ -202,20 +204,18 @@ namespace SpiritMod.NPCs.Reach
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 			return false;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-			=> GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Reach/ForestWraith_Glow"));
+		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Reach/ForestWraith_Glow"));
 
 		public override void NPCLoot()
 		{
 			int[] lootTable = { ModContent.ItemType<OakHeart>(), ModContent.ItemType<HuskstalkStaff>() };
 			int loot = Main.rand.Next(lootTable.Length);
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, lootTable[loot]);
 
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, lootTable[loot]);
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EnchantedLeaf>(), Main.rand.Next(5, 8));
 		}
 
