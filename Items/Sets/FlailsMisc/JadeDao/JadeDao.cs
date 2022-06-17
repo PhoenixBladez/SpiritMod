@@ -22,8 +22,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			item.width = 16;
 			item.height = 16;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useTime = 32;
-			item.useAnimation = 32;
+			item.useTime = item.useAnimation = 18;
 			item.shootSpeed = 1f;
 			item.knockBack = 4f;
 			item.UseSound = SoundID.Item116;
@@ -34,7 +33,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			item.channel = true;
 			item.autoReuse = true;
 			item.melee = true;
-			item.damage = 70;
+			item.damage = 95;
 			item.rare = ItemRarityID.LightPurple;
 		}
 

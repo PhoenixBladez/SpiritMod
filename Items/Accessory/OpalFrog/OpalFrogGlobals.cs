@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Accessory.OpalFrog
 				projectile.Kill();
 				return false;
 			}
-			return base.PreAI(projectile);
+			return true;
 		}
 	}
 

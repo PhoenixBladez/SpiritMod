@@ -16,6 +16,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 	public class BetrayersChains : ModItem
 	{
 		int combo;
+
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Blades of Chaos");
 
 		public override void SetDefaults()
@@ -23,7 +24,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 			item.width = 16;
 			item.height = 16;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useTime = item.useAnimation = 20;
+			item.useTime = item.useAnimation = 28;
 			item.shootSpeed = 1f;
 			item.knockBack = 4f;
 			item.UseSound = SoundID.Item116;
@@ -34,7 +35,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 			item.channel = true;
 			item.autoReuse = true;
 			item.melee = true;
-			item.damage = 50;
+			item.damage = 45;
 			item.rare = ItemRarityID.LightRed;
 		}
 
@@ -110,7 +111,6 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 		public ref float Timer => ref projectile.ai[0];
 		public ref float AiState => ref projectile.ai[1];
 
-
 		private Vector2 returnPosOffset; //The position of the projectile when it starts returning to the player from being hooked
 		private Vector2 npcHookOffset = Vector2.Zero; //Used to determine the offset from the hooked npc's center
 		private float npcHookRotation; //Stores the projectile's rotation when hitting an npc
@@ -127,7 +127,6 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 		public bool Slam = false;
 		public bool PreSlam = false;
 
-		private List<float> oldRotation = new List<float>();
 		private List<Vector2> oldBase = new List<Vector2>();
 
 		public Vector2 CurrentBase = Vector2.Zero;

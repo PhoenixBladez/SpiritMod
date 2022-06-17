@@ -102,13 +102,12 @@ namespace SpiritMod.NPCs.AuroraStag
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (NPC.AnyNPCs(npc.type))
+			bool valid = spawnInfo.player.ZoneSnow && MyWorld.aurora && Main.hardMode;
+			if (NPC.AnyNPCs(npc.type) || !valid)
 				return 0f;
 			if (QuestManager.GetQuest<AuroraStagQuest>().IsActive)
 				return 0.05f;
-			if (spawnInfo.player.ZoneSnow && MyWorld.aurora && Main.hardMode)
-				return 0.0015f;
-			return 0f;
+			return 0.0015f;
 		}
 
 		private Color AuroraColor => Color.Lerp(new Color(85, 255, 229), new Color(28, 155, 255), Main.rand.NextFloat());

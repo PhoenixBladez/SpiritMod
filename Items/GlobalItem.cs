@@ -704,9 +704,8 @@ namespace SpiritMod.Items
 		/// <param name="ammoType">Ammo type to check for.</param>
 		public static bool UseAmmo(Player p, int ammoType)
 		{
-			for (int i = 0; i < p.inventory.Length; ++i) //Consume ammo here so it's used when shot rather than when clicked
+			bool TryAmmo(Item item)
 			{
-				Item item = p.inventory[i];
 				if (!item.IsAir && item.ammo == ammoType)
 				{
 					if (item.consumable && VanillaAmmoConsumption(p, item.ammo) && PlayerHooks.ConsumeAmmo(p, p.HeldItem, item)) //Do not consume ammo if possible
@@ -717,6 +716,19 @@ namespace SpiritMod.Items
 					}
 					return true;
 				}
+				return false;
+			}
+
+			for (int i = p.inventory.Length - 5; i < p.inventory.Length - 1; ++i) //Try ammo slots first
+			{
+				if (TryAmmo(p.inventory[i]))
+					return true;
+			}
+
+			for (int i = 0; i < p.inventory.Length - 5; ++i)
+			{
+				if (TryAmmo(p.inventory[i]))
+					return true;
 			}
 			return false;
 		}

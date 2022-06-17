@@ -1,10 +1,7 @@
 using Microsoft.Xna.Framework;
-using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 
 namespace SpiritMod.Items.Accessory.OpalFrog
 {
@@ -37,7 +34,7 @@ namespace SpiritMod.Items.Accessory.OpalFrog
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			OpalFrogPlayer modPlayer = player.GetModPlayer<OpalFrogPlayer>();
-			modPlayer.HookStat += .15f;
+			modPlayer.HookStat += 0.25f;
 			if (!hideVisual)
 				modPlayer.AutoUnhook = true;
 		}

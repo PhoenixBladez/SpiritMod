@@ -20,7 +20,6 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 			item.width = 38;
 			item.height = 26;
 			item.useTime = item.useAnimation = 30;
-			//item.mana = 9;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.knockBack = 4;
 			item.value = Item.sellPrice(0, 0, 5, 0);
@@ -42,10 +41,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 				Dust.NewDust(position, 0, 0, DustID.BubbleBurst_Blue, speedX * Main.rand.NextFloat(0.15f, 0.25f), speedY * Main.rand.NextFloat(0.15f, 0.25f), 0, default, Main.rand.NextFloat(0.5f, 1f));
 
 			for(int i = 0; i < 5; ++i)
-				Dust.NewDust(position, 0, 0, ModContent.DustType<Dusts.BubbleDust>(), speedX * Main.rand.NextFloat(1.5f, 2.25f), 
-					speedY * Main.rand.NextFloat(1.5f, 2.25f), 0, default, Main.rand.NextFloat(1.5f, 2f));
-
-			//player.velocity -= new Vector2(speedX, speedY) * 0.15f;
+				Dust.NewDust(position, 0, 0, ModContent.DustType<Dusts.BubbleDust>(), speedX * Main.rand.NextFloat(1.5f, 2.25f), speedY * Main.rand.NextFloat(1.5f, 2.25f), 0, default, Main.rand.NextFloat(1.5f, 2f));
 			return true;
 		}
 
