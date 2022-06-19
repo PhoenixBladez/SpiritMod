@@ -39,8 +39,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.Eyeshot
 		{
 			if (type == ProjectileID.WoodenArrowFriendly)
 				type = ModContent.ProjectileType<EyeArrow>();
-			return false;
-
+			return true;
 		}
 	}
 }

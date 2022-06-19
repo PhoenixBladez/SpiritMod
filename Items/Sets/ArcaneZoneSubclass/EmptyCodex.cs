@@ -5,11 +5,7 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 {
 	public class EmptyCodex : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Empty Arcane Codex");
-		}
-
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Empty Arcane Codex");
 
 		public override void SetDefaults()
 		{
@@ -18,6 +14,7 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 			item.value = 500;
 			item.rare = ItemRarityID.Green;
 		}
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

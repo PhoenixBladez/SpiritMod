@@ -1,7 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Consumable;
-using SpiritMod.Items.Material;
 using SpiritMod.Items.Sets.BloodcourtSet;
 using Terraria;
 using Terraria.ID;
@@ -15,6 +13,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			DisplayName.SetDefault("Dreamstride Wisp");
 			Main.npcFrameCount[npc.type] = 5;
+			Main.npcCatchable[npc.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -25,27 +24,27 @@ namespace SpiritMod.NPCs.Critters
 			npc.defense = 0;
 			npc.lifeMax = 5;
 			npc.dontCountMe = true;
-			if (!Main.dedServ)
-			{
-				npc.HitSound = SoundID.NPCHit36.WithVolume(0.5f);
-				npc.DeathSound = SoundID.NPCDeath39.WithVolume(0.5f);
-			}
-			Main.npcCatchable[npc.type] = true;
 			npc.catchItem = (short)ModContent.ItemType<DreamstrideEssence>();
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 64;
 			npc.npcSlots = 0;
 			npc.noGravity = true;
-			aiType = NPCID.Firefly;
 			npc.alpha = 255;
 			npc.scale = Main.rand.NextFloat(1.1f, 1.3f);
+
+			aiType = NPCID.Firefly;
+
+			if (!Main.dedServ)
+			{
+				npc.HitSound = SoundID.NPCHit36.WithVolume(0.5f);
+				npc.DeathSound = SoundID.NPCDeath39.WithVolume(0.5f);
+			}
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 Color.White * npc.Opacity, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, Color.White * npc.Opacity, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 			return false;
 		}
 
@@ -59,7 +58,6 @@ namespace SpiritMod.NPCs.Critters
 		{
 			if (!Main.bloodMoon || !MyWorld.downedOccultist) 
 				return 0f;
-
 			return SpawnCondition.OverworldNight.Chance * 0.12f;
 		}
 
@@ -69,6 +67,7 @@ namespace SpiritMod.NPCs.Critters
 			UpdateYFrame(7, 0, 4);
 			npc.rotation = npc.velocity.X * 0.1f;
 			Lighting.AddLight(npc.Center, npc.Opacity * Color.Red.ToVector3());
+
 			if (!Main.dayTime)
 				npc.alpha = (int)MathHelper.Max(npc.alpha - 3, 80);
 			else

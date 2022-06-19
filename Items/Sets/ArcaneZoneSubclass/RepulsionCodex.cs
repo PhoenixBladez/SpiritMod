@@ -1,12 +1,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Armor;
 using SpiritMod.Items.Sets.GraniteSet;
 using SpiritMod.Projectiles.Summon.Zones;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Items.Material;
 using SpiritMod.Buffs.Zones;
 
 namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
@@ -18,28 +16,6 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 			DisplayName.SetDefault("Arcane Codex: Repulsion Zone");
 			Tooltip.SetDefault("Summons a repulsion zone at the cursor position\nRepulsion zones push nearby enemies away\nRepulsion zones break after multiple enemy strikes\nOnly one repulsion zone can exist at once\nZones count as sentries");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/ArcaneZoneSubclass/RepulsionCodex_Glow");
-        }
-        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-        {
-            Lighting.AddLight(item.position, 0.133f, .031f, .211f);
-            Texture2D texture;
-            texture = Main.itemTexture[item.type];
-            spriteBatch.Draw
-            (
-                mod.GetTexture("Items/Sets/ArcaneZoneSubclass/RepulsionCodex_Glow"),
-                new Vector2
-                (
-                    item.position.X - Main.screenPosition.X + item.width * 0.5f,
-                    item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
-                ),
-                new Rectangle(0, 0, texture.Width, texture.Height),
-                Color.White,
-                rotation,
-                texture.Size() * 0.5f,
-                scale,
-                SpriteEffects.None,
-                0f
-            );
         }
 
         public override void SetDefaults()
@@ -64,23 +40,40 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 			item.buffType = ModContent.BuffType<RepulsionZoneTimer>();
 			item.buffTime = Projectile.SentryLifeTime;
 		}
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
-        public override bool AltFunctionUse(Player player)
+
+		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
+
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			return true;
-		}
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			Vector2 value18 = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY);
-			position = value18;
+			position = Main.MouseWorld;
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
             player.UpdateMaxTurrets();
 			return false;
 		}
-        public override void AddRecipes()
+
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Lighting.AddLight(item.position, 0.133f, .031f, .211f);
+			Texture2D texture = Main.itemTexture[item.type];
+			spriteBatch.Draw
+			(
+				mod.GetTexture("Items/Sets/ArcaneZoneSubclass/RepulsionCodex_Glow"),
+				new Vector2
+				(
+					item.position.X - Main.screenPosition.X + item.width * 0.5f,
+					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+				),
+				new Rectangle(0, 0, texture.Width, texture.Height),
+				Color.White,
+				rotation,
+				texture.Size() * 0.5f,
+				scale,
+				SpriteEffects.None,
+				0f
+			);
+		}
+
+		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<EmptyCodex>(), 1);

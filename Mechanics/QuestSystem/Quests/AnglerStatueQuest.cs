@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Terraria;
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Mechanics.QuestSystem.Tasks;
-using SpiritMod.Items.Sets.MaterialsMisc.QuestItems;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {

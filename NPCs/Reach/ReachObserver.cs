@@ -71,7 +71,6 @@ namespace SpiritMod.NPCs.Reach
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (npc.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;

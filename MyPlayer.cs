@@ -2147,35 +2147,39 @@ namespace SpiritMod
 					int fallDistance = (int)((player.position.Y / 16f) - player.fallStart) / 2;
 					if (fallDistance >= 8)
 						fallDistance = 8;
+
 					if (player.gravDir == 1f && fallDistance > 1 + player.extraFall)
 					{
 						player.ClearBuff(ModContent.BuffType<GraniteBonus>());
 						Main.PlaySound(new LegacySoundStyle(2, 109));
+
+						for (int i = 0; i < 8 * fallDistance; i++)
 						{
-							for (int i = 0; i < 8 * fallDistance; i++)
-							{
-								int num = Dust.NewDust(player.position, player.width, player.height, DustID.Electric, 0f, -2f, 0, default, 2f);
-								Main.dust[num].noGravity = true;
-								Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-								Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-								Main.dust[num].scale *= .25f;
-								if (Main.dust[num].position != player.Center)
-									Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
-							}
+							int num = Dust.NewDust(player.position, player.width, player.height, DustID.Electric, 0f, -2f, 0, default, 2f);
+							Main.dust[num].noGravity = true;
+							Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+							Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+							Main.dust[num].scale *= .25f;
+							if (Main.dust[num].position != player.Center)
+								Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
 						}
+
 						int proj = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 0, ModContent.ProjectileType<GraniteSpike1>(), fallDistance * 10, 1, player.whoAmI);
 						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 0, ModContent.ProjectileType<StompExplosion>(), fallDistance * 10, 9, player.whoAmI);
 						Main.projectile[proj].timeLeft = 0;
 						Main.projectile[proj].ranged = true;
 					}
-					stompCooldown = 240;
+					stompCooldown = 4 * 60;
 				}
+
 				stompCooldown--;
+
 				if (stompCooldown == 0)
 				{
-					var textPos = new Rectangle((int)player.position.X, (int)player.position.Y - 20, player.width, player.height);
+					var textPos = new Rectangle((int)player.position.X, (int)player.position.Y - 30, player.width, player.height);
 					CombatText.NewText(textPos, new Color(82, 226, 255, 100), "Energy Stomp Ready!");
 					Main.PlaySound(new LegacySoundStyle(25, 1));
+
 					for (int i = 0; i < 2; i++)
 					{
 						int num = Dust.NewDust(player.position, player.width, player.height, DustID.Electric, 0f, -2f, 0, default, 2f);
@@ -2727,8 +2731,9 @@ namespace SpiritMod
 				if (player.velocity.Y > 0 && player.HasBuff(ModContent.BuffType<GraniteBonus>()))
 				{
 					player.noFallDmg = true;
-					player.velocity.Y = 15.53f;
+					player.velocity.Y = 20f;
 					player.maxFallSpeed = 30f;
+
 					for (int j = 0; j < 12; j++)
 					{
 						int dist = (int)(player.position.Y / 16f) - player.fallStart;

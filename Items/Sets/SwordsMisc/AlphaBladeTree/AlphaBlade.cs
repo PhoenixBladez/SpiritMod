@@ -6,6 +6,8 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 {
 	public class AlphaBlade : ModItem
 	{
+		public override bool Autoload(ref string name) => false;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Alpha Blade");

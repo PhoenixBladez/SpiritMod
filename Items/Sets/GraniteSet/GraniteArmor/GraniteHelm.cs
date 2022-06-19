@@ -1,10 +1,8 @@
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using SpiritMod.Items.Sets.GraniteSet;
 
 namespace SpiritMod.Items.Sets.GraniteSet.GraniteArmor
 {

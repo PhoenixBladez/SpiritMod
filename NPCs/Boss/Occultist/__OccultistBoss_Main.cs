@@ -252,9 +252,10 @@ namespace SpiritMod.NPCs.Boss.Occultist
 				UpdateAIState(AISTATE_DEATH);
 				npc.life = 1;
 				npc.dontTakeDamage = true;
+
+				MyWorld.downedOccultist = true;
 				return false;
 			}
-
 			return true;
 		}
 

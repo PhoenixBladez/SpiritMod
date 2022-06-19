@@ -4,6 +4,8 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
+using System.Collections.Generic;
+using SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon;
 
 namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 {
@@ -98,7 +100,8 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
                 if (charge > 60 && charge < MAXCHARGE)
                 {
 					player.GetModPlayer<MyPlayer>().AnimeSword = true;
-                    player.velocity = direction;
+					player.GetModPlayer<DragonPlayer>().DrawSparkle = true;
+					player.velocity = direction;
 					player.direction = System.Math.Sign(player.velocity.X);
 
                     for (int i = 0; i < Main.npc.Length; i++)
@@ -200,37 +203,22 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
         }
 
 		public override void Kill(int timeLeft) => Main.player[projectile.owner].GetModPlayer<MyPlayer>().AnimeSword = false;
-
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			Player player = Main.player[projectile.owner];
-            Texture2D texture = Main.projectileTexture[projectile.type];
-			var source = new Rectangle(0, charge >= 60 ? texture.Height / 2 : 0, texture.Width, 20);
-			float rot = (charge / 20f) - (player.direction == 1 ? 0 : (MathHelper.Pi * 0.75f));
-			Vector2 sparkOrig = texture.Size() / new Vector2(4, 8);
-
-			if (player.direction == 1)
-            {
-                Main.spriteBatch.Draw(texture, player.MountedCenter - new Vector2(-6, 6) - Main.screenPosition, source, lightColor, 0, new Vector2(texture.Width,0), projectile.scale, SpriteEffects.None, 0.0f);
-                if (charge > 58 && player.channel)
-                {
-                    Texture2D texture2 = ModContent.GetTexture("SpiritMod/Items/Weapon/Swung/AnimeSword/TwinkleXLarge");
-                    Main.spriteBatch.Draw(texture2, (player.MountedCenter - new Vector2(-6, 6)) - Main.screenPosition, null, Color.White, rot, sparkOrig, projectile.scale, SpriteEffects.None, 0.0f);
-                }
-            }
-            else
-            {
-                Main.spriteBatch.Draw(texture, player.MountedCenter - new Vector2(6, 6) - Main.screenPosition, source, lightColor, 0, new Vector2(0,0), projectile.scale, SpriteEffects.FlipHorizontally, 0.0f);
-                if (charge > 58 && player.channel)
-                {
-                    Texture2D texture2 = ModContent.GetTexture("SpiritMod/Items/Weapon/Swung/AnimeSword/TwinkleXLarge");
-                    Main.spriteBatch.Draw(texture2, (player.MountedCenter - new Vector2(-2, 6)) - Main.screenPosition, null, Color.White, rot, sparkOrig, projectile.scale, SpriteEffects.None, 0.0f);
-                }
-            }
-            return false;
-        }
-
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => false;
 		public override void SendExtraAI(BinaryWriter writer) => writer.WriteVector2(direction);
 		public override void ReceiveExtraAI(BinaryReader reader) => direction = reader.ReadVector2();
+	}
+
+	public class AnimeSwordPlayer : ModPlayer
+	{
+		public override void ModifyDrawLayers(List<PlayerLayer> layers)
+		{
+			if (player.HeldItem.type == ModContent.ItemType<AnimeSword>())
+			{
+				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(mod.Name, "AnimeSwordHeld",
+					delegate (PlayerDrawInfo info) {
+						DragonPlayer.DrawItem(mod.GetTexture("Items/Weapon/Swung/AnimeSword/AnimeSwordProj"), mod.GetTexture("Items/Sets/SwordsMisc/BladeOfTheDragon/BladeOfTheDragon_sparkle"), info);
+					}));
+			}
+		}
 	}
 }

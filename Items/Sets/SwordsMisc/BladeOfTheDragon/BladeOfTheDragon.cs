@@ -195,33 +195,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 			Main.player[projectile.owner].GetModPlayer<MyPlayer>().AnimeSword = false;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			/*Player player = Main.player[projectile.owner];
-            Texture2D texture = Main.projectileTexture[projectile.type];
-			if (player.channel && projectile.timeLeft > 237)
-			{
-				if (player.direction == 1)
-				{
-					//Main.spriteBatch.Draw(texture, (player.MountedCenter + new Vector2(6, 6)) - Main.screenPosition, null, lightColor, 0, new Vector2(texture.Width * 0.75f, texture.Height * 0.2f), projectile.scale, SpriteEffects.None, 0.0f);
-					if (charge > 40 && player.channel && projectile.timeLeft > 237)
-					{
-						Texture2D texture2 = ModContent.GetTexture("SpiritMod/Items/Weapon/Swung/AnimeSword/TwinkleXLarge");
-						Main.spriteBatch.Draw(texture2, (player.MountedCenter + new Vector2(0, 6)) - Main.screenPosition, null, Color.White, charge / 40f, new Vector2(texture2.Width / 2, texture2.Height / 2), projectile.scale, SpriteEffects.None, 0.0f);
-					}
-				}
-				else
-				{
-					//Main.spriteBatch.Draw(texture, (player.MountedCenter + new Vector2(6, 6)) - Main.screenPosition, null, lightColor, 0, new Vector2(texture.Width * 0.25f, texture.Height * 0.2f), projectile.scale, SpriteEffects.FlipHorizontally, 0.0f);
-					if (charge > 40 && player.channel && projectile.timeLeft > 237)
-					{
-						Texture2D texture2 = ModContent.GetTexture("SpiritMod/Items/Weapon/Swung/AnimeSword/TwinkleXLarge");
-						Main.spriteBatch.Draw(texture2, (player.MountedCenter + new Vector2(0, 6)) - Main.screenPosition, null, Color.White, charge / 40f, new Vector2(texture2.Width / 2, texture2.Height / 2), projectile.scale, SpriteEffects.None, 0.0f);
-					}
-				}
-			}*/
-            return false;
-        }
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => false;
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
@@ -297,6 +271,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 			if (!player.channel)
 				DrawSparkle = false;
 		}
+
 		public override void ModifyDrawLayers(List<PlayerLayer> layers)
 		{
 			if (player.HeldItem.type == ModContent.ItemType<BladeOfTheDragon>())
@@ -308,7 +283,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 			}
 		}
 
-		public void DrawItem(Texture2D texture, Texture2D sparkle, PlayerDrawInfo info)
+		public static void DrawItem(Texture2D texture, Texture2D sparkle, PlayerDrawInfo info)
 		{
 			Item item = info.drawPlayer.HeldItem;
 			if (info.shadow != 0f || info.drawPlayer.frozen || info.drawPlayer.dead || (info.drawPlayer.wet && item.noWet))
@@ -330,7 +305,6 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 				origin.X = texture.Width - origin.X;
 				offset.X = -6;
 			}
-
 
 			Main.playerDrawData.Add(new DrawData(
 				texture,

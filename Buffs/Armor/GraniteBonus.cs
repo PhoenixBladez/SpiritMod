@@ -15,9 +15,7 @@ namespace SpiritMod.Buffs.Armor
 			Main.buffNoSave[Type] = true;
 			longerExpertDebuff = false;
 		}
-		public override void Update(Player player, ref int buffIndex)
-		{
-			player.noKnockback = true;
-		}
+
+		public override void Update(Player player, ref int buffIndex) => player.noKnockback = true;
 	}
 }

@@ -35,10 +35,13 @@ namespace SpiritMod.Projectiles.Summon.Zones
 		{
 			Player player = Main.LocalPlayer;
 
-            int distance = (int)Vector2.Distance(projectile.Center, player.Center);
-			if (distance < 100)
+			if (!Main.player[projectile.owner].HasBuff(ModContent.BuffType<HealthZoneTimer>()))
+				projectile.Kill();
+
+			if (player.DistanceSQ(projectile.Center) < 100 * 100)
             {
                 player.AddBuff(ModContent.BuffType<HealingZoneBuff>(), 300);
+
                 if (Main.rand.NextBool(30))
                 {
 					var pos = new Vector2(projectile.Center.X + Main.rand.Next(-50, 50), projectile.Center.Y + Main.rand.Next(-50, 50));
@@ -47,42 +50,9 @@ namespace SpiritMod.Projectiles.Summon.Zones
             }
 		}
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
-		{
-			for (int k = 0; k < projectile.oldPos.Length; k++)
-			{
-				Color color = new Color(194, 21, 85) * 0.75f * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+		public void AdditiveCall(SpriteBatch spriteBatch) => ZoneHelper.ZoneAdditiveDraw(spriteBatch, projectile, new Color(194, 21, 85), "SpiritMod/Projectiles/Summon/Zones/HealingZone");
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => ZoneHelper.ZonePreDraw(projectile, mod.GetTexture("Projectiles/Summon/Zones/HealingZone_Glow"));
 
-				float scale = projectile.scale;
-				Texture2D tex = ModContent.GetTexture("SpiritMod/Projectiles/Summon/Zones/HealingZone");
-
-				spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, projectile.rotation, tex.Size() / 2, scale, default, default);
-			}
-		}
-
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, (projectile.height / Main.projFrames[projectile.type]) * 0.5f);
-            for (int k = 0; k < projectile.oldPos.Length; k++)
-            {
-                var effects = projectile.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-                float num108 = 4;
-                float num107 = (float)Math.Cos((double)(Main.GlobalTime % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
-                float num106 = 0f;
-
-                SpriteEffects spriteEffects3 = (projectile.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-				Color color29 = new Color(107 - projectile.alpha, 14 - projectile.alpha, 48 - projectile.alpha, 0).MultiplyRGBA(Color.LightBlue);
-                for (int num103 = 0; num103 < 4; num103++)
-                {
-					Color color28 = color29;
-                    color28 = projectile.GetAlpha(color28);
-                    color28 *= 1f - num107;
-                    Vector2 vector29 = new Vector2(projectile.Center.X - 60, projectile.Center.Y - 60) + drawOrigin + ((float)num103 / (float)num108 * 6.28318548f + projectile.rotation + num106).ToRotationVector2() * (4f * num107 + 2f) - Main.screenPosition + new Vector2(0, projectile.gfxOffY) - projectile.velocity * (float)num103;
-                    Main.spriteBatch.Draw(mod.GetTexture("Projectiles/Summon/Zones/HealingZone_Glow"), vector29, new Microsoft.Xna.Framework.Rectangle?(Main.projectileTexture[projectile.type].Frame(1, Main.projFrames[projectile.type], 0, projectile.frame)), color28, projectile.rotation, drawOrigin, projectile.scale, spriteEffects3, 0f);
-                }
-            }
-            return false;
-        }
         public override void Kill(int timeLeft)
         {
             for (int k = 0; k < 30; k++)
