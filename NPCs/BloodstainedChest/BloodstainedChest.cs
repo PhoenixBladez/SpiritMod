@@ -214,9 +214,9 @@ namespace SpiritMod.NPCs.BloodstainedChest
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (!Mechanics.QuestSystem.QuestManager.GetQuest<Mechanics.QuestSystem.Quests.TravelingMerchantDesertQuest>().IsActive)
+			//if (!Mechanics.QuestSystem.QuestManager.GetQuest<Mechanics.QuestSystem.Quests.TravelingMerchantDesertQuest>().IsActive)
 				return 0f;
-			return spawnInfo.player.ZoneDesert && !NPC.AnyNPCs(ModContent.NPCType<BloodstainedChest>()) && spawnInfo.spawnTileY < Main.rockLayer ? 0.55f : 0f;
+			//return spawnInfo.player.ZoneDesert && !NPC.AnyNPCs(ModContent.NPCType<BloodstainedChest>()) && spawnInfo.spawnTileY < Main.rockLayer ? 0.55f : 0f;
 		}
 	}
 }

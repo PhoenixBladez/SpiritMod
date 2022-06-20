@@ -3,13 +3,14 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.NPCs.Boss.ReachBoss;
 using System;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
 namespace SpiritMod.Tiles
 {
-	[TileTag(TileTags.Indestructible)]
 	public class BloodBlossom : ModTile
 	{
 		public override void SetDefaults()
@@ -18,7 +19,9 @@ namespace SpiritMod.Tiles
 			Main.tileLavaDeath[Type] = false;
 			Main.tileLighted[Type] = true;
 
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
+			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
+			TileObjectData.newTile.AnchorBottom = new AnchorData((AnchorType)0b_11111111, 3, 0); //Any anchor is valid
+			TileObjectData.newTile.Origin = new Point16(1, 1);
 			TileObjectData.addTile(Type);
 
 			disableSmartCursor = true;
@@ -28,7 +31,6 @@ namespace SpiritMod.Tiles
 		}
 
 		public override bool CanKillTile(int i, int j, ref bool blockDamaged) => MyWorld.downedReachBoss;
-
 		public override bool CanExplode(int i, int j) => false;
 
 		public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
@@ -51,6 +53,7 @@ namespace SpiritMod.Tiles
 		{
 			Main.LocalPlayer.showItemIcon = true; //Show text when hovering over this tile
 			Main.LocalPlayer.showItemIcon2 = -1;// mod.ItemType("VinewrathBox");
+
 			if (NPC.AnyNPCs(ModContent.NPCType<ReachBoss>()) || NPC.AnyNPCs(ModContent.NPCType<ReachBoss1>()))
 				Main.LocalPlayer.showItemIconText = "";
 			else
@@ -62,20 +65,32 @@ namespace SpiritMod.Tiles
 			if (NPC.AnyNPCs(ModContent.NPCType<ReachBoss>()) || NPC.AnyNPCs(ModContent.NPCType<ReachBoss1>())) //Do nothing if the boss is alive
 				return false;
 
-			Player p = Main.LocalPlayer;
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				Main.NewText("The Vinewrath Bane has awoken!", 175, 75, 255, true);
-				int npcID = NPC.NewNPC((int)p.Center.X + 600, (int)p.Center.Y + 600, ModContent.NPCType<ReachBoss>());
+				int npcID = NPC.NewNPC(i * 16, (j * 16) - 600, ModContent.NPCType<ReachBoss>());
 				Main.npc[npcID].netUpdate2 = true;
 			}
 			else
 			{
 				if (Main.netMode == NetmodeID.SinglePlayer)
 					return false;
-				SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(), (byte)MessageType.BossSpawnFromClient, (byte)p.whoAmI, ModContent.NPCType<ReachBoss>(), "Vinewrath Bane Has Been Summoned!", (int)p.Center.X + 600, (int)p.Center.Y + 600).Send(-1);
+
+				SpiritMultiplayer.SpawnBossFromClient((byte)Main.LocalPlayer.whoAmI, ModContent.NPCType<ReachBoss>(), i * 16, (j * 16) - 600);
 			}
 			return true;
+		}
+
+		private float GetOffset() => (float)Math.Sin(Main.GlobalTime * 1.2f) * 8f;
+
+		public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
+		{
+			Tile tile = Framing.GetTileSafely(i, j);
+			Texture2D glow = ModContent.GetTexture("SpiritMod/Tiles/BloodBlossom");
+			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
+
+			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero + (Vector2.UnitY * GetOffset()), new Rectangle(tile.frameX, tile.frameY, 16, 16), Lighting.GetColor(i, j));
+			return false;
 		}
 
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
@@ -86,7 +101,7 @@ namespace SpiritMod.Tiles
 			Texture2D glow = ModContent.GetTexture("SpiritMod/Tiles/BloodBlossom_Glow");
 			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
 
-			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.frameX, tile.frameY, 16, 16), colour);
+			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero + (Vector2.UnitY * GetOffset()), new Rectangle(tile.frameX, tile.frameY, 16, 16), colour);
 		}
 	}
 }

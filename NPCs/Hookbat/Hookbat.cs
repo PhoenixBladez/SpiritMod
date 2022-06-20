@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 using System;
 using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Mechanics.QuestSystem.Quests;
+using SpiritMod.Items.Consumable.Quest;
 
 namespace SpiritMod.NPCs.Hookbat
 {
@@ -185,7 +186,7 @@ namespace SpiritMod.NPCs.Hookbat
 		public override void NPCLoot()
 		{
 			if (QuestManager.GetQuest<FirstAdventure>().IsActive)
-				SpiritMultiplayer.NewItemSynced(npc.Center, ModContent.ItemType<Items.Consumable.Quest.DurasilkSheaf>());
+				Item.NewItem(npc.getRect(), ModContent.ItemType<DurasilkSheaf>());
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

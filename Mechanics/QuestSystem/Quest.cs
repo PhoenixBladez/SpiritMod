@@ -254,7 +254,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 				return;
 
 			foreach (var itemPair in QuestRewards)
-				SpiritMultiplayer.NewItemSynced(Main.LocalPlayer.getRect(), itemPair.Item1, itemPair.Item2);
+				ItemUtils.NewItemWithSync(Main.myPlayer, Main.LocalPlayer.getRect(), itemPair.Item1, itemPair.Item2);
 		}
 
 		public void ModifySpawnRateUnique(IDictionary<int, float> pool, int id, float rate)

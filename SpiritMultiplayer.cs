@@ -165,12 +165,9 @@ namespace SpiritMod
 						int npcCenterY = reader.ReadInt32();
 
 						if (NPC.AnyNPCs(bossType))
-						{
 							return;
-						}
 
 						int npcID = NPC.NewNPC(npcCenterX, npcCenterY, bossType);
-						Main.npc[npcID].Center = new Vector2(npcCenterX, npcCenterY);
 						Main.npc[npcID].netUpdate2 = true;
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", Main.npc[npcID].GetTypeNetName()), new Color(175, 75, 255));
 					}
@@ -248,19 +245,6 @@ namespace SpiritMod
 			}
 		}
 
-		public static int NewItemSynced(Vector2 pos, int type, int stack = 1, bool noBroadcast = false, int prefix = 0, bool grabDelay = true, bool reverseLookup = false)
-		{
-			int slot = Item.NewItem(pos, type, stack, noBroadcast, prefix, !grabDelay, reverseLookup);
-
-			if (Main.netMode != NetmodeID.SinglePlayer)
-				NetMessage.SendData(MessageID.SyncItem, -1, -1, null, slot, 1f);
-			return slot;
-		}
-
-		public static int NewItemSynced(Rectangle pos, int type, int stack = 1, bool noBroadcast = false, int prefix = 0, bool grabDelay = true, bool reverseLookup = false)
-		{
-			Vector2 realPos = pos.Location.ToVector2() + new Vector2(Main.rand.NextFloat(pos.Width), Main.rand.NextFloat(pos.Height));
-			return NewItemSynced(realPos, type, stack, noBroadcast, prefix, grabDelay, reverseLookup);
-		}
+		public static void SpawnBossFromClient(byte whoAmI, int type, int x, int y) => SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(), (byte)MessageType.BossSpawnFromClient, whoAmI, type, x, y).Send(-1);
 	}
 }

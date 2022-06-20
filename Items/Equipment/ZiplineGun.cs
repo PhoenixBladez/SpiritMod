@@ -39,10 +39,9 @@ namespace SpiritMod.Items.Equipment
 			item.shoot = ModContent.ProjectileType<RightZipline>();
 			item.shootSpeed = 16.7f;
 		}
-		public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
+
+		public override bool AltFunctionUse(Player player) => true;
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MaliwanShot1"));

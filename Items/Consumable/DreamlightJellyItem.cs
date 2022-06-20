@@ -51,7 +51,7 @@ namespace SpiritMod.Items.Consumable
 				if (tries >= maxtries)
 					return false;
 
-				SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(), (byte)MessageType.BossSpawnFromClient, (byte)player.whoAmI, ModContent.NPCType<MoonWizard>(), (int)spawnPos.X, (int)spawnPos.Y).Send(-1);
+				SpiritMultiplayer.SpawnBossFromClient((byte)player.whoAmI, ModContent.NPCType<MoonWizard>(), (int)spawnPos.X, (int)spawnPos.Y);
 			}
 
             Main.PlaySound(SoundID.Roar, player.position, 0);

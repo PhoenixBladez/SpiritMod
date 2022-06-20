@@ -37,9 +37,6 @@ namespace SpiritMod.NPCs.Town
 
 		public override void AI()
         {
-			if (Mechanics.QuestSystem.QuestManager.GetQuest<Mechanics.QuestSystem.Quests.ExplorerQuestGranite>().IsUnlocked)
-				Main.NewText("egg");
-
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 npc.homeless = false;

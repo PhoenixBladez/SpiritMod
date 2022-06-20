@@ -10,7 +10,6 @@ namespace SpiritMod.Items.Armor.AcidArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Acid Leggings");
-
 		}
 
 		public override void SetDefaults()

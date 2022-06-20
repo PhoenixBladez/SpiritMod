@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Microsoft.Xna.Framework;
-
 using SpiritMod.Utilities;
 using SpiritMod.Mechanics.EventSystem.Controllers;
-
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
@@ -131,10 +125,7 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 					Main.npc[npcID].netUpdate2 = true;
 				}
 				else
-				{
-					SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(), (byte)MessageType.BossSpawnFromClient, (byte)player.whoAmI, (int)ModContent.NPCType<SteamRaiderHead>(), "The Starplate Voyager has awoken!", (int)player.Center.X - 600, (int)player.Center.Y - 600).Send(-1);
-				}
-
+					SpiritMultiplayer.SpawnBossFromClient((byte)player.whoAmI, ModContent.NPCType<SteamRaiderHead>(), (int)player.Center.X - 600, (int)player.Center.Y - 600);
 			}));
 		}
 

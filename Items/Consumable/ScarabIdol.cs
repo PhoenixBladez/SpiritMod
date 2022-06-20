@@ -36,7 +36,6 @@ namespace SpiritMod.Items.Consumable
 		{
 			if (Main.netMode == NetmodeID.SinglePlayer)
 				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Scarabeus>());
-
 			else if (Main.netMode == NetmodeID.MultiplayerClient && player == Main.LocalPlayer) {
 				Vector2 spawnPos = player.Center;
 				int tries = 0;
@@ -50,7 +49,7 @@ namespace SpiritMod.Items.Consumable
 				if (tries >= maxtries)
 					return false;
 
-				SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(), (byte)MessageType.BossSpawnFromClient, (byte)player.whoAmI, ModContent.NPCType<Scarabeus>(), (int)spawnPos.X, (int)spawnPos.Y).Send(-1);
+				SpiritMultiplayer.SpawnBossFromClient((byte)player.whoAmI, ModContent.NPCType<Scarabeus>(), (int)spawnPos.X, (int)spawnPos.Y);
 			}
 			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1").WithVolume(0.3f), player.position);
 			return true;

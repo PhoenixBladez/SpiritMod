@@ -35,61 +35,61 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
 			projectile.netImportant = true;
 		}
 
-		public override void CheckActive()
+		public override void CheckActive() { }
+
+		public override void SelectFrame()
 		{
-			
+			projectile.frameCounter++;
 
-		}	
-        int counter;
+			if (projectile.frameCounter >= 10f)
+			{
+				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
+				projectile.frameCounter = 0;
+
+				if (projectile.frame >= 10)
+					projectile.frame = 0;
+			}
+		}
+
+		int counter;
         float alphaCounter;
-        public override void Behavior()
-        {
-            alphaCounter += .04f;
-            bool flag64 = projectile.type == ModContent.ProjectileType<MoonjellySummon>();
-            Player player = Main.player[projectile.owner];
-            MyPlayer modPlayer = player.GetSpiritPlayer();
-            if (flag64)
-            {
-                if (player.dead)
-                    modPlayer.lunazoa = false;
 
-                if (modPlayer.lunazoa)
-                    projectile.timeLeft = 2;
+		public override void Behavior()
+		{
+			alphaCounter += .04f;
+			Player player = Main.player[projectile.owner];
+			MyPlayer modPlayer = player.GetSpiritPlayer();
 
-            }
-            int summonTime;
-            summonTime = (int)(34 / (.33f * projectile.minionSlots));
+			if (player.dead)
+				modPlayer.lunazoa = false;
+
+			if (modPlayer.lunazoa)
+				projectile.timeLeft = 2;
+
+			int summonTime = (int)(34 / (.33f * projectile.minionSlots));
 			if (summonTime >= 110)
-            {
-                summonTime = 110;
-            }
-            counter++;
-            if (counter % summonTime == 0)
-            {
-                Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
+				summonTime = 110;
 
-                int p = Projectile.NewProjectile(projectile.Center.X + Main.rand.Next(-50, 50), projectile.Center.Y + Main.rand.Next(-50, 50), vector2_2.X, vector2_2.Y, ModContent.ProjectileType<LunazoaOrbiter>(), projectile.damage, projectile.knockBack, Main.myPlayer, 0.0f, (float)projectile.whoAmI);
-                Main.projectile[p].scale = Main.rand.NextFloat(.4f, 1f);
-                Main.projectile[p].timeLeft = (int)(62 / (.33f * projectile.minionSlots));
-                counter = 0;
-            }
-            Lighting.AddLight(new Vector2(projectile.Center.X, projectile.Center.Y), 0.075f * 2, 0.231f * 2, 0.255f * 2);
-            projectile.frameCounter++;
-            if (projectile.frameCounter >= 10f)
-            {
-                projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
-                projectile.frameCounter = 0;
-                if (projectile.frame >= 10)
-                {
-                    projectile.frame = 0;
-                }
-            }
-            projectile.rotation = projectile.velocity.X * 0.025f;
-            projectile.tileCollide = false;
+			counter++;
+			if (counter % summonTime == 0)
+			{
+				Vector2 vel = Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2) * new Vector2(5f, 3f);
+
+				int p = Projectile.NewProjectile(projectile.Center.X + Main.rand.Next(-50, 50), projectile.Center.Y + Main.rand.Next(-50, 50), vel.X, vel.Y, ModContent.ProjectileType<LunazoaOrbiter>(), projectile.damage, projectile.knockBack, Main.myPlayer, 0.0f, (float)projectile.whoAmI);
+				Main.projectile[p].scale = Main.rand.NextFloat(.4f, 1f);
+				Main.projectile[p].timeLeft = (int)(62 / (.33f * projectile.minionSlots));
+				counter = 0;
+			}
+
+			Lighting.AddLight(new Vector2(projectile.Center.X, projectile.Center.Y), 0.075f * 2, 0.231f * 2, 0.255f * 2);
+
+			projectile.rotation = projectile.velocity.X * 0.025f;
 			float num = projectile.width * 1.1f;
-			for (int i = 0; i < 1000; i++) {
+			for (int i = 0; i < 1000; i++)
+			{
 				Projectile current = Main.projectile[i];
-				if (i != projectile.whoAmI && current.active && projectile.owner == current.owner && projectile.type == current.type && Math.Abs(projectile.position.X - current.position.X) + Math.Abs(projectile.position.Y - current.position.Y) < num) {
+				if (i != projectile.whoAmI && current.active && projectile.owner == current.owner && projectile.type == current.type && Math.Abs(projectile.position.X - current.position.X) + Math.Abs(projectile.position.Y - current.position.Y) < num)
+				{
 					if (projectile.position.X < Main.projectile[i].position.X)
 						projectile.velocity.X -= 0.08f;
 					else
@@ -99,104 +99,106 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
 						projectile.velocity.Y -= 0.08f;
 					else
 						projectile.velocity.Y += 0.08f;
-
 				}
 			}
-            Vector2 value = projectile.position;
-            float num21 = 920f;
-            bool flag = false;
-            projectile.tileCollide = false;
-            for (int j = 0; j < 200; j++)
-            {
-                NPC nPC = Main.npc[j];
-                if (nPC.CanBeChasedBy(this, false))
-                {
-                    float num3 = Vector2.Distance(nPC.Center, projectile.Center);
-                    if ((num3 < num21 || !flag) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, nPC.position, nPC.width, nPC.height))
-                    {
-                        num21 = num3;
-                        value = nPC.Center;
-                        flag = true;
-                    }
-                }
-            }
-            if (Vector2.Distance(player.Center, projectile.Center) > (flag ? 1000f : 500f)) {
+
+			float num21 = 920f;
+			bool flag = false;
+
+			for (int j = 0; j < 200; j++)
+			{
+				NPC nPC = Main.npc[j];
+				if (nPC.CanBeChasedBy(this, false))
+				{
+					float num3 = Vector2.Distance(nPC.Center, projectile.Center);
+					if ((num3 < num21 || !flag) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, nPC.position, nPC.width, nPC.height))
+					{
+						num21 = num3;
+						flag = true;
+					}
+				}
+			}
+
+			if (Vector2.Distance(player.Center, projectile.Center) > (flag ? 1000f : 500f))
+			{
 				projectile.ai[0] = 1f;
 				projectile.netUpdate = true;
 			}
 
+			if (!Collision.CanHitLine(projectile.Center, 1, 1, player.Center, 1, 1))
+				projectile.ai[0] = 1f;
+
+			float num4 = 6f;
 			if (projectile.ai[0] == 1f)
-				projectile.tileCollide = false;
+				num4 = 15f;
 
-				if (!Collision.CanHitLine(projectile.Center, 1, 1, player.Center, 1, 1))
-					projectile.ai[0] = 1f;
+			Vector2 center = projectile.Center;
+			Vector2 vector = player.Center - center;
+			projectile.ai[1] = 3600f;
+			projectile.netUpdate = true;
+			int num5 = 1;
+			for (int k = 0; k < projectile.whoAmI; k++)
+			{
+				if (Main.projectile[k].active && Main.projectile[k].owner == projectile.owner && Main.projectile[k].type == projectile.type)
+					num5++;
+			}
+			vector.X -= 0;
+			vector.Y -= 70f;
+			float num6 = vector.Length();
 
-				float num4 = 6f;
-				if (projectile.ai[0] == 1f)
-					num4 = 15f;
+			if (num6 > 200f && num4 < 9f)
+				num4 = 9f;
 
-				Vector2 center = projectile.Center;
-				Vector2 vector = player.Center - center;
-				projectile.ai[1] = 3600f;
+			if (num6 < 100f && projectile.ai[0] == 1f && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+			{
+				projectile.ai[0] = 0f;
 				projectile.netUpdate = true;
-				int num5 = 1;
-				for (int k = 0; k < projectile.whoAmI; k++) {
-					if (Main.projectile[k].active && Main.projectile[k].owner == projectile.owner && Main.projectile[k].type == projectile.type)
-						num5++;
-				}
-				vector.X -= 0;
-				vector.Y -= 70f;
-				float num6 = vector.Length();
-				if (num6 > 200f && num4 < 9f)
-					num4 = 9f;
+			}
 
-				if (num6 < 100f && projectile.ai[0] == 1f && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height)) {
-					projectile.ai[0] = 0f;
-					projectile.netUpdate = true;
-				}
-				if (num6 > 2000f)
-					projectile.Center = player.Center;
+			if (num6 > 2000f)
+				projectile.Center = player.Center;
 
-				if (num6 > 48f) {
-					vector.Normalize();
-					vector *= num4;
-					float num7 = 10f;
-					projectile.velocity = (projectile.velocity * num7 + vector) / (num7 + 1f);
-				}
-				else {
-					projectile.direction = Main.player[projectile.owner].direction;
-					projectile.velocity *= (float)Math.Pow(0.9, 2.0);
-				}
+			if (num6 > 48f)
+			{
+				vector.Normalize();
+				vector *= num4;
+				float num7 = 10f;
+				projectile.velocity = (projectile.velocity * num7 + vector) / (num7 + 1f);
+			}
+			else
+			{
+				projectile.direction = Main.player[projectile.owner].direction;
+				projectile.velocity *= (float)Math.Pow(0.9, 2.0);
+			}
+
 			if (projectile.velocity.X > 0f)
-				projectile.spriteDirection = (projectile.direction = -1);
+				projectile.spriteDirection = projectile.direction = -1;
 			else if (projectile.velocity.X < 0f)
-				projectile.spriteDirection = (projectile.direction = 1);
+				projectile.spriteDirection = projectile.direction = 1;
 
 			if (projectile.ai[1] > 0f)
 				projectile.ai[1] += 1f;
 
-			if (projectile.ai[1] > 140f) {
+			if (projectile.ai[1] > 140f)
+			{
 				projectile.ai[1] = 0f;
 				projectile.netUpdate = true;
 			}
 		}
 
-		public override void SelectFrame()
+
+		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
-		}        public void AdditiveCall(SpriteBatch spriteBatch)
-        {
-            {
-                for (int k = 0; k < projectile.oldPos.Length; k++)
-                {
-                    Color color = new Color(44, 168, 67) * 0.75f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+			for (int k = 0; k < projectile.oldPos.Length; k++)
+			{
+				Color color = new Color(44, 168, 67) * 0.75f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
 
-                    float scale = projectile.scale;
-                    Texture2D tex = ModContent.GetTexture("SpiritMod/Projectiles/Summon/Zones/StaminaZone");
+				float scale = projectile.scale;
+				Texture2D tex = ModContent.GetTexture("SpiritMod/Projectiles/Summon/Zones/StaminaZone");
 
-                    spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, projectile.rotation, tex.Size() / 2, scale, default, default);
-                }
-            }
-        }
+				spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, projectile.rotation, tex.Size() / 2, scale, default, default);
+			}
+		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -215,7 +217,6 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
                 Microsoft.Xna.Framework.Color color29 = new Microsoft.Xna.Framework.Color(127 - projectile.alpha, 127 - projectile.alpha, 127 - projectile.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
                 spriteBatch.Draw(mod.GetTexture("Projectiles/Summon/MoonjellySummon/MoonjellySummon_Glow"), drawPos, new Microsoft.Xna.Framework.Rectangle?(Main.projectileTexture[projectile.type].Frame(1, Main.projFrames[projectile.type], 0, projectile.frame)), color1, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
 
-
                 spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(Main.projectileTexture[projectile.type].Frame(1, Main.projFrames[projectile.type], 0, projectile.frame)), color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
                 spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(Main.projectileTexture[projectile.type].Frame(1, Main.projFrames[projectile.type], 0, projectile.frame)), color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
 
@@ -227,7 +228,6 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
                 int ypos = (int)((projectile.Center.Y + 30) - Main.screenPosition.Y) - (int)(Main.projectileTexture[projectile.type].Width / 2);
                 Texture2D ripple = mod.GetTexture("Effects/Masks/Extra_49");
                 Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), projectile.rotation, ripple.Size() / 2f, projectile.scale * .8f, spriteEffects, 0);
-
             }
             return false;
         }

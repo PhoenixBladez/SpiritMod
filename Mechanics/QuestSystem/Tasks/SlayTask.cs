@@ -18,27 +18,27 @@ namespace SpiritMod.Mechanics.QuestSystem
 		private int[] _monsterIDs;
 		private int _killsRequired;
 		private int _killCount;
-		private float? _spawnIncrease;
+		private QuestPoolData? _poolData;
 		private string _monsterNameOverride;
 
 		public SlayTask() { }
 
-		public SlayTask(int monsterID, int amount, string monsterNameOverride = null, float? spawnIncrease = null, bool singular = false)
+		public SlayTask(int monsterID, int amount, string monsterNameOverride = null, QuestPoolData? pool = null, bool singular = false)
 		{
 			_monsterIDs = new int[] { monsterID };
 			_killsRequired = amount;
 			_monsterNameOverride = monsterNameOverride;
-			_spawnIncrease = spawnIncrease;
+			_poolData = pool;
 
 			_Singular = singular;
 		}
 
-		public SlayTask(int[] monsterIDs, int amount, string monsterNameOverride = null, float? spawnIncrease = null, bool singular = false)
+		public SlayTask(int[] monsterIDs, int amount, string monsterNameOverride = null, QuestPoolData? pool = null, bool singular = false)
 		{
 			_monsterIDs = monsterIDs;
 			_killsRequired = amount;
 			_monsterNameOverride = monsterNameOverride;
-			_spawnIncrease = spawnIncrease;
+			_poolData = pool;
 
 			_Singular = singular;
 		}
@@ -132,8 +132,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 			for (int i = 0; i < _monsterIDs.Length; i++)
 			{
-				if (_spawnIncrease != null)
-					QuestGlobalNPC.AddToPool(_monsterIDs[i], _spawnIncrease.Value);
+				if (_poolData != null)
+					QuestGlobalNPC.AddToPool(_monsterIDs[i], _poolData.Value);
 			}
 		}
 

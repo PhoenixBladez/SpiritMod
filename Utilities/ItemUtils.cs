@@ -42,6 +42,12 @@ namespace SpiritMod
 			return item;
 		}
 
+		public static int NewItemWithSync(int owner, Rectangle area, int type, int stack = 1, bool noBroadcast = false, int prefix = 0, bool noGrabDelay = false, bool reverseLookup = false)
+		{
+			(int x, int y, int width, int height) = (area.X, area.Y, area.Width, area.Height);
+			return NewItemWithSync(owner, x, y, width, height, type, stack, noBroadcast, prefix, noGrabDelay, reverseLookup);
+		}
+
 		public static void DropCandy(Player player)
 		{
 			int effect = Main.rand.Next(100);

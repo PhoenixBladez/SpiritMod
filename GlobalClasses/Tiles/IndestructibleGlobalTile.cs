@@ -11,6 +11,7 @@ namespace SpiritMod.GlobalClasses.Tiles
 	class IndestructibleGlobalTile : GlobalTile
 	{
 		public List<int> Indestructibles = new List<int>();
+		public List<int> IndestructiblesUngrounded = new List<int>();
 
 		public void Load(Mod mod)
 		{
@@ -26,6 +27,9 @@ namespace SpiritMod.GlobalClasses.Tiles
 
 					if (tag.Tags.Contains(TileTags.Indestructible))
 						Indestructibles.Add(mod.TileType(type.Name));
+
+					if (tag.Tags.Contains(TileTags.IndestructibleNoGround))
+						IndestructiblesUngrounded.Add(mod.TileType(type.Name));
 				}
 			}
 		}
@@ -34,7 +38,9 @@ namespace SpiritMod.GlobalClasses.Tiles
 		{
 			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
 
-			if (Indestructibles.Contains(type) || Indestructibles.Contains(tileAbove.type))
+			if (Indestructibles.Contains(type) || Indestructibles.Contains(tileAbove.type)) //Check for indestructibles
+				return false;
+			if (IndestructiblesUngrounded.Contains(type)) //Check for floating indesctructibles
 				return false;
 			return true;
 		}
@@ -44,6 +50,8 @@ namespace SpiritMod.GlobalClasses.Tiles
 			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
 
 			if (Indestructibles.Contains(tileAbove.type) && type != tileAbove.type && TileID.Sets.Falling[type])
+				return false;
+			if (IndestructiblesUngrounded.Contains(type))
 				return false;
 			return true;
 		}
@@ -64,6 +72,8 @@ namespace SpiritMod.GlobalClasses.Tiles
 			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
 
 			if (Indestructibles.Contains(tileAbove.type) || Indestructibles.Contains(type))
+				return false;
+			if (IndestructiblesUngrounded.Contains(type))
 				return false;
 			return true;
 		}

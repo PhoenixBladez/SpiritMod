@@ -83,6 +83,8 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 		}
 
 		public override float UseTimeMultiplier(Player player) => player.meleeSpeed; //Scale with melee speed buffs, like whips
+		public override void NetSend(BinaryWriter writer) => writer.Write(combo);
+		public override void NetRecieve(BinaryReader reader) => combo = reader.ReadInt32();
 	}
 
 	public class JadeDaoProj : ModProjectile

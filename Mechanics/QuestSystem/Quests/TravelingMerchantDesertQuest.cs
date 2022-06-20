@@ -26,7 +26,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Accessory.DesertSlab>(), 1),
 			(ItemID.Fez, 1),
 			(ItemID.DynastyWood, 150),
-			(Terraria.ID.ItemID.GoldCoin, 1)
+			(ItemID.GoldCoin, 1)
 		};
 
 		private TravelingMerchantDesertQuest()
@@ -40,7 +40,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 				   .AddTask(new GiveNPCTask(NPCID.TravellingMerchant, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.RoyalCrown>(), 1, "I didn't think you'd make it back alive, wow! I'm sure the folks on Xandar will love this! Thanks for helping me out, and here's your reward as promised. In the spirit of trade, here's an extra reward for your hard work! If you ever need a little bit of anything, give me a shout!", "Return the Royal Crown to the Travelling Merchant", true, true, ModContent.ItemType<Items.Placeable.Furniture.HourglassItem>()));
 
 			TaskBuilder branch1 = new TaskBuilder();
-			branch1.AddTask(new TalkNPCTask(ModContent.NPCType<NPCs.BloodstainedChest.BloodstainedChest>(), "The ancient chest seems to be covered in gold, blood, and bones. It surely contains great riches, but opening it may be perilous.", "Find the strange chest in the Desert and retrieve the Royal Crown", .85f))
+			branch1.AddTask(new TalkNPCTask(ModContent.NPCType<NPCs.BloodstainedChest.BloodstainedChest>(), "The ancient chest seems to be covered in gold, blood, and bones. It surely contains great riches, but opening it may be perilous.", "Find the strange chest in the Desert and retrieve the Royal Crown", new QuestPoolData(0.85f, true)))
 			       .AddTask(new SlayTask(ModContent.NPCType<NPCs.DesertBandit.DesertBandit>(), 3))
 			       .AddBranches(branch3, branch2);
 			

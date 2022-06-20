@@ -15,5 +15,6 @@ namespace SpiritMod.Tiles
 	public enum TileTags
 	{
 		Indestructible,
+		IndestructibleNoGround
 	}
 }

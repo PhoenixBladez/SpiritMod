@@ -903,34 +903,15 @@ namespace SpiritMod.World
 			}
 		}
 
-		public override void PostWorldGen()
+		public override void PostWorldGen() => TryPlaceBloodBlossom(_bbX, _testY - 8);
+
+		public static void TryPlaceBloodBlossom(int i, int j)
 		{
-			Tile testTile = Framing.GetTileSafely(_bbX, _testY + 5);
-			while (WorldGen.SolidOrSlopedTile(testTile))
-			{
-				_testY--;
-				testTile = Framing.GetTileSafely(_bbX, _testY);
-			}
+			for (int x = i - 1; x < i + 3; ++x)
+				for (int y = j - 1; y < j + 3; ++y)
+					Framing.GetTileSafely(x, y).active(false);
 
-			for (int x = _bbX - 2; x <= _bbX + 2; x++)
-			{
-				//place tile below
-				Tile t = Framing.GetTileSafely(x, _testY + 1);
-				WorldGen.KillTile(x, _testY + 1);
-				WorldGen.PlaceTile(x, _testY + 1, ModContent.TileType<BriarGrass>());
-				t.slope(0);
-
-				//clear space for blood blossom
-				for (int y = _testY - 2; y <= _testY; y++)
-					WorldGen.KillTile(x, y);
-
-			}
-
-			Framing.GetTileSafely(_bbX, _testY + 2).slope(0);
-			Framing.GetTileSafely(_bbX + 1, _testY + 2).slope(0);
-			Framing.GetTileSafely(_bbX + 2, _testY + 2).slope(0);
-
-			WorldGen.Place3x2(_bbX, _testY, (ushort)ModContent.TileType<Tiles.BloodBlossom>());
+			WorldGen.PlaceObject(i, j, (ushort)ModContent.TileType<Tiles.BloodBlossom>());
 		}
 
 		private void DoFlowerOre(int x, int y, int k, int size = 10)
@@ -2223,6 +2204,9 @@ namespace SpiritMod.World
 				num1++;
 
 			if ((Main.tile[i - 1, num1 - 1].liquid != 0 || Main.tile[i, num1 - 1].liquid != 0 || Main.tile[i + 1, num1 - 1].liquid != 0) && Main.tile[i, num1].type != 60)
+				return false;
+
+			if (Vector2.DistanceSquared(new Vector2(i, y), new Vector2(ModContent.GetInstance<BriarGeneration>()._bbX, ModContent.GetInstance<BriarGeneration>()._testY)) < 6 * 6)
 				return false;
 
 			if (Main.tile[i, num1].nactive() && !Main.tile[i, num1].halfBrick() && Main.tile[i, num1].slope() == 0 && //this line gives me fear

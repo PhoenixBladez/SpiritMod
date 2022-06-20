@@ -12,7 +12,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public override string ModCallName => "TalkNPC";
 
 		private int _npcType;
-		private float? _spawnIncrease;
+		private QuestPoolData? _poolData;
 		private int _itemReceived;
 		private string _objective;
 		public readonly string NPCText = "Have a great day!";
@@ -20,12 +20,12 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public TalkNPCTask() { }
 
-		public TalkNPCTask(int npcType, string text, string objective = null, float? spawnIncrease = null, int? itemReceived = null)
+		public TalkNPCTask(int npcType, string text, string objective = null, QuestPoolData? poolData = null, int? itemReceived = null)
 		{
 			_npcType = npcType;
 			NPCText = text;
 			_objective = objective;
-			_spawnIncrease = spawnIncrease;
+			_poolData = poolData;
 			_itemReceived = itemReceived.GetValueOrDefault();
 			hasTakenItems = false;
 		}
@@ -88,8 +88,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public override void Activate(Quest fromQuest)
 		{
-			if (_spawnIncrease != null)
-				QuestGlobalNPC.AddToPool(_npcType, _spawnIncrease.Value);
+			if (_poolData != null)
+				QuestGlobalNPC.AddToPool(_npcType, _poolData.Value);
 		}
 
 		public override void Deactivate() => QuestGlobalNPC.RemoveFromPool(_npcType);

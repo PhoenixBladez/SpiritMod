@@ -6,6 +6,7 @@ using SpiritMod.Mechanics.QuestSystem.Quests;
 using Terraria.ModLoader.IO;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace SpiritMod.Mechanics.QuestSystem
 {
@@ -106,11 +107,12 @@ namespace SpiritMod.Mechanics.QuestSystem
 				// get all the unloaded quests
 				QuestManager.UnloadedQuests.Clear();
 				for (int i = 0; i < allQuests.Count; i++)
-				{
 					QuestManager.UnloadedQuests.Add(allQuests[i], ConvertBack(tag.Get<TagCompound>(allQuests[i])));
-				}
+
 				zombieQuestStart = tag.GetBool("zombieQuestStart");
 				downedWeaponsMaster = tag.GetBool("downedWeaponsMaster");
+
+				LoadQueue(tag);
 			}
 			catch (Exception e)
 			{
@@ -148,8 +150,53 @@ namespace SpiritMod.Mechanics.QuestSystem
 			}
 
 			tag.Add("SpiritMod:AllQuests", allQuestNames);
+
+			SaveQueue(tag);
 			return tag;
 		}
+
+		private void SaveQueue(TagCompound tag)
+		{
+			tag.Add("SpiritMod:QuestQueueNPCLength", NPCQuestQueue.Keys.Count);
+
+			int npcIDRep = 0;
+			int questRep = 0;
+			foreach (int item in NPCQuestQueue.Keys)
+			{
+				tag.Add("SpiritMod:QuestQueueNPCID" + npcIDRep, item); //Writes the ID and the length of the queue
+				tag.Add("SpiritMod:SingleQuestQueueLength" + npcIDRep++, NPCQuestQueue[item].Count);
+
+				while (NPCQuestQueue[item].Count > 0) //Writes every value in the queue
+				{
+					Quest q = NPCQuestQueue[item].Dequeue();
+					tag.Add("SpiritMod:SingleQuestQueue" + questRep++, q.QuestName);
+				}
+			}
+		}
+
+		private void LoadQueue(TagCompound tag)
+		{
+			int queuesCount = tag.GetInt("SpiritMod:QuestQueueNPCLength");
+
+			if (queuesCount == 0)
+				return; //Nothing in the dictionary, exit
+
+			int questCount = 0;
+			for (int i = 0; i < queuesCount; ++i)
+			{
+				int npcID = tag.GetInt("SpiritMod:QuestQueueNPCID" + i);
+				int length = tag.GetInt("SpiritMod:SingleQuestQueueLength" + i);
+
+				if (length == 0)
+					continue; //Nothing in the queue, skip
+
+				string questName = tag.GetString("SpiritMod:SingleQuestQueue" + questCount++);
+				var quest = QuestManager.Quests.FirstOrDefault(x => x.QuestName == questName);
+
+				if (quest != null)
+					AddQuestQueue(npcID, quest);
+			}
+		} 
 
 		public static StoredQuestData ToStoredQuest(Quest quest)
 		{

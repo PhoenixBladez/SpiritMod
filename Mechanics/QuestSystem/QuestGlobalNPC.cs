@@ -20,7 +20,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public static event Action<NPC> OnNPCLoot;
 		public static event Action<int, Chest, int> OnSetupShop;
 
-		public static Dictionary<int, float> SpawnPoolMods = new Dictionary<int, float>();
+		public static Dictionary<int, QuestPoolData> SpawnPoolMods = new Dictionary<int, QuestPoolData>();
 		public static Dictionary<int, int> PoolModsCount = new Dictionary<int, int>();
 
 		public override void NPCLoot(NPC npc)
@@ -166,17 +166,19 @@ namespace SpiritMod.Mechanics.QuestSystem
 			}
 		}
 
-		public static void AddToPool(int id, float weight)
+		public static void AddToPool(int id, QuestPoolData data)
 		{
 			if (SpawnPoolMods.ContainsKey(id))
 			{
-				if (SpawnPoolMods[id] < weight)
-					SpawnPoolMods[id] = weight;
+				QuestPoolData currentData = SpawnPoolMods[id];
+				if (SpawnPoolMods[id].NewRate is null || (data.NewRate != null && SpawnPoolMods[id].NewRate < data.NewRate))
+					currentData.NewRate = data.NewRate;
+
 				PoolModsCount[id]++;
 			}
 			else
 			{
-				SpawnPoolMods.Add(id, weight);
+				SpawnPoolMods.Add(id, data);
 				PoolModsCount.Add(id, 1);
 			}
 		}
@@ -195,7 +197,14 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
 		{
 			foreach (int item in SpawnPoolMods.Keys)
-				pool[item] = SpawnPoolMods[item];
+			{
+				if (!pool.ContainsKey(item))
+					return;
+
+				var currentPool = SpawnPoolMods[item];
+				if (((currentPool.Exclusive && !NPC.AnyNPCs(item)) || !currentPool.Exclusive) && currentPool.NewRate != null)
+					pool[item] = currentPool.NewRate.Value;
+			}
 
 			if (QuestManager.GetQuest<SlayerQuestClown>().IsActive)
 			{

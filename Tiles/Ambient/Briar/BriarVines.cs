@@ -24,6 +24,8 @@ namespace SpiritMod.Tiles.Ambient.Briar
 			AddMapEntry(new Color(95, 143, 65));
 		}
 
+		public override void NumDust(int i, int j, bool fail, ref int num) => num = 4;
+
 		public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
 		{
 			Tile tile = Framing.GetTileSafely(i, j + 1);
@@ -76,6 +78,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 				}
 			}
 		}
+
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch) 
         {
 			Tile tile = Framing.GetTileSafely(i, j);
@@ -92,6 +95,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 			spriteBatch.Draw(ModContent.GetTexture("SpiritMod/Tiles/Ambient/Briar/BriarVines"), drawPos + zero - new Vector2(xOff, 0), realSource, new Color(col.R, col.G, col.B, 255), 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             return false;
         }
+
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
 			Tile tile = Framing.GetTileSafely(i, j);
@@ -104,6 +108,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero - new Vector2(xOff, 0), new Rectangle(tile.frameX, tile.frameY, 16, 16), colour * .6f);
 		}
+
 		public float GetOffset(int i, int j, int frameX, float sOffset = 0f)
 		{
 			float sin = (float)Math.Sin((Main.time + (i * 24) + (j * 19)) * (0.04f * (!Lighting.NotRetro ? 0f : 1)) + sOffset) * 1.4f;
