@@ -1,9 +1,7 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
-using System;
 using Terraria;
 using Terraria.ID;
 using SpiritMod.Mechanics.QuestSystem;
@@ -19,13 +17,13 @@ namespace SpiritMod.Items.Consumable.Quest
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 7));
         }
 
-
 		public override void SetDefaults()
 		{
 			item.width = item.height = 16;
 			item.rare = ItemRarityID.Green;
 			item.maxStack = 99;
 		}
+
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
 			if (!QuestManager.GetQuest<ZombieOriginQuest>().IsCompleted)
@@ -44,10 +42,9 @@ namespace SpiritMod.Items.Consumable.Quest
 				tooltips.Add(line1);
 			}
 		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return new Color(200, 200, 200);
-		}
+
+		public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200);
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -57,6 +54,7 @@ namespace SpiritMod.Items.Consumable.Quest
 			recipe.AddRecipe();
 		}   
 	}
+
     public class WarlockLureCrimson : WarlockLureCorruption
     {
 		public override void AddRecipes()

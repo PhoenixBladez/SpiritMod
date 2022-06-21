@@ -28,19 +28,13 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		private ZombieOriginQuest()
         {
-			int itemType = ItemID.VilePowder;
-			int lureType = ModContent.ItemType<WarlockLureCorruption>();
-
-			if (WorldGen.crimson)
-			{
-				itemType = ItemID.ViciousPowder;
-				lureType = ModContent.ItemType<WarlockLureCrimson>();
-			}
+			int itemType = WorldGen.crimson ? ItemID.ViciousPowder : ItemID.VilePowder;
+			int lureType = WorldGen.crimson ? ModContent.ItemType<WarlockLureCrimson>() : ModContent.ItemType<WarlockLureCorruption>();
 
             TaskBuilder branch1 = new TaskBuilder();
             branch1.AddTask(new TalkNPCTask(NPCID.Guide, "Did you find that mysterious scroll there? I assume you did. It's an interesting lead on why these zombies have been appearing recently. I'd say we need to do more research on who's behind the zombie uprising. Maybe it's a crazed scientist, or something? There should be books on the matter near the Dungeon.", "Talk to the Guide about the mysterious scroll."))
-            	.AddTask(new RetrievalTask(149, 3))
-            	.AddTask(new GiveNPCTask(NPCID.Guide, 149, 3, "This research is ambiguous, but I think it points toward a maniacal scientist creating hordes of zombies. You may need to find a way to get their attention tonight. How about we stitch together a lure using some grisly zombie bits? I'm sure the researcher would find it interesting.", "Return the books to the Guide"))
+            	.AddTask(new RetrievalTask(ItemID.Book, 3))
+            	.AddTask(new GiveNPCTask(NPCID.Guide, ItemID.Book, 3, "This research is ambiguous, but I think it points toward a maniacal scientist creating hordes of zombies. You may need to find a way to get their attention tonight. How about we stitch together a lure using some grisly zombie bits? I'm sure the researcher would find it interesting.", "Return the books to the Guide"))
                	.AddTask(new RetrievalTask(ModContent.ItemType<ScientistLure>(), 1, "Craft"))
 				.AddTask(new SlayTask(ModContent.NPCType<NPCs.Dead_Scientist.Dead_Scientist>(), 1, "Kill the Undead Scientist", new QuestPoolData(0.75f, true))); 
 

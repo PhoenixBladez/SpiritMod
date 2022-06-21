@@ -1,9 +1,7 @@
 using System;
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
 using Microsoft.Xna.Framework;
 using SpiritMod.NPCs.Boss.MoonWizard;
 
@@ -14,7 +12,7 @@ namespace SpiritMod.Items.Consumable
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dreamlight Jelly");
-			Tooltip.SetDefault("'It exudes arcane energy'\nUse at nighttime to summon the Moon Jelly Wizard");
+			Tooltip.SetDefault("'It exudes arcane energy'\nUse at nighttime to summon the Moon Jelly Wizard\nNot consumable");
 		}
 
 		public override void SetDefaults()

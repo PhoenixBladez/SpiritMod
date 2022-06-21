@@ -5,7 +5,6 @@ using Terraria.ModLoader;
 using SpiritMod.Mechanics.QuestSystem.Quests;
 using Terraria.ModLoader.IO;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace SpiritMod.Mechanics.QuestSystem
@@ -13,7 +12,6 @@ namespace SpiritMod.Mechanics.QuestSystem
 	public class QuestWorld : ModWorld
 	{
 		//Adventurer variables
-		public static bool zombieQuestStart = false;
 		public static bool downedWeaponsMaster = false;
 
 		public Dictionary<int, Queue<Quest>> NPCQuestQueue { get; private set; } = new Dictionary<int, Queue<Quest>>();
@@ -22,9 +20,6 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			if (!QuestManager.QuestBookUnlocked) //Do nothing if we don't have the book
 				return;
-
-			if (zombieQuestStart)
-                QuestManager.UnlockQuest<ZombieOriginQuest>(true);
 
             if (Main.hardMode)
             {
@@ -109,7 +104,6 @@ namespace SpiritMod.Mechanics.QuestSystem
 				for (int i = 0; i < allQuests.Count; i++)
 					QuestManager.UnloadedQuests.Add(allQuests[i], ConvertBack(tag.Get<TagCompound>(allQuests[i])));
 
-				zombieQuestStart = tag.GetBool("zombieQuestStart");
 				downedWeaponsMaster = tag.GetBool("downedWeaponsMaster");
 
 				LoadQueue(tag);
@@ -124,7 +118,6 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			var tag = new TagCompound
 			{
-				{ "zombieQuestStart", zombieQuestStart },
 				{ "downedWeaponsMaster", downedWeaponsMaster }
 			};
 
@@ -216,18 +209,6 @@ namespace SpiritMod.Mechanics.QuestSystem
 				data.Buffer = buffer;
 			}
 			return data;
-		}
-
-		public override void NetSend(BinaryWriter writer)
-		{
-			BitsByte adventurerQuests = new BitsByte(zombieQuestStart);
-			writer.Write(adventurerQuests);
-		}
-
-		public override void NetReceive(BinaryReader reader)
-		{
-			BitsByte adventurerQuests = reader.ReadByte();
-			zombieQuestStart = adventurerQuests[0];
 		}
 
 		private TagCompound Convert(StoredQuestData data)

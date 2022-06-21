@@ -27,7 +27,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			if (npc.type == NPCID.Zombie || npc.type == NPCID.BaldZombie || npc.type == NPCID.SlimedZombie || npc.type == NPCID.SwampZombie || npc.type == NPCID.TwiggyZombie || npc.type == NPCID.ZombieRaincoat || npc.type == NPCID.PincushionZombie || npc.type == NPCID.ZombieEskimo)
 			{
-				if (!QuestWorld.zombieQuestStart && QuestManager.GetQuest<FirstAdventure>().IsCompleted && Main.rand.Next(40) == 0)
+				if (!QuestManager.GetQuest<ZombieOriginQuest>().IsUnlocked && QuestManager.GetQuest<FirstAdventure>().IsCompleted && Main.rand.Next(40) == 0)
 				{
 					int slot = Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<OccultistMap>());
 

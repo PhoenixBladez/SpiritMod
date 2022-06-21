@@ -30,6 +30,7 @@ namespace SpiritMod.NPCs.Dead_Scientist
 			npc.lavaImmune = false;
 			npc.HitSound = new Terraria.Audio.LegacySoundStyle(3, 1);
 		}
+
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];
@@ -46,11 +47,13 @@ namespace SpiritMod.NPCs.Dead_Scientist
 				npc.frameCounter = 0;
 				isPuking = true;
 			}
+
 			if (Vector2.Distance(player.Center, npc.Center) >= 300f && isPuking)
 			{
 				npc.frameCounter = 0;
 				isPuking = false;
 			}
+
 			if (player.position.Y < npc.position.Y - 100)
 				isPuking = false;
 			
@@ -74,8 +77,10 @@ namespace SpiritMod.NPCs.Dead_Scientist
 					Projectile.NewProjectile(vector2.X, vector2.Y, num16, SpeedY, ModContent.ProjectileType<Zombie_Puke>(), 10, 0.0f, Main.myPlayer, 0.0f, 0.0f);
 				}
 			}
+
 			if (Vector2.Distance(player.Center, npc.Center) < 300f)
 				delayTimer++;
+
 			if (delayTimer >= 180)
 			{
 				isPuking = false;
@@ -96,18 +101,13 @@ namespace SpiritMod.NPCs.Dead_Scientist
 		{
 			if (npc.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/UndeadScientist/UndeadScientistGore4"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/UndeadScientist/UndeadScientistGore3"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/UndeadScientist/UndeadScientistGore2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/UndeadScientist/UndeadScientistGore1"), 1f);
+				for (int i = 1; i < 5; ++i)
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/UndeadScientist/UndeadScientistGore" + i), 1f);
 				Main.PlaySound(SoundID.Item9.SoundId, (int)npc.position.X, (int)npc.position.Y, 22, 1f, -0.9f);
 			}
-			for (int k = 0; k < 7; k++)
-			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, 0.5f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
-			}			
+
+			for (int k = 0; k < 20; k++)
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, Main.rand.NextFloat(0.5f, 1.2f));
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

@@ -396,8 +396,7 @@ namespace SpiritMod.NPCs.Boss
 					ModContent.ItemType<TalonGarb>(),
 					ItemID.LesserHealingPotion
 				});
-			spawnInfo =
-				$"Use a[i:{ModContent.ItemType<JewelCrown>()}] in the sky biome at any time.Alternatively, smash a Giant Avian Egg, which is found on Avian Islands near the sky layer.The Ancient Avian can be fought at any time and any place in progression.";
+			spawnInfo = $"Use a[i:{ModContent.ItemType<JewelCrown>()}] in the sky biome at any time. Alternatively, smash a Giant Avian Egg, which is found on Avian Islands near the sky layer. The Ancient Avian can be fought at any time and any place in progression.";
 			texture = "SpiritMod/Textures/BossChecklist/AvianTexture";
 			headTextureOverride = "SpiritMod/NPCs/Boss/AncientFlyer_Head_Boss";
 		}

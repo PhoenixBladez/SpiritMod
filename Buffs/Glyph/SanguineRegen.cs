@@ -14,11 +14,13 @@ namespace SpiritMod.Buffs.Glyph
 			Description.SetDefault("You are rapidly gaining blood.");
 			Main.buffNoSave[Type] = true;
 		}
+
 		public override bool ReApply(Player player, int time, int buffIndex)
 		{
 			player.buffTime[buffIndex] = Math.Min(player.buffTime[buffIndex] + time, 600);
 			return false;
 		}
+
 		public override void Update(Player player, ref int buffIndex) => player.lifeRegen += 4;
 	}
 }
