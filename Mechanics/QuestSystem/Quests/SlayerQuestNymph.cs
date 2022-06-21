@@ -1,4 +1,6 @@
-﻿using Terraria.ModLoader;
+﻿using System;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
@@ -17,9 +19,12 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.NypmhBanner, 1),
 			(Terraria.ID.ItemID.GoldCoin, 2)
 		};
+
 		private SlayerQuestNymph()
         {
-            _tasks.AddTask(new SlayTask(Terraria.ID.NPCID.Nymph, 1));
+            _tasks.AddTask(new SlayTask(Terraria.ID.NPCID.Nymph, 1, null, new QuestPoolData(0.1f, true, true, SpawnConditions)));
         }
-    }
+
+		private bool SpawnConditions(NPCSpawnInfo conditions) => conditions.spawnTileY > Main.rockLayer && conditions.spawnTileY < Main.maxTilesY - 200;
+	}
 }

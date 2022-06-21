@@ -22,7 +22,7 @@ namespace SpiritMod.NPCs.SkeletonBrute
 		{
 			npc.lifeMax = 250;
 			npc.defense = 10;
-			npc.value = 400f;
+			npc.value = Item.buyPrice(0, 0, 30, 0);
 			npc.knockBackResist = 0.3f;
 			npc.width = 35;
 			npc.height = 80;

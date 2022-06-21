@@ -17,11 +17,12 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
+			(ModContent.ItemType<Items.Placeable.IceSculpture.WinterbornSculpture>(), 3),
 			(ModContent.ItemType<Items.Placeable.IceSculpture.IceDeitySculpture>(), 1),
 			(ModContent.ItemType<Items.Armor.HunterArmor.SnowRangerHead>(), 1),
 			(ModContent.ItemType<Items.Armor.HunterArmor.SnowRangerBody>(), 1),
 			(ModContent.ItemType<Items.Armor.HunterArmor.SnowRangerLegs>(), 1),
-			(ModContent.ItemType<Items.Placeable.IceSculpture.WinterbornSculpture>(), 3),
+			(ModContent.ItemType<Items.Accessory.FrostGiantBelt>(), 1),
 			(ItemID.GoldCoin, 3)
 		};
 

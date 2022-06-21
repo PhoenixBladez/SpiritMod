@@ -22,8 +22,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		private SlayerQuestMarble()
         {
-            _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.Beholder.Beholder>(), 1));
-
+            _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.Beholder.Beholder>(), 1, null, new QuestPoolData(0.2f, true, false, null)));
         }
     }
 }

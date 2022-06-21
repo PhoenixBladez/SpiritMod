@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿using Terraria;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
@@ -22,7 +23,9 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		private SlayerQuestDrBones()
         {
-            _tasks.AddTask(new SlayTask(Terraria.ID.NPCID.DoctorBones, 1, null, null, true));    
+            _tasks.AddTask(new SlayTask(Terraria.ID.NPCID.DoctorBones, 1, null, new QuestPoolData(0.2f, true, true, SpawnConditions), true));    
         }
-    }
+
+		private bool SpawnConditions(NPCSpawnInfo arg) => arg.spawnTileY < Main.worldSurface && arg.spawnTileY > Main.worldSurface * 0.35f;
+	}
 }

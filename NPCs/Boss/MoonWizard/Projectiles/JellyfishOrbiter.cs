@@ -27,9 +27,11 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 			projectile.hostile = false;
 			projectile.penetrate = 2;
             projectile.hide = false;
-			projectile.timeLeft = 80;
+			projectile.timeLeft = Main.rand.Next(76, 84);
 		}
+
         float alphaCounter;
+
 		public override void AI()
         {
             alphaCounter += .04f;
@@ -47,6 +49,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
             float x = 0.08f;
             float y = 0.1f;
             bool flag2 = false;
+
             if ((double)projectile.ai[0] < (double)num2)
             {
                 bool flag4 = true;
@@ -71,10 +74,12 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
                 }
             }
         }
+
         public override Color? GetAlpha(Color lightColor)
         {
             return Color.White;
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             float sineAdd = (float)Math.Sin(alphaCounter) + 3;
@@ -87,10 +92,12 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
             Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), projectile.rotation, ripple.Size() / 2f, .5f, spriteEffects, 0);
             return true;
         }
+
         public override void Kill(int timeLeft)
         {
             float maxDistance = 1000f; // max distance to search for a player
             int index = -1;
+
             for (int i = 0; i < Main.maxPlayers; i++)
             {
                 Player target = Main.player[i];
@@ -105,20 +112,14 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
                     maxDistance = curDistance;
                 }
             }
-            if (index != -1)
-            {
-                Player player = Main.player[index];
-                Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 69);
-                Vector2 direction = Main.player[index].Center - projectile.Center;
-                direction.Normalize();
-                direction *= 12f;
-                {
-                    float A = (float)Main.rand.Next(-200, 200) * 0.05f;
-                    float B = (float)Main.rand.Next(-200, 200) * 0.05f;
-                    Projectile.NewProjectile(projectile.Center, direction,
-                    ModContent.ProjectileType<JellyfishOrbiter_Projectile>(), projectile.damage, 0, Main.myPlayer);
-                }
-            }
+
+			if (index != -1)
+			{
+				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 69);
+				float speed = Main.expertMode ? Main.rand.NextFloat(15, 17) : Main.rand.NextFloat(11.5f, 12.5f);
+				Vector2 direction = Vector2.Normalize(Main.player[index].Center - projectile.Center) * speed;
+				Projectile.NewProjectile(projectile.Center, direction, ModContent.ProjectileType<JellyfishOrbiter_Projectile>(), projectile.damage, 0, Main.myPlayer);
+			}
         }
 	}
 }

@@ -198,11 +198,21 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			foreach (int item in SpawnPoolMods.Keys)
 			{
+				var currentPool = SpawnPoolMods[item];
 				if (!pool.ContainsKey(item))
+				{
+					if (currentPool.Forced)
+					{
+						if (((currentPool.Exclusive && !NPC.AnyNPCs(item)) || !currentPool.Exclusive) && (currentPool.Conditions == null || currentPool.Conditions.Invoke(spawnInfo)))
+							pool.Add(item, currentPool.NewRate.Value);
+					}
+					return;
+				}
+
+				if (currentPool.NewRate is null) //We don't have a new rate to set to
 					return;
 
-				var currentPool = SpawnPoolMods[item];
-				if (((currentPool.Exclusive && !NPC.AnyNPCs(item)) || !currentPool.Exclusive) && currentPool.NewRate != null)
+				if (((currentPool.Exclusive && !NPC.AnyNPCs(item)) || !currentPool.Exclusive) && (currentPool.Conditions == null || currentPool.Conditions.Invoke(spawnInfo)))
 					pool[item] = currentPool.NewRate.Value;
 			}
 

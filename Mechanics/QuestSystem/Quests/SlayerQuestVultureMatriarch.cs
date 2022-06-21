@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
@@ -18,7 +12,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestCategory => "Slayer";
 
 		public override (int, int)[] QuestRewards => _rewards;
-		private (int, int)[] _rewards = new[]
+		private readonly (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Sets.Vulture_Matriarch.Vulture_Matriarch_Mask>(), 1),
 			(Terraria.ID.ItemID.Sandgun, 3),
@@ -27,7 +21,9 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		private SlayerQuestVultureMatriarch()
         {
-            _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.Vulture_Matriarch.Vulture_Matriarch>(), 1));
+            _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.Vulture_Matriarch.Vulture_Matriarch>(), 1, null, new QuestPoolData(0.3f, true)));
         }
-    }
+
+		public override bool IsQuestPossible() => Main.hardMode;
+	}
 }

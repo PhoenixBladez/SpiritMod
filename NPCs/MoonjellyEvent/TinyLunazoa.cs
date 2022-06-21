@@ -38,26 +38,30 @@ namespace SpiritMod.NPCs.MoonjellyEvent
             npc.noTileCollide = true;
 			aiType = NPCID.Firefly;
 		}
+
 		public override bool? CanBeHitByProjectile(Projectile projectile) => !projectile.minion;
 
 		public override void HitEffect(int hitDirection, double damage)
-        {
-            for (int k = 0; k < 15; k++)
-            {
-                Dust d = Dust.NewDustPerfect(npc.Center, 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2), 0, default, 0.65f);
-                d.noGravity = true;
-            }
-            if (npc.life <= 0) {
-                int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.NextFloat(-1.1f, 1.1f), Main.rand.NextFloat(-1.1f, 1.1f), ModContent.ProjectileType<JellyfishOrbiter>(), NPCUtils.ToActualDamage(7, 1.5f), 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
-                Main.projectile[p].scale = npc.scale;
-                Main.projectile[p].timeLeft = Main.rand.Next(55, 75);
-                for (int k = 0; k < 10; k++)
-                {
-                    Dust d = Dust.NewDustPerfect(npc.Center, 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(3), 0, default, 0.75f);
-                    d.noGravity = true;
-                }
-            }
+		{
+			for (int k = 0; k < 15; k++)
+			{
+				Dust d = Dust.NewDustPerfect(npc.Center, 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2), 0, default, 0.65f);
+				d.noGravity = true;
+			}
+
+			if (npc.life <= 0)
+			{
+				int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.NextFloat(-1.1f, 1.1f), Main.rand.NextFloat(-1.1f, 1.1f), ModContent.ProjectileType<JellyfishOrbiter>(), NPCUtils.ToActualDamage(15, 1.5f), 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
+				Main.projectile[p].scale = npc.scale;
+				Main.projectile[p].timeLeft = Main.rand.Next(55, 75);
+				for (int k = 0; k < 10; k++)
+				{
+					Dust d = Dust.NewDustPerfect(npc.Center, 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(3), 0, default, 0.75f);
+					d.noGravity = true;
+				}
+			}
 		}
+
 		public override void AI()
         {
             npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + 1.57f;

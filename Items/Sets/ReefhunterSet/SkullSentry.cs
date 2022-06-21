@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 		public override void SetDefaults()
 		{
 			item.CloneDefaults(ItemID.StaffoftheFrostHydra);
-			item.damage = 24;
+			item.damage = 14;
 			item.width = 28;
 			item.height = 14;
 			item.useTime = item.useAnimation = 30;
