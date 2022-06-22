@@ -1,5 +1,4 @@
-﻿using SpiritMod.NPCs.AuroraStag;
-using System.Collections.Generic;
+﻿using SpiritMod.Mechanics.QuestSystem.Tasks;
 using Terraria.ID;
 using Terraria.ModLoader;
 

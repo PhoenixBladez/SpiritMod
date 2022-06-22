@@ -1,6 +1,7 @@
 ﻿using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Mechanics.QuestSystem.Tasks;
+using SpiritMod.Items.Placeable.Furniture;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
@@ -15,7 +16,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
-			((int)ItemID.CopperCoin, 1)
+			((int)ItemID.GoldCoin, 3),
+			(ItemID.MasterBait, 3),
 		};
 
 		private AnglerStatueQuest()
@@ -27,8 +29,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			TaskBuilder branch2 = new TaskBuilder();
 			branch2.AddTask(new TalkNPCTask(NPCID.Guide, "The Angler's upset, huh? Well, he is just a kid- I suppose it makes sense for him to be hurt by something like this. This may be a bit, well, demanding, but I suppose you should check in with him to see if anything would make him feel better.", "Or ask the Guide what to do"))
 				   .AddTask(new TalkNPCTask(NPCID.Angler, "*sniff* What do you want? You want to try to cheer me up? What's that? You'll do ANYTHING? What do ya mean, that's not what you said? Too bad! I want you to melt those disgusting Packing Crates down and build a giant, buff, half-shark, half-angler statue to show my dominance over those factory losers! You said you'd do it, so shoo!", "Talk to the Angler"))
-				   .AddTask(new RetrievalTask(ModContent.ItemType<Items.Placeable.Furniture.GiantAnglerStatue>(), 1))
-				   .AddTask(new GiveNPCTask(NPCID.Angler, ModContent.ItemType<Items.Placeable.Furniture.GiantAnglerStatue>(), 1, "This is the most amazing thing ever! Industrial fishing will never break my spirit, and I'm sure they don't have a half-man, half-shark statue like this one! You've impressed me today, so I'll actually give you a reward. Make sure to put that statue up pronto! I'm going to ask the Merchant to sell copies, so tell your friends (if you have any)!", "Show the Angler your creation", true, false, ItemID.FishermansGuide));
+				   .AddTask(new RetrievalTask(ModContent.ItemType<GiantAnglerStatue>(), 1))
+				   .AddTask(new GiveNPCTask(NPCID.Angler, ModContent.ItemType<GiantAnglerStatue>(), 1, "This is the most amazing thing ever! Industrial fishing will never break my spirit, and I'm sure they don't have a half-man, half-shark statue like this one! You've impressed me today, so I'll actually give you a reward. Make sure to put that statue up pronto! I'm going to ask the Merchant to sell copies, so tell your friends (if you have any)!", "Show the Angler your creation", true, false, ItemID.FishermansGuide));
 
 			TaskBuilder branch3 = new TaskBuilder();
 			branch3.AddTask(new RetrievalTask(ModContent.ItemType<Items.Placeable.FishCrate>(), 3))

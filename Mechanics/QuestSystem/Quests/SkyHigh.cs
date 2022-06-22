@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Terraria;
-using Terraria.ModLoader;
-using SpiritMod.Items.Weapon.Swung.AnimeSword;
+﻿using Terraria.ModLoader;
+using SpiritMod.Mechanics.QuestSystem.Tasks;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {

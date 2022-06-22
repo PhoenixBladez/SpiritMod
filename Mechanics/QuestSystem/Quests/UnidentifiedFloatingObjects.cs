@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using SpiritMod.Mechanics.QuestSystem.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
-    public class UnidentifiedFloatingObjects : Quest
+	public class UnidentifiedFloatingObjects : Quest
     {
         public override string QuestName => "Unidentified Floaters";
 		public override string QuestClient => "The Adventurer";

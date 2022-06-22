@@ -2,15 +2,11 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.IO;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-
 using SpiritMod.Mechanics.QuestSystem.Tasks;
 using SpiritMod.UI.Elements;
 
@@ -26,6 +22,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 		private bool _rewardsGiven;
 		private int _completedCounter = 0;
 		internal List<string> _altNames;
+
+		public QuestTask CurrentTask => _currentTask;
 
 		public virtual int Difficulty => 1;
 		public virtual string QuestCategory => "";

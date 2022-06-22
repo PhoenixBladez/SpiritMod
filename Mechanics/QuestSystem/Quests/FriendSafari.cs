@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Terraria;
+﻿using SpiritMod.Mechanics.QuestSystem.Tasks;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
@@ -31,9 +25,6 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
             _tasks.AddTask(new TalkNPCTask(ModContent.NPCType<NPCs.Town.Rogue>(), "Hey! Thanks for saving me- Now, mind getting us out of this pickle? They duped me, took all my cash and left me for dead here! Don't think it means I'll discount my wares for you, though. Just kidding! Not.", "Find the bandit hideout and rescue the prisoner."));
         }
 
-		public override bool IsQuestPossible()
-		{
-			return MyWorld.gennedBandits;
-		}
-    }
+		public override bool IsQuestPossible() => MyWorld.gennedBandits;
+	}
 }

@@ -50,10 +50,16 @@ namespace SpiritMod.GlobalClasses.Projectiles
 
 	public class ExplosivesGlobalProjectile : GlobalProjectile
 	{
+		public override bool InstancePerEntity => true;
+
+		private bool _fused = false;
+
 		public override bool PreAI(Projectile projectile)
 		{
-			if (projectile.owner > -1 && projectile.friendly)
+			if (projectile.owner > -1 && projectile.friendly && _fused)
 			{
+				_fused = true;
+
 				MyPlayer modPlayer = Main.player[projectile.owner].GetSpiritPlayer();
 
 				if (modPlayer.longFuse && ExplosivesCache.AllExplosives.Contains(projectile.type)) //Long fuse functionality

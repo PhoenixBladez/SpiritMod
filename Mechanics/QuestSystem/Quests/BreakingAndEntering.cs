@@ -1,17 +1,10 @@
-﻿using SpiritMod.NPCs.Town;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Terraria;
-using Terraria.ID;
+﻿using SpiritMod.Mechanics.QuestSystem.Tasks;
+using SpiritMod.NPCs.Town;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
-    public class BreakingAndEntering : Quest
+	public class BreakingAndEntering : Quest
     {
         public override string QuestName => "Breaking and Entering";
 		public override string QuestClient => "The Adventurer";

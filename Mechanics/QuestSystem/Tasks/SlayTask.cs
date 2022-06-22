@@ -4,28 +4,27 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
 
-namespace SpiritMod.Mechanics.QuestSystem
+namespace SpiritMod.Mechanics.QuestSystem.Tasks
 {
 	public class SlayTask : QuestTask
 	{
 		public override string ModCallName => "Slay";
 
 		private readonly bool _Singular = false;
-
-		private int[] _monsterIDs;
 		private int _killsRequired;
 		private int _killCount;
 		private QuestPoolData? _poolData;
 		private string _monsterNameOverride;
 
-		public SlayTask() { }
+        public int[] MonsterIDs { get; private set; }
+
+        public SlayTask() { }
 
 		public SlayTask(int monsterID, int amount, string monsterNameOverride = null, QuestPoolData? pool = null, bool singular = false)
 		{
-			_monsterIDs = new int[] { monsterID };
+			MonsterIDs = new int[] { monsterID };
+
 			_killsRequired = amount;
 			_monsterNameOverride = monsterNameOverride;
 			_poolData = pool;
@@ -35,7 +34,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public SlayTask(int[] monsterIDs, int amount, string monsterNameOverride = null, QuestPoolData? pool = null, bool singular = false)
 		{
-			_monsterIDs = monsterIDs;
+			MonsterIDs = monsterIDs;
 			_killsRequired = amount;
 			_monsterNameOverride = monsterNameOverride;
 			_poolData = pool;
@@ -88,13 +87,13 @@ namespace SpiritMod.Mechanics.QuestSystem
 			// start with: - Kill x monster, monster or monster
 			if (_monsterNameOverride == null)
 			{
-				for (int i = 0; i < _monsterIDs.Length; i++)
+				for (int i = 0; i < MonsterIDs.Length; i++)
 				{
-					string monsterName = Lang.GetNPCNameValue(_monsterIDs[i]);
+					string monsterName = Lang.GetNPCNameValue(MonsterIDs[i]);
 
 					monsterName += QuestUtils.GetPluralEnding(_killsRequired, monsterName);
 
-					if (_monsterIDs.Length == 1)
+					if (MonsterIDs.Length == 1)
 					{
 						// if there's multiple monsters, add a character to show plurality
 						builder.Append(monsterName);
@@ -103,9 +102,9 @@ namespace SpiritMod.Mechanics.QuestSystem
 					else
 					{
 						builder.Append(monsterName);
-						if (i < _monsterIDs.Length - 2)
+						if (i < MonsterIDs.Length - 2)
 							builder.Append(", ");
-						else if (i == _monsterIDs.Length - 2)
+						else if (i == MonsterIDs.Length - 2)
 							builder.Append(" or ");
 					}
 				}
@@ -130,10 +129,10 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			QuestGlobalNPC.OnNPCLoot += QuestGlobalNPC_OnNPCLoot;
 
-			for (int i = 0; i < _monsterIDs.Length; i++)
+			for (int i = 0; i < MonsterIDs.Length; i++)
 			{
 				if (_poolData != null)
-					QuestGlobalNPC.AddToPool(_monsterIDs[i], _poolData.Value);
+					QuestGlobalNPC.AddToPool(MonsterIDs[i], _poolData.Value);
 			}
 		}
 
@@ -141,8 +140,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			QuestGlobalNPC.OnNPCLoot -= QuestGlobalNPC_OnNPCLoot;
 
-			for (int i = 0; i < _monsterIDs.Length; i++)
-				QuestGlobalNPC.RemoveFromPool(_monsterIDs[i]);
+			for (int i = 0; i < MonsterIDs.Length; i++)
+				QuestGlobalNPC.RemoveFromPool(MonsterIDs[i]);
 		}
 
 		public override bool CheckCompletion() => _killCount >= _killsRequired;
@@ -150,7 +149,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		private void QuestGlobalNPC_OnNPCLoot(NPC npc)
 		{
 			// make it so killing this type of NPC progresses the section
-			if (_monsterIDs.Contains(npc.netID))
+			if (MonsterIDs.Contains(npc.netID))
 			{
 				_killCount++;
 				if (_killCount > _killsRequired)

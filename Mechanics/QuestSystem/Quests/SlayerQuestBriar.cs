@@ -1,6 +1,7 @@
 ﻿using Terraria.ModLoader;
 using SpiritMod.NPCs.Reach;
 using SpiritMod.NPCs.Town;
+using SpiritMod.Mechanics.QuestSystem.Tasks;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
@@ -25,6 +26,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
         {
             _tasks.AddTask(new SlayTask(new int[] { ModContent.NPCType<Reachman>(), ModContent.NPCType<ReachObserver>(), ModContent.NPCType<BlossomHound>(), ModContent.NPCType<ThornStalker>()}, 12));
         }
+
         public override void OnQuestComplete()
 		{
             bool showUnlocks = true;

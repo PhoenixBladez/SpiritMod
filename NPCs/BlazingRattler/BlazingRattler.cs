@@ -1,9 +1,6 @@
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
 using System.IO;
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,22 +19,24 @@ namespace SpiritMod.NPCs.BlazingRattler
 		{
 			npc.width = 58;
 			npc.height = 46;
-			npc.damage = 25;
+			npc.damage = 20;
 			npc.defense = 16;
-			npc.lifeMax = 300;
+			npc.lifeMax = 240;
 			npc.buffImmune[BuffID.Poisoned] = true;
 			npc.buffImmune[BuffID.Venom] = true;
 			npc.buffImmune[BuffID.OnFire] = true;
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath2;
-			npc.value = 800f;
-			npc.knockBackResist = .35f;
+			npc.value = Item.buyPrice(0, 0, 8, 0);
+			npc.knockBackResist = .5f;
 			npc.aiStyle = 3;
 			aiType = 218;
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.BlazingRattlerBanner>();
 		}
+
 		int hitCounter;
+
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(153) == 0)
@@ -46,70 +45,54 @@ namespace SpiritMod.NPCs.BlazingRattler
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Nazar);
 			if (Main.rand.Next(100) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TallyCounter);
-            if (Main.rand.Next(250) == 0)
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BoneWand);
-            if (Main.rand.Next(500) == 0)
+			if (Main.rand.Next(250) == 0)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BoneWand);
+			if (Main.rand.Next(500) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Skull);
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.LivingFireBlock, Main.rand.Next(10, 25));
 			if (Main.rand.Next(6) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Placeable.Furniture.SkullPile>());
 		}
-		public override void SendExtraAI(BinaryWriter writer)
-		{
-			writer.Write(hitCounter);
-		}
-		public override void ReceiveExtraAI(BinaryReader reader)
-		{
-			hitCounter = reader.ReadInt32();
-		}
+
+		public override void SendExtraAI(BinaryWriter writer) => writer.Write(hitCounter);
+		public override void ReceiveExtraAI(BinaryReader reader) => hitCounter = reader.ReadInt32();
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			npc.scale -= .02f;
 
-			for (int k = 0; k < 30; k++) {
+			for (int k = 0; k < 30; k++)
+			{
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Dirt, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 2.5f * hitDirection, -2.5f, 0, default, .34f);
 			}
 
 			hitCounter++;
-			if (hitCounter >= 3) {
+			if (hitCounter >= 3)
+			{
 				hitCounter = 0;
-				Vector2 dir = Main.player[npc.target].Center - npc.Center;
-				dir.Normalize();
-				dir.X *= 4f;
-				dir.Y *= 4f;
-				bool expertMode = Main.expertMode;
+				Vector2 dir = Vector2.Normalize(Main.player[npc.target].Center - npc.Center).RotatedByRandom(0.02f) * 4f;
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					Main.PlaySound(SoundID.Item20, npc.Center);
-					float A = (float)Main.rand.Next(-200, 200) * 0.01f;
-					float B = (float)Main.rand.Next(-200, 200) * 0.01f;
-					int damagenumber = expertMode ? 10 : 15;
-					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, dir.X + A, dir.Y + B, ProjectileID.BallofFire, damagenumber, 1, Main.myPlayer, 0, 0);
+					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, dir.X, dir.Y, ProjectileID.BallofFire, Main.expertMode ? 5 : 12, 1, Main.myPlayer, 0, 0);
 					Main.projectile[p].friendly = false;
 					Main.projectile[p].hostile = true;
 				}
 			}
-			if (npc.life <= 0) {
+
+			if (npc.life <= 0)
+			{
 				Main.PlaySound(SoundID.Item, npc.Center, 74);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler5"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler6"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler7"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler3"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler4"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler8"), 1f);
-				Vector2 dir = Main.player[npc.target].Center;
-				dir.Normalize();
-				dir.X *= Main.rand.NextFloat(-6f, 6f);
-				dir.Y *= Main.rand.NextFloat(-6f, 6f);
+
+				for (int i = 1; i < 8; ++i)
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler" + i), 1f);
+
+				Vector2 dir = new Vector2(Main.rand.NextFloat(4, 5)).RotatedByRandom(MathHelper.TwoPi);
 				bool expertMode = Main.expertMode;
-				for (int i = 0; i < 3; ++i) {
-					float A = (float)Main.rand.Next(-200, 200) * 0.01f;
-					float B = (float)Main.rand.Next(-200, 200) * 0.01f;
-					int damagenumber = expertMode ? 10 : 15;
-					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, dir.X + A, dir.Y + B, ProjectileID.BallofFire, damagenumber, 1, Main.myPlayer, 0, 0);
+				for (int i = 0; i < 3; ++i)
+				{
+					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, dir.X, dir.Y, ProjectileID.BallofFire, expertMode ? 10 : 15, 1, Main.myPlayer, 0, 0);
 					Main.projectile[p].friendly = false;
 					Main.projectile[p].hostile = true;
 				}
@@ -119,29 +102,26 @@ namespace SpiritMod.NPCs.BlazingRattler
 		public override void AI()
 		{
 			npc.spriteDirection = npc.direction;
-			if (npc.scale <= .85f) {
+			if (npc.scale <= .85f)
 				npc.scale = .85f;
-			}
 		}
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (NPC.downedPlantBoss)
-            {
-				return spawnInfo.player.ZoneDungeon && NPC.CountNPCS(ModContent.NPCType<BlazingRattler>()) < 1 ? 0.0015f : 0f;
-			}
-			return spawnInfo.player.ZoneDungeon && NPC.CountNPCS(ModContent.NPCType<BlazingRattler>()) < 1 ? 0.05f : 0f;
+				return spawnInfo.player.ZoneDungeon && !NPC.AnyNPCs(ModContent.NPCType<BlazingRattler>()) ? 0.0015f : 0f;
+			return spawnInfo.player.ZoneDungeon && !NPC.AnyNPCs(ModContent.NPCType<BlazingRattler>()) ? 0.04f : 0f;
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 			return false;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/BlazingRattler/BlazingRattler_Glow"));
-		}
+
+		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/BlazingRattler/BlazingRattler_Glow"));
+
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.15f;

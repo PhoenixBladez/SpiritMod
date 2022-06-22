@@ -1,4 +1,6 @@
-﻿namespace SpiritMod.Mechanics.QuestSystem.Quests
+﻿using SpiritMod.Mechanics.QuestSystem.Tasks;
+
+namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
     public class HeartCrystalQuest : Quest
     {

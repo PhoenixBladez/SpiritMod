@@ -7,7 +7,7 @@ using System.Text;
 using Terraria;
 using Terraria.ID;
 
-namespace SpiritMod.Mechanics.QuestSystem
+namespace SpiritMod.Mechanics.QuestSystem.Tasks
 {
 	public class ExploreTask : QuestTask
 	{

@@ -1,5 +1,5 @@
-﻿using SpiritMod.NPCs.Sea_Mandrake;
-using System.Collections.Generic;
+﻿using SpiritMod.Mechanics.QuestSystem.Tasks;
+using SpiritMod.NPCs.Sea_Mandrake;
 using Terraria.ID;
 using Terraria.ModLoader;
 

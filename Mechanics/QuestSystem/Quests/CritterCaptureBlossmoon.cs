@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Terraria;
+﻿using SpiritMod.Mechanics.QuestSystem.Tasks;
 using Terraria.ID;
 using Terraria.ModLoader;
 

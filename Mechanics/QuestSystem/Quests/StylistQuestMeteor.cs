@@ -1,4 +1,5 @@
-﻿using Terraria.ID;
+﻿using SpiritMod.Mechanics.QuestSystem.Tasks;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests

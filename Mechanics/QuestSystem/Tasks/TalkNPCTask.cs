@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Mechanics.QuestSystem
+namespace SpiritMod.Mechanics.QuestSystem.Tasks
 {
 	public class TalkNPCTask : QuestTask
 	{

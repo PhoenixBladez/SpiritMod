@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Terraria;
+﻿using SpiritMod.Mechanics.QuestSystem.Tasks;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
@@ -25,13 +20,12 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Armor.ClatterboneArmor.ClatterboneLeggings>(), 1),
 			(ModContent.ItemType<Items.Weapon.Thrown.ClatterSpear>(), 1),
 			(ModContent.ItemType<Items.Placeable.Furniture.WheezerPainting>(), 1),
-			(Terraria.ID.ItemID.GoldCoin, 1)
+			(ItemID.GoldCoin, 1)
 		};
 
 		private SlayerQuestCavern()
         {
-            _tasks.AddTask(new SlayTask(new int[] { ModContent.NPCType<NPCs.Wheezer.Wheezer>(), ModContent.NPCType<NPCs.CavernCrawler.CavernCrawler>(), Terraria.ID.NPCID.GiantShelly, Terraria.ID.NPCID.Salamander, Terraria.ID.NPCID.Crawdad}, 8));
-
+            _tasks.AddTask(new SlayTask(new int[] { ModContent.NPCType<NPCs.Wheezer.Wheezer>(), ModContent.NPCType<NPCs.CavernCrawler.CavernCrawler>(), NPCID.GiantShelly, NPCID.Salamander, NPCID.Crawdad}, 8));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpiritMod.Mechanics.QuestSystem.Tasks;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 

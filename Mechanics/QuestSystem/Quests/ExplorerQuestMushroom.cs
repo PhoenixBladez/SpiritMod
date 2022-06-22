@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using SpiritMod.Mechanics.QuestSystem.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -30,7 +25,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		private ExplorerQuestMushroom()
         {
-                _tasks.AddTask(new ExploreTask((Player player) => player.ZoneGlowshroom, 5000f, "glowing mushroom fields"));
+            _tasks.AddTask(new ExploreTask((Player player) => player.ZoneGlowshroom, 5000f, "glowing mushroom fields"));
         }
    }
 }
