@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Dusts;
 using System;
 using SpiritMod.Utilities;
 using Terraria;
@@ -10,8 +9,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Particles;
 using SpiritMod.Prim;
-using System.Linq;
 using System.Collections.Generic;
+using SpiritMod.Items.Sets.BloodcourtSet;
 
 namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 {
@@ -20,6 +19,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 		public bool ChargeReady => charge % 3 == 2;
 
 		private int charge;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cursebreaker");
@@ -47,32 +47,40 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			item.noUseGraphic = true;
 			item.noMelee = true;
 		}
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-
 			Vector2 direction = new Vector2(speedX, speedY);
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 1).WithPitchVariance(0.5f), player.Center);
+			Main.PlaySound(new LegacySoundStyle(2, 1).WithPitchVariance(0.5f), player.Center);
 			Projectile proj = Projectile.NewProjectileDirect(position + (direction * 20) + (direction.RotatedBy(-1.57f * player.direction) * 20), Vector2.Zero, type, damage, knockBack, player.whoAmI);
 			var mp = proj.modProjectile as CurseBreakerProj;
 			mp.Phase = charge % 3;
+
 			if (charge % 3 != 0)
-            {
 				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SwordSlash1").WithPitchVariance(0.6f).WithVolume(0.8f), player.Center);
-			}
+
 			charge++;
+
 			if (charge % 3 != 0)
-			{
 				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SwordSlash1").WithPitchVariance(0.6f).WithVolume(0.8f), player.Center);
-			}
 			else
-			{
 				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/PowerSlash1").WithPitchVariance(0.2f).WithVolume(0.6f), player.Center);
-			}
 			return false;
+		}
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.SoulofNight, 12);
+			recipe.AddIngredient(ModContent.ItemType<DreamstrideEssence>(), 8);
+			recipe.AddRecipeGroup("SpiritMod:Tier3HMBar", 8);
+			recipe.AddTile(TileID.MythrilAnvil);
+			recipe.SetResult(this, 1);
+			recipe.AddRecipe();
 		}
 	}
 
-	internal class CurseBreakerProj : ModProjectile,IDrawAdditive
+	internal class CurseBreakerProj : ModProjectile, IDrawAdditive
 	{
 		public float SwingRadians //Total radians of the sword's arc
 		{

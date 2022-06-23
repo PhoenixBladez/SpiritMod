@@ -13,10 +13,10 @@ namespace SpiritMod.Projectiles.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Quackling Minion");
-			Main.projFrames[base.projectile.type] = 4;
+			Main.projFrames[projectile.type] = 4;
 			Main.projPet[projectile.type] = true;
-			ProjectileID.Sets.Homing[base.projectile.type] = true;
-			ProjectileID.Sets.MinionSacrificable[base.projectile.type] = true;
+			ProjectileID.Sets.Homing[projectile.type] = true;
+			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
 			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 		}
 
@@ -33,11 +33,12 @@ namespace SpiritMod.Projectiles.DonatorItems
 			projectile.ignoreWater = true;
 			aiType = ProjectileID.Raven;
 		}
-		
+
 		public override void AI()
 		{
 			projectile.frameCounter++;
-			if (projectile.frameCounter >= 6f) {
+			if (projectile.frameCounter >= 6f)
+			{
 				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
 				projectile.frameCounter = 0;
 			}
@@ -45,15 +46,19 @@ namespace SpiritMod.Projectiles.DonatorItems
 			bool flag64 = projectile.type == ModContent.ProjectileType<QuacklingMinion>();
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if (flag64) {
+
+			if (flag64)
+			{
 				if (player.dead)
-				modPlayer.QuacklingMinion = false;
+					modPlayer.QuacklingMinion = false;
 				if (modPlayer.QuacklingMinion)
-				projectile.timeLeft = 2;
+					projectile.timeLeft = 2;
 			}
 
-			for (int num526 = 0; num526 < 1000; num526++) {
-				if (num526 != projectile.whoAmI && Main.projectile[num526].active && Main.projectile[num526].owner == projectile.owner && Main.projectile[num526].type == projectile.type && Math.Abs(projectile.position.X - Main.projectile[num526].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num526].position.Y) < (float)projectile.width) {
+			for (int num526 = 0; num526 < 1000; num526++)
+			{
+				if (num526 != projectile.whoAmI && Main.projectile[num526].active && Main.projectile[num526].owner == projectile.owner && Main.projectile[num526].type == projectile.type && Math.Abs(projectile.position.X - Main.projectile[num526].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num526].position.Y) < (float)projectile.width)
+				{
 					if (projectile.position.X < Main.projectile[num526].position.X)
 						projectile.velocity.X = projectile.velocity.X - 0.05f;
 					else
@@ -63,7 +68,6 @@ namespace SpiritMod.Projectiles.DonatorItems
 						projectile.velocity.Y = projectile.velocity.Y - 0.05f;
 					else
 						projectile.velocity.Y = projectile.velocity.Y + 0.05f;
-
 				}
 			}
 
@@ -72,13 +76,17 @@ namespace SpiritMod.Projectiles.DonatorItems
 			float num529 = 900f;
 			bool flag19 = false;
 
-			if (projectile.ai[0] == 0f) {
-				for (int num531 = 0; num531 < 100; num531++) {
-					if (Main.npc[num531].CanBeChasedBy(projectile, false)) {
+			if (projectile.ai[0] == 0f)
+			{
+				for (int num531 = 0; num531 < 100; num531++)
+				{
+					if (Main.npc[num531].CanBeChasedBy(projectile, false))
+					{
 						float num532 = Main.npc[num531].position.X + (float)(Main.npc[num531].width / 2);
 						float num533 = Main.npc[num531].position.Y - 250 + (float)(Main.npc[num531].height / 2);
 						float num534 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num532) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num533);
-						if (num534 < num529 && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[num531].position, Main.npc[num531].width, Main.npc[num531].height)) {
+						if (num534 < num529 && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[num531].position, Main.npc[num531].width, Main.npc[num531].height))
+						{
 							num529 = num534;
 							num527 = num532;
 							num528 = num533;
@@ -87,11 +95,11 @@ namespace SpiritMod.Projectiles.DonatorItems
 					}
 				}
 			}
-			else {
+			else
 				projectile.tileCollide = false;
-			}
 
-			if (!flag19) {
+			if (!flag19)
+			{
 				projectile.friendly = true;
 				float num535 = 8f;
 				if (projectile.ai[0] == 1f)
@@ -101,23 +109,28 @@ namespace SpiritMod.Projectiles.DonatorItems
 				float num536 = Main.player[projectile.owner].Center.X - vector38.X;
 				float num537 = Main.player[projectile.owner].Center.Y - vector38.Y - 60f;
 				float num538 = (float)Math.Sqrt((double)(num536 * num536 + num537 * num537));
-				if (num538 < 100f && projectile.ai[0] == 1f && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height)) {
+
+				if (num538 < 100f && projectile.ai[0] == 1f && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
 					projectile.ai[0] = 0f;
-				}
-				if (num538 > 2000f) {
+
+				if (num538 > 2000f)
+				{
 					projectile.position.X = Main.player[projectile.owner].Center.X - (projectile.width * .5f);
 					projectile.position.Y = Main.player[projectile.owner].Center.Y - (projectile.width * .5f);
 				}
 
-				if (num538 > 70f) {
+				if (num538 > 70f)
+				{
 					num538 = num535 / num538;
 					num536 *= num538;
 					num537 *= num538;
 					projectile.velocity.X = (projectile.velocity.X * 20f + num536) * (1f / 21f);
 					projectile.velocity.Y = (projectile.velocity.Y * 20f + num537) * (1f / 21f);
 				}
-				else {
-					if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f) {
+				else
+				{
+					if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
+					{
 						projectile.velocity.X = -0.15f;
 						projectile.velocity.Y = -0.05f;
 					}
@@ -126,16 +139,18 @@ namespace SpiritMod.Projectiles.DonatorItems
 				projectile.friendly = false;
 				projectile.rotation = projectile.velocity.X * 0.05f;
 
-				if (Math.Abs(projectile.velocity.X) > 0.2) {
+				if (Math.Abs(projectile.velocity.X) > 0.2)
+				{
 					projectile.spriteDirection = -projectile.direction;
 					return;
 				}
 			}
-			else {
+			else
+			{
 				timer++;
-				if (timer % 100 == 1 && Main.netMode != NetmodeID.MultiplayerClient)
-					Projectile.NewProjectile(projectile.Center, new Vector2(0, 3),
-						ModContent.ProjectileType<AquaBall>(), projectile.damage, 0, Main.myPlayer);
+
+				if (timer % 70 == 1 && Main.netMode != NetmodeID.MultiplayerClient)
+					Projectile.NewProjectile(projectile.Center, new Vector2(0, 3), ModContent.ProjectileType<AquaBall>(), projectile.damage, 0, Main.myPlayer);
 
 				if (projectile.ai[1] == -1f)
 					projectile.ai[1] = 17f;
@@ -143,12 +158,12 @@ namespace SpiritMod.Projectiles.DonatorItems
 				if (projectile.ai[1] > 0f)
 					projectile.ai[1] -= 1f;
 
-				if (projectile.ai[1] == 0f) {
+				if (projectile.ai[1] == 0f)
+				{
 					projectile.friendly = true;
 					float num539 = 8f;
-					Vector2 vector39 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-					float num540 = num527 - vector39.X;
-					float num541 = num528 - vector39.Y;
+					float num540 = num527 - projectile.Center.X;
+					float num541 = num528 - projectile.Center.Y;
 					float num542 = (float)Math.Sqrt((double)(num540 * num540 + num541 * num541));
 					if (num542 < 100f)
 						num539 = 10f;
@@ -159,24 +174,23 @@ namespace SpiritMod.Projectiles.DonatorItems
 					projectile.velocity.X = (projectile.velocity.X * 14f + num540) / 15f;
 					projectile.velocity.Y = (projectile.velocity.Y * 14f + num541) / 15f;
 				}
-				else {
+				else
+				{
 					projectile.friendly = false;
 					if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 10f)
 						projectile.velocity *= 1.05f;
 				}
+
 				projectile.rotation = projectile.velocity.X * 0.05f;
 
-				if (Math.Abs(projectile.velocity.X) > 0.2) {
+				if (Math.Abs(projectile.velocity.X) > 0.2)
+				{
 					projectile.spriteDirection = -projectile.direction;
 					return;
 				}
 			}
 		}
 
-		public override bool MinionContactDamage()
-		{
-			return true;
-		}
-
+		public override bool MinionContactDamage() => true;
 	}
 }

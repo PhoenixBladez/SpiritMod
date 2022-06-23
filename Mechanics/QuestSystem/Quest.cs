@@ -242,6 +242,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 					_currentTask = _tasks[taskId];
 					_currentTask.ReadData(reader);
+					_currentTask.Activate(this); //Fixes branch quests being poorly reloaded
 				}
 			}
 		}

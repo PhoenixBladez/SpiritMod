@@ -9,6 +9,7 @@ using Terraria.Localization;
 using static Terraria.ModLoader.ModContent;
 using static SpiritMod.NPCUtils;
 using SpiritMod.Tiles.Furniture.SlotMachine;
+using SpiritMod.Items.Sets.MagicMisc.MagicDeck;
 
 namespace SpiritMod.NPCs.Town
 {
@@ -54,11 +55,15 @@ namespace SpiritMod.NPCs.Town
 
 		public override bool CanTownNPCSpawn(int numTownNPCs, int money)
 		{
-			for (int k = 0; k < 255; k++) {
+			for (int k = 0; k < 255; k++)
+			{
 				Player player = Main.player[k];
-				if (player.active) {
-					for (int j = 0; j < player.inventory.Length; j++) {
-						if (player.inventory[j].type == ItemID.GoldCoin && !NPC.AnyNPCs(NPCType<BoundGambler>())) {
+				if (player.active)
+				{
+					for (int j = 0; j < player.inventory.Length; j++)
+					{
+						if (player.inventory[j].type == ItemID.GoldCoin && !NPC.AnyNPCs(NPCType<BoundGambler>()))
+						{
 							return true;
 						}
 					}
@@ -69,7 +74,8 @@ namespace SpiritMod.NPCs.Town
 
 		public override string TownNPCName()
 		{
-			switch (WorldGen.genRand.Next(7)) {
+			switch (WorldGen.genRand.Next(7))
+			{
 				case 0:
 					return "Yumeko";
 				case 1:
@@ -127,7 +133,8 @@ namespace SpiritMod.NPCs.Town
 
 			nextSlot += 6;
 
-			switch (Main.moonPhase) {
+			switch (Main.moonPhase)
+			{
 				case 0 when !Main.dayTime:
 					AddItem(ref shop, ref nextSlot, ItemType<AceOfClubs>());
 					break;
@@ -156,6 +163,7 @@ namespace SpiritMod.NPCs.Town
 
 			AddItem(ref shop, ref nextSlot, ItemType<Dartboard>());
 			AddItem(ref shop, ref nextSlot, ItemType<SlotMachine>());
+			AddItem(ref shop, ref nextSlot, ItemType<MagicDeck>(), -1, Main.hardMode);
 		}
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)
@@ -188,8 +196,9 @@ namespace SpiritMod.NPCs.Town
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gambler/Gambler1"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gambler/Gambler2"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gambler/Gambler3"));
+
 				for (int numGore = 0; numGore < 15; numGore++)
-                {
+				{
 					int g = Gore.NewGore(npc.position, npc.velocity * Main.rand.NextFloat(0.5f, 1.3f), mod.GetGoreSlot("Gores/GamblerCash"));
 					Main.gore[g].scale = Main.rand.NextFloat(.5f, 1f);
 				}

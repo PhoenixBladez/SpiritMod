@@ -3634,7 +3634,7 @@ namespace SpiritMod
 			{
 				NPC npc = Main.npc[i];
 
-				if (npc.active && Vector2.Distance(player.Center, npc.Center) <= 300f && npc.CanBeChasedBy())
+				if (npc.active && player.DistanceSQ(npc.Center) <= 300f * 300f && npc.CanBeChasedBy())
 				{
 					if (attackTimer % 90 == 0)
 					{

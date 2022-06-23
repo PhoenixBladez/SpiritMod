@@ -1296,6 +1296,12 @@ namespace SpiritMod
 				ItemID.TissueSample
 			}));
 
+			RecipeGroup.RegisterGroup("SpiritMod:Tier3HMBar", BaseGroup(ItemID.AdamantiteBar, new int[]
+			{
+				ItemID.AdamantiteBar,
+				ItemID.TitaniumBar
+			}));
+
 			RecipeGroup.RegisterGroup("SpiritMod:SilverBars", BaseGroup(ItemID.SilverBar, new int[]
 			{
 				ItemID.SilverBar,

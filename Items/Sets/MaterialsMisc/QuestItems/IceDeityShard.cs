@@ -38,6 +38,7 @@ namespace SpiritMod.Items.Sets.MaterialsMisc.QuestItems
 			};
 			tooltips.Add(line1);
 		}
+
 		public override bool PreDrawTooltipLine(DrawableTooltipLine line, ref int yOffset)
 		{
 			if (line.Name == "ItemName")
@@ -58,11 +59,13 @@ namespace SpiritMod.Items.Sets.MaterialsMisc.QuestItems
 			return base.PreDrawTooltipLine(line, ref yOffset);
 		}
 	}
+
 	public class IceDeityShard2: IceDeityShard1
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Hyperborean Fragment");
 		public override bool OnPickup(Player player) => !player.HasItem(ModContent.ItemType<IceDeityShard2>());
 	}
+
 	public class IceDeityShard3 : IceDeityShard1
 	{
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Hyperborean Artifact");

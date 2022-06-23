@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Sets.CoilSet;
 
 namespace SpiritMod.Items.Accessory.UnstableTeslaCoil
 {
@@ -23,5 +24,15 @@ namespace SpiritMod.Items.Accessory.UnstableTeslaCoil
 		}
 		
 		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetSpiritPlayer().teslaCoil = true;
+
+		public override void AddRecipes()
+		{
+			var recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<TechDrive>(), 14);
+			recipe.AddIngredient(ItemID.Wire, 4);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
 	}
 }

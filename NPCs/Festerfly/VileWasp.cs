@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Sets.EvilBiomeDrops.PesterflyCane;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -50,7 +51,7 @@ namespace SpiritMod.NPCs.Festerfly
 			{
 				var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 				Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
-				Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
+				Color color = npc.GetAlpha(lightColor) * (((npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
 				spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
 			}
 			return true;
@@ -66,6 +67,12 @@ namespace SpiritMod.NPCs.Festerfly
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly5"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly6"), 1f);
 			}
+		}
+
+		public override void NPCLoot()
+		{
+			if (Main.rand.NextBool(30))
+				Item.NewItem(npc.getRect(), ModContent.ItemType<PesterflyCane>(), 1);
 		}
 	}
 }
