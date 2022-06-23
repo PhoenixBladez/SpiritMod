@@ -1005,13 +1005,11 @@ namespace SpiritMod.NPCs
 
 			if (!npc.SpawnedFromStatue)
 			{
-				DropLoot(150, 100, ModContent.ItemType<InfernalPact>(), npc, NPCID.Lavabat, NPCID.RedDevil);
-				DropLoot(150, 100, ModContent.ItemType<Items.Sets.SwordsMisc.CurseBreaker.CurseBreaker>(), npc, NPCID.RedDevil);
-
+				DropLoot(80, 60, ModContent.ItemType<InfernalPact>(), npc, NPCID.Lavabat, NPCID.RedDevil);
 				DropLoot(150, 150, ModContent.ItemType<IceVikingSculpture>(), npc, NPCID.UndeadViking);
 				DropLoot(150, 150, ModContent.ItemType<IceFlinxSculpture>(), npc, NPCID.SnowFlinx);
 				DropLoot(150, 150, ModContent.ItemType<IceBatSculpture>(), npc, NPCID.IceBat);
-				DropLoot(150, 150, ModContent.ItemType<Items.Accessory.RabbitFoot.Rabbit_Foot>(), npc, NPCID.Bunny);
+				DropLoot(120, 110, ModContent.ItemType<Items.Accessory.RabbitFoot.Rabbit_Foot>(), npc, NPCID.Bunny);
 				DropLoot(150, 150, ModContent.ItemType<WinterbornSculpture>(), npc, ModContent.NPCType<Winterborn.WinterbornMelee>(), ModContent.NPCType<WinterbornHerald.WinterbornMagic>());
 				DropLoot(5, 5, ModContent.ItemType<Items.Consumable.Potion.BottomlessHealingPotion>(), npc, NPCID.Mimic);
 				DropLoot(5, 5, ModContent.ItemType<Items.Sets.MagicMisc.MagicDeck.MagicDeck>(), npc, NPCID.Mimic);
@@ -1040,7 +1038,7 @@ namespace SpiritMod.NPCs
 			DropLoot(1, 1, ModContent.ItemType<BlueprintTwins>(), Main.rand.Next(2) + 1, npc, NPCID.Retinazer, NPCID.Spazmatism);
 			DropLoot(1, 1, ModContent.ItemType<PrintProbe>(), Main.rand.Next(2) + 1, npc, NPCID.TheDestroyer);
 			DropLoot(50, 50, ModContent.ItemType<ChaosCrystal>(), npc, NPCID.ChaosElemental);
-			DropLoot(120, 92, ModContent.ItemType<Items.Weapon.Thrown.PiecesOfEight.PiecesOfEight>(), npc, NPCID.PirateDeckhand);
+			DropLoot(100, 80, ModContent.ItemType<Items.Weapon.Thrown.PiecesOfEight.PiecesOfEight>(), npc, NPCID.PirateDeckhand);
 			DropLoot(23, 23, ModContent.ItemType<SaucerBeacon>(), npc, NPCID.MartianOfficer);
 			DropLoot(35, 35, ModContent.ItemType<SnapperHat>(), npc, NPCID.Crawdad, NPCID.Crawdad2);
 			DropLoot(50, 50, ModContent.ItemType<TrapperGlove>(), npc, NPCID.ManEater);
@@ -1052,7 +1050,7 @@ namespace SpiritMod.NPCs
 			DropLoot(3, 3, ModContent.ItemType<FrigidFragment>(), Main.rand.Next(1, 3), npc, NPCID.ZombieEskimo, NPCID.IceSlime, NPCID.IceBat, NPCID.ArmoredViking);
 			DropLoot(20, 16, ModContent.ItemType<FrostGiantBelt>(), 1, npc, NPCID.UndeadViking);
 			DropLoot(1, 1, ModContent.ItemType<FrigidFragment>(), Main.rand.Next(1, 3), npc, NPCID.SpikedIceSlime, NPCID.ArmedZombieEskimo);
-			DropLoot(20, 10, ModContent.ItemType<SweetThrow>(), npc, NPCID.QueenBee);
+			DropLoot(14, 10, ModContent.ItemType<SweetThrow>(), npc, NPCID.QueenBee);
 			DropLoot(2, 2, ModContent.ItemType<OldLeather>(), Main.rand.Next(1, 3), npc, NPCID.Zombie, NPCID.BaldZombie, NPCID.SlimedZombie, NPCID.SwampZombie, NPCID.TwiggyZombie, NPCID.ZombieRaincoat, NPCID.PincushionZombie);
 			DropLoot(50, 50, ModContent.ItemType<SolarRattle>(), npc, NPCID.SolarDrakomire, NPCID.SolarDrakomireRider);
 			DropLoot(50, 50, ModContent.ItemType<EngineeringRod>(), npc, NPCID.GrayGrunt, NPCID.RayGunner, NPCID.BrainScrambler);
@@ -1067,7 +1065,7 @@ namespace SpiritMod.NPCs
 			DropLoot(50, 50, ModContent.ItemType<MagnifyingGlass>(), npc, NPCID.DemonEye, NPCID.DemonEye2, NPCID.DemonEyeOwl, NPCID.DemonEyeSpaceship);
 			DropLoot(1, 1, ModContent.ItemType<PirateKey>(), npc, NPCID.PirateShip);
 			DropLoot(6, 6, ModContent.ItemType<Items.Sets.SummonsMisc.SanguineFlayer.SanguineFlayerItem>(), npc, NPCID.BigMimicCrimson);
-			DropLoot(6, 6, ModContent.ItemType<Items.Accessory.OpalFrog.OpalFrogItem>(), npc, NPCID.BigMimicHallow);
+			DropLoot(6, 5, ModContent.ItemType<Items.Accessory.OpalFrog.OpalFrogItem>(), npc, NPCID.BigMimicHallow);
 			DropLoot(15, 15, ModContent.ItemType<Items.Sets.SwordsMisc.CurseBreaker.CurseBreaker>(), npc, NPCID.RedDevil);
 			DropLoot(1, 1, ModContent.ItemType<IridescentScale>(), Main.rand.Next(2, 5), npc, NPCID.Shark);
 		}

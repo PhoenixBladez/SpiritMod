@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
+	[System.Obsolete("Modded hair dyes do not work and I don't know a solution, removed until further notice")]
     public class StylistQuestCorrupt : Quest
     {
         public override string QuestName => "Dye Pursuit: Putrefaction";
@@ -23,7 +24,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		private StylistQuestCorrupt()
 		{
-			_tasks.AddParallelTasks(new SlayTask(ModContent.NPCType<NPCs.Cystal.Cystal>(), 1), new RetrievalTask(ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.CorruptDyeMaterial>(), 1, "Harvest"));
+			_tasks.AddParallelTasks(new SlayTask(ModContent.NPCType<NPCs.Cystal.Cystal>(), 1, null, new QuestPoolData(0.2f, true)), new RetrievalTask(ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.CorruptDyeMaterial>(), 1, "Harvest"));
 
 			TaskBuilder branch1 = new TaskBuilder();
 			branch1.AddTask(new GiveNPCTask(NPCID.Stylist, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.CorruptDyeMaterial>(), 1, "Wow, you smell pretty terrible. Take a shower, then come back to me for a shampoo on the house. I insist! But thank you for doing this for me, hun. You've been working really hard, so I wanted to give you this exclusive hair dye I've created. You'll never find it anywhere else! This dye and the one you've helped create work best with white hair, so let me know if you want a pre-dye.", "Bring the Violet Crystal back to the Stylist", true, true, ModContent.ItemType<Items.Sets.DyesMisc.HairDye.ViciousDye>()));

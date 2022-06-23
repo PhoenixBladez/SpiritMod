@@ -236,13 +236,7 @@ namespace SpiritMod.NPCs.Automata
 			return false;
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			int x = spawnInfo.spawnTileX;
-			int y = spawnInfo.spawnTileY;
-			int tile = Main.tile[x, y].type;
-			return (tile == 367) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 1f : 0f;
-		}
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => (spawnInfo.spawnTileType == TileID.Marble) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 1f : 0f;
 
 		public override void FindFrame(int frameHeight)
 		{

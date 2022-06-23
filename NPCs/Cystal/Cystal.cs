@@ -199,8 +199,6 @@ namespace SpiritMod.NPCs.Cystal
 			bool valid = !NPC.AnyNPCs(ModContent.NPCType<Cystal>()) && (NPC.downedBoss1 || NPC.downedBoss2 || NPC.downedBoss3 || MyWorld.downedScarabeus || MyWorld.downedReachBoss || MyWorld.downedRaider || MyWorld.downedAncientFlier);
 			if (!valid)
 				return 0;
-			if (QuestManager.GetQuest<StylistQuestCorrupt>().IsActive)
-				return SpawnCondition.Corruption.Chance * 0.19f;
 			return SpawnCondition.Corruption.Chance * 0.065f;
 		}
 		public override void NPCLoot()

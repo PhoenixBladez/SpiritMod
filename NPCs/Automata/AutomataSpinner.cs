@@ -126,15 +126,10 @@ namespace SpiritMod.NPCs.Automata
 				npc.netUpdate = true;
 			}
 		}
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			int x = spawnInfo.spawnTileX;
-			int y = spawnInfo.spawnTileY;
-			int tile = (int)Main.tile[x, y].type;
-			return (tile == 367) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 1f : 0f;
-		}
 
-        public void FrameControl()
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => (spawnInfo.spawnTileType == TileID.Marble) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 1f : 0f;
+
+		public void FrameControl()
         {
             frameTimer++;
             if (frameTimer >= 4)

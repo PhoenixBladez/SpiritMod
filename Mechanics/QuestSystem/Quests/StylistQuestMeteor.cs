@@ -4,7 +4,8 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
-    public class StylistQuestMeteor : Quest
+	[System.Obsolete("Modded hair dyes do not work and I don't know a solution, removed until further notice")]
+	public class StylistQuestMeteor : Quest
     {
         public override string QuestName => "Dye Pursuit: Tektites";
 		public override string QuestClient => "The Stylist";

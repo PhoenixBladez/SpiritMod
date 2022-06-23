@@ -159,8 +159,6 @@ namespace SpiritMod.NPCs.ArterialGrasper
 			bool valid = wall && spawnInfo.player.ZoneCrimson && (spawnInfo.player.ZoneRockLayerHeight || spawnInfo.player.ZoneDirtLayerHeight);
 			if (!valid)
 				return 0;
-			if (QuestManager.GetQuest<StylistQuestCrimson>().IsActive)
-				return SpawnCondition.Crimson.Chance * 0.2f;
 			return SpawnCondition.Crimson.Chance * 0.1f;
 		}
 		public override void HitEffect(int hitDirection, double damage)

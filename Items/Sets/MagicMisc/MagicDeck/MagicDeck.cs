@@ -1,13 +1,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
-using SpiritMod.Dusts;
-using SpiritMod.Items.Material;
 
 namespace SpiritMod.Items.Sets.MagicMisc.MagicDeck
 {
@@ -30,7 +27,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.MagicDeck
 			item.useTurn = false;
 			item.value = Item.sellPrice(0, 5, 0, 0);
 			item.rare = ItemRarityID.LightRed;
-			item.UseSound = SoundID.Item20;
+			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<MagicDeckProj>();
 			item.shootSpeed = 15;

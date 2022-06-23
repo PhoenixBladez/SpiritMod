@@ -51,8 +51,8 @@ namespace SpiritMod.NPCs.AstralAdventurer
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(mod.GetTexture("NPCs/AstralAdventurer/AstralAdventurer_Glow"), new Vector2(npc.Center.X, npc.Center.Y + 5) - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			Texture2D tex = mod.GetTexture("NPCs/AstralAdventurer/AstralAdventurer_Glow");
+			spriteBatch.Draw(tex, new Vector2(npc.Center.X, npc.Center.Y + 5) - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 		}
 
 		public override void AI()
@@ -502,8 +502,8 @@ namespace SpiritMod.NPCs.AstralAdventurer
 			if (Main.rand.Next(33) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MeteoriteSpewer"), 1);
 
-			if (QuestManager.GetQuest<Mechanics.QuestSystem.Quests.StylistQuestMeteor>().IsActive && Main.rand.NextBool(3))
-				Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.MeteorDyeMaterial>());
+			//if (QuestManager.GetQuest<Mechanics.QuestSystem.Quests.StylistQuestMeteor>().IsActive && Main.rand.NextBool(3))
+			//	Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.MeteorDyeMaterial>());
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
@@ -522,10 +522,9 @@ namespace SpiritMod.NPCs.AstralAdventurer
 				return;
 
 			Main.PlaySound(SoundID.Item, npc.Center, 14);
-			Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AstralAdventurer/AstralAdventurerGore1"), 1f);
-			Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AstralAdventurer/AstralAdventurerGore2"), 1f);
-			Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AstralAdventurer/AstralAdventurerGore3"), 1f);
-			Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AstralAdventurer/AstralAdventurerGore4"), 1f);
+
+			for (int i = 1; i < 5; ++i)
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AstralAdventurer/AstralAdventurerGore" + i), 1f);
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -544,6 +543,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
 			weaponTimer = reader.ReadInt32();
 			propelled = reader.ReadBoolean();
 		}
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => SpawnCondition.Meteor.Chance * 0.05f;
 
 		public override void FindFrame(int frameHeight)

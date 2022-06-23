@@ -51,15 +51,11 @@ namespace SpiritMod.NPCs.Hydra
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			for (int i = 0; i < Main.maxNPCs; ++i)
-			{
-				NPC npc2 = Main.npc[i];
-				if (npc2.active && npc2.type == ModContent.NPCType<Hydra>())
-					return 0f;
-			}
+			if (NPC.AnyNPCs(npc.type))
+				return 0f;
 
 			int tile = Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].type;
-			return (tile == TileID.Marble) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.5f : 0f;
+			return (tile == TileID.Marble) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.7f : 0f;
 		}
 
 		public override void AI()

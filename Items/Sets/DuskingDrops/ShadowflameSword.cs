@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Sets.DuskingDrops
 			item.shootSpeed = 2;
 			item.value = Item.sellPrice(0, 5, 0, 0);
 			item.autoReuse = true;
-			item.UseSound = SoundID.Item33;
+			item.UseSound = SoundID.Item1;
 		}
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

@@ -23,10 +23,9 @@ namespace SpiritMod.NPCs.GraniTech
 			get => _firing;
 			set
 			{
-				bool temp = _firing;
-				_firing = value;
-				if (temp != _firing)
+				if (_firing != value)
 					npc.netUpdate = true;
+				_firing = value;
 			}
 		}
 
@@ -311,13 +310,7 @@ namespace SpiritMod.NPCs.GraniTech
 			npc.DropItem(ModContent.ItemType<GranitechMaterial>(), Main.rand.Next(1, 4));
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			int x = spawnInfo.spawnTileX;
-			int y = spawnInfo.spawnTileY;
-			int tile = Main.tile[x, y].type;
-			return (tile == TileID.Granite) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.1f : 0f;
-		}
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => (spawnInfo.spawnTileType == TileID.Granite) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.6f : 0f;
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{

@@ -15,7 +15,6 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/SwordsMisc/AlphaBladeTree/SpiritStar_Glow");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.damage = 112;
@@ -26,7 +25,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 			item.height = 56;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 5;
-			item.value = Terraria.Item.sellPrice(0, 16, 0, 0);
+			item.value = Item.sellPrice(0, 16, 0, 0);
 			item.rare = ItemRarityID.Cyan;
 			item.shootSpeed = 8;
 			item.UseSound = SoundID.Item69;
@@ -34,11 +33,13 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 			item.useTurn = true;
 			item.shoot = ModContent.ProjectileType<HarpyFeather>();
 		}
+
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
 			int dust1 = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.Electric);
 			Main.dust[dust1].scale *= .23f;
 		}
+
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture;
@@ -60,6 +61,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 				0f
 			);
 		}
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			for (int i = 0; i < 3; ++i)
@@ -72,11 +74,12 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 			}
 			return false;
 		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<Starblade>(), 1);
-			recipe.AddIngredient(ModContent.ItemType<Items.Sets.SpiritSet.SpiritSaber>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<SpiritSet.SpiritSaber>(), 1);
 			recipe.AddIngredient(ItemID.Ectoplasm, 15);
 			recipe.AddIngredient(ItemID.FragmentSolar, 4);
 			recipe.AddIngredient(ItemID.FragmentVortex, 4);
