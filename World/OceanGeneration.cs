@@ -66,7 +66,7 @@ namespace SpiritMod.World
 				do
 				{
 					height--;
-				} while (height + depth + 20 > Main.worldSurface - 5);
+				} while (height + depth + 20 > Main.worldSurface + 50);
 			}
 
 			for (int side = 0; side < 2; side++)
@@ -205,7 +205,7 @@ namespace SpiritMod.World
 					if (WorldGen.genRand.Next(7) < 3 && tilesFromInnerEdge > 135 && ValidGround(i, j, 1, TileID.Sand) && OpenArea(i, j - 3, 1, 3))
 					{
 						int type = WorldGen.genRand.NextBool(3) ? ModContent.TileType<HydrothermalVent1x3>() : ModContent.TileType<HydrothermalVent1x2>();
-						int offset = type == ModContent.TileType<HydrothermalVent1x2>() ? 2 : 3;
+						int offset = type == ModContent.TileType<HydrothermalVent1x2>() ? 1 : 2;
 
 						WorldGen.PlaceObject(i, j - offset, type, true, WorldGen.genRand.Next(2));
 						NetMessage.SendObjectPlacment(-1, i, j, type, 0, 0, -1, -1);

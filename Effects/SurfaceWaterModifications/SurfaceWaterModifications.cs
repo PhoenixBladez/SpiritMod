@@ -155,7 +155,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 		{
 			var c = new ILCursor(il);
 
-			ILHelper.CompleteLog(c, true);
+			//ILHelper.CompleteLog(c, true);
 
 			//BACK TARGET
 			c.TryGotoNext(n => n.MatchLdfld<Main>("backWaterTarget"));
@@ -209,7 +209,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			c.EmitDelegate<Action<bool>>(NewDraw);
 			c.Emit(OpCodes.Br, label2);
 
-			ILHelper.CompleteLog(c);
+			//ILHelper.CompleteLog(c);
 		}
 
 		private static bool IsWaterTransparent() => Main.LocalPlayer.ZoneBeach;
