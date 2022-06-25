@@ -43,11 +43,11 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
             Lighting.AddLight(projectile.Center, Color.Gold.R * 0.0007f, Color.Gold.G * 0.0007f, Color.Gold.B * 0.0007f);
             cooldown--;
             Rectangle Hitbox = new Rectangle((int)projectile.Center.X - 30, (int)projectile.Center.Y - 30, 60, 60);
-            var list = Main.projectile.Where(x => x.Hitbox.Intersects(Hitbox));
+            var list = Main.projectile.Where(x => x.active && x.Hitbox.Intersects(Hitbox) && x.friendly && !x.hostile);
 
             foreach (var proj in list)
             {
-                if (proj.ranged && proj.active && proj.friendly && !proj.hostile && proj.GetGlobalProjectile<LLProj>().shotFromGun && cooldown < 0)
+                if (proj.ranged && proj.GetGlobalProjectile<LLProj>().shotFromGun && cooldown < 0)
                 {
                     for (int i = 0; i < 5; i++)
                         Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.GoldCoin).velocity *= 0.4f;
@@ -71,6 +71,8 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
 						proj.GetGlobalProjectile<LLProj>().target = target;
 						proj.GetGlobalProjectile<LLProj>().initialVel = velocity;
 						proj.GetGlobalProjectile<LLProj>().shotFromGun = false;
+
+						proj.netUpdate = true;
                     }
                     else
                         proj.velocity = proj.velocity.RotatedBy(Main.rand.NextFloat(6.28f));

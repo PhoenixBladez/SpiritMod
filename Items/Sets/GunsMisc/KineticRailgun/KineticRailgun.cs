@@ -83,6 +83,9 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 			Player player = Main.player[projectile.owner];
 			player.ChangeDir(Main.MouseWorld.X > player.position.X ? 1 : -1);
 
+			if (projectile.owner != Main.myPlayer)
+				return;
+
 			player.itemTime = 5; // Set item time to 2 frames while we are used
 			player.itemAnimation = 5; // Set item animation time to 2 frames while we are used
 			direction = Vector2.Normalize(Main.MouseWorld - player.Center) * 70f;

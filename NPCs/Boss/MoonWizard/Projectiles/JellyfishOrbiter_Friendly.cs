@@ -101,6 +101,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
                 }, true);
             }
         }
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
@@ -111,6 +112,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 			}
 			return false;
 		}
+
         public void AdditiveCall(SpriteBatch spriteBatch)
         {
             for (int k = 0; k < projectile.oldPos.Length; k++)

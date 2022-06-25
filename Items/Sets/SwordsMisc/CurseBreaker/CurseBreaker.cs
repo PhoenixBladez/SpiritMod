@@ -166,10 +166,8 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 				return true;
 			return false;
 		}
-		public override bool? CanCutTiles()
-		{
-			return true;
-		}
+
+		public override bool? CanCutTiles() => true;
 
 		// Plot a line from the start of the Solar Eruption to the end of it, to change the tile-cutting collision logic. (Don't change this.)
 		public override void CutTiles()
@@ -191,6 +189,9 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			projectile.velocity = Vector2.Zero;
 			Player.itemTime = Player.itemAnimation = 5;
 			Player.heldProj = projectile.whoAmI;
+
+			if (projectile.owner != Main.myPlayer)
+				return;
 
 			if (!initialized)
 			{
@@ -248,9 +249,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 
 			Player.itemRotation = rotation;
 			if (Player.direction != 1)
-			{
 				Player.itemRotation -= 3.14f;
-			}
 			Player.itemRotation = MathHelper.WrapAngle(Player.itemRotation);
 		}
 

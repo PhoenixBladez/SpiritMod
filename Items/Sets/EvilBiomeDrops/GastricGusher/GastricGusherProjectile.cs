@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -41,7 +42,17 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 			Player p = Main.player[projectile.owner];
 			p.heldProj = projectile.whoAmI;
 
-			if (p.whoAmI != Main.myPlayer) return; //mp check (hopefully)
+			if (_endCharge == -1) //Wait until the player has fired to let go & set position
+			{
+				p.itemTime = p.HeldItem.useTime;
+				p.itemAnimation = p.HeldItem.useAnimation;
+				projectile.Center = p.Center - (Vector2.Normalize(p.MountedCenter - Main.MouseWorld) * 27) + new Vector2(21, 12);
+			}
+			else
+				projectile.Center = p.Center - (new Vector2(1, 0).RotatedBy(_finalRotation) * 27) + new Vector2(21, 12);
+
+			if (p.whoAmI != Main.myPlayer)
+				return; //mp check (hopefully)
 
 			if (!p.channel && _endCharge == -1) //Fire (if possible)
 			{
@@ -59,15 +70,6 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 
 			_charge++; //Increase charge timer...
 			projectile.timeLeft++; //...and dont die
-
-			if (_endCharge == -1) //Wait until the player has fired to let go & set position
-			{
-				p.itemTime = p.HeldItem.useTime;
-				p.itemAnimation = p.HeldItem.useAnimation;
-				projectile.Center = p.Center - (Vector2.Normalize(p.MountedCenter - Main.MouseWorld) * 27) + new Vector2(21, 12);
-			}
-			else
-				projectile.Center = p.Center - (new Vector2(1, 0).RotatedBy(_finalRotation) * 27) + new Vector2(21, 12);
 
 			projectile.rotation = Vector2.Normalize(p.MountedCenter - Main.MouseWorld).ToRotation() - MathHelper.Pi; //So it looks like the player is holding it properly
 			GItem.ArmsTowardsMouse(p);
@@ -106,6 +108,20 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 
 			spriteBatch.Draw(t, drawPos, new Rectangle(0, 0, 42, 24), lightColor, realRot, new Vector2(21, 12), 1f, e, 1f);
 			return false;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(_endCharge);
+			writer.Write(_charge);
+			writer.Write(_finalRotation);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			_endCharge = reader.ReadInt32();
+			_charge = reader.ReadInt32();
+			_finalRotation = reader.ReadSingle();
 		}
 	}
 }
