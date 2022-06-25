@@ -1041,6 +1041,8 @@ namespace SpiritMod
 		{
 			ExplosivesCache.Initialize(this);
 			ModContent.GetInstance<IndestructibleGlobalTile>().Load(this);
+
+			//WikiWriter.WriteWiki();
 		}
 
 		public void CheckScreenSize()

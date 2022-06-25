@@ -16,8 +16,9 @@ namespace SpiritMod.Buffs
 		public override void Update(NPC npc, ref int buffIndex)
 		{
 			npc.GetGlobalNPC<GNPC>().Stopped = true;
-			//Main.NewText("yeet", 220, 100, 100, true);
-			if (!npc.boss) {
+
+			if (!npc.boss)
+			{
 				npc.velocity *= 0;
 				npc.frame.Y = 0;
 			}

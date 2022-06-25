@@ -18,6 +18,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		{
 			((int)ItemID.GoldCoin, 3),
 			(ItemID.MasterBait, 3),
+			(ModContent.ItemType<Items.Fishing.FisheyeGem>(), 1)
 		};
 
 		private AnglerStatueQuest()

@@ -11,7 +11,6 @@ namespace SpiritMod.Mechanics.QuestSystem
 {
 	public class QuestWorld : ModWorld
 	{
-		//Adventurer variables
 		public static bool downedWeaponsMaster = false;
 
 		public Dictionary<int, Queue<Quest>> NPCQuestQueue { get; private set; } = new Dictionary<int, Queue<Quest>>();
@@ -37,8 +36,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 					AddQuestQueue(NPCID.Dryad, QuestManager.GetQuest<CritterCaptureSoulOrb>());
 			}
 
-			if (NPC.downedBoss2)
-				AddQuestQueue(NPCID.Stylist, QuestManager.GetQuest<StylistQuestMeteor>());
+			//if (NPC.downedBoss2)
+			//	AddQuestQueue(NPCID.Stylist, QuestManager.GetQuest<StylistQuestMeteor>());
 		}
 
 		public override void Load(TagCompound tag)
@@ -55,7 +54,6 @@ namespace SpiritMod.Mechanics.QuestSystem
 				for (int i = 0; i < QuestManager.Quests.Count; i++)
 				{
 					Quest quest = QuestManager.Quests[i];
-
 					quest.ResetEverything();
 
 					// get the key for this quest
@@ -73,11 +71,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 							}
 						}
 
-						if (failed)
-						{
-							// this quest doesn't exist at all, so skip.
+						if (failed) // this quest doesn't exist at all, so skip.
 							continue;
-						}
 					}
 
 					StoredQuestData data = ConvertBack(tag.Get<TagCompound>(key));
@@ -248,6 +243,9 @@ namespace SpiritMod.Mechanics.QuestSystem
 		/// <param name="quest">The quest to add to the queue. Use QuestManager.GetQuest<Quest>() for this.</param>
 		public void AddQuestQueue(int npcID, Quest quest)
 		{
+			if (quest is null)
+				return;
+
 			if (!NPCQuestQueue.ContainsKey(npcID))
 				NPCQuestQueue.Add(npcID, new Queue<Quest>());
 

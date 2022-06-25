@@ -1,8 +1,5 @@
-﻿using log4net;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Mono.Cecil.Cil;
-using MonoMod.Cil;
 using SpiritMod.Particles;
 using SpiritMod.Tiles;
 using System;
@@ -14,7 +11,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
 using SpiritMod.Mechanics.QuestSystem;
-using SpiritMod.Items.Sets.ToolsMisc.Evergreen;
 using SpiritMod.Mechanics.BackgroundSystem;
 using System.Collections.Generic;
 using SpiritMod.Mechanics.Trails;
@@ -22,15 +18,12 @@ using SpiritMod.Effects.SurfaceWaterModifications;
 using SpiritMod.Items.Sets.FloatingItems.MessageBottle;
 using MonoMod.RuntimeDetour.HookGen;
 using System.Reflection;
-using SpiritMod.Items.Weapon.Summon.StardustBomb;
 using SpiritMod.NPCs.Town.Oracle;
-using SpiritMod.NPCs.Hydra;
 using SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder;
 using SpiritMod.Mechanics.CollideableNPC;
 using SpiritMod.GlobalClasses.Players;
 using System.Linq;
-using Terraria.Localization;
-using SpiritMod.Mechanics.QuestSystem.Tasks;
+using SpiritMod.Utilities.ILEdits;
 
 namespace SpiritMod.Utilities
 {
@@ -50,92 +43,24 @@ namespace SpiritMod.Utilities
 			On.Terraria.Projectile.VanillaAI += CollideableNPCDetours.Grappling;
 			On.Terraria.Main.DrawInterface += DrawParticles;
 			On.Terraria.Localization.LanguageManager.GetTextValue_string += LanguageManager_GetTextValue_string1;
-
 			On.Terraria.Main.DrawPlayerChat += Main_DrawPlayerChat;
-
 			On.Terraria.Main.DrawNPCChatButtons += Main_DrawNPCChatButtons;
 			On.Terraria.WorldGen.SpreadGrass += WorldGen_SpreadGrass;
-
 			On.Terraria.Main.DrawBackgroundBlackFill += Main_DrawBackgroundBlackFill; //BackgroundItemManager.Draw()
 			On.Terraria.Main.Update += Main_Update; //BackgroundItemManager.Update()
-
 			On.Terraria.Main.DrawMap += Main_DrawMap;
 
 			Main.OnPreDraw += Main_OnPreDraw;
 			On.Terraria.Main.DrawWater += Main_DrawWater;
 
-			IL.Terraria.Player.Hurt += Player_Hurt;
-			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
-			IL.Terraria.WorldGen.hardUpdateWorld += WorldGen_hardUpdateWorld;
-			IL.Terraria.Main.DrawMouseOver += Main_DrawMouseOver;
-			IL.Terraria.Main.DrawInfoAccs += Main_DrawInfoAccs;
-
 			SurfaceWaterModifications.Load();
 			HookEndpointManager.Add<hook_NPCAI>(NPCAIMethod, (hook_NPCAI)NPCAIMod);
-		}
 
-		private static bool _changeInfoAccColor = false;
-
-		private static void Main_DrawInfoAccs(ILContext il)
-		{
-			ILCursor c = new ILCursor(il);
-
-			if (!c.TryGotoNext(x => x.MatchLdstr("GameUI.NoRareCreatures"))) //Get to the rare creatures line
-				return;
-
-			if (!c.TryGotoNext(MoveType.After, x => x.MatchStloc(19))) //Match the stloc
-				return;
-
-			c.Emit(OpCodes.Ldloc, 19); //Load up the original for comparison / defaulting
-			c.EmitDelegate<Func<string, string>>(InfoAccQuestCreatures);
-			c.Emit(OpCodes.Stloc, 19); //Set possibly new value
-
-			if (!c.TryGotoNext(MoveType.After, x => x.MatchStloc(67))) //Match the color2 stloc
-				return;
-
-			c.Emit(OpCodes.Ldloc, 67); //Same as prior emit/delegate/emit triplet, but for color
-			c.Emit(OpCodes.Ldloc, 64); //Apart from this, which loads n (for loop iteration variable)
-			c.EmitDelegate<Func<Color, int, Color>>(GetModifiedInfoAccColor);
-			c.Emit(OpCodes.Stloc, 67);
-		}
-
-		private static Color GetModifiedInfoAccColor(Color c, int n)
-		{
-			if (_changeInfoAccColor)
+			foreach (var item in typeof(SpiritDetours).Assembly.GetTypes().Where(x => typeof(ILEdit).IsAssignableFrom(x) && !x.IsAbstract))
 			{
-				if (n == 4) //Reset this value only if the loop is done
-					_changeInfoAccColor = false;
-				return new Color(140, 69, 0);
+				var inst = (ILEdit)Activator.CreateInstance(item);
+				inst.Load(SpiritMod.Instance);
 			}
-			return c;
-		}
-
-		private static string InfoAccQuestCreatures(string orig)
-		{
-			_changeInfoAccColor = false;
-
-			for (int i = 0; i < Main.maxNPCs; ++i)
-			{
-				NPC npc = Main.npc[i];
-
-				if (npc.CanBeChasedBy()) //This NPC is valid
-				{
-					foreach (var quest in QuestManager.ActiveQuests)
-					{
-						if (quest.CurrentTask is SlayTask slay && slay.MonsterIDs.Contains(npc.type)) //This NPC is part of a slay quest
-						{
-							_changeInfoAccColor = true;
-							return npc.GivenOrTypeName;
-						}
-						else if (quest.CurrentTask is BranchingTask branch && branch.Tasks.Any(x => x is SlayTask slayTask && slayTask.MonsterIDs.Contains(npc.type)))
-						{
-							_changeInfoAccColor = true;
-							return npc.GivenOrTypeName;
-						}
-					}
-				}
-			}
-			return orig;
 		}
 
 		public static void Unload()
@@ -156,11 +81,6 @@ namespace SpiritMod.Utilities
 
 			Main.OnPreDraw -= Main_OnPreDraw;
 			On.Terraria.Main.DrawWater -= Main_DrawWater;
-
-			IL.Terraria.Player.Hurt -= Player_Hurt;
-			IL.Terraria.Player.ItemCheck -= Player_ItemCheck;
-			IL.Terraria.WorldGen.hardUpdateWorld -= WorldGen_hardUpdateWorld;
-			IL.Terraria.Main.DrawMouseOver -= Main_DrawMouseOver;
 
 			SurfaceWaterModifications.Unload();
 			HookEndpointManager.Remove<hook_NPCAI>(NPCAIMethod, (hook_NPCAI)NPCAIMod);
@@ -546,199 +466,6 @@ namespace SpiritMod.Utilities
 						return;
 
 			orig(i, j, dirt, grass, repeat, color);
-		}
-
-		/// This IL edit is used to allow the unfeller of evergreens to autoplant saplings when trees are destroyed
-		/// Sadly tML doesn't provide tile destruction info by default in a way feasible in MP, so we have to resort to this
-		///
-		/// THESE ARE THE IL INSTRUCTIONS WE'LL HARASS AND WHAT IT'LL LOOK LIKE WHEN WE'RE DONE
-		///   IL_af0c: ldloc 352    <----- WE WILL FIRST FIND AND JUMP TO THIS INSTRUCTION
-		///   IL_af10: nop
-		///   IL_af11: nop
-		///   IL_af12: callvirt instance void Terraria.HitTile::Clear(int32)  <----- NEXT WE JUMP HERE
-		///   IL_XXXX: [WE INSERT AN INSTRUCTION HERE TO PUSH THE TYPE OF THE TILE THE PLAYER JUST MINED]
-		///   IL_af17: ldsfld int32 Terraria.Player::tileTargetX
-		///   IL_af1c: ldsfld int32 Terraria.Player::tileTargetY
-		///   IL_af21: ldc.i4.0
-		///   IL_af22: ldc.i4.0
-		///   IL_af23: ldc.i4.0
-		///   IL_af24: call void Terraria.WorldGen::KillTile(int32, int32, bool, bool, bool)
-		///   IL_XXXX: [WE RUN OUR OWN CODE HERE TO PLANT THE SAPLING]
-		private static void Player_ItemCheck(ILContext il) {
-			// Get an ILCursor and a logger to report errors if we find any
-			ILCursor cursor = new ILCursor(il);
-			ILog logger = ModContent.GetInstance<SpiritMod>().Logger;
-
-			// Here we try to make the ILCursor jump to instruction IL_af0c (ldloc 352)
-			// The instruction "ldloc 352" occurs 3 times before the one we want at IL_af0c
-			// We will ask the cursor 4 times to go to the next specified instruction (in this case go to ldloc 352, 4 times)
-			// If it can't find it, we stop IL editing and log an error
-			for (int c = 0; c < 4; c++) {
-				if (!cursor.TryGotoNext(i => i.MatchLdloc(352))) {
-					logger.Error("Failed to patch Player.ItemCheck for Unfeller of Evergreens: First jump failed");
-					return;
-				}
-			}
-
-			// At this point we reached the instruction we want
-			// Now we make the cursor jump again to the HitTile.Clear call at IL_af12
-			// Same error handling as before
-			if (!cursor.TryGotoNext(i => i.MatchCallvirt<HitTile>("Clear"))) {
-				logger.Error("Failed to patch Player.ItemCheck for Unfeller of Evergreens: Second jump failed");
-				return;
-			}
-
-			// We increment the cursor index by 1 to skip over the HitTile.Clear instruction
-			// Then we emit a delegate to push the type of the targetted tile onto the stack
-			cursor.Index++;
-			cursor.EmitDelegate<Func<ushort>>(() => Main.tile[Player.tileTargetX, Player.tileTargetY].type);
-
-			// Now we jump for the final time to the WorldGen.KillTile call at IL_af24
-			if (!cursor.TryGotoNext(i => i.MatchCall<WorldGen>("KillTile"))) {
-				logger.Error("Failed to patch Player.ItemCheck for Unfeller of Evergreens: Final jump failed");
-				return;
-			}
-
-			// Increment cursor index by 1 because we want to insert after the WorldGen.KillTile call
-			cursor.Index++;
-
-			// time for the fun stuff b a y b e e
-			// We still have the type of the tile that got destroyed earlier pushed onto the stack
-			// Now we use it by emitting a delegate that consumes this value from the stack, and we execute our own code
-			// (Mother nature is happy with you)
-			cursor.EmitDelegate<Action<ushort>>(type => {
-				// Item that was used to kill the tile
-				Item item = Main.LocalPlayer.inventory[Main.LocalPlayer.selectedItem];
-
-				// If the tile that got destroyed isn't a tree, or if the item type isn't the unfeller of evergreens, we stop and return
-				if (!(type == TileID.Trees || type == TileID.PalmTree) || item.type != ModContent.ItemType<UnfellerOfEvergreens>())
-					return;
-
-				// We will keep moving this tile down until we hit the tile the tree was sitting on (which will be the first solid tile we find)
-				int currentX = Player.tileTargetX;
-				int currentY = Player.tileTargetY;
-				Tile currentTile = Framing.GetTileSafely(currentX, currentY);
-
-				while (!currentTile.active() || !Main.tileSolid[currentTile.type])
-					currentTile = Framing.GetTileSafely(currentX, ++currentY);
-
-				// Now we finish up and plant a sapling above the tile we hit
-				WorldGen.PlaceTile(currentX, currentY - 1, TileID.Saplings);
-			});
-		}
-
-		/// This IL edit is used to stop evil stones (ebonstone/crimstone) from spreading into areas protected by super sunflowers
-		/// Evil grass is also handled in a separate detour (WorldGen_SpreadGrass)
-		///
-		/// This edit is simple. We just need to search for one instruction that loads NPC.downedPlantBoss (as all instructions afterwards have to do with evil spreading).
-		/// Then we need to push the "i" parameter onto the stack (the x coordinate of the updated tile)
-		/// 
-		/// THESE ARE THE IL INSTRUCTIONS WE'LL HARASS AND WHAT IT'LL LOOK LIKE WHEN WE'RE DONE
-		///   IL_XXXX: [WE INSERT AN INSTRUCTION HERE TO PUSH THE FIRST PARAMETER, i (THE X COORDINATE OF THE TILE)]
-		///   IL_XXXX: [WE RUN OUR CODE HERE TO CHECK IF THE X COORDINATE IS IN A PROTECTED ZONE. WE PUSH TRUE ONTO THE STACK IF IT IS, OTHERWISE FALSE]
-		///   IL_XXXX: [WE INSERT AN INSTRUCTION HERE TO CHECK THE BOOL WE PUSHED, AND SKIP THE NEXT INSTRUCTION IF IT IS FALSE]
-		///   IL_XXXX: [WE INSERT AN INSTRUCTION HERE TO RETURN FROM THE METHOD. THIS IS ONLY REACHED IF THE ABOVE INSTRUCTION DOESN'T BRANCH]
-		///   IL_050f: ldsfld bool [Terraria]Terraria.NPC::downedPlantBoss   <------ WE WILL JUMP TO THIS INSTRUCTION TO APPLY THE ABOVE EDITS
-		private static void WorldGen_hardUpdateWorld(ILContext il)
-		{
-			// Get an ILCursor and a logger to report errors if we find any
-			ILCursor cursor = new ILCursor(il);
-			ILog logger = ModContent.GetInstance<SpiritMod>().Logger;
-
-			// Try to jump to the specified instruction and stop if we can't find it
-			// We use MoveType.AfterLabel because there are labels from previous instructions pointing to the location we're emitting to
-			// and thus we want our emitted instructions to become the target for the labels, instead of the NPC.downedPlantBoss instruction
-			if (!cursor.TryGotoNext(MoveType.AfterLabel, i => i.MatchLdsfld<NPC>("downedPlantBoss")))
-			{
-				logger.Error("Failed to patch WorldGen.hardUpdateWorld to add super sunflower functionality");
-				return;
-			}
-
-			// We'll make use of this empty label shortly. It is supposed to target the NPC.downedPlantBoss instruction; but we initialize it later
-			// This is to account for the fact that you can't spell "branch" without "bitch" and will save us from pain
-			ILLabel label = cursor.DefineLabel();
-
-			// Now that the cursor is behind the target instruction, we need to push the parameter "i" onto the stack
-			cursor.Emit(OpCodes.Ldarg_0);
-
-			// Now we run our own code that consumes "i" off the stack, checks if they're in a protected zone and returns the result of the check
-			cursor.EmitDelegate<Func<int, bool>>(i => {
-				foreach (Point16 point in MyWorld.superSunFlowerPositions)
-					if (Math.Abs(point.X - i) < SuperSunFlower.Range * 2)
-						return true;
-				return false;
-			});
-			
-			// We check the bool we pushed, and branch to the label we defined earlier (the one supposed to be looking at the NPC.downedPlantBoss instruction) if it is false
-			// Doing so would skip over the return instruction we are about to emit
-			cursor.Emit(OpCodes.Brfalse_S, label);
-
-			// A return instruction that will get run if the tile is in a protected zone (meaning that the above branch didn't run)
-			cursor.Emit(OpCodes.Ret);
-
-			// We finish off by moving the cursor forwards again to the NPC.downedPlantBoss instruction and actually initializing the label
-			// The reason we do this now is because emitting instructions can easily mess with labels and move them around
-			// But since we only have 1 label to worry about we can just initialize it after everything has been emitted
-			cursor.GotoNext(i => i.MatchLdsfld<NPC>("downedPlantBoss"));
-			cursor.MarkLabel(label);
-		}
-
-		public delegate float KnockbackMultiplierDelegate(Player player, bool horizontal);
-		private static void Player_Hurt(ILContext il)
-		{
-			ILCursor c = new ILCursor(il);
-
-			for (int i = 0; i < 2; ++i)
-				if (!c.TryGotoNext(x => x.MatchLdfld<Player>("mount"))) //match ldfld for mount twice to get to the right call
-					return;
-			if (!c.TryGotoNext(x => x.MatchLdcR4(4.5f))) //then match the 4.5 ldcr4
-				return;
-
-			if (!c.TryGotoNext(x => x.MatchMul())) //go to mul instruction, then move past it.
-				return;
-			c.Index++;
-
-			//Now we do some shenanigains.
-			c.Emit(OpCodes.Ldarg_0); //Push player onto stack so KnockbackMultiplier can consume it
-			c.Emit(OpCodes.Ldc_I4_0); //Push 0 (true) to the stack, since this is horizontal knockback
-			c.EmitDelegate<KnockbackMultiplierDelegate>(MiscAccessoryPlayer.KnockbackMultiplier); //Get the kb modifier
-			c.Emit(OpCodes.Mul); //and multiply the value already on the stack by the modifier
-
-			//and we move to the velocity.Y 
-			if (!c.TryGotoNext(x => x.MatchLdcR4(-3.5f))) //match the -3.5f ldcr4
-				return;
-			c.Index++;
-
-			//and match the same things
-			c.Emit(OpCodes.Ldarg_0);
-			c.Emit(OpCodes.Ldc_I4_1); //Only difference is this pushes 1, because this is vertical knockback
-			c.EmitDelegate<KnockbackMultiplierDelegate>(MiscAccessoryPlayer.KnockbackMultiplier);
-			c.Emit(OpCodes.Mul);
-		}
-
-		private static void Main_DrawMouseOver(ILContext il)
-		{
-			ILCursor c = new ILCursor(il);
-
-			for (int i = 0; i < 3; ++i)
-				if (!c.TryGotoNext(x => x.MatchStfld<Player>("showItemIcon"))) //match stfld for showItemIcon 3 times for the right call
-					return;
-
-			c.Index -= 5;
-			c.Emit(OpCodes.Ldsfld, typeof(Main).GetField("npc")); //Push the current NPC to the stack -->
-			c.Emit(OpCodes.Ldloc_S, (byte)8);
-			c.Emit(OpCodes.Ldelem_Ref); // <--
-			c.EmitDelegate<Func<bool, NPC, bool>>(CheckDrawLife); //And make a hook for overriding if the life stat draws
-		}
-
-		private static bool CheckDrawLife(bool flag, NPC self)
-		{
-			if (self.type == ModContent.NPCType<StardustBombNPC>() || self.type == ModContent.NPCType<Hydra>())
-				return false;
-
-			if (self.modNPC != null && self.modNPC is ISolidTopNPC) //Platforms dont show names
-				return false;
-			return flag;
 		}
 	}
 }

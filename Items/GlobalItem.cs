@@ -124,6 +124,7 @@ namespace SpiritMod.Items
 				item.autoReuse = true;
 			}
 		}
+
 		public void SetGlyph(Item item, GlyphType glyph)
 		{
 			if (Glyph == glyph)

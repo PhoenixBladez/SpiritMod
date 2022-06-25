@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.Graphics.Effects;
 
 namespace SpiritMod.NPCs.Cystal
 {
@@ -35,6 +36,15 @@ namespace SpiritMod.NPCs.Cystal
 					player.lifeRegen = 0;
 				player.lifeRegenTime = 0;
 				player.lifeRegen = player.lifeRegen - 4;
+			}
+		}
+
+		public override void UpdateBiomeVisuals()
+		{
+			if (!crystallization)
+			{
+				Filters.Scene.Deactivate("CystalTower", player.position);
+				Filters.Scene.Deactivate("CystalBloodMoon", player.position);
 			}
 		}
 

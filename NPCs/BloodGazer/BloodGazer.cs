@@ -300,10 +300,12 @@ namespace SpiritMod.NPCs.BloodGazer
 						UpdateAiState(Main.rand.NextBool() ? BloodGazerAiStates.EyeMortar : BloodGazerAiStates.RuneEyes);
 						return;
 					}
+
 					npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(player.Center) * 4, 0.04f);
 					GlowTrailOpacity = MathHelper.Lerp(GlowTrailOpacity, 1, 0.1f);
 					GlowTrailOpacity = MathHelper.Lerp(GlowTrailOpacity, 1, 0.1f);
 					npc.rotation = npc.velocity.ToRotation() + (npc.spriteDirection < 0 ? MathHelper.PiOver2 : MathHelper.PiOver2);
+
 					if (AiTimer % 60 == 0 && AiTimer > 60)
 					{
 						trailing = true;
@@ -327,7 +329,6 @@ namespace SpiritMod.NPCs.BloodGazer
 		{
 			if (AiState == (float)BloodGazerAiStates.Passive || AiState == (float)BloodGazerAiStates.Despawn)
 				return true;
-
 			return false;
 		}
 
@@ -409,6 +410,7 @@ namespace SpiritMod.NPCs.BloodGazer
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			Texture2D tex = Main.npcTexture[npc.type];
+
 			if (trailing)
 			{
 				for (int i = 0; i < NPCID.Sets.TrailCacheLength[npc.type]; i++)
@@ -449,13 +451,17 @@ namespace SpiritMod.NPCs.BloodGazer
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			Texture2D glowmask = ModContent.GetTexture(Texture + "_mask2");
-			void DrawMask(Vector2 center, float opacity) => spriteBatch.Draw(glowmask, center - Main.screenPosition, npc.frame, Color.Red * opacity * GlowmaskOpacity * npc.Opacity, npc.rotation,
-																				npc.frame.Size() / 2, npc.scale, (npc.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+			Color col = Color.Red * GlowmaskOpacity * npc.Opacity;
+			SpriteEffects effect = (npc.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+			void DrawMask(Vector2 center, float opacity) => spriteBatch.Draw(glowmask, center - Main.screenPosition, npc.frame, col * opacity, npc.rotation, npc.frame.Size() / 2, npc.scale, effect, 0);
+
 			DrawMask(npc.Center, 0.5f);
+
 			int numtodraw = 6;
 			for (int i = 0; i < numtodraw; i++)
 			{
-				float timer = ((float)Math.Sin(Main.GlobalTime * 3) / 2 + 0.5f);
+				float timer = (float)Math.Sin(Main.GlobalTime * 3) / 2 + 0.5f;
 				Vector2 center = npc.Center + new Vector2(0, 8).RotatedBy(i * MathHelper.TwoPi / numtodraw) * timer;
 				DrawMask(center, 1 - timer);
 			}

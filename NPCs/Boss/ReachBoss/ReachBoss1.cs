@@ -266,9 +266,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		public override bool PreNPCLoot()
 		{
             if (!MyWorld.downedReachBoss)
-            {
                 Main.NewText("The torrential downpour in the Briar has lifted!", 61, 255, 142, false);
-            }
+
             MyWorld.downedReachBoss = true;
 			if(Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.WorldData);

@@ -99,7 +99,7 @@ namespace SpiritMod.World
 			bool movY = vel.Y >= 0f;
 
 			Vector2 pos = new Vector2(start.X * (1f / 16f), start.Y * (1f / 16f));
-			Main.NewText("pos:  ( " + (int)pos.X + " | " + (int)pos.Y + ")");
+			//Main.NewText("pos:  ( " + (int)pos.X + " | " + (int)pos.Y + ")");
 			width *= 1f / 16f;
 			if (movX) {
 				pos.X += width;
@@ -111,7 +111,7 @@ namespace SpiritMod.World
 				height *= -1f;
 			}
 			Vector2 end = pos + vel * (1f / 16f);
-			Main.NewText("end:  ( " + (int)end.X + " | " + (int)end.Y + ")");
+			//Main.NewText("end:  ( " + (int)end.X + " | " + (int)end.Y + ")");
 			int xStart = Math.Max((int)pos.X, 0);
 			int yStart = Math.Max((int)pos.Y, 0);
 			int xEnd = Math.Min((int)end.X, Main.maxTilesX);

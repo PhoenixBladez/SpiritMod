@@ -47,7 +47,7 @@ namespace SpiritMod.Items.Glyphs
 		public static void Daze(NPC target, ref int damage)
 		{
 			if (target.FindBuffIndex(BuffID.Confused) > -1) {
-				Main.NewText("Daze");
+				//Main.NewText("Daze");
 				damage += 30;
 			}
 

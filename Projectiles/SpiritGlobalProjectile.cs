@@ -80,17 +80,24 @@ namespace SpiritMod.Projectiles
 					return false;
 			}
 
-			Player player = null;
-			MyPlayer modPlayer = null;
-			if (projectile.owner != 255 && projectile.owner > -1) //Check that owner is valid
+			if (WitherLeaf)
 			{
-				player = Main.player[projectile.owner];
-				modPlayer = player.GetModPlayer<MyPlayer>();
+				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+				if (Main.rand.NextBool())
+				{
+					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Plantera_Green);
+					return true;
+				}
 			}
 
-			bool validPlayer = player != null && modPlayer != null;
+			CannonEffects(projectile);
 
-			if (validPlayer && projectile.friendly && !runOnce)
+			Player player = Main.player[projectile.owner];
+			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
+			if (projectile.owner >= Main.maxPlayers || projectile.owner <= -1) //Check if owner is invalid
+				return true;
+
+			if (projectile.friendly && !runOnce)
 			{
 				if (projectile.ranged && modPlayer.throwerGlove && modPlayer.throwerStacks >= 7) //Thrower glove functionality
 				{
@@ -105,22 +112,10 @@ namespace SpiritMod.Projectiles
 
 			runOnce = true;
 
-			if (validPlayer && projectile.minion && modPlayer.stellarSet && player.HasBuff(ModContent.BuffType<StellarMinionBonus>()))
+			if (projectile.minion && modPlayer.stellarSet && player.HasBuff(ModContent.BuffType<StellarMinionBonus>()))
 				alphaCounter += .04f;
 
-			CannonEffects(projectile);
-
-			if (WitherLeaf)
-			{
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				if (Main.rand.NextBool())
-				{
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Plantera_Green);
-					return true;
-				}
-			}
-
-			if (validPlayer && projectile.minion && modPlayer.silkenSet)
+			if (projectile.minion && modPlayer.silkenSet)
 			{
 				int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.GoldCoin);
 				Main.dust[dust].velocity *= -1f;

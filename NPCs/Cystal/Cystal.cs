@@ -201,6 +201,7 @@ namespace SpiritMod.NPCs.Cystal
 				return 0;
 			return SpawnCondition.Corruption.Chance * 0.065f;
 		}
+
 		public override void NPCLoot()
 		{
 			Filters.Scene.Deactivate("CystalTower", Main.player[npc.target].position);
@@ -209,8 +210,8 @@ namespace SpiritMod.NPCs.Cystal
 			if (Main.rand.Next(2) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 68, Main.rand.Next(1, 3));
 
-			if (QuestManager.GetQuest<StylistQuestCorrupt>().IsActive)
-				Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.CorruptDyeMaterial>());
+			//if (QuestManager.GetQuest<StylistQuestCorrupt>().IsActive)
+			//	Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.CorruptDyeMaterial>());
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

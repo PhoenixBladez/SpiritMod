@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items
 {
+	/// <summary>Automatically provides equip flags for items in the MiscAccessoryPlayer.accessory instanced dictionary.</summary>
 	public abstract class AccessoryItem : ModItem
 	{
 		public virtual string AccName => GetType().Name;

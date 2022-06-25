@@ -124,7 +124,6 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 					nextProgress = EaseFunction.EaseCircularInOut.Ease(nextProgress);
 
 					var nextPoint = Vector2.Lerp(startPos, endPos, nextProgress);
-
 					var currentPoint = Vector2.Lerp(startPos, endPos, progress);
 
 					float oldSpeed = player.velocity.Length();
@@ -170,7 +169,6 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
             if (charge > 40 && charge < MAXCHARGE)
                 return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), player.Center, player.oldPosition + (new Vector2(player.width,player.height) / 2), 60, ref colissionPoint);
             return false;
-
         }
 
         public override bool? CanHitNPC(NPC target)
@@ -223,6 +221,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 			projectile.penetrate = -1;
 			projectile.hide = true;
 		}
+
 		public override void AI()
 		{
 			if (projectile.frameCounter == 0)
@@ -230,14 +229,15 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 				frameX = Main.rand.Next(2);
 				projectile.rotation = Main.rand.NextFloat(6.28f);
 			}
+
 			projectile.Center = Main.npc[(int)projectile.ai[0]].Center;
 			projectile.velocity = Vector2.Zero;
 			projectile.frameCounter++;
+
 			if (projectile.frameCounter % 5 == 0)
 				projectile.frame++;
 			if (projectile.frame >= Main.projFrames[projectile.type])
 				projectile.active = false;
-
 		}
 
 		public void AdditiveCall(SpriteBatch sB)
