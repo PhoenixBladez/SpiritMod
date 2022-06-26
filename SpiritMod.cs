@@ -146,6 +146,7 @@ namespace SpiritMod
 		}
 		//public static int customEvent;
 		public static int GlyphCurrencyID;
+		public static int OlympiumCurrencyID = 0;
 
 		internal static float deltaTime;
 
@@ -153,13 +154,14 @@ namespace SpiritMod
 		private Vector2 _lastViewSize;
 		private Viewport _lastViewPort;
 
-		public static int OlympiumCurrencyID = 0;
 
 		/// <summary>Automatically returns false for every NPC ID inside of this list in <seealso cref="NPCs.GNPC.AllowTrickOrTreat(NPC)"/>.
 		/// Note that this should only be used in edge cases where an NPC is neither homeless nor has homeTileX/Y set.</summary>
 		public readonly List<int> NPCCandyBlacklist = new List<int>();
 
 		public bool FinishedContentSetup { get; private set; }
+
+		public int GlobalTimer { get; private set; }
 
 		public SpiritMod()
 		{
