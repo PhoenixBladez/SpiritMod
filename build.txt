@@ -1,5 +1,5 @@
 author = Yuyutsu and the Unread FAQ
-version = 1.4.3
+version = 1.4.3.1
 displayName = [c/cffffd:Spirit Mod]
 homepage = https://forums.terraria.org/index.php?threads/the-spirit-mod.41395/
 hideCode = true

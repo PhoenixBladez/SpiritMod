@@ -50,7 +50,9 @@ namespace SpiritMod.NPCs.Town
 
             foreach (var player in Main.player)
             {
-                if (!player.active) continue;
+                if (!player.active)
+					continue;
+
                 if (player.talkNPC == npc.whoAmI)
                 {
                     Rescue();

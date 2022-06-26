@@ -223,12 +223,6 @@ namespace SpiritMod.Mechanics.QuestSystem
 				{
 					if (Main.netMode == NetmodeID.MultiplayerClient)
 						quest.OnMPSync();
-					else
-					{
-						if (Main.netMode == NetmodeID.Server)
-							Console.WriteLine($"SYNC QUEST: {quest.QuestName}");
-						// TODO: Sync data with other clients.
-					}
 				}
 			}
 		}

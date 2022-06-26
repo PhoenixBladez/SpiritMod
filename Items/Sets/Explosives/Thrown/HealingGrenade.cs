@@ -8,6 +8,8 @@ namespace SpiritMod.Items.Sets.Explosives.Thrown
 	[ItemTag(ItemTags.Explosive)]
 	public class HealingGrenade : ModItem
 	{
+		public override bool Autoload(ref string name) => false;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Throwing Regeneration Potion");
@@ -37,15 +39,15 @@ namespace SpiritMod.Items.Sets.Explosives.Thrown
 			item.maxStack = 999;
 		}
 
-		public override void AddRecipes()
-		{
-			var recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Grenade, 5);
-			recipe.AddIngredient(ItemID.HealingPotion, 1);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 5);
-			recipe.AddRecipe();
-		}
+		//public override void AddRecipes()
+		//{
+		//	var recipe = new ModRecipe(mod);
+		//	recipe.AddIngredient(ItemID.Grenade, 5);
+		//	recipe.AddIngredient(ItemID.HealingPotion, 1);
+		//	recipe.AddTile(TileID.Anvils);
+		//	recipe.SetResult(this, 5);
+		//	recipe.AddRecipe();
+		//}
 	}
 
 	public class HealingGrenadeProj : ModProjectile

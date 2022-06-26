@@ -23,7 +23,6 @@ namespace SpiritMod.Items.Weapon.Summon.ButterflyStaff
 
 		public override bool PreAI()
 		{
-
 			if (AiState == Moving)
 			{
 				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;

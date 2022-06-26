@@ -767,7 +767,8 @@ namespace SpiritMod.UI.QuestUI
 			for (int i = 0; i < QuestManager.Quests.Count; i++)
 			{
 				_isPossible[i] = QuestManager.Quests[i].IsQuestPossible();
-				if (_isPossible[i]) _currentMaxPossible++;
+				if (_isPossible[i])
+					_currentMaxPossible++;
 			}
 		}
 

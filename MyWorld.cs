@@ -44,6 +44,7 @@ using SpiritMod.Items.Sets.SummonsMisc.Toucane;
 using static Terraria.ModLoader.ModContent;
 using static SpiritMod.Utilities.ChestPoolUtils;
 using SpiritMod.Effects.SurfaceWaterModifications;
+using SpiritMod.Mechanics.QuestSystem;
 
 namespace SpiritMod
 {
@@ -1290,6 +1291,8 @@ namespace SpiritMod
 		#endregion
 		public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
 		{
+			tasks.Insert(3, new PassLegacy("SpiritReset", ResetWorldInfo));
+
 			int Sunflowers = tasks.FindIndex(genpass => genpass.Name.Equals("Sunflowers"));
 			if (Sunflowers != -1) //Add only if Sunflowers pass exists
 				tasks.Insert(Sunflowers, new PassLegacy("SpiritMicros", SpiritGenPasses.MicrosPass));
@@ -1307,6 +1310,12 @@ namespace SpiritMod
 				if (beachIndex != -1)
 					tasks[beachIndex] = new PassLegacy("Beaches", OceanGeneration.GenerateOcean);
 			}
+		}
+
+		private void ResetWorldInfo(GenerationProgress progress)
+		{
+			QuestManager.QuestBookUnlocked = false;
+			QuestManager.RestartEverything();
 		}
 
 		public override void PostWorldGen()

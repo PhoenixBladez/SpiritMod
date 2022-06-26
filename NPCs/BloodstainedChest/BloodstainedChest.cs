@@ -30,6 +30,8 @@ namespace SpiritMod.NPCs.BloodstainedChest
             npc.noTileCollide = false;
             npc.dontCountMe = true;
 			npc.townNPC = true;
+			npc.friendly = true;
+
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 				npc.buffImmune[k] = true;
 		}
@@ -203,20 +205,17 @@ namespace SpiritMod.NPCs.BloodstainedChest
 			if (firstButton)
 			{
 				if (npc.ai[0] == 0f)
-                {
+				{
 					npc.ai[0] = 1f;
-					rightClicked = true;
-                }
-				else if (npc.ai[0] > 10f && NPC.CountNPCS(ModContent.NPCType<NPCs.DesertBandit.DesertBandit>()) == 1)
 					npc.ai[3] = 1f;
+				}
 			}
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			//if (!Mechanics.QuestSystem.QuestManager.GetQuest<Mechanics.QuestSystem.Quests.TravelingMerchantDesertQuest>().IsActive)
-				return 0f;
-			//return spawnInfo.player.ZoneDesert && !NPC.AnyNPCs(ModContent.NPCType<BloodstainedChest>()) && spawnInfo.spawnTileY < Main.rockLayer ? 0.55f : 0f;
+			return spawnInfo.player.ZoneDesert && !NPC.AnyNPCs(ModContent.NPCType<BloodstainedChest>()) && spawnInfo.spawnTileY < Main.rockLayer ? 0.005f : 0f;
 		}
 	}
 }

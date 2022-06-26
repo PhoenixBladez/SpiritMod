@@ -190,7 +190,10 @@ namespace SpiritMod.Mechanics.QuestSystem
 				PoolModsCount[id]--;
 
 				if (PoolModsCount[id] == 0)
+				{
 					SpawnPoolMods.Remove(id);
+					PoolModsCount.Remove(id);
+				}
 			}
 		}
 

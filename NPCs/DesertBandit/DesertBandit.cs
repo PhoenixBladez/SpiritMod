@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
+using SpiritMod.Mechanics.QuestSystem.Quests;
 
 namespace SpiritMod.NPCs.DesertBandit
 {
@@ -44,6 +45,7 @@ namespace SpiritMod.NPCs.DesertBandit
 
 		public override void SendExtraAI(BinaryWriter writer) => writer.Write(npc.localAI[2]);
 		public override void ReceiveExtraAI(BinaryReader reader) => npc.localAI[2] = reader.ReadInt32();
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => npc.localAI[2] == 0f;
 
 		public override bool PreAI()
 		{
@@ -63,8 +65,10 @@ namespace SpiritMod.NPCs.DesertBandit
 					dust.shader = GameShaders.Armor.GetSecondaryShader(13, Main.LocalPlayer);
 				}
 			}
+
 			if (npc.alpha > 0)
 				npc.alpha -= 3;
+
 			Player target = Main.player[npc.target];
 
 			npc.TargetClosest(true);
@@ -86,27 +90,29 @@ namespace SpiritMod.NPCs.DesertBandit
 			else
             {
 				npc.aiStyle = 0;
-				npc.friendly = true;
 				npc.townNPC = true;
 				npc.homeless = true;
-				npc.immortal = true;
-				if (Mechanics.QuestSystem.QuestManager.GetQuest<Mechanics.QuestSystem.Quests.TravelingMerchantDesertQuest>().IsCompleted)
+
+				if (npc.localAI[2] == -1)
 				{
 					CombatText.NewText(textPos, new Color(61, 255, 142, 100), "Thank you again!");
-					npc.active = false;
-					Gore.NewGore(npc.position, npc.velocity, 99);
-					Gore.NewGore(npc.position, npc.velocity, 99);
-					Gore.NewGore(npc.position, npc.velocity, 99);
+					npc.DropItem(ModContent.ItemType<Items.Sets.AccessoriesMisc.DustboundRing.Dustbound_Ring>());
+
+					for (int i = 0; i < 3; ++i)
+						Gore.NewGore(npc.position, npc.velocity, 99);
+
 					npc.localAI[2] = 0f;
+					npc.active = false;
 					npc.netUpdate = true;
 				}
 			}
+
 			if (NPC.CountNPCS(ModContent.NPCType<DesertBandit>()) == 1 && npc.localAI[2] == 0f)
-            {
+			{
 				CombatText.NewText(textPos, new Color(61, 255, 142, 100), "Please spare me!");
 				npc.localAI[2] = 1f;
 				npc.netUpdate = true;
-            }
+			}
 			return true;
 		}
 
@@ -117,6 +123,7 @@ namespace SpiritMod.NPCs.DesertBandit
         }
 
 		int frame = 0;
+
 		public override void FindFrame(int frameHeight)
 		{
 			Player player = Main.player[npc.target];
@@ -153,21 +160,27 @@ namespace SpiritMod.NPCs.DesertBandit
 			npc.frame.Y = frameHeight * frame;
 		}
 
-		//also potentially breaking [!] - gabe
 		public override bool CanChat() => npc.localAI[2] != 0f;
-
-		public override string GetChat() => "Please, spare me! Our group only attacked because we need these artifacts to get enough money to feed our families! I know you have no reason to trust me, but if you could open that chest and give me the Royal Crown, I'll give you all I have.";
-		public override void SetChatButtons(ref string button, ref string button2) => button = "Kill";
+		public override string GetChat() => "Please, spare me! I was so desperate...I haven't had food for days. You can leave me be if you want, but if you give me that crown, I'll give you what I have and be on my way. Promise.";
+		public override void SetChatButtons(ref string button, ref string button2) => button = "Spare";
 
 		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
 		{
 			if (firstButton)
 			{
-				npc.StrikeNPC(200, 0f, 0);
-				npc.netUpdate = true;
+				if (Main.npcChatText == TravelingMerchantDesertQuest.ThankText)
+				{
+					npc.localAI[2] = -1;
 
-				npc.life = -1;
-				npc.checkDead();
+					for (int i = 0; i < Main.LocalPlayer.inventory.Length; ++i)
+					{
+						Item item = Main.LocalPlayer.inventory[i];
+						if (item.type == ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.RoyalCrown>() && !item.IsAir)
+							item.TurnToAir();
+					}
+				}
+				else
+					Main.npcChatText = "Either leave me be or hand me the crown. It's up to you.";
 			}
 		}
 

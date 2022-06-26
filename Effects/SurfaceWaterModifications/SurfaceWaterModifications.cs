@@ -5,7 +5,6 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using SpiritMod.Mechanics.OceanWavesSystem;
 using SpiritMod.Utilities;
-using SpiritMod.Utilities.Helpers;
 using System;
 using System.Reflection;
 using Terraria;
@@ -31,8 +30,8 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			if (ModContent.GetInstance<SpiritClientConfig>().SurfaceWaterTransparency)
 			{
 				IL.Terraria.Main.DoDraw += AddWaterShader; //Transparency shader
-				//IL.Terraria.Main.DrawTiles += Main_DrawTiles; //Liquid slope fix (tentative)
-				//IL.Terraria.Main.DrawBlack += Main_DrawBlack; //^^
+				IL.Terraria.Main.DrawTiles += Main_DrawTiles; //Liquid slope fix (tentative)
+				IL.Terraria.Main.DrawBlack += Main_DrawBlack; //^^
 			}
 
 			IL.Terraria.GameContent.Shaders.WaterShaderData.QueueRipple_Vector2_Color_Vector2_RippleShape_float += IncreaseRippleSize; //Makes ripple bigger
@@ -212,7 +211,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			//ILHelper.CompleteLog(c);
 		}
 
-		private static bool IsWaterTransparent() => Main.LocalPlayer.ZoneBeach;
+		private static bool IsWaterTransparent() => Main.LocalPlayer.ZoneBeach && !Main.bloodMoon;
 
 		private static void NewDraw(bool back)
 		{

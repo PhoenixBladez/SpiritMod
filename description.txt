@@ -3,8 +3,9 @@ Spirit currently adds:
 - 41 new armor sets!​
 - 8 new bosses​!
 - 2 brand new biomes, the Spirit Biome and the Briar!​
+- A complete rework of the Ocean biome!
 - A brand new Quest System!​
-- 143 new enemies and minibosses!​
+- 250 new enemies and minibosses!​
 - 3 new events: the Tide, the Jelly Deluge, and the Mystic Moon!​
 - A new Weapon Enchantment system!​
 - 34 brand new music tracks for vanilla and modded events and biomes!​

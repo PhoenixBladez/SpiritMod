@@ -24,5 +24,5 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 					new SlayTask(ModContent.NPCType<NPCs.DarkfeatherMage.DarkfeatherMage>(), 1), 
 					new RetrievalTask(ModContent.ItemType<Items.Accessory.DarkfeatherVisage.DarkfeatherVisage>(), 1));
         }
-    }
+	}
 }

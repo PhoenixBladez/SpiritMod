@@ -51,6 +51,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 				QuestManager.QuestBookUnlocked = tag.Get<bool>("SpiritMod:QuestBookUnlocked");
 
+				int ierjgo = 0;
+
 				for (int i = 0; i < QuestManager.Quests.Count; i++)
 				{
 					Quest quest = QuestManager.Quests[i];
@@ -178,11 +180,14 @@ namespace SpiritMod.Mechanics.QuestSystem
 				if (length == 0)
 					continue; //Nothing in the queue, skip
 
-				string questName = tag.GetString("SpiritMod:SingleQuestQueue" + questCount++);
-				var quest = QuestManager.Quests.FirstOrDefault(x => x.QuestName == questName);
+				for (int j = 0; j < length; ++j)
+				{
+					string questName = tag.GetString("SpiritMod:SingleQuestQueue" + questCount++);
+					var quest = QuestManager.Quests.FirstOrDefault(x => x.QuestName == questName);
 
-				if (quest != null)
-					AddQuestQueue(npcID, quest);
+					if (quest != null)
+						AddQuestQueue(npcID, quest);
+				}
 			}
 		} 
 

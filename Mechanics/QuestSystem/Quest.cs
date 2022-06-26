@@ -21,6 +21,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		private bool _questCompleted;
 		private bool _rewardsGiven;
 		private int _completedCounter = 0;
+		private bool _previouslyUnavailable = true;
 		internal List<string> _altNames;
 
 		public QuestTask CurrentTask => _currentTask;
@@ -177,6 +178,12 @@ namespace SpiritMod.Mechanics.QuestSystem
 				_completedCounter++; //This counter is here so the HUD works. that's all.
 				if (_completedCounter >= 3)
 					RunCompletion();
+			}
+
+			if (IsQuestPossible() && _previouslyUnavailable)
+			{
+				_previouslyUnavailable = false;
+				QuestManager.SayInChat("You have unlocked a new quest! [[sQ/" + WhoAmI + ":" + QuestName + "]]", Color.White);
 			}
 		}
 
