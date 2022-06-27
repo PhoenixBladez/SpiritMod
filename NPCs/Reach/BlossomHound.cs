@@ -6,6 +6,7 @@ using SpiritMod.Items.Sets.HuskstalkSet;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -54,13 +55,13 @@ namespace SpiritMod.NPCs.Reach
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Plantera_Green, hitDirection * 2.5f, -1f, 0, default, Main.rand.NextFloat(.45f, 1.15f));
 			}
             if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BlossomHound1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BlossomHound2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BlossomHound3").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BlossomHound4").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BlossomHound5").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BlossomHound6").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BlossomHound7").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BlossomHound1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BlossomHound2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BlossomHound3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BlossomHound4").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BlossomHound5").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BlossomHound6").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BlossomHound7").Type, 1f);
 				for (int k = 0; k < 40; k++) {
 					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection * 2.5f, -1f, 0, default, Main.rand.NextFloat(.45f, 1.15f));
 				}
@@ -73,23 +74,21 @@ namespace SpiritMod.NPCs.Reach
 				Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
 				for (int k = 0; k < NPC.oldPos.Length; k++) {
 					Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
-					Color color = NPC.GetAlpha(lightColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+					Color color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
 					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 				}
 			}
 		}
-		public override void OnKill()
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(3) == 1) {
-				int Bark = Main.rand.Next(2) + 1;
-				for (int J = 0; J <= Bark; J++) {
-					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<AncientBark>());
-				}
-			}
-			if (!Main.dayTime) {
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<EnchantedLeaf>());
-			}
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<AncientBark>(), 3, 1, 2));
+
+			LeadingConditionRule leadingConditionRule = new(new Conditions.);
+			leadingConditionRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<EnchantedLeaf>(), 1));
+			npcLoot.Add(leadingConditionRule);
 		}
+
 		public override void FindFrame(int frameHeight)
 		{
 			NPC.frameCounter += num34616;
@@ -107,8 +106,8 @@ namespace SpiritMod.NPCs.Reach
 			NPC.spriteDirection = NPC.direction;
 			timer++;
 			if (timer == 400 && Main.netMode != NetmodeID.MultiplayerClient) {
-				SoundEngine.PlaySound(SoundID.Item9.SoundId, (int)NPC.position.X, (int)NPC.position.Y, 40);
-				SoundEngine.PlaySound(SoundID.NPCKilled, (int)NPC.position.X, (int)NPC.position.Y, 5);
+				SoundEngine.PlaySound(SoundID.Item9, NPC.Center);
+				SoundEngine.PlaySound(SoundID.NPCDeath5, NPC.Center);
 				NPC.netUpdate = true;
 			}
 			if (timer == 400 && Main.netMode != NetmodeID.MultiplayerClient) {

@@ -39,7 +39,7 @@ namespace SpiritMod.NPCs.Orbitite
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 			for (int i = 0; i < 4; i++) {
 				int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.CorruptionThorns, 0f, 0f, 100, default, 3f);
 				Main.dust[num624].velocity *= 0f;

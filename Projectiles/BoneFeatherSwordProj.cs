@@ -31,7 +31,7 @@ namespace SpiritMod.Projectiles
 		}
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 			for (int i = 0; i < 10; i++) {
 				int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, DustID.Dirt, (float)(Main.rand.Next(8) - 4), (float)(Main.rand.Next(8) - 4), 133);
 				Main.dust[d].scale *= .75f;

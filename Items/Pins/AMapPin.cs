@@ -46,18 +46,22 @@ namespace SpiritMod.Items.Pins
 
 		public override bool AltFunctionUse(Player player) => true;
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
-			SoundEngine.PlaySound(SoundID.Dig, (int)player.position.X, (int)player.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, player.Center);
 			string text;
-			if (player.altFunctionUse != 2) {
+
+			if (player.altFunctionUse != 2)
+			{
 				text = "Location Pinned";
 				ModContent.GetInstance<PinWorld>().SetPin(PinName, player.Center / 16);
 			}
-			else {
+			else
+			{
 				text = "Pin Removed";
 				ModContent.GetInstance<PinWorld>().RemovePin(PinName);
 			}
+
 			CombatText.NewText(
 				new Rectangle((int)player.position.X, (int)player.position.Y - 10, player.width, player.height),
 				TextColor,

@@ -104,24 +104,20 @@ namespace SpiritMod.Items.Sets.SeraphSet
 				}
 			}
 		}
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
+
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
-			if (player.altFunctionUse == 2) {
-				Vector2 origVect = new Vector2(speedX, speedY);
-				Vector2 newVect;
-				if (Main.rand.Next(2) == 1) {
-					newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(82, 1800) / 10));
-				}
-				else {
-					newVect = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(82, 1800) / 10));
-				}
-				speedX = newVect.X;
-				speedY = newVect.Y;
-				this.currentHit++;
-				return true;
+			if (player.altFunctionUse == 2)
+			{
+				Vector2 origVect = velocity;
+				if (Main.rand.Next(2) == 1)
+					velocity = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(82, 1800) / 10));
+				else
+					velocity = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(82, 1800) / 10));
+				currentHit++;
 			}
-			return true;
 		}
+
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe();

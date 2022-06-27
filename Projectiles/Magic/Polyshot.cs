@@ -83,7 +83,7 @@ namespace SpiritMod.Projectiles.Magic
 					Main.dust[num].velocity = Projectile.DirectionTo(Main.dust[num].position) * 2f;
 				}
 			}
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 		}
 
 	}

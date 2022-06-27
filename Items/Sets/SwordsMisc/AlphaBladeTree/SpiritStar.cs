@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles.Sword;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -47,7 +48,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				ModContent.Request<Texture2D>("SpiritMod/Items/Sets/SwordsMiscAlphaBladeTree/SpiritStar_Glow"),
+				ModContent.Request<Texture2D>("SpiritMod/Items/Sets/SwordsMiscAlphaBladeTree/SpiritStar_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
 				new Vector2
 				(
 					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
@@ -70,7 +71,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 				if (Main.myPlayer == player.whoAmI)
 				{
 					Vector2 mouse = Main.MouseWorld;
-					Projectile.NewProjectile(mouse.X + Main.rand.Next(-80, 80), player.Center.Y - 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(11, 23), ModContent.ProjectileType<Projectiles.SpiritStar>(), damage, knockback, player.whoAmI);
+					Projectile.NewProjectile(source, mouse.X + Main.rand.Next(-80, 80), player.Center.Y - 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(11, 23), ModContent.ProjectileType<Projectiles.SpiritStar>(), damage, knockback, player.whoAmI);
 				}
 			}
 			return false;

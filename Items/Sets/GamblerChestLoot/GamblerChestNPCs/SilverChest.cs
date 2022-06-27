@@ -40,12 +40,12 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 		{
 			Vector2 center = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
 			Rectangle rect = new Rectangle(0, frame * (TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type]), TextureAssets.Npc[NPC.type].Value.Width, (TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type]));
-			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Items/Sets/GamblerChestLoot/GamblerChestNPCs/SilverChestTop").Value, (NPC.Center - Main.screenPosition + new Vector2(0, 4)), rect, lightColor, NPC.rotation, center, NPC.scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Items/Sets/GamblerChestLoot/GamblerChestNPCs/SilverChestTop").Value, (NPC.Center - Main.screenPosition + new Vector2(0, 4)), rect, drawColor, NPC.rotation, center, NPC.scale, SpriteEffects.None, 0f);
 			if (counter > 0 && frame > 0)
 			{
 				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Effects/Masks/Extra_49_Top").Value, (NPC.Center - Main.screenPosition) + new Vector2(-2, 4), null, new Color(200, 200, 200, 0), 0f, new Vector2(50, 50), 0.375f * NPC.scale, SpriteEffects.None, 0f);
 			}
-			Main.spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, (NPC.Center - Main.screenPosition + new Vector2(0, 4)), rect, lightColor, NPC.rotation, center, NPC.scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, (NPC.Center - Main.screenPosition + new Vector2(0, 4)), rect, drawColor, NPC.rotation, center, NPC.scale, SpriteEffects.None, 0f);
 			return false;
 		}
 		bool rightClicked = false;
@@ -77,9 +77,9 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 			counter--;
 			if (counter == 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, 11);
-				Gore.NewGore(NPC.position, NPC.velocity, 12);
-				Gore.NewGore(NPC.position, NPC.velocity, 13);
+				Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, 11);
+				Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, 12);
+				Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, 13);
 				SoundEngine.PlaySound(SoundID.DoubleJump, NPC.Center);
 
 				NPC.active = false;
@@ -113,7 +113,7 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 					else
 						itemid = ItemID.GoldCoin;
 
-					int item = Item.NewItem(NPC.Center, Vector2.Zero, itemid, 1);
+					int item = Item.NewItem(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, itemid, 1);
 					Main.item[item].velocity = Vector2.UnitY.RotatedBy(Main.rand.NextFloat(1.57f, 4.71f)) * 4;
 					Main.item[item].velocity.Y /= 2;
 					if (Main.netMode != NetmodeID.SinglePlayer)
@@ -122,12 +122,12 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 
 				if (counter == 25)
 				{
-					NPC.DropItem(ModContent.ItemType<Jem.Jem>(), 0.005f);
-					NPC.DropItem(ModContent.ItemType<Consumable.Food.GoldenCaviar>(), 0.07f);
-					NPC.DropItem(ModContent.ItemType<FunnyFirework.FunnyFirework>(), 0.07f, Main.rand.Next(5, 9));
-					NPC.DropItem(ItemID.AngelStatue, 0.03f);
-					NPC.DropItem(ModContent.ItemType<Champagne.Champagne>(), 0.06f, Main.rand.Next(1, 3));
-					NPC.DropItem(ModContent.ItemType<Mystical_Dice>(), 0.04f);
+					NPC.DropItem(ModContent.ItemType<Jem.Jem>(), 0.005f, 1, NPC.GetSource_FromAI());
+					NPC.DropItem(ModContent.ItemType<Consumable.Food.GoldenCaviar>(), 0.07f, 1, NPC.GetSource_FromAI());
+					NPC.DropItem(ModContent.ItemType<FunnyFirework.FunnyFirework>(), 0.07f, Main.rand.Next(5, 9), NPC.GetSource_FromAI());
+					NPC.DropItem(ItemID.AngelStatue, 0.03f, 1, NPC.GetSource_FromAI());
+					NPC.DropItem(ModContent.ItemType<Champagne.Champagne>(), 0.06f, Main.rand.Next(1, 3), NPC.GetSource_FromAI());
+					NPC.DropItem(ModContent.ItemType<Mystical_Dice>(), 0.04f, 1, NPC.GetSource_FromAI());
 
 					switch (Main.rand.NextBool())
 					{ //mutually exclusive

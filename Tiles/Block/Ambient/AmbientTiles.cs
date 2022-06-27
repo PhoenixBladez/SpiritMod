@@ -56,7 +56,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			ItemDrop = ModContent.ItemType<MagmastoneItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Magmastone");
-			DustType = DustID.Fire;
+			DustType = DustID.Torch;
         }
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -126,7 +126,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			ItemDrop = ModContent.ItemType<SmolderingRockItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Magmastone");
-			DustType = DustID.Fire;
+			DustType = DustID.Torch;
         }
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -196,7 +196,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			ItemDrop = ModContent.ItemType<CinderstoneItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Cinderstone");
-			DustType = DustID.Fire;
+			DustType = DustID.Torch;
         }
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -630,7 +630,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			ItemDrop = ModContent.ItemType<CorruptPustuleItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Corrupt Pustule");
-			DustType = DustID.Corruption_Gravity;
+			DustType = DustID.CorruptPlants;
         	Main.tileLighted[Type] = true;
         }
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -688,7 +688,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			ItemDrop = ModContent.ItemType<DarkFoliageItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Dark Foliage");
-			DustType = DustID.Corruption_Gravity;
+			DustType = DustID.CorruptPlants;
         }
     }
 	public class CorruptOvergrowthItem : AmbientCorruptItem
@@ -726,7 +726,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			ItemDrop = ModContent.ItemType<CorruptOvergrowthItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Corrupt Overgrowth");
-			DustType = DustID.Corruption_Gravity;
+			DustType = DustID.CorruptPlants;
         }
     }
 	public class CorruptTendrilItem : AmbientCorruptItem
@@ -761,7 +761,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			ItemDrop = ModContent.ItemType<CorruptTendrilItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Corrupt Tendril");
-			DustType = DustID.Corruption_Gravity;
+			DustType = DustID.CorruptPlants;
         }
     }
 	public class CorruptMassItem : AmbientCorruptItem
@@ -799,7 +799,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			ItemDrop = ModContent.ItemType<CorruptMassItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Corrupt Mass");
-			DustType = DustID.Corruption_Gravity;
+			DustType = DustID.CorruptPlants;
         }
     }
     public class StalactiteStoneItem : AmbientStoneItem
@@ -1068,7 +1068,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			ItemDrop = ModContent.ItemType<JungleFoliageItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Jungle Foliage");
-			DustType = DustID.Vile;
+			DustType = DustID.CorruptGibs;
         }
     }
 	public class CrumblingDirtItem : AmbientDirtItem
@@ -1627,12 +1627,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
-			soundType = SoundID.Grass;
+			HitSound = SoundID.Grass;
             AddMapEntry(new Color(39, 132, 168));
 			ItemDrop = ModContent.ItemType<HallowFoliageItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Hallowed Foliage");
-			DustType = DustID.Moss_Green;
+			DustType = DustID.GreenMoss;
         }
 	}
 	public class HallowShardstoneItem : AmbientHallowItem

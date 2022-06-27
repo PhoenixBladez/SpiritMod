@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Bullet;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.Items.Sets.GunsMisc.Belcher
@@ -37,10 +38,10 @@ namespace SpiritMod.Items.Sets.GunsMisc.Belcher
 
 		public override Vector2? HoldoutOffset() => new Vector2(-6, 0);
 
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
-			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 37f;
-			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) 
+			Vector2 muzzleOffset = Vector2.Normalize(velocity) * 37f;
+			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
 				position += muzzleOffset;
 
 			int bloodproj = Main.rand.Next(new int[] {
@@ -51,10 +52,9 @@ namespace SpiritMod.Items.Sets.GunsMisc.Belcher
 			if (type == ProjectileID.Bullet)
 				type = bloodproj;
 
-			double randomAngle = Math.Atan2(speedX, speedY) + (Main.rand.NextFloat() - 0.5f) * MathHelper.ToRadians(30);
-			speedX = Item.shootSpeed * (float)Math.Sin(randomAngle);
-			speedY = Item.shootSpeed * (float)Math.Cos(randomAngle);
-			return true;
+			double randomAngle = Math.Atan2(velocity.X, velocity.Y) + (Main.rand.NextFloat() - 0.5f) * MathHelper.ToRadians(30);
+			velocity.X = Item.shootSpeed * (float)Math.Sin(randomAngle);
+			velocity.Y = Item.shootSpeed * (float)Math.Cos(randomAngle);
 		}
 	}
 }

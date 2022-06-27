@@ -37,14 +37,14 @@ namespace SpiritMod.Items.Sets.GladeWraithDrops
 			Item.shootSpeed = 5.5f;
 			Item.reuseDelay = 30;
 		}
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
+
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
 			Vector2 mouse = Main.MouseWorld;
 			Vector2 offset = mouse - player.Center;
 			offset.Normalize();
 			offset *= 25;
 			position += offset;
-			return true;
 		}
 	}
 }

@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			type = ModContent.ProjectileType<GranitechStaffProjectile>();
-			SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/FocusCharge").WithPitchVariance(0.2f), player.Center);
+			SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/FocusCharge") with { PitchVariance = 0.2f }, player.Center);
 
 			Projectile.NewProjectileDirect(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
 			return false;

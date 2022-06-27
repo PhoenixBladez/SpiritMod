@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Buffs.Summon;
 using SpiritMod.Projectiles.Summon;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.Items.Sets.TideDrops
@@ -39,7 +40,7 @@ namespace SpiritMod.Items.Sets.TideDrops
 		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			if (player.altFunctionUse == 2) {
-				player.MinionNPCTargetAim();
+				player.MinionNPCTargetAim(true);
 			}
 			return base.UseItem(player);
 		}

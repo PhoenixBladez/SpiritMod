@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Sword;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Weapon.Swung
 {
@@ -36,8 +37,8 @@ namespace SpiritMod.Items.Weapon.Swung
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			position += new Vector2(speedX, speedY);
-			Projectile.NewProjectile(position.X, position.Y, speedX / 30, speedY / 30, type, damage, knockback, player.whoAmI, speedX, speedY);
+			position += velocity;
+			Projectile.NewProjectile(source, position.X, position.Y, velocity.X / 30, velocity.Y / 30, type, damage, knockback, player.whoAmI, velocity.X, velocity.Y);
 
 			if (Item.shoot == ModContent.ProjectileType<NailProj>())
 				Item.shoot = ModContent.ProjectileType<NailProj2>();

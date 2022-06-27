@@ -56,7 +56,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.AdornedBow
 			for (int i = 0; i < 10; i++) {
 				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.PlatinumCoin);
 			}
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{

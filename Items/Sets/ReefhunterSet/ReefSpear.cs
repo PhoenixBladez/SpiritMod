@@ -67,18 +67,13 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 			return true;
 		}
 
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
 			if (player.altFunctionUse == 2)
 			{
 				position -= new Vector2(20 * player.direction, 0);
-
-				Vector2 velocity = CalcSpearVel(position);
-				speedX = velocity.X;
-				speedY = velocity.Y;
+				velocity = CalcSpearVel(position);
 			}
-
-			return true;
 		}
 
 		/// <summary>

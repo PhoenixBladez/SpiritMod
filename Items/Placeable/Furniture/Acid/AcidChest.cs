@@ -32,12 +32,13 @@ namespace SpiritMod.Items.Placeable.Furniture.Acid
 
 			Item.createTile = ModContent.TileType<AcidChestTile>();
 		}
+
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<AcidBrick>(), 8);
 			recipe.AddIngredient(ItemID.IronBar, 2);
-			recipe.anyIronBar = true;
+			recipe.AddRecipeGroup(RecipeGroupID.IronBar, 2);
 			recipe.AddTile(TileID.HeavyWorkBench);
 			recipe.Register();
 		}

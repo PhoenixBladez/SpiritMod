@@ -17,7 +17,6 @@ namespace SpiritMod.Items.Sets.BloodcourtSet.BloodCourt
 		{
 			DisplayName.SetDefault("Bloodcourt's Visage");
 			Tooltip.SetDefault("4% increased damage\nIncreases your max number of minions");
-
 		}
 
 		public override void SetDefaults()
@@ -28,9 +27,10 @@ namespace SpiritMod.Items.Sets.BloodcourtSet.BloodCourt
 			Item.rare = ItemRarityID.Green;
 			Item.defense = 3;
 		}
+
         public override void UpdateEquip(Player player)
 		{
-			player.allDamage += 0.04f;
+			player.GetDamage(DamageClass.Generic) += 0.04f;
 			player.maxMinions += 1;
 		}
 
@@ -77,7 +77,7 @@ namespace SpiritMod.Items.Sets.BloodcourtSet.BloodCourt
 					Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
 			}
 
-			SoundEngine.PlaySound(new LegacySoundStyle(2, 109));
+			SoundEngine.PlaySound(SoundID.Item109);
 
 			Projectile.NewProjectile(player.Center, dir, ModContent.ProjectileType<DarkAnima>(), 70, 0, player.whoAmI);
 		}

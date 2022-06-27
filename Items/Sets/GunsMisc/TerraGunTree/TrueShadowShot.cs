@@ -39,10 +39,10 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 			Item.useAmmo = AmmoID.Bullet;
 		}
 
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
-			if(type == ProjectileID.Bullet) type = ModContent.ProjectileType<NightBullet>();
-			return true;
+			if (type == ProjectileID.Bullet) 
+				type = ModContent.ProjectileType<NightBullet>();
 		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);

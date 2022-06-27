@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Items.Sets.ReefhunterSet.Projectiles;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -36,13 +37,13 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			SoundEngine.PlaySound(SoundID.Item, (int)position.X, (int)position.Y, 85);
+			SoundEngine.PlaySound(SoundID.Item85, position);
 
 			for (int i = 0; i < 5; ++i)
-				Dust.NewDust(position, 0, 0, DustID.BubbleBurst_Blue, speedX * Main.rand.NextFloat(0.15f, 0.25f), speedY * Main.rand.NextFloat(0.15f, 0.25f), 0, default, Main.rand.NextFloat(0.5f, 1f));
+				Dust.NewDust(position, 0, 0, DustID.BubbleBurst_Blue, velocity.X * Main.rand.NextFloat(0.15f, 0.25f), velocity.Y * Main.rand.NextFloat(0.15f, 0.25f), 0, default, Main.rand.NextFloat(0.5f, 1f));
 
 			for(int i = 0; i < 5; ++i)
-				Dust.NewDust(position, 0, 0, ModContent.DustType<Dusts.BubbleDust>(), speedX * Main.rand.NextFloat(1.5f, 2.25f), speedY * Main.rand.NextFloat(1.5f, 2.25f), 0, default, Main.rand.NextFloat(1.5f, 2f));
+				Dust.NewDust(position, 0, 0, ModContent.DustType<Dusts.BubbleDust>(), velocity.X * Main.rand.NextFloat(1.5f, 2.25f), velocity.Y * Main.rand.NextFloat(1.5f, 2.25f), 0, default, Main.rand.NextFloat(1.5f, 2f));
 			return true;
 		}
 

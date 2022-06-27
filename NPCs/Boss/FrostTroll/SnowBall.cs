@@ -28,7 +28,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 			for (int i = 0; i < 2; i++)
 				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Snow);
 
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 
 			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, 6, -2, ProjectileID.FrostBlastHostile, Projectile.damage, Projectile.knockBack, Main.myPlayer);
 			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, -6, -2, ProjectileID.FrostBlastHostile, Projectile.damage, Projectile.knockBack, Main.myPlayer);

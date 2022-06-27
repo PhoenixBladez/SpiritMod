@@ -94,13 +94,9 @@ namespace SpiritMod.Items.Halloween
 				tooltips.Insert(index + 1, line);
 			}
 		}
-
-
-		public override void SaveData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */
+		public override void SaveData(TagCompound tag)
 		{
-			TagCompound tag = new TagCompound();
 			tag.Add("Variant", Variant);
-			return tag;
 		}
 
 		public override void LoadData(TagCompound tag)

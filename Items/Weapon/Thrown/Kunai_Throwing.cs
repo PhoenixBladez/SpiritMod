@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -53,11 +53,11 @@ namespace SpiritMod.Items.Weapon.Thrown
 		}
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			Vector2 direction = new Vector2(speedX,speedY);
+			Vector2 direction = velocity;
 
-			Projectile.NewProjectile(position, direction.RotatedBy(-0.2f), Mod.Find<ModProjectile>("Kunai_Throwing").Type, damage, knockback, player.whoAmI, 0f, 0f);
-			Projectile.NewProjectile(position, direction, Mod.Find<ModProjectile>("Kunai_Throwing").Type, damage, knockback, player.whoAmI, 0f, 0f);
-			Projectile.NewProjectile(position, direction.RotatedBy(0.2f), Mod.Find<ModProjectile>("Kunai_Throwing").Type, damage, knockback, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(source, position, direction.RotatedBy(-0.2f), Mod.Find<ModProjectile>("Kunai_Throwing").Type, damage, knockback, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(source, position, direction, Mod.Find<ModProjectile>("Kunai_Throwing").Type, damage, knockback, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(source, position, direction.RotatedBy(0.2f), Mod.Find<ModProjectile>("Kunai_Throwing").Type, damage, knockback, player.whoAmI, 0f, 0f);
 			return false;
 		}
 	}

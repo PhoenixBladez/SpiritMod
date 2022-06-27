@@ -51,7 +51,7 @@ namespace SpiritMod.Projectiles.Thrown
 				int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Flare_Blue);
 				Main.dust[dust].noGravity = true;
 			}
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 			if (Main.rand.Next(3) == 0) {
 				SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 20);
 				int n = 2;

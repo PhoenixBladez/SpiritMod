@@ -1,8 +1,6 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
-using SpiritMod.Items.Material;
 using SpiritMod.Projectiles;
-using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -73,7 +71,7 @@ namespace SpiritMod.Items.Sets.BismiteSet.BismiteArmor
 		public override void PlayerOnHitNPC(Player player, Item item, NPC target, int damage, float knockback, bool crit)
 		{
 			if (virulence <= 0f) {
-				Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), 25, 8, Main.myPlayer);
+				Projectile.NewProjectile(player.GetSource_OnHit(target), target.Center, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), 25, 8, Main.myPlayer);
 				virulence = 600f;
 				player.AddBuff(ModContent.BuffType<VirulenceCooldown>(), 140);
 			}
@@ -82,7 +80,7 @@ namespace SpiritMod.Items.Sets.BismiteSet.BismiteArmor
 		public override void PlayerOnHitNPCWithProj(Player player, Projectile proj, NPC target, int damage, float knockback, bool crit)
 		{
 			if (virulence <= 0f) {
-				Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), 25, 8, Main.myPlayer);
+				Projectile.NewProjectile(player.GetSource_OnHit(target), target.Center, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), 25, 8, Main.myPlayer);
 				virulence = 600f;
 				player.AddBuff(ModContent.BuffType<VirulenceCooldown>(), 140);
 			}

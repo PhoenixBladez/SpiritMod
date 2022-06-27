@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Acid
 			recipe.AddIngredient(ModContent.ItemType<AcidBrick>(), 10);
 			recipe.AddIngredient(ItemID.Glass, 6);
 			recipe.AddIngredient(ItemID.IronBar, 3);
-			recipe.anyIronBar = true;
+			recipe.AddRecipeGroup(RecipeGroupID.IronBar, 2);
 			recipe.AddTile(TileID.HeavyWorkBench);
 			recipe.Register();
 		}

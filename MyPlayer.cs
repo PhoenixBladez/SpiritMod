@@ -1154,10 +1154,10 @@ namespace SpiritMod
 			if (Player.HeldItem.type == ModContent.ItemType<Items.Sets.TideDrops.Minifish>() && MinifishTimer <= 0)
 			{
 				MinifishTimer = 120;
-				if (Player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Bullet.MinifishProj>()] < 3)
+				if (Player.ownedProjectileCounts[ModContent.ProjectileType<MinifishProj>()] < 3)
 				{
 					var spawnPos = Player.Center + Main.rand.NextVector2Square(-50, 50) - new Vector2(0, 50);
-					var p = Projectile.NewProjectileDirect(spawnPos, Vector2.Zero, ModContent.ProjectileType<MinifishProj>(), Player.HeldItem.damage, Player.HeldItem.knockBack, Player.whoAmI);
+					var p = Projectile.NewProjectileDirect(Player.GetSource_OnHit(victim), spawnPos, Vector2.Zero, ModContent.ProjectileType<MinifishProj>(), Player.HeldItem.damage, Player.HeldItem.knockBack, Player.whoAmI);
 					p.netUpdate = true;
 				}
 			}
@@ -1208,7 +1208,7 @@ namespace SpiritMod
 			{
 				if (target.life <= target.lifeMax / 2 && Main.rand.Next(7) == 0)
 				{
-					Projectile.NewProjectile(target.position, Vector2.Zero, ModContent.ProjectileType<ShadowSingeProj>(), item.damage / 3 * 2, 4, Main.myPlayer);
+					Projectile.NewProjectile(item.GetSource_OnHit(target), target.position, Vector2.Zero, ModContent.ProjectileType<ShadowSingeProj>(), item.damage / 3 * 2, 4, Main.myPlayer);
 					SoundEngine.PlaySound(new LegacySoundStyle(4, 6));
 					Player.statLife -= 3;
 				}
@@ -1224,11 +1224,11 @@ namespace SpiritMod
 						return;
 
 					Player.lifeSteal -= leech;
-					Projectile.NewProjectile(target.position, Vector2.Zero, ProjectileID.VampireHeal, 0, 0f, Player.whoAmI, Player.whoAmI, leech);
+					Projectile.NewProjectile(item.GetSource_OnHit(target), target.position, Vector2.Zero, ProjectileID.VampireHeal, 0, 0f, Player.whoAmI, Player.whoAmI, leech);
 				}
 			}
 
-			if (frigidGloves && crit && item.melee)
+			if (frigidGloves && crit && item.IsMelee())
 				target.AddBuff(BuffID.Frostburn, 180);
 
 			if (forbiddenTome)
@@ -1237,7 +1237,7 @@ namespace SpiritMod
 				{
 					for (int i = 0; i < 40; i++)
 					{
-						Dust dust = Main.dust[Dust.NewDust(target.position, target.width, target.height, DustID.Ultrabright, 0f, -2f, 117, new Color(0, 255, 142), .6f)];
+						Dust dust = Main.dust[Dust.NewDust(target.position, target.width, target.height, DustID.UltraBrightTorch, 0f, -2f, 117, new Color(0, 255, 142), .6f)];
 
 						dust.noGravity = true;
 						dust.position.X += ((Main.rand.Next(-50, 51) / 20) - 1.5f);
@@ -1246,53 +1246,46 @@ namespace SpiritMod
 					}
 
 					int upperClamp = (int)MathHelper.Clamp(target.lifeMax, 0, 75);
-					int p = Projectile.NewProjectile(target.position, new Vector2(Main.rand.Next(-6, 6), Main.rand.Next(-5, -1)), ModContent.ProjectileType<GhastSkullFriendly>(), (int)MathHelper.Clamp((damage / 5 * 2), 0, upperClamp), knockback, Main.myPlayer);
+					int p = Projectile.NewProjectile(item.GetSource_OnHit(target), target.position, new Vector2(Main.rand.Next(-6, 6), Main.rand.Next(-5, -1)), ModContent.ProjectileType<GhastSkullFriendly>(), (int)MathHelper.Clamp((damage / 5 * 2), 0, upperClamp), knockback, Main.myPlayer);
 
-					if (item.ranged)
-						Main.projectile[p].ranged = true;
-					if (item.melee)
-						Main.projectile[p].melee = true;
-					if (item.magic)
-						Main.projectile[p].magic = true;
-					if (item.summon)
-						Main.projectile[p].minion = true;
+					Main.projectile[p].DamageType = item.DamageType;
 				}
 			}
 
-			if (meleeshadowSet && Main.rand.NextBool(14) && item.melee)
-				Projectile.NewProjectile(Player.position.X + 20, Player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
+			if (meleeshadowSet && Main.rand.NextBool(14) && item.IsMelee())
+				Projectile.NewProjectile(item.GetSource_OnHit(target), Player.position.X + 20, Player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
 
-			if (magicshadowSet && Main.rand.NextBool(14) && item.magic)
-				Projectile.NewProjectile(Player.position.X + 20, Player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
+			if (magicshadowSet && Main.rand.NextBool(14) && item.IsMagic())
+				Projectile.NewProjectile(item.GetSource_OnHit(target), Player.position.X + 20, Player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
 
-			if (magicshadowSet && Main.rand.NextBool(14) && item.summon)
-				Projectile.NewProjectile(Player.position.X + 20, Player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
+			if (magicshadowSet && Main.rand.NextBool(14) && item.IsSummon())
+				Projectile.NewProjectile(item.GetSource_OnHit(target), Player.position.X + 20, Player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
 
-			if (rangedshadowSet && Main.rand.NextBool(14) && item.ranged)
-				Projectile.NewProjectile(Player.position.X + 20, Player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
+			if (rangedshadowSet && Main.rand.NextBool(14) && item.IsRanged())
+				Projectile.NewProjectile(item.GetSource_OnHit(target), Player.position.X + 20, Player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
 
 
 			if (midasTouch)
 				target.AddBuff(BuffID.Midas, 240);
 
-			if (wheezeScale && Main.rand.NextBool(9) && item.melee)
+			if (wheezeScale && Main.rand.NextBool(9) && item.IsMelee())
 			{
 				float rand = Main.rand.NextFloat() * 6.283f;
 				Vector2 vel = new Vector2(0, -1).RotatedBy(rand) * 8f;
-				Projectile.NewProjectile(target.Center, vel, ModContent.ProjectileType<Wheeze>(), item.damage / 2, 0, Main.myPlayer);
+				Projectile.NewProjectile(item.GetSource_OnHit(target), target.Center, vel, ModContent.ProjectileType<Wheeze>(), item.damage / 2, 0, Main.myPlayer);
 			}
 
-			if (ToxicExtract && Main.rand.NextBool(5) && item.magic)
+			if (ToxicExtract && Main.rand.NextBool(5) && item.IsMagic())
 				target.AddBuff(BuffID.Venom, 240);
 
 			if (geodeSet && crit && Main.rand.NextBool(5))
 				target.AddBuff(ModContent.BuffType<Buffs.Crystal>(), 180);
 
-			if (gremlinBuff && item.melee)
+			if (gremlinBuff && item.IsMelee())
 				target.AddBuff(BuffID.Poisoned, 120);
 
-			if (infernalFlame && item.melee && crit && Main.rand.NextBool(12))
-				Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PhoenixProjectile>(), 50, 4, Main.myPlayer);
+			if (infernalFlame && item.IsMelee() && crit && Main.rand.NextBool(12))
+				Projectile.NewProjectile(item.GetSource_OnHit(target), target.Center, Vector2.Zero, ModContent.ProjectileType<PhoenixProjectile>(), 50, 4, Main.myPlayer);
 
 			if (crystalFlower && target.life <= 0 && Main.rand.NextBool(12))
 				CrystalFlowerOnKillEffect(target);
@@ -2583,7 +2576,7 @@ namespace SpiritMod
 					{
 						if (hitbox.Intersects(npc.Hitbox) && (npc.noTileCollide || Collision.CanHit(Player.position, Player.width, Player.height, npc.position, npc.width, npc.height)))
 						{
-							float damage = 40f * Player.meleeDamage;
+							float damage = 40f * Player.GetDamage(DamageClass.Melee);
 							float knockback = 12f;
 							bool crit = false;
 
@@ -2593,7 +2586,7 @@ namespace SpiritMod
 							if (Player.kbBuff)
 								knockback *= 1.5f;
 
-							if (Main.rand.Next(100) < Player.meleeCrit)
+							if (Main.rand.Next(100) < Player.GetCritChance(DamageClass.Melee))
 								crit = true;
 
 							int hitDirection = Player.velocity.X < 0f ? -1 : 1;
@@ -2724,7 +2717,7 @@ namespace SpiritMod
 		public override void PostUpdateEquips()
 		{
 			if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiningHelmet>()] < 1 && Player.head == 11)
-				Projectile.NewProjectile(Player.Center.X, Player.Center.Y, 0f, 0f, ModContent.ProjectileType<MiningHelmet>(), 0, 0, Player.whoAmI);
+				Projectile.NewProjectile(Player.GetSource_NaturalSpawn(), Player.Center.X, Player.Center.Y, 0f, 0f, ModContent.ProjectileType<MiningHelmet>(), 0, 0, Player.whoAmI);
 
 			if (graniteSet)
 			{
@@ -2811,7 +2804,7 @@ namespace SpiritMod
 
 			if (astralSet)
 			{
-				Player.meleeSpeed += .06f * astralSetStacks;
+				player.GetAttackSpeed(DamageClass.Melee) += .06f * astralSetStacks;
 				Player.manaCost -= .06f * astralSetStacks;
 				Player.lifeRegen += 1 * astralSetStacks;
 				Player.manaRegen += 1 * astralSetStacks;
@@ -2972,13 +2965,13 @@ namespace SpiritMod
 				clatterboneTimer--;
 
 			if (rogueCrest && Player.ownedProjectileCounts[ModContent.ProjectileType<KnifeMinionProjectile>()] < 1)
-				Projectile.NewProjectile(Player.Center, Vector2.Zero, ModContent.ProjectileType<KnifeMinionProjectile>(), (int)(5 * Player.minionDamage), .5f, Player.whoAmI);
+				Projectile.NewProjectile(Player.GetSource_NaturalSpawn(), Player.Center, Vector2.Zero, ModContent.ProjectileType<KnifeMinionProjectile>(), (int)(5 * Player.minionDamage), .5f, Player.whoAmI);
 
 			if (bowSummon && Player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Summon.BowSummon.BowSummon>()] < 1)
-				Projectile.NewProjectile(Player.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.Summon.BowSummon.BowSummon>(), (int)(22 * Player.minionDamage), 1.5f, Player.whoAmI);
+				Projectile.NewProjectile(Player.GetSource_NaturalSpawn(), Player.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.Summon.BowSummon.BowSummon>(), (int)(22 * Player.minionDamage), 1.5f, Player.whoAmI);
 
 			if (spellswordCrest && Player.ownedProjectileCounts[ModContent.ProjectileType<HolyKnifeMinion>()] < 1)
-				Projectile.NewProjectile(Player.Center, Vector2.Zero, ModContent.ProjectileType<HolyKnifeMinion>(), (int)(32 * Player.minionDamage), 1.25f, Player.whoAmI);
+				Projectile.NewProjectile(Player.GetSource_NaturalSpawn(), Player.Center, Vector2.Zero, ModContent.ProjectileType<HolyKnifeMinion>(), (int)(32 * Player.minionDamage), 1.25f, Player.whoAmI);
 
 			// Update armor sets.
 			if (infernalSet)
@@ -3004,7 +2997,7 @@ namespace SpiritMod
 					{
 						for (int i = 0; i < 3; ++i)
 						{
-							int newProj = Projectile.NewProjectile(Player.Center, Vector2.Zero, ModContent.ProjectileType<InfernalGuard>(), 0, 0, Player.whoAmI, 90, 1);
+							int newProj = Projectile.NewProjectile(Player.GetSource_NaturalSpawn(), Player.Center, Vector2.Zero, ModContent.ProjectileType<InfernalGuard>(), 0, 0, Player.whoAmI, 90, 1);
 							Main.projectile[newProj].localAI[1] = 2f * MathHelper.Pi / 3f * i;
 						}
 					}
@@ -3047,13 +3040,13 @@ namespace SpiritMod
 			}
 
 			if (cryoSet && Player.ownedProjectileCounts[ModContent.ProjectileType<CryoProj>()] <= 1)
-				Projectile.NewProjectile(Player.position, Vector2.Zero, ModContent.ProjectileType<CryoProj>(), 0, 0, Player.whoAmI);
+				Projectile.NewProjectile(Player.GetSource_NaturalSpawn(), Player.position, Vector2.Zero, ModContent.ProjectileType<CryoProj>(), 0, 0, Player.whoAmI);
 
 			if (SoulStone && Player.ownedProjectileCounts[ModContent.ProjectileType<StoneSpirit>()] < 1 && Main.rand.NextBool(2))
-				Projectile.NewProjectile(Player.position, Vector2.Zero, ModContent.ProjectileType<StoneSpirit>(), 35, 0, Player.whoAmI);
+				Projectile.NewProjectile(Player.GetSource_NaturalSpawn(), Player.position, Vector2.Zero, ModContent.ProjectileType<StoneSpirit>(), 35, 0, Player.whoAmI);
 
 			if (duskSet && Player.ownedProjectileCounts[ModContent.ProjectileType<ShadowCircleRune1>()] <= 0)
-				Projectile.NewProjectile(Player.position, Vector2.Zero, ModContent.ProjectileType<ShadowCircleRune1>(), 18, 0, Player.whoAmI);
+				Projectile.NewProjectile(Player.GetSource_NaturalSpawn(), Player.position, Vector2.Zero, ModContent.ProjectileType<ShadowCircleRune1>(), 18, 0, Player.whoAmI);
 
 
 			if (shadowSet)
@@ -3084,7 +3077,7 @@ namespace SpiritMod
 									knockback *= 1f;
 
 								bool crit = false;
-								if (Main.rand.Next(100) < Player.meleeCrit)
+								if (Main.rand.Next(100) < Player.GetCritChance(DamageClass.Melee))
 									crit = true;
 
 								int hitDirection = Player.direction;
@@ -3268,7 +3261,7 @@ namespace SpiritMod
 									knockback *= 1.5f;
 
 								bool crit = false;
-								if (Main.rand.Next(100) < Player.meleeCrit)
+								if (Main.rand.Next(100) < Player.GetCritChance(DamageClass.Melee))
 									crit = true;
 
 								int hitDirection = Player.direction;

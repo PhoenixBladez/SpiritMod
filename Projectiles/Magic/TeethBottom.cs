@@ -38,18 +38,17 @@ namespace SpiritMod.Projectiles.Magic
 			}
 			if (counter == 33) {
 				for (int i = 0; i < 10; i++) {
-					Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Moss_Red, Main.rand.Next(-2, 3), -2);
+					Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.RedMoss, Main.rand.Next(-2, 3), -2);
 				}
 			}
 		}
-
 
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++) {
 				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<NightmareDust>());
 			}
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -63,7 +62,7 @@ namespace SpiritMod.Projectiles.Magic
 			for (int k = 0; k < Projectile.oldPos.Length; k++) {
 				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
 				Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
-				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
 		}

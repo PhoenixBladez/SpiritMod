@@ -49,16 +49,12 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 		public override bool CanUseItem(Player player)
 		{
 			for (int i = 0; i < 1000; ++i)
-			{
 				if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == ModContent.ProjectileType<RagingSunbladeProj>())
-				{
 					return false;
-				}
-			}
 			return true;
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => 
-            GlowmaskUtils.DrawItemGlowMaskWorld(Main.spriteBatch, Item, Mod.Assets.Request<Texture2D>(Texture.Remove(0, "SpiritMod/".Length).Value + "_glow"), rotation, scale);
+            GlowmaskUtils.DrawItemGlowMaskWorld(Main.spriteBatch, Item, Mod.Assets.Request<Texture2D>(Texture.Remove(0, "SpiritMod/".Length) + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, rotation, scale);
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-10, 0);
@@ -133,7 +129,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 				if (charge > 60)
 				{
 					if (phantomProj == null)
-						phantomProj = Projectile.NewProjectileDirect(player.Center, player.DirectionTo(Main.MouseWorld) * 15, ModContent.ProjectileType<HeliosPhantomProj>(), Projectile.damage, 0, player.whoAmI);
+						phantomProj = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), player.Center, player.DirectionTo(Main.MouseWorld) * 15, ModContent.ProjectileType<HeliosPhantomProj>(), Projectile.damage, 0, player.whoAmI);
 					primCenter = phantomProj.Center;
 					if (!phantomProj.active || !(phantomProj.ModProjectile is HeliosPhantomProj))
 						returned = true;
@@ -286,16 +282,16 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 				if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), primCenter, primCenter + (((float)radians - i).ToRotationVector2() * 110), Projectile.width, ref collisionPoint))
 				{
 					Vector2 position = Vector2.Lerp(primCenter, primCenter + (((float)radians - i).ToRotationVector2() * 110), collisionPoint / 110.0f);
-					SoundEngine.PlaySound(SoundID.Item, position, 14);
-					Projectile.NewProjectile(position, Vector2.Zero, ProjectileID.SolarWhipSwordExplosion, 0, 0, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+					SoundEngine.PlaySound(SoundID.Item14, position);
+					Projectile.NewProjectile(Projectile.GetSource_FromThis("TargetlessOnHit"), position, Vector2.Zero, ProjectileID.SolarWhipSwordExplosion, 0, 0, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 					return true;
 				}
 			}
 			if (projHitbox.Intersects(targetHitbox))
 			{
 				Vector2 position = Projectile.Center;
-				SoundEngine.PlaySound(SoundID.Item, position, 14);
-				Projectile.NewProjectile(position, Vector2.Zero, ProjectileID.SolarWhipSwordExplosion, 0, 0, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+				SoundEngine.PlaySound(SoundID.Item14, position);
+				Projectile.NewProjectile(Projectile.GetSource_FromThis("TargetlessOnHit"), position, Vector2.Zero, ProjectileID.SolarWhipSwordExplosion, 0, 0, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 				return true;
 			}
 			return false;
@@ -321,7 +317,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 			{
 				float transparency = (float)Math.Pow(1 - flickerTime, 2);
 				float scale = 1 + (flickerTime / 2.0f);
-				Texture2D whiteTex = ModContent.Request<Texture2D>(Texture + "_White");
+				Texture2D whiteTex = ModContent.Request<Texture2D>(Texture + "_White", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				Main.spriteBatch.Draw(whiteTex, primCenter - Main.screenPosition, null, Color.White * transparency, (float)radians + 3.9f, new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width / 2, TextureAssets.Projectile[Projectile.type].Value.Height / 2), Projectile.scale * scale, SpriteEffects.None, 0);
 			}
 			return false;
@@ -370,7 +366,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 				SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/slashdash").WithPitchVariance(0.4f).WithVolume(0.4f), player.Center);
 				dashing = true;
 				player.GetModPlayer<MyPlayer>().AnimeSword = true;
-				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HeliosDash>(), Projectile.damage * 3, 0, player.whoAmI);
+				Projectile.NewProjectile(Projectile.GetSource_FromAI(), player.Center, Vector2.Zero, ModContent.ProjectileType<HeliosDash>(), Projectile.damage * 3, 0, player.whoAmI);
 			}
 
 			if (dashing)

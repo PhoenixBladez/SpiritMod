@@ -37,7 +37,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			}
 			int g = Gore.NewGore(Projectile.position, Projectile.velocity, Mod.Find<ModGore>("Gores/Dodgeball").Type, 1f);
 			Main.gore[g].timeLeft = 1;
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 		}
 		public override bool PreDraw(ref Color lightColor)
 		{

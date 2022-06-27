@@ -62,7 +62,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				SoundEngine.PlaySound(SoundID.NPCKilled, (int)NPC.position.X, (int)NPC.position.Y, 44);
 				SoundEngine.PlaySound(SoundID.NPCHit, (int)NPC.position.X, (int)NPC.position.Y, 4);
 				for (int i = 0; i < 40; i++) {
-					int num = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Ultrabright, 0f, -2f, 117, new Color(0, 255, 142), .6f);
+					int num = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.UltraBrightTorch, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 					Main.dust[num].noGravity = true;
 					Dust dust = Main.dust[num];
 					dust.position.X += ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);

@@ -95,7 +95,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 			if (!Main.dedServ)
 			{
-				SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.66f), Projectile.Center);
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/EnergyImpact") with { PitchVariance = 0.1f, Volume = 0.66f}, Projectile.Center);
 
 				ParticleHandler.SpawnParticle(new GranitechGunBurst(Projectile.Center, Main.rand.NextFloat(0.9f, 1.1f), Projectile.oldVelocity.ToRotation()));
 
@@ -136,10 +136,10 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 					float progress = (ProjectileID.Sets.TrailCacheLength[Projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[Projectile.type];
 					Color trailColor = Color.Lerp(new Color(222, 111, 127), new Color(178, 105, 140), progress).MultiplyRGBA(colorMod) * progress;
 					Vector2 trailPosition = Projectile.oldPos[i] + offset + Projectile.Size / 2 - Main.screenPosition;
-					sb.Draw(glow, trailPosition, null, Projectile.GetAlpha(trailColor), Projectile.rotation, glow.Size() / 2, Projectile.scale, SpriteEffects.None, 0f);
+					Main.spriteBatch.Draw(glow, trailPosition, null, Projectile.GetAlpha(trailColor), Projectile.rotation, glow.Size() / 2, Projectile.scale, SpriteEffects.None, 0f);
 				}
 
-				sb.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPosition, null, Projectile.GetAlpha(colorMod), Projectile.rotation, glow.Size() / 2, Projectile.scale, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPosition, null, Projectile.GetAlpha(colorMod), Projectile.rotation, glow.Size() / 2, Projectile.scale, SpriteEffects.None, 0f);
 			});
 
 			return false;

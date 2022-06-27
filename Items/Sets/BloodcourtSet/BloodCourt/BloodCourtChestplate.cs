@@ -24,8 +24,8 @@ namespace SpiritMod.Items.Sets.BloodcourtSet.BloodCourt
 		}
 		public override void UpdateEquip(Player player)
 		{
-			player.allDamage += 0.06f;
-			player.meleeSpeed += 0.12f;
+			player.GetDamage(DamageClass.Generic) += 0.06f;
+			player.GetAttackSpeed(DamageClass.Melee) += 0.12f;
 			player.ammoCost80 = true;
 		}
 		public override void AddRecipes()

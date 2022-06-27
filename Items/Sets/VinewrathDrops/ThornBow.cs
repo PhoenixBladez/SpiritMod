@@ -34,10 +34,10 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 			Item.shootSpeed = 14f;
 		}
 
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
-			if(type == ProjectileID.WoodenArrowFriendly) type = ModContent.ProjectileType<ThornArrow>();
-			return true;
+			if (type == ProjectileID.WoodenArrowFriendly) 
+				type = ModContent.ProjectileType<ThornArrow>();
 		}
 
 		public class ThornArrow : ModProjectile
@@ -63,7 +63,7 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 						perturbedSpeed.Normalize();
 						perturbedSpeed.X *= 3.5f;
 						perturbedSpeed.Y *= 3.5f;
-						Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<ThornBowThorn>(), Projectile.damage / 5 * 3, Projectile.knockBack, Projectile.owner);
+						Projectile.NewProjectile(Projectile.GetSource_OnHit(target), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<ThornBowThorn>(), Projectile.damage / 5 * 3, Projectile.knockBack, Projectile.owner);
 					}
 				}
 			}

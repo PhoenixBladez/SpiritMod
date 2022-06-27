@@ -38,7 +38,7 @@ namespace SpiritMod.NPCs.Critters
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 20; k++)
-				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Corruption_Gravity, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.2f, .8f));
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.CorruptPlants, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.2f, .8f));
 
 			if (NPC.life <= 0)
 				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Vibeshroom1").Type, 1f);

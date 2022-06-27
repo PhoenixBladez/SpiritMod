@@ -27,7 +27,7 @@ namespace SpiritMod.NPCs.Boss
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 			for (int i = 0; i < 20; i++) {
 				Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height,
 					DustID.Dirt, 0, 1, 133);

@@ -31,7 +31,7 @@ namespace SpiritMod.Buffs
 			}
 
 			for (int i = 0; i < info.nebulaFlameStacks; ++i) {
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.PinkFlame);
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.PinkTorch);
 			}
 		}
 	}

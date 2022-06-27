@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs.Summon;
 using SpiritMod.Projectiles.Summon.MoonjellySummon;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -39,7 +40,7 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
 		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			if (player.altFunctionUse == 2)
-				player.MinionNPCTargetAim();
+				player.MinionNPCTargetAim(true);
 			else
 			{
 				for (int i = 0; i < 1000; ++i)
@@ -89,7 +90,7 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
 			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				Mod.Assets.Request<Texture2D>("Items/Sets/MoonWizardDrops/MoonjellySummonStaff_Glow").Value,
+				Mod.Assets.Request<Texture2D>("Items/Sets/MoonWizardDrops/MoonjellySummonStaff_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
 				new Vector2
 				(
 					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,

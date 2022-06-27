@@ -58,9 +58,7 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops.JellynautHelmet
 
 		public override void UpdateEquip(Player player)
         {
-            player.meleeCrit += 10;
-            player.rangedCrit += 10;
-            player.magicCrit += 10;
+            player.GetCritChance(DamageClass.Generic) += 10;
             player.statManaMax2 += 20;
         }
 

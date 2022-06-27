@@ -30,9 +30,11 @@ namespace SpiritMod.Items.Sets.AtlasDrops
 
 		public override void RightClick(Player player)
 		{
-			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(7, 12));
-			player.QuickSpawnItem(ModContent.ItemType<AtlasEye>());
-			player.QuickSpawnItem(ModContent.ItemType<ArcaneGeyser>(), Main.rand.Next(30, 46));
+			var source = player.GetSource_OpenItem(Type);
+
+			player.QuickSpawnItem(source, ItemID.GoldCoin, Main.rand.Next(7, 12));
+			player.QuickSpawnItem(source, ModContent.ItemType<AtlasEye>());
+			player.QuickSpawnItem(source, ModContent.ItemType<ArcaneGeyser>(), Main.rand.Next(30, 46));
 
 			int[] lootTable = {
 				ModContent.ItemType<Mountain>(),
@@ -42,12 +44,12 @@ namespace SpiritMod.Items.Sets.AtlasDrops
 				ModContent.ItemType<Earthshatter>()
 			};
 			int loot = Main.rand.Next(lootTable.Length);
-			player.QuickSpawnItem(lootTable[loot]);
+			player.QuickSpawnItem(source, lootTable[loot]);
 
 			if (Main.rand.NextDouble() < 1 / 7f)
-				player.QuickSpawnItem(ModContent.ItemType<AtlasMask>());
+				player.QuickSpawnItem(source, ModContent.ItemType<AtlasMask>());
 			if (Main.rand.NextDouble() < 1 / 10f)
-				player.QuickSpawnItem(ModContent.ItemType<Trophy8>());
+				player.QuickSpawnItem(source, ModContent.ItemType<Trophy8>());
 
 			int[] vanityTable = {
 				ModContent.ItemType<WaasephiVanity>(),
@@ -57,7 +59,7 @@ namespace SpiritMod.Items.Sets.AtlasDrops
 			};
 			int vanityloot = Main.rand.Next(vanityTable.Length);
 			if (Main.rand.NextBool(20))
-				player.QuickSpawnItem(vanityTable[vanityloot]);
+				player.QuickSpawnItem(source, vanityTable[vanityloot]);
 		}
 	}
 }

@@ -110,7 +110,7 @@ namespace SpiritMod.Projectiles.Magic
 		}
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 			for (int k = 0; k < 6; k++)
 			{
 				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Marble, 2.5f * 1, -2.5f, 0, default, 0.27f);

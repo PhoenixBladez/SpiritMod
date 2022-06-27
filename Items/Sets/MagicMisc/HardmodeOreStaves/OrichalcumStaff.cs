@@ -57,7 +57,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.HardmodeOreStaves
 			{
 				Vector2 offset = player.DirectionTo(Main.MouseWorld).RotatedBy(0.1f * -Math.Sign(velocity.X)) * 58;
 
-				int dust = Dust.NewDust(player.Center + offset, 1, 1, DustID.PinkFlame);
+				int dust = Dust.NewDust(player.Center + offset, 1, 1, DustID.PinkTorch);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].scale = 1.5f;
 				float dustSpeed = Main.rand.Next(23) / 5;

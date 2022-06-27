@@ -14,9 +14,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 		{
 			DisplayName.SetDefault("True Harvester");
 			Tooltip.SetDefault("Rapidly shoots out wither blasts that inflict 'Wither' on hit foes\nOccasionally shoots out a giant clump of blood that steals a large amount of life");
-
 		}
-
 
 		int charger;
 		public override void SetDefaults()
@@ -41,24 +39,29 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 			Item.crit = 6;
 		}
 
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+		{
+			if (type == ProjectileID.Bullet)
+			{
+				type = ModContent.ProjectileType<WitherBlast>();
+			}
+
+			float spread = 6 * 0.0174f;//45 degrees converted to radians
+			float baseSpeed = (float)Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
+			double baseAngle = Math.Atan2(velocity.X, velocity.Y);
+			double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
+			velocity.X = baseSpeed * (float)Math.Sin(randomAngle);
+			velocity.Y = baseSpeed * (float)Math.Cos(randomAngle);
+		}
+
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
 			charger++;
-			if (charger >= 3) {
-				for (int I = 0; I < 1; I++) {
-					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) * 0.004f), speedY + ((float)Main.rand.Next(-230, 230) * 0.004f), ModContent.ProjectileType<GiantBlood>(), damage, knockback, player.whoAmI, 0f, 0f);
-				}
+			if (charger >= 3)
+			{
+				Projectile.NewProjectile(source, position.X - 8, position.Y + 8, velocity.X + ((float)Main.rand.Next(-230, 230) * 0.004f), velocity.Y + ((float)Main.rand.Next(-230, 230) * 0.004f), ModContent.ProjectileType<GiantBlood>(), damage, knockback, player.whoAmI, 0f, 0f);
 				charger = 0;
 			}
-			if (type == ProjectileID.Bullet) {
-				type = ModContent.ProjectileType<WitherBlast>();
-			}
-			float spread = 6 * 0.0174f;//45 degrees converted to radians
-			float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-			double baseAngle = Math.Atan2(speedX, speedY);
-			double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
-			speedX = baseSpeed * (float)Math.Sin(randomAngle);
-			speedY = baseSpeed * (float)Math.Cos(randomAngle);
 			return true;
 		}
 

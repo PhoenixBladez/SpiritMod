@@ -104,7 +104,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			SoundEngine.PlaySound(SoundID.NPCHit, (int)Projectile.position.X, (int)Projectile.position.Y, 3);
 			for (int index = 0; index < 8; ++index)
 			{
-				int i = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.AmethystBolt, 0.0f, 0.0f, 0, Color.Purple, 1f);
+				int i = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.GemAmethyst, 0.0f, 0.0f, 0, Color.Purple, 1f);
 				Main.dust[i].noGravity = true;
 			}
 		}

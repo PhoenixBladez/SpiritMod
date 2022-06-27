@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles.Thrown
 				int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Obsidian);
 				Main.dust[d].scale *= .5f;
 			}
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 		}
 		public override bool PreDraw(ref Color lightColor)
 		{

@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Accessory
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			player.allDamage *= 1 + (player.statDefense * 0.0075f);
+			player.GetDamage(DamageClass.Generic) *= 1 + (player.statDefense * 0.0075f);
 			player.statDefense = 0;
 		}
 

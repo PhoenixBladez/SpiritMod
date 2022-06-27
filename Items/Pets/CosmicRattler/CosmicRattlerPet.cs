@@ -281,7 +281,7 @@ namespace SpiritMod.Items.Pets.CosmicRattler
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 			int frameHeight = tex.Height / Main.projFrames[Projectile.type];
 			Rectangle frame = new Rectangle(0, Projectile.frame, tex.Width / 3, frameHeight);
-			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, GetAlpha(drawColor).Value, Projectile.rotation % 6.28f, frame.Size() / 2, Projectile.scale, SpriteEffects.FlipHorizontally, 0);
+			Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, GetAlpha(lightColor).Value, Projectile.rotation % 6.28f, frame.Size() / 2, Projectile.scale, SpriteEffects.FlipHorizontally, 0);
 
 			return false;
 		}
@@ -290,7 +290,7 @@ namespace SpiritMod.Items.Pets.CosmicRattler
 		{
 			DrawThreads(sB);
 
-			Texture2D tex = ModContent.Request<Texture2D>(Texture + "_Glow");
+			Texture2D tex = ModContent.Request<Texture2D>(Texture + "_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			int frameHeight = tex.Height / Main.projFrames[Projectile.type];
 			Rectangle frame = new Rectangle(0, Projectile.frame, tex.Width / 3, frameHeight);
 			sB.Draw(tex, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation % 6.28f, frame.Size() / 2, Projectile.scale, SpriteEffects.FlipHorizontally, 0);
@@ -302,7 +302,7 @@ namespace SpiritMod.Items.Pets.CosmicRattler
 				return;
 
 			float length;
-			Texture2D tex = SpiritMod.Instance.GetTexture("Textures/Trails/Trail_4");
+			Texture2D tex = ModContent.Request<Texture2D>("Textures/Trails/Trail_4", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Vector2 threadScale = new Vector2(1 / (float)tex.Width, 30 / (float)tex.Height); //Base scale of the thread based on the texture's size, stretched horizontally depending on thread length
 
 			//Draw each thread's beam
@@ -324,7 +324,7 @@ namespace SpiritMod.Items.Pets.CosmicRattler
 			spriteBatch.Draw(tex, thread2.EndPoint - Main.screenPosition, null, Color.HotPink * 0.5f * size, (thread2.StartPoint - thread2.EndPoint).ToRotation(), //Draw the remaining portion at lower opacity
 				new Vector2(0f, tex.Height / 2), threadScale * new Vector2((1 - progress) * thread2.Length, 1), SpriteEffects.None, 0f);
 
-			tex = SpiritMod.Instance.GetTexture("NPCs/StarjinxEvent/Enemies/Starachnid/SpiderStar");
+			tex = ModContent.Request<Texture2D>("NPCs/StarjinxEvent/Enemies/Starachnid/SpiderStar", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Texture2D Bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 
 			//Use a method to cut down on boilerplate with drawing stars

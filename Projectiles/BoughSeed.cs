@@ -166,7 +166,7 @@ namespace SpiritMod.Projectiles
 					}
 				}
 			}
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 		}
 	}
 }

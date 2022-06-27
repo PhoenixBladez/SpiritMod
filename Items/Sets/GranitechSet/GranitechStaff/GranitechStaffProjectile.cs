@@ -273,9 +273,9 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			Color bloomColor = Color.LightBlue * 0.33f;
 			bloomColor.A = 0;
-			spriteBatch.Draw(bloom, Projectile.Center + StaffTipDirection - Main.screenPosition, null, bloomColor, 0, bloom.Size() / 2, 0.15f, SpriteEffects.None, 0);
+			Main.spriteBatch.Draw(bloom, Projectile.Center + StaffTipDirection - Main.screenPosition, null, bloomColor, 0, bloom.Size() / 2, 0.15f, SpriteEffects.None, 0);
 
-			Projectile.QuickDrawGlow(spriteBatch);
+			Projectile.QuickDrawGlow(Main.spriteBatch);
 		}
 
 		private void DrawTelegraphBeam(SpriteBatch spriteBatch)

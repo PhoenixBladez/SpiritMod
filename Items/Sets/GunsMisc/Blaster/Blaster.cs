@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -70,7 +71,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 			if (elementPrimary <= 1 && fireType == 1)
 			{
 				SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/GunsMisc/Blaster/Blaster_FireGlow");
-				dustType = DustID.Fire;
+				dustType = DustID.Torch;
 			}
 			if (elementPrimary >= 2 && fireType == 1)
 			{
@@ -114,42 +115,42 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			SoundEngine.PlaySound(SoundLoader.customSoundType, player.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/MaliwanShot1"));
+			SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/MaliwanShot1"), player.Center);
 
-			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY - 1)) * 38f;
+			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(velocity.X, velocity.Y - 1)) * 38f;
 			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
 				position += muzzleOffset;
 
 			float spread = MathHelper.ToRadians(4f);
-			float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-			double baseAngle = Math.Atan2(speedX, speedY);
+			float baseSpeed = (float)Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
+			double baseAngle = Math.Atan2(velocity.X, velocity.Y);
 			double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
-			speedX = baseSpeed * (float)Math.Sin(randomAngle);
-			speedY = baseSpeed * (float)Math.Cos(randomAngle);
+			velocity.X = baseSpeed * (float)Math.Sin(randomAngle);
+			velocity.Y = baseSpeed * (float)Math.Cos(randomAngle);
 
 			if (elementPrimary <= 1 && fireType == 1)
 			{
-				int proj = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
+				int proj = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
 				Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanFireCommon = true;
 			}
 			if (elementPrimary >= 2 && fireType == 1)
 			{
-				int proj = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
+				int proj = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
 				Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanAcidCommon = true;
 			}
 			if (elementSecondary <= 4 && fireType == 2)
 			{
-				int proj = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
+				int proj = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
 				Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanShockCommon = true;
 			}
 			if (elementSecondary >= 5 && fireType == 2)
 			{
-				int proj = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
+				int proj = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
 				Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanFreezeCommon = true;
 			}
 			for (int index1 = 0; index1 < 5; ++index1)
 			{
-				int index2 = Dust.NewDust(new Vector2(position.X, position.Y), Item.width - 64, Item.height - 16, dustType, speedX, speedY, (int)byte.MaxValue, new Color(), (float)SpiritMod.Instance.spiritRNG.Next(10, 17) * 0.1f);
+				int index2 = Dust.NewDust(new Vector2(position.X, position.Y), Item.width - 64, Item.height - 16, dustType, velocity.X, velocity.Y, (int)byte.MaxValue, new Color(), (float)SpiritMod.Instance.spiritRNG.Next(10, 17) * 0.1f);
 				Main.dust[index2].noLight = true;
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity *= 0.5f;

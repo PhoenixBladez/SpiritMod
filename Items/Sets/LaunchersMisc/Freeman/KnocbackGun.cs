@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Bullet;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -39,15 +40,15 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.Freeman
 
 		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
-			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 45f;
-			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
+			Vector2 muzzleOffset = Vector2.Normalize(velocity) * 45f;
+			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
+			{
 				position += muzzleOffset;
 			}
-			SoundEngine.PlaySound(SoundLoader.customSoundType, player.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/CoilRocket"));
+			SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/CoilRocket"), player.Center);
 			type = ModContent.ProjectileType<FreemanRocket>();
-			return true;
 		}
 	}
 }

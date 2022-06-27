@@ -67,7 +67,7 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 			Main.spriteBatch.End();
 			Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 			#endregion
-			Main.spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, (NPC.Center - Main.screenPosition) + new Vector2(0, 2), new Rectangle(0, NPC.frame.Y, NPC.width, NPC.height), lightColor, NPC.rotation, center, NPC.scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, (NPC.Center - Main.screenPosition) + new Vector2(0, 2), new Rectangle(0, NPC.frame.Y, NPC.width, NPC.height), drawColor, NPC.rotation, center, NPC.scale, SpriteEffects.None, 0f);
 			return false;
 		}
 
@@ -134,7 +134,7 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 						itemid = ItemID.PlatinumCoin;
 					}
 
-					item = Item.NewItem(NPC.Center, Vector2.Zero, itemid, 1);
+					item = Item.NewItem(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, itemid, 1);
 					Main.item[item].velocity = Vector2.UnitY.RotatedBy(Main.rand.NextFloat(1.57f, 4.71f)) * 4;
 					Main.item[item].velocity.Y /= 2;
 					if (Main.netMode != NetmodeID.SinglePlayer)
@@ -187,10 +187,10 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 				NPC.active = false;
 				SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
 
-				Gore.NewGore(NPC.Center, Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * 7, Mod.Find<ModGore>("Gores/GamblerChests/PlatinumChestGore1").Type, 1f);
-				Gore.NewGore(NPC.Center, Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * 7, Mod.Find<ModGore>("Gores/GamblerChests/PlatinumChestGore2").Type, 1f);
-				Gore.NewGore(NPC.Center, Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * 7, Mod.Find<ModGore>("Gores/GamblerChests/PlatinumChestGore3").Type, 1f);
-				Gore.NewGore(NPC.Center, Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * 7, Mod.Find<ModGore>("Gores/GamblerChests/PlatinumChestGore4").Type, 1f);
+				Gore.NewGore(NPC.GetSource_FromAI(), NPC.Center, Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * 7, Mod.Find<ModGore>("Gores/GamblerChests/PlatinumChestGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_FromAI(), NPC.Center, Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * 7, Mod.Find<ModGore>("Gores/GamblerChests/PlatinumChestGore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_FromAI(), NPC.Center, Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * 7, Mod.Find<ModGore>("Gores/GamblerChests/PlatinumChestGore3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_FromAI(), NPC.Center, Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * 7, Mod.Find<ModGore>("Gores/GamblerChests/PlatinumChestGore4").Type, 1f);
 			}
 			if (counter > 0)
 			{
@@ -207,7 +207,7 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 				}
 				if (counter % 10 == 0 && counter < 70)
 				{
-					int proj = Projectile.NewProjectile(NPC.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, ProjectileID.LunarFlare, 0, 0, NPC.target);
+					int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, ProjectileID.LunarFlare, 0, 0, NPC.target);
 					Main.projectile[proj].timeLeft = 2;
 				}
 			}

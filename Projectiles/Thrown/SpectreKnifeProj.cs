@@ -37,7 +37,7 @@ namespace SpiritMod.Projectiles.Thrown
 				Item.NewItem((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<SpectreKnife>(), 1, false, 0, false, false);
 
 			int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-8, 8), Main.rand.Next(-8, 8), ModContent.ProjectileType<SpectreBolt>(), (int)(Projectile.damage), 0, Main.myPlayer);
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 		}
 
 		public override void AI()

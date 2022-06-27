@@ -25,10 +25,9 @@ namespace SpiritMod.Items.Sets.BismiteSet.BismiteArmor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.magicCrit += 3;
-			player.meleeCrit += 3;
-			player.rangedCrit += 3;
+			player.GetCritChance(DamageClass.Generic) += 3;
 		}
+
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe(1);

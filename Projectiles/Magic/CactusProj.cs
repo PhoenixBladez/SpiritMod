@@ -107,7 +107,7 @@ namespace SpiritMod.Projectiles.Magic
 				int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.JungleGrass);
 				Main.dust[d].scale *= 0.8f;
 			}
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 		}
 
 	}

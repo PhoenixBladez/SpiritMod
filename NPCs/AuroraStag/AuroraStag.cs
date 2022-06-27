@@ -241,7 +241,7 @@ namespace SpiritMod.NPCs.AuroraStag
 				if(Main.rand.NextBool() && !Main.dedServ)
 				{
 					MakeStar(Main.rand.NextFloat(0.1f, 0.2f));
-					Dust dust = Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, DustID.Rainbow, NPC.velocity.X/2, 0, 100, AuroraColor, Main.rand.NextFloat(0.9f, 1.3f));
+					Dust dust = Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, DustID.RainbowTorch, NPC.velocity.X/2, 0, 100, AuroraColor, Main.rand.NextFloat(0.9f, 1.3f));
 					dust.fadeIn = 0.4f;
 					dust.noGravity = true;
 				}

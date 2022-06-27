@@ -40,7 +40,7 @@ namespace SpiritMod.Projectiles.Arrow
 			for (int i = 0; i < 5; i++) {
 				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Shiverthorn);
 			}
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 		}
 
 		public override void AI()

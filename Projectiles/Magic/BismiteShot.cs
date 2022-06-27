@@ -54,7 +54,7 @@ namespace SpiritMod.Projectiles.Magic
 				if (Projectile.velocity.Y != oldVelocity.Y)
 					Projectile.velocity.Y = -oldVelocity.Y;
 
-				SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 10);
+				SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
 			}
 			return false;
 		}
@@ -64,7 +64,7 @@ namespace SpiritMod.Projectiles.Magic
 			for (int i = 0; i < 5; i++) {
 				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Plantera_Green);
 			}
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

@@ -94,8 +94,8 @@ namespace SpiritMod.NPCs.Bloatfish
 			{
 				for (int k = 0; k < 10; k++)
 				{
-					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Amber, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
-					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Amber, 2.5f * hitDirection, -2.5f, 0, Color.White, .67f);
+					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.GemAmber, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
+					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.GemAmber, 2.5f * hitDirection, -2.5f, 0, Color.White, .67f);
 				}
 
 				if (NPC.life <= 0)

@@ -113,8 +113,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 				int direction = Main.rand.NextBool() ? -1 : 1; //Set swinging direction
 
 				Vector2 position = Owner.MountedCenter + initialVelocity.RotatedBy(swingRadians / 2 * direction) * distance;
-				Projectile proj = Projectile.NewProjectileDirect(position, initialVelocity.RotatedBy(swingRadians / 2 * direction), 
-					ModContent.ProjectileType<GranitechSaber_Hologram>(), Projectile.damage, Projectile.knockBack, Projectile.owner, direction, 0);
+				Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), position, initialVelocity.RotatedBy(swingRadians / 2 * direction), ModContent.ProjectileType<GranitechSaber_Hologram>(), Projectile.damage, Projectile.knockBack, Projectile.owner, direction, 0);
 				
 				//Initialize variables for the projectile
 				if(proj.ModProjectile is GranitechSaber_Hologram holoSword)
@@ -154,7 +153,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			Vector2 direction = Owner.DirectionTo(newPos);
 			if(_hitTimer == 0)
 			{
-				SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.4f), Projectile.Center);
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/EnergyImpact") with { PitchVariance = 0.1f, Volume = 0.4f }, Projectile.Center);
 
 				_hitTimer = MAX_HITTIMER;
 				ParticleHandler.SpawnParticle(new GranitechSaber_Hit(position, Main.rand.NextFloat(0.9f, 1.1f), direction.ToRotation()));
@@ -182,7 +181,8 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+			Main.spriteBatch.End();
+			Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
 			float opacity = (float)Math.Pow(Math.Sin(Timer * MathHelper.Pi / swingTime), 1.5f) * 0.75f;
 			Effect effect = Mod.GetEffect("Effects/GSaber");
@@ -215,22 +215,22 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 				slashArcs.Add(slash);
 			});
 			PrimitiveRenderer.DrawPrimitiveShapeBatched(slashArcs.ToArray(), effect);
-			
 
-			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-			return base.PreDraw(spriteBatch, lightColor);
+			Main.spriteBatch.End();
+			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+			return base.PreDraw(ref lightColor);
 		}
 		public override void PostDraw(Color lightColor)
 		{
-			Projectile.QuickDrawGlow(spriteBatch);
+			Projectile.QuickDrawGlow(Main.spriteBatch);
 			float opacity = (float)Math.Pow(Math.Sin(Timer * MathHelper.Pi / swingTime), 0.75f);
 
-			Texture2D tex = ModContent.Request<Texture2D>(Texture + "_glow");
+			Texture2D tex = ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			SpriteEffects spriteEffects = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
 			DrawAberration.DrawChromaticAberration(Projectile.velocity, 2f, delegate (Vector2 offset, Color colorMod)
 			{
-				spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, colorMod * opacity, Projectile.rotation, tex.Size() / 2, Projectile.scale, spriteEffects, 0);
+				Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, colorMod * opacity, Projectile.rotation, tex.Size() / 2, Projectile.scale, spriteEffects, 0);
 			});
 		}
 	}

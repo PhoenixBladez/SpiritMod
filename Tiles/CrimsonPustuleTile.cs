@@ -33,7 +33,7 @@ namespace SpiritMod.Tiles
 
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			DustType = DustID.Blood;
-			soundType = SoundID.NPCDeath12.SoundId;
+			HitSound = SoundID.NPCDeath12;
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY) => ModContent.GetInstance<CrimsonPustuleTileEntity>().Kill(i, j);
@@ -97,7 +97,7 @@ namespace SpiritMod.Tiles
 			return tile.HasTile && tile.TileType == ModContent.TileType<CrimsonPustuleTile>() && tile.TileFrameY % 36 == 0 && tile.TileFrameY == 0;
 		}
 
-		public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction) => Place(i, j);
+		public int Hook_AfterPlacement(int i, int j, int type, int style, int direction) => Place(i, j);
 
 		public override void Update()
 		{

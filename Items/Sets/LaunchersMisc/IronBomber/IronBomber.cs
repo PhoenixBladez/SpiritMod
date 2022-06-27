@@ -38,16 +38,14 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.IronBomber
 
 		public override Vector2? HoldoutOffset() => new Vector2(-20, -6);
 
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
-			Vector2 velUnit = Vector2.Normalize(new Vector2(speedX, speedY));
+			Vector2 velUnit = Vector2.Normalize(velocity);
 			Vector2 muzzleOffset = Vector2.Normalize(velUnit) * 34f;
-			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) 
+			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
 				position += muzzleOffset;
 
 			type = ModContent.ProjectileType<IronBomberProj>();
-
-			return true;
 		}
 
 		public override void AddRecipes()

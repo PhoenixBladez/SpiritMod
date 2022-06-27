@@ -91,6 +91,6 @@ namespace SpiritMod.Projectiles.Bullet.Crimbine
 			return true;
 		}
 
-		public override void Kill(int timeLeft) => SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+		public override void Kill(int timeLeft) => SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 	}
 }

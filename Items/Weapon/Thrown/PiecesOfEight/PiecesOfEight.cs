@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -37,12 +38,12 @@ namespace SpiritMod.Items.Weapon.Thrown.PiecesOfEight
 			Item.consumable = false;
 		}
 
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
 			for (int i = 0; i < 8; i++)
 			{
-				Vector2 direction = new Vector2(speedX,speedY).RotatedBy(Main.rand.NextFloat(-0.4f,0.4f)) * Main.rand.NextFloat(0.85f,1.25f);
-				Projectile.NewProjectile(position, direction, type, damage, knockback, player.whoAmI);
+				Vector2 direction = velocity.RotatedBy(Main.rand.NextFloat(-0.4f, 0.4f)) * Main.rand.NextFloat(0.85f, 1.25f);
+				Projectile.NewProjectile(source, position, direction, type, damage, knockback, player.whoAmI);
 			}
 			return false;
 		}
@@ -75,18 +76,18 @@ namespace SpiritMod.Items.Weapon.Thrown.PiecesOfEight
 				Projectile.frameCounter = 0;
 			}
 		}
-		public override bool OnTileCollide(Vector2 oldVelocity) {
-
-			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(0, 1).WithVolume(0.25f), Projectile.Center);
-
+		public override bool OnTileCollide(Vector2 oldVelocity)
+		{
 			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 			bounces--;
-				if (Projectile.velocity.X != oldVelocity.X) {
-					Projectile.velocity.X = -oldVelocity.X * 0.7f;
-				}
-				if (Projectile.velocity.Y != oldVelocity.Y) {
-					Projectile.velocity.Y = -oldVelocity.Y * 0.7f;
-				}
+			if (Projectile.velocity.X != oldVelocity.X)
+			{
+				Projectile.velocity.X = -oldVelocity.X * 0.7f;
+			}
+			if (Projectile.velocity.Y != oldVelocity.Y)
+			{
+				Projectile.velocity.Y = -oldVelocity.Y * 0.7f;
+			}
 			return bounces <= 0;
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -96,7 +97,7 @@ namespace SpiritMod.Items.Weapon.Thrown.PiecesOfEight
 		}
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.CoinPickup, Projectile.Center, 0);
+			SoundEngine.PlaySound(SoundID.CoinPickup, Projectile.Center);
 			for (int i = 0; i < 5; i++)
 				Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.CopperCoin).velocity *= 0.4f;
 		}

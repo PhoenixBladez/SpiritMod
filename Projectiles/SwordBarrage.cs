@@ -39,7 +39,7 @@ namespace SpiritMod.Projectiles
 			for (int i = 0; i < 5; i++) {
 				int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Asphalt);
 			}
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 		}
 
 	}

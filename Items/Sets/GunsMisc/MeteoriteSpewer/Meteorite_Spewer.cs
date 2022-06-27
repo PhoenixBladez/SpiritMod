@@ -39,19 +39,19 @@ namespace SpiritMod.Items.Sets.GunsMisc.MeteoriteSpewer
 		
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 30f;
+			Vector2 muzzleOffset = Vector2.Normalize(velocity) * 30f;
 			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
 				position += muzzleOffset;
 
-			Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(5));
-			Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<Meteorite_Spew>(), damage, knockback, player.whoAmI);
+			Vector2 perturbedSpeed = velocity.RotatedByRandom(MathHelper.ToRadians(5));
+			Projectile.NewProjectile(source, position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<Meteorite_Spew>(), damage, knockback, player.whoAmI);
 			int num2 = Main.rand.Next(10, 30);
             for (int index1 = 0; index1 < num2; ++index1)
             {
                 int index2 = Dust.NewDust(position - muzzleOffset, 0, 0, DustID.Torch, 0.0f, 0.0f, 100, new Color(), 1.6f);
                 Main.dust[index2].velocity *= 1.2f;
                 --Main.dust[index2].velocity.Y;
-                Main.dust[index2].velocity += new Vector2(speedX, speedY);
+                Main.dust[index2].velocity += velocity;
                 Main.dust[index2].noGravity = true;
             }
 			return false;

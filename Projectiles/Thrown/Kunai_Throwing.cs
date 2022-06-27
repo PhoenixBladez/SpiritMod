@@ -34,7 +34,7 @@ namespace SpiritMod.Projectiles.Thrown
 			for (int i = 0; i < 5; i++) {
 				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Wraith);
 			}
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 		}
 
 		//public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Buffs.Summon;
 using SpiritMod.Projectiles.Summon;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -32,17 +33,20 @@ namespace SpiritMod.Items.Weapon.Summon
 			Item.shoot = ModContent.ProjectileType<Minior>();
 			Item.UseSound = SoundID.Item44;
 		}
+
 		public override bool AltFunctionUse(Player player)
 		{
 			return true;
 		}
+
 		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			if (player.altFunctionUse == 2) {
-				player.MinionNPCTargetAim();
+				player.MinionNPCTargetAim(true);
 			}
 			return base.UseItem(player);
 		}
+
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			player.AddBuff(ModContent.BuffType<MiniorBuff>(), 3600);

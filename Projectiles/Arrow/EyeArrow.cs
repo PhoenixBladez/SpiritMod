@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles.Arrow
 		{
 			for (int i = 0; i < 5; i++)
 				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Blood);
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 		}
 
 		int num = 3;
@@ -39,7 +39,7 @@ namespace SpiritMod.Projectiles.Arrow
 				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Blood, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
 			}
 
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 			num--;
 			if (num <= 0)
 				Projectile.Kill();

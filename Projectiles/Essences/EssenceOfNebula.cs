@@ -66,7 +66,7 @@ namespace SpiritMod.Projectiles.Essences
 
 			for (int i = 0; i < 2; ++i)
 			{
-				int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.PinkFlame);
+				int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.PinkTorch);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].velocity = Vector2.Zero;
 				Main.dust[dust].scale = 0.9f;

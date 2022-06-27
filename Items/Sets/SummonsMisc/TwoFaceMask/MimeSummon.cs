@@ -3,6 +3,7 @@ using SpiritMod.Items.Armor;
 using SpiritMod.Items.Sets.BloodcourtSet;
 using SpiritMod.Projectiles.Summon;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -46,7 +47,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.TwoFaceMask
 			else
 				type = ModContent.ProjectileType<HappySoul>();
 			position = Main.MouseWorld;
-			Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
+			Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
 			player.UpdateMaxTurrets();
 			return false;
 		}

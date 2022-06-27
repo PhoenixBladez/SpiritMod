@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Magic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -37,13 +38,11 @@ namespace SpiritMod.Items.Sets.MagicMisc.TerraStaffTree
 			Item.shootSpeed = 16f;
 		}
 
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
-			Vector2 offset = Vector2.UnitX.RotatedBy(new Vector2(speedX, speedY).ToRotation()) * Item.width;
+			Vector2 offset = Vector2.UnitX.RotatedBy(velocity.ToRotation()) * Item.width;
 			if (Collision.CanHit(player.Center, 0, 0, player.Center + offset, 0, 0))
 				position += offset;
-
-			return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
 		}
 
 		public override void AddRecipes()

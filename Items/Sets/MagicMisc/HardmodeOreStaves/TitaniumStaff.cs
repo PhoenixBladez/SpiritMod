@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Magic;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -53,7 +54,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.HardmodeOreStaves
 				int num = 4 - spikes;
 				for (int I = 0; I < num; I++) {
 					int DegreeDifference = 360 / num;
-					Projectile.NewProjectile((int)player.Center.X + (int)(Math.Sin(I * DegreeDifference) * 80), (int)player.Center.Y + (int)(Math.Sin(I * DegreeDifference) * 80), 0, 0, ModContent.ProjectileType<TitaniumStaffProj>(), Item.damage, Item.knockBack, player.whoAmI, 0, I * DegreeDifference);
+					Projectile.NewProjectile(player.GetSource_ItemUse(Item), (int)player.Center.X + (int)(Math.Sin(I * DegreeDifference) * 80), (int)player.Center.Y + (int)(Math.Sin(I * DegreeDifference) * 80), 0, 0, ModContent.ProjectileType<TitaniumStaffProj>(), Item.damage, Item.knockBack, player.whoAmI, 0, I * DegreeDifference);
 					player.GetSpiritPlayer().shadowCount++;
 				}
 			}

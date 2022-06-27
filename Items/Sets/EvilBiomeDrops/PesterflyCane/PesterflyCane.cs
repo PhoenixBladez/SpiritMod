@@ -37,13 +37,10 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.PesterflyCane
 			Item.reuseDelay = 16;
 		}
 
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
-			Vector2 vel = new Vector2(speedX, speedY) * Main.rand.NextFloat(0.95f, 1.05f);
-			vel = vel.RotatedByRandom(MathHelper.ToRadians(7.5f));
-			speedX = vel.X;
-			speedY = vel.Y;
-			return true;
+			Vector2 vel = velocity * Main.rand.NextFloat(0.95f, 1.05f);
+			velocity = vel.RotatedByRandom(MathHelper.ToRadians(7.5f));
 		}
 	}
 }

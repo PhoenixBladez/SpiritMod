@@ -4,6 +4,8 @@ using SpiritMod.Items.Material;
 using SpiritMod.Particles;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -20,41 +22,41 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			SpiritGlowmask.AddGlowMask(Item.type, Texture + "_glow");
         }
 
-        public override void SetDefaults()
-        {
-            Item.useStyle = ItemUseStyleID.Shoot;
-            Item.autoReuse = true;
-            Item.useTime = 20;
+		public override void SetDefaults()
+		{
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.autoReuse = true;
+			Item.useTime = 20;
 			Item.useAnimation = 20;
 			Item.width = 38;
-            Item.height = 6;
-            Item.damage = 80;
-            Item.shoot = ModContent.ProjectileType<StellanovaStarfire>();
-            Item.shootSpeed = StellanovaStarfire.MAX_SPEED;
-            Item.noMelee = true;
-            Item.useAmmo = AmmoID.FallenStar;
-            Item.value = Item.sellPrice(silver: 55);
-            Item.knockBack = 3f;
-            Item.DamageType = DamageClass.Ranged;
-            Item.rare = ItemRarityID.Pink;
-			var sound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/StarCast"); //Wacky stuff so it doesn't break in mp
-			Item.UseSound = Main.dedServ ? sound : sound.WithPitchVariance(0.3f).WithVolume(0.7f);
+			Item.height = 6;
+			Item.damage = 80;
+			Item.shoot = ModContent.ProjectileType<StellanovaStarfire>();
+			Item.shootSpeed = StellanovaStarfire.MAX_SPEED;
+			Item.noMelee = true;
+			Item.useAmmo = AmmoID.FallenStar;
+			Item.value = Item.sellPrice(silver: 55);
+			Item.knockBack = 3f;
+			Item.DamageType = DamageClass.Ranged;
+			Item.rare = ItemRarityID.Pink;
+			var sound = new SoundStyle("SpiritMod/Sounds/Item/StarCast"); //Wacky stuff so it doesn't break in mp
+			Item.UseSound = Main.dedServ ? sound : sound with { PitchVariance = 0.3f, Volume = 0.7f };
 			Item.noUseGraphic = true;
 			Item.channel = true;
 		}
 
 		public override bool AltFunctionUse(Player player) => true;
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, Item, ModContent.Request<Texture2D>(Texture + "_glow"), rotation, scale);
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, Item, ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, rotation, scale);
 		public override bool CanConsumeAmmo(Item item, Player player) => Main.rand.NextBool();
         public override bool CanUseItem(Player player) => player.altFunctionUse != 2 || player.ownedProjectileCounts[ModContent.ProjectileType<BigStellanova>()] <= 0;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
         {
-            Vector2 direction = new Vector2(speedX, speedY);
+            Vector2 direction = velocity;
             if (player.altFunctionUse == 2) //big stellanova
 			{
 				position += direction * 5;
-				Projectile.NewProjectile(position, direction * 0.12f, ModContent.ProjectileType<BigStellanova>(), damage, knockback, player.whoAmI);
+				Projectile.NewProjectile(source, position, direction * 0.12f, ModContent.ProjectileType<BigStellanova>(), damage, knockback, player.whoAmI);
 			}
             else //starfire
             {
@@ -67,7 +69,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
                 player.itemRotation += shootRotation;
 				position -= new Vector2(-10, 15).RotatedBy(player.itemRotation);
 
-                Projectile proj = Projectile.NewProjectileDirect(position, direction, type, damage, knockback, player.whoAmI);
+                Projectile proj = Projectile.NewProjectileDirect(source, position, direction, type, damage, knockback, player.whoAmI);
 
 				if (Main.netMode != NetmodeID.SinglePlayer)
 					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);

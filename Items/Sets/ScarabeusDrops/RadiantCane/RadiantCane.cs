@@ -52,7 +52,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.RadiantCane
 
 			for (int k = 0; k < 10; k++) { // dust ring
 
-				int dust = Dust.NewDust(player.MountedCenter + offset, player.width, player.height, DustID.TopazBolt, 0f, 0f, 0, default, 1f);
+				int dust = Dust.NewDust(player.MountedCenter + offset, player.width, player.height, DustID.GemTopaz, 0f, 0f, 0, default, 1f);
 				Main.dust[dust].shader = GameShaders.Armor.GetSecondaryShader(9, Main.LocalPlayer);
 				Main.dust[dust].velocity *= -1f;
 				Main.dust[dust].noGravity = true;

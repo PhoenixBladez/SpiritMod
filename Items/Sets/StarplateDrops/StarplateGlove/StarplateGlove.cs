@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -107,17 +108,15 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 				return false;
 
 			if (player.altFunctionUse == 2)
-			{
-				Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<StarplateGloveProj>(), damage, knockback, player.whoAmI);
-			}
+				Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<StarplateGloveProj>(), damage, knockback, player.whoAmI);
 			else
 			{
 				float stray = Main.rand.NextFloat(-0.5f, 0.5f);
-				Vector2 speed = new Vector2(speedX, speedY).RotatedBy(stray);
+				Vector2 speed = velocity.RotatedBy(stray);
 				//speed *= Main.rand.NextFloat(0.9f, 1.1f);
 				position += speed * 8;
 				type = Main.rand.Next(2) == 0 ? ModContent.ProjectileType<StargloveChargeOrange>() : ModContent.ProjectileType<StargloveChargePurple>();
-				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockback, player.whoAmI);
+				int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
 
 				if (type == ModContent.ProjectileType<StargloveChargePurple>())
 				{
@@ -128,7 +127,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 						Main.dust[dustIndex].velocity = Vector2.Normalize((speed * 5).RotatedBy(Main.rand.NextFloat(6.28f))) * 2.5f;
 					}
 					for (int j = 0; j < 5; j++)
-						Projectile.NewProjectile(position, speed, type, 0, 0, player.whoAmI, proj);
+						Projectile.NewProjectile(source, position, speed, type, 0, 0, player.whoAmI, proj);
 				}
 				else
 				{
@@ -139,7 +138,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 						Main.dust[dustIndex].velocity = Vector2.Normalize((speed * 8).RotatedBy(Main.rand.NextFloat(6.28f))) * 2.5f;
 					}
 					for (int j = 0; j < 5; j++)
-						Projectile.NewProjectile(position, speed, type, 0, 0, player.whoAmI, proj);
+						Projectile.NewProjectile(source, position, speed, type, 0, 0, player.whoAmI, proj);
 				}
 			}
 			return false;

@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 
 		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
 		{
-			Texture2D glowmask = ModContent.Request<Texture2D>(Texture + "_glow");
+			Texture2D glowmask = ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			float Timer = 0.5f + (float)(Math.Sin(Main.GlobalTimeWrappedHourly * 4) / 2);
 			float BlurTimer = 0.5f + (float)(Math.Sin(Main.GlobalTimeWrappedHourly * 12) / 2);
 
@@ -56,7 +56,7 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
-			Texture2D blurLine = Main.extraTexture[89];
+			Texture2D blurLine = TextureAssets.Extra[89].Value;
 			Vector2 blurScale = new Vector2(0.3f, MathHelper.Lerp(2.5f, 3f, BlurTimer));
 			float bloomScale = MathHelper.Lerp(0.5f, 0.55f, Timer);
 			spriteBatch.Draw(blurLine, itemCenter, null, color * opacity, MathHelper.PiOver2 + rotation, blurLine.Size() / 2, blurScale, SpriteEffects.None, 0); //draw the blur line
@@ -113,10 +113,11 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 			MountData.bodyFrame = 3;
 			MountData.heightBoost = 42;
 			MountData.standingFrameCount = 1;
+
 			if (Main.netMode != NetmodeID.Server)
 			{
-				MountData.textureWidth = MountData.backTexture.Width/3;
-				MountData.textureHeight = MountData.backTexture.Height/10;
+				MountData.textureWidth = MountData.backTexture.Width() /3;
+				MountData.textureHeight = MountData.backTexture.Height() / 10;
 			}
 		}
 

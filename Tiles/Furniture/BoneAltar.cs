@@ -31,7 +31,7 @@ namespace SpiritMod.Tiles.Furniture
 			TileObjectData.newTile.CoordinatePadding = 2;
 			TileObjectData.addTile(Type);
 
-			DustType = DustID.Fire;
+			DustType = DustID.Torch;
 
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Bone Altar");

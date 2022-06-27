@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using SpiritMod.Items.Halloween;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,26 +11,35 @@ namespace SpiritMod
 	{
 		public static bool IsWeapon(this Item item) => item.type != ItemID.None && item.stack > 0 && item.useStyle > 0 && (item.damage > 0 || item.useAmmo > 0 && item.useAmmo != AmmoID.Solution);
 
-		public static void DropItem(this Entity ent, int type, int stack = 1)
+		public static void DropItem(this Entity ent, int type, int stack = 1, IEntitySource source = null)
 		{
-			int i = Item.NewItem(ent.Hitbox, type, stack);
+			if (source is null)
+				source = ent.GetSource_FromThis();
+
+			int i = Item.NewItem(source, ent.Hitbox, type, stack);
 			if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.SyncItem, -1, -1, null, i);
 		}
 
-		public static void DropItem(this Entity ent, int type, float chance, int stack = 1)
+		public static void DropItem(this Entity ent, int type, float chance, int stack = 1, IEntitySource source = null)
 		{
+			if (source is null)
+				source = ent.GetSource_FromThis();
+
 			if (Main.rand.NextDouble() < chance)
 			{
-				int i = Item.NewItem(ent.Hitbox, type, stack);
+				int i = Item.NewItem(source, ent.Hitbox, type, stack);
 				if (Main.netMode != NetmodeID.SinglePlayer)
 					NetMessage.SendData(MessageID.SyncItem, -1, -1, null, i);
 			}
 		}
 
-		public static void DropItem(this Entity ent, int type, int min, int max)
+		public static void DropItem(this Entity ent, int type, int min, int max, IEntitySource source = null)
 		{
-			int i = Item.NewItem(ent.Hitbox, type, Main.rand.Next(min, max));
+			if (source is null)
+				source = ent.GetSource_FromThis();
+
+			int i = Item.NewItem(source, ent.Hitbox, type, Main.rand.Next(min, max));
 			if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.SyncItem, -1, -1, null, i);
 		}

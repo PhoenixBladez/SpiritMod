@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Glyphs
 				Vector2 velocity = target.velocity;
 				velocity.X += (float)Main.rand.Next(-35, 36) * 0.02f;
 				velocity.Y += (float)Main.rand.Next(-35, 36) * 0.02f;
-				Projectile.NewProjectile(target.Center, velocity, owner.beeType(), damage, owner.beeKB(0f), Main.myPlayer);
+				Projectile.NewProjectile(owner.GetSource_OnHit(target), target.Center, velocity, owner.beeType(), damage, owner.beeKB(0f), Main.myPlayer);
 			}
 		}
 	}

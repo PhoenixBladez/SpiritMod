@@ -48,7 +48,7 @@ namespace SpiritMod.NPCs.Critters
 				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PurpleClubberfishGore").Type, 1f);
 			}
 			for (int k = 0; k < 11; k++) {
-					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Corruption_Gravity, NPC.direction, -1f, 1, default, .61f);
+					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.CorruptPlants, NPC.direction, -1f, 1, default, .61f);
 				}		
 		}
 		public override void AI()

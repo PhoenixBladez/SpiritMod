@@ -35,13 +35,10 @@ namespace SpiritMod.Items.Sets.MagicMisc.MagicDeck
 			Item.noUseGraphic = true;
 		}
 
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
-			Vector2 direction = new Vector2(speedX, speedY);
-			direction = direction.RotatedBy(Main.rand.NextFloat(-0.4f, 0.4f));
-			speedX = direction.X;
-			speedY = direction.Y;
-			return true;
+			Vector2 direction = velocity;
+			velocity = direction.RotatedBy(Main.rand.NextFloat(-0.4f, 0.4f));
 		}
 	}
 
@@ -150,8 +147,8 @@ namespace SpiritMod.Items.Sets.MagicMisc.MagicDeck
 		public override bool PreDraw(ref Color lightColor)
 		{
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
-			Texture2D tex2 = ModContent.Request<Texture2D>(Texture + "_White");
-			Texture2D tex3 = ModContent.Request<Texture2D>(Texture + "_Glow");
+			Texture2D tex2 = ModContent.Request<Texture2D>(Texture + "_White", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Texture2D tex3 = ModContent.Request<Texture2D>(Texture + "_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			int frameWidth = tex.Width / NUMBEROFXFRAMES;
 			int frameHeight = tex.Height / Main.projFrames[Projectile.type];
 			Rectangle frame = new Rectangle(frameWidth * xFrame, frameHeight * Projectile.frame, frameWidth, frameHeight);
@@ -162,9 +159,9 @@ namespace SpiritMod.Items.Sets.MagicMisc.MagicDeck
 				Color color = lightColor * (float)(((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length)) * (1 - (Projectile.alpha / 255f));
 				Color fadeColor = SuitColor * (float)(((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length)) * (Projectile.alpha / 255f) * (1 - (Projectile.alpha / 255f));
 				Color glowColor = Color.White * (float)(((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length)) * (1 - (Projectile.alpha / 255f));
-				spriteBatch.Draw(tex, drawPos - Main.screenPosition, frame, color, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
-				spriteBatch.Draw(tex2, drawPos - Main.screenPosition, frame, fadeColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
-				spriteBatch.Draw(tex3, drawPos - Main.screenPosition, frame, glowColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(tex, drawPos - Main.screenPosition, frame, color, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(tex2, drawPos - Main.screenPosition, frame, fadeColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(tex3, drawPos - Main.screenPosition, frame, glowColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
 		}
