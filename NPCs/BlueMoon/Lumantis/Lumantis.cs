@@ -11,6 +11,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.BlueMoon.Lumantis
 {
@@ -55,10 +56,10 @@ namespace SpiritMod.NPCs.BlueMoon.Lumantis
 					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Flare_Blue, hitDirection, -1f, 1, default, .81f);
 					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.VenomStaff, hitDirection, -1f, 1, default, .71f);
 				}
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumantis/Lumantis1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumantis/Lumantis2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumantis/Lumantis3").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumantis/Lumantis4").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumantis/Lumantis1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumantis/Lumantis2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumantis/Lumantis3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumantis/Lumantis4").Type, 1f);
 			}
 		}
 		int timer;
@@ -106,6 +107,7 @@ namespace SpiritMod.NPCs.BlueMoon.Lumantis
 				NPC.frame.Y = frameHeight * 4;
 			}
 		}
+
 		bool reflectPhase;
 		public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
 		{
@@ -115,6 +117,7 @@ namespace SpiritMod.NPCs.BlueMoon.Lumantis
 				SoundEngine.PlaySound(SoundID.DD2_LightningBugZap, NPC.position);
 			}
 		}
+
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
 		{
 			if (reflectPhase && !projectile.minion && !Main.player[projectile.owner].channel) {
@@ -125,6 +128,7 @@ namespace SpiritMod.NPCs.BlueMoon.Lumantis
 				projectile.velocity.X = projectile.velocity.X * -1f;
 			}
 		}
+
 		private void DoDustEffect(Vector2 position, float distance, float minSpeed = 2f, float maxSpeed = 3f, object follow = null)
 		{
 			float angle = Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi);
@@ -137,25 +141,24 @@ namespace SpiritMod.NPCs.BlueMoon.Lumantis
 			Main.dust[dust].velocity = vel;
 			Main.dust[dust].customData = follow;
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
-							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
+
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/BlueMoon/Lumantis/Lumantis_Glow").Value);
 		}
-		public override void OnKill()
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.NextBool(5))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<MoonStone>());
-			if (Main.rand.NextBool(100))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<StopWatch>());
-			if (Main.rand.NextBool(10))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<MoonJelly>());
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<MoonStone>(), 5));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<StopWatch>(), 100));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<MoonJelly>(), 10));
 		}
 	}
 }

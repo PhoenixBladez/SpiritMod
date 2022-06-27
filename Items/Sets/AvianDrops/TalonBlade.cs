@@ -39,17 +39,13 @@ namespace SpiritMod.Items.Sets.AvianDrops
 		public override bool OnlyShootOnSwing => true;
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
-			SoundEngine.PlaySound(SoundID.Item, (int)position.X, (int)position.Y, 8);
+			SoundEngine.PlaySound(SoundID.Item8, position);
 			charger++;
 			if (charger >= 5)
 			{
-				SoundEngine.PlaySound(SoundID.Item, (int)position.X, (int)position.Y, 20);
-				for (int I = 0; I < 1; I++)
-				{
-					int p = Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<GiantFeather>(), damage, knockback, player.whoAmI, 0f, 0f);
-					Main.projectile[p].ranged = false;
-					Main.projectile[p].melee = true;
-				}
+				SoundEngine.PlaySound(SoundID.Item20, position);
+				int p = Projectile.NewProjectile(source, position.X - 8, position.Y + 8, velocity.X + ((float)Main.rand.Next(-230, 230) / 100), velocity.Y + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<GiantFeather>(), damage, knockback, player.whoAmI, 0f, 0f);
+				Main.projectile[p].DamageType = DamageClass.Melee;
 				charger = 0;
 			}
 			return true;

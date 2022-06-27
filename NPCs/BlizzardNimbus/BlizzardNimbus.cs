@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs;
 using SpiritMod.Buffs.DoT;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.BlizzardNimbus
 {
@@ -90,7 +91,7 @@ namespace SpiritMod.NPCs.BlizzardNimbus
 						{
 							num184 = 14;
 						}
-						Projectile.NewProjectile((float)num1169, (float)num1170, 0f, 5f, ProjectileID.FrostShard, num184, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(NPC.GetSource_FromAI(), (float)num1169, (float)num1170, 0f, 5f, ProjectileID.FrostShard, num184, 0f, Main.myPlayer, 0f, 0f);
 						return;
 					}
 				}
@@ -109,18 +110,18 @@ namespace SpiritMod.NPCs.BlizzardNimbus
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Demonite, hitDirection, -1f, 0, default, 1f);
 			}
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, 13);
-				Gore.NewGore(NPC.position, NPC.velocity, 12);
-				Gore.NewGore(NPC.position, NPC.velocity, 11);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 13);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 12);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 11);
 			}
 		}
-		public override void OnKill()
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.NextBool(50))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.FrostStaff);
-			if (Main.rand.NextBool(178))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.IceSickle);
+			npcLoot.Add(ItemDropRule.Common(ItemID.FrostStaff, 50));
+			npcLoot.Add(ItemDropRule.Common(ItemID.IceSickle, 178));
 		}
+
 		public override void FindFrame(int frameHeight)
 		{
 			NPC.frameCounter += 0.15f;

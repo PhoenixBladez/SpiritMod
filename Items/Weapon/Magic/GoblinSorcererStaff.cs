@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -41,7 +42,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
         {
             SoundEngine.PlaySound(SoundID.DD2_CrystalCartImpact, player.Center);
-            Projectile.NewProjectile(position.X, position.Y, 0f, -4f, type, damage, knockback, player.whoAmI, speedX, speedY);
+            Projectile.NewProjectile(source, position.X, position.Y, 0f, -4f, type, damage, knockback, player.whoAmI, speedX, speedY);
             return false;
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
@@ -50,7 +51,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				ModContent.Request<Texture2D>("SpiritMod/Items/Weapon/Magic/GoblinSorcererStaff_Glow"),
+				ModContent.Request<Texture2D>("SpiritMod/Items/Weapon/Magic/GoblinSorcererStaff_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
 				new Vector2
 				(
 					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,

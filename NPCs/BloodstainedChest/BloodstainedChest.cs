@@ -96,10 +96,10 @@ namespace SpiritMod.NPCs.BloodstainedChest
                 {
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						NPC.NewNPC((int)NPC.position.X + 355, (int)NPC.Center.Y - Main.rand.Next(30, 50), ModContent.NPCType<NPCs.DesertBandit.DesertBandit>());
-						NPC.NewNPC((int)NPC.position.X - 355, (int)NPC.Center.Y - Main.rand.Next(30, 50), ModContent.NPCType<NPCs.DesertBandit.DesertBandit>());
-						NPC.NewNPC((int)NPC.position.X - 400, (int)NPC.Center.Y - Main.rand.Next(30, 50), ModContent.NPCType<NPCs.DesertBandit.DesertBandit>());
-						NPC.NewNPC((int)NPC.position.X + 400, (int)NPC.Center.Y - Main.rand.Next(30, 50), ModContent.NPCType<NPCs.DesertBandit.DesertBandit>());
+						NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + 355, (int)NPC.Center.Y - Main.rand.Next(30, 50), ModContent.NPCType<NPCs.DesertBandit.DesertBandit>());
+						NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X - 355, (int)NPC.Center.Y - Main.rand.Next(30, 50), ModContent.NPCType<NPCs.DesertBandit.DesertBandit>());
+						NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X - 400, (int)NPC.Center.Y - Main.rand.Next(30, 50), ModContent.NPCType<NPCs.DesertBandit.DesertBandit>());
+						NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + 400, (int)NPC.Center.Y - Main.rand.Next(30, 50), ModContent.NPCType<NPCs.DesertBandit.DesertBandit>());
 					}
 				}
 			}
@@ -133,7 +133,7 @@ namespace SpiritMod.NPCs.BloodstainedChest
 					else
 						itemid = ItemID.PlatinumCoin;
 
-					int item = Item.NewItem(NPC.Center, Vector2.Zero, itemid, 1);
+					int item = Item.NewItem(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, itemid, 1);
 					Main.item[item].velocity = Vector2.UnitY.RotatedBy(Main.rand.NextFloat(1.57f, 4.71f)) * 4;
 					Main.item[item].velocity.Y /= 2;
 					if (Main.netMode != NetmodeID.SinglePlayer)
@@ -142,7 +142,7 @@ namespace SpiritMod.NPCs.BloodstainedChest
 			}
 			if (NPC.ai[3] > 120)
 			{
-				Gore.NewGore(NPC.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, Mod.Find<ModGore>("Gores/GamblerChests/GoldChestGore5").Type, 1f);
+				Gore.NewGore(NPC.GetSource_FromAI(), NPC.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, Mod.Find<ModGore>("Gores/GamblerChests/GoldChestGore5").Type, 1f);
 
 				for (int i = 0; i < 40; i++)
 				{
@@ -156,7 +156,7 @@ namespace SpiritMod.NPCs.BloodstainedChest
 					dust.shader = GameShaders.Armor.GetSecondaryShader(13, Main.LocalPlayer);
 				}
 
-				Projectile.NewProjectile(NPC.Center - new Vector2(0, 30), Vector2.Zero, ProjectileID.DD2ExplosiveTrapT2Explosion, 0, 0, NPC.target);
+				Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - new Vector2(0, 30), Vector2.Zero, ProjectileID.DD2ExplosiveTrapT2Explosion, 0, 0, NPC.target);
 				SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
 				NPC.DropItem(ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.RoyalCrown>());
 
@@ -197,7 +197,6 @@ namespace SpiritMod.NPCs.BloodstainedChest
 			}
 		}
 
-		public override string TownNPCName() => "Bloodstained Chest";
 		public override string GetChat() => "The ancient chest seems to be covered in gold, blood, and bones. It surely contains great riches, but opening it may be perilous.";
 		public override void SetChatButtons(ref string button, ref string button2) => button = "Open";
 

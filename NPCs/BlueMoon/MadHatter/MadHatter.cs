@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -84,9 +85,9 @@ namespace SpiritMod.NPCs.BlueMoon.MadHatter
 			Player player = Main.player[NPC.target];
 			timer++;
 			if (timer % 300 == 40 && hat == false) {
-				SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 43);
+				SoundEngine.PlaySound(SoundID.Item43, NPC.Center);
 
-				Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y - 15, 0, -7, ModContent.ProjectileType<MadHat>(), 40, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y - 15, 0, -7, ModContent.ProjectileType<MadHat>(), 40, 1, Main.myPlayer, 0, 0);
 				hat = true;
 			}
 
@@ -114,14 +115,11 @@ namespace SpiritMod.NPCs.BlueMoon.MadHatter
 				target.AddBuff(ModContent.BuffType<StarFlame>(), 200);
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(12) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 239);
-			if (Main.rand.Next(20) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Armor.MadHat>());
+			npcLoot.Add(ItemDropRule.Common(239, 12));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Armor.MadHat>(), 20));
 		}
-
 	}
 }
 

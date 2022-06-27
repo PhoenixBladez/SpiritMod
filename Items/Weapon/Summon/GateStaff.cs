@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Summon.LaserGate;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -54,7 +55,7 @@ namespace SpiritMod.Items.Weapon.Summon
 				dist += array / (scanarray.Length);
 
 			Vector2 spawnpos = player.Center + player.DirectionTo(Main.MouseWorld) * dist;
-			Projectile.NewProjectileDirect(spawnpos, Vector2.Zero, type, damage, knockback, player.whoAmI, 0, -1);
+			Projectile.NewProjectileDirect(source, spawnpos, Vector2.Zero, type, damage, knockback, player.whoAmI, 0, -1);
 			return false;
 		}
 

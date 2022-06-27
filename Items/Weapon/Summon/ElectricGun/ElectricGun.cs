@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Weapon.Summon.ElectricGun
 {
@@ -61,18 +62,16 @@ namespace SpiritMod.Items.Weapon.Summon.ElectricGun
 		}
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
         {
-            Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY - 1)) * 45f;
+            Vector2 muzzleOffset = Vector2.Normalize(new Vector2(velocity.X, velocity.Y - 1)) * 45f;
             if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
-            {
                 position += muzzleOffset;
-            }
-			Vector2 velocity = new Vector2(speedX, speedY); //convert speedx and speedy into one vector, and rotate it upwards
-			velocity = velocity.RotatedByRandom(MathHelper.ToRadians(10)); //then rotate it randomly, with a maximum spread of 30 degrees
-            Projectile proj = Projectile.NewProjectileDirect(position, velocity, type, Item.damage, knockback, Item.playerIndexTheItemIsReservedFor, 0, 0);
+
+			velocity = velocity.RotatedByRandom(MathHelper.ToRadians(10)); //rotate it randomly, with a maximum spread of 30 degrees
+            Projectile proj = Projectile.NewProjectileDirect(source, position, velocity, type, Item.damage, knockback, Item.playerIndexTheItemIsReservedFor, 0, 0);
 			proj.netUpdate = true; //sync velocity
             for (int index1 = 0; index1 < 5; ++index1)
             {
-                int index2 = Dust.NewDust(new Vector2(position.X, position.Y), Item.width - 60, Item.height - 28, DustID.Electric, speedX, speedY, (int)byte.MaxValue, new Color(), (float)Main.rand.Next(6, 10) * 0.1f);
+                int index2 = Dust.NewDust(new Vector2(position.X, position.Y), Item.width - 60, Item.height - 28, DustID.Electric, velocity.X, velocity.Y, (int)byte.MaxValue, new Color(), Main.rand.Next(6, 10) * 0.1f);
                 Main.dust[index2].noGravity = true;
                 Main.dust[index2].velocity *= 0.5f;
                 Main.dust[index2].scale *= .6f;

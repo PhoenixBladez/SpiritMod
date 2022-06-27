@@ -16,13 +16,14 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using System.Linq;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items
 {
 	public class GItem : GlobalItem
 	{
 		public override bool InstancePerEntity => true;
-		public override bool CloneNewInstances => true;
+		protected override bool CloneNewInstances => true;
 
 		public GlyphType Glyph { get; private set; } = 0;
 
@@ -190,7 +191,7 @@ namespace SpiritMod.Items
 			item.mana += s * (int)Math.Round(norm.mana * mana);
 			item.knockBack += s * norm.knockBack * knockBack;
 			item.scale += s * norm.scale * size;
-			if (item.shoot >= ProjectileID.None && !item.melee) //Don't change velocity for spears
+			if (item.shoot >= ProjectileID.None && !item.IsMelee()) //Don't change velocity for spears
 			{
 				item.shootSpeed += s * norm.shootSpeed * velocity;
 			}
@@ -214,9 +215,7 @@ namespace SpiritMod.Items
 
 		public override void SaveData(Item item, TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */
 		{
-			TagCompound data = new TagCompound();
-			data.Add("glyph", (int)Glyph);
-			return data;
+			tag.Add("glyph", (int)Glyph);
 		}
 
 		public override void LoadData(Item item, TagCompound data)
@@ -289,7 +288,7 @@ namespace SpiritMod.Items
 					boost = 0.5f;
 				mult = 1 + 1 * boost;
 			}
-			if (item.summon && spirit.silkenSet)
+			if (item.IsSummon() && spirit.silkenSet)
 			{
 				flat += 1;
 			}
@@ -362,48 +361,48 @@ namespace SpiritMod.Items
 			}
 		}
 
-		public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if (modPlayer.talonSet && (item.ranged || item.magic) && Main.rand.Next(10) == 0)
+			if (modPlayer.talonSet && (item.IsRanged() || item.IsMagic()) && Main.rand.Next(10) == 0)
 			{
-				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY + 2), ProjectileID.HarpyFeather, 10, 2f, player.whoAmI);
+				int proj = Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y + 2), ProjectileID.HarpyFeather, 10, 2f, player.whoAmI);
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].friendly = true;
 			}
-			if (modPlayer.cultistScarf && item.magic && Main.rand.Next(8) == 0)
+			if (modPlayer.cultistScarf && item.IsMagic() && Main.rand.Next(8) == 0)
 			{
-				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<WildMagic>(), 66, 2f, player.whoAmI);
+				int proj = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<WildMagic>(), 66, 2f, player.whoAmI);
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].friendly = true;
 			}
-			if (modPlayer.timScroll && item.magic && Main.rand.Next(12) == 0)
+			if (modPlayer.timScroll && item.IsMagic() && Main.rand.Next(12) == 0)
 			{
 				int p = Main.rand.Next(9, 23);
 				if (p != 11 && p != 13 && p != 18 && p != 17 && p != 21)
 				{
-					int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, p, damage, knockback, player.whoAmI, 0f, 0f);
+					int proj = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, p, damage, knockback, player.whoAmI, 0f, 0f);
 					Main.projectile[proj].friendly = true;
 					Main.projectile[proj].hostile = false;
 				}
 			}
-			if (modPlayer.crystal && item.ranged && Main.rand.Next(8) == 0)
+			if (modPlayer.crystal && item.IsRanged() && Main.rand.Next(8) == 0)
 			{
-				int proj = Projectile.NewProjectile(position.X, position.Y, speedX * (float)(Main.rand.Next(100, 165) / 100), speedY * (float)(Main.rand.Next(100, 165) / 100), type, damage, knockback, player.whoAmI, 0f, 0f);
+				int proj = Projectile.NewProjectile(source, position.X, position.Y, velocity.X * (float)(Main.rand.Next(100, 165) / 100), velocity.Y * (float)(Main.rand.Next(100, 165) / 100), type, damage, knockback, player.whoAmI, 0f, 0f);
 				Main.projectile[proj].friendly = true;
 				Main.projectile[proj].hostile = false;
 			}
 
-			if (modPlayer.fireMaw && item.magic && Main.rand.Next(4) == 0)
+			if (modPlayer.fireMaw && item.IsMagic() && Main.rand.Next(4) == 0)
 			{
-				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<FireMaw>(), 30, 2f, player.whoAmI);
+				int proj = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<FireMaw>(), 30, 2f, player.whoAmI);
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].friendly = true;
 			}
-			if (modPlayer.manaWings && item.magic && Main.rand.Next(7) == 0)
+			if (modPlayer.manaWings && item.IsMagic() && Main.rand.Next(7) == 0)
 			{
 				float d1 = 20 + ((player.statManaMax2 - player.statMana) / 3);
-				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<ManaSpark>(), (int)d1, 2f, player.whoAmI);
+				int proj = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<ManaSpark>(), (int)d1, 2f, player.whoAmI);
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].friendly = true;
 			}
@@ -629,7 +628,7 @@ namespace SpiritMod.Items
 
 			if (spawnType != -1)
 			{
-				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, spawnType);
+				NPC.NewNPC(item.GetSource_ItemUse(item), (int)player.Center.X, (int)player.Center.Y, spawnType);
 				return true;
 			}
 			return false;

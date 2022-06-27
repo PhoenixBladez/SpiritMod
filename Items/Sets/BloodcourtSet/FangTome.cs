@@ -37,15 +37,15 @@ namespace SpiritMod.Items.Sets.BloodcourtSet
 			Item.shootSpeed = 8f;
 			Item.crit = 6;
 		}
+
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			Vector2 value18 = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY);
-			position = value18;
-			Projectile.NewProjectile(position.X, (position.Y - offsetLength) - 12, 0, 0, ModContent.ProjectileType<TeethTop>(), damage, knockback, Main.myPlayer, offsetLength);
-			Projectile.NewProjectile(position.X + 4, (position.Y + offsetLength) + 12, 0, 0, ModContent.ProjectileType<TeethBottom>(), damage, knockback, Main.myPlayer, offsetLength);
+			position = Main.MouseWorld;
+			Projectile.NewProjectile(source, position.X, (position.Y - offsetLength) - 12, 0, 0, ModContent.ProjectileType<TeethTop>(), damage, knockback, Main.myPlayer, offsetLength);
+			Projectile.NewProjectile(source, position.X + 4, (position.Y + offsetLength) + 12, 0, 0, ModContent.ProjectileType<TeethBottom>(), damage, knockback, Main.myPlayer, offsetLength);
 			return false;
-
 		}
+
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe(1);

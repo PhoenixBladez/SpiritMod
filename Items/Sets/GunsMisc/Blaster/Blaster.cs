@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 		public int elementSecondary;
 		public int elementPrimary;
 
-		public override bool CloneNewInstances => true;
+		protected override bool CloneNewInstances => true;
 		public int fireType = 1;
 		int dustType;
 

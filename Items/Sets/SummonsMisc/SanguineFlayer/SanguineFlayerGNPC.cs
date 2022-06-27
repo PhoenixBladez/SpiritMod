@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 		}
 
 		public override bool InstancePerEntity => true;
-		public override bool CloneNewInstances => true;
+		protected override bool CloneNewInstances => true;
 
 	}
 }

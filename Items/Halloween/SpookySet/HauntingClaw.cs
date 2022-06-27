@@ -52,9 +52,9 @@ namespace SpiritMod.Items.Halloween.SpookySet
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			Vector2[] speeds = randomSpread(speedX, speedY, 8, 3);
+			Vector2[] speeds = randomSpread(velocity.X, velocity.Y, 8, 3);
 			for (int i = 0; i < 3; ++i) {
-				int newProj = Projectile.NewProjectile(position.X, position.Y, speeds[i].X, speeds[i].Y, type, damage, knockback, player.whoAmI);
+				int newProj = Projectile.NewProjectile(source, position.X, position.Y, speeds[i].X, speeds[i].Y, type, damage, knockback, player.whoAmI);
 				Main.projectile[newProj].hostile = false;
 				Main.projectile[newProj].friendly = true;
 			}

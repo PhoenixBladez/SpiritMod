@@ -10,7 +10,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 	{
 		public bool spawnedByComet = false;
 
-		public override bool CloneNewInstances => true;
+		protected override bool CloneNewInstances => true;
 		public override bool InstancePerEntity => true;
 
 		public override void SetDefaults(NPC npc) => spawnedByComet = false;

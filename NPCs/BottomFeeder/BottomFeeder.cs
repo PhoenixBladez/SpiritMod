@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs;
 using SpiritMod.Buffs.DoT;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.BottomFeeder
 {
@@ -79,7 +80,7 @@ namespace SpiritMod.NPCs.BottomFeeder
 							int bloodproj;
 							bloodproj = Main.rand.Next(new int[] { ModContent.ProjectileType<Feeder1>(), ModContent.ProjectileType<Feeder2>(), ModContent.ProjectileType<Feeder3>() });
 							int damage = Main.expertMode ? 10 : 15;
-							Projectile.NewProjectile(NPC.Center.X + (7 * NPC.direction), NPC.Center.Y - 10, -(NPC.position.X - target.position.X) / distance * 8, -(NPC.position.Y - target.position.Y + Main.rand.Next(-50, 50)) / distance * 8, bloodproj, damage, 0);
+							Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + (7 * NPC.direction), NPC.Center.Y - 10, -(NPC.position.X - target.position.X) / distance * 8, -(NPC.position.Y - target.position.Y + Main.rand.Next(-50, 50)) / distance * 8, bloodproj, damage, 0);
 						}
 					}
 
@@ -91,13 +92,10 @@ namespace SpiritMod.NPCs.BottomFeeder
 
 		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(20) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Sets.GunsMisc.Belcher.BottomFeederGun>());
-
-			if (Main.rand.Next(20) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Consumable.Food.FishFingers>());
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Sets.GunsMisc.Belcher.BottomFeederGun>(), 20));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Consumable.Food.FishFingers>(), 20));
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
@@ -113,13 +111,13 @@ namespace SpiritMod.NPCs.BottomFeeder
 
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("Gores/FeederGore").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("Gores/FeederGore1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("Gores/FeederGore1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("Gores/FeederGore2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("Gores/FeederGore2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("Gores/FeederGore2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("Gores/FeederGore3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("Gores/FeederGore").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("Gores/FeederGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("Gores/FeederGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("Gores/FeederGore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("Gores/FeederGore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("Gores/FeederGore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("Gores/FeederGore3").Type, 1f);
 			}
 		}
 	}

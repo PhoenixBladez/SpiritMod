@@ -7,7 +7,6 @@ namespace SpiritMod.NPCs.BottomFeeder
 {
 	public class Feeder1 : ModProjectile
 	{
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Rotten Meat");

@@ -3,6 +3,7 @@ using SpiritMod.Projectiles;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -38,7 +39,7 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 		}
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			SoundEngine.PlaySound(SoundID.Grass, (int)player.position.X, (int)player.position.Y);
+			SoundEngine.PlaySound(SoundID.Grass, player.Center);
 			Vector2 mouse = Main.MouseWorld;
 			int amount = Main.rand.Next(1, 3);
 			for (int i = 0; i < amount; ++i) {
@@ -60,7 +61,7 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 				spY = spY + (float)Main.rand.Next(-40, 41) * 0.2f;
 				spX *= (float)Main.rand.Next(-10, 10) * 0.006f;
 				pos.X += (float)Main.rand.Next(-10, 11);
-				Projectile.NewProjectile(pos.X, pos.Y, spX, 12f, type, damage, 4, player.whoAmI);
+				Projectile.NewProjectile(source, pos.X, pos.Y, spX, 12f, type, damage, 4, player.whoAmI);
 			}
 			return false;
 		}

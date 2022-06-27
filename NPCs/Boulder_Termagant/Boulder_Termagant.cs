@@ -162,11 +162,11 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 							int proj;
 
 							if (player.GetModPlayer<MyPlayer>().ZoneGranite)
-								proj = Projectile.NewProjectile(player.Center.X - Main.rand.Next(-300, 300), player.Center.Y - Main.rand.Next(800, 1200), 0f, 2f + Main.rand.Next(1, 3), ModContent.ProjectileType<Granite_Boulder>(), 15, 0, Main.myPlayer, 0, 0);
+								proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X - Main.rand.Next(-300, 300), player.Center.Y - Main.rand.Next(800, 1200), 0f, 2f + Main.rand.Next(1, 3), ModContent.ProjectileType<Granite_Boulder>(), 15, 0, Main.myPlayer, 0, 0);
 							else if (player.GetModPlayer<MyPlayer>().ZoneMarble)
-								proj = Projectile.NewProjectile(player.Center.X - Main.rand.Next(-300, 300), player.Center.Y - Main.rand.Next(800, 1200), 0f, 2f + Main.rand.Next(1, 3), ModContent.ProjectileType<Marble_Boulder>(), 15, 0, Main.myPlayer, 0, 0);
+								proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X - Main.rand.Next(-300, 300), player.Center.Y - Main.rand.Next(800, 1200), 0f, 2f + Main.rand.Next(1, 3), ModContent.ProjectileType<Marble_Boulder>(), 15, 0, Main.myPlayer, 0, 0);
 							else
-								proj = Projectile.NewProjectile(player.Center.X - Main.rand.Next(-300, 300), player.Center.Y - Main.rand.Next(800, 1200), 0f, 2f + Main.rand.Next(1, 3), ModContent.ProjectileType<Cavern_Boulder>(), 15, 0, Main.myPlayer, 0, 0);
+								proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X - Main.rand.Next(-300, 300), player.Center.Y - Main.rand.Next(800, 1200), 0f, 2f + Main.rand.Next(1, 3), ModContent.ProjectileType<Cavern_Boulder>(), 15, 0, Main.myPlayer, 0, 0);
 
 							Main.projectile[proj].netUpdate = true;
 						}

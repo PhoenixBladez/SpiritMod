@@ -72,7 +72,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.Morningtide
 			if (type == ProjectileID.WoodenArrowFriendly) {
 				type = ModContent.ProjectileType<MorningtideProjectile>();
 			}
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockback, player.whoAmI, 0f, 0f);
+				Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 0f, 0f);
 			return false;
 		}
 	}

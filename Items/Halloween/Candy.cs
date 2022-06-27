@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Halloween
 	public class Candy : CandyBase
 	{
 
-		public override bool CloneNewInstances => true;
+		protected override bool CloneNewInstances => true;
 
 		public int Variant { get; internal set; }
 

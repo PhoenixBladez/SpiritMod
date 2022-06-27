@@ -5,6 +5,8 @@ using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
 using SpiritMod.Items.Sets.ReefhunterSet;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.ItemDropRules;
+using SpiritMod.Items.Armor.DiverSet;
 
 namespace SpiritMod.NPCs.Bloatfish
 {
@@ -74,18 +76,14 @@ namespace SpiritMod.NPCs.Bloatfish
 				frame = 1;
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(40) == 0)
-				NPC.DropItem(Mod.Find<ModItem>(Main.rand.Next(new string[] { "DiverLegs", "DiverHead", "DiverBody" })).Type);
-
-			if (Main.rand.NextBool(16))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Sushi>());
-
-			if (Main.rand.NextBool(45))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.BalloonPufferfish);
-
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<IridescentScale>(), Main.rand.Next(3, 7));
+			npcLoot.Add(ItemDropRule.Common(ItemID.BalloonPufferfish, 45));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<IridescentScale>(), 1, 3, 6));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Sushi>(), 16));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<DiverLegs>(), 50));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<DiverHead>(), 50));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<DiverBody>(), 50));
 		}
 
 		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
@@ -102,7 +100,7 @@ namespace SpiritMod.NPCs.Bloatfish
 
 				if (NPC.life <= 0)
 					for (int i = 1; i < 5; ++i)
-						Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Bloatfish/Bloatfish" + i).Type, 1f);
+						Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Bloatfish/Bloatfish" + i).Type, 1f);
 			}
 		}
 

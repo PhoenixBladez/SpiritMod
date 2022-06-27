@@ -11,6 +11,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using SpiritMod.Mechanics.BoonSystem;
 using SpiritMod.Buffs.DoT;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.Automata
 {
@@ -45,9 +46,11 @@ namespace SpiritMod.NPCs.Automata
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.TrochmatonBanner>();
 		}
+
 		int timer;
 		int frame = 0;
 		int frameTimer;
+
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(timer);
@@ -67,13 +70,13 @@ namespace SpiritMod.NPCs.Automata
 				target.AddBuff(BuffID.BrokenArmor, 1800);
 			}
 		}
-		public override void OnKill()
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.NextBool(100))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.ArmorPolish);
-			if (Main.rand.NextBool(85))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Accessory.GoldenApple>());
+			npcLoot.Add(ItemDropRule.Common(ItemID.ArmorPolish, 100));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Accessory.GoldenApple>(), 85));
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 10; k++) {
@@ -81,16 +84,16 @@ namespace SpiritMod.NPCs.Automata
 				 Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Wraith, 2.5f * hitDirection, -2.5f, 0, default, Main.rand.NextFloat(.45f, .55f));
 			}
             if (NPC.life <= 0) {
-                SoundEngine.PlaySound(new LegacySoundStyle(4, 6).WithPitchVariance(0.2f), NPC.Center);
+                SoundEngine.PlaySound(SoundID.NPCDeath6 with { PitchVariance = 0.2f }, NPC.Center);
 				for (int i = 0; i < 4; ++i)
                 {
-					Gore.NewGore(NPC.position, new Vector2(NPC.velocity.X * .5f, NPC.velocity.Y * .5f), 99);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, new Vector2(NPC.velocity.X * .5f, NPC.velocity.Y * .5f), 99);
                 }
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Trochmaton/AutomataSpinner1").Type, 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Trochmaton/AutomataSpinner2").Type, 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Trochmaton/AutomataSpinner3").Type, 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Trochmaton/AutomataSpinner4").Type, 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Trochmaton/AutomataSpinner5").Type, 1f);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Trochmaton/AutomataSpinner1").Type, 1f);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Trochmaton/AutomataSpinner2").Type, 1f);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Trochmaton/AutomataSpinner3").Type, 1f);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Trochmaton/AutomataSpinner4").Type, 1f);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Trochmaton/AutomataSpinner5").Type, 1f);
 			}
 		}
 		public override void AI()
@@ -102,8 +105,8 @@ namespace SpiritMod.NPCs.Automata
 			direction.Normalize();
 
 			if (timer == 300 && Main.netMode != NetmodeID.MultiplayerClient) {
-				SoundEngine.PlaySound(SoundID.NPCHit, (int)NPC.position.X, (int)NPC.position.Y, 4);
-                SoundEngine.PlaySound(SoundID.DD2_GoblinBomberThrow, (int)NPC.position.X, (int)NPC.position.Y);
+				SoundEngine.PlaySound(SoundID.NPCHit4, NPC.Center);
+                SoundEngine.PlaySound(SoundID.DD2_GoblinBomberThrow, NPC.Center);
 				NPC.netUpdate = true;
 			}
             if (timer >= 270 && timer < 300)
@@ -149,7 +152,7 @@ namespace SpiritMod.NPCs.Automata
 			{
 				if (timer % 15 == 0)
 				{
-					SoundEngine.PlaySound(SoundID.DD2_GoblinBomberThrow, (int)NPC.position.X, (int)NPC.position.Y);
+					SoundEngine.PlaySound(SoundID.DD2_GoblinBomberThrow, NPC.Center);
 				}
                 NPC.rotation = NPC.velocity.X * .05f;
 			    NPC.knockBackResist = 0f;
@@ -176,7 +179,7 @@ namespace SpiritMod.NPCs.Automata
                 {
                     var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
                     Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
-                    Color color = NPC.GetAlpha(lightColor) * (float)(((NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2f);
+                    Color color = NPC.GetAlpha(drawColor) * (float)(((NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2f);
                     spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
                 }
             }

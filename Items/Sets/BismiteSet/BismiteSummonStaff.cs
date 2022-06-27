@@ -31,10 +31,12 @@ namespace SpiritMod.Items.Sets.BismiteSet
 			Item.shoot = ModContent.ProjectileType<BismiteSentrySummon>();
 			Item.shootSpeed = 0f;
 		}
+
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
             if (player.altFunctionUse != 2)
@@ -43,7 +45,7 @@ namespace SpiritMod.Items.Sets.BismiteSet
                 float distance = Vector2.Distance(mouse, position);
                 if (distance < 600f)
                 {
-                    Projectile.NewProjectile(mouse.X, mouse.Y, speedX, speedY, type, damage, knockback, player.whoAmI);
+                    Projectile.NewProjectile(source, mouse.X, mouse.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
                     player.UpdateMaxTurrets();
                 }
             }
@@ -52,14 +54,12 @@ namespace SpiritMod.Items.Sets.BismiteSet
                 for (int projectileFinder = 0; projectileFinder < 200; ++projectileFinder)
                 {
                     if (Main.projectile[projectileFinder].type == Item.shoot && Main.projectile[projectileFinder].alpha == 0)
-                    {
                         Main.projectile[projectileFinder].alpha = 240;
-                    }
-
                 }
             }
             return false;
 		}
+
         public override void AddRecipes()  
         {
             Recipe recipe = CreateRecipe();

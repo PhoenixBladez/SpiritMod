@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles.Magic;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -49,8 +50,8 @@ namespace SpiritMod.Items.Weapon.Magic
 					position += spawnPlace;
 				}
 
-				Vector2 velocity = Vector2.Normalize(Main.MouseWorld - position) * Item.shootSpeed;
-				int p = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, 0, 0.0f, 0.0f);
+				velocity = Vector2.Normalize(Main.MouseWorld - position) * Item.shootSpeed;
+				int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, 0, 0.0f, 0.0f);
 				for (float num2 = 0.0f; (double)num2 < 10; ++num2) {
 					int dustIndex = Dust.NewDust(position, 2, 2, DustID.ShadowbeamStaff, 0f, 0f, 0, default, .8f);
 					Main.dust[dustIndex].noGravity = true;
@@ -66,7 +67,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				ModContent.Request<Texture2D>("SpiritMod/Items/Weapon/Magic/ShadowflameStoneStaff_Glow"),
+				ModContent.Request<Texture2D>("SpiritMod/Items/Weapon/Magic/ShadowflameStoneStaff_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
 				new Vector2
 				(
 					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,

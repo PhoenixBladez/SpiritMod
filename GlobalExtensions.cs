@@ -17,5 +17,11 @@ namespace SpiritMod
 		public static bool IsMagic(this Projectile proj) => proj.CountsAsClass(DamageClass.Magic);
 		public static bool IsSummon(this Projectile proj) => proj.CountsAsClass(DamageClass.Summon);
 		public static bool IsThrown(this Projectile proj) => proj.CountsAsClass(DamageClass.Throwing);
+
+		public static bool IsRanged(this Item item) => item.CountsAsClass(DamageClass.Ranged);
+		public static bool IsMelee(this Item item) => item.CountsAsClass(DamageClass.Melee);
+		public static bool IsMagic(this Item item) => item.CountsAsClass(DamageClass.Magic);
+		public static bool IsSummon(this Item item) => item.CountsAsClass(DamageClass.Summon);
+		public static bool IsThrown(this Item item) => item.CountsAsClass(DamageClass.Throwing);
 	}
 }

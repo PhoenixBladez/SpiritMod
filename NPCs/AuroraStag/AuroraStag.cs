@@ -144,7 +144,7 @@ namespace SpiritMod.NPCs.AuroraStag
 
 					if (TameAnimationTimer == TameAnimationLength - 1) //initial burst
 					{
-						SoundEngine.PlaySound(new LegacySoundStyle(SoundID.Item, 8).WithPitchVariance(0.2f), NPC.Center);
+						SoundEngine.PlaySound(SoundID.Item8 with { PitchVariance = 0.2f }, NPC.Center);
 
 						for (int i = 0; i <= 8; i++)
 							SpawnParticle();
@@ -152,7 +152,7 @@ namespace SpiritMod.NPCs.AuroraStag
 					//continue to spawn particles afterwards
 					float particlespawnendtime = MathHelper.Lerp(TameAnimationLength, ParticleAnticipationTime, 0.66f);
 					if (TameAnimationTimer % 36 == 0 && TameAnimationTimer > particlespawnendtime)
-						SoundEngine.PlaySound(new LegacySoundStyle(SoundID.Item, 8).WithPitchVariance(0.2f), NPC.Center);
+						SoundEngine.PlaySound(SoundID.Item8 with { PitchVariance = 0.2f }, NPC.Center);
 
 					if (TameAnimationTimer % 12 == 0 && TameAnimationTimer > particlespawnendtime)
 						SpawnParticle();
@@ -165,20 +165,20 @@ namespace SpiritMod.NPCs.AuroraStag
 
 					if (!Main.dedServ)
 					{
-						SoundEngine.PlaySound(SoundID.NPCKilled, NPC.Center, 8);
-						SoundEngine.PlaySound(new LegacySoundStyle(SoundID.Item, 9).WithPitchVariance(0.2f), NPC.Center);
+						SoundEngine.PlaySound(SoundID.NPCDeath8, NPC.Center);
+						SoundEngine.PlaySound(SoundID.Item9 with { PitchVariance = 0.2f }, NPC.Center);
 						SoundEngine.PlaySound(SoundID.DD2_WitherBeastAuraPulse, NPC.Center);
 						SoundEngine.PlaySound(SoundID.DD2_BookStaffCast, NPC.Center);
-						for (int i = 0; i < 25; i++) {
+
+						for (int i = 0; i < 25; i++)
 							MakeStar(Main.rand.NextFloat(0.2f, 0.6f));
-						}
 
 						EventManager.PlayEvent(new ScreenFlash(Color.White, 0.05f, 0.2f, 0.8f));
 						EventManager.PlayEvent(new ScreenShake(30f, 0.33f));
 					}
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						int i = Item.NewItem(NPC.Center, ModContent.ItemType<AuroraSaddle>());
+						int i = Item.NewItem(NPC.GetSource_FromAI(), NPC.Center, ModContent.ItemType<AuroraSaddle>());
 						Main.item[i].noGrabDelay = 120;
 						Main.item[i].velocity = new Vector2(0, -3);
 						if (Main.netMode != NetmodeID.SinglePlayer)

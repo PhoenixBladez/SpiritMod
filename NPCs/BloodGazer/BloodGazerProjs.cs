@@ -45,7 +45,7 @@ namespace SpiritMod.NPCs.BloodGazer
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(new LegacySoundStyle(SoundID.NPCHit, 8).WithPitchVariance(0.2f).WithVolume(0.3f), Projectile.Center);
+			SoundEngine.PlaySound(SoundID.NPCHit8 with { PitchVariance = 0.8f, Volume = 0.3f }, Projectile.Center);
 			for (int i = 0; i < 20; i++) {
 				Dust.NewDustPerfect(Projectile.Center, 5, Main.rand.NextFloat(0.25f, 0.5f) * Projectile.velocity.RotatedBy(3.14f + Main.rand.NextFloat(-0.4f, 0.4f)));
 			}
@@ -85,11 +85,11 @@ namespace SpiritMod.NPCs.BloodGazer
 		public override bool PreDraw(ref Color lightColor)
 		{
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
-			Texture2D pupiltex = ModContent.Request<Texture2D>(Texture + "_pupil");
+			Texture2D pupiltex = ModContent.Request<Texture2D>(Texture + "_pupil", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			void DrawEye(Vector2 position, float Opacity)
 			{
-				spriteBatch.Draw(tex, position - Main.screenPosition, Projectile.DrawFrame(), Color.White * Opacity, 0, Projectile.DrawFrame().Size() / 2, Projectile.scale, SpriteEffects.None, 0);
-				spriteBatch.Draw(pupiltex, position + (Vector2.UnitY * 8) + (Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.localAI[0]) - Main.screenPosition, null, Color.White * Opacity,
+				Main.spriteBatch.Draw(tex, position - Main.screenPosition, Projectile.DrawFrame(), Color.White * Opacity, 0, Projectile.DrawFrame().Size() / 2, Projectile.scale, SpriteEffects.None, 0);
+				Main.spriteBatch.Draw(pupiltex, position + (Vector2.UnitY * 8) + (Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.localAI[0]) - Main.screenPosition, null, Color.White * Opacity,
 					0, pupiltex.Size() / 2, Projectile.scale * 0.75f, SpriteEffects.None, 0);
 			}
 
@@ -117,7 +117,7 @@ namespace SpiritMod.NPCs.BloodGazer
 					{
 						Texture2D raytelegraph = Mod.Assets.Request<Texture2D>("Textures/Medusa_Ray").Value;
 						float Opacity = Math.Min((Projectile.localAI[1] + Projectile.localAI[0]) / 25f, 0.5f);
-						spriteBatch.Draw(raytelegraph, Projectile.Center + (Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.localAI[0]) - Main.screenPosition, null, Color.Red * Opacity,
+						Main.spriteBatch.Draw(raytelegraph, Projectile.Center + (Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.localAI[0]) - Main.screenPosition, null, Color.Red * Opacity,
 							Projectile.rotation, new Vector2(0, raytelegraph.Height / 2), new Vector2(24f, 0.5f * Projectile.scale), SpriteEffects.None, 0);
 					}
 					break;
@@ -127,7 +127,7 @@ namespace SpiritMod.NPCs.BloodGazer
 
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
-			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			spriteBatch.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.Red * Projectile.Opacity * 0.5f, 0, bloom.Size() / 2, new Vector2(1, 0.75f) * Projectile.scale / 2, SpriteEffects.None, 0);
 		}
 
@@ -177,10 +177,9 @@ namespace SpiritMod.NPCs.BloodGazer
 					if(++Projectile.localAI[1] == 30 && ShootProj)
 					{
 						if (Main.netMode != NetmodeID.Server)
-							SoundEngine.PlaySound(SoundID.Item, (int)Projectile.Center.X, (int)Projectile.Center.Y, 12, 1, -1f);
+							SoundEngine.PlaySound(SoundID.Item12, Projectile.Center);
 						if(Main.netMode != NetmodeID.MultiplayerClient)
-							Projectile.NewProjectileDirect(Projectile.Center + (Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.localAI[0]),
-								Vector2.UnitX.RotatedBy(Projectile.rotation) * 10, ModContent.ProjectileType<BrimstoneLaser>(), Projectile.damage, 1f, Main.myPlayer).netUpdate = true;
+							Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center + (Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.localAI[0]), Vector2.UnitX.RotatedBy(Projectile.rotation) * 10, ModContent.ProjectileType<BrimstoneLaser>(), Projectile.damage, 1f, Main.myPlayer).netUpdate = true;
 					}
 
 					if (Projectile.localAI[1] == 40)
@@ -259,11 +258,11 @@ namespace SpiritMod.NPCs.BloodGazer
 			if (chain == null)
 				return false;
 
-			Texture2D chaintex = ModContent.Request<Texture2D>(Texture + "_chain");
-			chain.Draw(spriteBatch, chaintex);
+			Texture2D chaintex = ModContent.Request<Texture2D>(Texture + "_chain", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			chain.Draw(Main.spriteBatch, chaintex);
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 
-			spriteBatch.Draw(tex, chain.EndPosition - new Vector2(chaintex.Height / 2, -chaintex.Width / 2).RotatedBy(chain.EndRotation) - Main.screenPosition, tex.Bounds, drawColor, chain.EndRotation, tex.Bounds.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
+			Main.spriteBatch.Draw(tex, chain.EndPosition - new Vector2(chaintex.Height / 2, -chaintex.Width / 2).RotatedBy(chain.EndRotation) - Main.screenPosition, tex.Bounds, drawColor, chain.EndRotation, tex.Bounds.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
 			return false;
 		}
 
@@ -272,9 +271,9 @@ namespace SpiritMod.NPCs.BloodGazer
 			if (Main.netMode != NetmodeID.Server)
 				SoundEngine.PlaySound(SoundID.NPCDeath22, Projectile.Center);
 
-			Gore.NewGoreDirect(Projectile.position, Projectile.velocity / 2, Mod.Find<ModGore>("Gores/Gazer/GazerEye").Type, 1f).timeLeft = 10;
+			Gore.NewGoreDirect(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity / 2, Mod.Find<ModGore>("Gores/Gazer/GazerEye").Type, 1f).timeLeft = 10;
 			foreach (var segment in chain.Segments)
-				Gore.NewGoreDirect(segment.Vertex2.Position, Projectile.velocity / 2, Mod.Find<ModGore>("Gores/Gazer/GazerChain").Type, 1f).timeLeft = 10;
+				Gore.NewGoreDirect(Projectile.GetSource_Death(), segment.Vertex2.Position, Projectile.velocity / 2, Mod.Find<ModGore>("Gores/Gazer/GazerChain").Type, 1f).timeLeft = 10;
 		}
 	}
 }

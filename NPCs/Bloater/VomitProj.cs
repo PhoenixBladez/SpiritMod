@@ -1,4 +1,3 @@
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,9 +31,7 @@ namespace SpiritMod.NPCs.Bloater
 				int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Blood, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 				Main.dust[dust].scale = Main.rand.NextFloat(.8f, 1.5f);
 				Main.dust[dust].noGravity = true;
-
 			}
 		}
-
 	}
 }

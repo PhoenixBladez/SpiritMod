@@ -10,6 +10,8 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
+using SpiritMod.Items.Armor.ClatterboneArmor;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.CavernCrawler
 {
@@ -39,37 +41,26 @@ namespace SpiritMod.NPCs.CavernCrawler
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.PlayerSafe) {
+			if (spawnInfo.PlayerSafe)
 				return 0f;
-			}
 			if (Main.hardMode)
-			{
 				return SpawnCondition.Cavern.Chance * 0.02f;				
-			}
 			return SpawnCondition.Cavern.Chance * 0.15f;
 		}
-		public override void OnKill()
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(100) == 4)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, (ModContent.ItemType<CrawlerockStaff>()));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CrawlerockStaff>(), 100));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ClatterboneShield>(), 60));
+			npcLoot.Add(ItemDropRule.Common(ItemID.DepthMeter, 80));
+			npcLoot.Add(ItemDropRule.Common(ItemID.Compass, 80));
+			npcLoot.Add(ItemDropRule.Common(ItemID.Rally, 200));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ClatterboneBreastplate>(), 65));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ClatterboneFaceplate>(), 65));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ClatterboneLeggings>(), 65));
+		}
 
-            if (Main.rand.NextBool(60))
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<ClatterboneShield>());
-
-            if (Main.rand.Next(80) == 0)
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.DepthMeter);
-
-            if (Main.rand.Next(80) == 0)
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Compass);
-
-            if (Main.rand.Next(200) == 0)
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Rally);
-
-            string[] lootTable = { "ClatterboneBreastplate", "ClatterboneFaceplate", "ClatterboneLeggings" };
-            if (Main.rand.Next(55) == 0)
-                NPC.DropItem(Mod.Find<ModItem>(Main.rand.Next(lootTable)).Type);
-        }
-        int frame = 0;
+		int frame = 0;
 		int timer = 0;
 		bool trailbehind;
 		bool playsound;
@@ -112,7 +103,7 @@ namespace SpiritMod.NPCs.CavernCrawler
 				}
 			}
 			if (trailbehind && !playsound) {
-				SoundEngine.PlaySound(SoundID.Item9.SoundId, NPC.Center, 74);
+				SoundEngine.PlaySound(SoundID.Item9, NPC.Center);
 				playsound = true;
 			}
 		}
@@ -123,7 +114,7 @@ namespace SpiritMod.NPCs.CavernCrawler
 				Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
 				for (int k = 0; k < NPC.oldPos.Length; k++) {
 					Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
-					Color color = NPC.GetAlpha(lightColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+					Color color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
 					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 				}
 			}
@@ -140,10 +131,10 @@ namespace SpiritMod.NPCs.CavernCrawler
 			}
 			if (NPC.life <= 0) {
 				SoundEngine.PlaySound(SoundID.DD2_WitherBeastDeath, NPC.Center);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crawler1").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crawler2").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crawler3").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crawler4").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crawler1").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crawler2").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crawler3").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crawler4").Type);
 			}
 		}
 	}

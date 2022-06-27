@@ -52,13 +52,13 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 
 		public override void AI()
 		{
-			if(!Parent.active || Parent.type != ModContent.NPCType<StarWeaverNPC>())
+			if (!Parent.active || Parent.type != ModContent.NPCType<StarWeaverNPC>())
 			{
 				Projectile.Kill();
 				return;
 			}
 
-			if(WeaverNPC.Head != Projectile)
+			if (WeaverNPC.Head != Projectile)
 			{
 				Projectile.Kill();
 				return;
@@ -72,7 +72,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			if (WeaverNPC.AiState == StarWeaverNPC.STATE_STARGLOOP) //Fade out head and do stargloop dust if parent is doing stargloop attack
 			{
 				for (int i = 0; i < 5; i++)
-					Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(15, 15), ModContent.DustType<Dusts.EnemyStargoopDustFastDissipate>(), 
+					Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(15, 15), ModContent.DustType<Dusts.EnemyStargoopDustFastDissipate>(),
 						Vector2.UnitY * Main.rand.NextFloat(-4.5f, -0.5f) + (Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) / 5), Scale: 3);
 
 				Projectile.scale = Math.Max(Projectile.scale - 0.33f / fadeTime, 0.66f);
@@ -87,7 +87,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 						.RotatedBy(Main.rand.NextFloat(MathHelper.PiOver4, MathHelper.PiOver2) * (Main.rand.NextBool() ? -1 : 1)) * Main.rand.NextFloat(4, 6);
 					Projectile.velocity -= velocity * 1.33f;
 
-					int p = Projectile.NewProjectile(Projectile.Center, velocity, ModContent.ProjectileType<WeaverStargloopChaser>(), Projectile.damage, 1f, Main.myPlayer, Parent.target);
+					int p = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, velocity, ModContent.ProjectileType<WeaverStargloopChaser>(), Projectile.damage, 1f, Main.myPlayer, Parent.target);
 
 					if (Main.netMode != NetmodeID.SinglePlayer)
 						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, p);
@@ -127,9 +127,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 					Projectile.extraUpdates = 1;
 					TrailProgress = Math.Min(TrailProgress + 0.05f, 1);
 
-					if(AiTimer == 1)
+					if (AiTimer == 1)
 					{
-						Projectile.NewProjectileDirect(Projectile.Center, (TargetPos - Projectile.position) / 20, ModContent.ProjectileType<WeaverHeadTelegraph>(), 0, 0, Main.myPlayer);
+						Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, (TargetPos - Projectile.position) / 20, ModContent.ProjectileType<WeaverHeadTelegraph>(), 0, 0, Main.myPlayer);
 					}
 
 					if (AiTimer < ANTICIPATIONTIME)
@@ -159,7 +159,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			}
 		}
 
-		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI) => drawCacheProjsBehindNPCs.Add(index);
+		public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => behindNPCs.Add(index);
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
@@ -181,46 +181,46 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			Texture2D ripple = Mod.Assets.Request<Texture2D>("Effects/Ripple").Value;
 
 			//Draw trail when returning to npc
-			for(int i = 0; i < TrailLength; i++)
+			for (int i = 0; i < TrailLength; i++)
 			{
 				Vector2 position = Projectile.oldPos[i] + Projectile.Size / 2;
 				float rotation = Projectile.oldRot[i];
 				float scale = (TrailLength - i) / (float)TrailLength;
 				float opacity = TrailProgress * scale;
 
-				spriteBatch.Draw(ripple, position - Main.screenPosition, null, Projectile.GetAlpha(Color.Red) * TrailProgress, 0, ripple.Size() / 2, 1.5f * scale, SpriteEffects.None, 0);
+				Main.spriteBatch.Draw(ripple, position - Main.screenPosition, null, Projectile.GetAlpha(Color.Red) * TrailProgress, 0, ripple.Size() / 2, 1.5f * scale, SpriteEffects.None, 0);
 
-				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, position - Main.screenPosition, Projectile.DrawFrame(), Projectile.GetAlpha(Color.Lerp(lightColor, Color.White, 0.5f)) * opacity, 
+				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, position - Main.screenPosition, Projectile.DrawFrame(), Projectile.GetAlpha(Color.Lerp(lightColor, Color.White, 0.5f)) * opacity,
 					rotation, Projectile.DrawFrame().Size() / 2, Projectile.scale * scale, SpriteEffects.None, 0);
 
-				spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + "_glowRed"), position - Main.screenPosition, Projectile.DrawFrame(), Projectile.GetAlpha(Color.White) * opacity,
+				Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + "_glowRed", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, position - Main.screenPosition, Projectile.DrawFrame(), Projectile.GetAlpha(Color.White) * opacity,
 					rotation, Projectile.DrawFrame().Size() / 2, Projectile.scale * scale, SpriteEffects.None, 0);
 			}
 
-			spriteBatch.Draw(ripple, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(Color.Red) * TrailProgress, 0, ripple.Size() / 2, 1.5f, SpriteEffects.None, 0);
+			Main.spriteBatch.Draw(ripple, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(Color.Red) * TrailProgress, 0, ripple.Size() / 2, 1.5f, SpriteEffects.None, 0);
 
 			Color bloomColor = Color.White;
 			bloomColor.A = 0;
 			float AttackProgress = StarWeaverNPC.GetBloomIntensity(WeaverNPC);
 
 			//Glowy bloom during parent's starburst attacks
-			spriteBatch.Draw(ripple, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(Color.Gold) * (1 - TrailProgress) * AttackProgress, 0, 
+			Main.spriteBatch.Draw(ripple, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(Color.Gold) * (1 - TrailProgress) * AttackProgress, 0,
 				ripple.Size() / 2, 1.5f, SpriteEffects.None, 0);
 
 			SpriteEffects flip = (Projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 			//Bloom glowmask
 			PulseDraw.DrawPulseEffect(PulseDraw.BloomConstant, 12, 12, delegate (Vector2 posOffset, float opacityMod)
 			{
-				spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + "_glow"), Projectile.Center - Main.screenPosition + posOffset, Projectile.DrawFrame(),
+				Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, Projectile.Center - Main.screenPosition + posOffset, Projectile.DrawFrame(),
 					Projectile.GetAlpha(bloomColor) * (1 - TrailProgress) * AttackProgress * opacityMod,
 					Projectile.rotation, Projectile.DrawFrame().Size() / 2, Projectile.scale, flip, 0);
 			});
 
-			Projectile.QuickDraw(spriteBatch, drawColor: Projectile.GetAlpha(Color.Lerp(lightColor, Color.White, 0.5f)));
+			Projectile.QuickDraw(Main.spriteBatch, drawColor: Projectile.GetAlpha(Color.Lerp(lightColor, Color.White, 0.5f)));
 
 			Color glowmaskColor = Color.Lerp(Color.White, bloomColor, AttackProgress);
-			Projectile.QuickDrawGlow(spriteBatch, Projectile.GetAlpha(glowmaskColor) * (1 - TrailProgress));
-			spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + "_glowRed"), Projectile.Center - Main.screenPosition, Projectile.DrawFrame(), Projectile.GetAlpha(Color.White) * TrailProgress,
+			Projectile.QuickDrawGlow(Main.spriteBatch, Projectile.GetAlpha(glowmaskColor) * (1 - TrailProgress));
+			Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + "_glowRed", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, Projectile.Center - Main.screenPosition, Projectile.DrawFrame(), Projectile.GetAlpha(Color.White) * TrailProgress,
 				Projectile.rotation, Projectile.DrawFrame().Size() / 2, Projectile.scale, flip, 0);
 			return false;
 		}
@@ -231,7 +231,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			for (int i = 1; i < 10; i++)
 			{
 				Color color = Color.Lerp(startColor, endColor, i / 10f) * opacity;
-				spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + "_mask"), Projectile.Center + offset - Main.screenPosition - Projectile.velocity * (float)i * trailLengthModifier, 
+				spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + "_mask", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, Projectile.Center + offset - Main.screenPosition - Projectile.velocity * (float)i * trailLengthModifier,
 					Projectile.DrawFrame(), color, Projectile.rotation, Projectile.DrawFrame().Size() * 0.5f, MathHelper.Lerp(startScale, endScale, i / 10f), spriteEffects, 0f);
 			}
 		}

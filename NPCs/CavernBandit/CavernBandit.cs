@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using System.IO;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.CavernBandit
 {
@@ -41,7 +42,7 @@ namespace SpiritMod.NPCs.CavernBandit
 			NPC.noTileCollide = false;
 			NPC.alpha = 0;
 			NPC.dontTakeDamage = false;
-			NPC.DeathSound = new Terraria.Audio.LegacySoundStyle(4, 1);
+			NPC.DeathSound = SoundID.NPCHit1;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<Items.Banners.CavernBanditBanner>();
 		}
@@ -82,20 +83,18 @@ namespace SpiritMod.NPCs.CavernBandit
 			return base.PreAI();
 		}
 
-        public override void OnKill()
-        {
-            if (Main.rand.NextBool(24))
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.MagicLantern);
-			if (Main.rand.NextBool(6))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Hook);
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.Add(ItemDropRule.Common(ItemID.MagicLantern, 24));
+			npcLoot.Add(ItemDropRule.Common(ItemID.Hook, 6));
 		}
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void HitEffect(int hitDirection, double damage)
 		{
-			SoundEngine.PlaySound(SoundID.NPCHit, (int)NPC.position.X, (int)NPC.position.Y, 4, 1f, 0f);
+			SoundEngine.PlaySound(SoundID.NPCHit4, NPC.Center);
 			if (NPC.life <= 0) 
 				for(int i = 1; i <= 4; i++)
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>($"Gores/CavernBanditGore{i}").Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>($"Gores/CavernBanditGore{i}").Type, 1f);
 
 			for (int k = 0; k < 7; k++) {
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);

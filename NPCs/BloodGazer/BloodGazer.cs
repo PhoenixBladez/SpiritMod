@@ -94,7 +94,7 @@ namespace SpiritMod.NPCs.BloodGazer
 			AiTimer++;
 			NPC.rotation = NPC.velocity.X * 0.05f;
 			if (Main.netMode != NetmodeID.Server && Main.rand.Next(60) == 0)
-				SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/HeartbeatFx"));
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/HeartbeatFx"), NPC.position);
 
 			if (Phase == 0 && NPC.life <= NPC.lifeMax / 2)
 			{
@@ -111,11 +111,11 @@ namespace SpiritMod.NPCs.BloodGazer
 					if (AiTimer % 40 == 0)
 					{
 						if (!Main.dedServ)
-							SoundEngine.PlaySound(new LegacySoundStyle(SoundID.NPCKilled, 22).WithPitchVariance(0.2f).WithVolume(0.8f), NPC.Center);
+							SoundEngine.PlaySound(SoundID.NPCDeath22 with { PitchVariance = 0.2f, Volume = 0.8f }, NPC.Center);
 
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							NPC eye = Main.npc[NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<BloodGazerEye>(), 0, NPC.whoAmI, (int)(AiTimer / 40))];
+							NPC eye = Main.npc[NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<BloodGazerEye>(), 0, NPC.whoAmI, (int)(AiTimer / 40))];
 							Vector2 velocity = Main.rand.NextVector2CircularEdge(1, 1) * Main.rand.NextFloat(2, 4);
 							eye.velocity = velocity;
 							for (int i = 0; i < 25; i++)
@@ -177,7 +177,7 @@ namespace SpiritMod.NPCs.BloodGazer
 						NPC.netUpdate = true;
 
 						if (!Main.dedServ)
-							SoundEngine.PlaySound(SoundID.NPCKilled, (int)NPC.Center.X, (int)NPC.Center.Y, 10, 1, -0.5f);
+							SoundEngine.PlaySound(SoundID.NPCDeath10 with { Volume = 0.5f }, NPC.Center);
 					}
 
 					if (AiTimer <= prespintime + spintime && Math.Abs(NPC.velocity.X) < maxvel)
@@ -254,11 +254,11 @@ namespace SpiritMod.NPCs.BloodGazer
 						Vector2 vel = NPC.GetArcVel(targetPos, 0.35f, 300, 1000, heightabovetarget: 350);
 						NPC.velocity = -Vector2.Normalize(vel);
 						if (!Main.dedServ)
-							SoundEngine.PlaySound(new LegacySoundStyle(SoundID.NPCKilled, 22).WithPitchVariance(0.2f).WithVolume(0.8f), NPC.Center);
+							SoundEngine.PlaySound(SoundID.NPCDeath22 with { PitchVariance = 0.2f, Volume = 0.8f }, NPC.Center);
 
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							Projectile eye = Projectile.NewProjectileDirect(NPC.Center, vel.RotatedByRandom(MathHelper.Pi / 16), ModContent.ProjectileType<MortarEye>(), NPC.damage / 4, 1, Main.myPlayer, NPC.whoAmI);
+							Projectile eye = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, vel.RotatedByRandom(MathHelper.Pi / 16), ModContent.ProjectileType<MortarEye>(), NPC.damage / 4, 1, Main.myPlayer, NPC.whoAmI);
 							eye.netUpdate = true;
 						}
 					}
@@ -279,11 +279,11 @@ namespace SpiritMod.NPCs.BloodGazer
 						spawnPos += NPC.Center;
 
 						if (!Main.dedServ)
-							SoundEngine.PlaySound(new LegacySoundStyle(SoundID.Item, 104).WithPitchVariance(0.3f).WithVolume(0.5f), spawnPos);
+							SoundEngine.PlaySound(SoundID.Item104 with { PitchVariance = 0.3f, Volume = 0.5f }, spawnPos);
 
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							Projectile eye = Projectile.NewProjectileDirect(spawnPos, Vector2.Zero, ModContent.ProjectileType<RunicEye>(), NPC.damage / 4, 1, Main.myPlayer, 0, NPC.whoAmI);
+							Projectile eye = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), spawnPos, Vector2.Zero, ModContent.ProjectileType<RunicEye>(), NPC.damage / 4, 1, Main.myPlayer, 0, NPC.whoAmI);
 							eye.netUpdate = true;
 						}
 					}
@@ -312,7 +312,7 @@ namespace SpiritMod.NPCs.BloodGazer
 					{
 						trailing = true;
 						if (!Main.dedServ)
-							SoundEngine.PlaySound(SoundID.DD2_WyvernDiveDown.WithVolume(1.5f), NPC.Center);
+							SoundEngine.PlaySound(SoundID.DD2_WyvernDiveDown with { Volume = 1.5f }, NPC.Center);
 						NPC.velocity = NPC.DirectionTo(player.Center) * 40;
 						NPC.netUpdate = true;
 					}
@@ -336,7 +336,7 @@ namespace SpiritMod.NPCs.BloodGazer
 
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
-			Texture2D tex = ModContent.Request<Texture2D>(Texture + "_mask");
+			Texture2D tex = ModContent.Request<Texture2D>(Texture + "_mask", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			for (int i = 0; i < NPCID.Sets.TrailCacheLength[NPC.type]; i++)
 			{
 				float opacity = 0.5f * (float)(NPCID.Sets.TrailCacheLength[NPC.type] - i) / NPCID.Sets.TrailCacheLength[NPC.type];
@@ -375,9 +375,9 @@ namespace SpiritMod.NPCs.BloodGazer
 
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Gazer/Gazer1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Gazer/Gazer2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Gazer/Gazer3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Gazer/Gazer1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Gazer/Gazer2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Gazer/Gazer3").Type, 1f);
 
 				for (int k = 0; k < 25; k++)
 				{
@@ -390,7 +390,7 @@ namespace SpiritMod.NPCs.BloodGazer
 		public override bool PreKill()
 		{
 			if (!Main.dedServ)
-				SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/DownedMiniboss"));
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/DownedMiniboss"), NPC.position);
 			MyWorld.downedGazer = true;
 			return true;
 		}
@@ -422,7 +422,7 @@ namespace SpiritMod.NPCs.BloodGazer
 				}
 			}
 
-			Texture2D glowmask = ModContent.Request<Texture2D>(Texture + "_mask");
+			Texture2D glowmask = ModContent.Request<Texture2D>(Texture + "_mask", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			void DrawMask(Vector2 center, float opacity) => spriteBatch.Draw(glowmask, center - Main.screenPosition, NPC.frame, Color.Red * opacity * GlowmaskOpacity * NPC.Opacity, NPC.rotation,
 																				NPC.frame.Size() / 2, NPC.scale * 1.2f, (NPC.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 			DrawMask(NPC.Center, 0.5f);
@@ -452,7 +452,7 @@ namespace SpiritMod.NPCs.BloodGazer
 
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			Texture2D glowmask = ModContent.Request<Texture2D>(Texture + "_mask2");
+			Texture2D glowmask = ModContent.Request<Texture2D>(Texture + "_mask2", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Color col = Color.Red * GlowmaskOpacity * NPC.Opacity;
 			SpriteEffects effect = (NPC.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Summon;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -78,7 +79,7 @@ namespace SpiritMod.Items.Weapon.Magic
 							}
 
 							if (flag && Main.myPlayer == player.whoAmI) {
-								Projectile.NewProjectile(center.X, center.Y, 0f, 0f, ModContent.ProjectileType<ShroomSummon>(), damage, knockback, player.whoAmI, 0f, 0f);
+								Projectile.NewProjectile(source, center.X, center.Y, 0f, 0f, ModContent.ProjectileType<ShroomSummon>(), damage, knockback, player.whoAmI, 0f, 0f);
 							}
 						}
 					}
@@ -88,7 +89,7 @@ namespace SpiritMod.Items.Weapon.Magic
 				Vector2 mouse = Main.MouseWorld;
 				Vector2 offset = mouse - player.position;
 				offset.Normalize();
-				if (speedX > 0) {
+				if (velocity.X > 0) {
 					offset = offset.RotatedBy(-0.2f);
 				}
 				else {
@@ -107,11 +108,11 @@ namespace SpiritMod.Items.Weapon.Magic
 				vector2_2.Normalize();
 				Vector2 vector2_3 = vector2_2 * 5f;
 				Main.dust[dust].position = (player.Center + offset) + vector2_3;
-				if (speedX > 0) {
-					Main.dust[dust].velocity = new Vector2(speedX / 3f, speedY / 3f).RotatedBy(Main.rand.Next(-220, 180) / 100);
+				if (velocity.X > 0) {
+					Main.dust[dust].velocity = new Vector2(velocity.X / 3f, velocity.Y / 3f).RotatedBy(Main.rand.Next(-220, 180) / 100);
 				}
 				else {
-					Main.dust[dust].velocity = new Vector2(speedX / 3f, speedY / 3f).RotatedBy(Main.rand.Next(-180, 220) / 100);
+					Main.dust[dust].velocity = new Vector2(velocity.X / 3f, velocity.Y / 3f).RotatedBy(Main.rand.Next(-180, 220) / 100);
 				}
 			}
 			return false;

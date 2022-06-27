@@ -72,7 +72,7 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Texture2D glowmask = ModContent.Request<Texture2D>(Texture + "_glow");
+			Texture2D glowmask = ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			float opacity = MathHelper.Lerp(0.7f, 1f, DrawTimer) * ((255f - Item.alpha) / 255f);
 
 			Vector2 itemCenter = new Vector2(Item.position.X - Main.screenPosition.X + Item.width / 2, Item.position.Y - Main.screenPosition.Y + Item.height - (TextureAssets.Item[Item.type].Value.Height / 2) + 2f);

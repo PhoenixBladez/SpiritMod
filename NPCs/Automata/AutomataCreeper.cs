@@ -11,6 +11,7 @@ using SpiritMod.Mechanics.BoonSystem;
 using SpiritMod.Buffs;
 using Terraria.Audio;
 using SpiritMod.Buffs.DoT;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.Automata
 {
@@ -115,7 +116,7 @@ namespace SpiritMod.NPCs.Automata
 			{
 				int glyphnum = Main.rand.Next(10);
 				DustHelper.DrawDustImage(NPC.Center, 6, 0.05f, "SpiritMod/Effects/Glyphs/Glyph" + glyphnum, 1.5f);
-				int proj = Projectile.NewProjectile(NPC.Center, NPC.velocity, ModContent.ProjectileType<AutomataCreeperProj>(), Main.expertMode ? 40 : 60, 4, NPC.target, NPC.ai[0], NPC.ai[1]);
+				int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ModContent.ProjectileType<AutomataCreeperProj>(), Main.expertMode ? 40 : 60, 4, NPC.target, NPC.ai[0], NPC.ai[1]);
 				if (Main.projectile[proj].ModProjectile is AutomataCreeperProj modproj)
 					modproj.moveDirection = moveDirection;
 
@@ -212,23 +213,21 @@ namespace SpiritMod.NPCs.Automata
 
 			if (NPC.life <= 0)
 			{
-				SoundEngine.PlaySound(new LegacySoundStyle(4, 6).WithPitchVariance(0.2f), NPC.Center);
+				SoundEngine.PlaySound(SoundID.NPCDeath6 with { PitchVariance = 0.2f }, NPC.Center);
 				for (int i = 0; i < 4; ++i)
 				{
-					Gore.NewGore(NPC.position, new Vector2(NPC.velocity.X * .5f, NPC.velocity.Y * .5f), 99);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, new Vector2(NPC.velocity.X * .5f, NPC.velocity.Y * .5f), 99);
 				}
 
 				for (int i = 1; i < 6; ++i)
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AutomataCreeper/AutomataCreeper" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AutomataCreeper/AutomataCreeper" + i).Type, 1f);
 			}
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.NextBool(100))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.ArmorPolish);
-			if (Main.rand.NextBool(85))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Accessory.GoldenApple>());
+			npcLoot.Add(ItemDropRule.Common(ItemID.ArmorPolish, 100));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Accessory.GoldenApple>(), 85));
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -360,7 +359,7 @@ namespace SpiritMod.NPCs.Automata
 			{
 				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
 				Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
-				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
 		}

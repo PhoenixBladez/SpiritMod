@@ -10,6 +10,7 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 {
@@ -54,12 +55,12 @@ namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Teleporter, 1.5f * hitDirection, -1.5f, 0, default, 0.52f);
 			}
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Glitterfly/Glitterfly1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Glitterfly/Glitterfly2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Glitterfly/Glitterfly3").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Glitterfly/Glitterfly4").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Glitterfly/Glitterfly5").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Glitterfly/Glitterfly6").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Glitterfly/Glitterfly1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Glitterfly/Glitterfly2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Glitterfly/Glitterfly3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Glitterfly/Glitterfly4").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Glitterfly/Glitterfly5").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Glitterfly/Glitterfly6").Type, 1f);
 			}
 		}
 
@@ -102,7 +103,7 @@ namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 			NPC.velocity.Y = moveSpeedY * 0.1f;
 			++NPC.ai[1];
 			if (NPC.ai[1] >= 10 && Main.netMode != NetmodeID.MultiplayerClient) {
-				int proj = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<GlitterDust>(), 0, 0, Main.myPlayer, 0, 0);
+				int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<GlitterDust>(), 0, 0, Main.myPlayer, 0, 0);
                 NPC.ai[1] = 0;
 			}
 			Vector2 center = NPC.Center;
@@ -121,7 +122,7 @@ namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 			if (distance < 540) {
 				++NPC.ai[0];
 				if (NPC.ai[0] == 140 || NPC.ai[0] == 280 || NPC.ai[0] == 320) {
-                    SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 43);
+                    SoundEngine.PlaySound(SoundID.Item43, NPC.Center);
                     if (Main.netMode != NetmodeID.MultiplayerClient) {
 						Vector2 dir = Main.player[NPC.target].Center - NPC.Center;
 						dir.Normalize();
@@ -130,7 +131,7 @@ namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 						float A = (float)Main.rand.Next(-200, 200) * 0.01f;
 						float B = (float)Main.rand.Next(-200, 200) * 0.01f;
 						int damage = expertMode ? 19 : 27;
-						Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, dir.X + A, dir.Y + B, ModContent.ProjectileType<StarSting>(), damage, 1, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, dir.X + A, dir.Y + B, ModContent.ProjectileType<StarSting>(), damage, 1, Main.myPlayer, 0, 0);
 					}
 				}
 				if (NPC.ai[0] >= 450) {
@@ -149,6 +150,7 @@ namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 			}
 			return true;
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -156,22 +158,22 @@ namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
+
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/BlueMoon/Glitterfly/Glitterfly_Glow").Value);
 		}
+
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
 			if (Main.rand.Next(5) == 0)
 				target.AddBuff(ModContent.BuffType<StarFlame>(), 200);
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.NextBool(5))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<MoonStone>());
-			if (Main.rand.NextBool(100))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<StopWatch>());
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<MoonStone>(), 5));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<StopWatch>(), 100));
 		}
 	}
 }

@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Fishing
 	public class FisheyeGlobalItem : GlobalItem
 	{
 		public override bool InstancePerEntity => true;
-		public override bool CloneNewInstances => true;
+		protected override bool CloneNewInstances => true;
 
 		private bool _increasedValue = false;
 

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Magic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -37,10 +38,8 @@ namespace SpiritMod.Items.Weapon.Magic
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			speedX = 0;
-			speedY = -0.25f;
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SandWall>(), damage, knockback, player.whoAmI, speedX, speedY);
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SandWall2>(), damage, knockback, player.whoAmI, speedX, speedY);
+			Projectile.NewProjectile(source, position.X, position.Y, 0, -0.25f, ModContent.ProjectileType<SandWall>(), damage, knockback, player.whoAmI, 0, -0.25f);
+			Projectile.NewProjectile(source, position.X, position.Y, 0, -0.25f, ModContent.ProjectileType<SandWall2>(), damage, knockback, player.whoAmI, 0, -0.25f);
 			return false;
 		}
 

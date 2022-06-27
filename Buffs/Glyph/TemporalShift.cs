@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
@@ -40,7 +41,7 @@ namespace SpiritMod.Buffs.Glyph
 					TextureAssets.Buff[Type].Value = Mod.Assets.Request<Texture2D>("Buffs/Glyph/TemporalShift").Value;
 				}
 				else {
-					TextureAssets.Buff[Type].Value = Mod.Assets.Request<Texture2D>("Buffs/Glyph/TemporalShift_" + modPlayer.phaseStacks.ToString().Value);
+					TextureAssets.Buff[Type].Value = Mod.Assets.Request<Texture2D>("Buffs/Glyph/TemporalShift_" + modPlayer.phaseStacks.ToString()).Value;
 				}
 			}
 		}

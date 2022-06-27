@@ -47,7 +47,7 @@ namespace SpiritMod.Items.Sets.AtlasDrops
 			if (charger >= 7)
 			{
 				for (int I = 0; I < 4; I++)
-					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 300), speedY + ((float)Main.rand.Next(-230, 230) / 300), ModContent.ProjectileType<AtlasBolt>(), 50, knockback, player.whoAmI, 0f, 0f);
+					Projectile.NewProjectile(source, position.X - 8, position.Y + 8, velocity.X + ((float)Main.rand.Next(-230, 230) / 300), velocity.Y + ((float)Main.rand.Next(-230, 230) / 300), ModContent.ProjectileType<AtlasBolt>(), 50, knockback, player.whoAmI, 0f, 0f);
 				charger = 0;
 			}
 			return true;

@@ -41,11 +41,11 @@ namespace SpiritMod.Items.Sets.AtlasDrops
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PrismBolt2>(), damage, knockback, player.whoAmI);
+			int proj = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<PrismBolt2>(), damage, knockback, player.whoAmI);
 			Projectile newProj = Main.projectile[proj];
 			newProj.friendly = true;
 			newProj.hostile = false;
-			Vector2 origVect = new Vector2(speedX, speedY);
+			Vector2 origVect = velocity;
 			for (int X = 0; X <= 2; X++) {
 				if (Main.rand.Next(2) == 1) {
 					newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(82, 1800) / 10));
@@ -53,13 +53,13 @@ namespace SpiritMod.Items.Sets.AtlasDrops
 				else {
 					newVect = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(82, 1800) / 10));
 				}
-				int proj2 = Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, type, damage, knockback, player.whoAmI);
+				int proj2 = Projectile.NewProjectile(source, position.X, position.Y, newVect.X, newVect.Y, type, damage, knockback, player.whoAmI);
 			}
 			for (int i = 0; i < 3; ++i) {
 				if (Main.rand.Next(6) == 0) {
 					if (Main.myPlayer == player.whoAmI) {
 						Vector2 mouse = Main.MouseWorld;
-						Projectile.NewProjectile(mouse.X + Main.rand.Next(-80, 80), player.Center.Y - 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(18, 28), ModContent.ProjectileType<AtlasBolt>(), 50, knockback, player.whoAmI);
+						Projectile.NewProjectile(source, mouse.X + Main.rand.Next(-80, 80), player.Center.Y - 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(18, 28), ModContent.ProjectileType<AtlasBolt>(), 50, knockback, player.whoAmI);
 					}
 				}
 			}

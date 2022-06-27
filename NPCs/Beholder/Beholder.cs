@@ -14,6 +14,7 @@ using SpiritMod.Items.Consumable.Food;
 using SpiritMod.Utilities;
 using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Mechanics.QuestSystem.Quests;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.Beholder
 {
@@ -173,7 +174,7 @@ namespace SpiritMod.NPCs.Beholder
 					{
 						float A = (float)Main.rand.Next(-50, 50) * 0.02f;
 						float B = (float)Main.rand.Next(-50, 50) * 0.02f;
-						int p = Projectile.NewProjectile(NPC.Center.X + (NPC.direction * 12), NPC.Center.Y + 20, direction.X + A, direction.Y + B, ProjectileID.Fireball, damage, 1, Main.myPlayer, 0, 0);
+						int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + (NPC.direction * 12), NPC.Center.Y + 20, direction.X + A, direction.Y + B, ProjectileID.Fireball, damage, 1, Main.myPlayer, 0, 0);
 						for (int k = 0; k < 11; k++)
 							Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Torch, direction.X + A, direction.Y + B, 0, default, .61f);
 						Main.projectile[p].hostile = true;
@@ -257,17 +258,19 @@ namespace SpiritMod.NPCs.Beholder
 			{
 				var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 				Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
-				Color color = NPC.GetAlpha(lightColor) * (float)(((NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+				Color color = NPC.GetAlpha(drawColor) * (float)(((NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
 				spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 			}
 			return true;
 		}
+
 		public override bool PreKill()
 		{
-			SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
+			SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/DownedMiniboss"), NPC.position);
 			MyWorld.downedBeholder = true;
 			return true;
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0)
@@ -275,7 +278,7 @@ namespace SpiritMod.NPCs.Beholder
 				SoundEngine.PlaySound(SoundID.DD2_WyvernScream, NPC.Center);
 
 				for (int i = 1; i < 9; ++i)
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Beholder" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Beholder" + i).Type, 1f);
 			}
 		}
 
@@ -286,14 +289,11 @@ namespace SpiritMod.NPCs.Beholder
 			manaSteal = true;
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<MarbleChunk>(), Main.rand.Next(4, 7) + 1);
-			if (Main.rand.Next(2) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<BeholderYoyo>());
-
-			if (Main.rand.NextBool(5))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<TofuSatay>());
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<MarbleChunk>(), 1, 5, 7));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BeholderYoyo>(), 2));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<TofuSatay>(), 5));
 		}
 
 		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,

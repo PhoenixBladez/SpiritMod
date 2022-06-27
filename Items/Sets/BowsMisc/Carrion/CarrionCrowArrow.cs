@@ -200,8 +200,8 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 				Color color = Color.Black * 0.75f * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) * Projectile.Opacity;
 
 				float scale = Projectile.scale;
-				Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Items/Sets/BowsMisc/Carrion/CarrionCrowArrow_Glow");
-				Texture2D tex2 = ModContent.Request<Texture2D>("SpiritMod/Items/Sets/BowsMisc/Carrion/CarrionCrowArrowEye");
+				Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Items/Sets/BowsMisc/Carrion/CarrionCrowArrow_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				Texture2D tex2 = ModContent.Request<Texture2D>("SpiritMod/Items/Sets/BowsMisc/Carrion/CarrionCrowArrowEye", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 				spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color, Projectile.rotation, tex.Size() / 2, scale, default, default);
 

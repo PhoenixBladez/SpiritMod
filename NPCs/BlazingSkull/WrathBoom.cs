@@ -43,7 +43,7 @@ namespace SpiritMod.NPCs.BlazingSkull
 			Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
 			int frameheight = texture.Height / Main.projFrames[Projectile.type];
 			Rectangle drawrect = new Rectangle(0, frameheight * Projectile.frame, texture.Width, frameheight);
-			spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, drawrect, Color.White, 0, drawrect.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
+			Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, drawrect, Color.White, 0, drawrect.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
 			return false;
 		}
 

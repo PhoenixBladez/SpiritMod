@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -52,7 +53,7 @@ namespace SpiritMod.Items.Sets.CoilSet
 			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Items/Sets/CoilSet/CoilEnergizerTile_Glow").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			Tile t = Main.tile[i, j];
 			if (t.TileFrameX % 54 == 0 && t.TileFrameY == 0)
-				Main.spriteBatch.Draw(Main.extraTexture[60], new Vector2(i * 16 - (int)Main.screenPosition.X - 44, j * 16 - (int)Main.screenPosition.Y - 48) + zero, null, new Color(3, 169, 252, 0), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(TextureAssets.Extra[60].Value, new Vector2(i * 16 - (int)Main.screenPosition.X - 44, j * 16 - (int)Main.screenPosition.Y - 48) + zero, null, new Color(3, 169, 252, 0), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			if (tile.TileFrameX == 18 && tile.TileFrameY == 18)
 				DoDustEffect(new Vector2(i * 16f + 8, j * 16f + 8), 74f);
 		}
@@ -62,7 +63,7 @@ namespace SpiritMod.Items.Sets.CoilSet
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<CoilEnergizerItem>());
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, ModContent.ItemType<CoilEnergizerItem>());
 			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
 		}
 

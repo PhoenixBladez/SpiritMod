@@ -8,6 +8,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.BlueMoon.LunarSlime
 {
@@ -71,7 +72,6 @@ namespace SpiritMod.NPCs.BlueMoon.LunarSlime
 				}
 				float ScaleMult = 2.33f;
 				DustHelper.DrawStar(new Vector2(NPC.Center.X, NPC.Center.Y), 206, pointAmount: 5, mainSize: 5.25f * ScaleMult, dustDensity: 4, pointDepthMult: 0.3f, noGravity: true);
-
 			}
 		}
 		public override bool PreAI()
@@ -80,7 +80,7 @@ namespace SpiritMod.NPCs.BlueMoon.LunarSlime
 				NPC.ai[3]++;
 				if (NPC.ai[3] >= 2) {
 					NPC.ai[3] = 0;
-					SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 9);
+					SoundEngine.PlaySound(SoundID.Item9, NPC.Center);
 					float ScaleMult = 2.33f;
 					DustHelper.DrawStar(new Vector2(NPC.Center.X, NPC.Center.Y), 206, pointAmount: 5, mainSize: 4.25f * ScaleMult, dustDensity: 2, pointDepthMult: 0.3f, noGravity: true);
 					for (int i = 0; i < Main.rand.Next(1, 3); i++) {
@@ -97,7 +97,7 @@ namespace SpiritMod.NPCs.BlueMoon.LunarSlime
 						float num17 = num13 * num15;
 						float SpeedX = num16 + (float)Main.rand.Next(-40, 41) * 0.02f;  //this defines the projectile X position speed and randomnes
 						float SpeedY = num17 + (float)Main.rand.Next(-40, 41) * 0.02f;  //this defines the projectile Y position speed and randomnes
-						int proj = Projectile.NewProjectile(NPC.Center.X + Main.rand.Next(-60, 60), NPC.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, ModContent.ProjectileType<LunarStar>(), 20, 3, Main.myPlayer, 0.0f, 1);
+						int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + Main.rand.Next(-60, 60), NPC.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, ModContent.ProjectileType<LunarStar>(), 20, 3, Main.myPlayer, 0.0f, 1);
 					}
 				}
 				jump = false;
@@ -116,14 +116,10 @@ namespace SpiritMod.NPCs.BlueMoon.LunarSlime
 
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(4) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<MoonJellyDonut>());
-
-			if (Main.rand.Next(5) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<MoonStone>());
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<MoonJellyDonut>(), 4));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<MoonStone>(), 5));
 		}
-
 	}
 }

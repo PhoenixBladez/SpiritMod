@@ -65,8 +65,8 @@ namespace SpiritMod.Items.Sets.CoilSet
 		{
 			charger++;
 			if (charger >= 6) {
-				SoundEngine.PlaySound(SoundID.Item, (int)target.position.X, (int)target.position.Y, 14);
-				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<CoiledExplosion>(), damage, knockback, player.whoAmI);
+				SoundEngine.PlaySound(SoundID.Item14, target.Center);
+				Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<CoiledExplosion>(), damage, knockback, player.whoAmI);
 				charger = 0;
 			}
 		}

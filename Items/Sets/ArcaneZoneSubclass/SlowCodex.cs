@@ -47,7 +47,7 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			position = Main.MouseWorld;
-            Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
             player.UpdateMaxTurrets();
 			return false;
 		}
@@ -59,7 +59,7 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				Mod.Assets.Request<Texture2D>("Items/Sets/ArcaneZoneSubclass/SlowCodex_Glow").Value,
+				Mod.Assets.Request<Texture2D>("Items/Sets/ArcaneZoneSubclass/SlowCodex_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
 				new Vector2
 				(
 					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,

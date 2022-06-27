@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
+using SpiritMod.Items;
 
 namespace SpiritMod.Items.DonatorItems
 {
@@ -43,27 +44,28 @@ namespace SpiritMod.Items.DonatorItems
 
 		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
-			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 25f;
-			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
+			Vector2 muzzleOffset = Vector2.Normalize(velocity) * 25f;
+			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
 				position += muzzleOffset;
-			}
+		}
 
-			if (type == ProjectileID.WoodenArrowFriendly) {
-				var p = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockback, player.whoAmI);
-				if (Main.rand.Next(3) == 1) {
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+		{
+			if (type == ProjectileID.WoodenArrowFriendly)
+			{
+				var p = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback, player.whoAmI);
+				if (Main.rand.Next(3) == 1)
 					p.GetGlobalProjectile<SpiritGlobalProjectile>().effects.Add(new HeroBowFireEffect());
-				}
-				else if (Main.rand.Next(2) == 1) {
+				else if (Main.rand.Next(2) == 1)
 					p.GetGlobalProjectile<SpiritGlobalProjectile>().effects.Add(new HeroBowIceEffect());
-				}
-				else {
+				else
 					p.GetGlobalProjectile<SpiritGlobalProjectile>().effects.Add(new HeroBowLightEffect());
-				}
 				return false;
 			}
-			else {
+			else
+			{
 				return true;
 			}
 		}

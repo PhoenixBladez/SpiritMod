@@ -38,18 +38,21 @@ namespace SpiritMod.NPCs.BlueMoon.GlowToad
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for (int k = 0; k < 11; k++) {
+			for (int k = 0; k < 11; k++)
+			{
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Flare_Blue, hitDirection, -1f, 1, default, .81f);
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.VenomStaff, hitDirection, -1f, 1, default, .51f);
 			}
-			if (NPC.life <= 0) {
-				for (int k = 0; k < 11; k++) {
+			if (NPC.life <= 0)
+			{
+				for (int k = 0; k < 11; k++)
+				{
 					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Flare_Blue, hitDirection, -1f, 1, default, .81f);
 					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.VenomStaff, hitDirection, -1f, 1, default, .71f);
 				}
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GlowToad/GlowToad1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GlowToad/GlowToad2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GlowToad/GlowToad3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GlowToad/GlowToad1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GlowToad/GlowToad2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GlowToad/GlowToad3").Type, 1f);
 			}
 		}
 
@@ -79,7 +82,7 @@ namespace SpiritMod.NPCs.BlueMoon.GlowToad
 			if (tongueOut)
 			{
 				if (tongueProj == -1)
-					tongueProj = Projectile.NewProjectile(offset + dir * 5, dir * 30, ModContent.ProjectileType<GlowToadTongue>(), 100, 0, player.whoAmI, NPC.whoAmI, offset.Y);
+					tongueProj = Projectile.NewProjectile(NPC.GetSource_FromAI(), offset + dir * 5, dir * 30, ModContent.ProjectileType<GlowToadTongue>(), 100, 0, player.whoAmI, NPC.whoAmI, offset.Y);
 				else if (!Main.projectile[tongueProj].active)
 				{
 					tongueProj = -1;
@@ -95,7 +98,8 @@ namespace SpiritMod.NPCs.BlueMoon.GlowToad
 			Player player = Main.player[NPC.target];
 			Vector2 dir = player.Center - NPC.Center;
 			dir.Normalize();
-			if (!NPC.collideY) {
+			if (!NPC.collideY)
+			{
 				NPC.velocity.X *= 1.045f;
 			}
 			if (!tongueOut && tongueCooldown >= 60 && (NPC.velocity.Y == 0 || NPC.collideY))
@@ -128,9 +132,9 @@ namespace SpiritMod.NPCs.BlueMoon.GlowToad
 			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
 							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 
-			Texture2D headTexture = SpiritMod.Instance.GetTexture("NPCs/BlueMoon/GlowToad/GlowToad_Head");
-			Vector2 headOffset = new Vector2(NPC.direction == -1 ? 25 : headTexture.Width - 25,20);
-			spriteBatch.Draw(headTexture, NPC.position - Main.screenPosition + headOffset, new Rectangle(0,mouthOpen ? 52 : 0, headTexture.Width, headTexture.Height / 2),
+			Texture2D headTexture = ModContent.Request<Texture2D>("NPCs/BlueMoon/GlowToad/GlowToad_Head", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Vector2 headOffset = new Vector2(NPC.direction == -1 ? 25 : headTexture.Width - 25, 20);
+			spriteBatch.Draw(headTexture, NPC.position - Main.screenPosition + headOffset, new Rectangle(0, mouthOpen ? 52 : 0, headTexture.Width, headTexture.Height / 2),
 							 drawColor, headRotation, headOffset, NPC.scale, effects, 0);
 
 			return false;
@@ -138,42 +142,41 @@ namespace SpiritMod.NPCs.BlueMoon.GlowToad
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(SpiritMod.Instance.GetTexture("NPCs/BlueMoon/GlowToad/GlowToad_Glow"), NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
-							 Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
-			Texture2D headTexture = SpiritMod.Instance.GetTexture("NPCs/BlueMoon/GlowToad/GlowToad_HeadGlow");
-			Vector2 headOffset = new Vector2(NPC.direction == -1 ? 25 : headTexture.Width - 25,20);
-			spriteBatch.Draw(headTexture, NPC.position - Main.screenPosition + headOffset, new Rectangle(0,mouthOpen ? 52 : 0, headTexture.Width, headTexture.Height / 2),
-							 Color.White, headRotation, headOffset, NPC.scale, effects, 0);
+			Texture2D glow = ModContent.Request<Texture2D>("NPCs/BlueMoon/GlowToad/GlowToad_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Texture2D headGlow = ModContent.Request<Texture2D>("NPCs/BlueMoon/GlowToad/GlowToad_Head", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			spriteBatch.Draw(glow, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			Vector2 headOffset = new Vector2(NPC.direction == -1 ? 25 : headGlow.Width - 25, 20);
+			spriteBatch.Draw(headGlow, NPC.position - Main.screenPosition + headOffset, new Rectangle(0, mouthOpen ? 52 : 0, headGlow.Width, headGlow.Height / 2), Color.White, headRotation, headOffset, NPC.scale, effects, 0);
 		}
 	}
 	public class GlowToadTongue : ModProjectile
-    {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Glow Tongue");
-        }
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Glow Tongue");
+		}
 
-        public override void SetDefaults()
-        {
-            Projectile.width = 14;
-            Projectile.height = 14;
-            Projectile.aiStyle = -1;
-            Projectile.penetrate = -1;
-            Projectile.hostile = true;
-            Projectile.friendly = false;
-            Projectile.tileCollide = false;
-            Projectile.damage = 0;
-            Projectile.timeLeft = 100;
-        }
+		public override void SetDefaults()
+		{
+			Projectile.width = 14;
+			Projectile.height = 14;
+			Projectile.aiStyle = -1;
+			Projectile.penetrate = -1;
+			Projectile.hostile = true;
+			Projectile.friendly = false;
+			Projectile.tileCollide = false;
+			Projectile.damage = 0;
+			Projectile.timeLeft = 100;
+		}
 		int speed = -30;
 		Vector2 origin = Vector2.Zero;
 		Vector2 dir;
-        public override void AI()
-        {
-            NPC parent = Main.npc[(int)Projectile.ai[0]];
+		public override void AI()
+		{
+			NPC parent = Main.npc[(int)Projectile.ai[0]];
 			if (speed > 0 && Projectile.Hitbox.Intersects(parent.Hitbox))
 				Projectile.active = false;
-			
+
 			origin = parent.Center;
 			origin.X += parent.direction * 15;
 			origin.Y = Projectile.ai[1];
@@ -181,19 +184,15 @@ namespace SpiritMod.NPCs.BlueMoon.GlowToad
 			dir.Normalize();
 			Projectile.rotation = dir.ToRotation() - 1.57f;
 			Projectile.velocity = dir * speed;
-			speed+= 1;
-        }
-        public override void Kill(int timeLeft)
-        {
-           
-        }
+			speed += 1;
+		}
+
 		public override bool PreDraw(ref Color lightColor)
 		{
-			ProjectileExtras.DrawChain(Projectile.whoAmI, origin,
-				"SpiritMod/NPCs/BlueMoon/GlowToad/GlowToadTongue_Chain", white:true);
-				ProjectileExtras.DrawAroundOrigin(Projectile.whoAmI, Color.White);
-			spriteBatch.Draw(ModContent.Request<Texture2D>("SpiritMod/NPCs/BlueMoon/GlowToad/GlowToadTongue_ChainEnd"), origin - Main.screenPosition, null, Color.White, dir.ToRotation() - 1.57f, new Vector2(7, 5), Projectile.scale, SpriteEffects.None, 0f); 
+			ProjectileExtras.DrawChain(Projectile.whoAmI, origin, "SpiritMod/NPCs/BlueMoon/GlowToad/GlowToadTongue_Chain", white: true);
+			ProjectileExtras.DrawAroundOrigin(Projectile.whoAmI, Color.White);
+			Main.spriteBatch.Draw(ModContent.Request<Texture2D>("SpiritMod/NPCs/BlueMoon/GlowToad/GlowToadTongue_ChainEnd", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, origin - Main.screenPosition, null, Color.White, dir.ToRotation() - 1.57f, new Vector2(7, 5), Projectile.scale, SpriteEffects.None, 0f);
 			return false;
 		}
-    }
+	}
 }

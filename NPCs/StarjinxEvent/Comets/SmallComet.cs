@@ -18,7 +18,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 {
 	public class SmallComet : ModNPC, IDrawAdditive
 	{
-		public override sealed bool CloneNewInstances => true;
+		protected override sealed bool CloneNewInstances => true;
 
 		public  virtual string Size => "Small";
 

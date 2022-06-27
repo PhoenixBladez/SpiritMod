@@ -66,7 +66,7 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 			{
 				Vector2 spawnpos = Projectile.position + Main.rand.NextVector2Circular(70, 70);
 				Vector2 gorevel = (Projectile.position - spawnpos)/45;
-				Gore.NewGorePerfect(spawnpos, gorevel, Mod.Find<ModGore>("Gores/StarjinxGore").Type, 0.4f);
+				Gore.NewGorePerfect(Projectile.GetSource_FromAI(), spawnpos, gorevel, Mod.Find<ModGore>("Gores/StarjinxGore").Type, 0.4f);
 			}
 		}
 
@@ -77,7 +77,7 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 				Player owner = Main.player[Projectile.owner];
 				Texture2D tex = Mod.Assets.Request<Texture2D>("Textures/Medusa_Ray").Value;
 				Vector2 scale = new Vector2(Projectile.Distance(owner.Center) / tex.Width, 1) * 0.75f;
-				spriteBatch.Draw(tex,
+				Main.spriteBatch.Draw(tex,
 					owner.Center - Main.screenPosition + new Vector2(tex.Size().X * scale.X, 0).RotatedBy(Projectile.AngleFrom(owner.Center))/2,
 					null,
 					SpiritMod.StarjinxColor(Main.GlobalTimeWrappedHourly * 4) * 0.5f * (1 - (Math.Abs(0.5f - Projectile.Opacity) * 2)),
@@ -89,7 +89,7 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 			}
 			for (int i = 0; i < 3; i++)
 			{
-				spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Textures/StardustPillarStar").Value,
+				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Textures/StardustPillarStar").Value,
 					Projectile.Center - Main.screenPosition,
 					null,
 					SpiritMod.StarjinxColor(Main.GlobalTimeWrappedHourly * 4) * 0.75f * Projectile.Opacity * (1 - (i * 0.33f)),

@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using SpiritMod.Buffs;
 using SpiritMod.Buffs.DoT;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.BlizzardBandit
 {
@@ -43,7 +44,7 @@ namespace SpiritMod.NPCs.BlizzardBandit
             NPC.alpha = 0;
             NPC.dontTakeDamage = false;
             NPC.HitSound = SoundID.NPCHit1;
-            NPC.DeathSound = new Terraria.Audio.LegacySoundStyle(4, 1);
+			NPC.DeathSound = SoundID.NPCHit1;// new Terraria.Audio.LegacySoundStyle(4, 1);
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<Items.Banners.BlizzardBanditBanner>();
         }
@@ -91,7 +92,7 @@ namespace SpiritMod.NPCs.BlizzardBandit
 
             if (NPC.life <= 0)
 				for (int i = 1; i < 5; ++i)
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BlizzardBanditGore" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BlizzardBanditGore" + i).Type, 1f);
         }
 
         int frame = 0;
@@ -130,7 +131,7 @@ namespace SpiritMod.NPCs.BlizzardBandit
 
                 if ((frame == 11 || frame == 14) && NPC.frameCounter == 4)
                 {
-                    SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 19, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Item19 with { Volume = 0.5f }, NPC.Center);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
@@ -139,7 +140,7 @@ namespace SpiritMod.NPCs.BlizzardBandit
                         direction.Y *= 8.5f;
                         float A = (float)Main.rand.Next(-50, 50) * 0.02f;
                         float B = (float)Main.rand.Next(-50, 50) * 0.02f;
-                        int p = Projectile.NewProjectile(NPC.Center.X + (NPC.direction * 12), NPC.Center.Y, direction.X + A, direction.Y + B, ProjectileID.SnowBallFriendly, NPC.damage / 3, 1, Main.myPlayer, 0, 0);
+                        int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + (NPC.direction * 12), NPC.Center.Y, direction.X + A, direction.Y + B, ProjectileID.SnowBallFriendly, NPC.damage / 3, 1, Main.myPlayer, 0, 0);
                         Main.projectile[p].hostile = true;
                         Main.projectile[p].friendly = false;
                     }
@@ -173,11 +174,10 @@ namespace SpiritMod.NPCs.BlizzardBandit
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.ZoneSnow && spawnInfo.Player.ZoneOverworldHeight && Main.dayTime && !spawnInfo.PlayerSafe ? 0.0895f : 0f;
 
-		public override void OnKill()
-        {
-            if (Main.rand.Next(20) == 0)
-                NPC.DropItem(ModContent.ItemType<Items.Armor.Masks.WinterHat>());
-            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Snowball, Main.rand.Next(8, 14));
-        }
-    }
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.Add(ItemDropRule.Common(ItemID.Snowball, 1, 8, 13));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Armor.Masks.WinterHat>(), 20));
+		}
+	}
 }

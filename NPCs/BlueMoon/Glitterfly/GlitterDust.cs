@@ -26,8 +26,7 @@ namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 		public override void AI()
 		{
 			Player player = Main.LocalPlayer;
-			int distance1 = (int)Vector2.Distance(Projectile.Center, player.Center);
-			if (distance1 < 26)
+			if (Projectile.DistanceSQ(player.Center) < 26 * 26)
 			{
 				player.AddBuff(BuffID.Confused, 180);
 			}

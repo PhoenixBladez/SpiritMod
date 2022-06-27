@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Summon;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.Items.Sets.AvianDrops
@@ -39,11 +40,11 @@ namespace SpiritMod.Items.Sets.AvianDrops
 				player.MinionNPCTargetAim(true);
 			return player.altFunctionUse == 2;
 		}
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
 
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+		{
 			for (int i = 0; i <= Main.rand.Next(0, 3); i++) {
-				int proj = Terraria.Projectile.NewProjectile(position.X + Main.rand.Next(-30, 30), position.Y, 0f, 0f, type, damage, knockback, player.whoAmI);
+				int proj = Projectile.NewProjectile(source, position.X + Main.rand.Next(-30, 30), position.Y, 0f, 0f, type, damage, knockback, player.whoAmI);
 				Projectile projectile = Main.projectile[proj];
 				for (int j = 0; j < 10; j++) {
 					int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.Dirt, (float)(Main.rand.Next(5) - 2), (float)(Main.rand.Next(5) - 2), 133);

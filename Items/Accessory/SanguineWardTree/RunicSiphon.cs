@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 	public class RunicSiphonGNPC : GlobalNPC
 	{
 		private float _runeGlow;
-		public override bool CloneNewInstances => true;
+		protected override bool CloneNewInstances => true;
 		public override bool InstancePerEntity => true;
 		public override void ModifyHitByItem(NPC npc, Player player, Item item, ref int damage, ref float knockback, ref bool crit)
 		{

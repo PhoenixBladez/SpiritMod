@@ -43,7 +43,7 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 			charger++;
 			if (charger >= 4)
 			{
-				Projectile.NewProjectile(position.X - 8, position.Y + 8, velocity.X + ((float)Main.rand.Next(-230, 230) / 100), velocity.Y + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<FrostBolt>(), 64, knockback, player.whoAmI, 0f, 0f);
+				Projectile.NewProjectile(source, position.X - 8, position.Y + 8, velocity.X + ((float)Main.rand.Next(-230, 230) / 100), velocity.Y + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<FrostBolt>(), 64, knockback, player.whoAmI, 0f, 0f);
 				charger = 0;
 			}
 			return true;

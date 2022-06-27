@@ -84,7 +84,7 @@ namespace SpiritMod.NPCs.BloodGazer
 
 			if (!Active)
 			{
-				NPCLoot();
+				//this.NPCLoot(); Not sure what this did?
 				NPC.active = false;
 				return;
 			}
@@ -102,7 +102,7 @@ namespace SpiritMod.NPCs.BloodGazer
 				KillTimer++;
 				if (KillTimer > 270)
 				{
-					NPCLoot();
+					//NPCLoot(); Or this?
 					NPC.active = false;
 					return;
 				}
@@ -145,7 +145,7 @@ namespace SpiritMod.NPCs.BloodGazer
 							Parent.netUpdate = true;
 							NPC.netUpdate = true;
 							if (Main.netMode != NetmodeID.Server)
-								SoundEngine.PlaySound(SoundLoader.customSoundType, (int)Parent.Center.X, (int)Parent.Center.Y, Mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/VanillaBossRoar"), 0.65f, -0.25f);
+								SoundEngine.PlaySound(new SoundStyle("SpiritModSounds/VanillaBossRoar") with { Volume = 0.65f }, Parent.Center);
 						}
 
 						if (AiTimer >= startswingtime && AiTimer <= startslowdowntime) //swing
@@ -156,11 +156,11 @@ namespace SpiritMod.NPCs.BloodGazer
 							{
 								ShootTimer = 0;
 								if (Main.netMode != NetmodeID.Server)
-									SoundEngine.PlaySound(SoundID.Item, NPC.Center, 95);
+									SoundEngine.PlaySound(SoundID.Item95, NPC.Center);
 
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
-									Projectile p = Projectile.NewProjectileDirect(NPC.Center, NPC.DirectionFrom(Parent.Center) * 5, ModContent.ProjectileType<BloodGazerEyeShot>(), NPCUtils.ToActualDamage(40, 1.5f), 1, Main.myPlayer);
+									Projectile p = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, NPC.DirectionFrom(Parent.Center) * 5, ModContent.ProjectileType<BloodGazerEyeShot>(), NPCUtils.ToActualDamage(40, 1.5f), 1, Main.myPlayer);
 
 									if (Main.netMode != NetmodeID.SinglePlayer)
 										NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, p.whoAmI);
@@ -202,11 +202,11 @@ namespace SpiritMod.NPCs.BloodGazer
 								NPC.netUpdate = true;
 								ShootTimer = 0;
 								if (Main.netMode != NetmodeID.Server)
-									SoundEngine.PlaySound(SoundID.Item, NPC.Center, 95);
+									SoundEngine.PlaySound(SoundID.Item95, NPC.Center);
 
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
-									Projectile p = Projectile.NewProjectileDirect(NPC.Center, NPC.DirectionFrom(Parent.Center) * 2f, ModContent.ProjectileType<BloodGazerEyeShotWavy>(), NPCUtils.ToActualDamage(40, 1.5f), 1, Main.myPlayer, Main.rand.NextBool() ? -1 : 1);
+									Projectile p = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, NPC.DirectionFrom(Parent.Center) * 2f, ModContent.ProjectileType<BloodGazerEyeShotWavy>(), NPCUtils.ToActualDamage(40, 1.5f), 1, Main.myPlayer, Main.rand.NextBool() ? -1 : 1);
 
 									if(Main.netMode != NetmodeID .SinglePlayer)
 										NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, p.whoAmI);
@@ -223,7 +223,7 @@ namespace SpiritMod.NPCs.BloodGazer
 							_detatched = true;
 							Parent.velocity = NPC.DirectionTo(Parent.Center) * 6;
 							if (Main.netMode != NetmodeID.Server)
-								SoundEngine.PlaySound(new LegacySoundStyle(SoundID.NPCKilled, 22).WithPitchVariance(0.2f).WithVolume(0.8f), Parent.Center);
+								SoundEngine.PlaySound(SoundID.NPCDeath22 with { PitchVariance = 0.2f, Volume = 0.8f }, Parent.Center);
 
 							for (int i = 0; i < 25; i++)
 							{
@@ -259,7 +259,7 @@ namespace SpiritMod.NPCs.BloodGazer
 			if (_chain == null)
 				return false;
 
-			Texture2D chaintex = ModContent.Request<Texture2D>(Texture + "_chain");
+			Texture2D chaintex = ModContent.Request<Texture2D>(Texture + "_chain", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			_chain.Draw(spriteBatch, chaintex);
 			Texture2D tex = TextureAssets.Npc[NPC.type].Value;
 
@@ -273,9 +273,9 @@ namespace SpiritMod.NPCs.BloodGazer
 			{
 				SoundEngine.PlaySound(SoundID.NPCDeath22, NPC.Center);
 
-				Gore.NewGore(NPC.position, NPC.velocity / 2, Mod.Find<ModGore>("Gores/Gazer/GazerEye").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity / 2, Mod.Find<ModGore>("Gores/Gazer/GazerEye").Type, 1f);
 				foreach (var segment in _chain.Segments)
-					Gore.NewGore(segment.Vertex2.Position, NPC.velocity / 2, Mod.Find<ModGore>("Gores/Gazer/GazerChain").Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), segment.Vertex2.Position, NPC.velocity / 2, Mod.Find<ModGore>("Gores/Gazer/GazerChain").Type, 1f);
 			}
 		}
 	}

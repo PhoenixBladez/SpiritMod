@@ -5,6 +5,7 @@ using SpiritMod.Particles;
 using SpiritMod.Utilities;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -142,21 +143,21 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
 		{
 			if (target.life <= 0 && target.Distance(Player.Center) < MAXRADIUS && !target.SpawnedFromStatue && Player.statLife < Player.statLifeMax2 && HasRuneCircle)
-				MakeRunicHeart(target.Center, Main.rand.Next(14, 17));
+				MakeRunicHeart(target.Center, Main.rand.Next(14, 17), item.GetSource_OnHit(target));
 			_combatTime = 180;
 		}
 
 		public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
 		{
 			if (target.life <= 0 && target.Distance(Player.Center) < MAXRADIUS && !target.SpawnedFromStatue && Player.statLife < Player.statLifeMax2 && HasRuneCircle)
-				MakeRunicHeart(target.Center, Main.rand.Next(9, 12));
+				MakeRunicHeart(target.Center, Main.rand.Next(9, 12), proj.GetSource_OnHit(target));
 			_combatTime = 180;
 		}
 
-		private void MakeRunicHeart(Vector2 position, int healAmount)
+		private void MakeRunicHeart(Vector2 position, int healAmount, IEntitySource source)
 		{
 			_flashTime = MAXFLASHTIME;
-			Projectile.NewProjectileDirect(position, Player.DirectionTo(position).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(2, 3), ModContent.ProjectileType<RuneHeart>(), healAmount, 0f, Player.whoAmI).netUpdate = true;
+			Projectile.NewProjectileDirect(source, position, Player.DirectionTo(position).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(2, 3), ModContent.ProjectileType<RuneHeart>(), healAmount, 0f, Player.whoAmI).netUpdate = true;
 		}
 
 		public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit) => _combatTime = 300;

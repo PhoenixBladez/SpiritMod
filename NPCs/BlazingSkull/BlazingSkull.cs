@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using SpiritMod.Prim;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.BlazingSkull
 {
@@ -99,7 +100,7 @@ namespace SpiritMod.NPCs.BlazingSkull
 					if (NPC.ai[1] == 0)
 					{
 						if (Main.netMode != NetmodeID.Server)
-							SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/skullscrem").WithPitchVariance(0.2f), NPC.Center);
+							SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/skullscrem") with { PitchVariance = 0.2f }, NPC.Center);
 
 						NPC.velocity = NPC.DirectionTo(targetpos) * 14;
 						NPC.ai[1]++;
@@ -115,10 +116,10 @@ namespace SpiritMod.NPCs.BlazingSkull
 						int damage = (Main.expertMode) ? NPC.damage / 4 : NPC.damage / 2;
 
 						for (int i = 0; i < 6; i++)
-							Gore.NewGore(NPC.Center + Main.rand.NextVector2Square(-20, 20), Main.rand.NextVector2Circular(3, 3), 11);
+							Gore.NewGore(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Square(-20, 20), Main.rand.NextVector2Circular(3, 3), 11);
 
 						if (Main.netMode != NetmodeID.MultiplayerClient)
-							Projectile.NewProjectile(NPC.Center, Vector2.Zero, ModContent.ProjectileType<WrathBoom>(), damage, 1, Main.myPlayer);
+							Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<WrathBoom>(), damage, 1, Main.myPlayer);
 
 						NPC.velocity = Vector2.Zero;
 						NPC.ai[2] = 0;
@@ -199,11 +200,10 @@ namespace SpiritMod.NPCs.BlazingSkull
 
 		public override void OnKill()
 		{
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<CarvedRock>(), Main.rand.Next(2) + 2);
 			for (int i = 1; i <= 2; i++)
-			{
-				Gore.NewGore(NPC.Center, NPC.velocity, Mod.Find<ModGore>("Gores/WrathfulSoul/wrathfulskullgore" + i.ToString()).Type);
-			}
+				Gore.NewGore(NPC.GetSource_Death(), NPC.Center, NPC.velocity, Mod.Find<ModGore>("Gores/WrathfulSoul/wrathfulskullgore" + i.ToString()).Type);
 		}
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CarvedRock>(), 1, 2, 3));
 	}
 }

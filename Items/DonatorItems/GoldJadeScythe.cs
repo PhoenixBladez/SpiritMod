@@ -64,7 +64,7 @@ namespace SpiritMod.Items.DonatorItems
 		{
 			if (Main.rand.Next(8) == 1) {
 				Vector2 velocity = new Vector2(player.direction, 0) * 4f;
-				int proj = Projectile.NewProjectile(player.Center.X, player.position.Y + player.height + -35, velocity.X, velocity.Y, ModContent.ProjectileType<JadeScarab>(), Item.damage / 2, Item.playerIndexTheItemIsReservedFor, 0, 0f);
+				int proj = Projectile.NewProjectile(Item.GetSource_ItemUse(Item), player.Center.X, player.position.Y + player.height + -35, velocity.X, velocity.Y, ModContent.ProjectileType<JadeScarab>(), Item.damage / 2, Item.playerIndexTheItemIsReservedFor, 0, 0f);
 				Main.projectile[proj].friendly = true;
 				Main.projectile[proj].hostile = false;
 			}
@@ -85,7 +85,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe(1);
-			recipe.AddIngredient(ModContent.ItemType<Items.Sets.ScarabeusDrops.Chitin>(), 12);
+			recipe.AddIngredient(ModContent.ItemType<Sets.ScarabeusDrops.Chitin>(), 12);
 			recipe.AddIngredient(ItemID.Emerald, 4);
 			recipe.AddRecipeGroup("SpiritMod:GoldBars", 5);
 			recipe.AddIngredient(ItemID.SoulofLight, 5);
