@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 		{
 			tM.CreateTrail(Projectile, new GradientTrail(Color.White * 0.2f, Color.Transparent), new RoundCap(), new DefaultTrailPosition(), 60, 800);
 			tM.CreateTrail(Projectile, new StandardColorTrail(Color.White), new NoCap(), new DefaultTrailPosition(), 10, 600);
-			tM.CreateTrail(Projectile, new StandardColorTrail(new Color(101, 255, 245)), new NoCap(), new DefaultTrailPosition(), 120, 500, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1));
+			tM.CreateTrail(Projectile, new StandardColorTrail(new Color(101, 255, 245)), new NoCap(), new DefaultTrailPosition(), 120, 500, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_1").Value, 0.01f, 1f, 1));
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)

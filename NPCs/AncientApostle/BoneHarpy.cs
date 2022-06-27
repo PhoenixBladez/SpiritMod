@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs;
 using SpiritMod.Buffs.DoT;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.AncientApostle
 {
@@ -79,7 +80,7 @@ namespace SpiritMod.NPCs.AncientApostle
 			if (Counter >= 240) //Fires desert feathers like a shotgun
 			{
 				Counter = 0;
-				SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 73);
+				SoundEngine.PlaySound(SoundID.Item73, NPC.Center);
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
@@ -92,7 +93,7 @@ namespace SpiritMod.NPCs.AncientApostle
 					{
 						float A = (float)Main.rand.Next(-150, 150) * 0.01f;
 						float B = (float)Main.rand.Next(-150, 150) * 0.01f;
-						int p = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<NPCs.Boss.DesertFeather>(), 11, 1, Main.myPlayer, 0, 0);
+						int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<NPCs.Boss.DesertFeather>(), 11, 1, Main.myPlayer, 0, 0);
 						Main.projectile[p].scale = .6f;
 					}
 				}
@@ -101,13 +102,10 @@ namespace SpiritMod.NPCs.AncientApostle
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Sky && !Main.LocalPlayer.GetSpiritPlayer().ZoneAsteroid ? 0.16f : 0f;
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(6) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<JewelCrown>());
-
-			if (Main.rand.Next(2) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Feather);
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<JewelCrown>(), 6));
+			npcLoot.Add(ItemDropRule.Common(ItemID.Feather, 2));
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
@@ -120,11 +118,8 @@ namespace SpiritMod.NPCs.AncientApostle
 
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Apostle2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Apostle3").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Apostle4").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Apostle1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Apostle5").Type, 1f);
+				for (int i = 1; i < 6; ++i)
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Apostle" + i).Type, 1f);
 			}
 		}
 

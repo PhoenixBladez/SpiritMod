@@ -8,6 +8,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Material;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 {
@@ -85,11 +86,11 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 				return false;
 
 			SoundEngine.PlaySound(SoundID.Item117, player.Center);
-			int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockback, player.whoAmI);
+			int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
 
 			for (int i = 0; i < 3; i++)
 			{
-				int p = Projectile.NewProjectile(position, new Vector2(speedX, speedY).RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(0.15f, 0.22f), ModContent.ProjectileType<QuasarOrbiter>(), damage, knockback, player.whoAmI, proj, Main.rand.Next(3));
+				int p = Projectile.NewProjectile(source, position, velocity.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(0.15f, 0.22f), ModContent.ProjectileType<QuasarOrbiter>(), damage, knockback, player.whoAmI, proj, Main.rand.Next(3));
 				Main.projectile[p].netUpdate = true;
 			}
 			return false;

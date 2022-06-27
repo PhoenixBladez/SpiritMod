@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 
 		public void DoTrailCreation(TrailManager tM)
 		{
-			tM.CreateTrail(Projectile, new SoverignTalonTrail(Projectile, new Color(255, 236, 115, 200)), new NoCap(), new DefaultTrailPosition(), 100f, 200f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_1"), 0.05f, 1f, 1f));
+			tM.CreateTrail(Projectile, new SoverignTalonTrail(Projectile, new Color(255, 236, 115, 200)), new NoCap(), new DefaultTrailPosition(), 100f, 200f, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_1").Value, 0.05f, 1f, 1f));
 			tM.CreateTrail(Projectile, new SoverignTalonTrail(Projectile, Color.White * 0.2f), new NoCap(), new DefaultTrailPosition(), 24f, 80f, new DefaultShader());
 			tM.CreateTrail(Projectile, new SoverignTalonTrail(Projectile, Color.White * 0.2f), new NoCap(), new DefaultTrailPosition(), 24f, 80f, new DefaultShader());
 			tM.CreateTrail(Projectile, new SoverignTalonTrail(Projectile, Color.Gold * 0.4f), new NoCap(), new DefaultTrailPosition(), 40f, 250f, new DefaultShader());

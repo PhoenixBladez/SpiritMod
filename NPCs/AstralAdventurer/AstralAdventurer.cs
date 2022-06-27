@@ -9,6 +9,7 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 using SpiritMod.Mechanics.QuestSystem;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.AstralAdventurer
 {
@@ -53,7 +54,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			Texture2D tex = Mod.GetTexture("NPCs/AstralAdventurer/AstralAdventurer_Glow");
+			Texture2D tex = Mod.Assets.Request<Texture2D>("NPCs/AstralAdventurer/AstralAdventurer_Glow").Value;
 			spriteBatch.Draw(tex, new Vector2(NPC.Center.X, NPC.Center.Y + 5) - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 		}
 
@@ -107,7 +108,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
                 {
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 34, 1f, 0f);
+						SoundEngine.PlaySound(SoundID.Item34, NPC.position);
 						projectileTimer++;
 						if (projectileTimer >= 150)
 							projectileTimer = 0;
@@ -121,7 +122,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
 						float num15 = num5 / num14;
 						float num16 = num6 * num15;
 						float SpeedY = num8 * num15;
-						int p = Projectile.NewProjectile(vector2.X, vector2.Y, num16, SpeedY, ProjectileID.FlamesTrap, 8, 0.0f, Main.myPlayer, 0.0f, 0.0f);
+						int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), vector2.X, vector2.Y, num16, SpeedY, ProjectileID.FlamesTrap, 8, 0.0f, Main.myPlayer, 0.0f, 0.0f);
 						Main.projectile[p].friendly = false;
 						Main.projectile[p].hostile = true;
 					}
@@ -140,7 +141,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
                 }
 				if (projectileTimer >= 160)
 				{
-					SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 40, 1f, 0f);
+					SoundEngine.PlaySound(SoundID.Item40, NPC.position);
 					projectileTimer = 0;
 					float num5 = 9f;
 					Vector2 vector2 = new Vector2(NPC.Center.X + 30*-NPC.spriteDirection, NPC.position.Y + (float)NPC.height * 0.5f);
@@ -152,7 +153,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
 					float num15 = num5 / num14;
 					float num16 = num6 * num15;
 					float SpeedY = num8 * num15;
-					int p = Projectile.NewProjectile(vector2.X, vector2.Y, num16, SpeedY, ProjectileID.ExplosiveBullet, 14, 0.0f, Main.myPlayer, 0.0f, 0.0f);
+					int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), vector2.X, vector2.Y, num16, SpeedY, ProjectileID.ExplosiveBullet, 14, 0.0f, Main.myPlayer, 0.0f, 0.0f);
 					Main.projectile[p].friendly = false;
 					Main.projectile[p].hostile = true;
 				}
@@ -366,30 +367,6 @@ namespace SpiritMod.NPCs.AstralAdventurer
 				position.X += NPC.velocity.X;
 				int index1 = (int)(((double)position.X + (double)(NPC.width / 2) + (double)((NPC.width / 2 + 1) * num8)) / 16.0);
 				int index2 = (int)(((double)position.Y + (double)NPC.height - 1.0) / 16.0);
-				if (Main.tile[index1, index2] == null)
-				{
-					Main.tile[index1, index2] = new Tile();
-				}
-
-				if (Main.tile[index1, index2 - 1] == null)
-				{
-					Main.tile[index1, index2 - 1] = new Tile();
-				}
-
-				if (Main.tile[index1, index2 - 2] == null)
-				{
-					Main.tile[index1, index2 - 2] = new Tile();
-				}
-
-				if (Main.tile[index1, index2 - 3] == null)
-				{
-					Main.tile[index1, index2 - 3] = new Tile();
-				}
-
-				if (Main.tile[index1, index2 + 1] == null)
-				{
-					Main.tile[index1, index2 + 1] = new Tile();
-				}
 
 				if ((double)(index1 * 16) < (double)position.X + (double)NPC.width && (double)(index1 * 16 + 16) > (double)position.X && (Main.tile[index1, index2].HasUnactuatedTile && !Main.tile[index1, index2].TopSlope && (!Main.tile[index1, index2 - 1].TopSlope && Main.tileSolid[(int)Main.tile[index1, index2].TileType]) && !Main.tileSolidTop[(int)Main.tile[index1, index2].TileType] || Main.tile[index1, index2 - 1].IsHalfBlock && Main.tile[index1, index2 - 1].HasUnactuatedTile) && ((!Main.tile[index1, index2 - 1].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[index1, index2 - 1].TileType] || Main.tileSolidTop[(int)Main.tile[index1, index2 - 1].TileType] || Main.tile[index1, index2 - 1].IsHalfBlock && (!Main.tile[index1, index2 - 4].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[index1, index2 - 4].TileType] || Main.tileSolidTop[(int)Main.tile[index1, index2 - 4].TileType])) && ((!Main.tile[index1, index2 - 2].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[index1, index2 - 2].TileType] || Main.tileSolidTop[(int)Main.tile[index1, index2 - 2].TileType]) && (!Main.tile[index1, index2 - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[index1, index2 - 3].TileType] || Main.tileSolidTop[(int)Main.tile[index1, index2 - 3].TileType]) && (!Main.tile[index1 - num8, index2 - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[index1 - num8, index2 - 3].TileType]))))
 				{
@@ -420,45 +397,6 @@ namespace SpiritMod.NPCs.AstralAdventurer
 			{
 				int index1 = (int)(((double)NPC.position.X + (double)(NPC.width / 2) + (double)((NPC.width / 2 + 2) * NPC.direction) + (double)NPC.velocity.X * 5.0) / 16.0);/////////
 				int index2 = (int)(((double)NPC.position.Y + (double)NPC.height - 15.0) / 16.0);
-				if (Main.tile[index1, index2] == null)
-				{
-					Main.tile[index1, index2] = new Tile();
-				}
-
-				if (Main.tile[index1, index2 - 1] == null)
-				{
-					Main.tile[index1, index2 - 1] = new Tile();
-				}
-
-				if (Main.tile[index1, index2 - 2] == null)
-				{
-					Main.tile[index1, index2 - 2] = new Tile();
-				}
-
-				if (Main.tile[index1, index2 - 3] == null)
-				{
-					Main.tile[index1, index2 - 3] = new Tile();
-				}
-
-				if (Main.tile[index1, index2 + 1] == null)
-				{
-					Main.tile[index1, index2 + 1] = new Tile();
-				}
-
-				if (Main.tile[index1 + NPC.direction, index2 - 1] == null)
-				{
-					Main.tile[index1 + NPC.direction, index2 - 1] = new Tile();
-				}
-
-				if (Main.tile[index1 + NPC.direction, index2 + 1] == null)
-				{
-					Main.tile[index1 + NPC.direction, index2 + 1] = new Tile();
-				}
-
-				if (Main.tile[index1 - NPC.direction, index2 + 1] == null)
-				{
-					Main.tile[index1 - NPC.direction, index2 + 1] = new Tile();
-				}
 
 				int spriteDirection = NPC.spriteDirection;
 				if ((double)NPC.velocity.X < 0.0 && spriteDirection == -1 || (double)NPC.velocity.X > 0.0 && spriteDirection == 1)
@@ -496,16 +434,16 @@ namespace SpiritMod.NPCs.AstralAdventurer
 			}
 		}
 
-		public override void OnKill()
+		//public override void OnKill()
+		//{
+		//	if (QuestManager.GetQuest<Mechanics.QuestSystem.Quests.StylistQuestMeteor>().IsActive && Main.rand.NextBool(3))
+		//		Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.MeteorDyeMaterial>());
+		//}
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(5) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 116, 1);
-
-			if (Main.rand.Next(33) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("MeteoriteSpewer").Type, 1);
-
-			//if (QuestManager.GetQuest<Mechanics.QuestSystem.Quests.StylistQuestMeteor>().IsActive && Main.rand.NextBool(3))
-			//	Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.MeteorDyeMaterial>());
+			npcLoot.Add(ItemDropRule.Common(116, 5));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Sets.GunsMisc.MeteoriteSpewer.Meteorite_Spewer>(), 33));
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
@@ -523,10 +461,10 @@ namespace SpiritMod.NPCs.AstralAdventurer
 			if (Main.dedServ)
 				return;
 
-			SoundEngine.PlaySound(SoundID.Item, NPC.Center, 14);
+			SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
 
 			for (int i = 1; i < 5; ++i)
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AstralAdventurer/AstralAdventurerGore" + i).Type, 1f);
+				Gore.NewGore(NPC.GetSource_OnHit(NPC), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AstralAdventurer/AstralAdventurerGore" + i).Type, 1f);
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)

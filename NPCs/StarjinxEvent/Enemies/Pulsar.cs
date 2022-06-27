@@ -116,7 +116,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies
 				Main.spriteBatch.Draw(texture, GlowPosition, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), AfterimageColor, NPC.rotation, new Vector2(33, 0), NPC.scale, spriteEffects, 0.0f);
 			}
 			Main.spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.position + new Vector2(33, 0) - Main.screenPosition, NPC.frame, drawColor, NPC.rotation, new Vector2(33, 0), NPC.scale, SpriteEffects.None, 0f);
-			Main.spriteBatch.Draw(Mod.GetTexture("NPCs/StarjinxEvent/Enemies/Pulsar_Glow"), NPC.position + new Vector2(33, 0) - Main.screenPosition, NPC.frame, Color.White, NPC.rotation, new Vector2(33, 0), NPC.scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/StarjinxEvent/Enemies/Pulsar_Glow").Value, NPC.position + new Vector2(33, 0) - Main.screenPosition, NPC.frame, Color.White, NPC.rotation, new Vector2(33, 0), NPC.scale, SpriteEffects.None, 0f);
 
 			return false;
 

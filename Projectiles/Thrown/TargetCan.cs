@@ -20,7 +20,7 @@ namespace SpiritMod.Projectiles.Thrown
 			Projectile.width = 25;
 			Projectile.damage = 0;
 			Projectile.height = 25;
-			Projectile.ranged = false;
+			Projectile.DamageType = DamageClass.Ranged;
 		}
 
 		public override void AI()

@@ -48,7 +48,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 		{
 			get
 			{
-				Texture2D texture = Mod.GetTexture(TexturePath);
+				Texture2D texture = Mod.Assets.Request<Texture2D>(TexturePath).Value;
 				Rectangle drawRect = texture.Bounds;
 				drawRect.Height /= NumFrames;
 				drawRect.Y = CurFrame * drawRect.Height;
@@ -108,7 +108,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 			if (!CanDraw)
 				return;
 
-			Texture2D texture = Mod.GetTexture(TexturePath);
+			Texture2D texture = Mod.Assets.Request<Texture2D>(TexturePath).Value;
 			Vector2 drawPosition = GetHoldPosition - Main.screenPosition;
 			Color lightColor = Lighting.GetColor(GetHoldPosition.ToTileCoordinates().X, GetHoldPosition.ToTileCoordinates().Y);
 
@@ -149,7 +149,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 			if (Player.frozen || Player.dead)
 				return;
 
-			Texture2D glow = Mod.GetTexture(GlowmaskPath);
+			Texture2D glow = Mod.Assets.Request<Texture2D>(GlowmaskPath).Value;
 			Vector2 drawPosition = GetHoldPosition - Main.screenPosition;
 			Item item = Player.HeldItem;
 			SpriteEffects flip = Player.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -169,7 +169,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 			if (LampTargetNPC == null || LampTargetTime == 0)
 				return;
 
-			Texture2D beam = Mod.GetTexture("Effects/Mining_Helmet");
+			Texture2D beam = Mod.Assets.Request<Texture2D>("Effects/Mining_Helmet").Value;
 
 
 			Color color = Color.Lerp(SpiritMod.StarjinxColor(Main.GameUpdateCount / 12f), Color.White, 0.5f);

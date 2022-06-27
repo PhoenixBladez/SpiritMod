@@ -52,7 +52,7 @@ namespace SpiritMod.NPCs.Critters
 
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
-			Texture2D circleGradient = Mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D circleGradient = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			spriteBatch.Draw(circleGradient, NPC.Center - Main.screenPosition, null, Color.Red * 0.8f * NPC.Opacity, 0, circleGradient.Size() / 2, new Vector2(0.33f, 0.45f) * NPC.scale, SpriteEffects.None, 0);
 		}
 

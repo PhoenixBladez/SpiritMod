@@ -77,8 +77,8 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 			if ((AiTimer == 1 || AiTimer == 20) && !Main.dedServ)
 			{
-				Texture2D dagger = Mod.GetTexture("NPCs/Boss/Occultist/Projectiles/OccultistDagger");
-				Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+				Texture2D dagger = Mod.Assets.Request<Texture2D>("NPCs/Boss/Occultist/Projectiles/OccultistDagger").Value;
+				Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 				float height = AiTimer == 1 ? 0 : -10;
 				float radius = AiTimer == 1 ? 30 : 40;
 				float scale = AiTimer == 1 ? 0.25f : 0.5f;
@@ -292,8 +292,8 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 				if (timer == 1 && !Main.dedServ)
 				{
-					Texture2D dagger = Mod.GetTexture("NPCs/Boss/Occultist/Projectiles/OccultistDagger");
-					Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+					Texture2D dagger = Mod.Assets.Request<Texture2D>("NPCs/Boss/Occultist/Projectiles/OccultistDagger").Value;
+					Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 					float radius = 30;
 					float scale = 0.5f;
 					float opacity = 0.8f;

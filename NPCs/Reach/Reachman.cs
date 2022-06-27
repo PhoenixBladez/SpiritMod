@@ -170,7 +170,7 @@ namespace SpiritMod.NPCs.Reach
 			return false;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/Reach/Reachman_Glow"));
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Reach/Reachman_Glow").Value);
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

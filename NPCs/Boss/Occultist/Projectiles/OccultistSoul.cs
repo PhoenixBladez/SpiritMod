@@ -180,7 +180,7 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 		public override bool PreDraw(ref Color lightColor)
 		{
 			Effect effect = SpiritMod.ShaderDict["PrimitiveTextureMap"];
-			effect.Parameters["uTexture"].SetValue(Mod.GetTexture("NPCs/Boss/Occultist/SoulTrail"));
+			effect.Parameters["uTexture"].SetValue(Mod.Assets.Request<Texture2D>("NPCs/Boss/Occultist/SoulTrail").Value);
 
 			Vector2[] vertices = _posArray;
 			var strip = new PrimitiveStrip
@@ -203,7 +203,7 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 		public void AdditiveCall(SpriteBatch sB)
 		{
 			Vector2[] vertices = _posArray;
-			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 
 			for (int i = 1; i < vertices.Length; i++)
 			{

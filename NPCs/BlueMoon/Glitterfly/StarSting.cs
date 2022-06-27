@@ -22,7 +22,7 @@ namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 			Projectile.extraUpdates = 1;
 		}
 
-		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(Projectile, new StandardColorTrail(new Color(255, 214, 99)), new RoundCap(), new DefaultTrailPosition(), 80f, 450f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(Projectile, new StandardColorTrail(new Color(255, 214, 99)), new RoundCap(), new DefaultTrailPosition(), 80f, 450f, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_1").Value, 0.01f, 1f, 1f));
 
 		public override void AI()
 		{

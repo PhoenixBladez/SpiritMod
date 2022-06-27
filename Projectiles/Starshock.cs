@@ -25,7 +25,7 @@ namespace SpiritMod.Projectiles
 
 		public void DoTrailCreation(TrailManager tManager)
 		{
-			tManager.CreateTrail(Projectile, new GradientTrail(new Color(108, 215, 245), new Color(105, 213, 255)), new RoundCap(), new DefaultTrailPosition(), 8f, 150f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
+			tManager.CreateTrail(Projectile, new GradientTrail(new Color(108, 215, 245), new Color(105, 213, 255)), new RoundCap(), new DefaultTrailPosition(), 8f, 150f, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_2").Value, 0.01f, 1f, 1f));
 			tManager.CreateTrail(Projectile, new GradientTrail(new Color(255, 255, 255) * .25f, new Color(255, 255, 255) * .25f), new RoundCap(), new DefaultTrailPosition(), 26f, 250f, new DefaultShader());
 		}
 

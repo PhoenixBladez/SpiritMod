@@ -52,7 +52,7 @@ namespace SpiritMod.Tiles
 			Vector2 origin = new Vector2(tile.TileFrameX % 18 == 0 ? 18 : -18, 0);
 			Vector2 drawPos = new Vector2(i * 16 + origin.X, j * 16) - Main.screenPosition + offScreenRange + Vector2.UnitY * 2;
 			Texture2D tileTexture = TextureAssets.Tile[Type].Value;
-			Texture2D flashTexture = Mod.GetTexture("Tiles/CrimsonPustuleTile_Flash");
+			Texture2D flashTexture = Mod.Assets.Request<Texture2D>("Tiles/CrimsonPustuleTile_Flash").Value;
 			float scale = 1f + tileEntity.Pulse * 0.08f;
 
 			spriteBatch.Draw(tileTexture, drawPos, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, origin, scale, SpriteEffects.None, 0);

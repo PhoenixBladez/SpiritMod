@@ -85,6 +85,6 @@ namespace SpiritMod.NPCs.MoonjellyEvent
             return false;
         }
 
-		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => Main.spriteBatch.Draw(Mod.GetTexture("NPCs/MoonjellyEvent/TinyLunazoa_Glow"), NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, SpriteEffects.None, 0);
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/MoonjellyEvent/TinyLunazoa_Glow").Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, SpriteEffects.None, 0);
 	}
 }

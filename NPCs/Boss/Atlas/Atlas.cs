@@ -333,7 +333,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			return false;
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
-			=> GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/Boss/Atlas/Atlas_Glow"));
+			=> GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Boss/Atlas/Atlas_Glow").Value);
 
 		public override bool PreKill()
 		{

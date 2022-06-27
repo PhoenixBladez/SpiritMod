@@ -179,7 +179,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 			if (LockedOn && NPC.Distance(Target.Center) < FOLLOW_MAXRANGE)
 			{
 				Effect effect = Mod.GetEffect("Effects/EmpowermentBeam");
-				effect.Parameters["uTexture"].SetValue(Mod.GetTexture("Textures/Trails/Trail_2"));
+				effect.Parameters["uTexture"].SetValue(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_2").Value);
 				effect.Parameters["progress"].SetValue(Main.GlobalTimeWrappedHourly / 3);
 				effect.Parameters["uColor"].SetValue(new Color(245, 59, 164).ToVector4());
 				effect.Parameters["uSecondaryColor"].SetValue(new Color(255, 138, 212).ToVector4());
@@ -217,7 +217,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 				NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/StarjinxEvent/Enemies/Pathfinder/Pathfinder_Glow"), Color.White * 0.75f);
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/StarjinxEvent/Enemies/Pathfinder/Pathfinder_Glow").Value, Color.White * 0.75f);
 
 		public override void OnHitKill(int hitDirection, double damage)
 		{

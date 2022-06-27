@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -34,7 +35,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.Toucane
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			position = Main.MouseWorld;
-			Projectile.NewProjectile(position, Main.rand.NextVector2Circular(3, 3), type, damage, knockback, player.whoAmI);
+			Projectile.NewProjectile(source, position, Main.rand.NextVector2Circular(3, 3), type, damage, knockback, player.whoAmI);
 			return false;
 		}
 	}

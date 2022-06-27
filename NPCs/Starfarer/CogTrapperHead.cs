@@ -406,7 +406,7 @@ namespace SpiritMod.NPCs.Starfarer
 				drawOrigin = r3.Size() / 2f;
 				Vector2 scale = new Vector2(0.75f, 1f + num16) * 1.5f;
 				float num17 = 1f + num13 * 0.75f;
-				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/Starfarer/CogTrapperHead_Glow"));
+				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Starfarer/CogTrapperHead_Glow").Value);
 
 			}
 		}

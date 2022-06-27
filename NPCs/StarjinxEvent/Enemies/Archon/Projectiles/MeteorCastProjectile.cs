@@ -31,8 +31,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon.Projectiles
 
 		public void DoTrailCreation(TrailManager tM)
 		{
-			tM.CreateTrail(Projectile, new GradientTrail(Yellow, Orange), new RoundCap(), new DefaultTrailPosition(), 100f * Projectile.scale, 220f * Projectile.scale, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
-			tM.CreateTrail(Projectile, new GradientTrail(Yellow, Orange), new RoundCap(), new DefaultTrailPosition(), 120f * Projectile.scale, 220f * Projectile.scale, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
+			tM.CreateTrail(Projectile, new GradientTrail(Yellow, Orange), new RoundCap(), new DefaultTrailPosition(), 100f * Projectile.scale, 220f * Projectile.scale, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_4").Value, 0.01f, 1f, 1f));
+			tM.CreateTrail(Projectile, new GradientTrail(Yellow, Orange), new RoundCap(), new DefaultTrailPosition(), 120f * Projectile.scale, 220f * Projectile.scale, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_1").Value, 0.01f, 1f, 1f));
 			tM.CreateTrail(Projectile, new StandardColorTrail(Color.Orange * 0.5f), new RoundCap(), new DefaultTrailPosition(), 10f * Projectile.scale, 90f * Projectile.scale, new DefaultShader());
 		}
 

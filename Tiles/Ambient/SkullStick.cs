@@ -69,7 +69,7 @@ namespace SpiritMod.Tiles.Ambient
 					zero = Vector2.Zero;
 				}
 				int height = tile.TileFrameY == 36 ? 18 : 16;
-				Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Ambient/SkullStick_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Ambient/SkullStick_Glow").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 				Tile t = Main.tile[i, j];
 			}
 		}

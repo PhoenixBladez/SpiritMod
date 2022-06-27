@@ -58,7 +58,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 			return true;
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => 
-            GlowmaskUtils.DrawItemGlowMaskWorld(Main.spriteBatch, Item, Mod.GetTexture(Texture.Remove(0, "SpiritMod/".Length) + "_glow"), rotation, scale);
+            GlowmaskUtils.DrawItemGlowMaskWorld(Main.spriteBatch, Item, Mod.Assets.Request<Texture2D>(Texture.Remove(0, "SpiritMod/".Length).Value + "_glow"), rotation, scale);
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-10, 0);

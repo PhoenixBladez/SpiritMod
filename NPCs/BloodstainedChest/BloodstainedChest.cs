@@ -45,11 +45,11 @@ namespace SpiritMod.NPCs.BloodstainedChest
             Vector4 colorMod = Color.Gold.ToVector4();
             SpiritMod.StarjinxNoise.Parameters["distance"].SetValue(2.9f);
 			SpiritMod.StarjinxNoise.Parameters["colorMod"].SetValue(colorMod);
-			SpiritMod.StarjinxNoise.Parameters["noise"].SetValue(Mod.GetTexture("Textures/noise"));
+			SpiritMod.StarjinxNoise.Parameters["noise"].SetValue(Mod.Assets.Request<Texture2D>("Textures/noise").Value);
 			SpiritMod.StarjinxNoise.Parameters["rotation"].SetValue(NPC.ai[2] / 5);
 			SpiritMod.StarjinxNoise.Parameters["opacity2"].SetValue(0.3f);
 			SpiritMod.StarjinxNoise.CurrentTechnique.Passes[0].Apply();
-            Main.spriteBatch.Draw(Mod.GetTexture("Effects/Masks/Extra_49"), (NPC.Center - Main.screenPosition) + new Vector2(0, 2), null, Color.White, 0f, new Vector2(50, 50), 1.1f + (1 / 9), SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Effects/Masks/Extra_49").Value, (NPC.Center - Main.screenPosition) + new Vector2(0, 2), null, Color.White, 0f, new Vector2(50, 50), 1.1f + (1 / 9), SpriteEffects.None, 0f);
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);

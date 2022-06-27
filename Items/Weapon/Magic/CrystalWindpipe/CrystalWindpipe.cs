@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -36,7 +37,7 @@ namespace SpiritMod.Items.Weapon.Magic.CrystalWindpipe
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/WindChime").WithPitchVariance(0.4f).WithVolume(0.8f), player.Center);
+			SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/WindChime") with { PitchVariance = 0.4f, Volume = 0.8f}, player.Center);
 
 			for (int I = 0; I < 2; I++) {
 				float angle = Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi) * 0.05f;
@@ -44,8 +45,8 @@ namespace SpiritMod.Items.Weapon.Magic.CrystalWindpipe
 				if (Collision.CanHit(position, 0, 0, position + spawnPlace, 0, 0)) 
 					position += spawnPlace;
 
-				Vector2 vel = new Vector2(speedX, speedY);
-				Projectile projectile = Projectile.NewProjectileDirect(position, vel.RotatedBy(angle) * Main.rand.NextFloat(0.8f,1f), type, damage, knockback, player.whoAmI);
+				Vector2 vel = velocity;
+				Projectile projectile = Projectile.NewProjectileDirect(source, position, vel.RotatedBy(angle) * Main.rand.NextFloat(0.8f,1f), type, damage, knockback, player.whoAmI);
 				if (projectile.ModProjectile is CrystalNote modProj)
 					modProj.initialAngle = vel;
 			}
@@ -85,7 +86,7 @@ namespace SpiritMod.Items.Weapon.Magic.CrystalWindpipe
 		{
 			Projectile.width = 12;
 			Projectile.height = 18;
-			Projectile.ranged = false;
+			Projectile.DamageType = DamageClass.Ranged;
 			Projectile.DamageType = DamageClass.Magic;
 			Projectile.friendly = true;
 			Projectile.penetrate = 2;

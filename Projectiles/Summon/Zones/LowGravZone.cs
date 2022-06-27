@@ -43,7 +43,7 @@ namespace SpiritMod.Projectiles.Summon.Zones
         }
 
 		public void AdditiveCall(SpriteBatch spriteBatch) => ZoneHelper.ZoneAdditiveDraw(spriteBatch, Projectile, new Color(178, 163, 191), "SpiritMod/Projectiles/Summon/Zones/LowGravZone");
-		public override bool PreDraw(ref Color lightColor) => ZoneHelper.ZonePreDraw(Projectile, Mod.GetTexture("Projectiles/Summon/Zones/LowGravZone_Glow"));
+		public override bool PreDraw(ref Color lightColor) => ZoneHelper.ZonePreDraw(Projectile, Mod.Assets.Request<Texture2D>("Projectiles/Summon/Zones/LowGravZone_Glow").Value);
 
 		public override void Kill(int timeLeft)
         {

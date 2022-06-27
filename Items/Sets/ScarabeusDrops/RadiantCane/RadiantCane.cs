@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -41,7 +43,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.RadiantCane
 
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] == 0;
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, Item, Mod.GetTexture(Texture.Remove(0, Mod.Name.Length + 1) + "_glow"), rotation, scale);
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, Item, Mod.Assets.Request<Texture2D>(Texture.Remove(0, Mod.Name.Length + 1) + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, rotation, scale);
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
@@ -103,7 +105,8 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.RadiantCane
 				Projectile.ai[0]++;
 
 			if (++Projectile.localAI[0] % 50 == 0 && owner.CheckMana(owner.HeldItem.mana, true) && Projectile.ai[0] == 0) {
-				SoundEngine.PlaySound(owner.HeldItem.UseSound, owner.MountedCenter); 
+				if (owner.HeldItem.UseSound.HasValue)
+					SoundEngine.PlaySound(owner.HeldItem.UseSound.Value, owner.MountedCenter); 
 				
 				for (int k = 0; k < 10; k++) { //dust ring
 					Vector2 offset = Vector2.UnitX.RotatedBy(owner.AngleTo(Projectile.Center)) * 36;
@@ -144,8 +147,9 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.RadiantCane
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
-			Texture2D bloom = Main.extraTexture[49];
+			Main.spriteBatch.End();
+			Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+			Texture2D bloom = TextureAssets.Extra[49];
 			SpiritMod.SunOrbShader.Parameters["colorMod"].SetValue(new Color(255, 245, 158).ToVector4());
 			SpiritMod.SunOrbShader.Parameters["colorMod2"].SetValue(Color.LightGoldenrodYellow.ToVector4());
 			SpiritMod.SunOrbShader.Parameters["timer"].SetValue(Main.GlobalTimeWrappedHourly / 3 % 1);
@@ -155,10 +159,11 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.RadiantCane
 			Color drawcolor = Projectile.GetAlpha(Color.White);
 			Vector2 drawcenter = Projectile.Center - Main.screenPosition;
 
-			spriteBatch.Draw(bloom, drawcenter, null, drawcolor, Projectile.rotation, bloom.Size() / 2, Projectile.scale * 0.66f * MathHelper.Lerp(scale, 1, 0.25f), SpriteEffects.None, 0);
+			Main.spriteBatch.Draw(bloom, drawcenter, null, drawcolor, Projectile.rotation, bloom.Size() / 2, Projectile.scale * 0.66f * MathHelper.Lerp(scale, 1, 0.25f), SpriteEffects.None, 0);
 
-			spriteBatch.Draw(bloom, drawcenter, null, drawcolor * 0.33f, Projectile.rotation, bloom.Size() / 2, Projectile.scale * scale, SpriteEffects.None, 0);
-			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+			Main.spriteBatch.Draw(bloom, drawcenter, null, drawcolor * 0.33f, Projectile.rotation, bloom.Size() / 2, Projectile.scale * scale, SpriteEffects.None, 0);
+			Main.spriteBatch.End();
+			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 			return false;
 		}
 
@@ -166,7 +171,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.RadiantCane
 		{
 			int numrays = 7;
 			for (int i = 0; i < numrays; i++) {
-				Texture2D ray = Mod.GetTexture("Textures/Medusa_Ray");
+				Texture2D ray = Mod.Assets.Request<Texture2D>("Textures/Medusa_Ray").Value;
 				float rotation = i * (MathHelper.TwoPi / numrays) + (Main.GlobalTimeWrappedHourly * (((i % 2) + 1)/2f));
 				float length = 45 * (float)(Math.Sin((Main.GlobalTimeWrappedHourly + i) * 2) / 5 + 1);
 				Vector2 rayscale = new Vector2(length / ray.Width, 0.8f);

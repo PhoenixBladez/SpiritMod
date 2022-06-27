@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 
 		public void DoTrailCreation(TrailManager tManager)
 		{
-			tManager.CreateTrail(Projectile, new CarrionCrowTrail(Projectile, new Color(99, 23, 51, 150)), new RoundCap(), new DefaultTrailPosition(), 90f, 180f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
+			tManager.CreateTrail(Projectile, new CarrionCrowTrail(Projectile, new Color(99, 23, 51, 150)), new RoundCap(), new DefaultTrailPosition(), 90f, 180f, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_4").Value, 0.01f, 1f, 1f));
 			//tManager.CreateTrail(projectile, new CarrionCrowTrail(projectile, Color.White * 0.2f), new NoCap(), new DefaultTrailPosition(), 24f, 80f, new DefaultShader());
 		}
 

@@ -12,6 +12,7 @@ using SpiritMod.Particles;
 using System.Collections.Generic;
 using SpiritMod.Mechanics.Trails;
 using SpiritMod.Prim;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 {
@@ -50,8 +51,8 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 
 			bool slam = combo % 3 == 2;
 
-			Vector2 direction = new Vector2(speedX, speedY).RotatedBy(Main.rand.NextFloat(-0.2f, 0.2f));
-			Projectile proj = Projectile.NewProjectileDirect(position, direction, type, damage, knockback, player.whoAmI);
+			Vector2 direction = velocity.RotatedBy(Main.rand.NextFloat(-0.2f, 0.2f));
+			Projectile proj = Projectile.NewProjectileDirect(source, position, direction, type, damage, knockback, player.whoAmI);
 			if (proj.ModProjectile is BetrayersChainsProj modProj)
 			{
 				modProj.SwingTime = (int)(Item.useTime * UseTimeMultiplier(player) * (slam ? 1.8f : 1));
@@ -64,7 +65,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 
 			if (slam)
 			{
-				Projectile proj2 = Projectile.NewProjectileDirect(position, direction, type, damage, knockback, player.whoAmI);
+				Projectile proj2 = Projectile.NewProjectileDirect(source, position, direction, type, damage, knockback, player.whoAmI);
 				if (proj2.ModProjectile is BetrayersChainsProj modProj2)
 				{
 					modProj2.SwingTime = (int)(Item.useTime * UseTimeMultiplier(player) * 1.8f);
@@ -80,7 +81,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 			return false;
 		}
 
-		public override float UseTimeMultiplier(Player player) => player.meleeSpeed; //Scale with melee speed buffs, like whips
+		public override float UseTimeMultiplier(Player player) => player.GetAttackSpeed(DamageClass.Melee); //Scale with melee speed buffs, like whips
 	}
 
 	public class BetrayersChainsProj : ModProjectile
@@ -225,7 +226,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 
 			//End control point for the chain
 			Vector2 projBottom = Projectile.Center + new Vector2(0, projTexture.Height / 2).RotatedBy(Projectile.rotation) * 0.75f;
-			DrawChainCurve(spriteBatch, projBottom, out Vector2[] chainPositions);
+			DrawChainCurve(Main.spriteBatch, projBottom, out Vector2[] chainPositions);
 
 			//Adjust rotation to face from the last point in the bezier curve
 			float newRotation = (projBottom - chainPositions[chainPositions.Length - 2]).ToRotation() + MathHelper.PiOver2;
@@ -236,8 +237,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 
 			lightColor = Lighting.GetColor((int)(Projectile.Center.X / 16f), (int)(Projectile.Center.Y / 16f));
 
-			spriteBatch.Draw(projTexture, projBottom - Main.screenPosition, null, lightColor, newRotation, origin, Projectile.scale, flip, 0);
-
+			Main.spriteBatch.Draw(projTexture, projBottom - Main.screenPosition, null, lightColor, newRotation, origin, Projectile.scale, flip, 0);
 
 			CurrentBase = projBottom + (newRotation - 1.57f).ToRotationVector2() * (projTexture.Height / 2);
 
@@ -249,13 +249,13 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 			if (!Slam)
 				return false;
 
-			Texture2D whiteTexture = ModContent.Request<Texture2D>(Texture + "_White");
+			Texture2D whiteTexture = ModContent.Request<Texture2D>(Texture + "_White", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			if (slamTimer < 20 && slamTimer > 5)
 			{
 				float progress = (slamTimer - 5) / 15f;
 				float transparency = (float)Math.Pow(1 - progress, 2);
 				float scale = 1 + progress;
-				spriteBatch.Draw(whiteTexture, projBottom - Main.screenPosition, null, Color.White * transparency, newRotation, origin, Projectile.scale * scale, flip, 0);
+				Main.spriteBatch.Draw(whiteTexture, projBottom - Main.screenPosition, null, Color.White * transparency, newRotation, origin, Projectile.scale * scale, flip, 0);
 			}
 			return false;
 		}
@@ -265,7 +265,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 		private Vector2 _chainMidB;
 		private void DrawChainCurve(SpriteBatch spriteBatch, Vector2 projBottom, out Vector2[] chainPositions)
 		{
-			Texture2D chainTex = ModContent.Request<Texture2D>(Texture + "_Chain");
+			Texture2D chainTex = ModContent.Request<Texture2D>(Texture + "_Chain", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 			float progress = Timer / SwingTime;
 

@@ -42,7 +42,7 @@ namespace SpiritMod.NPCs.Spirit
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/Spirit/SpiritGhoul_Glow"));
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Spirit/SpiritGhoul_Glow").Value);
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

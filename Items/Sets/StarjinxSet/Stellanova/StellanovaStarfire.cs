@@ -126,7 +126,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 
 			PrimitiveRenderer.DrawPrimitiveShapeBatched(blurLines, blurEffect);
 
-			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			sB.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.White * Projectile.Opacity, 0, bloom.Size() / 2, 0.25f * Projectile.scale, SpriteEffects.None, 0);
 		}
 

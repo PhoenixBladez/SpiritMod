@@ -35,8 +35,8 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 		public void DoTrailCreation(TrailManager tM)
 		{
 			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(99, 23, 51) * 0.2f), new RoundCap(), new ArrowGlowPosition(), 200 * Projectile.scale, 100);
-			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(99, 23, 51), new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 150 * Projectile.scale, 60, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_3"), 0.2f, 1f, 1f));
-			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(99, 23, 51), new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 150 * Projectile.scale, 60, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_4"), 0.2f, 1f, 1f));
+			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(99, 23, 51), new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 150 * Projectile.scale, 60, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_3").Value, 0.2f, 1f, 1f));
+			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(99, 23, 51), new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 150 * Projectile.scale, 60, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_4").Value, 0.2f, 1f, 1f));
 		}
 
 		public float period = 80;

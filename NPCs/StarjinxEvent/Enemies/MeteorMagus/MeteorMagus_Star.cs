@@ -29,7 +29,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 		public void DoTrailCreation(TrailManager tM)
 		{
-			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(228, 31, 156), new Color(180, 88, 237)), new RoundCap(), new ArrowGlowPosition(), 100f, 180f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
+			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(228, 31, 156), new Color(180, 88, 237)), new RoundCap(), new ArrowGlowPosition(), 100f, 180f, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_4").Value, 0.01f, 1f, 1f));
 			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(241, 153, 255) * .25f, new Color(241, 153, 255) * .125f), new RoundCap(), new ArrowGlowPosition(), 42f, 200f, new DefaultShader());
 			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(228, 31, 156, 150), new Color(228, 31, 156, 150) * 0.5f), new RoundCap(), new DefaultTrailPosition(), 20f, 80f, new DefaultShader());
 			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(228, 31, 156, 150), new Color(228, 31, 156, 150) * 0.5f), new RoundCap(), new DefaultTrailPosition(), 20f, 80f, new DefaultShader());

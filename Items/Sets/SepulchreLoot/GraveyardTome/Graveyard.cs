@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -39,7 +40,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			Projectile.NewProjectile(player.Center - new Vector2(50 * player.direction, 50), Vector2.Zero, Item.shoot, damage, knockback, player.whoAmI, player.direction);
+			Projectile.NewProjectile(source, player.Center - new Vector2(50 * player.direction, 50), Vector2.Zero, Item.shoot, damage, knockback, player.whoAmI, player.direction);
 			return false;
 		}
 
@@ -54,7 +55,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 				if (modplayer.GraveyardFrame > 5 && !Main.dedServ)
 				{
 					modplayer.GraveyardFrame = 0;
-					SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/PageFlip").WithPitchVariance(0.3f).WithVolume(0.75f), player.Center);
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/PageFlip") with { PitchVariance = 0.3f, Volume = 0.75f }, player.Center);
 				}
 
 				if (Main.rand.NextBool(10))

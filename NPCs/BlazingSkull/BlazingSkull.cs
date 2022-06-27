@@ -177,7 +177,7 @@ namespace SpiritMod.NPCs.BlazingSkull
 
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			spriteBatch.Draw(Mod.GetTexture("NPCs/BlazingSkull/BlazingSkull_glow"),
+			spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/BlazingSkull/BlazingSkull_glow").Value,
 				NPC.Center - Main.screenPosition - new Vector2(0, NPC.gfxOffY + 16),
 				NPC.frame,
 				Color.White,
@@ -189,7 +189,7 @@ namespace SpiritMod.NPCs.BlazingSkull
 
 			if (NPC.ai[0] == 1)
 			{
-				Texture2D target = Mod.GetTexture("NPCs/BlazingSkull/TargetX");
+				Texture2D target = Mod.Assets.Request<Texture2D>("NPCs/BlazingSkull/TargetX").Value;
 				spriteBatch.Draw(target, targetpos - Main.screenPosition, target.Bounds, Color.White * 0.75f * (NPC.ai[2] / rechargetime), 0, target.Size() / 2, 1.5f, SpriteEffects.None, 0);
 			}
 		}

@@ -15,8 +15,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 			if (Player.HeldItem.type == ModContent.ItemType<Sagittarius>() && false)
 			{
 				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(Mod.Name, "SagittariusHeld",
-					delegate (PlayerDrawInfo info) { DrawItem(Mod.GetTexture("Items/Sets/StarjinxSet/Sagittarius/Sagittarius_held"), 
-						Mod.GetTexture("Items/Sets/StarjinxSet/Sagittarius/Sagittarius_heldGlow"), info); }));
+					delegate (PlayerDrawInfo info) { DrawItem(Mod.Assets.Request<Texture2D>("Items/Sets/StarjinxSet/Sagittarius/Sagittarius_held").Value, 
+						Mod.Assets.Request<Texture2D>("Items/Sets/StarjinxSet/Sagittarius/Sagittarius_heldGlow").Value, info); }));
 			}
 		}
 

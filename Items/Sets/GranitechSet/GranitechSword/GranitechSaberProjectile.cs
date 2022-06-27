@@ -186,9 +186,9 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 
 			float opacity = (float)Math.Pow(Math.Sin(Timer * MathHelper.Pi / swingTime), 1.5f) * 0.75f;
 			Effect effect = Mod.GetEffect("Effects/GSaber");
-			effect.Parameters["baseTexture"].SetValue(Mod.GetTexture("Textures/GeometricTexture_2"));
+			effect.Parameters["baseTexture"].SetValue(Mod.Assets.Request<Texture2D>("Textures/GeometricTexture_2").Value);
 			effect.Parameters["baseColor"].SetValue(new Color(25, 132, 247).ToVector4());
-			effect.Parameters["overlayTexture"].SetValue(Mod.GetTexture("Textures/GeometricTexture_1"));
+			effect.Parameters["overlayTexture"].SetValue(Mod.Assets.Request<Texture2D>("Textures/GeometricTexture_1").Value);
 			effect.Parameters["overlayColor"].SetValue(new Color(99, 255, 229).ToVector4());
 
 			effect.Parameters["xMod"].SetValue(1.5f);

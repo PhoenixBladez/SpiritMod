@@ -74,7 +74,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 				double baseAngle = Math.Atan2(velocity.X, velocity.Y);
 				{
 					double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
-					(velocity.X = baseSpeed * (float)Math.Sin(randomAngle);
+					velocity.X = baseSpeed * (float)Math.Sin(randomAngle);
 					velocity.Y = baseSpeed * (float)Math.Cos(randomAngle);
 					if (type == ProjectileID.Bullet) {
 						type = ModContent.ProjectileType<VileBullet>();

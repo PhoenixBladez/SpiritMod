@@ -10,6 +10,7 @@ using SpiritMod.Items.Sets.EvilBiomeDrops.Heartillery;
 using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Mechanics.QuestSystem.Quests;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.ArterialGrasper
 {
@@ -75,10 +76,10 @@ namespace SpiritMod.NPCs.ArterialGrasper
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					for (int i = 0; i < Main.rand.Next(2, 4); i++)
-						Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y - 10, Main.rand.Next(-10, 10), -6, ModContent.ProjectileType<TendonEffect>(), 0, 0, Main.myPlayer, 0, NPC.whoAmI);
+						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y - 10, Main.rand.Next(-10, 10), -6, ModContent.ProjectileType<TendonEffect>(), 0, 0, Main.myPlayer, 0, NPC.whoAmI);
 
 					for (int i = 0; i < Main.rand.Next(2, 3); i++)
-						Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y - 10, Main.rand.Next(-10, 10), -6, ModContent.ProjectileType<TendonEffect1>(), 0, 0, Main.myPlayer, 0, NPC.whoAmI);
+						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y - 10, Main.rand.Next(-10, 10), -6, ModContent.ProjectileType<TendonEffect1>(), 0, 0, Main.myPlayer, 0, NPC.whoAmI);
 				}
 
 				spawnedHooks = true;
@@ -99,22 +100,21 @@ namespace SpiritMod.NPCs.ArterialGrasper
 				if (NPC.ai[2] == 30 || NPC.ai[2] == 60 || NPC.ai[2] == 90 || NPC.ai[2] == 120 || NPC.ai[2] == 150)
 				{
 					Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), .153f * 1, .028f * 1, 0.055f * 1);
-					SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/HeartbeatFx"));
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/HeartBeatFx"), NPC.Center);
 				}
 				if (NPC.ai[2] >= 180)
 				{
-					SoundEngine.PlaySound(SoundID.Item, NPC.Center, 95);
 					NPC.ai[2] = 0;
+					SoundEngine.PlaySound(SoundID.Item95, NPC.Center);
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/HeartBeatFx"), NPC.Center);
 					Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), .153f * 1, .028f * 1, 0.055f * 1);
-					SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/HeartbeatFx"));
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						for (int i = 0; i < 5; i++)
 						{
 							float rotation = (float)(Main.rand.Next(0, 361) * (Math.PI / 180));
 							Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
-							int proj = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y,
-								velocity.X, velocity.Y, ModContent.ProjectileType<ArterialBloodClump>(), 12, 1, Main.myPlayer, 0, 0);
+							int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, velocity.X, velocity.Y, ModContent.ProjectileType<ArterialBloodClump>(), 12, 1, Main.myPlayer, 0, 0);
 							Main.projectile[proj].friendly = false;
 							Main.projectile[proj].hostile = true;
 							Main.projectile[proj].velocity *= 5f;
@@ -139,7 +139,7 @@ namespace SpiritMod.NPCs.ArterialGrasper
 					NPC.netUpdate = true;
 					Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), .153f * .5f, .028f * .5f, 0.055f * .5f);
 					if (Main.netMode != NetmodeID.Server)
-						SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/HeartbeatFx"));
+						SoundEngine.PlaySound(new SoundStyle("SpiritMod/HeartBeatFx"), NPC.Center);
 				}
 			}
 		}
@@ -173,23 +173,23 @@ namespace SpiritMod.NPCs.ArterialGrasper
 
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Grasper/Grasper1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Grasper/Grasper2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Grasper/Grasper3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Grasper/Grasper1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Grasper/Grasper2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Grasper/Grasper3").Type, 1f);
 			}
 		}
 
-		public override void OnKill()
-		{
-			if (Main.rand.NextBool(3))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Vertebrae);
-			if (Main.rand.NextBool(33))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<HeartilleryBeacon>());
-			if (Main.rand.NextBool(16))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Meatballs>());
+		//public override void OnKill()
+		//{
+		//	if (QuestManager.GetQuest<StylistQuestCrimson>().IsActive)
+		//		Item.NewItem(NPC.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.CrimsonDyeMaterial>());
+		//}
 
-			if (QuestManager.GetQuest<StylistQuestCrimson>().IsActive)
-				Item.NewItem(NPC.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.CrimsonDyeMaterial>());
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.Add(ItemDropRule.Common(ItemID.Vertebrae, 3));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HeartilleryBeacon>(), 33));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Meatballs>(), 16));
 		}
 	}
 }

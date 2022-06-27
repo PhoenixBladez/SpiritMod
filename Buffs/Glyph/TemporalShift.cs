@@ -37,10 +37,10 @@ namespace SpiritMod.Buffs.Glyph
 
 			if (player.whoAmI == Main.myPlayer && !Main.dedServ) {
 				if (modPlayer.phaseStacks == 0) {
-					TextureAssets.Buff[Type].Value = Mod.GetTexture("Buffs/Glyph/TemporalShift");
+					TextureAssets.Buff[Type].Value = Mod.Assets.Request<Texture2D>("Buffs/Glyph/TemporalShift").Value;
 				}
 				else {
-					TextureAssets.Buff[Type].Value = Mod.GetTexture("Buffs/Glyph/TemporalShift_" + modPlayer.phaseStacks.ToString());
+					TextureAssets.Buff[Type].Value = Mod.Assets.Request<Texture2D>("Buffs/Glyph/TemporalShift_" + modPlayer.phaseStacks.ToString().Value);
 				}
 			}
 		}

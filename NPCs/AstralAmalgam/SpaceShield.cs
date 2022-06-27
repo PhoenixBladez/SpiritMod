@@ -67,7 +67,7 @@ namespace SpiritMod.NPCs.AstralAmalgam
 
 		public override void OnKill()
 		{
-			SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 14);
+			SoundEngine.PlaySound(SoundID.Item14, NPC.position);
 		}
 
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)

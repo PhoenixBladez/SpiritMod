@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Sets.BismiteSet
 			Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromBismiteBow = true;
 			Projectile projectile = Main.projectile[proj];
 			for (int k = 0; k < 25; k++) {
-				Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
+				Vector2 mouse = Main.MouseWorld;
 				Vector2 offset = mouse - player.position;
 				offset.Normalize();
 				offset *= 15f;

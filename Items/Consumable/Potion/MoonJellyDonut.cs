@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Consumable.Potion
             texture = TextureAssets.Item[Item.type].Value;
             spriteBatch.Draw
             (
-                Mod.GetTexture("Items/Consumable/Potion/MoonJellyDonut_Glow"),
+                Mod.Assets.Request<Texture2D>("Items/Consumable/Potion/MoonJellyDonut_Glow").Value,
                 new Vector2
                 (
                     Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
@@ -56,7 +56,7 @@ namespace SpiritMod.Items.Consumable.Potion
                 SpriteEffects.None,
                 0f
             );
-            spriteBatch.Draw(Mod.GetTexture("Items/Consumable/Potion/MoonJellyDonut_Glow"),
+            spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Items/Consumable/Potion/MoonJellyDonut_Glow").Value,
                 new Vector2
                 (
                     Item.position.X - Main.screenPosition.X + Item.width * 0.5f,

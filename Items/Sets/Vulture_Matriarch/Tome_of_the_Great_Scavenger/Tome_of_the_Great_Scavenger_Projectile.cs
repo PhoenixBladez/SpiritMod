@@ -119,7 +119,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Tome_of_the_Great_Scavenger
 		{
 			if (!Projectile.wet)
 			{
-				Texture2D bloom = Mod.GetTexture("Effects/Desert_Shadow");
+				Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Desert_Shadow").Value;
 
 				Color color = Color.LightGoldenrodYellow;
 				color.A = (byte)(color.A * 2);

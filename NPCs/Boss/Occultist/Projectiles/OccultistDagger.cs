@@ -152,7 +152,7 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 
 			Projectile.QuickDraw(spriteBatch, drawColor: Color.White);
 
-			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			float bloomOpacity = Math.Max((1 - Projectile.Opacity) * 3, 0.5f) * Projectile.Opacity;
 			spriteBatch.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.Pink * bloomOpacity, Projectile.rotation, bloom.Size() / 2, new Vector2(Projectile.scale / 4f, Projectile.scale / 2f), SpriteEffects.None, 0f);
 		}

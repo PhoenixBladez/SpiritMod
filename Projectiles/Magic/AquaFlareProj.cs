@@ -34,8 +34,8 @@ namespace SpiritMod.Projectiles.Magic
 
 		public void DoTrailCreation(TrailManager tM)
 		{
-			tM.CreateTrail(Projectile, new StandardColorTrail(new Color(0, 98, 255) * .95f), new RoundCap(), new SleepingStarTrailPosition(), 18f, 450f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
-			tM.CreateTrail(Projectile, new StandardColorTrail(new Color(255, 68, 0)), new RoundCap(), new SleepingStarTrailPosition(), 18f, 330f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
+			tM.CreateTrail(Projectile, new StandardColorTrail(new Color(0, 98, 255) * .95f), new RoundCap(), new SleepingStarTrailPosition(), 18f, 450f, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_2").Value, 0.01f, 1f, 1f));
+			tM.CreateTrail(Projectile, new StandardColorTrail(new Color(255, 68, 0)), new RoundCap(), new SleepingStarTrailPosition(), 18f, 330f, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_2").Value, 0.01f, 1f, 1f));
 			tM.CreateTrail(Projectile, new StandardColorTrail(new Color(107, 211, 255) * 0.5f), new RoundCap(), new DefaultTrailPosition(), 12f, 80f, new DefaultShader());
 		}
 

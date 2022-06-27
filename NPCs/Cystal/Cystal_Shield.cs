@@ -126,7 +126,7 @@ namespace SpiritMod.NPCs.Cystal
 			}
 			//npc.frame = npc.frameCounter / 5;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/Cystal/Cystal_Shield"));
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Cystal/Cystal_Shield").Value);
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0)

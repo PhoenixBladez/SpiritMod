@@ -151,7 +151,7 @@ namespace SpiritMod.NPCs.Starfarer
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/Starfarer/CogTrapperBody_Glow"));
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Starfarer/CogTrapperBody_Glow").Value);
 
 		}
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

@@ -80,7 +80,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
                 spriteEffects = SpriteEffects.FlipHorizontally;
             int xpos = (int)((NPC.Center.X) - Main.screenPosition.X + 16) - (int)(TextureAssets.Npc[NPC.type].Value.Width / 2);
             int ypos = (int)((NPC.Center.Y) - Main.screenPosition.Y + 10) - (int)(TextureAssets.Npc[NPC.type].Value.Width / 2);
-            Texture2D ripple = Mod.GetTexture("Effects/Masks/Extra_49");
+            Texture2D ripple = Mod.Assets.Request<Texture2D>("Effects/Masks/Extra_49").Value;
             Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), new Color((int)(18f * sineAdd), (int)(25f * sineAdd), (int)(20f * sineAdd), 0), NPC.rotation, ripple.Size() / 2f, .5f, spriteEffects, 0);
 
             spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
@@ -90,7 +90,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Main.spriteBatch.Draw(
-                Mod.GetTexture("NPCs/MoonjellyEvent/DreamlightJelly_Glow"),
+                Mod.Assets.Request<Texture2D>("NPCs/MoonjellyEvent/DreamlightJelly_Glow").Value,
 				NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY),
 				NPC.frame,
 				Color.White,

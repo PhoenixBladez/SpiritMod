@@ -126,7 +126,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D glow = Mod.GetTexture("Items/Sets/GranitechSet/GranitechGun/GranitechGunBullet_Glow");
+			Texture2D glow = Mod.Assets.Request<Texture2D>("Items/Sets/GranitechSet/GranitechGun/GranitechGunBullet_Glow").Value;
 
 			DrawAberration.DrawChromaticAberration(Vector2.Normalize(Projectile.velocity), aberrationOffset, delegate (Vector2 offset, Color colorMod)
 			{
@@ -147,7 +147,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 		public void AdditiveCall(SpriteBatch sb)
 		{
-			Texture2D bloomTex = Mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloomTex = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 
 			//trail of blooms at the positions of each bullet texture
 			for (int i = 1; i < ProjectileID.Sets.TrailCacheLength[Projectile.type]; i++)

@@ -46,7 +46,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.HardmodeOreStaves
 					p.active = false;
 				}
 			}
-			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
+			Vector2 mouse = Main.MouseWorld;
 			Terraria.Projectile.NewProjectile(source, mouse.X, mouse.Y, 0f, 100f, type, damage, knockback, player.whoAmI);
 			return false;
 		}

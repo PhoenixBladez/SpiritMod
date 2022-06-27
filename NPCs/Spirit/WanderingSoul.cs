@@ -50,7 +50,7 @@ namespace SpiritMod.NPCs.Spirit
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/Spirit/WanderingSoul_Glow"));
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Spirit/WanderingSoul_Glow").Value);
 		}
 		private static int[] SpawnTiles = { };
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

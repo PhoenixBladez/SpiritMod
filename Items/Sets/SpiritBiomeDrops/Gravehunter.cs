@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,7 +15,6 @@ namespace SpiritMod.Items.Sets.SpiritBiomeDrops
 		}
 
 
-		Vector2 newVect = Vector2.Zero;
 		public override void SetDefaults()
 		{
 			Item.damage = 50;
@@ -38,15 +38,16 @@ namespace SpiritMod.Items.Sets.SpiritBiomeDrops
 		}
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
+			Vector2 origVect = velocity;
+			Vector2 newVect = Vector2.Zero;
 
-			Vector2 origVect = new Vector2(speedX, speedY);
 			if (Main.rand.Next(2) == 1) {
 				newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(140, 1800) / 10));
 			}
 			else {
 				newVect = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(140, 1800) / 10));
 			}
-			int proj2 = Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, type, damage, knockback, player.whoAmI);
+			int proj2 = Projectile.NewProjectile(source, position.X, position.Y, newVect.X, newVect.Y, type, damage, knockback, player.whoAmI);
 			return false;
 		}
 

@@ -114,7 +114,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 		float ScaleProgress() => (float)Math.Pow(1 - Math.Abs(30 - Timer) / 15, 3);
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
-			Texture2D Bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D Bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			Color color = BloomColor;
 			float bloomopacity = 0.75f;
 			float bloomscale = 0.4f;
@@ -132,7 +132,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 				Projectile laststar = Main.projectile[(int)LastStar];
 				if (laststar.active && laststar.type == Projectile.type && laststar.ai[0] == Projectile.ai[0] + 1 && laststar.owner == Projectile.owner)
 				{
-					Texture2D Beam = Mod.GetTexture("Textures/Trails/Trail_4");
+					Texture2D Beam = Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_4").Value;
 					Vector2 scale = new Vector2(Projectile.Distance(laststar.Center) / Beam.Width, Projectile.scale * 30 / Beam.Height);
 					float opacity = 0.8f * Projectile.Opacity * laststar.Opacity;
 					Vector2 origin = new Vector2(0, Beam.Height / 2);

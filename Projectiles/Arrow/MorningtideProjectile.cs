@@ -36,8 +36,8 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public void DoTrailCreation(TrailManager tM)
 		{
-			tM.CreateTrail(Projectile, new GradientTrail(new Color(255, 225, 117), new Color(91, 21, 150)), new RoundCap(), new SleepingStarTrailPosition(), 100f, 180f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
-			tM.CreateTrail(Projectile, new GradientTrail(new Color(255, 225, 117), new Color(91, 21, 150)), new RoundCap(), new SleepingStarTrailPosition(), 90f, 180f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
+			tM.CreateTrail(Projectile, new GradientTrail(new Color(255, 225, 117), new Color(91, 21, 150)), new RoundCap(), new SleepingStarTrailPosition(), 100f, 180f, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_4").Value, 0.01f, 1f, 1f));
+			tM.CreateTrail(Projectile, new GradientTrail(new Color(255, 225, 117), new Color(91, 21, 150)), new RoundCap(), new SleepingStarTrailPosition(), 90f, 180f, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_1").Value, 0.01f, 1f, 1f));
 			tM.CreateTrail(Projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new SleepingStarTrailPosition(), 12f, 80f, new DefaultShader());
 		}
 
@@ -64,7 +64,7 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
+			Vector2 mouse = Main.MouseWorld;
 			int amount = Main.rand.Next(1, 3);
 			for (int i = 0; i < amount; ++i)
 			{

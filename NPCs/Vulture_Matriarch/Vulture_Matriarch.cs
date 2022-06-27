@@ -276,7 +276,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 				if (NPC.spriteDirection == 1)
 					spriteEffects = SpriteEffects.FlipHorizontally;
 
-				Texture2D ripple = Mod.GetTexture("Effects/Ripple");
+				Texture2D ripple = Mod.Assets.Request<Texture2D>("Effects/Ripple").Value;
 
 				Color baseCol = new Color(211, 198, 111, 0);
 

@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			SoundEngine.PlaySound(SoundID.Grass, (int)player.position.X, (int)player.position.Y);
-			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
+			Vector2 mouse = Main.MouseWorld;
 			int amount = Main.rand.Next(1, 3);
 			for (int i = 0; i < amount; ++i) {
 				Vector2 pos = new Vector2(mouse.X + player.width * 0.5f + Main.rand.Next(-20, 21), mouse.Y - 600f);

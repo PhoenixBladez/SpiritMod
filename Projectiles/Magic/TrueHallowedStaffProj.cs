@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Magic
 			Projectile.aiStyle = -1;
 		}
 
-		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(Projectile, new RainbowTrail(5f, 0.002f, 1f, .75f), new RoundCap(), new SleepingStarTrailPosition(), 150f, 130f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(Projectile, new RainbowTrail(5f, 0.002f, 1f, .75f), new RoundCap(), new SleepingStarTrailPosition(), 150f, 130f, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_1").Value, 0.01f, 1f, 1f));
 
 		int timer;
 		int colortimer;

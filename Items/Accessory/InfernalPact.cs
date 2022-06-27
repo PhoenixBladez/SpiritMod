@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Accessory
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) //Glowmask
 		{
-			Texture2D glowmask = Mod.GetTexture("Items/Accessory/InfernalPact_Glow");
+			Texture2D glowmask = Mod.Assets.Request<Texture2D>("Items/Accessory/InfernalPact_Glow").Value;
 			var drawPos = new Vector2(Item.position.X - Main.screenPosition.X + Item.width * 0.5f, Item.position.Y - Main.screenPosition.Y + Item.height - glowmask.Height * 0.5f + 2f); //Jesus this line
 			float sine = (float)Math.Sin(sineTimer++ * 0.08f);
 			Color col = Item.GetAlpha(Color.White) * (0.5f - sine);

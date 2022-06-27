@@ -1,15 +1,14 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Bullet;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.TideDrops
 {
 	public class CoconutGun : ModItem
-
 	{
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Coconut Gun");
@@ -44,7 +43,7 @@ namespace SpiritMod.Items.Sets.TideDrops
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			for (int i = 0; i < 3; i++) {
-				Projectile.NewProjectile(position.X, position.Y, (speedX * Main.rand.NextFloat(25, 30) / 4) + (Main.rand.NextFloat(-1, 2) * .66f), (speedY * Main.rand.Next(25, 30) / 4) + (Main.rand.Next(-1, 2) * .66f), ModContent.ProjectileType<CoconutSpurt>(), damage, knockback, player.whoAmI);
+				Projectile.NewProjectile(source, position.X, position.Y, (velocity.X * Main.rand.NextFloat(25, 30) / 4) + (Main.rand.NextFloat(-1, 2) * .66f), (velocity.Y * Main.rand.Next(25, 30) / 4) + (Main.rand.Next(-1, 2) * .66f), ModContent.ProjectileType<CoconutSpurt>(), damage, knockback, player.whoAmI);
 			}
 			return false;
 		}

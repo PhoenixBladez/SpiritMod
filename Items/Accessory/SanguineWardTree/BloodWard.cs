@@ -102,7 +102,7 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 
 			float flashprogress = (float)Math.Sin((_flashTime / (float)MAXFLASHTIME) * MathHelper.Pi) / 2;
 			Color color = Color.Lerp(new Color(252, 3, 98), Color.White, flashprogress);
-			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 
 			_circle.DelegateDraw(spriteBatch, Player.MountedCenter, 0.3f, delegate (int runeNumber)
 			{
@@ -127,7 +127,7 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 				Vector2 drawPos = Vector2.UnitX.RotatedBy(MathHelper.TwoPi * i / Repeats) * timer * 8;
 				_circle.DelegateDraw(spriteBatch, Player.MountedCenter + drawPos, Scale, delegate(int runeNumber) 
 				{ 
-					return new RuneCircle.RuneDrawInfo(Mod.GetTexture("Textures/Runes_outline"), color * (1 - timer)); 
+					return new RuneCircle.RuneDrawInfo(Mod.Assets.Request<Texture2D>("Textures/Runes_outline").Value, color * (1 - timer)); 
 				});
 			}
 
@@ -135,7 +135,7 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 
 			_circle.DelegateDraw(spriteBatch, Player.MountedCenter, Scale, delegate (int runeNumber)
 			{
-				return new RuneCircle.RuneDrawInfo(Mod.GetTexture("Textures/Runes_mask"), Color.White * flashprogress);
+				return new RuneCircle.RuneDrawInfo(Mod.Assets.Request<Texture2D>("Textures/Runes_mask").Value, Color.White * flashprogress);
 			});
 		}
 

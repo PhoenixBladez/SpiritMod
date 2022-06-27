@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -41,7 +42,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
         {
-            int p = Projectile.NewProjectile(player.Center.X - Main.rand.Next(-50, 50), player.Center.Y - Main.rand.Next(-50, 50), 0f, 0f, type, damage, knockback, player.whoAmI);
+            int p = Projectile.NewProjectile(source, player.Center.X - Main.rand.Next(-50, 50), player.Center.Y - Main.rand.Next(-50, 50), 0f, 0f, type, damage, knockback, player.whoAmI);
             Main.projectile[p].ai[0] = player.whoAmI;
             return false;
         }

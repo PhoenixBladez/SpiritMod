@@ -162,8 +162,8 @@ namespace SpiritMod.NPCs.CavernBandit
 				spriteEffects = SpriteEffects.FlipHorizontally;
 			int xpos = (int)((NPC.Center.X + 59) - Main.screenPosition.X) - (int)(TextureAssets.Npc[NPC.type].Value.Width / 2);
 			int ypos = (int)((NPC.Center.Y - 60) - Main.screenPosition.Y) + (int)(Math.Sin(_timer) * 12);
-			Texture2D ripple = Mod.GetTexture("Effects/Ripple");
-			Texture2D lantern = Mod.GetTexture("NPCs/CavernBandit/CavernLantern");
+			Texture2D ripple = Mod.Assets.Request<Texture2D>("Effects/Ripple").Value;
+			Texture2D lantern = Mod.Assets.Request<Texture2D>("NPCs/CavernBandit/CavernLantern").Value;
 			Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), Color.Yellow, NPC.rotation, ripple.Size() / 2f, 1f, spriteEffects, 0);
 			Main.spriteBatch.Draw(lantern, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), Color.White, NPC.rotation, lantern.Size() / 2f, 1f, spriteEffects, 0);
 

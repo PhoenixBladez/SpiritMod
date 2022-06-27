@@ -79,7 +79,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.Toucane
 		{
 			if (!Projectile.wet)
 			{
-				Texture2D bloom = Mod.GetTexture("Effects/Desert_Shadow");
+				Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Desert_Shadow").Value;
 
 				Color color = Color.Lerp(new Color(255, 0, 89), new Color(255, 47, 0), (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3) / 2 + 0.5f);
 				color.A = (byte)(color.A * 2);

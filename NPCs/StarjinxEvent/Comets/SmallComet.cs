@@ -300,7 +300,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 
 		public void AdditiveCall(SpriteBatch sB)
 		{
-			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			Texture2D texture = TextureAssets.Npc[NPC.type].Value;
 			Vector2 scale = texture.Size() / bloom.Size();
 			scale *= 3;
@@ -360,7 +360,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 
 		public void DrawBeam(SpriteBatch b)
 		{
-			Texture2D beam = Mod.GetTexture("Textures/Ray");
+			Texture2D beam = Mod.Assets.Request<Texture2D>("Textures/Ray").Value;
 			float rotation = NPC.DirectionTo(Main.npc[(int)NPC.ai[0]].Center).ToRotation() - MathHelper.PiOver2;
 			float fluctuate = (CosTimer / 10f) + 0.15f;
 
@@ -374,7 +374,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 
 		public void DrawShield(SpriteBatch b)
 		{
-			Texture2D mask = Mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D mask = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 
 			Texture2D mainTex = TextureAssets.Npc[NPC.type].Value;
 			float averageSize = mainTex.Width / 2f + mainTex.Height / 2f;

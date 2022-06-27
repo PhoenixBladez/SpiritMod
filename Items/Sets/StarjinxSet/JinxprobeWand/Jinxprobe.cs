@@ -94,12 +94,12 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D glow = Mod.GetTexture(Texture.Remove(0, Mod.Name.Length + 1) + "_glow");
-			Texture2D glow2 = Mod.GetTexture(Texture.Remove(0, Mod.Name.Length + 1) + "_glow2");
+			Texture2D glow = Mod.Assets.Request<Texture2D>(Texture.Remove(0, Mod.Name.Length + 1).Value + "_glow");
+			Texture2D glow2 = Mod.Assets.Request<Texture2D>(Texture.Remove(0, Mod.Name.Length + 1).Value + "_glow2");
 			Rectangle rect = glow.Bounds;
 
 			//draw beam to player
-			Texture2D tex = Mod.GetTexture("Textures/Medusa_Ray");
+			Texture2D tex = Mod.Assets.Request<Texture2D>("Textures/Medusa_Ray").Value;
 			Color beamcolor = SpiritMod.StarjinxColor(Main.GlobalTimeWrappedHourly * 4) * 0.5f * ((float)Math.Sin(Main.GlobalTimeWrappedHourly * 3) / 4 + 0.75f);
 			Vector2 scale = new Vector2(Projectile.Distance(Player.Center) / tex.Width, 1) * 0.75f;
 			spriteBatch.Draw(tex,

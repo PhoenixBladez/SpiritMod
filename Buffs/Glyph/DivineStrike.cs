@@ -28,9 +28,9 @@ namespace SpiritMod.Buffs.Glyph
 			if (player.whoAmI == Main.myPlayer && !Main.dedServ)
 			{
 				if (modPlayer.divineStacks == 1)
-					TextureAssets.Buff[Type].Value = Mod.GetTexture("Buffs/Glyph/DivineStrike");
+					TextureAssets.Buff[Type].Value = Mod.Assets.Request<Texture2D>("Buffs/Glyph/DivineStrike").Value;
 				else
-					TextureAssets.Buff[Type].Value = Mod.GetTexture("Buffs/Glyph/DivineStrike_" + (modPlayer.divineStacks - 1).ToString());
+					TextureAssets.Buff[Type].Value = Mod.Assets.Request<Texture2D>("Buffs/Glyph/DivineStrike_" + (modPlayer.divineStacks - 1).Value.ToString());
 			}
 
 			if (modPlayer.glyph == GlyphType.Radiant)

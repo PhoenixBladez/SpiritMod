@@ -75,7 +75,7 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 			if (Projectile.ai[0] == 0)
 			{
 				Player owner = Main.player[Projectile.owner];
-				Texture2D tex = Mod.GetTexture("Textures/Medusa_Ray");
+				Texture2D tex = Mod.Assets.Request<Texture2D>("Textures/Medusa_Ray").Value;
 				Vector2 scale = new Vector2(Projectile.Distance(owner.Center) / tex.Width, 1) * 0.75f;
 				spriteBatch.Draw(tex,
 					owner.Center - Main.screenPosition + new Vector2(tex.Size().X * scale.X, 0).RotatedBy(Projectile.AngleFrom(owner.Center))/2,
@@ -89,7 +89,7 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 			}
 			for (int i = 0; i < 3; i++)
 			{
-				spriteBatch.Draw(Mod.GetTexture("Textures/StardustPillarStar"),
+				spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Textures/StardustPillarStar").Value,
 					Projectile.Center - Main.screenPosition,
 					null,
 					SpiritMod.StarjinxColor(Main.GlobalTimeWrappedHourly * 4) * 0.75f * Projectile.Opacity * (1 - (i * 0.33f)),

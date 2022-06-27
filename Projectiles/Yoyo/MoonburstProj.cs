@@ -65,7 +65,7 @@ namespace SpiritMod.Projectiles.Yoyo
                 SpriteEffects spriteEffects = SpriteEffects.None;
                 if (Projectile.spriteDirection == 1)
                     spriteEffects = SpriteEffects.FlipHorizontally;
-                Texture2D ripple = Mod.GetTexture("Effects/Masks/Extra_49");
+                Texture2D ripple = Mod.Assets.Request<Texture2D>("Effects/Masks/Extra_49").Value;
                 Main.spriteBatch.Draw(ripple, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(), new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0) * .65f, Projectile.rotation, ripple.Size() / 2f, Projectile.frameCounter * .15f, spriteEffects, 0);
             }
             return true;

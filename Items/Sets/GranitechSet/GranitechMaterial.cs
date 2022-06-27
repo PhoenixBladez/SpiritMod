@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Sets.GranitechSet
 
 		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
 		{
-			Texture2D tex = Mod.GetTexture("Items/Sets/GranitechSet/GranitechMaterialWorld" + subID);
+			Texture2D tex = Mod.Assets.Request<Texture2D>("Items/Sets/GranitechSet/GranitechMaterialWorld" + subID).Value;
 			spriteBatch.Draw(tex, Item.position - Main.screenPosition, null, lightColor, rotation, Vector2.Zero, scale, SpriteEffects.None, 0f);
 			return false;
 		}

@@ -9,6 +9,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
 using SpiritMod.Buffs.DoT;
+using Terraria.GameContent.ItemDropRules;
+using SpiritMod.Items.Armor.AstronautVanity;
 
 namespace SpiritMod.NPCs.AstralAmalgam
 {
@@ -22,6 +24,7 @@ namespace SpiritMod.NPCs.AstralAmalgam
 			DisplayName.SetDefault("Astral Amalgam");
 			Main.npcFrameCount[NPC.type] = 4;
 		}
+
 		public override void SetDefaults()
 		{
 			NPC.width = 60;
@@ -145,7 +148,7 @@ namespace SpiritMod.NPCs.AstralAmalgam
 				int latestNPC = NPC.whoAmI;
 				for (int I = 0; I < 3; I++) {
 					//cos = y, sin = x
-					latestNPC = NPC.NewNPC((int)NPC.Center.X + (int)(Math.Sin(I * 120) * 80), (int)NPC.Center.Y + (int)(Math.Sin(I * 120) * 80), ModContent.NPCType<SpaceShield>(), NPC.whoAmI, 0, latestNPC);
+					latestNPC = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + (int)(Math.Sin(I * 120) * 80), (int)NPC.Center.Y + (int)(Math.Sin(I * 120) * 80), ModContent.NPCType<SpaceShield>(), NPC.whoAmI, 0, latestNPC);
 					NPC shield = Main.npc[latestNPC];
 					shield.ai[3] = NPC.whoAmI;
 					shield.ai[1] = I * 120;
@@ -169,26 +172,17 @@ namespace SpiritMod.NPCs.AstralAmalgam
             int frame = (int)NPC.frameCounter;
             NPC.frame.Y = frame * frameHeight;
         }
-        public override void OnKill()
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(1) == 400) {
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<GravityModulator>());
-			}
-			if (Main.rand.Next(1) == 50) {
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<ShieldCore>());
-			}
-			string[] lootTable = { "AstronautLegs", "AstronautHelm", "AstronautBody" };
-			if (Main.rand.Next(40) == 0) {
-				int loot = Main.rand.Next(lootTable.Length);
-				{
-					NPC.DropItem(Mod.Find<ModItem>(lootTable[loot]).Type);
-				}
-            }
-            if (Main.rand.NextBool(16))
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<PopRocks>());
-            }
-        }
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<GravityModulator>(), 400));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ShieldCore>(), 50));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PopRocks>(), 16));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<AstronautLegs>(), 50));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<AstronautHelm>(), 50));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<AstronautBody>(), 50));
+		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 30; k++) {
@@ -196,14 +190,14 @@ namespace SpiritMod.NPCs.AstralAmalgam
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.DungeonSpirit, 2.5f * hitDirection, -2.5f, 0, default, .74f);
 			}
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Amalgam/Amalgam1").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Amalgam/Amalgam2").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Amalgam/Amalgam3").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Amalgam/Amalgam4").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Amalgam/Amalgam5").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Amalgam/Amalgam6").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Amalgam/Amalgam7").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Amalgam/Amalgam8").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Amalgam/Amalgam1").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Amalgam/Amalgam2").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Amalgam/Amalgam3").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Amalgam/Amalgam4").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Amalgam/Amalgam5").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Amalgam/Amalgam6").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Amalgam/Amalgam7").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Amalgam/Amalgam8").Type);
 				for (int i = 0; i < 20; i++) {
 					int num = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.DungeonSpirit, 0f, -2f, 0, default, .8f);
 					Main.dust[num].noGravity = true;
@@ -214,24 +208,26 @@ namespace SpiritMod.NPCs.AstralAmalgam
 				}
 			}
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, lightColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			{
 				Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
 				for (int k = 0; k < NPC.oldPos.Length; k++) {
 					Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
-					Color color = NPC.GetAlpha(lightColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+					Color color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
 					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 				}
 			}
 			return false;
 		}
+
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			if (NPC.alpha != 255) {
-				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/AstralAmalgam/AstralAmalgam_Glow"));
+				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/AstralAmalgam/AstralAmalgam_Glow").Value);
 			}
 		}
 	}

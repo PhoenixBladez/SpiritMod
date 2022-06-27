@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.AccursedBlade
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            GlowmaskUtils.DrawItemGlowMaskWorld(Main.spriteBatch, Item, Mod.GetTexture(Texture.Remove(0, Mod.Name.Length + 1) + "_glow"), rotation, scale);
+            GlowmaskUtils.DrawItemGlowMaskWorld(Main.spriteBatch, Item, Mod.Assets.Request<Texture2D>(Texture.Remove(0, Mod.Name.Length + 1) + "_glow").Value, rotation, scale);
         }
         public override bool CanUseItem(Player player)
         {
@@ -61,6 +61,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.AccursedBlade
             Item.noMelee = false;
             return true;
         }
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
             if (player.altFunctionUse != 2 || player.GetModPlayer<AccursedBladePlayer>().charge == 0)
@@ -68,23 +69,16 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.AccursedBlade
                 return false;
             }
             damage = 10 + (int)(player.GetModPlayer<AccursedBladePlayer>().charge * 25);
-            Projectile.NewProjectile(position, new Vector2(speedX,speedY), type, damage, knockback, player.whoAmI, player.GetModPlayer<AccursedBladePlayer>().charge);
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, player.GetModPlayer<AccursedBladePlayer>().charge);
             player.GetModPlayer<AccursedBladePlayer>().charge = 0;
-            SoundEngine.PlaySound(SoundID.NPCKilled, (int)player.position.X, (int)player.position.Y, 52, 1.2f, -0.3f);
+            SoundEngine.PlaySound(SoundID.NPCDeath52 with { Pitch = 1.2f }, player.position);
             return true;
         }
-        /*public override void HoldItem(Player player)
-        {
-			ChargeMeterPlayer modPlayer = player.GetModPlayer<ChargeMeterPlayer>();
-            modPlayer.chargeMeter.drawMeter = true;
-            modPlayer.chargeMeter.charge = player.GetModPlayer<AccursedBladePlayer>().charge;
-        }*/
+
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             if (target.life <= 0)
-            {
-               Item.NewItem((int)target.position.X, (int)target.position.Y - 20, target.width, target.height, Mod.Find<ModItem>("AccursedSoul").Type);
-            }
+               Item.NewItem(Item.GetSource_OnHit(target), (int)target.position.X, (int)target.position.Y - 20, target.width, target.height, Mod.Find<ModItem>("AccursedSoul").Type);
         }
     }
     public class AccursedSoul: ModItem
@@ -95,6 +89,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.AccursedBlade
 			Tooltip.SetDefault("You shouldn't see this");
 			Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 7));
 		}
+
 		public override void SetDefaults()
 		{
 			Item.width = 12;
@@ -225,11 +220,11 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.AccursedBlade
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
             Vector4 colorMod = new Color(142, 223, 38, Projectile.alpha).ToVector4();
             SpiritMod.StarjinxNoise.Parameters["colorMod"].SetValue(colorMod);
-			SpiritMod.StarjinxNoise.Parameters["noise"].SetValue(Mod.GetTexture("Textures/vnoise"));
+			SpiritMod.StarjinxNoise.Parameters["noise"].SetValue(Mod.Assets.Request<Texture2D>("Textures/vnoise").Value);
 			SpiritMod.StarjinxNoise.Parameters["opacity2"].SetValue(0.25f);
 			SpiritMod.StarjinxNoise.Parameters["counter"].SetValue(Projectile.ai[0]);
 			SpiritMod.StarjinxNoise.CurrentTechnique.Passes[2].Apply();
-            Main.spriteBatch.Draw(Mod.GetTexture("Effects/Masks/Extra_49"), (Projectile.Center - Main.screenPosition), null, new Color(142, 223, 38) * Projectile.Opacity, Projectile.rotation, new Vector2(50, 50), Projectile.scale * new Vector2(4f, 1) / 2, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Effects/Masks/Extra_49").Value, (Projectile.Center - Main.screenPosition), null, new Color(142, 223, 38) * Projectile.Opacity, Projectile.rotation, new Vector2(50, 50), Projectile.scale * new Vector2(4f, 1) / 2, SpriteEffects.None, 0f);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             #endregion

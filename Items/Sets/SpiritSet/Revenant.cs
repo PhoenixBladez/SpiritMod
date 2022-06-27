@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles.Arrow;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -44,7 +45,7 @@ namespace SpiritMod.Items.Sets.SpiritSet
 			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				Mod.GetTexture("Items/Sets/SpiritSet/Revenant_Glow"),
+				Mod.Assets.Request<Texture2D>("Items/Sets/SpiritSet/Revenant_Glow").Value,
 				new Vector2
 				(
 					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
@@ -59,14 +60,16 @@ namespace SpiritMod.Items.Sets.SpiritSet
 				0f
 			);
 		}
+
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			if (type == ProjectileID.WoodenArrowFriendly) {
 				type = ModContent.ProjectileType<SpiritArrow>();
 			}
-				Terraria.Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockback, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 0f, 0f);
 			return false;
 		}
+
 		public override void AddRecipes()
 		{
 			Recipe modRecipe = CreateRecipe(1);

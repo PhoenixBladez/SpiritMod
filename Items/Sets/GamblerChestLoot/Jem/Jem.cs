@@ -41,19 +41,19 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.Jem
 			Vector4 colorMod = Color.Gold.ToVector4();
 			SpiritMod.JemShaders.Parameters["distanceVar"].SetValue(2.9f - (sineAdd / 10));
 			SpiritMod.JemShaders.Parameters["colorMod"].SetValue(colorMod);
-			SpiritMod.JemShaders.Parameters["noise"].SetValue(Mod.GetTexture("Textures/noise"));
+			SpiritMod.JemShaders.Parameters["noise"].SetValue(Mod.Assets.Request<Texture2D>("Textures/noise").Value);
 			SpiritMod.JemShaders.Parameters["rotation"].SetValue(alpha * 0.1f);
 			SpiritMod.JemShaders.Parameters["opacity2"].SetValue(0.3f + (sineAdd / 10));
 			SpiritMod.JemShaders.CurrentTechnique.Passes[0].Apply();
 
-			spriteBatch.Draw(Mod.GetTexture("Effects/Masks/Extra_49"), Item.position - Main.screenPosition, null, Color.White, rotation, new Vector2(50, 50), (1.1f + (sineAdd / 9)) * scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Effects/Masks/Extra_49").Value, Item.position - Main.screenPosition, null, Color.White, rotation, new Vector2(50, 50), (1.1f + (sineAdd / 9)) * scale, SpriteEffects.None, 0f);
 			spriteBatch.End();
 			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
 			SpiritMod.JemShaders.Parameters["alpha"].SetValue(alpha * 2 % 6);
 			SpiritMod.JemShaders.Parameters["coloralpha"].SetValue(alpha);
 			SpiritMod.JemShaders.Parameters["shineSpeed"].SetValue(0.7f);
-			SpiritMod.JemShaders.Parameters["map"].SetValue(Mod.GetTexture("Textures/JemShaderMap"));
+			SpiritMod.JemShaders.Parameters["map"].SetValue(Mod.Assets.Request<Texture2D>("Textures/JemShaderMap").Value);
 			SpiritMod.JemShaders.Parameters["lightColour"].SetValue(lightColor.ToVector3());
 			SpiritMod.JemShaders.Parameters["shaderLerp"].SetValue(1f);
 			SpiritMod.JemShaders.CurrentTechnique.Passes[1].Apply();
@@ -76,19 +76,19 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.Jem
 			Vector4 colorMod = Color.Gold.ToVector4();
 			SpiritMod.JemShaders.Parameters["distanceVar"].SetValue(2.9f - (sineAdd / 10));
 			SpiritMod.JemShaders.Parameters["colorMod"].SetValue(colorMod);
-			SpiritMod.JemShaders.Parameters["noise"].SetValue(Mod.GetTexture("Textures/noise"));
+			SpiritMod.JemShaders.Parameters["noise"].SetValue(Mod.Assets.Request<Texture2D>("Textures/noise").Value);
 			SpiritMod.JemShaders.Parameters["rotation"].SetValue(alpha * 0.1f);
 			SpiritMod.JemShaders.Parameters["opacity2"].SetValue(0.3f + (sineAdd / 10));
 			SpiritMod.JemShaders.CurrentTechnique.Passes[0].Apply();
 
-			spriteBatch.Draw(Mod.GetTexture("Effects/Masks/Extra_49"), position + new Vector2(TextureAssets.Item[Item.type].Value.Width / 2, TextureAssets.Item[Item.type].Value.Height / 2), null, Color.White, 0f, new Vector2(50, 50), (1.1f + (sineAdd / 9)) * scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Effects/Masks/Extra_49").Value, position + new Vector2(TextureAssets.Item[Item.type].Value.Width / 2, TextureAssets.Item[Item.type].Value.Height / 2), null, Color.White, 0f, new Vector2(50, 50), (1.1f + (sineAdd / 9)) * scale, SpriteEffects.None, 0f);
 			spriteBatch.End();
 			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.UIScaleMatrix);
 
 			SpiritMod.JemShaders.Parameters["alpha"].SetValue(alpha * 2 % 6);
 			SpiritMod.JemShaders.Parameters["coloralpha"].SetValue(alpha);
 			SpiritMod.JemShaders.Parameters["shineSpeed"].SetValue(0.7f);
-			SpiritMod.JemShaders.Parameters["map"].SetValue(Mod.GetTexture("Textures/JemShaderMap"));
+			SpiritMod.JemShaders.Parameters["map"].SetValue(Mod.Assets.Request<Texture2D>("Textures/JemShaderMap").Value);
 			SpiritMod.JemShaders.Parameters["lightColour"].SetValue(drawColor.ToVector3());
 			SpiritMod.JemShaders.Parameters["shaderLerp"].SetValue(1f);
 			SpiritMod.JemShaders.CurrentTechnique.Passes[1].Apply();

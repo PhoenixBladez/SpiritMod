@@ -67,7 +67,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.TerraStaffTree
 				return false;
 			}
 			else {
-				Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
+				Vector2 mouse = Main.MouseWorld;
 				Projectile.NewProjectile(source, mouse.X, mouse.Y, 0f, 0f, type, damage, knockback, player.whoAmI);
 			}
 			return false;

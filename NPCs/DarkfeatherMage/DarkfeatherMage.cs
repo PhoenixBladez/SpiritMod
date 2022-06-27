@@ -406,7 +406,7 @@ namespace SpiritMod.NPCs.DarkfeatherMage
             return false;
         }
 
-		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/DarkfeatherMage/DarkfeatherMage_Glow"));
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/DarkfeatherMage/DarkfeatherMage_Glow").Value);
 
 		public override void FindFrame(int frameHeight)
 		{

@@ -116,7 +116,7 @@ namespace SpiritMod.Mounts
 
         public override bool Draw(List<Terraria.DataStructures.DrawData> playerDrawData, int drawType, Player drawPlayer, ref Texture2D texture, ref Texture2D glowTexture, ref Vector2 drawPosition, ref Rectangle frame, ref Color drawColor, ref Color glowColor, ref float rotation, ref SpriteEffects spriteEffects, ref Vector2 drawOrigin, ref float drawScale, float shadow)
         {
-            glowTexture = Mod.GetTexture("Mounts/Obolos_Mount_Glow");
+            glowTexture = Mod.Assets.Request<Texture2D>("Mounts/Obolos_Mount_Glow").Value;
 
             if (drawPlayer.velocity.X < 0 && drawPlayer.direction > 0)
             {

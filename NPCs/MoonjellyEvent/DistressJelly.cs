@@ -84,7 +84,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Main.spriteBatch.Draw(
-                Mod.GetTexture("NPCs/MoonjellyEvent/DistressJelly_Glow"),
+                Mod.Assets.Request<Texture2D>("NPCs/MoonjellyEvent/DistressJelly_Glow").Value,
 				NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY),
 				NPC.frame,
 				Color.White,

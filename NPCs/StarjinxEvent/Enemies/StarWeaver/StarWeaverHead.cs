@@ -178,7 +178,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			if (WeaverNPC == null)
 				return false;
 
-			Texture2D ripple = Mod.GetTexture("Effects/Ripple");
+			Texture2D ripple = Mod.Assets.Request<Texture2D>("Effects/Ripple").Value;
 
 			//Draw trail when returning to npc
 			for(int i = 0; i < TrailLength; i++)

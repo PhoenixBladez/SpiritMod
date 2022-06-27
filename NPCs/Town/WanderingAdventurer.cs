@@ -113,7 +113,7 @@ namespace SpiritMod.NPCs.Town
 		{
 			if (!Mechanics.QuestSystem.QuestManager.GetQuest<Mechanics.QuestSystem.Quests.FirstAdventure>().IsUnlocked)
 			{
-				Texture2D tex = Mod.GetTexture("UI/QuestUI/Textures/ExclamationMark");
+				Texture2D tex = Mod.Assets.Request<Texture2D>("UI/QuestUI/Textures/ExclamationMark").Value;
 				float scale = (float)Math.Sin(Main.time * 0.08f) * 0.14f;
 				spriteBatch.Draw(tex, new Vector2(NPC.Center.X - 2, NPC.Center.Y - 40) - Main.screenPosition, new Rectangle(0, 0, 6, 24), Color.White, 0f, new Vector2(3, 12), 1f + scale, SpriteEffects.None, 0f);
 			}

@@ -41,7 +41,7 @@ namespace SpiritMod.NPCs.Midknight
 		{
 			{
 
-				Texture2D ring = Mod.GetTexture("Effects/Glowmasks/Dusking_Circle");
+				Texture2D ring = Mod.Assets.Request<Texture2D>("Effects/Glowmasks/Dusking_Circle").Value;
 				Vector2 origin = new Vector2(ring.Width * 0.5F, ring.Height * 0.5F);
 				spriteBatch.Draw(ring, (NPC.Center) - Main.screenPosition, null, new Color(255, 255, 255, 100), NPC.localAI[1], origin, .25f, SpriteEffects.None, 0);
 			}
@@ -50,7 +50,7 @@ namespace SpiritMod.NPCs.Midknight
 							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/Midknight/Midknight_Glow"));
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Midknight/Midknight_Glow").Value);
 		public override void AI()
 		{
 			NPC.localAI[1] += 0.03F;

@@ -506,8 +506,8 @@ namespace SpiritMod
 				Filters.Scene.Activate("SpiritMod:AshRain", Vector2.Zero).GetShader()
 					.UseColor(0.15f, 0.1f, 0.15f)
 					.UseIntensity(deltaintensity)
-					.UseImage(Mod.GetTexture("Textures/noise"))
-					.UseImage(Mod.GetTexture("Textures/3dNoise"), 1);
+					.UseImage(Mod.Assets.Request<Texture2D>("Textures/noise").Value)
+					.UseImage(Mod.Assets.Request<Texture2D>("Textures/3dNoise").Value, 1);
 			else
 			{
 				float intensity = Math.Min(ashrain.GetShader().Intensity + deltaintensity, maxIntensity);
@@ -595,11 +595,11 @@ namespace SpiritMod
 		public override Texture2D GetMapBackgroundImage()
 		{
 			if (ZoneSpirit)
-				return Mod.GetTexture("Backgrounds/SpiritMapBackground");
+				return Mod.Assets.Request<Texture2D>("Backgrounds/SpiritMapBackground").Value;
 			if (ZoneReach)
-				return Mod.GetTexture("Backgrounds/BriarMapBG");
+				return Mod.Assets.Request<Texture2D>("Backgrounds/BriarMapBG").Value;
 			if (ZoneAsteroid)
-				return Mod.GetTexture("Backgrounds/AsteroidMapBG");
+				return Mod.Assets.Request<Texture2D>("Backgrounds/AsteroidMapBG").Value;
 			return null;
 		}
 

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -39,7 +40,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			Projectile proj = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockback, player.whoAmI);
+			Projectile proj = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback, player.whoAmI);
 			if(proj.ModProjectile is SanguineFlayerProj flayer)
 			{
 				flayer.SwingTime = Item.useTime;
@@ -51,6 +52,6 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 			return false;
 		}
 
-		public override float UseTimeMultiplier(Player player) => base.UseTimeMultiplier(player) * player.meleeSpeed; //Scale with melee speed buffs, like whips
+		public override float UseTimeMultiplier(Player player) => base.UseTimeMultiplier(player) * player.GetAttackSpeed(DamageClass.Melee); //Scale with melee speed buffs, like whips
 	}
 }

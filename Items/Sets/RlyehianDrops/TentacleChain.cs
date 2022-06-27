@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Projectiles.Flail;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,10 +11,7 @@ namespace SpiritMod.Items.Sets.RlyehianDrops
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Brine Barrage");
-			// Tooltip.SetDefault("Plugs into tiles, changing the chain into a shocking livewire");
-
 		}
-
 
 		public override void SetDefaults()
 		{
@@ -45,7 +42,7 @@ namespace SpiritMod.Items.Sets.RlyehianDrops
 			// NextBool().ToDirectionInt() will have a 50% chance to make it negative instead of positive.
 			// The Solar Eruption uses this calculation: Main.rand.NextFloat(0f, 0.5f) * Main.rand.NextBool().ToDirectionInt() * MathHelper.ToRadians(45f);
 			float direction = Main.rand.NextFloat(0.25f, 1f) * Main.rand.NextBool().ToDirectionInt() * MathHelper.ToRadians(radius);
-			Projectile projectile = Projectile.NewProjectileDirect(player.RotatedRelativePoint(player.MountedCenter), new Vector2(speedX, speedY), type, damage, knockback, player.whoAmI, 0f, direction);
+			Projectile projectile = Projectile.NewProjectileDirect(source , player.RotatedRelativePoint(player.MountedCenter), velocity, type, damage, knockback, player.whoAmI, 0f, direction);
 			// Extra logic for the chain to adjust to item stats, unlike the Solar Eruption.
 			if (projectile.ModProjectile is TentacleChainProj modItem)
 			{

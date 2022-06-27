@@ -179,10 +179,10 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
 			Effect effect = Mod.GetEffect("Effects/AstralSpellblade");
-			effect.Parameters["baseTexture"].SetValue(Mod.GetTexture("Textures/noise"));
+			effect.Parameters["baseTexture"].SetValue(Mod.Assets.Request<Texture2D>("Textures/noise").Value);
 			effect.Parameters["baseColorDark"].SetValue(new Color(67, 37, 143).ToVector4());
 			effect.Parameters["baseColorLight"].SetValue(new Color(230, 55, 166).ToVector4());
-			effect.Parameters["overlayTexture"].SetValue(Mod.GetTexture("Textures/voronoiLooping"));
+			effect.Parameters["overlayTexture"].SetValue(Mod.Assets.Request<Texture2D>("Textures/voronoiLooping").Value);
 			effect.Parameters["overlayColor"].SetValue(new Color(255, 245, 245).ToVector4() * 3);
 
 			effect.Parameters["xMod"].SetValue(0.5f);

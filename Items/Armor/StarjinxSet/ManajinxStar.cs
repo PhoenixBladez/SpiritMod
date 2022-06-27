@@ -92,7 +92,7 @@ namespace SpiritMod.Items.Armor.StarjinxSet
                 Vector2 newCenter = Projectile.oldPos[i] + Projectile.Size / 2;
                 float lerpamount = 0.5f + (i / (float)(ProjectileID.Sets.TrailCacheLength[Projectile.type] * 2));
                 float scale = (ProjectileID.Sets.TrailCacheLength[Projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[Projectile.type];
-                spriteBatch.Draw(Mod.GetTexture("Textures/StardustPillarStar"),
+                spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Textures/StardustPillarStar").Value,
                     newCenter - Main.screenPosition,
                     null,
                     Color.Lerp(SpiritMod.StarjinxColor(Main.GlobalTimeWrappedHourly * 4 + i), Color.Transparent, lerpamount) * Projectile.Opacity, 0, new Vector2(36, 36),
@@ -100,7 +100,7 @@ namespace SpiritMod.Items.Armor.StarjinxSet
                     SpriteEffects.None,
                     0);
             }
-            spriteBatch.Draw(Mod.GetTexture("Textures/StardustPillarStar"),
+            spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Textures/StardustPillarStar").Value,
                 Projectile.Center - Main.screenPosition,
                 null,
                 Color.Lerp(SpiritMod.StarjinxColor(Main.GlobalTimeWrappedHourly * 4), Color.Transparent, 0.75f) * Projectile.Opacity, 

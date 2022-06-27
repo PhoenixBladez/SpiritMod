@@ -8,6 +8,7 @@ using Terraria.Enums;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 {
@@ -56,14 +57,15 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 
 			return base.CanUseItem(player);
 		}
+
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			if (player.altFunctionUse == 2)
 			{
-				Vector2 direction = new Vector2(speedX, speedY);
+				Vector2 direction = velocity;
 				if (ChargeReady)
 				{
-					SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Shotgun2").WithPitchVariance(0.2f).WithVolume(0.4f), player.Center);
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/Shotgun2") with { PitchVariance = 0.2f, Volume = 0.4f}, player.Center);
 
 					for (int i = 0; i < 15; i++)
 					{
@@ -71,12 +73,12 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 						dust.velocity = direction.RotatedBy(Main.rand.NextFloat(-0.4f, 0.4f)) * Main.rand.NextFloat(2, 10);
 					}
 					player.GetModPlayer<MyPlayer>().Shake += 12;
-					Projectile.NewProjectile(position + (direction * 20) + (direction.RotatedBy(-1.57f * player.direction) * 15), direction, ModContent.ProjectileType<DuelistBlastSpecial>(), damage * 2, knockBack * 1.5f, player.whoAmI);
+					Projectile.NewProjectile(source, position + (direction * 20) + (direction.RotatedBy(-1.57f * player.direction) * 15), direction, ModContent.ProjectileType<DuelistBlastSpecial>(), damage * 2, knockback * 1.5f, player.whoAmI);
 				}
 				else
 				{
-					SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14).WithPitchVariance(0.2f).WithVolume(.35f), player.Center);
-					SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Shotgun1").WithPitchVariance(0.6f).WithVolume(0.46f), player.Center);
+					SoundEngine.PlaySound(SoundID.Item14 with { PitchVariance = 0.2f, Volume = 0.35f }, player.Center);
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/Shotgun1") with { PitchVariance = 0.6f, Volume = 0.46f }, player.Center);
 
 					for (int i = 0; i < 10; i++)
 					{
@@ -86,22 +88,21 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 						dust.alpha = 40 + Main.rand.Next(40);
 						dust.rotation = Main.rand.NextFloat(6.28f);
 					}
-					Projectile.NewProjectile(position + (direction * 20) + (direction.RotatedBy(-1.57f * player.direction) * 15), direction, ModContent.ProjectileType<DuelistBlast>(), damage, knockback, player.whoAmI);
+					Projectile.NewProjectile(source, position + (direction * 20) + (direction.RotatedBy(-1.57f * player.direction) * 15), direction, ModContent.ProjectileType<DuelistBlast>(), damage, knockback, player.whoAmI);
 				}
 				charge = 0;
+				return true;
 			}
 			else
 			{
-				Vector2 direction = new Vector2(speedX, speedY);
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 1).WithPitchVariance(0.5f), player.Center);
-				Projectile proj = Projectile.NewProjectileDirect(position + (direction * 20) + (direction.RotatedBy(-1.57f * player.direction) * 20), Vector2.Zero, ModContent.ProjectileType<DuelistSlash>(), damage, knockback, player.whoAmI);
+				Vector2 direction = velocity;
+				SoundEngine.PlaySound(SoundID.Item1 with { PitchVariance = 0.5f }, player.Center);
+				Projectile proj = Projectile.NewProjectileDirect(source, position + (direction * 20) + (direction.RotatedBy(-1.57f * player.direction) * 20), Vector2.Zero, ModContent.ProjectileType<DuelistSlash>(), damage, knockback, player.whoAmI);
 				var mp = proj.ModProjectile as DuelistSlash;
 				mp.Phase = charge % 3;
 				charge++;
 				return false;
 			}
-			speedX = speedY = 0;
-			return true;
 		}
 	}
 
@@ -234,7 +235,8 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 				if (Empowered)
 				{
 					Projectile.damage *= 2;
-					SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Slash1").WithPitchVariance(0.1f).WithVolume(0.4f), Projectile.Center);
+
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/Slash1") with { PitchVariance = 0.1f, Volume = 0.4f }, Projectile.Center);
 					Player.GetModPlayer<MyPlayer>().Shake += 12;
 				}
 			}
@@ -262,16 +264,7 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 			{
 				if (Projectile.frame > 2 && Projectile.frame < 5)
 				{
-					SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 85).WithPitchVariance(0.2f).WithVolume(.15f), Projectile.Center);
-
-					/*StarParticle particle = new StarParticle(
-						Player.Center + ((rotation - 0.4f).ToRotationVector2() * 95),
-						Main.rand.NextVector2Circular(1, 1),
-						Color.Cyan,
-						Main.rand.NextFloat(0.1f, 0.2f),
-						Main.rand.Next(20, 40));
-
-					ParticleHandler.SpawnParticle(particle);*/
+					SoundEngine.PlaySound(SoundID.Item85 with { PitchVariance = 0.2f, Volume = 0.15f }, Projectile.Center);
 
 					for (int i = 0; i < 2; i++)
 						Dust.NewDustPerfect(Player.Center + ((rotation - 0.4f).ToRotationVector2() * 95), ModContent.DustType<DuelistBubble>(), Main.rand.NextVector2Circular(1, 1));
@@ -285,7 +278,7 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 			{
 				if (Phase == 1)
 				{
-					Projectile.NewProjectile(Player.Center, Vector2.Zero, ModContent.ProjectileType<DuelistActivation>(), 0, 0, Player.whoAmI);
+					Projectile.NewProjectile(Projectile.GetSource_FromAI(), Player.Center, Vector2.Zero, ModContent.ProjectileType<DuelistActivation>(), 0, 0, Player.whoAmI);
 				}
 				Projectile.active = false;
 			}
@@ -308,13 +301,13 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 				Texture2D tex2 = TextureAssets.Projectile[Projectile.type].Value;
 				if (flip)
 				{
-					spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor * .5f, rotation + 2.355f, new Vector2(tex2.Width, tex2.Height), Projectile.scale, SpriteEffects.FlipHorizontally, 0f);
-					spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor * .125f, rotation + 2.355f, new Vector2(tex2.Width, tex2.Height), Projectile.scale * 1.15f, SpriteEffects.FlipHorizontally, 0f);
+					Main.spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor * .5f, rotation + 2.355f, new Vector2(tex2.Width, tex2.Height), Projectile.scale, SpriteEffects.FlipHorizontally, 0f);
+					Main.spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor * .125f, rotation + 2.355f, new Vector2(tex2.Width, tex2.Height), Projectile.scale * 1.15f, SpriteEffects.FlipHorizontally, 0f);
 				}
 				else
 				{
-					spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor, rotation + 0.785f, new Vector2(0, tex2.Height), Projectile.scale, SpriteEffects.None, 0f);
-					spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor * .125f, rotation + 0.785f, new Vector2(0, tex2.Height), Projectile.scale * 1.15f, SpriteEffects.None, 0f);
+					Main.spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor, rotation + 0.785f, new Vector2(0, tex2.Height), Projectile.scale, SpriteEffects.None, 0f);
+					Main.spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor * .125f, rotation + 0.785f, new Vector2(0, tex2.Height), Projectile.scale * 1.15f, SpriteEffects.None, 0f);
 				}
 			}
 
@@ -322,13 +315,13 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 			switch (Phase)
 			{
 				case 0:
-					tex = ModContent.Request<Texture2D>(Texture + "One");
+					tex = ModContent.Request<Texture2D>(Texture + "One", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 					break;
 				case 1:
-					tex = ModContent.Request<Texture2D>(Texture + "Two");
+					tex = ModContent.Request<Texture2D>(Texture + "Two", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 					break;
 				case 2:
-					tex = ModContent.Request<Texture2D>(Texture + "Special");
+					tex = ModContent.Request<Texture2D>(Texture + "Special", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 					break;
 				default:
 					tex = TextureAssets.Projectile[Projectile.type].Value;
@@ -340,27 +333,27 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 			{
 				if (direction.X > 0)
 				{
-					spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, color * .6f, Projectile.rotation, new Vector2(0, frameHeight / 2), Projectile.scale, SpriteEffects.None, 0f);
-					spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, color * .126f, Projectile.rotation, new Vector2(0, frameHeight / 2), Projectile.scale * 1.05f, SpriteEffects.None, 0f);
+					Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, color * .6f, Projectile.rotation, new Vector2(0, frameHeight / 2), Projectile.scale, SpriteEffects.None, 0f);
+					Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, color * .126f, Projectile.rotation, new Vector2(0, frameHeight / 2), Projectile.scale * 1.05f, SpriteEffects.None, 0f);
 				}
 				else
 				{
-					spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, color * .6f, Projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), Projectile.scale, SpriteEffects.FlipHorizontally, 0f);
-					spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, color * .126f, Projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), Projectile.scale * 1.05f, SpriteEffects.FlipHorizontally, 0f);
+					Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, color * .6f, Projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), Projectile.scale, SpriteEffects.FlipHorizontally, 0f);
+					Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, color * .126f, Projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), Projectile.scale * 1.05f, SpriteEffects.FlipHorizontally, 0f);
 				}
 			}
 			else
 			{
 				if (direction.X > 0)
 				{
-					spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition - (direction.RotatedBy(-1.57f) * 15), frame, color * .6f, Projectile.rotation, new Vector2(0, frameHeight / 2), Projectile.scale, SpriteEffects.None, 0f);
-					spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition - (direction.RotatedBy(-1.57f) * 15), frame, color * .126f, Projectile.rotation, new Vector2(0, frameHeight / 2), Projectile.scale * 1.05f, SpriteEffects.None, 0f);
+					Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition - (direction.RotatedBy(-1.57f) * 15), frame, color * .6f, Projectile.rotation, new Vector2(0, frameHeight / 2), Projectile.scale, SpriteEffects.None, 0f);
+					Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition - (direction.RotatedBy(-1.57f) * 15), frame, color * .126f, Projectile.rotation, new Vector2(0, frameHeight / 2), Projectile.scale * 1.05f, SpriteEffects.None, 0f);
 
 				}
 				else
 				{
-					spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition - (direction.RotatedBy(-1.57f) * 15), frame, color * .6f, Projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), Projectile.scale, SpriteEffects.FlipHorizontally, 0f);
-					spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition - (direction.RotatedBy(-1.57f) * 15), frame, color * .126f, Projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), Projectile.scale *1.05f, SpriteEffects.FlipHorizontally, 0f);
+					Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition - (direction.RotatedBy(-1.57f) * 15), frame, color * .6f, Projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), Projectile.scale, SpriteEffects.FlipHorizontally, 0f);
+					Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition - (direction.RotatedBy(-1.57f) * 15), frame, color * .126f, Projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), Projectile.scale *1.05f, SpriteEffects.FlipHorizontally, 0f);
 				}
 			}
 			return false;
@@ -510,13 +503,13 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 			Rectangle frame = new Rectangle(0, frameHeight * Projectile.frame, tex.Width, frameHeight);
 			if (direction == 1)
 			{
-				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, frame, color * .75f, Projectile.rotation, new Vector2(0, frameHeight / 2), Projectile.scale, SpriteEffects.None, 0f);
-				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, frame, color * .1f, Projectile.rotation, new Vector2(0, frameHeight / 2), Projectile.scale * 1.05f, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, frame, color * .75f, Projectile.rotation, new Vector2(0, frameHeight / 2), Projectile.scale, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, frame, color * .1f, Projectile.rotation, new Vector2(0, frameHeight / 2), Projectile.scale * 1.05f, SpriteEffects.None, 0f);
 			}
 			else
 			{
-				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, frame, color * .75f, Projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), Projectile.scale, SpriteEffects.FlipHorizontally, 0f);
-				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, frame, color * .1f, Projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), Projectile.scale * 1.05f, SpriteEffects.FlipHorizontally, 0f);
+				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, frame, color * .75f, Projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), Projectile.scale, SpriteEffects.FlipHorizontally, 0f);
+				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, frame, color * .1f, Projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), Projectile.scale * 1.05f, SpriteEffects.FlipHorizontally, 0f);
 			}
 			return false;
 		}
@@ -574,7 +567,7 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 			Vector2 lineOffshoot = (Projectile.rotation + 1.57f).ToRotationVector2() * Projectile.height * 0.3f;
 			if (Projectile.frame < 7)
 			{
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 85).WithPitchVariance(0.2f).WithVolume(.15f), Projectile.Center);
+				SoundEngine.PlaySound(SoundID.Item85 with { PitchVariance = 0.2f, Volume = 0.15f }, Projectile.Center);
 				Vector2 position = Projectile.Center + (lineDirection * Main.rand.NextFloat()) + (lineOffshoot * Main.rand.NextFloat(-1f, 1f));
 				Dust.NewDustPerfect(position, ModContent.DustType<DuelistBubble>(), Main.rand.NextVector2Circular(1, 1) + (Projectile.rotation.ToRotationVector2() * 2));
 			}
@@ -627,7 +620,7 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 			int frameHeight = tex.Height / Main.projFrames[Projectile.type];
 			Rectangle frame = new Rectangle(0, frameHeight * Projectile.frame, tex.Width, frameHeight);
-			spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, frame, color, Projectile.rotation, new Vector2(0, frameHeight / 2), Projectile.scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, frame, color, Projectile.rotation, new Vector2(0, frameHeight / 2), Projectile.scale, SpriteEffects.None, 0f);
 			return false;
 		}
 	}

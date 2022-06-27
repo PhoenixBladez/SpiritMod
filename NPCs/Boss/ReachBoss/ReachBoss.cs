@@ -355,7 +355,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			Color color1 = Color.White * num107 * .8f;
 			var effects = NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(
-				Mod.GetTexture("NPCs/Boss/ReachBoss/ReachBoss_Glow"),
+				Mod.Assets.Request<Texture2D>("NPCs/Boss/ReachBoss/ReachBoss_Glow").Value,
 				NPC.Center - Main.screenPosition + Drawoffset,
 				NPC.frame,
 				color1,
@@ -376,7 +376,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					color28 = NPC.GetAlpha(color28);
 					color28 *= 1f - num107;
 					Vector2 vector29 = NPC.Center + ((float)num103 / (float)num108 * 6.28318548f + NPC.rotation + num106).ToRotationVector2() * (4f * num107 + 2f) - Main.screenPosition + Drawoffset - NPC.velocity * (float)num103;
-					Main.spriteBatch.Draw(Mod.GetTexture("NPCs/Boss/ReachBoss/ReachBoss_Glow"), vector29, NPC.frame, color28, NPC.rotation, NPC.frame.Size() / 2f, NPC.scale, spriteEffects3, 0f);
+					Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Boss/ReachBoss/ReachBoss_Glow").Value, vector29, NPC.frame, color28, NPC.rotation, NPC.frame.Size() / 2f, NPC.scale, spriteEffects3, 0f);
 				}
 			}
 			if (pulseTrailPurple || pulseTrailYellow)
@@ -392,7 +392,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					color28 = NPC.GetAlpha(color28);
 					color28 *= 1f - num1072;
 					Vector2 vector29 = NPC.Center + ((float)num103 / (float)num108 * 6.28318548f + NPC.rotation + num106).ToRotationVector2() * (4f * num1072 + 2f) - Main.screenPosition + Drawoffset - NPC.velocity * (float)num103;
-					Main.spriteBatch.Draw(Mod.GetTexture("NPCs/Boss/ReachBoss/ReachBoss_PurpleGlow"), vector29, NPC.frame, color28 * .9f, NPC.rotation, NPC.frame.Size() / 2f, NPC.scale, spriteEffects3, 0f);
+					Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Boss/ReachBoss/ReachBoss_PurpleGlow").Value, vector29, NPC.frame, color28 * .9f, NPC.rotation, NPC.frame.Size() / 2f, NPC.scale, spriteEffects3, 0f);
 				}
 			}
 		}
@@ -403,7 +403,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
             for (int i = 1; i < 10; i++)
             {
                 Color color = Color.Lerp(startColor, endColor, i / 10f) * opacity;
-                spriteBatch.Draw(Mod.GetTexture("NPCs/Boss/ReachBoss/ReachBoss_Afterimage"), new Vector2(NPC.Center.X, NPC.Center.Y) + offset - Main.screenPosition + new Vector2(0, NPC.gfxOffY) - NPC.velocity * (float)i * trailLengthModifier, NPC.frame, color, NPC.rotation, NPC.frame.Size() * 0.5f, MathHelper.Lerp(startScale, endScale, i / 10f), spriteEffects, 0f);
+                spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Boss/ReachBoss/ReachBoss_Afterimage").Value, new Vector2(NPC.Center.X, NPC.Center.Y) + offset - Main.screenPosition + new Vector2(0, NPC.gfxOffY) - NPC.velocity * (float)i * trailLengthModifier, NPC.frame, color, NPC.rotation, NPC.frame.Size() * 0.5f, MathHelper.Lerp(startScale, endScale, i / 10f), spriteEffects, 0f);
             }
         }
 	

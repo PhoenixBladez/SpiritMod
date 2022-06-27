@@ -80,10 +80,10 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 
 		public void DoTrailCreation(TrailManager tM)
 		{
-			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, Color.Magenta), new RoundCap(), new DefaultTrailPosition(), 40f, 100f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
+			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, Color.Magenta), new RoundCap(), new DefaultTrailPosition(), 40f, 100f, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_4").Value, 0.01f, 1f, 1f));
 
-			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(255, 5, 30)), new RoundCap(), new DefaultTrailPosition(), 30f, 100f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
-			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(255, 247, 0)), new RoundCap(), new DefaultTrailPosition(), 20f, 100f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
+			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(255, 5, 30)), new RoundCap(), new DefaultTrailPosition(), 30f, 100f, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_4").Value, 0.01f, 1f, 1f));
+			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(255, 247, 0)), new RoundCap(), new DefaultTrailPosition(), 20f, 100f, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_4").Value, 0.01f, 1f, 1f));
 			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(255, 251, 199)), new RoundCap(), new DefaultTrailPosition(), 6f, 100f);
 			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(255, 251, 199)), new RoundCap(), new DefaultTrailPosition(), 6f, 100f);
 		}

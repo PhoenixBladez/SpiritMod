@@ -325,7 +325,7 @@ namespace SpiritMod.Items.Pets.CosmicRattler
 				new Vector2(0f, tex.Height / 2), threadScale * new Vector2((1 - progress) * thread2.Length, 1), SpriteEffects.None, 0f);
 
 			tex = SpiritMod.Instance.GetTexture("NPCs/StarjinxEvent/Enemies/Starachnid/SpiderStar");
-			Texture2D Bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D Bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 
 			//Use a method to cut down on boilerplate with drawing stars
 			void DrawStar(Vector2 center, float starSize, float rotation)

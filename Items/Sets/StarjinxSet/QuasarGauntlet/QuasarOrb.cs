@@ -167,7 +167,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			Vector2 scale = new Vector2(1f - Projectile.velocity.Length() / 50, 1f + Projectile.velocity.Length() / 50) * Projectile.scale;
 
 			Vector2 drawCenter = Projectile.Center - Main.screenPosition;
-			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			sB.Draw(bloom, drawCenter, null, Color.Magenta * Projectile.Opacity, rotation, bloom.Size() / 2, scale * 0.68f, SpriteEffects.None, 0);
 
 			sB.End(); sB.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, RasterizerState.CullNone, default, Main.GameViewMatrix.ZoomMatrix);
@@ -175,7 +175,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 
 			//Set parameters for radial noise shader
 			Effect effect = SpiritMod.Instance.GetEffect("Effects/PortalShader");
-			effect.Parameters["PortalNoise"].SetValue(Mod.GetTexture("Utilities/Noise/SpiralNoise"));
+			effect.Parameters["PortalNoise"].SetValue(Mod.Assets.Request<Texture2D>("Utilities/Noise/SpiralNoise").Value);
 			effect.Parameters["Timer"].SetValue(MathHelper.WrapAngle(Main.GlobalTimeWrappedHourly / 3));
 			effect.Parameters["DistortionStrength"].SetValue(0);
 			effect.Parameters["Rotation"].SetValue(Projectile.rotation);

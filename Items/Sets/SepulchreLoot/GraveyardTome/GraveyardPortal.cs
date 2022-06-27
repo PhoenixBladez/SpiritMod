@@ -105,14 +105,14 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D bloom = Mod.GetTexture("Effects/Masks/Extra_A1");
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/Extra_A1").Value;
 			spriteBatch.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.Black, 0, bloom.Size() / 2, 
 				Projectile.scale * 1.3f, SpriteEffects.None, 0); //draw a dark bloom beneath the portal
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
-			SpiritMod.ShaderDict["PortalShader"].Parameters["PortalNoise"].SetValue(Mod.GetTexture("Utilities/Noise/SpiralNoise"));
-			SpiritMod.ShaderDict["PortalShader"].Parameters["DistortionNoise"].SetValue(Mod.GetTexture("Utilities/Noise/noise"));
+			SpiritMod.ShaderDict["PortalShader"].Parameters["PortalNoise"].SetValue(Mod.Assets.Request<Texture2D>("Utilities/Noise/SpiralNoise").Value);
+			SpiritMod.ShaderDict["PortalShader"].Parameters["DistortionNoise"].SetValue(Mod.Assets.Request<Texture2D>("Utilities/Noise/noise").Value);
 			SpiritMod.ShaderDict["PortalShader"].Parameters["Timer"].SetValue(MathHelper.WrapAngle(Main.GlobalTimeWrappedHourly / 3));
 			SpiritMod.ShaderDict["PortalShader"].Parameters["DistortionStrength"].SetValue(0.1f);
 			SpiritMod.ShaderDict["PortalShader"].Parameters["Rotation"].SetValue(MathHelper.WrapAngle(Main.GlobalTimeWrappedHourly / 2));

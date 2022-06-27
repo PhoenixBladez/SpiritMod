@@ -32,9 +32,9 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.AdornedBow
 			if (Projectile.ai[0] != 1)
 				return;
 
-			tM.CreateTrail(Projectile, new StandardColorTrail(new Color(163, 255, 246)), new RoundCap(), new DefaultTrailPosition(), 10, 200, new ImageShader(Mod.GetTexture("Textures/Trails/CrystalTrail"), Vector2.One));
-			tM.CreateTrail(Projectile, new StandardColorTrail(new Color(163, 255, 246)), new RoundCap(), new WaveTrailPos(10), 10, 200, new ImageShader(Mod.GetTexture("Textures/Trails/CrystalTrail"), Vector2.One));
-			tM.CreateTrail(Projectile, new StandardColorTrail(new Color(163, 255, 246)), new RoundCap(), new WaveTrailPos(-10), 10, 200, new ImageShader(Mod.GetTexture("Textures/Trails/CrystalTrail"), Vector2.One));
+			tM.CreateTrail(Projectile, new StandardColorTrail(new Color(163, 255, 246)), new RoundCap(), new DefaultTrailPosition(), 10, 200, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/CrystalTrail").Value, Vector2.One));
+			tM.CreateTrail(Projectile, new StandardColorTrail(new Color(163, 255, 246)), new RoundCap(), new WaveTrailPos(10), 10, 200, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/CrystalTrail").Value, Vector2.One));
+			tM.CreateTrail(Projectile, new StandardColorTrail(new Color(163, 255, 246)), new RoundCap(), new WaveTrailPos(-10), 10, 200, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/CrystalTrail").Value, Vector2.One));
 			tM.CreateTrail(Projectile, new GradientTrail(new Color(163, 255, 246) * 0.5f, Color.Transparent), new RoundCap(), new ArrowGlowPosition(), 25, 300, new DefaultShader());
 		}
 

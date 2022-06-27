@@ -71,12 +71,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			};
 			PrimitiveRenderer.DrawPrimitiveShape(star);
 
-			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 
 			sB.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.Goldenrod * 0.8f * Projectile.Opacity, 0, bloom.Size() / 2, 0.25f * Projectile.scale, SpriteEffects.None, 0);
 			sB.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.Goldenrod * Projectile.Opacity, 0, bloom.Size() / 2, 0.2f * Projectile.scale, SpriteEffects.None, 0);
 
-			Texture2D beam = Mod.GetTexture("Textures/Ray");
+			Texture2D beam = Mod.Assets.Request<Texture2D>("Textures/Ray").Value;
 			float beamProgress = (float)Math.Pow(Timer / (float)CHANNELTIME, 2);
 			float opacity = MathHelper.Lerp(0.5f, 1f, beamProgress) * Projectile.Opacity;
 			for (int i = 0; i < 5; i++)

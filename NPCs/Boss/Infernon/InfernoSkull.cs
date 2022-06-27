@@ -61,7 +61,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			return false;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/Boss/Infernon/InfernonSkull_Glow"));
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Boss/Infernon/InfernonSkull_Glow").Value);
 
 		public override void OnKill()
 		{

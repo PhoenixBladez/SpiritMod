@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Magic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,7 +14,6 @@ namespace SpiritMod.Items.Sets.MarbleSet
 			DisplayName.SetDefault("Gilded Tome");
 			Tooltip.SetDefault("Rains down gilded stalactites from the sky\nThese stalactites stick to enemies and slow them down");
 		}
-
 
 		public override void SetDefaults()
 		{
@@ -35,6 +35,7 @@ namespace SpiritMod.Items.Sets.MarbleSet
 			Item.shoot = ModContent.ProjectileType<MarbleStalactite>();
 			Item.shootSpeed = 20f;
 		}
+
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe(1);
@@ -43,13 +44,13 @@ namespace SpiritMod.Items.Sets.MarbleSet
 			recipe.AddTile(TileID.Anvils);
 			recipe.Register();
 		}
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
+
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
+			if (Main.myPlayer == player.whoAmI)
 			{
-				if (Main.myPlayer == player.whoAmI) {
-					Vector2 mouse = Main.MouseWorld;
-					Projectile.NewProjectile(mouse.X, player.Center.Y - 700 + Main.rand.Next(-50, 50), 0, Main.rand.Next(18, 28), ModContent.ProjectileType<MarbleStalactite>(), damage, knockback, player.whoAmI);
-				}
+				Vector2 mouse = Main.MouseWorld;
+				Projectile.NewProjectile(source, mouse.X, player.Center.Y - 700 + Main.rand.Next(-50, 50), 0, Main.rand.Next(18, 28), ModContent.ProjectileType<MarbleStalactite>(), damage, knockback, player.whoAmI);
 			}
 			return false;
 		}

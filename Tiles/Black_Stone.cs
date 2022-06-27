@@ -46,7 +46,7 @@ namespace SpiritMod.Tiles
 			int height = tile.TileFrameY == 36 ? 18 : 16;
 			if (tile.Slope == 0 && !tile.IsHalfBlock) 
 			{
-				Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Black_Stone_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Black_Stone_Glow").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			}
 		}
 	}

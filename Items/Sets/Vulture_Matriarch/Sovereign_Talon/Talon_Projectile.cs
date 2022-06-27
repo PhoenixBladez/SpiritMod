@@ -97,7 +97,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
-			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			spriteBatch.Draw(bloom, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(new Color(255, 236, 115, 200)) * 0.75f, 
 				Projectile.velocity.ToRotation() + MathHelper.PiOver2, bloom.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
 

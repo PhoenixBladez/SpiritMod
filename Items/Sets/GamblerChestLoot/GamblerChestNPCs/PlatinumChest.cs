@@ -47,11 +47,11 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 			Vector4 colorMod = Color.Silver.ToVector4();
 			SpiritMod.StarjinxNoise.Parameters["distance"].SetValue(2.9f - (sineAdd / 10));
 			SpiritMod.StarjinxNoise.Parameters["colorMod"].SetValue(colorMod);
-			SpiritMod.StarjinxNoise.Parameters["noise"].SetValue(Mod.GetTexture("Textures/noise"));
+			SpiritMod.StarjinxNoise.Parameters["noise"].SetValue(Mod.Assets.Request<Texture2D>("Textures/noise").Value);
 			SpiritMod.StarjinxNoise.Parameters["rotation"].SetValue(sineAdd / 5);
 			SpiritMod.StarjinxNoise.Parameters["opacity2"].SetValue(0.3f + (sineAdd / 10));
 			SpiritMod.StarjinxNoise.CurrentTechnique.Passes[0].Apply();
-			Main.spriteBatch.Draw(Mod.GetTexture("Effects/Masks/Extra_49"), (NPC.Center - Main.screenPosition) + new Vector2(0, 2), null, Color.White, 0f, new Vector2(50, 50), 1.1f + (sineAdd / 9), SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Effects/Masks/Extra_49").Value, (NPC.Center - Main.screenPosition) + new Vector2(0, 2), null, Color.White, 0f, new Vector2(50, 50), 1.1f + (sineAdd / 9), SpriteEffects.None, 0f);
 			if (counter > 0)
 			{
 				Main.spriteBatch.End();
@@ -60,9 +60,9 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 				SpiritMod.CircleNoise.Parameters["breakCounter"].SetValue(breakCounter);
 				SpiritMod.CircleNoise.Parameters["rotation"].SetValue(breakCounter);
 				SpiritMod.CircleNoise.Parameters["colorMod"].SetValue(colorMod);
-				SpiritMod.CircleNoise.Parameters["noise"].SetValue(Mod.GetTexture("Textures/noise"));
+				SpiritMod.CircleNoise.Parameters["noise"].SetValue(Mod.Assets.Request<Texture2D>("Textures/noise").Value);
 				SpiritMod.CircleNoise.CurrentTechnique.Passes[0].Apply();
-				Main.spriteBatch.Draw(Mod.GetTexture("Effects/Masks/Extra_49"), (NPC.Center - Main.screenPosition) + new Vector2(0, 2), null, Color.White, 0f, new Vector2(50, 50), 3 + (breakCounter / 2), SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Effects/Masks/Extra_49").Value, (NPC.Center - Main.screenPosition) + new Vector2(0, 2), null, Color.White, 0f, new Vector2(50, 50), 3 + (breakCounter / 2), SpriteEffects.None, 0f);
 			}
 			Main.spriteBatch.End();
 			Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
@@ -78,7 +78,7 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 			{
 				Color color = Color.White;
 				float alpha = (Math.Max(0, 50 - counter)) / 50f;
-				Main.spriteBatch.Draw(Mod.GetTexture("Items/Sets/GamblerChestLoot/GamblerChestNPCs/PlatinumChestBottom_White"), (NPC.Center - Main.screenPosition) + new Vector2(0, 2), new Rectangle(0, NPC.frame.Y, NPC.width, NPC.height), color * alpha, NPC.rotation, center, NPC.scale, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Items/Sets/GamblerChestLoot/GamblerChestNPCs/PlatinumChestBottom_White").Value, (NPC.Center - Main.screenPosition) + new Vector2(0, 2), new Rectangle(0, NPC.frame.Y, NPC.width, NPC.height), color * alpha, NPC.rotation, center, NPC.scale, SpriteEffects.None, 0f);
 			}
 		}
 

@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -41,11 +42,11 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.LocustCrook
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			position = Main.MouseWorld;
-			Projectile.NewProjectile(position, Main.rand.NextVector2Circular(3, 3), type, damage, knockback, player.whoAmI);
+			Projectile.NewProjectile(source, position, Main.rand.NextVector2Circular(3, 3), type, damage, knockback, player.whoAmI);
 			return false;
 		}
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, Item, Mod.GetTexture(Texture.Remove(0, Mod.Name.Length + 1) + "_glow"), rotation, scale);
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, Item, ModContent.Request<Texture2D>(Texture.Remove(0, Mod.Name.Length + 1) + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, rotation, scale);
 	}
 
 	[AutoloadMinionBuff("Locusts", "Bringer of a plague")]
@@ -162,11 +163,11 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.LocustCrook
 			}
 			if (Projectile.ai[0] > 60)
 			{
-				Projectile.QuickDrawTrail(spriteBatch, 0.5f, rotation, effects);
-				Projectile.QuickDrawGlowTrail(spriteBatch, 0.5f, rotation: rotation, spriteEffects: effects);
+				Projectile.QuickDrawTrail(Main.spriteBatch, 0.5f, rotation, effects);
+				Projectile.QuickDrawGlowTrail(Main.spriteBatch, 0.5f, rotation: rotation, spriteEffects: effects);
 			}
-			Projectile.QuickDraw(spriteBatch, rotation, effects);
-			Projectile.QuickDrawGlow(spriteBatch, rotation: rotation, spriteEffects : effects);
+			Projectile.QuickDraw(Main.spriteBatch, rotation, effects);
+			Projectile.QuickDrawGlow(Main.spriteBatch, rotation: rotation, spriteEffects : effects);
 			return false;
 		}
 
@@ -181,7 +182,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.LocustCrook
 	{
 		public override bool InstancePerEntity => true;
 
-		public override bool CloneNewInstances => true;
+		protected override bool CloneNewInstances => true;
 
 		public struct LocustInfo
 		{
@@ -209,7 +210,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.LocustCrook
 
 				if (locustinfo.LocustTime % 15 == 0 && Main.rand.NextBool(2) && Main.player[locustinfo.LocustPlayerindex].ownedProjectileCounts[ModContent.ProjectileType<LocustSmall>()] < 12)
 				{
-					Projectile proj = Projectile.NewProjectileDirect(npc.Center, Main.rand.NextVector2CircularEdge(6, 6), ModContent.ProjectileType<LocustSmall>(), locustinfo.LocustDamage, 1f, locustinfo.LocustPlayerindex);
+					Projectile proj = Projectile.NewProjectileDirect(npc.GetSource_FromAI(), npc.Center, Main.rand.NextVector2CircularEdge(6, 6), ModContent.ProjectileType<LocustSmall>(), locustinfo.LocustDamage, 1f, locustinfo.LocustPlayerindex);
 					if (Main.netMode != NetmodeID.SinglePlayer)
 						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
 				}
@@ -303,11 +304,11 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.LocustCrook
 			for (int i = 0; i < 8; i++)
 				Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Plantera_Green, Scale: Main.rand.NextFloat(0.7f, 1)).noGravity = true;
 
-			SoundEngine.PlaySound(new LegacySoundStyle(SoundID.NPCKilled, 1).WithPitchVariance(0.2f).WithVolume(0.15f), Projectile.Center);
+			SoundEngine.PlaySound(SoundID.NPCDeath1 with { PitchVariance = 0.2f, Volume = 0.15f }, Projectile.Center);
 
 			for (int j = 1; j <= 3; j++)
 			{
-				Gore gore = Gore.NewGoreDirect(Projectile.Center, Projectile.velocity, Mod.Find<ModGore>("Gores/LocustCrook/SmallLocustGore" + j.ToString()).Type);
+				Gore gore = Gore.NewGoreDirect(Projectile.GetSource_Death(), Projectile.Center, Projectile.velocity, Mod.Find<ModGore>("Gores/LocustCrook/SmallLocustGore" + j.ToString()).Type);
 				gore.timeLeft = 20;
 			}
 		}
@@ -321,11 +322,11 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.LocustCrook
 				rotation -= MathHelper.Pi;
 				effects = SpriteEffects.FlipHorizontally;
 			}
-			Projectile.QuickDrawTrail(spriteBatch, 0.5f, rotation, effects);
-			Projectile.QuickDrawGlowTrail(spriteBatch, 0.5f, rotation: rotation, spriteEffects: effects);
+			Projectile.QuickDrawTrail(Main.spriteBatch, 0.5f, rotation, effects);
+			Projectile.QuickDrawGlowTrail(Main.spriteBatch, 0.5f, rotation: rotation, spriteEffects: effects);
 
-			Projectile.QuickDraw(spriteBatch, rotation, effects);
-			Projectile.QuickDrawGlow(spriteBatch, rotation: rotation, spriteEffects: effects); 
+			Projectile.QuickDraw(Main.spriteBatch, rotation, effects);
+			Projectile.QuickDrawGlow(Main.spriteBatch, rotation: rotation, spriteEffects: effects); 
 			return false;
 		}
 	}

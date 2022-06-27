@@ -217,7 +217,7 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 			{
 				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(Mod.Name, "AnimeSwordHeld",
 					delegate (PlayerDrawInfo info) {
-						DragonPlayer.DrawItem(Mod.GetTexture("Items/Weapon/Swung/AnimeSword/AnimeSwordProj"), Mod.GetTexture("Items/Sets/SwordsMisc/BladeOfTheDragon/BladeOfTheDragon_sparkle"), info);
+						DragonPlayer.DrawItem(Mod.Assets.Request<Texture2D>("Items/Weapon/Swung/AnimeSword/AnimeSwordProj").Value, Mod.Assets.Request<Texture2D>("Items/Sets/SwordsMisc/BladeOfTheDragon/BladeOfTheDragon_sparkle").Value, info);
 					}));
 			}
 		}

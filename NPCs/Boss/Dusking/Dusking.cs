@@ -483,7 +483,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 		{
 			if (NPC.localAI[0] > 0)
 			{
-				Texture2D ring = Mod.GetTexture("Effects/Glowmasks/Dusking_Circle");
+				Texture2D ring = Mod.Assets.Request<Texture2D>("Effects/Glowmasks/Dusking_Circle").Value;
 				Vector2 origin = new Vector2(ring.Width * 0.5F, ring.Height * 0.5F);
 				spriteBatch.Draw(ring, (NPC.Center) - Main.screenPosition, null, Color.White * NPC.localAI[0], NPC.localAI[1], origin, 1, SpriteEffects.None, 0);
 			}

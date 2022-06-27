@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 {
@@ -41,12 +42,12 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => 
-            GlowmaskUtils.DrawItemGlowMaskWorld(Main.spriteBatch, Item, ModContent.Request<Texture2D>(Texture + "_glow"), rotation, scale);
+            GlowmaskUtils.DrawItemGlowMaskWorld(Main.spriteBatch, Item, ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, rotation, scale);
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			AstralGreatswordPlayer modplayer = player.GetModPlayer<AstralGreatswordPlayer>();
-			Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockback, player.whoAmI, modplayer.Combo);
+			Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, modplayer.Combo);
 			modplayer.Combo++;
 			modplayer.Combo %= 3;
 			return false;

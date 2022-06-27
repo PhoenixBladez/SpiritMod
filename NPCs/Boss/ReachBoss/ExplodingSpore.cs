@@ -141,7 +141,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			Microsoft.Xna.Framework.Color color9 = Color.Khaki * 1.9f;
 			Microsoft.Xna.Framework.Color color11 = Color.Yellow * 0.3f;
 			Vector2 position3 = position1 + new Vector2(0.0f, -10f);
-			Texture2D texture2D3 = Mod.GetTexture("Effects/Ripple");
+			Texture2D texture2D3 = Mod.Assets.Request<Texture2D>("Effects/Ripple").Value;
 			Microsoft.Xna.Framework.Rectangle r3 = texture2D3.Frame(1, 1, 0, 0);
 			origin = r3.Size() / 2f;
 			Vector2 scale = new Vector2(0.75f, 1f + num16) * 0.45f * NPC.scale;
@@ -154,7 +154,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		}
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/Boss/ReachBoss/ExplodingSpore_Glow"));
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Boss/ReachBoss/ExplodingSpore_Glow").Value);
 		}
 	}
 }

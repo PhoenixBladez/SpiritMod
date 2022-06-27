@@ -270,7 +270,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 
 		public override void PostDraw(Color lightColor)
 		{
-			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			Color bloomColor = Color.LightBlue * 0.33f;
 			bloomColor.A = 0;
 			spriteBatch.Draw(bloom, Projectile.Center + StaffTipDirection - Main.screenPosition, null, bloomColor, 0, bloom.Size() / 2, 0.15f, SpriteEffects.None, 0);
@@ -280,7 +280,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 
 		private void DrawTelegraphBeam(SpriteBatch spriteBatch)
 		{
-			Texture2D telegraph = Mod.GetTexture("Textures/GlowTrail");
+			Texture2D telegraph = Mod.Assets.Request<Texture2D>("Textures/GlowTrail").Value;
 			int ChargeTime = Owner.HeldItem.useTime;
 			float chargeAmount = MathHelper.Clamp(AiTimer / ChargeTime, 0, 1);
 			float PowF(float power) => (float)Math.Pow(chargeAmount, power);
@@ -334,7 +334,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 
 			//Draw the beam and apply shader parameters
 			Effect beamEffect = Mod.GetEffect("Effects/Laser");
-			beamEffect.Parameters["uTexture"].SetValue(Mod.GetTexture("Textures/Trails/Trail_1"));
+			beamEffect.Parameters["uTexture"].SetValue(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_1").Value);
 			beamEffect.Parameters["Progress"].SetValue(Main.GlobalTimeWrappedHourly * 3f);
 			beamEffect.Parameters["xMod"].SetValue(BeamLength / 150f);
 			beamEffect.Parameters["yMod"].SetValue(2f);
@@ -355,7 +355,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			if (HittingTile)
 			{
 				float scaleMod = scale.Y / 60;
-				Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+				Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 				Vector2 endPos = Projectile.Center + StaffTipDirection + BeamDirection * BeamLength;
 				Main.spriteBatch.Draw(bloom, endPos - Main.screenPosition, null, darkBlue, 0, bloom.Size() / 2, 0.5f * scaleMod, SpriteEffects.None, 0);
 

@@ -49,7 +49,7 @@ namespace SpiritMod.Items.Sets.AccessoriesMisc.CrystalFlower
 				Projectile.Kill();
             }
 		}
-		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(Projectile, new GradientTrail(Color.Cyan, Color.Cyan * .5f), new RoundCap(), new DefaultTrailPosition(), 6f, 35f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(Projectile, new GradientTrail(Color.Cyan, Color.Cyan * .5f), new RoundCap(), new DefaultTrailPosition(), 6f, 35f, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_2").Value, 0.01f, 1f, 1f));
 
 		public override void Kill(int timeLeft)
 		{

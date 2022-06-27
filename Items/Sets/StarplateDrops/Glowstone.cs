@@ -45,7 +45,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 				zero = Vector2.Zero;
 			}
 			int height = tile.TileFrameY == 36 ? 18 : 16;
-			Main.spriteBatch.Draw(Mod.GetTexture("Items/Sets/StarplateDrops/Glowstone_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Items/Sets/StarplateDrops/Glowstone_Glow").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
 		public override bool CanKillTile(int i, int j, ref bool blockDamaged)
 		{

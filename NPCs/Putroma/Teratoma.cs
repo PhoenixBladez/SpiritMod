@@ -45,7 +45,7 @@ namespace SpiritMod.NPCs.Putroma
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			spriteBatch.Draw(Mod.GetTexture("NPCs/Putroma/Teratoma_Eyes"), NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+			spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Putroma/Teratoma_Eyes").Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
 				drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, SpriteEffects.None, 0);
 		}
 		public override void HitEffect(int hitDirection, double damage)

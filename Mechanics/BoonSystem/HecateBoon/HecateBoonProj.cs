@@ -122,7 +122,7 @@ namespace SpiritMod.Mechanics.BoonSystem.HecateBoon
 		public void AdditiveCall(SpriteBatch sB)
 		{
 			int trailLength = ProjectileID.Sets.TrailCacheLength[Projectile.type];
-			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			for (int i = 0; i < trailLength; i++)
 			{
 				float progress = i / (float)trailLength;

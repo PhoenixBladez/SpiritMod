@@ -23,8 +23,8 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 			if(Player.HeldItem.type == ModContent.ItemType<Graveyard>())
 			{
 				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(Mod.Name, "GraveyardHeld",
-					delegate (PlayerDrawInfo info) { DrawItem(Mod.GetTexture("Items/Sets/SepulchreLoot/GraveyardTome/Graveyard_held"),
-						Mod.GetTexture("Items/Sets/SepulchreLoot/GraveyardTome/Graveyard_heldGlow"), info); }));
+					delegate (PlayerDrawInfo info) { DrawItem(Mod.Assets.Request<Texture2D>("Items/Sets/SepulchreLoot/GraveyardTome/Graveyard_held").Value,
+						Mod.Assets.Request<Texture2D>("Items/Sets/SepulchreLoot/GraveyardTome/Graveyard_heldGlow").Value, info); }));
 			}
 		}
 

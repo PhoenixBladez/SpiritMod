@@ -40,10 +40,10 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 		{
 			Vector2 center = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
 			Rectangle rect = new Rectangle(0, frame * (TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type]), TextureAssets.Npc[NPC.type].Value.Width, (TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type]));
-			Main.spriteBatch.Draw(Mod.GetTexture("Items/Sets/GamblerChestLoot/GamblerChestNPCs/SilverChestTop"), (NPC.Center - Main.screenPosition + new Vector2(0, 4)), rect, lightColor, NPC.rotation, center, NPC.scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Items/Sets/GamblerChestLoot/GamblerChestNPCs/SilverChestTop").Value, (NPC.Center - Main.screenPosition + new Vector2(0, 4)), rect, lightColor, NPC.rotation, center, NPC.scale, SpriteEffects.None, 0f);
 			if (counter > 0 && frame > 0)
 			{
-				Main.spriteBatch.Draw(Mod.GetTexture("Effects/Masks/Extra_49_Top"), (NPC.Center - Main.screenPosition) + new Vector2(-2, 4), null, new Color(200, 200, 200, 0), 0f, new Vector2(50, 50), 0.375f * NPC.scale, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Effects/Masks/Extra_49_Top").Value, (NPC.Center - Main.screenPosition) + new Vector2(-2, 4), null, new Color(200, 200, 200, 0), 0f, new Vector2(50, 50), 0.375f * NPC.scale, SpriteEffects.None, 0f);
 			}
 			Main.spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, (NPC.Center - Main.screenPosition + new Vector2(0, 4)), rect, lightColor, NPC.rotation, center, NPC.scale, SpriteEffects.None, 0f);
 			return false;

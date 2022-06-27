@@ -160,7 +160,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			bool valid = ModContent.GetInstance<SpiritClientConfig>().ShowNPCQuestNotice && npc.CanTalk; //Check if the NPC talks and if the config allows
 			if (valid && ModContent.GetInstance<QuestWorld>().NPCQuestQueue.ContainsKey(npc.type) && ModContent.GetInstance<QuestWorld>().NPCQuestQueue[npc.type].Count > 0)
 			{
-				Texture2D tex = Mod.GetTexture("UI/QuestUI/Textures/ExclamationMark");
+				Texture2D tex = Mod.Assets.Request<Texture2D>("UI/QuestUI/Textures/ExclamationMark").Value;
 				float scale = (float)Math.Sin(Main.time * 0.08f) * 0.14f;
 				spriteBatch.Draw(tex, new Vector2(npc.Center.X - 2, npc.Center.Y - 40) - Main.screenPosition, new Rectangle(0, 0, 6, 24), Color.White, 0f, new Vector2(3, 12), 1f + scale, SpriteEffects.None, 0f);
 			}

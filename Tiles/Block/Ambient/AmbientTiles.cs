@@ -75,7 +75,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			}
 			int height = tile.TileFrameY == 36 ? 18 : 16;
 			if (tile.Slope == 0 && !tile.IsHalfBlock)
-				Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Block/Ambient/Magmastone_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Block/Ambient/Magmastone_Glow").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
     }
     public class SmolderingRockItem : AmbientStoneItem
@@ -145,7 +145,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			}
 			int height = tile.TileFrameY == 36 ? 18 : 16;
 			if (tile.Slope == 0 && !tile.IsHalfBlock)
-				Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Block/Ambient/SmolderingRock_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Block/Ambient/SmolderingRock_Glow").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
     }
     public class CinderstoneItem : AmbientStoneItem
@@ -215,7 +215,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			}
 			int height = tile.TileFrameY == 36 ? 18 : 16;
 			if (tile.Slope == 0 && !tile.IsHalfBlock) 
-				Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Block/Ambient/Cinderstone_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Block/Ambient/Cinderstone_Glow").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
     }
     public class MottledStoneItem : AmbientStoneItem
@@ -312,7 +312,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			}
 			int height = tile.TileFrameY == 36 ? 18 : 16;
 			if (tile.Slope == 0 && !tile.IsHalfBlock)
-				Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Block/Ambient/AzureBlock_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Block/Ambient/AzureBlock_Glow").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
     }
 
@@ -648,7 +648,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			}
 			int height = tile.TileFrameY == 36 ? 18 : 16;
 			if (tile.Slope == 0 && !tile.IsHalfBlock) {
-				Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Block/Ambient/CorruptPustule_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 60), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Block/Ambient/CorruptPustule_Glow").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 60), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			}
 		}
     }
@@ -1508,7 +1508,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			}
 			int height = tile.TileFrameY == 36 ? 18 : 16;
 			if (tile.Slope == 0 && !tile.IsHalfBlock) {
-				Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Block/Ambient/CrimsonBlister_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 60), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Block/Ambient/CrimsonBlister_Glow").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 60), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			}
 		}
     }

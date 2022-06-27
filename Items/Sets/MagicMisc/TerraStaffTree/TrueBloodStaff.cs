@@ -48,7 +48,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.TerraStaffTree
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
+			Vector2 mouse = Main.MouseWorld;
 			Terraria.Projectile.NewProjectile(source, mouse.X, mouse.Y, 0f, 0f, type, damage, knockback, player.whoAmI);
 			return false;
 		}

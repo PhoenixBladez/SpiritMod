@@ -85,7 +85,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
                 spriteEffects = SpriteEffects.FlipHorizontally;
             int xpos = (int)((Projectile.Center.X + 10) - Main.screenPosition.X) - (int)(TextureAssets.Projectile[Projectile.type].Value.Width / 2);
             int ypos = (int)((Projectile.Center.Y + 10) - Main.screenPosition.Y) - (int)(TextureAssets.Projectile[Projectile.type].Value.Width / 2);
-            Texture2D ripple = Mod.GetTexture("Effects/Masks/Extra_49");
+            Texture2D ripple = Mod.Assets.Request<Texture2D>("Effects/Masks/Extra_49").Value;
             Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), Projectile.rotation, ripple.Size() / 2f, .5f, spriteEffects, 0);
             return true;
         }

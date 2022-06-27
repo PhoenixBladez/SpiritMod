@@ -49,7 +49,7 @@ namespace SpiritMod.Items.Sets.CoilSet
 			if (Main.drawToScreen)
 				zero = Vector2.Zero;
 			int height = tile.TileFrameY == 36 ? 18 : 16;
-			Main.spriteBatch.Draw(Mod.GetTexture("Items/Sets/CoilSet/CoilEnergizerTile_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Items/Sets/CoilSet/CoilEnergizerTile_Glow").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			Tile t = Main.tile[i, j];
 			if (t.TileFrameX % 54 == 0 && t.TileFrameY == 0)
 				Main.spriteBatch.Draw(Main.extraTexture[60], new Vector2(i * 16 - (int)Main.screenPosition.X - 44, j * 16 - (int)Main.screenPosition.Y - 48) + zero, null, new Color(3, 169, 252, 0), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);

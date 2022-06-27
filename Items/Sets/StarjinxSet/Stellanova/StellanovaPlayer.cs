@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		{
 			get
 			{
-				Rectangle drawFrame = Mod.GetTexture(TexturePath).Bounds;
+				Rectangle drawFrame = Mod.Assets.Request<Texture2D>(TexturePath).Value.Bounds;
 				drawFrame.Height /= NumFrames;
 				drawFrame.Y = drawFrame.Height * CurFrame;
 				return drawFrame;
@@ -50,7 +50,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			{
 				Vector2 origin = new Vector2(0, DrawFrame.Height / 2);
 				if (Player.direction < 0)
-					origin.X = Mod.GetTexture(TexturePath).Width;
+					origin.X = Mod.Assets.Request<Texture2D>(TexturePath).Value.Width;
 
 				return origin;
 			}
@@ -61,7 +61,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		{
 			if(Player.HeldItem.type == ModContent.ItemType<StellanovaCannon>() && false)
 				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(Mod.Name, "StellanovaHeld",
-					delegate (PlayerDrawInfo info) { DrawItem(Mod.GetTexture("Items/Sets/StarjinxSet/Stellanova/StellanovaCannon_held"), info); }));
+					delegate (PlayerDrawInfo info) { DrawItem(Mod.Assets.Request<Texture2D>("Items/Sets/StarjinxSet/Stellanova/StellanovaCannon_held").Value, info); }));
 		}
 
 		public override void PostUpdate()
@@ -85,7 +85,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 
 		public void DrawAdditiveLayer(SpriteBatch sB)
 		{
-			Texture2D glowmask = Mod.GetTexture(GlowmaskPath);
+			Texture2D glowmask = Mod.Assets.Request<Texture2D>(GlowmaskPath).Value;
 			if (!CanDraw)
 				return;
 

@@ -55,7 +55,7 @@ namespace SpiritMod.Items.Placeable.Furniture
 		{
 			if (!QuestManager.GetQuest<ZombieOriginQuest>().IsUnlocked)
 			{
-				Texture2D tex = Mod.GetTexture("UI/QuestUI/Textures/ExclamationMark");
+				Texture2D tex = Mod.Assets.Request<Texture2D>("UI/QuestUI/Textures/ExclamationMark").Value;
 				float excscale = (float)Math.Sin(Main.time * 0.08f) * 0.14f;
 				spriteBatch.Draw(tex, new Vector2(Item.Center.X, Item.Center.Y - 40) - Main.screenPosition, new Rectangle(0, 0, 6, 24), Color.White, 0f, new Vector2(3, 12), 1f + excscale, SpriteEffects.None, 0f);
 			}

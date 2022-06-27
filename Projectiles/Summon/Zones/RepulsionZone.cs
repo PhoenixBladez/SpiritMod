@@ -60,7 +60,7 @@ namespace SpiritMod.Projectiles.Summon.Zones
         }
 
 		public void AdditiveCall(SpriteBatch spriteBatch) => ZoneHelper.ZoneAdditiveDraw(spriteBatch, Projectile, new Color(97, 46, 163), "SpiritMod/Projectiles/Summon/Zones/RepulsionZone");
-        public override bool PreDraw(ref Color lightColor) => ZoneHelper.ZonePreDraw(Projectile, Mod.GetTexture("Projectiles/Summon/Zones/RepulsionZone_Glow"));
+        public override bool PreDraw(ref Color lightColor) => ZoneHelper.ZonePreDraw(Projectile, Mod.Assets.Request<Texture2D>("Projectiles/Summon/Zones/RepulsionZone_Glow").Value);
 
 		public override void Kill(int timeLeft)
         {

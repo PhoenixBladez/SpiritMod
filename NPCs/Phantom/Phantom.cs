@@ -119,7 +119,7 @@ namespace SpiritMod.NPCs.Phantom
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			if (trailbehind)
-				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/Phantom/Phantom_Glow"));
+				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Phantom/Phantom_Glow").Value);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

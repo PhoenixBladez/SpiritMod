@@ -55,7 +55,7 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 			spriteBatch.Draw(glowmask, itemCenter, null, color * opacity, rotation, glowmask.Size() / 2, scale, SpriteEffects.None, 0f); //draw the glowmask
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
-			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			Texture2D blurLine = Main.extraTexture[89];
 			Vector2 blurScale = new Vector2(0.3f, MathHelper.Lerp(2.5f, 3f, BlurTimer));
 			float bloomScale = MathHelper.Lerp(0.5f, 0.55f, Timer);
@@ -243,7 +243,7 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 					Vector2 DrawPos = modplayer.auroraoldposition[i] - Main.screenPosition + new Vector2(0, drawYOffset);
 					AddDrawDataWithMountShader(new DrawData(texture, DrawPos, sourceRectangle, drawColor * opacity, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
 
-					AddDrawDataWithMountShader(new DrawData(Mod.GetTexture("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow"), DrawPos, sourceRectangle, Color.White * opacity, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
+					AddDrawDataWithMountShader(new DrawData(Mod.Assets.Request<Texture2D>("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow").Value, DrawPos, sourceRectangle, Color.White * opacity, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
 
 				}
 			}
@@ -254,9 +254,9 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 				float glowtimer = (float)(Math.Sin(Main.GlobalTimeWrappedHourly * 3) / 2 + 0.5f);
 				Color glowcolor = Color.White * glowtimer;
 				Vector2 pulsedrawpos = drawPosition + new Vector2(0, drawYOffset) + new Vector2(5, 0).RotatedBy(i * MathHelper.TwoPi / 6) * (1.25f - glowtimer);
-				AddDrawDataWithMountShader(new DrawData(Mod.GetTexture("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow"), pulsedrawpos, sourceRectangle, glowcolor * 0.5f, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
+				AddDrawDataWithMountShader(new DrawData(Mod.Assets.Request<Texture2D>("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow").Value, pulsedrawpos, sourceRectangle, glowcolor * 0.5f, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
 			}
-			AddDrawDataWithMountShader(new DrawData(Mod.GetTexture("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow"), drawPosition + new Vector2(0, drawYOffset), sourceRectangle, Color.White, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
+			AddDrawDataWithMountShader(new DrawData(Mod.Assets.Request<Texture2D>("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow").Value, drawPosition + new Vector2(0, drawYOffset), sourceRectangle, Color.White, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
 			return false;
 		}
 	}

@@ -39,13 +39,13 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			switch (Main.rand.Next(3)) {
 				case 0:
-					tManager.CreateTrail(Projectile, new StandardColorTrail(new Color(115, 220, 255)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 100f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
+					tManager.CreateTrail(Projectile, new StandardColorTrail(new Color(115, 220, 255)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 100f, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_2").Value, 0.01f, 1f, 1f));
 					break;
 				case 1:
-					tManager.CreateTrail(Projectile, new StandardColorTrail(new Color(255, 231, 145)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 100f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
+					tManager.CreateTrail(Projectile, new StandardColorTrail(new Color(255, 231, 145)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 100f, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_2").Value, 0.01f, 1f, 1f));
 					break;
 				case 2:
-					tManager.CreateTrail(Projectile, new StandardColorTrail(new Color(255, 128, 244)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 100f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
+					tManager.CreateTrail(Projectile, new StandardColorTrail(new Color(255, 128, 244)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 100f, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_2").Value, 0.01f, 1f, 1f));
 					break;
 			}
 		}

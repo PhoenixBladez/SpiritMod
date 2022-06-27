@@ -10,6 +10,7 @@ using SpiritMod.Utilities;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Particles;
 using System.Collections.Generic;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 {
@@ -84,7 +85,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			return false;
 		}
 
-		public override float UseTimeMultiplier(Player player) => player.meleeSpeed; //Scale with melee speed buffs, like whips
+		public override float UseTimeMultiplier(Player player) => player.GetAttackSpeed(DamageClass.Melee); //Scale with melee speed buffs, like whips
 		public override void NetSend(BinaryWriter writer) => writer.Write(combo);
 		public override void NetReceive(BinaryReader reader) => combo = reader.ReadInt32();
 	}

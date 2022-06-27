@@ -18,7 +18,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			DisplayName.SetDefault("Glowflower");
 		}
 
-		public void DoTrailCreation(TrailManager tManager) => tManager.CreateTrail(Projectile, new GradientTrail(new Color(182, 66, 245) * .95f, new Color(91, 21, 150) * .7f), new RoundCap(), new DefaultTrailPosition(), 150f, 60f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
+		public void DoTrailCreation(TrailManager tManager) => tManager.CreateTrail(Projectile, new GradientTrail(new Color(182, 66, 245) * .95f, new Color(91, 21, 150) * .7f), new RoundCap(), new DefaultTrailPosition(), 150f, 60f, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_1").Value, 0.01f, 1f, 1f));
 
 		public override void SetDefaults()
 		{
@@ -127,7 +127,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					color28 = Projectile.GetAlpha(color28);
 					color28 *= 1f - num107;
 					Vector2 vector29 = new Vector2(Projectile.Center.X, Projectile.Center.Y) + ((float)num103 / (float)num108 * 6.28318548f + Projectile.rotation + num106).ToRotationVector2() * (4f * num107 + 2f) - Main.screenPosition + new Vector2(0, Projectile.gfxOffY) - Projectile.velocity * (float)num103;
-					Main.spriteBatch.Draw(Mod.GetTexture("NPCs/Boss/ReachBoss/ReachBossFlower"), vector29, new Microsoft.Xna.Framework.Rectangle?(TextureAssets.Projectile[Projectile.type].Value.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame)), color28, Projectile.rotation, drawOrigin, Projectile.scale, spriteEffects3, 0f);
+					Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Boss/ReachBoss/ReachBossFlower").Value, vector29, new Microsoft.Xna.Framework.Rectangle?(TextureAssets.Projectile[Projectile.type].Value.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame)), color28, Projectile.rotation, drawOrigin, Projectile.scale, spriteEffects3, 0f);
 				}
 			}
 		}

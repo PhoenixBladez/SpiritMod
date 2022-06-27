@@ -45,10 +45,10 @@ namespace SpiritMod.Buffs.Glyph
 
 			if (player.whoAmI == Main.myPlayer && !Main.dedServ) {
 				if (modPlayer.voidStacks == 0) {
-					TextureAssets.Buff[Type].Value = Mod.GetTexture("CollapsingVoid");
+					TextureAssets.Buff[Type].Value = Mod.Assets.Request<Texture2D>("CollapsingVoid").Value;
 				}
 				else {
-					TextureAssets.Buff[Type].Value = Mod.GetTexture("CollapsingVoid_" + modPlayer.voidStacks.ToString());
+					TextureAssets.Buff[Type].Value = Mod.Assets.Request<Texture2D>("CollapsingVoid_" + modPlayer.voidStacks.ToString().Value);
 				}
 			}
 		}

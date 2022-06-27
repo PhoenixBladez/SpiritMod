@@ -115,7 +115,7 @@ namespace SpiritMod.NPCs.BloodGazer
 					}
 					if (Projectile.localAI[1] < 30f)
 					{
-						Texture2D raytelegraph = Mod.GetTexture("Textures/Medusa_Ray");
+						Texture2D raytelegraph = Mod.Assets.Request<Texture2D>("Textures/Medusa_Ray").Value;
 						float Opacity = Math.Min((Projectile.localAI[1] + Projectile.localAI[0]) / 25f, 0.5f);
 						spriteBatch.Draw(raytelegraph, Projectile.Center + (Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.localAI[0]) - Main.screenPosition, null, Color.Red * Opacity,
 							Projectile.rotation, new Vector2(0, raytelegraph.Height / 2), new Vector2(24f, 0.5f * Projectile.scale), SpriteEffects.None, 0);
@@ -127,7 +127,7 @@ namespace SpiritMod.NPCs.BloodGazer
 
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
-			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			spriteBatch.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.Red * Projectile.Opacity * 0.5f, 0, bloom.Size() / 2, new Vector2(1, 0.75f) * Projectile.scale / 2, SpriteEffects.None, 0);
 		}
 
@@ -217,7 +217,7 @@ namespace SpiritMod.NPCs.BloodGazer
 
 		new public void DoTrailCreation(TrailManager tManager)
 		{
-			tManager.CreateTrail(Projectile, new StandardColorTrail(Color.Red * 0.8f), new RoundCap(), new DefaultTrailPosition(), 15f, 1950f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_2"), Vector2.One));
+			tManager.CreateTrail(Projectile, new StandardColorTrail(Color.Red * 0.8f), new RoundCap(), new DefaultTrailPosition(), 15f, 1950f, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_2").Value, Vector2.One));
 			tManager.CreateTrail(Projectile, new StandardColorTrail(Color.Red * 0.5f), new RoundCap(), new DefaultTrailPosition(), 30f, 1950f);
 		}
 	}

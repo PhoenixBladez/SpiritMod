@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles.BaseProj;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -41,12 +42,13 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.AdornedBow
 			if (type == ProjectileID.WoodenArrowFriendly) {
 				type = ModContent.ProjectileType<ScarabArrow>();
 			}
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<AdornedBowProj>(), damage - Item.damage, knockback, player.whoAmI, type);
+			Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<AdornedBowProj>(), damage - Item.damage, knockback, player.whoAmI, type);
 			return false;
 		}
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, Item, Mod.GetTexture(Texture.Remove(0, Mod.Name.Length + 1) + "_glow"), rotation, scale);
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, Item, ModContent.Request<Texture2D>(Texture.Remove(0, Mod.Name.Length + 1) + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, rotation, scale);
 	}
+
 	public class AdornedBowProj : ChargeBowProj
 	{
 		public override string Texture => "SpiritMod/Items/Sets/ScarabeusDrops/AdornedBow/ScarabBow";
@@ -79,7 +81,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.AdornedBow
 		{
 			//if (firing)
 				//return false;
-			spriteBatch.End();
+			Main.spriteBatch.End();
 			Player player = Main.player[Projectile.owner];
 			BasicEffect effect = new BasicEffect(Main.instance.GraphicsDevice) {
 				VertexColorEnabled = true
@@ -89,7 +91,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.AdornedBow
 				color * 0.3f, 0 - LerpFloat(0.7f, 0.4f, charge), 0 - LerpFloat(minVelocity, maxVelocity, charge) * 2);
 			ArrowDraw.DrawArrowBasic(effect, player.Center + direction * 20, direction.ToRotation() + 3.14f, 0 - LerpFloat(0, maxVelocity, charge) * 3, 6,
 				color * 0.3f, 0 - LerpFloat(0.7f, 0.4f, charge), 0 - LerpFloat(minVelocity, maxVelocity, charge) * 2);
-			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+			Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 			return false;
 		}
 	}

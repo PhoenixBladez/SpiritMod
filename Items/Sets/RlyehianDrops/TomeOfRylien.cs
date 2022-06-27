@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Sets.RlyehianDrops
 		}
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
+			Vector2 mouse = Main.MouseWorld;
 			List<Vector2> tiles = new List<Vector2>();
 			for (int i = -12; i < 12; i++) {
 				for (int j = -12; j < 12; j++) {

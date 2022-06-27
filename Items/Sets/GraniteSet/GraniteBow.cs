@@ -36,6 +36,18 @@ namespace SpiritMod.Items.Sets.GraniteSet
 			Item.shootSpeed = 14f;
 
 		}
+
+		public override Vector2? HoldoutOffset()
+		{
+			return new Vector2(-4, 0);
+		}
+
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+		{
+			if (type == ProjectileID.WoodenArrowFriendly)
+				type = ModContent.ProjectileType<GraniteRepeaterArrow>();
+		}
+
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Lighting.AddLight(Item.position, 0.08f, .12f, .52f);
@@ -43,7 +55,7 @@ namespace SpiritMod.Items.Sets.GraniteSet
 			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				Mod.GetTexture("Items/Sets/GraniteSet/GraniteBow_Glow"),
+				Mod.Assets.Request<Texture2D>("Items/Sets/GraniteSet/GraniteBow_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
 				new Vector2
 				(
 					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
@@ -58,17 +70,7 @@ namespace SpiritMod.Items.Sets.GraniteSet
 				0f
 			);
 		}
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-4, 0);
-		}
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
-		{
-			if (type == ProjectileID.WoodenArrowFriendly) {
-				type = ModContent.ProjectileType<GraniteRepeaterArrow>();
-			}
-			return true;
-		}
+
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe();

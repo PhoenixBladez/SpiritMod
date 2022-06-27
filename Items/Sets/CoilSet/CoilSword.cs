@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Sets.CoilSet
 
 			spriteBatch.Draw
 			(
-				Mod.GetTexture("Items/Sets/CoilSet/CoilSword_Glow"),
+				Mod.Assets.Request<Texture2D>("Items/Sets/CoilSet/CoilSword_Glow").Value,
 				new Vector2
 				(
 					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,

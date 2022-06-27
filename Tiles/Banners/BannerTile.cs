@@ -36,7 +36,7 @@ namespace SpiritMod.Tiles.Banners
 			Tile tile = Main.tile[i, j];
 			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 			int height = tile.TileFrameY == 36 ? 18 : 16;
-			Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Banners/BannerTile_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White * .8f, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Banners/BannerTile_Glow").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White * .8f, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{

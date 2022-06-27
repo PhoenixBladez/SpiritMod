@@ -29,7 +29,7 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 			int y2 = height * Projectile.frame;
 			Vector2 position = (Projectile.position - (0.5f * Projectile.velocity) + new Vector2(Projectile.width, Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition).Floor();
 			var effects1 = SpriteEffects.None;
-			Main.spriteBatch.Draw(Mod.GetTexture("NPCs/Boulder_Termagant/Granite_Boulder_Glow"), position, new Rectangle(0, y2, texture.Width, height), lightColor, Projectile.rotation, new Vector2(texture.Width / 2f, height / 2f), Projectile.scale, effects1, 0.0f);
+			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Boulder_Termagant/Granite_Boulder_Glow").Value, position, new Rectangle(0, y2, texture.Width, height), lightColor, Projectile.rotation, new Vector2(texture.Width / 2f, height / 2f), Projectile.scale, effects1, 0.0f);
 			return true;
 		}
 		public override void AI()

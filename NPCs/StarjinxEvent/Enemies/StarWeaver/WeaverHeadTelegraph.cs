@@ -20,7 +20,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			Main.projFrames[Projectile.type] = 6;
 		}
 
-		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(Projectile, new StandardColorTrail(Color.Red * 0.66f), new RoundCap(), new DefaultTrailPosition(), 100f, 4000f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_4"), 0.2f, 1f, 1f));
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(Projectile, new StandardColorTrail(Color.Red * 0.66f), new RoundCap(), new DefaultTrailPosition(), 100f, 4000f, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_4").Value, 0.2f, 1f, 1f));
 
 		public override void SetDefaults()
 		{

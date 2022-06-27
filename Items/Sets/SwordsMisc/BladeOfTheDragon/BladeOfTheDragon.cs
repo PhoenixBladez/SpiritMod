@@ -280,7 +280,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 			{
 				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(Mod.Name, "BladeOfTheDragonHeld",
 					delegate (PlayerDrawInfo info) {
-						DrawItem(Mod.GetTexture("Items/Sets/SwordsMisc/BladeOfTheDragon/BladeOfTheDragon_held"), Mod.GetTexture("Items/Sets/SwordsMisc/BladeOfTheDragon/BladeOfTheDragon_sparkle"), info);
+						DrawItem(Mod.Assets.Request<Texture2D>("Items/Sets/SwordsMisc/BladeOfTheDragon/BladeOfTheDragon_held").Value, Mod.Assets.Request<Texture2D>("Items/Sets/SwordsMisc/BladeOfTheDragon/BladeOfTheDragon_sparkle").Value, info);
 					}));
 			}
 		}

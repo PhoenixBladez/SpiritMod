@@ -194,8 +194,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		private void PreDrawOrbExtras(SpriteBatch sB, float scale, Color color)
 		{
 
-			Texture2D Lu1 = Mod.GetTexture("Textures/T_Lu_Noise_31");
-			Texture2D Lu2 = Mod.GetTexture("Textures/T_Lu_Noise_32");
+			Texture2D Lu1 = Mod.Assets.Request<Texture2D>("Textures/T_Lu_Noise_31").Value;
+			Texture2D Lu2 = Mod.Assets.Request<Texture2D>("Textures/T_Lu_Noise_32").Value;
 
 			void DrawMask(Texture2D tex, float opacity, float maskScale, float rotationDirection) =>
 				sB.Draw(tex, Projectile.Center - Main.screenPosition, null, color * opacity, Main.GlobalTimeWrappedHourly * rotationDirection, tex.Size() / 2, scale * maskScale, SpriteEffects.None, 0);
@@ -232,8 +232,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		private void DrawOrb(SpriteBatch spriteBatch, float scale, Color lightColor, Color darkColor)
 		{
 			Effect effect = SpiritMod.Instance.GetEffect("Effects/StellanovaOrb");
-			effect.Parameters["uTexture"].SetValue(Mod.GetTexture("Textures/MilkyNoise"));
-			effect.Parameters["distortTexture"].SetValue(Mod.GetTexture("Textures/noiseNormal"));
+			effect.Parameters["uTexture"].SetValue(Mod.Assets.Request<Texture2D>("Textures/MilkyNoise").Value);
+			effect.Parameters["distortTexture"].SetValue(Mod.Assets.Request<Texture2D>("Textures/noiseNormal").Value);
 			effect.Parameters["timer"].SetValue(Main.GlobalTimeWrappedHourly * 0.33f);
 			effect.Parameters["intensity"].SetValue(1.33f + (Charge / 4));
 			effect.Parameters["lightColor"].SetValue(new Color(lightColor.R, lightColor.G, lightColor.B, (int)(170 * Projectile.Opacity)).ToVector4());
@@ -273,7 +273,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 					else
 						color = Color.Lerp(StellanovaStarfire.Orange, StellanovaStarfire.Purple, (progress - 0.33f) * 1.5f);
 
-					Texture2D mask = Mod.GetTexture("Effects/Masks/CircleGradient");
+					Texture2D mask = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 					float scale = 0.5f * Projectile.scale * (1 - progress) / (float)Math.Pow(j, 0.75f);
 					scale *= 1 + (float)Math.Sin((progress - Main.GlobalTimeWrappedHourly) * MathHelper.TwoPi * (float)Math.Pow(j, 0.5f)) / 15;
 					Vector2 drawPos = Vector2.Lerp(Projectile.oldPos[(int)i], Projectile.oldPos[(int)i + 1], i % 1) + Projectile.Size / 2 - Main.screenPosition;

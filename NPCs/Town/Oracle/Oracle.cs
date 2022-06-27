@@ -456,7 +456,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			Texture2D aura = Mod.GetTexture("NPCs/Town/Oracle/OracleAura");
+			Texture2D aura = Mod.Assets.Request<Texture2D>("NPCs/Town/Oracle/OracleAura").Value;
 
 			if (runeSources == null) //Initialize runeSources
 			{
@@ -490,7 +490,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 
 		private void DrawRuneCircle(SpriteBatch spriteBatch, int i, Color col, float wave = 0f)
 		{
-			Texture2D runes = Mod.GetTexture("NPCs/Town/Oracle/OracleRunes");
+			Texture2D runes = Mod.Assets.Request<Texture2D>("NPCs/Town/Oracle/OracleRunes").Value;
 
 			Vector2 drawPos = NPC.Center + (i / 4f * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * (4f * wave + 4f) - Main.screenPosition + new Vector2(0, NPC.gfxOffY) - NPC.velocity * i;
 			if (i == -1)
@@ -508,7 +508,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 
 		private void DrawLetter(SpriteBatch spriteBatch, int i, Color col, float wave = 0f)
 		{
-			Texture2D letter = Mod.GetTexture("NPCs/Town/Oracle/OracleAuraLetter");
+			Texture2D letter = Mod.Assets.Request<Texture2D>("NPCs/Town/Oracle/OracleAuraLetter").Value;
 
 			Vector2 drawPos = NPC.Center + (i / 4f * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * (4f * wave + 4f) - Main.screenPosition + new Vector2(0, NPC.gfxOffY) - NPC.velocity * i;
 			if (i == -1)

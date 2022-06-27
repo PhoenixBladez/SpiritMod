@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Sets.ReefhunterSet.Projectiles;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -47,7 +48,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 			if (player.Distance(targetPos) <= minTargetRadius) //Doesn't instantly drop or move backwards
 				targetPos = player.Center + player.DirectionTo(targetPos) * minTargetRadius;
 
-			Projectile proj = Projectile.NewProjectileDirect(player.MountedCenter, new Vector2(speedX, speedY), type, damage, knockback, player.whoAmI);
+			Projectile proj = Projectile.NewProjectileDirect(source, player.MountedCenter, velocity, type, damage, knockback, player.whoAmI);
 			if(proj.ModProjectile is UrchinStaffProjectile staffProj)
 			{
 				staffProj.TargetPosition = targetPos - player.MountedCenter;

@@ -85,7 +85,7 @@ namespace SpiritMod.Items.Weapon.Magic
 				}
 			}
 			for (int k = 0; k < 15; k++) {
-				Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
+				Vector2 mouse = Main.MouseWorld;
 				Vector2 offset = mouse - player.position;
 				offset.Normalize();
 				if (speedX > 0) {

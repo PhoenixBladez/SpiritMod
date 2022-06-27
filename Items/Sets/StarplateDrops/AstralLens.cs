@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
 using SpiritMod.Projectiles;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -43,9 +44,9 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 		{
 			for (int i = 0; i < 2; i++)
 			{
-				Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-300, 300) / 30), speedY + ((float)Main.rand.Next(-300, 300) / 30), type, damage, knockback, player.whoAmI, 0f, 0f);
+				Projectile.NewProjectile(source, position.X - 8, position.Y + 8, velocity.X + ((float)Main.rand.Next(-300, 300) / 30), velocity.Y + ((float)Main.rand.Next(-300, 300) / 30), type, damage, knockback, player.whoAmI, 0f, 0f);
 				if (Main.rand.Next(6) == 0)
-					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-300, 300) / 30), speedY + ((float)Main.rand.Next(-300, 300) / 30), type, damage, knockback, player.whoAmI, 0f, 0f);
+					Projectile.NewProjectile(source, position.X - 8, position.Y + 8, velocity.X + ((float)Main.rand.Next(-300, 300) / 30), velocity.Y + ((float)Main.rand.Next(-300, 300) / 30), type, damage, knockback, player.whoAmI, 0f, 0f);
 			}
 			return false;
 		}
@@ -57,7 +58,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				ModContent.Request<Texture2D>("SpiritMod/Items/Sets/StarplateDrops/AstralLens_Glow"),
+				ModContent.Request<Texture2D>("SpiritMod/Items/Sets/StarplateDrops/AstralLens_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
 				new Vector2
 				(
 					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,

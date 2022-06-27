@@ -33,8 +33,8 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 		public void DoTrailCreation(TrailManager tM)
 		{
 			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, Color.Lerp(Color.White, Color.Red, 0.65f) * 0.1f), new RoundCap(), new SleepingStarTrailPosition(), 100 * Projectile.scale, 300);
-			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, Color.Red, new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 100 * Projectile.scale, 200, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_3"), 0.2f, 1f, 1f));
-			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, Color.Red, new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 100 * Projectile.scale, 200, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_3"), 0.2f, 1f, 1f));
+			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, Color.Red, new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 100 * Projectile.scale, 200, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_3").Value, 0.2f, 1f, 1f));
+			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, Color.Red, new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 100 * Projectile.scale, 200, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_3").Value, 0.2f, 1f, 1f));
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.immune[Projectile.owner] = 20;

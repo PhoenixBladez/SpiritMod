@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Weapon.Yoyo
 			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				Mod.GetTexture("Items/Weapon/Yoyo/Handball_Glow"),
+				Mod.Assets.Request<Texture2D>("Items/Weapon/Yoyo/Handball_Glow").Value,
 				new Vector2
 				(
 					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,

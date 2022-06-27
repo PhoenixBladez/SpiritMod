@@ -347,12 +347,12 @@ namespace SpiritMod.NPCs.AuroraStag
 				float glowtimer = (float)(Math.Sin(Main.GlobalTimeWrappedHourly * 3) / 2 + 0.5f);
 				Color glowcolor = Color.White * glowtimer;
 				Vector2 pulsedrawpos = drawPosition + new Vector2(5, 0).RotatedBy(i * MathHelper.TwoPi / 6) * (1.25f - glowtimer);
-				spriteBatch.Draw(Mod.GetTexture("NPCs/AuroraStag/AuroraStagGlowmask"), pulsedrawpos, sourceRectangle, glowcolor * 0.5f * NPC.Opacity, 0f, Vector2.Zero, 1f, effects, 0f);
+				spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/AuroraStag/AuroraStagGlowmask").Value, pulsedrawpos, sourceRectangle, glowcolor * 0.5f * NPC.Opacity, 0f, Vector2.Zero, 1f, effects, 0f);
 			}
-			spriteBatch.Draw(Mod.GetTexture("NPCs/AuroraStag/AuroraStagGlowmask"), drawPosition, sourceRectangle, Color.White * NPC.Opacity, 0f, Vector2.Zero, 1f, effects, 0f);
+			spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/AuroraStag/AuroraStagGlowmask").Value, drawPosition, sourceRectangle, Color.White * NPC.Opacity, 0f, Vector2.Zero, 1f, effects, 0f);
 
 			if (TameAnimationTimer > 0)
-				spriteBatch.Draw(Mod.GetTexture("NPCs/AuroraStag/AuroraStagOverlay"), drawPosition, sourceRectangle, new Color(184, 244, 255) * Brightness, 0f, Vector2.Zero, 1f, effects, 0f);
+				spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/AuroraStag/AuroraStagOverlay").Value, drawPosition, sourceRectangle, new Color(184, 244, 255) * Brightness, 0f, Vector2.Zero, 1f, effects, 0f);
 
 			return false;
 		}
@@ -362,7 +362,7 @@ namespace SpiritMod.NPCs.AuroraStag
 			if (!Alerted || Scared || TameAnimationTimer > 0)
 				return;
 
-			Texture2D exclamationTexture = Mod.GetTexture("NPCs/AuroraStag/AuroraStagExclamation");
+			Texture2D exclamationTexture = Mod.Assets.Request<Texture2D>("NPCs/AuroraStag/AuroraStagExclamation").Value;
 			Vector2 exclamationPos = NPC.Top + Vector2.UnitX * NPC.width / 2 * NPC.spriteDirection;
 			float sin = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 4) * 2;
 			float xOffset = (NPC.spriteDirection == -1 ? 16 : 0) + sin + 10;

@@ -786,7 +786,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				float num16 = 1f + num13 * 0.75f;
 				Main.spriteBatch.Draw(texture2D2, position3, r2, color3 * num14, NPC.rotation, drawOrigin, NPC.scale * 0.5f * num16, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
 			}
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/Boss/SteamRaider/SteamRaiderHead_Glow"));
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Boss/SteamRaider/SteamRaiderHead_Glow").Value);
 
 		}
 		public override void HitEffect(int hitDirection, double damage)

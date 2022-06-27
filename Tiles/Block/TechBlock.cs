@@ -32,7 +32,7 @@ namespace SpiritMod.Tiles.Block
                     {
                         zero = Vector2.Zero;
                     }
-                    Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Block/TechBlockGlow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), new Color(200, 200, 200, 200), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Block/TechBlockGlow").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), new Color(200, 200, 200, 200), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 }
             }
 		}

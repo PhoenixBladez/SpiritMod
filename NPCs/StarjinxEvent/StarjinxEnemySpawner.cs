@@ -107,10 +107,10 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 		public void AdditiveCall(SpriteBatch sB)
 		{
-			Texture2D star = Mod.GetTexture("Effects/Masks/Star");
-			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
-			Texture2D ring = Mod.GetTexture("Effects/WispSwitchGlow2");
-			Texture2D ray = Mod.GetTexture("Effects/Mining_Helmet");
+			Texture2D star = Mod.Assets.Request<Texture2D>("Effects/Masks/Star").Value;
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
+			Texture2D ring = Mod.Assets.Request<Texture2D>("Effects/WispSwitchGlow2").Value;
+			Texture2D ray = Mod.Assets.Request<Texture2D>("Effects/Mining_Helmet").Value;
 
 			//Make a dummy npc to determine the base scale, by finding the ratio between the used texture and the npc's size
 			NPC dummy = new NPC();

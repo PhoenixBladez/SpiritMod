@@ -89,7 +89,7 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
 			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				Mod.GetTexture("Items/Sets/MoonWizardDrops/MoonjellySummonStaff_Glow"),
+				Mod.Assets.Request<Texture2D>("Items/Sets/MoonWizardDrops/MoonjellySummonStaff_Glow").Value,
 				new Vector2
 				(
 					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,

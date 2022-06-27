@@ -768,7 +768,7 @@ namespace SpiritMod.NPCs.Hydra
 			Projectile.tileCollide = true;
 		}
 
-		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(Projectile, new GradientTrail(Color.Orchid, Color.MediumPurple * .75f), new RoundCap(), new DefaultTrailPosition(), 8f, 95f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(Projectile, new GradientTrail(Color.Orchid, Color.MediumPurple * .75f), new RoundCap(), new DefaultTrailPosition(), 8f, 95f, new ImageShader(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_2").Value, 0.01f, 1f, 1f));
 
 		public override void AI()
 		{

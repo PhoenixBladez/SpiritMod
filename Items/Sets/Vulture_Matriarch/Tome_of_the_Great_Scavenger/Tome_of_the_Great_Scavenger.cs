@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -39,7 +40,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Tome_of_the_Great_Scavenger
 			Item.mana = 13;
 		}
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, Item, ModContent.Request<Texture2D>(Texture + "_glow"), rotation, scale);
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, Item, ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, rotation, scale);
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
@@ -47,7 +48,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Tome_of_the_Great_Scavenger
 			for(int i = 0; i < 2; i++)
 			{
 				Vector2 vel = -Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 4) * Item.shootSpeed * Main.rand.NextFloat(0.7f, 1.3f);
-				Projectile.NewProjectile(player.MountedCenter + (Vector2.UnitX * player.direction * Item.width/2), vel + player.velocity, type, damage, knockback, player.whoAmI, Main.rand.NextBool() ? -1 : 1);
+				Projectile.NewProjectile(source, player.MountedCenter + (Vector2.UnitX * player.direction * Item.width/2), vel + player.velocity, type, damage, knockback, player.whoAmI, Main.rand.NextBool() ? -1 : 1);
 			}
 			return false;
 		}

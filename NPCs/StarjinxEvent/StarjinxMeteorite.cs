@@ -376,11 +376,11 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			Vector4 colorMod = Color.LightGoldenrodYellow.ToVector4();
 			SpiritMod.StarjinxNoise.Parameters["distance"].SetValue(2.9f - (sineAdd / 10));
 			SpiritMod.StarjinxNoise.Parameters["colorMod"].SetValue(colorMod);
-			SpiritMod.StarjinxNoise.Parameters["noise"].SetValue(Mod.GetTexture("Textures/noise"));
+			SpiritMod.StarjinxNoise.Parameters["noise"].SetValue(Mod.Assets.Request<Texture2D>("Textures/noise").Value);
 			SpiritMod.StarjinxNoise.Parameters["rotation"].SetValue(sinCounter / 5);
 			SpiritMod.StarjinxNoise.Parameters["opacity2"].SetValue(0.3f - (sineAdd / 10));
 			SpiritMod.StarjinxNoise.CurrentTechnique.Passes[0].Apply();
-			spriteBatch.Draw(Mod.GetTexture("Effects/Masks/CircleGradient"), drawCenter, null, NPC.GetAlpha(Color.White), 0f, new Vector2(125, 125), 1.3f - (sineAdd / 9), SpriteEffects.None, 0f);
+			spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value, drawCenter, null, NPC.GetAlpha(Color.White), 0f, new Vector2(125, 125), 1.3f - (sineAdd / 9), SpriteEffects.None, 0f);
 
 			SpiritMod.StarjinxNoise.Parameters["opacity2"].SetValue(1);
 			SpiritMod.StarjinxNoise.Parameters["rotation"].SetValue((sinCounter + 3) / 4);
@@ -388,13 +388,13 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			SpiritMod.StarjinxNoise.Parameters["colorMod"].SetValue(colorMod);
 			SpiritMod.StarjinxNoise.CurrentTechnique.Passes[0].Apply();
 
-			spriteBatch.Draw(Mod.GetTexture("Effects/Masks/CircleGradient"), drawCenter, null, NPC.GetAlpha(Color.White), 0f, new Vector2(125, 125), 1.1f + (sineAdd / 7), SpriteEffects.None, 0f);
+			spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value, drawCenter, null, NPC.GetAlpha(Color.White), 0f, new Vector2(125, 125), 1.1f + (sineAdd / 7), SpriteEffects.None, 0f);
 
 			Main.spriteBatch.End();
 			spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 			#endregion
 
-			spriteBatch.Draw(Mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteorite"), drawCenter, null, Color.White, 0f, center, 1, SpriteEffects.None, 0f);
+			spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/StarjinxEvent/StarjinxMeteorite").Value, drawCenter, null, Color.White, 0f, center, 1, SpriteEffects.None, 0f);
 
 			float cos = (float)Math.Cos((Main.GlobalTimeWrappedHourly % 2.4f / 2.4f * MathHelper.TwoPi)) / 2f + 0.5f;
 
@@ -403,17 +403,17 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			Color drawCol = NPC.GetAlpha(baseCol) * (1f - cos);
 
 			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawCenter, null, NPC.GetAlpha(Color.Lerp(drawColor, Color.White, 0.5f)), 0f, center, 1, SpriteEffects.None, 0f);
-			spriteBatch.Draw(Mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteoriteGlow"), drawCenter, null, NPC.GetAlpha(Color.White * .4f), 0f, center, 1, SpriteEffects.None, 0f);
+			spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/StarjinxEvent/StarjinxMeteoriteGlow").Value, drawCenter, null, NPC.GetAlpha(Color.White * .4f), 0f, center, 1, SpriteEffects.None, 0f);
 
 			for (int i = 0; i < 6; i++)
 			{
 				Vector2 drawPos = drawCenter + ((i / 6f) * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * (4f * cos + 2f) - NPC.velocity * i;
-				spriteBatch.Draw(Mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteoriteGlow"), drawPos, NPC.frame, drawCol, NPC.rotation, NPC.frame.Size() / 2f, NPC.scale, spriteEffects3, 0f);
+				spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/StarjinxEvent/StarjinxMeteoriteGlow").Value, drawPos, NPC.frame, drawCol, NPC.rotation, NPC.frame.Size() / 2f, NPC.scale, spriteEffects3, 0f);
 				//spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteoriteGlowOutline"), drawPos, npc.frame, drawCol, npc.rotation, npc.frame.Size() / 2f, npc.scale, spriteEffects3, 0f);
 			}
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-			SpiritMod.Instance.GetEffect("Effects/SjinxShield").Parameters["vnoiseTex"].SetValue(Mod.GetTexture("Textures/voronoiLooping"));
+			SpiritMod.Instance.GetEffect("Effects/SjinxShield").Parameters["vnoiseTex"].SetValue(Mod.Assets.Request<Texture2D>("Textures/voronoiLooping").Value);
 			SpiritMod.Instance.GetEffect("Effects/SjinxShield").Parameters["timer"].SetValue(Main.GlobalTimeWrappedHourly / 3);
 			SpiritMod.Instance.GetEffect("Effects/SjinxShield").CurrentTechnique.Passes[0].Apply();
 			IterateComets(delegate (SmallComet comet)
@@ -421,7 +421,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 				comet.DrawShield(Main.spriteBatch);
 			});
 
-			Texture2D mask = Mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D mask = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 
 			Texture2D mainTex = TextureAssets.Npc[NPC.type].Value;
 			float averageSize = mainTex.Width / 2f + mainTex.Height / 2f;

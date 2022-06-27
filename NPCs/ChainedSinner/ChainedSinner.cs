@@ -77,7 +77,7 @@ namespace SpiritMod.NPCs.ChainedSinner
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			chain.Draw(spriteBatch, Mod.GetTexture("NPCs/ChainedSinner/ChainedSinner_Chain"));
+			chain.Draw(spriteBatch, Mod.Assets.Request<Texture2D>("NPCs/ChainedSinner/ChainedSinner_Chain").Value);
 			return true;
 		}
 	}

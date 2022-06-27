@@ -461,11 +461,11 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, new Vector2(NPC.Center.X, NPC.Center.Y - 8) - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
 							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 
-			spriteBatch.Draw(Mod.GetTexture("NPCs/Enchanted_Armor/Enchanted_Armor_Glow"), new Vector2(NPC.Center.X, NPC.Center.Y - 8) - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+			spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Enchanted_Armor/Enchanted_Armor_Glow").Value, new Vector2(NPC.Center.X, NPC.Center.Y - 8) - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
 							 Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 
 			float maskopacity = (FlashTimer / 30) * 0.5f;
-			spriteBatch.Draw(Mod.GetTexture("NPCs/Enchanted_Armor/Enchanted_Armor_Mask"), new Vector2(NPC.Center.X, NPC.Center.Y - 8) - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+			spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Enchanted_Armor/Enchanted_Armor_Mask").Value, new Vector2(NPC.Center.X, NPC.Center.Y - 8) - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
 							 Color.White * maskopacity, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 		}
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -43,7 +44,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 					y++;
 
 				y--;
-				Projectile proj = Projectile.NewProjectileDirect(new Vector2(Main.mouseX + Main.screenPosition.X, y * 16 - 24), Vector2.Zero, type, damage, knockback, player.whoAmI, -1);
+				Projectile proj = Projectile.NewProjectileDirect(source, new Vector2(Main.mouseX + Main.screenPosition.X, y * 16 - 24), Vector2.Zero, type, damage, knockback, player.whoAmI, -1);
 				proj.spriteDirection = player.direction;
 				player.UpdateMaxTurrets();
             }

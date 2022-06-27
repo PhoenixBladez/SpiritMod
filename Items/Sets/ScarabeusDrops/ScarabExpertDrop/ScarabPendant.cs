@@ -134,7 +134,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ScarabExpertDrop
 		{
 			ScarabMountPlayer modplayer = drawPlayer.GetModPlayer<ScarabMountPlayer>();
 			rotation = modplayer.scarabrotation;
-			glowTexture = Mod.GetTexture("Items/Sets/ScarabeusDrops/ScarabExpertDrop/ScarabMount_Glow");
+			glowTexture = Mod.Assets.Request<Texture2D>("Items/Sets/ScarabeusDrops/ScarabExpertDrop/ScarabMount_Glow").Value;
 			Vector2 heightoffset = new Vector2(0, MountData.heightBoost - 16);
 			drawPosition += heightoffset;
 			if (Math.Abs(drawPlayer.velocity.X) > 6)

@@ -4,6 +4,7 @@ using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Bullet;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -60,21 +61,19 @@ namespace SpiritMod.Items.Sets.GunsMisc.Scattergun
 			Item.shootSpeed = 3.2f;
 			Item.useAmmo = AmmoID.Bullet;
 		}
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
-            SoundEngine.PlaySound(SoundID.Item, player.Center, 12);
-			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY - 1)) * 45f;
+            SoundEngine.PlaySound(SoundID.Item12, player.Center);
+			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(velocity.X, velocity.Y - 1)) * 45f;
 			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
 				position += muzzleOffset;
 			}
+
             if (type == ProjectileID.Bullet)
-            {
                 type = ModContent.ProjectileType<ScattergunPellet>();
-            }
+
             for (int I = 0; I < 3; I++)
-            {
-                Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-250, 250) / 150), speedY + ((float)Main.rand.Next(-250, 250) / 100), type, damage, knockback, player.whoAmI, 0f, 0f);
-            }
+                Projectile.NewProjectile(source, position.X - 8, position.Y + 8, velocity.X + ((float)Main.rand.Next(-250, 250) / 150), velocity.Y + ((float)Main.rand.Next(-250, 250) / 100), type, damage, knockback, player.whoAmI, 0f, 0f);
 			return false;
 		}
 

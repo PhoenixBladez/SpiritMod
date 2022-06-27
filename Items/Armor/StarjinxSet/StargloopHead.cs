@@ -60,7 +60,7 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 			spriteBatch.End();
 			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			float bloomScale = 0.375f;
 			spriteBatch.Draw(bloom, itemCenter, null, color * opacity, 0, bloom.Size() / 2, bloomScale, SpriteEffects.None, 0); //draw the bloom
 

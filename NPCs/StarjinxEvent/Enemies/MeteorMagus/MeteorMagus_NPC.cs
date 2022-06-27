@@ -436,7 +436,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			for (int i = 1; i < 10; i++)
 			{
 				Color color = Color.Lerp(startColor, endColor, i / 10f) * opacity;
-				spriteBatch.Draw(Mod.GetTexture("NPCs/StarjinxEvent/Enemies/MeteorMagus/MeteorMagus_NPC_Afterimage"), new Vector2(NPC.Center.X, NPC.Center.Y) + offset - Main.screenPosition + new Vector2(0, NPC.gfxOffY) - NPC.velocity * (float)i * trailLengthModifier, NPC.frame, color, NPC.rotation, NPC.frame.Size() * 0.5f, MathHelper.Lerp(startScale, endScale, i / 10f), spriteEffects, 0f);
+				spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/StarjinxEvent/Enemies/MeteorMagus/MeteorMagus_NPC_Afterimage").Value, new Vector2(NPC.Center.X, NPC.Center.Y) + offset - Main.screenPosition + new Vector2(0, NPC.gfxOffY) - NPC.velocity * (float)i * trailLengthModifier, NPC.frame, color, NPC.rotation, NPC.frame.Size() * 0.5f, MathHelper.Lerp(startScale, endScale, i / 10f), spriteEffects, 0f);
 			}
 		}
 	}

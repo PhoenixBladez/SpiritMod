@@ -48,7 +48,6 @@ namespace SpiritMod.NPCs.ArterialGrasper
 			NPC parent = Main.npc[(int)Projectile.ai[1]];
 			if (Main.npc[(int)Projectile.ai[1]].active && Main.npc[(int)Projectile.ai[1]].type == TrapperID)
 			{
-				Vector2 direction9 = Vector2.Normalize(parent.Center - Projectile.Center);
 				ProjectileExtras.DrawChain(Projectile.whoAmI, parent.Center,
 				"SpiritMod/NPCs/ArterialGrasper/" + Name + "_Chain");
 			}
@@ -56,7 +55,7 @@ namespace SpiritMod.NPCs.ArterialGrasper
 
 		}
 
-		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI) => drawCacheProjsBehindNPCsAndTiles.Add(index);
+		public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => behindNPCsAndTiles.Add(index);
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{

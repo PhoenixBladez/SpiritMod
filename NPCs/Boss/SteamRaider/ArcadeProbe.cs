@@ -32,7 +32,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			if (NPC.alpha != 255) {
-				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/Boss/SteamRaider/LaserBase_Glow"));
+				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Boss/SteamRaider/LaserBase_Glow").Value);
 			}
 		}
 		int lifeSpan = 250;

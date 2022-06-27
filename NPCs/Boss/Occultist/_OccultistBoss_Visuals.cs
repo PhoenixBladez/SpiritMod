@@ -277,7 +277,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 		{
 			if (!Main.dedServ)
 			{
-				Texture2D rune = Mod.GetTexture("Textures/Runes");
+				Texture2D rune = Mod.Assets.Request<Texture2D>("Textures/Runes").Value;
 				int framenum = Main.rand.Next(4);
 				Rectangle frame = new Rectangle(0, framenum * (int)(rune.Height / 4f), rune.Width, (int)(rune.Height / 4f));
 				float Scale = Main.rand.NextFloat(0.4f, 0.6f);
@@ -345,7 +345,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 			//draw ritual circle and a bloom
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			spriteBatch.Draw(bloom, NPC.Center - Main.screenPosition, null, glowColor * _ritualCircle * 0.66f, 0, bloom.Size() / 2, _ritualCircle * 1.25f, SpriteEffects.None, 0);
 
 			Texture2D circle = ModContent.Request<Texture2D>(Texture + "_circle");

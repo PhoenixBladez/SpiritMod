@@ -158,7 +158,7 @@ namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/BlueMoon/Glitterfly/Glitterfly_Glow"));
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/BlueMoon/Glitterfly/Glitterfly_Glow").Value);
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{

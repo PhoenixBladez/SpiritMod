@@ -273,7 +273,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.PigronStaff
 			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, drawColor * 0.75f, Projectile.rotation, tex.Size() / 2, Projectile.scale * glowscale, SpriteEffects.None, 0);
 			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, drawColor * 0.75f, Projectile.rotation, tex.Size() / 2, Projectile.scale * (1/glowscale), SpriteEffects.None, 0);
 
-			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			spriteBatch.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.Lerp(drawColor, Color.White, 0.25f) * 0.8f, Projectile.rotation, bloom.Size() / 2, Projectile.scale/3.5f, SpriteEffects.None, 0);
 		}
 	}

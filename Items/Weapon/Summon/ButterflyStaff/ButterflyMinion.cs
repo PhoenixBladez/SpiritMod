@@ -102,7 +102,7 @@ namespace SpiritMod.Items.Weapon.Summon.ButterflyStaff
 
 		public void AdditiveCall(SpriteBatch sB)
 		{
-			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			sB.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.LightPink * Projectile.Opacity * 0.6f, 0, bloom.Size() / 2, 0.2f, SpriteEffects.None, 0);
 
 			Projectile.QuickDrawTrail(sB, AiState == Moving ? 0.6f : 0f);
